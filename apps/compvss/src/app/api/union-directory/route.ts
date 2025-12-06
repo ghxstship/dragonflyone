@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (location) query = query.or(`city.ilike.%${location}%,state.ilike.%${location}%`);
 
     const { data, error } = await query.order('union_name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ unions: data });
   } catch (error) {
@@ -43,11 +43,11 @@ export async function POST(request: NextRequest) {
       union_name, local_number, city, state, phone, email, website, jurisdiction
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (contacts?.length) {
       await supabase.from('union_contacts').insert(
-        contacts.map((c: any) => ({ local_id: data.id, name: c.name, title: c.title, phone: c.phone, email: c.email }))
+        contacts.map((c: Record<string, unknown>) => ({ local_id: data.id, name: c.name, title: c.title, phone: c.phone, email: c.email }))
       );
     }
 

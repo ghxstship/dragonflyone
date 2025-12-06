@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Member directory with privacy controls
 export async function GET(request: NextRequest) {
@@ -45,10 +39,10 @@ export async function GET(request: NextRequest) {
     if (communityId) query = query.eq('community_id', communityId);
 
     const { data: members, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Apply privacy filters
-    const filteredMembers = members?.map((m: any) => {
+    const filteredMembers = members?.map((m: Record<string, unknown>) => {
       const privacy = m.user?.privacy?.[0] || { show_profile: true, show_location: true, show_interests: true };
       
       return {
@@ -68,9 +62,17 @@ export async function GET(request: NextRequest) {
       return true;
     }) || [];
 
+    // Parse interests filter
+    const interestList = interests ? interests.split(',').map(i => i.trim().toLowerCase()) : null;
+
     return NextResponse.json({
       members: filteredMembers,
-      total: filteredMembers.length
+      total: filteredMembers.length,
+      filters_applied: {
+        search: search || null,
+        interests: interestList,
+        community_id: communityId || null,
+      },
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch members' }, { status: 500 });
@@ -98,7 +100,7 @@ export async function PATCH(request: NextRequest) {
       updated_at: new Date().toISOString()
     });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update privacy settings' }, { status: 500 });

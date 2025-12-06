@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, QrCode, Camera, CheckCircle, XCircle, AlertTriangle, Search } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';

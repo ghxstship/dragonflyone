@@ -76,15 +76,6 @@ export default function MentorshipPage() {
   const availableMentors = mockMentors.filter(m => m.availability !== "Full").length;
   const totalMentees = mockMentors.reduce((sum, m) => sum + m.mentees, 0);
 
-  const getAvailabilityColor = (availability: string) => {
-    switch (availability) {
-      case "Available": return "text-success-400";
-      case "Limited": return "text-warning-400";
-      case "Full": return "text-error-400";
-      default: return "text-ink-400";
-    }
-  };
-
   const getLevelColor = (level: string) => {
     switch (level) {
       case "Entry": return "bg-success-900/20 border-success-800";
@@ -99,8 +90,8 @@ export default function MentorshipPage() {
       <EnterprisePageHeader
         title="Mentorship Program"
         subtitle="Connect with experienced professionals and accelerate your career"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -274,6 +265,42 @@ export default function MentorshipPage() {
         <ModalFooter>
           <Button variant="outline" onClick={() => { setShowRequestModal(false); setSelectedMentor(null); }}>Cancel</Button>
           <Button variant="solid" onClick={() => { setShowRequestModal(false); setSelectedMentor(null); }}>Submit Request</Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* Program Enrollment Modal */}
+      <Modal open={!!selectedProgram} onClose={() => setSelectedProgram(null)}>
+        <ModalHeader>
+          <H3>Enroll in {selectedProgram?.name}</H3>
+        </ModalHeader>
+        <ModalBody>
+          {selectedProgram && (
+            <Stack gap={4}>
+              <Body>{selectedProgram.description}</Body>
+              <Grid cols={2} gap={4}>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Duration</Body>
+                  <Body className="font-display">{selectedProgram.duration}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Level</Body>
+                  <Badge className={getLevelColor(selectedProgram.level)}>{selectedProgram.level}</Badge>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Modules</Body>
+                  <Body className="font-display">{selectedProgram.modules} modules</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Availability</Body>
+                  <Body className="font-display">{selectedProgram.capacity - selectedProgram.enrolled} spots left</Body>
+                </Stack>
+              </Grid>
+            </Stack>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setSelectedProgram(null)}>Cancel</Button>
+          <Button variant="solid" onClick={() => setSelectedProgram(null)}>Confirm Enrollment</Button>
         </ModalFooter>
       </Modal>
     </CompvssAppLayout>

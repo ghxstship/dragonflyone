@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const updateOrderSchema = z.object({
   status: z.enum(['pending', 'completed', 'cancelled', 'refunded']).optional(),
@@ -31,7 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const { data, error } = await supabase.from('orders').select('*, gvteway_events(*)').eq('id', params.id).single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Order not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ order: data });
   } catch (error) {
@@ -47,7 +41,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const { data, error } = await supabase.from('orders').update(payload).eq('id', params.id).select().single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Order not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ order: data });
   } catch (error) {

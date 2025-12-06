@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ note });
@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
       const { data: notes, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create action items
@@ -300,7 +300,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ action_item: actionItem });
@@ -317,7 +317,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ note });
@@ -351,7 +351,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', noteId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

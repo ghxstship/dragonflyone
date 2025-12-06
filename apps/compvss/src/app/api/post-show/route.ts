@@ -18,10 +18,10 @@ export async function GET(request: NextRequest) {
     `).eq('event_id', eventId).single();
 
     if (error && error.code !== 'PGRST116') {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const completed = data?.tasks?.filter((t: any) => t.status === 'completed').length || 0;
+    const completed = data?.tasks?.filter((t: Record<string, unknown>) => t.status === 'completed').length || 0;
     const total = data?.tasks?.length || 0;
 
     return NextResponse.json({
@@ -52,11 +52,12 @@ export async function POST(request: NextRequest) {
         event_id, plan_type: plan_type || 'strike', status: 'pending', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+      interface PostShowTask { task: string; department?: string; assigned_to?: string }
       if (tasks?.length) {
         await supabase.from('post_show_tasks').insert(
-          tasks.map((t: any, i: number) => ({
+          tasks.map((t: PostShowTask, i: number) => ({
             plan_id: data.id, task: t.task, department: t.department,
             assigned_to: t.assigned_to, sequence: i + 1, status: 'pending'
           }))

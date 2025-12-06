@@ -164,8 +164,8 @@ export default function AnalyticsPage() {
       <EnterprisePageHeader
         title="Analytics Dashboard"
         subtitle="Real-time financial metrics and KPI tracking for production operations"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

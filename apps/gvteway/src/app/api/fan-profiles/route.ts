@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const FanProfileSchema = z.object({
   display_name: z.string().optional(),
@@ -134,7 +128,7 @@ export async function GET(request: NextRequest) {
         .eq('user_id', currentUser.id)
         .single();
 
-      let recommendedEvents: any[] = [];
+      let recommendedEvents: unknown[] = [];
 
       const favoriteGenres = profile?.favorite_genres as string[] | null;
       const favoriteArtists = profile?.favorite_artists as string[] | null;
@@ -278,7 +272,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ profile });
@@ -300,7 +294,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ favorite }, { status: 201 });
@@ -315,7 +309,7 @@ export async function POST(request: NextRequest) {
         .eq('entity_id', entity_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -333,7 +327,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ attendance });
@@ -362,7 +356,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ review });

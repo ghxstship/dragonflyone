@@ -204,8 +204,11 @@ export default function PhotoGalleriesPage() {
                   key={gallery.id}
                   inverted
                   interactive
-                  className="cursor-pointer overflow-hidden"
-                  onClick={() => router.push(`/photos/gallery/${gallery.id}`)}
+                  className={`cursor-pointer overflow-hidden ${selectedGallery?.id === gallery.id ? 'ring-2 ring-primary' : ''}`}
+                  onClick={() => {
+                    setSelectedGallery(gallery);
+                    router.push(`/photos/gallery/${gallery.id}`);
+                  }}
                 >
                   <Stack className="relative h-48 bg-ink-900">
                     {gallery.cover_photo ? (

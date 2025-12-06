@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
     const { data: meetings, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get available time slots for scheduling
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ 
@@ -191,7 +191,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Add attendees
@@ -207,14 +207,15 @@ export async function POST(request: NextRequest) {
       }
 
       // Send invitations (in production, this would send actual calendar invites)
-      // For now, create notification
+      // For now, create notification for each attendee
       for (const attendee of validated.attendees) {
         await supabase.from('notifications').insert({
-          user_id: user.id,
+          user_id: attendee.user_id || user.id,
           type: 'event_reminder',
           title: 'Meeting Invitation',
           message: `You've been invited to: ${validated.title}`,
           link: `/calendar/meetings/${meeting.id}`,
+          metadata: { attendee_email: attendee.email, invited_by: user.id },
         });
       }
 
@@ -240,7 +241,10 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      return NextResponse.json({ available_slots: slots.slice(0, 10) });
+      return NextResponse.json({ 
+        available_slots: slots.slice(0, 10),
+        attendees_checked: attendee_emails?.length || 0,
+      });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
@@ -287,7 +291,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ meeting });
@@ -325,7 +329,7 @@ export async function DELETE(request: NextRequest) {
         .eq('user_id', user.id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true, message: 'Meeting cancelled' });
@@ -340,7 +344,7 @@ export async function DELETE(request: NextRequest) {
         .eq('user_id', user.id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true, message: 'Calendar disconnected' });

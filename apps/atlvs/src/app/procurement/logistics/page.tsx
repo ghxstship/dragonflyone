@@ -20,7 +20,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Card,
   Tabs,
   TabsList,
   Tab,
@@ -30,7 +29,6 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  ProgressBar,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
@@ -95,8 +93,8 @@ export default function LogisticsPage() {
       <EnterprisePageHeader
         title="Freight & Logistics"
         subtitle="Coordinate shipments and track deliveries"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

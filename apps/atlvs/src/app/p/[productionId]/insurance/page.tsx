@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -45,8 +45,27 @@ const MOCK_POLICIES: InsurancePolicy[] = [
 
 export default function ProductionInsurancePage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [policies] = useState(MOCK_POLICIES);
+  const productionId = params?.productionId as string;
+  const [policies, setPolicies] = useState<InsurancePolicy[]>(MOCK_POLICIES);
+
+  const fetchPolicies = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/insurance`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.policies && data.policies.length > 0) {
+          setPolicies(data.policies);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch insurance policies:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchPolicies();
+  }, [fetchPolicies]);
 
   const totalCoverage = policies.reduce((sum, p) => sum + p.coverage, 0);
   const totalPremium = policies.reduce((sum, p) => sum + p.premium, 0);

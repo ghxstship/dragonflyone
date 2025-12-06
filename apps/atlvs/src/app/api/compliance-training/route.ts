@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     if (courseId) completionsQuery = completionsQuery.eq('course_id', courseId);
 
     const { data: completions, error } = await completionsQuery;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate compliance status
     const { data: employees } = await supabase.from('employees').select('id, first_name, last_name');
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         recorded_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ completion: data }, { status: 201 });
     }
 
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
         is_required: is_required || false, content_url, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ course: data }, { status: 201 });
     }
 

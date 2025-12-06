@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (crewMemberId) query = query.eq('crew_member_id', crewMemberId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const recommended = data?.filter(n => n.recommendation === 'yes') || [];
     const notRecommended = data?.filter(n => n.recommendation === 'no') || [];
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       noted_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ note: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

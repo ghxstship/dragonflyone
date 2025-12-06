@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       candidate_count:succession_candidates(count)
     `).order('risk_level', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ plans: data });
   } catch (error) {
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         status: 'active', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ plan: data }, { status: 201 });
     }
 
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         timeline, notes, added_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ candidate: data }, { status: 201 });
     }
 
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
         activities: activities || [], timeline, status: 'active', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ development_plan: data }, { status: 201 });
     }
 

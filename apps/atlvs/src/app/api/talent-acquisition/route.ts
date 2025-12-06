@@ -114,7 +114,7 @@ export const GET = apiRoute(
 
 // POST - Create job posting or add candidate
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabase = createAdminClient();
     const body = await request.json();
     const { type } = body;

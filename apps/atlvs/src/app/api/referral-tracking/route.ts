@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (referrerId) query = query.eq('referrer_id', referrerId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate rewards
     const totalRewards = data?.reduce((s, r) => s + (r.reward_amount || 0), 0) || 0;
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         notes, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ referral: data }, { status: 201 });
     }
 

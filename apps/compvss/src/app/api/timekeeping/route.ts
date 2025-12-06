@@ -221,7 +221,8 @@ export async function PATCH(request: NextRequest) {
     // User obtained from auth context
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
-    const updates: any = {
+    interface TimekeepingUpdate { status: string; updated_at: string; approved_at?: string; approved_by?: string; approval_notes?: string }
+    const updates: TimekeepingUpdate = {
       status: action === 'approve' ? 'approved' : 'rejected',
       updated_at: new Date().toISOString(),
     };

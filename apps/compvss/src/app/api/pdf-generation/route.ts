@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('generated_pdfs').select('*')
       .eq('document_id', documentId).order('created_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ pdfs: data });
   } catch (error) {
@@ -44,11 +44,11 @@ export async function POST(request: NextRequest) {
 
       // Create PDF generation job
       const { data, error } = await supabase.from('generated_pdfs').insert({
-        document_id, document_type, title, status: 'processing',
+        document_id, document_type, title, content, status: 'processing',
         options: options || {}, requested_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // In production, this would trigger a PDF generation service
       // For now, simulate completion
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
         options: { report_type, filters }, requested_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       return NextResponse.json({ job: data }, { status: 201 });
     }

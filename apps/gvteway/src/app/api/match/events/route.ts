@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -37,8 +31,15 @@ export async function GET(request: NextRequest) {
       .select('interest:interests(name, category)')
       .eq('user_id', user.id);
 
-    const interestNames = userInterests?.map(ui => (ui.interest as any)?.name).filter(Boolean) || [];
-    const categories = [...new Set(userInterests?.map(ui => (ui.interest as any)?.category).filter(Boolean) || [])];
+    interface InterestInfo { name?: string; category?: string }
+    const interestNames = userInterests?.map(ui => {
+      const interest = ui.interest as InterestInfo | null;
+      return interest?.name;
+    }).filter(Boolean) || [];
+    const categories = [...new Set(userInterests?.map(ui => {
+      const interest = ui.interest as InterestInfo | null;
+      return interest?.category;
+    }).filter(Boolean) || [])];
 
     if (interestNames.length === 0) {
       return NextResponse.json({ events: [] });
@@ -112,11 +113,13 @@ export async function GET(request: NextRequest) {
         matchReason = 'Recommended for you';
       }
 
+      interface VenueInfo { name?: string }
+      const venue = event.venue as VenueInfo | null;
       return {
         id: event.id,
         title: event.title,
         date: event.date,
-        venue_name: (event.venue as any)?.name || 'TBA',
+        venue_name: venue?.name || 'TBA',
         image_url: event.image_url,
         match_reason: matchReason,
         match_score: Math.min(100, score),

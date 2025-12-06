@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface IntellectualProperty {
   id: string;
@@ -101,6 +101,26 @@ export default function IPTrackingPage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/ip-tracking/${r.id}/edit`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'ip-tracking',
+    requiredFields: ['title', 'ip_type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/intellectual-property', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchIPAssets();
+    },
+  });
+
+  const importTemplates = getImportTemplates('ip-tracking').length > 0 
+    ? getImportTemplates('ip-tracking') 
+    : [{ id: 'default', name: 'IP Asset Import', mapping: { title: 'title', ip_type: 'ip_type', registration_number: 'registration_number', jurisdiction: 'jurisdiction', status: 'status' } }];
+
   const stats = [
     { label: 'Total IP Assets', value: assets.length },
     { label: 'Pending', value: pendingCount },
@@ -144,6 +164,9 @@ export default function IPTrackingPage() {
         createLabel="Register New IP"
         onCreate={() => router.push('/ip-tracking/new')}
         entityType="ip-assets"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'ip_type', 'registration_number', 'jurisdiction', 'status']}
         onExport={createExportHandler({
           filename: "ip-assets",
           getData: () => assets.map(a => ({
@@ -159,11 +182,27 @@ export default function IPTrackingPage() {
         stats={stats}
         emptyMessage="No IP assets found"
         emptyAction={{ label: 'Register New IP', onClick: () => router.push('/ip-tracking/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/ip-tracking/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchIPAssets();
+          } else if (action === 'archive') {
+            await fetch('/api/ip-tracking/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchIPAssets();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

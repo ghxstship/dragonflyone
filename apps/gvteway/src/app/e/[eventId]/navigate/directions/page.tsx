@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid, Box } from "@ghxstship/ui";
-import { Navigation, Car, Train, Footprints } from "lucide-react";
+import { Car, Train, Footprints } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
 export default function DirectionsPage() {

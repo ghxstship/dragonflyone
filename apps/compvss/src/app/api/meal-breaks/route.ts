@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       const startDate = searchParams.get('start_date') || new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       const endDate = searchParams.get('end_date') || new Date().toISOString().split('T')[0];
 
-      const { data: timesheets } = await supabase
+      let complianceQuery = supabase
         .from('timesheets')
         .select(`
           id,
@@ -40,10 +40,22 @@ export async function GET(request: NextRequest) {
         .lte('date', endDate)
         .eq('status', 'approved');
 
-      const violations: any[] = [];
+      if (employeeId) {
+        complianceQuery = complianceQuery.eq('employee_id', employeeId);
+      }
+
+      const { data: timesheets } = await complianceQuery;
+
+      const violations: unknown[] = [];
+
+      interface BreakRecord {
+        type: 'meal' | 'rest';
+        duration_minutes: number;
+        waived: boolean;
+      }
 
       timesheets?.forEach(ts => {
-        const breaks = (ts.breaks as any[]) || [];
+        const breaks = (ts.breaks as BreakRecord[]) || [];
         const mealBreaks = breaks.filter(b => b.type === 'meal');
         const restBreaks = breaks.filter(b => b.type === 'rest');
 
@@ -98,6 +110,16 @@ export async function GET(request: NextRequest) {
       });
     }
 
+    // If filtering by date or employee, we need to get timesheet IDs first
+    let timesheetIds: string[] = [];
+    if ((date || employeeId) && !timesheetId) {
+      let timesheetQuery = supabase.from('timesheets').select('id');
+      if (date) timesheetQuery = timesheetQuery.eq('date', date);
+      if (employeeId) timesheetQuery = timesheetQuery.eq('employee_id', employeeId);
+      const { data: matchingTimesheets } = await timesheetQuery;
+      timesheetIds = matchingTimesheets?.map(t => t.id) || [];
+    }
+
     let query = supabase
       .from('timesheet_breaks')
       .select(`
@@ -106,14 +128,18 @@ export async function GET(request: NextRequest) {
       `)
       .order('start_time', { ascending: true });
 
-    if (timesheetId) query = query.eq('timesheet_id', timesheetId);
+    if (timesheetId) {
+      query = query.eq('timesheet_id', timesheetId);
+    } else if (timesheetIds.length > 0) {
+      query = query.in('timesheet_id', timesheetIds);
+    }
 
     const { data: breaks, error } = await query;
     if (error) throw error;
 
     return NextResponse.json({ breaks });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -140,11 +166,11 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ break: breakRecord }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -170,8 +196,8 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ break: breakRecord });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -187,7 +213,7 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         status: 'generating', generated_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // In production, trigger PDF generation job
       return NextResponse.json({ book: data, message: 'Generation started' }, { status: 201 });
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       if (!book) return NextResponse.json({ error: 'No production book found' }, { status: 404 });
 
       // Create distribution records
-      const distributions = recipients.map((r: any) => ({
+      const distributions = recipients.map((r: Record<string, unknown>) => ({
         book_id: book.id, recipient_id: r.user_id, recipient_email: r.email,
         sent_at: new Date().toISOString(), status: 'sent'
       }));

@@ -12,7 +12,6 @@ import {
   Badge,
   Stack,
   Body,
-  Button,
   Select,
   type ListPageColumn,
   type ListPageFilter,
@@ -31,7 +30,7 @@ interface SOPTrainingRecord {
   user?: { id: string; first_name: string; last_name: string; email: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   completed: 'success',
   in_progress: 'warning',
   not_started: 'default',
@@ -70,7 +69,7 @@ const columns: ListPageColumn<SOPTrainingRecord>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         <Stack direction="horizontal" gap={1} className="items-center">
           {statusIcons[String(value)]}
           {String(value).replace('_', ' ').toUpperCase()}
@@ -136,7 +135,11 @@ export default function SOPTrainingPage() {
       id: 'start', 
       label: 'Start Training', 
       icon: <Play className="size-4" />, 
-      onClick: (row) => router.push(`/sops/${row.sop?.id}?training=true`),
+      onClick: (row) => {
+        startTrainingMutation.mutate(row.sop?.id || '', {
+          onSuccess: () => router.push(`/sops/${row.sop?.id}?training=true`),
+        });
+      },
       hidden: (row) => row.status !== 'not_started'
     },
     { 
@@ -157,7 +160,7 @@ export default function SOPTrainingPage() {
       id: 'view', 
       label: 'View Certificate', 
       icon: <CheckCircle className="size-4" />, 
-      onClick: (row) => {},
+      onClick: (row) => router.push(`/sops/training/${row.id}/certificate`),
       hidden: (row) => row.status !== 'completed'
     },
   ];
@@ -206,6 +209,27 @@ export default function SOPTrainingPage() {
         })}
         stats={[...stats, { label: 'Avg Score', value: `${avgScore}%` }]}
         emptyMessage="No training records yet"
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sops/training/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'reset') {
+            await fetch('/api/sops/training/bulk-reset', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'reset', label: 'Reset Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
         headerContent={
           <Select
             value={selectedSopId}

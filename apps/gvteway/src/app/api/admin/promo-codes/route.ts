@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const createPromoCodeSchema = z.object({
   code: z.string().min(3).max(20),
@@ -59,7 +53,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const promoCodes = data?.map(promo => ({
@@ -114,7 +108,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ promo_code: data }, { status: 201 });

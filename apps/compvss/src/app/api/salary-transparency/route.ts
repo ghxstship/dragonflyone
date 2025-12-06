@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (experience) query = query.eq('experience_level', experience);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate aggregates
     const salaries = data?.map(d => d.salary_amount) || [];
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
         year: year || new Date().getFullYear(), submitted_by: user.id, verified: false
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ submission: data }, { status: 201 });
     }
 

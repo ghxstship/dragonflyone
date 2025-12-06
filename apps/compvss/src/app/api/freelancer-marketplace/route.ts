@@ -23,15 +23,18 @@ export async function GET(request: NextRequest) {
     if (location) query = query.ilike('location', `%${location}%`);
 
     const { data, error } = await query.order('rating_avg', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Filter by skills if specified
-    let filtered = data;
+    interface SkillEntry { skill: string }
+    interface RatingEntry { rating: number }
+    interface FreelancerData { id: string; skills?: SkillEntry[]; ratings?: RatingEntry[] }
+    let filtered = data as FreelancerData[] | null;
     if (skills) {
       const skillList = skills.split(',');
-      filtered = data?.filter(f => 
-        f.skills?.some((s: any) => skillList.includes(s.skill))
-      );
+      filtered = filtered?.filter((f: FreelancerData) => 
+        f.skills?.some((s: SkillEntry) => skillList.includes(s.skill))
+      ) || null;
     }
 
     // Filter by availability
@@ -40,13 +43,13 @@ export async function GET(request: NextRequest) {
       const { data: unavailable } = await supabase.from('freelancer_bookings').select('freelancer_id')
         .lte('start_date', now).gte('end_date', now);
       const unavailableIds = new Set(unavailable?.map(u => u.freelancer_id));
-      filtered = filtered?.filter(f => !unavailableIds.has(f.id));
+      filtered = filtered?.filter((f: FreelancerData) => !unavailableIds.has(f.id)) || null;
     }
 
     return NextResponse.json({
-      freelancers: filtered?.map(f => ({
+      freelancers: filtered?.map((f: FreelancerData) => ({
         ...f,
-        avg_rating: f.ratings?.length ? f.ratings.reduce((s: number, r: any) => s + r.rating, 0) / f.ratings.length : null
+        avg_rating: f.ratings?.length ? f.ratings.reduce((s: number, r: RatingEntry) => s + r.rating, 0) / f.ratings.length : null
       }))
     });
   } catch (error) {
@@ -74,12 +77,12 @@ export async function POST(request: NextRequest) {
         profile_active: true, verified: false
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add skills
       if (skills?.length) {
         await supabase.from('freelancer_skills').insert(
-          skills.map((s: any) => ({ freelancer_id: data.id, skill: s.skill, level: s.level || 'intermediate' }))
+          skills.map((s: Record<string, unknown>) => ({ freelancer_id: data.id, skill: s.skill, level: s.level || 'intermediate' }))
         );
       }
 

@@ -14,7 +14,6 @@ import {
   TableCell,
   Badge,
   Button,
-  ButtonGroup,
   Input,
   Field,
   Textarea,
@@ -63,18 +62,6 @@ export function FulfillmentManager({ requestId, onSuccess }: FulfillmentManagerP
     }));
   };
 
-  const handleNotesChange = (itemId: string, notes: string) => {
-    setFulfillmentItems((prev) => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        item_id: itemId,
-        quantity_fulfilled: prev[itemId]?.quantity_fulfilled || 0,
-        notes,
-      },
-    }));
-  };
-
   const handleSubmit = () => {
     setError(null);
 
@@ -100,7 +87,7 @@ export function FulfillmentManager({ requestId, onSuccess }: FulfillmentManagerP
           setActualCost('');
           onSuccess?.();
         },
-        onError: (err: any) => {
+        onError: (err: Error) => {
           setError(err.message || 'Failed to fulfill request');
         },
       }

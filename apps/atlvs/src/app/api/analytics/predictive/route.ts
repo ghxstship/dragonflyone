@@ -90,6 +90,7 @@ export async function GET(request: NextRequest) {
       const lostDeals = closedDeals?.filter(d => d.stage === 'closed_lost') || [];
 
       const winRate = closedDeals?.length ? (wonDeals.length / closedDeals.length * 100) : 0;
+      const lossRate = closedDeals?.length ? (lostDeals.length / closedDeals.length * 100) : 0;
 
       // Get open deals
       const { data: openDeals } = await supabase
@@ -117,7 +118,10 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({
         win_rate: winRate.toFixed(1),
+        loss_rate: lossRate.toFixed(1),
         total_analyzed: closedDeals?.length || 0,
+        won_count: wonDeals.length,
+        lost_count: lostDeals.length,
         predictions: predictions || [],
         pipeline_expected_value: predictions?.reduce((sum, p) => sum + p.expected_value, 0) || 0,
       });
@@ -144,6 +148,7 @@ export async function GET(request: NextRequest) {
         return {
           customer_id: customer.id,
           days_since_activity: daysSinceActivity,
+          customer_age_days: customerAge,
           total_revenue: customer.total_revenue || 0,
           churn_risk: churnRisk,
           risk_level: churnRisk > 0.6 ? 'high' : churnRisk > 0.3 ? 'medium' : 'low',

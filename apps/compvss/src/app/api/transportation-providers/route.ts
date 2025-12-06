@@ -22,11 +22,13 @@ export async function GET(request: NextRequest) {
     if (location) query = query.ilike('service_area', `%${location}%`);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    const withRatings = data?.map(p => ({
+    interface RatingEntry { rating: number }
+    interface ProviderData { ratings?: RatingEntry[] }
+    const withRatings = data?.map((p: ProviderData) => ({
       ...p,
-      avg_rating: p.ratings?.length ? p.ratings.reduce((s: number, r: any) => s + r.rating, 0) / p.ratings.length : null
+      avg_rating: p.ratings?.length ? p.ratings.reduce((s: number, r: RatingEntry) => s + r.rating, 0) / p.ratings.length : null
     }));
 
     return NextResponse.json({ providers: withRatings });
@@ -48,7 +50,7 @@ export async function POST(request: NextRequest) {
       name, services: services || [], service_area, contact_name, phone, email, website, fleet_info
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ provider: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

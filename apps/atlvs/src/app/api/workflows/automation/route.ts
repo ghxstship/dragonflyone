@@ -224,7 +224,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow }, { status: 201 });
@@ -266,8 +266,8 @@ export async function POST(request: NextRequest) {
         try {
           const result = await executeAction(actionDef, trigger_data, user.id);
           results.push({ action: actionDef.action_type, status: 'success', result });
-        } catch (err: any) {
-          results.push({ action: actionDef.action_type, status: 'failed', error: err.message });
+        } catch (err) {
+          results.push({ action: actionDef.action_type, status: 'failed', error: err instanceof Error ? err.message : 'Unknown error' });
         }
       }
 
@@ -291,7 +291,7 @@ export async function POST(request: NextRequest) {
       const { template_id, name, customizations } = body;
 
       // Get template (in production, fetch from database)
-      const templates: Record<string, any> = {
+      const templates: Record<string, unknown> = {
         new_deal_notification: {
           trigger: { trigger_type: 'event', event_type: 'deal.created' },
           actions: [{ action_type: 'send_notification', config: {} }],
@@ -316,7 +316,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow }, { status: 201 });
@@ -389,7 +389,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ workflow });
@@ -420,7 +420,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', workflowId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -430,7 +430,8 @@ export async function DELETE(request: NextRequest) {
 }
 
 // Helper function to execute workflow action
-async function executeAction(actionDef: any, triggerData: any, userId: string): Promise<any> {
+interface ActionDef { action_type: string; config: Record<string, unknown> }
+async function executeAction(actionDef: ActionDef, triggerData: Record<string, unknown>, userId: string): Promise<unknown> {
   switch (actionDef.action_type) {
     case 'send_notification':
       const { data: notification } = await supabase
@@ -490,7 +491,7 @@ async function executeAction(actionDef: any, triggerData: any, userId: string): 
 }
 
 // Helper function to interpolate variables
-function interpolate(template: string, data: any): string {
+function interpolate(template: string, data: Record<string, unknown>): string {
   return template.replace(/\{\{(\w+(?:\.\w+)*)\}\}/g, (match, path) => {
     const keys = path.split('.');
     let value = data;
@@ -502,7 +503,7 @@ function interpolate(template: string, data: any): string {
 }
 
 // Helper function to get action preview
-function getActionPreview(actionDef: any, testData: any): string {
+function getActionPreview(actionDef: ActionDef, testData: Record<string, unknown>): string {
   switch (actionDef.action_type) {
     case 'send_notification':
       return `Will send notification: "${interpolate(actionDef.config.title || '', testData)}"`;

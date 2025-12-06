@@ -14,8 +14,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface BankTransaction {
@@ -57,7 +56,7 @@ const filters: ListPageFilter[] = [
 
 export default function BankReconciliationPage() {
   const router = useRouter();
-  const [transactions, setTransactions] = useState<BankTransaction[]>(mockTransactions);
+  const [transactions] = useState<BankTransaction[]>(mockTransactions);
   const [selectedTxn, setSelectedTxn] = useState<BankTransaction | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -122,11 +121,25 @@ export default function BankReconciliationPage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/finance/bank-transactions/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'reconcile') {
+            await fetch('/api/finance/bank-transactions/bulk-reconcile', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'reconcile', label: 'Reconcile Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

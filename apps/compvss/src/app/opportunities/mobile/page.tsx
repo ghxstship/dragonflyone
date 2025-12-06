@@ -85,8 +85,8 @@ export default function MobileJobSearchPage() {
       <EnterprisePageHeader
         title="Job Search"
         subtitle="Mobile-optimized job search and quick apply"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -145,7 +145,7 @@ export default function MobileJobSearchPage() {
                             <Body className="text-body-sm">{job.company}</Body>
                           </Stack>
                           <Stack gap={1} className="text-right">
-                            <Badge variant="outline">{job.type}</Badge>
+                            <Badge className={getTypeColor(job.type)}>{job.type}</Badge>
                             <Body className="font-mono">{job.rate}</Body>
                           </Stack>
                         </Stack>
@@ -243,7 +243,7 @@ export default function MobileJobSearchPage() {
                 <Body>{selectedJob.company}</Body>
               </Stack>
               <Stack direction="horizontal" gap={2}>
-                <Badge variant="outline">{selectedJob.type}</Badge>
+                <Badge className={getTypeColor(selectedJob.type)}>{selectedJob.type}</Badge>
                 <Body className="font-mono">{selectedJob.rate}</Body>
               </Stack>
               <Grid cols={2} gap={4}>

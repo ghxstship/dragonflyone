@@ -26,7 +26,7 @@ const publishSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const payload = context.validated;
@@ -61,7 +61,7 @@ export const POST = apiRoute(
       }
 
       if (payload.event_details.ticket_types) {
-        const ticketInserts = payload.event_details.ticket_types.map((tt: any) => ({
+        const ticketInserts = payload.event_details.ticket_types.map((tt: Record<string, unknown>) => ({
           event_id: event.id,
           name: tt.name,
           price: tt.price,
@@ -94,7 +94,7 @@ export const POST = apiRoute(
         event,
         message: 'Project successfully published to GVTEWAY'
       }, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ error: error.message || 'Publish failed' }, { status: 500 });
     }
   },

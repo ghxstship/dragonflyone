@@ -28977,6 +28977,130 @@ export type Database = {
           },
         ]
       }
+      saved_filters: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          description: string | null
+          entity_type: string
+          conditions: Json
+          sort_by: string | null
+          sort_order: string | null
+          is_public: boolean
+          is_default: boolean
+          use_count: number
+          last_used_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          description?: string | null
+          entity_type: string
+          conditions: Json
+          sort_by?: string | null
+          sort_order?: string | null
+          is_public?: boolean
+          is_default?: boolean
+          use_count?: number
+          last_used_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          description?: string | null
+          entity_type?: string
+          conditions?: Json
+          sort_by?: string | null
+          sort_order?: string | null
+          is_public?: boolean
+          is_default?: boolean
+          use_count?: number
+          last_used_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_filters_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_views: {
+        Row: {
+          id: string
+          user_id: string
+          name: string
+          description: string | null
+          entity_type: string
+          visible_columns: string[]
+          column_order: string[]
+          column_widths: Json | null
+          filters: Json | null
+          sort_by: string | null
+          sort_order: string | null
+          page_size: number | null
+          is_public: boolean
+          is_default: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          name: string
+          description?: string | null
+          entity_type: string
+          visible_columns: string[]
+          column_order: string[]
+          column_widths?: Json | null
+          filters?: Json | null
+          sort_by?: string | null
+          sort_order?: string | null
+          page_size?: number | null
+          is_public?: boolean
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          name?: string
+          description?: string | null
+          entity_type?: string
+          visible_columns?: string[]
+          column_order?: string[]
+          column_widths?: Json | null
+          filters?: Json | null
+          sort_by?: string | null
+          sort_order?: string | null
+          page_size?: number | null
+          is_public?: boolean
+          is_default?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_views_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sales_funnel: {
         Row: {
           avg_time_in_stage_seconds: number | null

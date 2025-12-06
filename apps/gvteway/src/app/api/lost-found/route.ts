@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch lost and found items
 export async function GET(request: NextRequest) {
@@ -42,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ items: data });
@@ -99,7 +93,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Check for potential matches
@@ -163,7 +157,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Item not found' }, { status: 404 });
     }
 
-    const updateData: Record<string, any> = { status };
+    const updateData: Record<string, unknown> = { status };
 
     if (status === 'claimed') {
       updateData.claimed_by = user.id;

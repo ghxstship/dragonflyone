@@ -35,8 +35,9 @@ export async function GET(request: NextRequest) {
 
       let onTimeDeliveries = 0;
       let lateDeliveries = 0;
+      interface PurchaseOrderData { expected_delivery?: string }
       receipts?.forEach(r => {
-        const po = r.purchase_order as any;
+        const po = r.purchase_order as PurchaseOrderData | null;
         if (po?.expected_delivery) {
           if (new Date(r.received_date) <= new Date(po.expected_delivery)) {
             onTimeDeliveries++;
@@ -111,7 +112,7 @@ export async function GET(request: NextRequest) {
       .limit(20);
 
     return NextResponse.json({ top_vendors: vendors });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

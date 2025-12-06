@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,16 +37,20 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const blocked = data?.map(b => ({
-      id: b.id,
-      user_id: b.blocked_user_id,
-      user_name: (b.blocked_user as any)?.full_name || 'Unknown',
-      user_avatar: (b.blocked_user as any)?.avatar_url,
-      blocked_at: b.created_at,
-    })) || [];
+    interface BlockedUserInfo { full_name?: string; avatar_url?: string }
+    const blocked = data?.map(b => {
+      const blockedUser = b.blocked_user as BlockedUserInfo | null;
+      return {
+        id: b.id,
+        user_id: b.blocked_user_id,
+        user_name: blockedUser?.full_name || 'Unknown',
+        user_avatar: blockedUser?.avatar_url,
+        blocked_at: b.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ blocked });
   } catch (error) {
@@ -98,7 +96,7 @@ export async function POST(request: NextRequest) {
       if (error.code === '23505') {
         return NextResponse.json({ error: 'User already blocked' }, { status: 400 });
       }
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true }, { status: 201 });

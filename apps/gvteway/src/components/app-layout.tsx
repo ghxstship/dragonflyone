@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import {
   PageLayout,
   Footer,
@@ -13,6 +14,7 @@ import {
   Label,
   Spinner,
   AuthenticatedShell,
+  CommandPalette,
 } from "@ghxstship/ui";
 import type { SidebarNavSection } from "@ghxstship/ui";
 import {
@@ -24,6 +26,12 @@ import {
 } from "./navigation";
 import type { ContextLevel } from "@ghxstship/ui";
 import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions } from "../data/gvteway";
+import {
+  useCommandPalette,
+  buildNavigationCommands,
+  buildActionCommands,
+} from "@ghxstship/config/hooks";
+import { Search, Ticket, Calendar, MapPin } from "lucide-react";
 
 // =============================================================================
 // GVTEWAY APP LAYOUT WRAPPERS
@@ -62,10 +70,42 @@ export function GvtewayAppLayout({
   currentPath = "/",
   eventId,
 }: AppLayoutProps) {
+  const router = useRouter();
+
+  // Build command palette navigation and action items
+  const navigationCommands = useMemo(() => 
+    buildNavigationCommands(gvtewaySidebarNavigation.map(s => ({ ...s, subsections: [] })) as Parameters<typeof buildNavigationCommands>[0]),
+    []
+  );
+
+  const actionCommands = useMemo(() => 
+    buildActionCommands([
+      { label: "Find Events", href: "/events", icon: <Calendar size={16} />, shortcut: "E" },
+      { label: "Buy Tickets", href: "/tickets", icon: <Ticket size={16} />, shortcut: "T" },
+      { label: "Find Venues", href: "/venues", icon: <MapPin size={16} />, shortcut: "V" },
+      { label: "Search", href: "/search", icon: <Search size={16} />, shortcut: "/" },
+    ]),
+    []
+  );
+
+  // Command palette hook
+  const {
+    isOpen: commandPaletteOpen,
+    close: closeCommandPalette,
+    categories: commandCategories,
+    recentItems,
+    handleSelect: handleCommandSelect,
+  } = useCommandPalette({
+    navigationItems: navigationCommands,
+    actionItems: actionCommands,
+    onNavigate: (href) => router.push(href),
+  });
+
   // Transform navigation data to SidebarNavSection format
   const transformNavigation = (navData: typeof gvtewaySidebarNavigation, basePath = ""): SidebarNavSection[] => {
     return navData.map((section) => ({
-      title: section.section,
+      section: section.section,
+      icon: section.icon,
       items: section.items.map((item) => ({
         label: item.label,
         href: basePath + item.href,
@@ -77,7 +117,9 @@ export function GvtewayAppLayout({
   // Get sidebar navigation based on context
   const getSidebarNavigation = (): SidebarNavSection[] => {
     if (variant === "event-shell" && eventId) {
-      return transformNavigation(gvtewayEventNavigation, `/e/${eventId}`);
+      // Event navigation doesn't have subsections, add empty arrays
+      const eventNavWithSubsections = gvtewayEventNavigation.map(s => ({ ...s, subsections: [] }));
+      return transformNavigation(eventNavWithSubsections as typeof gvtewaySidebarNavigation, `/e/${eventId}`);
     }
     return transformNavigation(gvtewaySidebarNavigation);
   };
@@ -85,28 +127,38 @@ export function GvtewayAppLayout({
   // Shell variants use AuthenticatedShell with sidebar
   if (variant === "consumer-shell" || variant === "event-shell") {
     return (
-      <AuthenticatedShell
-        navigation={getSidebarNavigation()}
-        currentPath={currentPath}
-        logo={<Display size="sm">GVTEWAY</Display>}
-        workspaceName="GVTEWAY"
-        user={{
-          name: "Guest User",
-          email: "guest@gvteway.com",
-        }}
-        quickActions={gvtewayQuickActions}
-        inverted
-        onNavigate={(href) => {
-          if (typeof window !== "undefined") {
-            window.location.href = href;
-          }
-        }}
-        className={className}
-      >
-        <div className="p-6">
-          {children}
-        </div>
-      </AuthenticatedShell>
+      <>
+        <AuthenticatedShell
+          navigation={getSidebarNavigation()}
+          currentPath={currentPath}
+          logo={<Display size="md">GVTEWAY</Display>}
+          workspaceName="GVTEWAY"
+          user={{
+            name: "Guest User",
+            email: "guest@gvteway.com",
+          }}
+          quickActions={gvtewayQuickActions}
+          inverted
+          onNavigate={(href) => router.push(href)}
+          className={className}
+        >
+          <div className="p-6">
+            {children}
+          </div>
+        </AuthenticatedShell>
+        
+        {/* Command Palette - Cmd/Ctrl+K to open */}
+        <CommandPalette
+          open={commandPaletteOpen}
+          onClose={closeCommandPalette}
+          categories={commandCategories}
+          recentItems={recentItems}
+          onSelect={handleCommandSelect}
+          onNavigate={(href) => router.push(href)}
+          placeholder="Search events, venues, or actions..."
+          inverted
+        />
+      </>
     );
   }
 

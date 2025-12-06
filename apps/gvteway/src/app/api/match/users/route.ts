@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -56,12 +50,14 @@ export async function GET(request: NextRequest) {
     // Group by user and count matching interests
     const userScores: Record<string, { count: number; interests: string[] }> = {};
     matchingUsers?.forEach(mu => {
+      interface InterestData { name?: string }
       if (!userScores[mu.user_id]) {
         userScores[mu.user_id] = { count: 0, interests: [] };
       }
       userScores[mu.user_id].count++;
       if (mu.interest) {
-        userScores[mu.user_id].interests.push((mu.interest as any).name);
+        const interest = mu.interest as InterestData;
+        if (interest.name) userScores[mu.user_id].interests.push(interest.name);
       }
     });
 
@@ -91,9 +87,11 @@ export async function GET(request: NextRequest) {
       .select('order:orders(user_id)')
       .in('order.user_id', matchUserIds);
 
+    interface OrderData { user_id?: string }
     const eventCounts: Record<string, number> = {};
     eventsAttended?.forEach(ea => {
-      const userId = (ea.order as any)?.user_id;
+      const order = ea.order as OrderData | null;
+      const userId = order?.user_id;
       if (userId) {
         eventCounts[userId] = (eventCounts[userId] || 0) + 1;
       }

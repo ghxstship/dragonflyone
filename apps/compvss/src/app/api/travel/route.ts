@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (crewId) query = query.eq('crew_id', crewId);
 
     const { data, error } = await query.order('departure_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       bookings: data,
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       cost, notes, status: 'confirmed', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ booking: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });
@@ -81,7 +81,7 @@ export async function PATCH(request: NextRequest) {
     const { id, ...updateData } = body;
 
     const { error } = await supabase.from('travel_bookings').update(updateData).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

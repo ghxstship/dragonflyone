@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('started_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       onboardings: data,
@@ -57,10 +57,11 @@ export async function POST(request: NextRequest) {
       started_at: new Date().toISOString(), started_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Create tasks
-    const taskRecords = tasks.map((task: any, index: number) => ({
+    interface TaskInput { name: string; description?: string; due_days: number; assigned_to?: string }
+    const taskRecords = tasks.map((task: TaskInput, index: number) => ({
       onboarding_id: onboarding.id,
       name: task.name,
       description: task.description,

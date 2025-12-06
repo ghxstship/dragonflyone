@@ -45,7 +45,7 @@ export default function ZoneDetailPage() {
     vip_only: 'VIP Only',
   };
 
-  const accessLevelColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+  const accessLevelColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
     public: 'success',
     restricted: 'warning',
     staff_only: 'error',
@@ -94,10 +94,10 @@ export default function ZoneDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{zone.name}</H2>
-                    <Badge variant={zone.is_active ? 'success' : 'default'}>
+                    <Badge variant={zone.is_active ? 'success' : 'ghost'}>
                       {zone.is_active ? 'ACTIVE' : 'INACTIVE'}
                     </Badge>
-                    <Badge variant={accessLevelColors[zone.access_level] || 'default'}>
+                    <Badge variant={accessLevelColors[zone.access_level] || 'ghost'}>
                       {accessLevelLabels[zone.access_level] || zone.access_level}
                     </Badge>
                   </Stack>
@@ -173,7 +173,7 @@ export default function ZoneDetailPage() {
                         </Stack>
                         <Stack gap={1}>
                           <Body className="text-body-sm text-grey-500">Access Level</Body>
-                          <Badge variant={accessLevelColors[zone.access_level] || 'default'}>
+                          <Badge variant={accessLevelColors[zone.access_level] || 'ghost'}>
                             {accessLevelLabels[zone.access_level] || zone.access_level}
                           </Badge>
                         </Stack>
@@ -246,7 +246,7 @@ export default function ZoneDetailPage() {
                     <Stack gap={3}>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Active Status</Body>
-                        <Badge variant={zone.is_active ? 'success' : 'default'}>
+                        <Badge variant={zone.is_active ? 'success' : 'ghost'}>
                           {zone.is_active ? 'ACTIVE' : 'INACTIVE'}
                         </Badge>
                       </Stack>

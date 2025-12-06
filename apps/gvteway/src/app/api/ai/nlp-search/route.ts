@@ -9,13 +9,13 @@ function getSupabaseClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
+
 // Lazy getter for supabase client - only accessed at runtime
 const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
+  get(_target, prop: keyof ReturnType<typeof getSupabaseClient>) {
+    return getSupabaseClient()[prop];
   }
 });
-
 
 // GET /api/ai/nlp-search - Natural language processing for search
 export async function GET(request: NextRequest) {
@@ -65,7 +65,8 @@ export async function GET(request: NextRequest) {
     const parsedQuery = parseNaturalLanguageQuery(query!);
 
     // Build search based on parsed intent
-    let results: any = {};
+    interface SearchResults { events?: unknown[]; artists?: unknown[]; venues?: unknown[]; [key: string]: unknown }
+    let results: SearchResults = {};
 
     if (parsedQuery.intent === 'event_search') {
       results = await searchEvents(parsedQuery);
@@ -413,9 +414,12 @@ async function generalSearch(parsed: ParsedQuery) {
   };
 }
 
-async function logSearch(query: string, parsed: ParsedQuery, results: any) {
-  // Update search analytics
+async function logSearch(query: string, parsed: ParsedQuery, results: { events?: unknown[]; artists?: unknown[]; venues?: unknown[] }) {
+  const supabase = getSupabaseClient();
+  // Update search analytics with parsed intent and result counts
   await supabase.rpc('upsert_search_analytics', {
     p_query: query.toLowerCase().trim(),
+    p_intent: parsed.intent,
+    p_result_count: (results.events?.length || 0) + (results.artists?.length || 0) + (results.venues?.length || 0),
   });
 }

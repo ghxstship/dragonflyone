@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (!orgId) return NextResponse.json({ error: 'organization_id required' }, { status: 400 });
 
     const { data, error } = await supabase.from('platform_users').select('*').eq('organization_id', orgId);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ users: data });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const payload = createUserSchema.parse(body);
     const { data, error } = await supabase.from('platform_users').insert(payload).select().single();
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ user: data }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: error.issues }, { status: 422 });

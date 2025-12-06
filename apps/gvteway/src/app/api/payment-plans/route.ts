@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
-import { PlatformRole } from '@ghxstship/config/roles';
 
 function getSupabaseClient() {
   return createClient(
@@ -14,12 +13,8 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 const paymentPlanSchema = z.object({
   order_id: z.string().uuid(),
@@ -40,7 +35,7 @@ const paymentSchema = z.object({
 
 // GET - List payment plans or get plan details
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const plan_id = searchParams.get('plan_id');
     const user_id = context.user?.id;
@@ -113,7 +108,7 @@ export const GET = apiRoute(
 
 // POST - Create payment plan or process payment
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { action } = body;
 
@@ -270,7 +265,7 @@ export const POST = apiRoute(
 
 // PUT - Update payment plan or retry failed payment
 export const PUT = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { plan_id, action, updates } = body;
 

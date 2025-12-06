@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (clientId) query = query.eq('client_id', clientId);
 
     const { data, error } = await query.order('submitted_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate NPS
     const promoters = data?.filter(r => r.score >= 9).length || 0;
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         token: surveyToken, status: 'sent', sent_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Queue email
       await supabase.from('email_queue').insert({
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
         score, feedback, would_recommend, submitted_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       await supabase.from('nps_surveys').update({ status: 'completed' }).eq('id', survey.id);
 

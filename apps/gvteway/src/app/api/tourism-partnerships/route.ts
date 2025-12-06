@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Partnership with local businesses and tourism boards
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
     if (partnerType) query = query.eq('partner.type', partnerType);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ partnerships: data });
   } catch (error) {
@@ -64,7 +58,7 @@ export async function POST(request: NextRequest) {
         name, type, description, logo_url, website, contact_info, location
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ partner: data }, { status: 201 });
     }
 
@@ -76,7 +70,7 @@ export async function POST(request: NextRequest) {
         terms, start_date, end_date, status: 'active', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ partnership: data }, { status: 201 });
     }
 

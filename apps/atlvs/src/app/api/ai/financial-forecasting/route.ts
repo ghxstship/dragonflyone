@@ -104,7 +104,8 @@ export async function GET(request: NextRequest) {
       });
 
       // Forecast each category
-      const categoryForecasts: Record<string, any[]> = {};
+      interface CategoryForecast { month: string; predicted_expense: number }
+      const categoryForecasts: Record<string, CategoryForecast[]> = {};
       for (const [category, monthlyData] of Object.entries(categoryExpenses)) {
         const sortedMonths = Object.keys(monthlyData).sort();
         const values = sortedMonths.map(m => monthlyData[m]);
@@ -170,14 +171,15 @@ export async function GET(request: NextRequest) {
       }
 
       // Calculate running balance
+      interface CashFlowWeek { week_start: string; receivables: number; payables: number; net: number; running_balance?: number }
       let runningBalance = 0;
-      cashFlowProjection.forEach(week => {
+      const cashFlowWithBalance = cashFlowProjection.map((week): CashFlowWeek => {
         runningBalance += week.net;
-        (week as any).running_balance = runningBalance;
+        return { ...week, running_balance: runningBalance };
       });
 
       return NextResponse.json({
-        cash_flow_projection: cashFlowProjection,
+        cash_flow_projection: cashFlowWithBalance,
         total_receivables: pendingInvoices?.reduce((sum, inv) => sum + (inv.total_amount || 0), 0) || 0,
         total_payables: pendingBills?.reduce((sum, bill) => sum + (bill.amount || 0), 0) || 0,
       });

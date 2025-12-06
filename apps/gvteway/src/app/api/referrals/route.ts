@@ -13,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Validation schema
 const referralCodeSchema = z.object({
@@ -167,7 +161,6 @@ export async function GET(request: NextRequest) {
 // POST /api/referrals - Create referral code or register referral
 export async function POST(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
     const body = await request.json();
     const { action } = body;
 
@@ -198,7 +191,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper: Create referral code
-async function createReferralCode(body: any) {
+interface ReferralCodeBody { user_id?: string; [key: string]: unknown }
+async function createReferralCode(body: ReferralCodeBody) {
   const validated = referralCodeSchema.parse(body);
   const userId = body.user_id;
 
@@ -238,7 +232,8 @@ async function createReferralCode(body: any) {
 }
 
 // Helper: Register referral
-async function registerReferral(body: any) {
+interface RegisterReferralBody { referral_code: string; [key: string]: unknown }
+async function registerReferral(body: RegisterReferralBody) {
   const validated = createReferralSchema.parse(body);
 
   // Get referral code

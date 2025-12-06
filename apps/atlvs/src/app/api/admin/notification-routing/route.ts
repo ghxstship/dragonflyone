@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
         *, channel:notification_channels(id, name, type, webhook_url)
       `).order('priority', { ascending: true });
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ rules: data });
     }
 
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await supabase.from('notification_channels').select('*')
         .order('name', { ascending: true });
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Mask webhook URLs for security
       const masked = data?.map(ch => ({
@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await supabase.from('integration_secrets').select('id, name, type, last_rotated, expires_at')
         .order('name', { ascending: true });
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ secrets: data });
     }
 
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
         priority: priority || 100, active: active !== false, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ rule: data }, { status: 201 });
     }
 
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', rule_id).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ rule: data });
     }
 
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
         name, type, webhook_url, secret_key, config: config || {}, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ channel: data }, { status: 201 });
     }
 
@@ -137,7 +137,7 @@ export async function POST(request: NextRequest) {
         .update({ ...updates, updated_at: new Date().toISOString() })
         .eq('id', channel_id).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ channel: data });
     }
 
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
         expires_at: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString() // 90 days
       }).eq('id', secret_id).select('id, name, last_rotated, expires_at').single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ secret: data, message: 'Secret rotated successfully' });
     }
 

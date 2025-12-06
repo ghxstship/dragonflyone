@@ -50,8 +50,6 @@ export default function CurrencyPage() {
 
   const enabledCount = mockCurrencies.filter(c => c.enabled).length;
 
-  const formatPrice = (amount: number, symbol: string) => `${symbol}${amount.toLocaleString()}`;
-
   return (
     <GvtewayAppLayout>
           <Stack gap={10}>

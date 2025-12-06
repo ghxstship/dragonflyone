@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,9 +25,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const now = new Date().toISOString();
+    const now = new Date();
+    const nowIso = now.toISOString();
 
-    // Get user's tickets with event details
+    // Get user's tickets with event details (only future events)
     const { data: tickets, error } = await supabase
       .from('tickets')
       .select(`
@@ -56,17 +51,21 @@ export async function GET(request: NextRequest) {
         )
       `)
       .eq('user_id', user.id)
-      .eq('status', 'active');
+      .eq('status', 'active')
+      .gte('events.date', nowIso.split('T')[0]);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
+    interface UserEventInfo { id?: string; title?: string; date?: string; time?: string; venue?: string; city?: string; image?: string }
+    interface ReminderInfo { enabled?: boolean; reminder_time?: string }
     const events = tickets?.map(ticket => {
-      const event = ticket.events as any;
-      const reminder = (ticket.user_event_reminders as any[])?.[0];
-      const eventDate = new Date(event?.date);
-      const daysUntil = Math.ceil((eventDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+      const event = ticket.events as UserEventInfo | null;
+      const reminders = (ticket.user_event_reminders || []) as ReminderInfo[];
+      const reminder = reminders[0];
+      const eventDate = new Date(event?.date || '');
+      const daysUntil = Math.ceil((eventDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
       return {
         id: ticket.id,

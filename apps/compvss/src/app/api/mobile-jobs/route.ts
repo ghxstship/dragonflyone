@@ -25,9 +25,9 @@ export async function GET(request: NextRequest) {
     if (jobType) query = query.eq('job_type', jobType);
 
     const { data, error } = await query.order('posted_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    let results: any[] = data || [];
+    let results: unknown[] = data || [];
 
     // Filter by location if coordinates provided
     if (lat && lng) {
@@ -46,7 +46,8 @@ export async function GET(request: NextRequest) {
       }));
 
       // Sort by distance
-      results.sort((a: any, b: any) => (a.distance_km || 999) - (b.distance_km || 999));
+      interface JobWithDistance { distance_km?: number | null }
+      results.sort((a: JobWithDistance, b: JobWithDistance) => (a.distance_km || 999) - (b.distance_km || 999));
     }
 
     // Filter by skills if provided
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
         applied_via: 'mobile', submitted_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ application: data }, { status: 201 });
     }
 

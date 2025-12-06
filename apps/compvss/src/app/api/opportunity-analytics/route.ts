@@ -14,13 +14,18 @@ export async function GET(request: NextRequest) {
     const opportunityId = searchParams.get('opportunity_id');
     const period = searchParams.get('period') || '30d';
 
+    // Calculate date range based on period
+    const now = new Date();
+    const periodDays = period === '7d' ? 7 : period === '30d' ? 30 : period === '90d' ? 90 : 30;
+    const startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000).toISOString();
+
     if (opportunityId) {
       const { data: opportunity } = await supabase.from('opportunities').select(`
         id, title, views, applications:job_applications(count)
       `).eq('id', opportunityId).single();
 
       const { data: views } = await supabase.from('opportunity_views').select('viewed_at')
-        .eq('opportunity_id', opportunityId).order('viewed_at', { ascending: true });
+        .eq('opportunity_id', opportunityId).gte('viewed_at', startDate).order('viewed_at', { ascending: true });
 
       // Group views by day
       const viewsByDay: Record<string, number> = {};

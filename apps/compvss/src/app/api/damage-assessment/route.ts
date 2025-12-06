@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (equipmentId) query = query.eq('equipment_id', equipmentId);
 
     const { data, error } = await query.order('reported_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       assessments: data,
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       reported_by: user.id, reported_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Add photos
     if (photo_urls?.length) {

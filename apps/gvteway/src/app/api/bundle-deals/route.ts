@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const bundleSchema = z.object({
   name: z.string().min(1),
@@ -56,7 +50,8 @@ export async function GET(request: NextRequest) {
           .neq('product_id', productId);
 
         // Count frequency
-        const frequency: Record<string, { count: number; product: any }> = {};
+        interface ProductData { id: string; name: string; price: number; image_url?: string }
+        const frequency: Record<string, { count: number; product: ProductData[] | null }> = {};
         relatedItems?.forEach(item => {
           if (!frequency[item.product_id]) {
             frequency[item.product_id] = { count: 0, product: item.product };
@@ -95,8 +90,8 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ bundles });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -157,11 +152,11 @@ export async function POST(request: NextRequest) {
     await supabase.from('bundle_deal_items').insert(items);
 
     return NextResponse.json({ bundle }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -180,8 +175,8 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ bundle });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -200,7 +195,7 @@ export async function DELETE(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

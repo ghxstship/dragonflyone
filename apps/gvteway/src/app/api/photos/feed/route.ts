@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -54,25 +48,31 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const photos = data?.map(p => ({
-      id: p.id,
-      url: p.url,
-      thumbnail_url: p.thumbnail_url || p.url,
-      event_id: p.event_id,
-      event_name: (p.event as any)?.title || 'Unknown Event',
-      uploaded_by: p.uploaded_by,
-      uploaded_by_name: p.uploader 
-        ? `${(p.uploader as any).first_name} ${(p.uploader as any).last_name}` 
-        : 'Anonymous',
-      caption: p.caption,
-      tags: p.tags || [],
-      likes: p.likes || 0,
-      is_featured: p.is_featured || false,
-      created_at: p.created_at,
-    })) || [];
+    interface PhotoEventInfo { title?: string }
+    interface PhotoUploaderInfo { first_name?: string; last_name?: string }
+    const photos = data?.map(p => {
+      const event = p.event as PhotoEventInfo | null;
+      const uploader = p.uploader as PhotoUploaderInfo | null;
+      return {
+        id: p.id,
+        url: p.url,
+        thumbnail_url: p.thumbnail_url || p.url,
+        event_id: p.event_id,
+        event_name: event?.title || 'Unknown Event',
+        uploaded_by: p.uploaded_by,
+        uploaded_by_name: uploader 
+          ? `${uploader.first_name} ${uploader.last_name}` 
+          : 'Anonymous',
+        caption: p.caption,
+        tags: p.tags || [],
+        likes: p.likes || 0,
+        is_featured: p.is_featured || false,
+        created_at: p.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ photos });
   } catch (error) {

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('filed_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const totalPaid = data?.reduce((s, c) => s + (c.amount_paid || 0), 0) || 0;
     const totalReserved = data?.reduce((s, c) => s + (c.reserve_amount || 0), 0) || 0;
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       filed_at: new Date().toISOString(), filed_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ claim: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to file claim' }, { status: 500 });

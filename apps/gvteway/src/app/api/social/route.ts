@@ -5,7 +5,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
-import { PlatformRole } from '@ghxstship/config/roles';
 
 function getSupabaseClient() {
   return createClient(
@@ -15,12 +14,8 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 const socialShareSchema = z.object({
   content_type: z.enum(['event', 'ticket', 'achievement', 'review', 'custom']),
@@ -43,7 +38,7 @@ const socialAccountSchema = z.object({
 
 // GET - List social posts or accounts
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const user_id = context.user.id;
@@ -108,7 +103,7 @@ export const GET = apiRoute(
 
 // POST - Share content or connect account
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { action } = body;
 
@@ -259,7 +254,9 @@ async function generateShareContent(contentType: string, contentId: string | und
   }
 }
 
-async function postToSocialMedia(platform: string, account: any, content: any) {
+interface SocialAccount { id: string; access_token?: string }
+interface SocialContent { message: string; media_urls?: string[]; hashtags?: string[] }
+async function postToSocialMedia(platform: string, account: SocialAccount, content: SocialContent) {
   // This would integrate with actual social media APIs
   // For now, just log the action
   Logger.info(`Posting to ${platform}:`, content);
@@ -277,7 +274,7 @@ async function postToSocialMedia(platform: string, account: any, content: any) {
   };
 }
 
-function aggregateAnalytics(shares: any[]) {
+function aggregateAnalytics(shares: unknown[]) {
   if (!shares || shares.length === 0) {
     return {
       total_impressions: 0,
@@ -288,7 +285,9 @@ function aggregateAnalytics(shares: any[]) {
     };
   }
 
-  const analytics: any = {
+  interface PlatformStats { impressions: number; clicks: number; shares: number; likes: number }
+  interface AnalyticsData { total_impressions: number; total_clicks: number; total_shares: number; total_likes: number; by_platform: Record<string, PlatformStats> }
+  const analytics: AnalyticsData = {
     total_impressions: 0,
     total_clicks: 0,
     total_shares: 0,
@@ -322,7 +321,7 @@ function aggregateAnalytics(shares: any[]) {
 
 // PUT - Update share or disconnect account
 export const PUT = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { id, action, updates } = body;
 
@@ -367,7 +366,7 @@ export const PUT = apiRoute(
 
 // DELETE - Cancel scheduled share
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

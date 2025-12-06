@@ -2,9 +2,168 @@
 
 import React, { useState, useCallback, useMemo } from "react";
 import clsx from "clsx";
-import { Upload, Download, Search } from "lucide-react";
+import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image } from "lucide-react";
 import { DataGrid } from "../organisms/data-grid.js";
 import { ImportExportDialog, type ExportFormat, type ColumnConfig, type ImportTemplate } from "../organisms/import-export-dialog.js";
+import { BulkActionBar, type BulkAction } from "../molecules/bulk-action-bar.js";
+import { KanbanBoard, type KanbanColumn as KanbanBoardColumn } from "../organisms/kanban-board.js";
+import { Calendar } from "../organisms/calendar.js";
+import { GanttChart, type GanttTask } from "../organisms/gantt-chart.js";
+import { TimelineView, type TimelineItem } from "../organisms/timeline-view.js";
+import { MapView, type MapLocation } from "../organisms/map-view.js";
+import { GalleryView, type GalleryItem } from "../organisms/gallery-view.js";
+
+// Re-export view types for consumers
+export type { GanttTask, TimelineItem, MapLocation, GalleryItem };
+
+// =============================================================================
+// SMART VIEW DETECTION
+// =============================================================================
+
+type ViewIconType = "list" | "grid" | "kanban" | "calendar" | "gantt" | "table" | "timeline" | "map" | "gallery";
+
+interface ViewConfig {
+  id: string;
+  label: string;
+  icon: ViewIconType;
+}
+
+interface SmartViewDetection {
+  views: ViewConfig[];
+  kanbanGroupBy: string | undefined;
+  calendarDateField: string | undefined;
+  calendarTitleField: string | undefined;
+  ganttStartField: string | undefined;
+  ganttEndField: string | undefined;
+  ganttProgressField: string | undefined;
+  timelineDateField: string | undefined;
+  timelineDescriptionField: string | undefined;
+  mapLatitudeField: string | undefined;
+  mapLongitudeField: string | undefined;
+  mapAddressField: string | undefined;
+  galleryImageField: string | undefined;
+  galleryThumbnailField: string | undefined;
+}
+
+/** Patterns to detect status/category fields for Kanban view */
+const STATUS_PATTERNS = [
+  /^status$/i, /^state$/i, /^stage$/i, /^phase$/i, /^category$/i, /^type$/i, /^priority$/i,
+  /^pipeline_stage$/i, /^workflow_status$/i, /^deal_stage$/i, /^project_status$/i,
+  /_status$/i, /_stage$/i, /_state$/i,
+];
+
+/** Patterns to detect date fields */
+const DATE_PATTERNS = [
+  /^date$/i, /^created_at$/i, /^updated_at$/i, /^due_date$/i, /^start_date$/i, /^end_date$/i,
+  /^event_date$/i, /^scheduled_date$/i, /^deadline$/i, /^timestamp$/i, /_date$/i, /_at$/i,
+];
+
+/** Patterns to detect start date fields for Gantt */
+const START_DATE_PATTERNS = [
+  /^start_date$/i, /^start$/i, /^begin_date$/i, /^from_date$/i, /^scheduled_start$/i, /^planned_start$/i,
+];
+
+/** Patterns to detect end date fields for Gantt */
+const END_DATE_PATTERNS = [
+  /^end_date$/i, /^end$/i, /^finish_date$/i, /^to_date$/i, /^due_date$/i, /^deadline$/i,
+  /^scheduled_end$/i, /^planned_end$/i, /^completion_date$/i,
+];
+
+/** Patterns to detect progress fields */
+const PROGRESS_PATTERNS = [/^progress$/i, /^completion$/i, /^percent_complete$/i, /^percentage$/i];
+
+/** Patterns to detect latitude fields */
+const LAT_PATTERNS = [/^latitude$/i, /^lat$/i, /^geo_lat$/i, /^location_lat$/i];
+
+/** Patterns to detect longitude fields */
+const LNG_PATTERNS = [/^longitude$/i, /^lng$/i, /^lon$/i, /^geo_lng$/i, /^location_lng$/i];
+
+/** Patterns to detect address fields */
+const ADDRESS_PATTERNS = [/^address$/i, /^location$/i, /^venue$/i, /^place$/i, /^street_address$/i];
+
+/** Patterns to detect image fields */
+const IMAGE_PATTERNS = [
+  /^image$/i, /^image_url$/i, /^photo$/i, /^photo_url$/i, /^thumbnail$/i, /^thumbnail_url$/i,
+  /^avatar$/i, /^avatar_url$/i, /^cover$/i, /^cover_url$/i, /^poster$/i, /^media_url$/i,
+  /_image$/i, /_photo$/i, /_thumbnail$/i,
+];
+
+/** Patterns to detect thumbnail fields */
+const THUMBNAIL_PATTERNS = [/^thumbnail$/i, /^thumbnail_url$/i, /^thumb$/i, /^preview$/i, /^preview_url$/i];
+
+/** Patterns to detect title/name fields */
+const TITLE_PATTERNS = [/^title$/i, /^name$/i, /^subject$/i, /^heading$/i, /^label$/i, /^display_name$/i];
+
+/** Patterns to detect description fields */
+const DESC_PATTERNS = [/^description$/i, /^desc$/i, /^summary$/i, /^notes$/i, /^details$/i, /^content$/i];
+
+function findByPattern(keys: string[], patterns: RegExp[]): string | undefined {
+  for (const pattern of patterns) {
+    const match = keys.find((key) => pattern.test(key));
+    if (match) return match;
+  }
+  return undefined;
+}
+
+function detectSmartViews<T>(columns: ListPageColumn<T>[]): SmartViewDetection {
+  const keys = columns.map((c) => c.key);
+  const views: ViewConfig[] = [];
+
+  // Always available
+  views.push({ id: "list", label: "List", icon: "list" });
+  views.push({ id: "grid", label: "Grid", icon: "grid" });
+  views.push({ id: "table", label: "Table", icon: "table" });
+
+  // Kanban
+  const kanbanGroupBy = findByPattern(keys, STATUS_PATTERNS);
+  if (kanbanGroupBy) views.push({ id: "kanban", label: "Board", icon: "kanban" });
+
+  // Calendar
+  const calendarDateField = findByPattern(keys, DATE_PATTERNS);
+  const calendarTitleField = findByPattern(keys, TITLE_PATTERNS) || keys[0];
+  if (calendarDateField) views.push({ id: "calendar", label: "Calendar", icon: "calendar" });
+
+  // Gantt
+  const ganttStartField = findByPattern(keys, START_DATE_PATTERNS);
+  const ganttEndField = findByPattern(keys, END_DATE_PATTERNS);
+  const ganttProgressField = findByPattern(keys, PROGRESS_PATTERNS);
+  if (ganttStartField && ganttEndField) views.push({ id: "gantt", label: "Timeline", icon: "gantt" });
+
+  // Timeline
+  const timelineDateField = calendarDateField;
+  const timelineDescriptionField = findByPattern(keys, DESC_PATTERNS);
+  if (timelineDateField) views.push({ id: "timeline", label: "Activity", icon: "timeline" });
+
+  // Map
+  const mapLatitudeField = findByPattern(keys, LAT_PATTERNS);
+  const mapLongitudeField = findByPattern(keys, LNG_PATTERNS);
+  const mapAddressField = findByPattern(keys, ADDRESS_PATTERNS);
+  if ((mapLatitudeField && mapLongitudeField) || mapAddressField) {
+    views.push({ id: "map", label: "Map", icon: "map" });
+  }
+
+  // Gallery
+  const galleryImageField = findByPattern(keys, IMAGE_PATTERNS);
+  const galleryThumbnailField = findByPattern(keys, THUMBNAIL_PATTERNS);
+  if (galleryImageField) views.push({ id: "gallery", label: "Gallery", icon: "gallery" });
+
+  return {
+    views,
+    kanbanGroupBy,
+    calendarDateField,
+    calendarTitleField,
+    ganttStartField,
+    ganttEndField,
+    ganttProgressField,
+    timelineDateField,
+    timelineDescriptionField,
+    mapLatitudeField,
+    mapLongitudeField,
+    mapAddressField,
+    galleryImageField,
+    galleryThumbnailField,
+  };
+}
 
 export interface ListPageColumn<T> {
   key: string;
@@ -114,7 +273,7 @@ export interface ListPageProps<T> {
   /** Tab change handler */
   onTabChange?: (tabId: string) => void;
   /** View options (list, grid, kanban, etc.) */
-  views?: Array<{ id: string; label: string; icon: "list" | "grid" | "kanban" | "calendar" | "gantt" | "table" }>;
+  views?: Array<{ id: string; label: string; icon: "list" | "grid" | "kanban" | "calendar" | "gantt" | "table" | "timeline" | "map" | "gallery" }>;
   /** Active view ID */
   activeView?: string;
   /** View change handler */
@@ -141,6 +300,8 @@ export interface ListPageProps<T> {
   compact?: boolean;
   /** Enable column visibility toggle */
   columnVisibility?: boolean;
+  /** Quick action buttons displayed in header */
+  quickActions?: Array<{ id: string; label: string; icon?: React.ReactNode; onClick: () => void }>;
 }
 
 export function ListPage<T>({
@@ -177,12 +338,100 @@ export function ListPage<T>({
   striped = false,
   compact = false,
   columnVisibility = false,
-}: ListPageProps<T>) {
+  quickActions = [],
+  // View toggle props
+  views = [],
+  activeView = "list",
+  onViewChange,
+  // Kanban-specific props
+  kanbanGroupBy,
+  kanbanColumns,
+  kanbanCardRender,
+  onKanbanDragEnd,
+  // Calendar-specific props
+  calendarDateField,
+  calendarTitleField,
+  onCalendarEventClick,
+  // Gantt-specific props
+  ganttStartField,
+  ganttEndField,
+  ganttProgressField,
+  onGanttTaskClick,
+  // Timeline-specific props
+  timelineDateField,
+  timelineDescriptionField,
+  onTimelineItemClick,
+  // Map-specific props
+  mapLatitudeField,
+  mapLongitudeField,
+  mapAddressField,
+  onMapLocationClick,
+  // Gallery-specific props
+  galleryImageField,
+  galleryThumbnailField,
+  onGalleryItemClick,
+}: ListPageProps<T> & {
+  kanbanGroupBy?: keyof T;
+  kanbanColumns?: KanbanBoardColumn[];
+  kanbanCardRender?: (item: T) => React.ReactNode;
+  onKanbanDragEnd?: (item: T, newColumnId: string, newIndex: number) => void;
+  calendarDateField?: keyof T;
+  calendarTitleField?: keyof T;
+  onCalendarEventClick?: (item: T) => void;
+  ganttStartField?: keyof T;
+  ganttEndField?: keyof T;
+  ganttProgressField?: keyof T;
+  onGanttTaskClick?: (item: T) => void;
+  timelineDateField?: keyof T;
+  timelineDescriptionField?: keyof T;
+  onTimelineItemClick?: (item: T) => void;
+  mapLatitudeField?: keyof T;
+  mapLongitudeField?: keyof T;
+  mapAddressField?: keyof T;
+  onMapLocationClick?: (item: T) => void;
+  galleryImageField?: keyof T;
+  galleryThumbnailField?: keyof T;
+  onGalleryItemClick?: (item: T) => void;
+}) {
   const [searchValue, setSearchValue] = useState("");
   const [activeFilters, setActiveFilters] = useState<Record<string, string | string[]>>({});
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | null>(null);
+  const [internalActiveView, setInternalActiveView] = useState(activeView);
+  
+  // Smart view detection - auto-detect available views from column definitions
+  const smartViews = useMemo(() => detectSmartViews(columns), [columns]);
+  
+  // Use provided views if available, otherwise use smart-detected views
+  const effectiveViews = views.length > 0 ? views : smartViews.views;
+  
+  // Use provided field mappings if available, otherwise use smart-detected fields
+  const effectiveKanbanGroupBy = kanbanGroupBy || (smartViews.kanbanGroupBy as keyof T | undefined);
+  const effectiveCalendarDateField = calendarDateField || (smartViews.calendarDateField as keyof T | undefined);
+  const effectiveCalendarTitleField = calendarTitleField || (smartViews.calendarTitleField as keyof T | undefined);
+  const effectiveGanttStartField = ganttStartField || (smartViews.ganttStartField as keyof T | undefined);
+  const effectiveGanttEndField = ganttEndField || (smartViews.ganttEndField as keyof T | undefined);
+  const effectiveGanttProgressField = ganttProgressField || (smartViews.ganttProgressField as keyof T | undefined);
+  const effectiveTimelineDateField = timelineDateField || (smartViews.timelineDateField as keyof T | undefined);
+  const effectiveTimelineDescriptionField = timelineDescriptionField || (smartViews.timelineDescriptionField as keyof T | undefined);
+  const effectiveMapLatitudeField = mapLatitudeField || (smartViews.mapLatitudeField as keyof T | undefined);
+  const effectiveMapLongitudeField = mapLongitudeField || (smartViews.mapLongitudeField as keyof T | undefined);
+  const effectiveMapAddressField = mapAddressField || (smartViews.mapAddressField as keyof T | undefined);
+  const effectiveGalleryImageField = galleryImageField || (smartViews.galleryImageField as keyof T | undefined);
+  const effectiveGalleryThumbnailField = galleryThumbnailField || (smartViews.galleryThumbnailField as keyof T | undefined);
+  
+  // Handle view change - use provided handler or internal state
+  const handleViewChange = useCallback((viewId: string) => {
+    if (onViewChange) {
+      onViewChange(viewId);
+    } else {
+      setInternalActiveView(viewId);
+    }
+  }, [onViewChange]);
+  
+  // Determine current active view
+  const currentActiveView = onViewChange ? activeView : internalActiveView;
   
   // Import/Export dialog state
   const [importExportMode, setImportExportMode] = useState<"import" | "export" | null>(null);
@@ -405,6 +654,16 @@ export function ListPage<T>({
                   + {createLabel}
                 </button>
               )}
+              {quickActions.length > 0 && quickActions.map((action) => (
+                <button 
+                  key={action.id} 
+                  onClick={action.onClick} 
+                  className={clsx("px-spacing-4 py-spacing-2 font-code text-mono-sm cursor-pointer flex items-center gap-gap-xs", secondaryBtnClass)}
+                >
+                  {action.icon}
+                  {action.label}
+                </button>
+              ))}
             </div>
           </div>
           {subtitle && (
@@ -462,70 +721,241 @@ export function ListPage<T>({
               Clear ({activeFilterCount})
             </button>
           )}
+          
+          {/* View Toggle - Auto-detected from columns */}
+          {effectiveViews.length > 1 && (
+            <div className={clsx("flex items-center gap-1 ml-auto border rounded-lg p-1", inverted ? "border-grey-700 bg-grey-900" : "border-grey-200 bg-grey-50")}>
+              {effectiveViews.map((view) => {
+                const isActive = currentActiveView === view.id;
+                const ViewIcon = {
+                  list: List,
+                  grid: LayoutGrid,
+                  kanban: Columns3,
+                  calendar: CalendarIcon,
+                  gantt: GanttIcon,
+                  table: Table,
+                  timeline: Clock,
+                  map: MapPin,
+                  gallery: Image,
+                }[view.icon] || List;
+                
+                return (
+                  <button
+                    key={view.id}
+                    type="button"
+                    onClick={() => handleViewChange(view.id)}
+                    title={view.label}
+                    className={clsx(
+                      "p-2 rounded transition-colors",
+                      isActive
+                        ? inverted
+                          ? "bg-grey-700 text-white"
+                          : "bg-white text-grey-900 shadow-sm"
+                        : inverted
+                          ? "text-grey-500 hover:text-white hover:bg-grey-800"
+                          : "text-grey-400 hover:text-grey-900 hover:bg-grey-100"
+                    )}
+                  >
+                    <ViewIcon size={16} />
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
-        {/* Bulk Action Bar */}
-        {selectedKeys.length > 0 && bulkActions.length > 0 && (
-          <div className={clsx(
-            "flex items-center justify-between px-spacing-4 py-spacing-3 mb-spacing-4",
-            inverted ? "bg-white text-black" : "bg-black text-white"
-          )}>
-            <span className="font-code text-mono-md">
-              <strong>{selectedKeys.length}</strong> selected
-              <button onClick={() => setSelectedKeys([])} className={clsx("ml-spacing-4 bg-transparent border-none cursor-pointer underline", inverted ? "text-grey-600" : "text-grey-400")}>Clear</button>
-            </span>
-            <div className="flex gap-gap-xs">
-              {bulkActions.map(action => (
-                <button
-                  key={action.id}
-                  onClick={() => onBulkAction?.(action.id, selectedKeys)}
-                  className={clsx(
-                    "px-spacing-3 py-spacing-2 font-code text-mono-sm border-none cursor-pointer",
-                    action.variant === "danger"
-                      ? inverted ? "bg-grey-100 text-grey-700" : "bg-grey-800 text-grey-300"
-                      : inverted ? "bg-grey-800 text-white" : "bg-grey-200 text-black"
-                  )}
-                >
-                  {action.icon} {action.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Bulk Action Bar - Floating component for better UX */}
+        <BulkActionBar
+          selectedCount={selectedKeys.length}
+          actions={bulkActions.map((action): BulkAction => ({
+            id: action.id,
+            label: action.label,
+            icon: action.icon,
+            variant: action.variant,
+            disabled: action.disabled,
+          }))}
+          onAction={(actionId) => onBulkAction?.(actionId, selectedKeys)}
+          onClearSelection={() => setSelectedKeys([])}
+          entityName="items"
+          position="floating"
+        />
 
         {/* Results count */}
         <div className={clsx("mb-spacing-4 font-code text-mono-sm", inverted ? "text-grey-500" : "text-grey-400")}>
           {filteredData.length} {filteredData.length === 1 ? "result" : "results"}
         </div>
 
-        {/* DataGrid - Composing the feature-rich data grid component */}
-        <DataGrid
-          data={filteredData}
-          columns={dataGridColumns}
-          rowKey={rowKey}
-          searchable={false}
-          selectable={bulkActions.length > 0}
-          selectedKeys={selectedKeys}
-          onSelectionChange={setSelectedKeys}
-          bulkActions={dataGridBulkActions}
-          onBulkAction={onBulkAction}
-          rowActions={dataGridRowActions}
-          onRowAction={handleRowAction}
-          onRowClick={onRowClick}
-          sortable={true}
-          defaultSort={sortColumn && sortDirection ? { column: sortColumn, direction: sortDirection } : undefined}
-          onSortChange={(col: string, dir: "asc" | "desc" | null) => {
-            setSortColumn(dir ? col : null);
-            setSortDirection(dir);
-          }}
-          pagination={pagination}
-          onPageChange={onPageChange}
-          loading={false}
-          emptyMessage={emptyMessage}
-          striped={striped}
-          compact={compact}
-          columnVisibility={columnVisibility}
-        />
+        {/* View-specific content */}
+        {currentActiveView === "kanban" && effectiveKanbanGroupBy && kanbanColumns ? (
+          <KanbanBoard
+            data={filteredData}
+            columns={kanbanColumns}
+            groupBy={effectiveKanbanGroupBy}
+            rowKey={rowKey}
+            cardRender={kanbanCardRender || ((item) => (
+              <div className={clsx("text-sm", inverted ? "text-white" : "text-grey-900")}>
+                {String(item[columns[0]?.key as keyof T] || "Item")}
+              </div>
+            ))}
+            onDragEnd={onKanbanDragEnd}
+            onCardClick={onRowClick}
+            inverted={inverted}
+            emptyMessage={emptyMessage}
+          />
+        ) : currentActiveView === "calendar" && effectiveCalendarDateField ? (
+          <Calendar
+            events={filteredData.map((item) => ({
+              id: typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]),
+              title: effectiveCalendarTitleField ? String(item[effectiveCalendarTitleField]) : String(item[columns[0]?.key as keyof T] || "Event"),
+              date: new Date(String(item[effectiveCalendarDateField])),
+            }))}
+            onEventClick={(event) => {
+              const item = filteredData.find((d) => 
+                (typeof rowKey === "function" ? rowKey(d) : String(d[rowKey])) === event.id
+              );
+              if (item && onCalendarEventClick) {
+                onCalendarEventClick(item);
+              } else if (item && onRowClick) {
+                onRowClick(item);
+              }
+            }}
+            inverted={inverted}
+          />
+        ) : currentActiveView === "grid" ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredData.map((item) => {
+              const itemId = typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]);
+              return (
+                <div
+                  key={itemId}
+                  onClick={() => onRowClick?.(item)}
+                  className={clsx(
+                    "p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md",
+                    inverted
+                      ? "bg-grey-900 border-grey-800 hover:border-grey-700"
+                      : "bg-white border-grey-200 hover:border-grey-300"
+                  )}
+                >
+                  <div className={clsx("font-semibold text-sm mb-2", inverted ? "text-white" : "text-grey-900")}>
+                    {String(item[columns[0]?.key as keyof T] || "Item")}
+                  </div>
+                  {columns.slice(1, 3).map((col) => (
+                    <div key={col.key} className={clsx("text-xs", inverted ? "text-grey-400" : "text-grey-500")}>
+                      {col.label}: {String(item[col.key as keyof T] || "-")}
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </div>
+        ) : currentActiveView === "gantt" && effectiveGanttStartField && effectiveGanttEndField ? (
+          <GanttChart
+            tasks={filteredData.map((item): GanttTask<T> => ({
+              id: typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]),
+              title: String(item[columns[0]?.key as keyof T] || "Task"),
+              start: new Date(String(item[effectiveGanttStartField])),
+              end: new Date(String(item[effectiveGanttEndField])),
+              progress: effectiveGanttProgressField ? Number(item[effectiveGanttProgressField]) || 0 : undefined,
+              data: item,
+            }))}
+            onTaskClick={(task) => {
+              if (task.data && onGanttTaskClick) {
+                onGanttTaskClick(task.data);
+              } else if (task.data && onRowClick) {
+                onRowClick(task.data);
+              }
+            }}
+            inverted={inverted}
+            emptyMessage={emptyMessage}
+          />
+        ) : currentActiveView === "timeline" && effectiveTimelineDateField ? (
+          <TimelineView
+            items={filteredData.map((item): TimelineItem<T> => ({
+              id: typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]),
+              title: String(item[columns[0]?.key as keyof T] || "Item"),
+              description: effectiveTimelineDescriptionField ? String(item[effectiveTimelineDescriptionField]) : undefined,
+              date: new Date(String(item[effectiveTimelineDateField])),
+              data: item,
+            }))}
+            onItemClick={(timelineItem) => {
+              if (timelineItem.data && onTimelineItemClick) {
+                onTimelineItemClick(timelineItem.data);
+              } else if (timelineItem.data && onRowClick) {
+                onRowClick(timelineItem.data);
+              }
+            }}
+            inverted={inverted}
+            emptyMessage={emptyMessage}
+          />
+        ) : currentActiveView === "map" && effectiveMapLatitudeField && effectiveMapLongitudeField ? (
+          <MapView
+            locations={filteredData.map((item): MapLocation<T> => ({
+              id: typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]),
+              title: String(item[columns[0]?.key as keyof T] || "Location"),
+              latitude: Number(item[effectiveMapLatitudeField]) || 0,
+              longitude: Number(item[effectiveMapLongitudeField]) || 0,
+              address: effectiveMapAddressField ? String(item[effectiveMapAddressField]) : undefined,
+              data: item,
+            }))}
+            onLocationClick={(location) => {
+              if (location.data && onMapLocationClick) {
+                onMapLocationClick(location.data);
+              } else if (location.data && onRowClick) {
+                onRowClick(location.data);
+              }
+            }}
+            inverted={inverted}
+            emptyMessage={emptyMessage}
+          />
+        ) : currentActiveView === "gallery" && effectiveGalleryImageField ? (
+          <GalleryView
+            items={filteredData.map((item): GalleryItem<T> => ({
+              id: typeof rowKey === "function" ? rowKey(item) : String(item[rowKey]),
+              title: String(item[columns[0]?.key as keyof T] || "Item"),
+              imageUrl: String(item[effectiveGalleryImageField]),
+              thumbnailUrl: effectiveGalleryThumbnailField ? String(item[effectiveGalleryThumbnailField]) : undefined,
+              data: item,
+            }))}
+            onItemClick={(galleryItem) => {
+              if (galleryItem.data && onGalleryItemClick) {
+                onGalleryItemClick(galleryItem.data);
+              } else if (galleryItem.data && onRowClick) {
+                onRowClick(galleryItem.data);
+              }
+            }}
+            inverted={inverted}
+            emptyMessage={emptyMessage}
+          />
+        ) : (
+          /* Default: DataGrid/List view */
+          <DataGrid
+            data={filteredData}
+            columns={dataGridColumns}
+            rowKey={rowKey}
+            searchable={false}
+            selectable={bulkActions.length > 0}
+            selectedKeys={selectedKeys}
+            onSelectionChange={setSelectedKeys}
+            bulkActions={dataGridBulkActions}
+            onBulkAction={onBulkAction}
+            rowActions={dataGridRowActions}
+            onRowAction={handleRowAction}
+            onRowClick={onRowClick}
+            sortable={true}
+            defaultSort={sortColumn && sortDirection ? { column: sortColumn, direction: sortDirection } : undefined}
+            onSortChange={(col: string, dir: "asc" | "desc" | null) => {
+              setSortColumn(dir ? col : null);
+              setSortDirection(dir);
+            }}
+            pagination={pagination}
+            onPageChange={onPageChange}
+            loading={false}
+            emptyMessage={emptyMessage}
+            striped={striped}
+            compact={compact}
+            columnVisibility={columnVisibility}
+          />
+        )}
         
         {/* Empty state with action */}
         {filteredData.length === 0 && emptyAction && (

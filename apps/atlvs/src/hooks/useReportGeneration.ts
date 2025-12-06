@@ -10,13 +10,14 @@ interface GenerateReportParams {
   periodStart: string;
   periodEnd: string;
   format?: ReportFormat;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   grouping?: string[];
   metrics?: string[];
 }
 
+interface ReportData { id: string; type: string; data: Record<string, unknown>; generated_at: string }
 export function useReportGeneration() {
-  const [report, setReport] = useState<any>(null);
+  const [report, setReport] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -17,7 +17,6 @@ import {
 } from '@ghxstship/ui';
 import {
   FileText,
-  DollarSign,
   Users,
   TrendingUp,
   Download,
@@ -25,21 +24,56 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 
+interface WrapMetrics {
+  totalShows: number;
+  crewHours: number;
+  incidents: number;
+  laborCost: number;
+  equipmentCost: number;
+  cateringCost: number;
+}
+
+const defaultMetrics: WrapMetrics = {
+  totalShows: 0,
+  crewHours: 0,
+  incidents: 0,
+  laborCost: 0,
+  equipmentCost: 0,
+  cateringCost: 0,
+};
+
 export default function ProductionWrapReportPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
+  const productionId = params?.productionId as string;
   const [isGenerating, setIsGenerating] = useState(false);
   const [crewNotes, setCrewNotes] = useState('');
   const [operationalNotes, setOperationalNotes] = useState('');
+  const [metrics, setMetrics] = useState<WrapMetrics>(defaultMetrics);
 
-  const metrics = {
-    totalShows: 24,
-    crewHours: 1840,
-    incidents: 3,
-    laborCost: 92000,
-    equipmentCost: 45000,
-    cateringCost: 18000,
-  };
+  const fetchWrapData = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/wrap`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.metrics) {
+          setMetrics(data.metrics);
+        }
+        if (data.crewNotes) {
+          setCrewNotes(data.crewNotes);
+        }
+        if (data.operationalNotes) {
+          setOperationalNotes(data.operationalNotes);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch wrap data:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchWrapData();
+  }, [fetchWrapData]);
 
   const handleGenerateReport = async () => {
     setIsGenerating(true);

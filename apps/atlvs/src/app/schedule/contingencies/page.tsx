@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, AlertTriangle, CheckCircle, Zap, Shield } from 'lucide-react';
+import { Eye, Pencil, CheckCircle, Zap } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useContingencies, useContingencyStats, useTriggerContingency, useResolveContingency } from '../../../hooks/useTasks';
 import {
@@ -36,14 +36,14 @@ interface Contingency {
   backup_owner?: { id: string; first_name: string; last_name: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   resolved: 'success',
   triggered: 'error',
   active: 'info',
   archived: 'default',
 };
 
-const severityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const severityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   critical: 'error',
   high: 'warning',
   medium: 'info',
@@ -80,7 +80,7 @@ const columns: ListPageColumn<Contingency>[] = [
     accessor: 'severity', 
     sortable: true,
     render: (value) => (
-      <Badge variant={severityColors[String(value)] || 'default'}>
+      <Badge variant={severityColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -96,7 +96,7 @@ const columns: ListPageColumn<Contingency>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -198,8 +198,12 @@ export default function ContingenciesPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/schedule/contingencies', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -241,13 +245,13 @@ export default function ContingenciesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Severity</Body>
-            <Badge variant={severityColors[selectedContingency.severity] || 'default'}>
+            <Badge variant={severityColors[selectedContingency.severity] || 'ghost'}>
               {selectedContingency.severity.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedContingency.status] || 'default'}>
+            <Badge variant={statusColors[selectedContingency.status] || 'ghost'}>
               {selectedContingency.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -293,6 +297,27 @@ export default function ContingenciesPage() {
         quickActions={[
           { id: 'tasks', label: 'Tasks', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/schedule/tasks') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/schedule/contingencies/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'archive') {
+            await fetch('/api/schedule/contingencies/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -303,7 +328,7 @@ export default function ContingenciesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'active', severity: 'medium', category: 'other' }}
+        record={{ status: 'active', severity: 'medium', category: 'other' }}
       />
 
       <DetailDrawer

@@ -48,7 +48,15 @@ export async function createEvent(data: {
   return res.json();
 }
 
-export async function updateUserProfile(data: any) {
+interface UserProfileUpdate {
+  name?: string;
+  email?: string;
+  phone?: string;
+  avatar_url?: string;
+  preferences?: Record<string, unknown>;
+}
+
+export async function updateUserProfile(data: UserProfileUpdate) {
   const res = await fetch('/api/user/profile', {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

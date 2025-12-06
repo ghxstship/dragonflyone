@@ -18,7 +18,7 @@ function generateTicketCode(prefix: string, number: number): string {
 }
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const body = await request.json();
     const data = generateTicketsSchema.parse(body);

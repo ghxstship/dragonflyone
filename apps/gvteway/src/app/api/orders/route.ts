@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRoute } from '@ghxstship/config/middleware';
-import { PlatformRole } from '@ghxstship/config/roles';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
 
@@ -14,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const createOrderSchema = z.object({
   user_id: z.string().uuid(),
@@ -31,7 +24,7 @@ const createOrderSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -49,10 +42,10 @@ export const GET = apiRoute(
       if (status) query = query.eq('status', status);
 
       const { data, error, count } = await query;
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ orders: data, total: count, limit, offset });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {
@@ -63,7 +56,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = getSupabaseClient();
       const payload = context.validated;
@@ -71,10 +64,10 @@ export const POST = apiRoute(
         ...payload,
         created_by: context.user?.id,
       }).select().single();
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ order: data }, { status: 201 });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

@@ -166,8 +166,8 @@ export default function SchedulePage() {
       <EnterprisePageHeader
         title="Production Schedule"
         subtitle="Manage production timeline and crew assignments"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

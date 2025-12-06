@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Haversine formula to calculate distance between two points
 function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -78,19 +72,22 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Filter and calculate distances
+    interface NearbyVenueInfo { name?: string; city?: string; state?: string; latitude?: number; longitude?: number }
+    interface NearbyTicketType { price: number }
     const eventsWithDistance = data
       ?.map(event => {
-        const venue = event.venues as any;
+        const venue = event.venues as NearbyVenueInfo | null;
         if (!venue?.latitude || !venue?.longitude) return null;
 
         const distance = calculateDistance(lat, lng, venue.latitude, venue.longitude);
         if (distance > radius) return null;
 
-        const prices = (event.ticket_types as any[])?.map(t => t.price) || [];
+        const ticketTypes = (event.ticket_types || []) as NearbyTicketType[];
+        const prices = ticketTypes.map((t: NearbyTicketType) => t.price);
         const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
         return {
@@ -105,8 +102,8 @@ export async function GET(request: NextRequest) {
           image: event.image,
         };
       })
-      .filter(Boolean)
-      .sort((a: any, b: any) => a.distance - b.distance) || [];
+      .filter((e): e is NonNullable<typeof e> => Boolean(e))
+      .sort((a, b) => a.distance - b.distance) || [];
 
     return NextResponse.json({ events: eventsWithDistance });
   } catch (error) {

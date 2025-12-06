@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     if (priority) query = query.eq('priority', priority);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Check SLA breaches
     const issuesWithSLA = data?.map(issue => {
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       category, assigned_to, status: 'open', reported_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Notify assigned user
     if (assigned_to) {
@@ -107,7 +107,8 @@ export async function PATCH(request: NextRequest) {
     const { id, action, status, resolution, comment } = body;
 
     if (action === 'update_status') {
-      const updateData: any = { status };
+      interface IssueUpdate { status: string; resolved_at?: string; resolved_by?: string; resolution?: string }
+      const updateData: IssueUpdate = { status };
       if (status === 'resolved') {
         updateData.resolved_at = new Date().toISOString();
         updateData.resolved_by = user.id;

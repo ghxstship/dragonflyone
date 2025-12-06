@@ -39,20 +39,24 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const availability = data?.map(a => ({
-      id: a.id,
-      user_id: a.user_id,
-      user_name: a.user ? `${(a.user as any).first_name} ${(a.user as any).last_name}` : 'Unknown',
-      date: a.date,
-      status: a.status,
-      start_time: a.start_time,
-      end_time: a.end_time,
-      notes: a.notes,
-      calendar_source: a.calendar_source,
-    })) || [];
+    interface UserData { first_name?: string; last_name?: string }
+    const availability = data?.map(a => {
+      const userData = a.user as UserData | null;
+      return {
+        id: a.id,
+        user_id: a.user_id,
+        user_name: userData ? `${userData.first_name} ${userData.last_name}` : 'Unknown',
+        date: a.date,
+        status: a.status,
+        start_time: a.start_time,
+        end_time: a.end_time,
+        notes: a.notes,
+        calendar_source: a.calendar_source,
+      };
+    }) || [];
 
     return NextResponse.json({ availability });
   } catch (error) {
@@ -105,7 +109,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ availability: data }, { status: 201 });
@@ -144,7 +148,7 @@ export async function DELETE(request: NextRequest) {
       .eq('date', date);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

@@ -7,7 +7,6 @@ import {
   Box,
   Text,
   FullBleedSection,
-  H2,
 } from "@ghxstship/ui";
 import { Check, Circle, Loader2 } from "lucide-react";
 import type { GenerationProgress } from "../types";

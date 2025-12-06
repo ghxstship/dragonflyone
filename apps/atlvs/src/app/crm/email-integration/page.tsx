@@ -6,8 +6,7 @@ import { Eye, Reply, Link } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
-} from '@ghxstship/ui';
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface EmailThread {
@@ -111,11 +110,25 @@ export default function EmailIntegrationPage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No emails found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/crm/emails/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/crm/emails/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

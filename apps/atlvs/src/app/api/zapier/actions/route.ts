@@ -66,7 +66,6 @@ const CreateServiceTicketSchema = z.object({
 
 // GET /api/zapier/actions - List available actions
 export async function GET(request: NextRequest) {
-  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {

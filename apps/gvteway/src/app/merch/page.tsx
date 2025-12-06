@@ -57,7 +57,7 @@ const DEMO_MERCH: MerchItem[] = [
 ];
 
 export default function MerchPage() {
-  const _router = useRouter();
+  const router = useRouter();
   const { addNotification } = useNotifications();
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
@@ -122,7 +122,7 @@ export default function MerchPage() {
             ) : (
               <Grid cols={3} gap={6}>
                 {sortedMerch.map((item) => (
-                  <Card key={item.id} inverted interactive className="p-6">
+                  <Card key={item.id} inverted interactive className="p-6" onClick={() => router.push(`/merch/${item.id}`)}>
                     <Stack gap={4}>
                       <Stack className="aspect-square rounded-card bg-ink-900" />
                       <Stack gap={2} direction="horizontal" className="items-start justify-between">

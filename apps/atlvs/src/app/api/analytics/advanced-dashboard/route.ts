@@ -118,8 +118,9 @@ export async function GET(request: NextRequest) {
       }
 
       // Fetch data for all widgets
+      interface Widget { id: string; type: string; config?: Record<string, unknown> }
       const widgetsWithData = await Promise.all(
-        (dashboard.widgets || []).map(async (widget: any) => {
+        (dashboard.widgets || []).map(async (widget: Widget) => {
           const data = await fetchWidgetData(widget, 'month');
           return { ...widget, data };
         })
@@ -194,7 +195,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create widgets
@@ -231,7 +232,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ widget: newWidget }, { status: 201 });
@@ -264,12 +265,12 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Copy widgets
       if (original.widgets?.length > 0) {
-        const widgetCopies = original.widgets.map((w: any) => ({
+        const widgetCopies = original.widgets.map((w: Record<string, unknown>) => ({
           dashboard_id: copy.id,
           widget_type: w.widget_type,
           title: w.title,
@@ -330,7 +331,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ widget });
@@ -357,7 +358,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ dashboard });
@@ -389,7 +390,7 @@ export async function DELETE(request: NextRequest) {
         .eq('id', widgetId);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -402,7 +403,7 @@ export async function DELETE(request: NextRequest) {
         .eq('id', dashboardId);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -415,7 +416,8 @@ export async function DELETE(request: NextRequest) {
 }
 
 // Helper function to fetch widget data
-async function fetchWidgetData(widget: any, timeRange: string): Promise<any> {
+interface DashboardWidget { id: string; type: string; config?: Record<string, unknown> }
+async function fetchWidgetData(widget: DashboardWidget, timeRange: string): Promise<unknown> {
   const now = new Date();
   let startDate: Date;
 
@@ -538,7 +540,7 @@ async function fetchWidgetData(widget: any, timeRange: string): Promise<any> {
   }
 }
 
-function calculateTrend(data: any[], valueField: string, dateField: string): number {
+function calculateTrend(data: unknown[], valueField: string, dateField: string): number {
   if (data.length < 2) return 0;
 
   const sorted = [...data].sort((a, b) => 

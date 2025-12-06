@@ -15,8 +15,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 
 interface PortfolioProject {
@@ -198,11 +197,17 @@ export default function PortfolioPage() {
         stats={stats}
         emptyMessage="No portfolio projects found"
         emptyAction={{ label: 'Add Project', onClick: () => router.push('/portfolio/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setProjects(prev => prev.filter(p => !ids.includes(p.id)));
+          } else if (action === 'feature') {
+            setProjects(prev => prev.map(p => ids.includes(p.id) ? { ...p, featured: true } : p));
+          }
+        }}
+        bulkActions={[
+          { id: 'feature', label: 'Feature Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

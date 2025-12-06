@@ -199,7 +199,7 @@ export default function BundlesPage() {
                       </Stack>
                     </Stack>
 
-                    <Card className="p-4 bg-ink-50 border">
+                    <Card className="p-4 bg-ink-50 border-2">
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
                           <Label className="text-ink-500">Original</Label>
@@ -422,7 +422,7 @@ export default function BundlesPage() {
               <Stack gap={2}>
                 <Label>Included Products</Label>
                 {selectedBundle.products.map(product => (
-                  <Card key={product.id} className="p-2 border">
+                  <Card key={product.id} className="p-2 border-2">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={2}>
                         {getTypeBadge(product.type)}

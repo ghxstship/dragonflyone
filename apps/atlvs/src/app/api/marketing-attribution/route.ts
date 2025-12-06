@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     const { data: events, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Calculate attribution metrics
@@ -117,7 +117,16 @@ export async function GET(request: NextRequest) {
     });
 
     // Calculate first-touch and last-touch attribution
-    const contactJourneys: Record<string, any[]> = {};
+    interface AttributionEvent {
+      contact_id: string | null;
+      source: string;
+      campaign: string | null;
+      medium: string | null;
+      event_type: string;
+      value: number | null;
+      created_at: string;
+    }
+    const contactJourneys: Record<string, AttributionEvent[]> = {};
     events?.forEach(event => {
       if (event.contact_id) {
         if (!contactJourneys[event.contact_id]) {
@@ -145,6 +154,46 @@ export async function GET(request: NextRequest) {
       }
     });
 
+    // Build response based on report type
+    const baseMetrics = {
+      total_events: events?.length || 0,
+      total_conversions: events?.filter(e => e.event_type === 'conversion').length || 0,
+      total_revenue: events?.filter(e => e.event_type === 'conversion').reduce((sum, e) => sum + (e.value || 0), 0) || 0,
+    };
+
+    if (reportType === 'sources') {
+      return NextResponse.json({
+        ...baseMetrics,
+        by_source: Object.entries(sourceMetrics).map(([source, data]) => ({
+          source,
+          ...data,
+          conversion_rate: data.touches > 0 ? (data.conversions / data.touches * 100).toFixed(2) : 0,
+        })),
+      });
+    }
+
+    if (reportType === 'campaigns') {
+      return NextResponse.json({
+        ...baseMetrics,
+        by_campaign: Object.entries(campaignMetrics).map(([campaign, data]) => ({
+          campaign,
+          ...data,
+          conversion_rate: data.touches > 0 ? (data.conversions / data.touches * 100).toFixed(2) : 0,
+        })),
+      });
+    }
+
+    if (reportType === 'attribution') {
+      return NextResponse.json({
+        ...baseMetrics,
+        attribution_models: {
+          first_touch: firstTouchAttribution,
+          last_touch: lastTouchAttribution,
+        },
+      });
+    }
+
+    // Default: overview - return all data
     return NextResponse.json({
       events: events?.slice(0, 100) || [],
       metrics: {
@@ -168,9 +217,7 @@ export async function GET(request: NextRequest) {
         first_touch: firstTouchAttribution,
         last_touch: lastTouchAttribution,
       },
-      total_events: events?.length || 0,
-      total_conversions: events?.filter(e => e.event_type === 'conversion').length || 0,
-      total_revenue: events?.filter(e => e.event_type === 'conversion').reduce((sum, e) => sum + (e.value || 0), 0) || 0,
+      ...baseMetrics,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch attribution data' }, { status: 500 });
@@ -220,7 +267,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // If this is a conversion, update the contact/deal with attribution data

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Social graph integration (Facebook, Instagram friends)
 export async function GET(request: NextRequest) {
@@ -38,17 +32,17 @@ export async function GET(request: NextRequest) {
     `).eq('user_id', user.id);
 
     // Get friends' upcoming events
-    const friendIds = friends?.map((f: any) => f.friend?.id).filter(Boolean) || [];
-    let friendsEvents: any[] = [];
+    const friendIds = friends?.map((f: Record<string, unknown>) => f.friend?.id).filter(Boolean) || [];
+    let friendsEvents: unknown[] = [];
 
     if (friendIds.length > 0) {
       const { data: orders } = await supabase.from('orders').select(`
         user_id, event:events(*)
       `).in('user_id', friendIds).gte('event.date', new Date().toISOString());
 
-      friendsEvents = orders?.map((o: any) => ({
+      friendsEvents = orders?.map((o: Record<string, unknown>) => ({
         event: o.event,
-        friends_attending: orders.filter((ord: any) => ord.event?.id === o.event?.id).length
+        friends_attending: orders.filter((ord: Record<string, unknown>) => ord.event?.id === o.event?.id).length
       })) || [];
     }
 
@@ -81,7 +75,7 @@ export async function POST(request: NextRequest) {
         connected_at: new Date().toISOString(), status: 'active'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ connection: data }, { status: 201 });
     }
 

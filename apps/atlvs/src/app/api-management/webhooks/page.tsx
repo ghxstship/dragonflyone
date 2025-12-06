@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Webhook, Play, ArrowLeft } from 'lucide-react';
+import { Eye, Pencil, Trash2, Play, ArrowLeft } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useWebhooks, useCreateWebhook, useUpdateWebhook, useDeleteWebhook, type Webhook as WebhookType } from '../../../hooks/useApiManagement';
 import {
@@ -68,7 +68,7 @@ const columns: ListPageColumn<WebhookType>[] = [
     label: 'Failures', 
     accessor: 'failure_count', 
     render: (value) => (
-      <Badge variant={Number(value) > 0 ? 'warning' : 'default'}>
+      <Badge variant={Number(value) > 0 ? 'warning' : 'ghost'}>
         {String(value)}
       </Badge>
     )
@@ -135,7 +135,9 @@ export default function WebhooksPage() {
       id: 'test', 
       label: 'Test', 
       icon: <Play className="size-4" />, 
-      onClick: () => { Logger.info('Test webhook triggered'); }
+      onClick: async (row) => { 
+        await fetch(`/api/webhooks/${row.id}/test`, { method: 'POST' }); 
+      }
     },
     { 
       id: 'delete', 
@@ -148,7 +150,7 @@ export default function WebhooksPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      production_id: productionId || params?.productionId || '',
+      production_id: '',
       name: data.name as string,
       url: data.url as string,
       events: data.events as string[],
@@ -207,7 +209,7 @@ export default function WebhooksPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Failures</Body>
-            <Badge variant={selectedWebhook.failure_count > 0 ? 'warning' : 'default'}>
+            <Badge variant={selectedWebhook.failure_count > 0 ? 'warning' : 'ghost'}>
               {selectedWebhook.failure_count}
             </Badge>
           </Stack>
@@ -257,6 +259,19 @@ export default function WebhooksPage() {
         stats={pageStats}
         emptyMessage="No webhooks configured yet"
         emptyAction={{ label: 'Add First Webhook', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/webhooks/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -267,7 +282,7 @@ export default function WebhooksPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="md"
-        defaultValues={{ events: [], is_active: true }}
+        record={{ events: [], is_active: true }}
       />
 
       <RecordFormModal
@@ -278,7 +293,7 @@ export default function WebhooksPage() {
         fields={formFields}
         onSubmit={handleEdit}
         size="md"
-        defaultValues={selectedWebhook ? {
+        record={selectedWebhook ? {
           name: selectedWebhook.name,
           url: selectedWebhook.url,
           events: selectedWebhook.events,

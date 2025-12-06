@@ -127,13 +127,13 @@ export default function SettlementPage() {
   const totalProfit = mockSettlements.reduce((sum, s) => sum + s.grossProfit, 0);
   const avgMargin = (mockSettlements.reduce((sum, s) => sum + s.marginPct, 0) / mockSettlements.length).toFixed(1);
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
-      case "Finalized": return "text-success-400";
-      case "Approved": return "text-info-400";
-      case "Pending Review": return "text-warning-400";
-      case "Draft": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Finalized": return "success";
+      case "Approved": return "info";
+      case "Pending Review": return "warning";
+      case "Draft": return "ghost";
+      default: return "ghost";
     }
   };
 
@@ -142,8 +142,8 @@ export default function SettlementPage() {
       <EnterprisePageHeader
         title="Post-Production Settlement"
         subtitle="Financial closeout and settlement for completed projects"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -177,7 +177,7 @@ export default function SettlementPage() {
                               <Body className="font-display">{settlement.projectName}</Body>
                               <Body className="text-body-sm">Event Date: {settlement.eventDate}</Body>
                             </Stack>
-                            <Badge variant={settlement.status === "Finalized" ? "solid" : "outline"}>{settlement.status}</Badge>
+                            <Badge variant={getStatusVariant(settlement.status)}>{settlement.status}</Badge>
                           </Stack>
 
                           <Grid cols={4} gap={4}>
@@ -258,7 +258,7 @@ export default function SettlementPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Status</Body>
-                  <Badge variant={selectedSettlement.status === "Finalized" ? "solid" : "outline"}>{selectedSettlement.status}</Badge>
+                  <Badge variant={getStatusVariant(selectedSettlement.status)}>{selectedSettlement.status}</Badge>
                 </Stack>
               </Grid>
 

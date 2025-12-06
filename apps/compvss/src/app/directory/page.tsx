@@ -21,6 +21,25 @@ import {
 } from '@ghxstship/ui';
 import { useCrew } from '../../hooks/useCrew';
 
+interface DirectoryMember {
+  id: string;
+  name?: string;
+  full_name?: string;
+  role?: string;
+  department?: string;
+  email?: string;
+  phone?: string;
+  skills?: string[];
+  languages?: string[];
+  specialty?: string;
+  status?: string;
+  avatar_url?: string;
+  location?: string;
+  certifications?: string[];
+  rating?: number;
+  availability?: string;
+}
+
 // Available languages for filtering
 const LANGUAGES = [
   { value: 'all', label: 'All Languages' },
@@ -96,7 +115,7 @@ export default function DirectoryPage() {
     const specialties = new Set<string>();
     const departments = new Set<string>();
     
-    crew.forEach((member: any) => {
+    crew.forEach((member: DirectoryMember) => {
       if (member.languages) {
         (Array.isArray(member.languages) ? member.languages : [member.languages]).forEach((lang: string) => {
           if (lang) languages.add(lang.toLowerCase());
@@ -119,7 +138,7 @@ export default function DirectoryPage() {
   }, [crew]);
 
   const filtered = useMemo(() => {
-    return (crew || []).filter((item: any) => {
+    return (crew || []).filter((item: DirectoryMember) => {
       // Search term filter
       const searchFields = [
         item.name,
@@ -211,8 +230,8 @@ export default function DirectoryPage() {
       <EnterprisePageHeader
         title="Directory"
         subtitle="Search and filter crew, vendors, and venues by language, specialty, and more"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -248,7 +267,7 @@ export default function DirectoryPage() {
                   </Select>
                 </Field>
 
-                <Field label="Specialty">
+                <Field label={`Specialty (${filterOptions.specialties.length} found)`}>
                   <Select value={specialtyFilter} onChange={(e) => setSpecialtyFilter(e.target.value)}>
                     {SPECIALTIES.map((spec) => (
                       <option key={spec.value} value={spec.value}>{spec.label}</option>
@@ -345,7 +364,7 @@ export default function DirectoryPage() {
                 </Stack>
               </Card>
             ) : (
-              filtered.map((item: any) => (
+              filtered.map((item: DirectoryMember) => (
                 <Card key={item.id} className="p-6">
                   <Grid cols={4} gap={4}>
                     <Stack gap={2}>

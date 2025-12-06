@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (rfpId) query = query.eq('rfp_id', rfpId);
 
     const { data, error } = await query.order('submitted_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ submissions: data });
   } catch (error) {
@@ -55,12 +55,12 @@ export async function POST(request: NextRequest) {
       submitted_by: user.id, submitted_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Add attachments
     if (attachments?.length) {
       await supabase.from('bid_attachments').insert(
-        attachments.map((a: any) => ({ submission_id: submission.id, name: a.name, url: a.url, type: a.type }))
+        attachments.map((a: Record<string, unknown>) => ({ submission_id: submission.id, name: a.name, url: a.url, type: a.type }))
       );
     }
 

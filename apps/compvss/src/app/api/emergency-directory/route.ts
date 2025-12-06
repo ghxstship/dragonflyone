@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error } = await query.order('priority', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ contacts: data });
   } catch (error) {
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       venue_id, category, name, phone, address, notes, priority: priority || 1
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ contact: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
  * GET /api/advancing/catalog/categories
  * Get unique categories and subcategories from catalog
  */
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const supabase = createAdminClient();
   try {
 

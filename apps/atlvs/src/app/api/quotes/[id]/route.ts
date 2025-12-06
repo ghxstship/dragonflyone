@@ -65,18 +65,19 @@ export async function GET(
     }
 
     // Calculate totals
-    const lineItems = quote.line_items || [];
-    const selectedItems = lineItems.filter((item: any) => item.is_selected);
+    interface QuoteItem { is_selected?: boolean; taxable?: boolean; quantity: number; unit_price: number; discount_amount?: number; discount_percentage?: number }
+    const lineItems = (quote.line_items || []) as QuoteItem[];
+    const selectedItems = lineItems.filter((item: QuoteItem) => item.is_selected);
     
-    const subtotal = selectedItems.reduce((sum: number, item: any) => {
+    const subtotal = selectedItems.reduce((sum: number, item: QuoteItem) => {
       const itemTotal = item.quantity * item.unit_price;
       const itemDiscount = item.discount_amount || (itemTotal * (item.discount_percentage || 0) / 100);
       return sum + (itemTotal - itemDiscount);
     }, 0);
 
     const taxableAmount = selectedItems
-      .filter((item: any) => item.taxable)
-      .reduce((sum: number, item: any) => {
+      .filter((item: QuoteItem) => item.taxable)
+      .reduce((sum: number, item: QuoteItem) => {
         const itemTotal = item.quantity * item.unit_price;
         const itemDiscount = item.discount_amount || (itemTotal * (item.discount_percentage || 0) / 100);
         return sum + (itemTotal - itemDiscount);
@@ -122,8 +123,8 @@ export async function GET(
         discount_amount: quoteDiscount,
         total_amount: totalAmount,
         optional_items_total: lineItems
-          .filter((item: any) => item.is_optional && !item.is_selected)
-          .reduce((sum: number, item: any) => sum + (item.quantity * item.unit_price), 0),
+          .filter((item: QuoteItem & { is_optional?: boolean }) => item.is_optional && !item.is_selected)
+          .reduce((sum: number, item: QuoteItem) => sum + (item.quantity * item.unit_price), 0),
       },
       history,
     });
@@ -200,8 +201,8 @@ export async function PUT(
         .select('id')
         .eq('quote_id', id);
 
-      const existingIds = new Set((existingItems || []).map((item: any) => item.id));
-      const newIds = new Set(line_items.filter((item: any) => item.id).map((item: any) => item.id));
+      const existingIds = new Set((existingItems || []).map((item: Record<string, unknown>) => item.id));
+      const newIds = new Set(line_items.filter((item: Record<string, unknown>) => item.id).map((item: Record<string, unknown>) => item.id));
 
       // Delete removed items
       const idsToDelete = [...existingIds].filter(existingId => !newIds.has(existingId));
@@ -239,7 +240,7 @@ export async function PUT(
       p_quote_id: id,
       p_activity_type: 'updated',
       p_user_id: userId,
-      p_description: 'Quote updated',
+      p_description: `Quote updated to version ${updatedQuote?.version || 'unknown'}`,
       p_changes: JSON.stringify(quoteData),
     });
 
@@ -417,7 +418,7 @@ export async function PATCH(
           await supabase
             .from('quote_line_items')
             .insert(
-              lineItems.map((item: any) => ({
+              lineItems.map((item: Record<string, unknown>) => ({
                 ...item,
                 id: undefined,
                 quote_id: newQuote.id,
@@ -512,7 +513,7 @@ export async function PATCH(
           await supabase
             .from('quote_line_items')
             .insert(
-              lineItems.map((item: any) => ({
+              lineItems.map((item: Record<string, unknown>) => ({
                 ...item,
                 id: undefined,
                 quote_id: revision.id,

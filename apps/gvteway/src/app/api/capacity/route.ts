@@ -15,8 +15,8 @@ function getSupabaseClient() {
 
 // Lazy getter for supabase client - only accessed at runtime
 const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
+  get(_target, prop: keyof ReturnType<typeof getSupabaseClient>) {
+    return getSupabaseClient()[prop];
   }
 });
 
@@ -105,8 +105,9 @@ export const GET = apiRoute(
 );
 
 // POST - Configure capacity or log entry/exit
+interface ZoneData { zone_name: string; capacity: number; current_occupancy: number }
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest) => {
     const body = await request.json();
     const { action } = body;
 
@@ -124,7 +125,7 @@ export const POST = apiRoute(
         return NextResponse.json({ error: 'Configuration not found' }, { status: 404 });
       }
 
-      const zones = config.zones.map((zone: any) => {
+      const zones = config.zones.map((zone: ZoneData) => {
         if (zone.zone_name === zone_name) {
           return {
             ...zone,
@@ -149,8 +150,8 @@ export const POST = apiRoute(
       });
 
       // Check if threshold reached
-      const totalOccupancy = zones.reduce((sum: number, z: any) => sum + z.current_occupancy, 0);
-      const totalCapacity = zones.reduce((sum: number, z: any) => sum + z.capacity, 0);
+      const totalOccupancy = zones.reduce((sum: number, z: ZoneData) => sum + z.current_occupancy, 0);
+      const totalCapacity = zones.reduce((sum: number, z: ZoneData) => sum + z.capacity, 0);
       const percentage = (totalOccupancy / totalCapacity) * 100;
 
       if (percentage >= 90) {
@@ -177,7 +178,7 @@ export const POST = apiRoute(
         return NextResponse.json({ error: 'Configuration not found' }, { status: 404 });
       }
 
-      const zones = config.zones.map((zone: any) => {
+      const zones = config.zones.map((zone: ZoneData) => {
         if (zone.zone_name === zone_name) {
           return {
             ...zone,
@@ -241,7 +242,7 @@ async function getRealTimeCapacity(eventId: string) {
 
   if (!config) return null;
 
-  const totalOccupancy = config.zones.reduce((sum: number, z: any) => sum + z.current_occupancy, 0);
+  const totalOccupancy = config.zones.reduce((sum: number, z: ZoneData) => sum + z.current_occupancy, 0);
   const totalCapacity = config.total_capacity;
   const percentage = (totalOccupancy / totalCapacity) * 100;
 
@@ -278,8 +279,9 @@ async function getCapacityAnalytics(eventId: string) {
     };
   }
 
-  const entries = logs.filter((l: any) => l.action === 'entry');
-  const exits = logs.filter((l: any) => l.action === 'exit');
+  interface CapacityLog { action: string; count: number; logged_at: string }
+  const entries = logs.filter((l: CapacityLog) => l.action === 'entry');
+  const exits = logs.filter((l: CapacityLog) => l.action === 'exit');
 
   // Calculate running occupancy
   let currentOccupancy = 0;
@@ -308,8 +310,8 @@ async function getCapacityAnalytics(eventId: string) {
     peak_occupancy: peakOccupancy,
     peak_time: peakTime,
     average_occupancy: Math.round(avgOccupancy),
-    total_entries: entries.reduce((sum: number, e: any) => sum + e.count, 0),
-    total_exits: exits.reduce((sum: number, e: any) => sum + e.count, 0),
+    total_entries: entries.reduce((sum: number, e: CapacityLog) => sum + e.count, 0),
+    total_exits: exits.reduce((sum: number, e: CapacityLog) => sum + e.count, 0),
     occupancy_trend: occupancies
   };
 }
@@ -382,7 +384,7 @@ export const DELETE = apiRoute(
       .single();
 
     if (config) {
-      const resetZones = config.zones.map((zone: any) => ({
+      const resetZones = config.zones.map((zone: ZoneData) => ({
         ...zone,
         current_occupancy: 0
       }));

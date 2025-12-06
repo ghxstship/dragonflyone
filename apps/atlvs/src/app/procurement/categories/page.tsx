@@ -28,7 +28,6 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  ProgressBar,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
@@ -104,8 +103,8 @@ export default function CategoryManagementPage() {
       <EnterprisePageHeader
         title="Category Management"
         subtitle="Manage spend categories and sourcing strategies"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -291,6 +290,46 @@ export default function CategoryManagementPage() {
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedCategory(null)}>Close</Button>
           <Button variant="solid">Edit Category</Button>
+        </ModalFooter>
+      </Modal>
+
+      <Modal open={!!selectedStrategy} onClose={() => setSelectedStrategy(null)}>
+        <ModalHeader><H3>Strategy: {selectedStrategy?.categoryName}</H3></ModalHeader>
+        <ModalBody>
+          {selectedStrategy && (
+            <Stack gap={4}>
+              <Stack gap={1}>
+                <Label className="text-ink-400">Objective</Label>
+                <Body className="text-white">{selectedStrategy.objective}</Body>
+              </Stack>
+              <Stack gap={1}>
+                <Label className="text-ink-400">Approach</Label>
+                <Body className="text-white">{selectedStrategy.approach}</Body>
+              </Stack>
+              <Grid cols={2} gap={4}>
+                <Stack gap={1}>
+                  <Label className="text-ink-400">Target Savings</Label>
+                  <Label className="font-mono text-white text-h6-md">{selectedStrategy.targetSavings}%</Label>
+                </Stack>
+                <Stack gap={1}>
+                  <Label className="text-ink-400">Status</Label>
+                  <Badge variant="outline" className={getStatusColor(selectedStrategy.status)}>{selectedStrategy.status}</Badge>
+                </Stack>
+              </Grid>
+              <Stack gap={1}>
+                <Label className="text-ink-400">Key Initiatives</Label>
+                <Stack gap={2}>
+                  {selectedStrategy.initiatives.map((init, idx) => (
+                    <Body key={idx} className="text-white">• {init}</Body>
+                  ))}
+                </Stack>
+              </Stack>
+            </Stack>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setSelectedStrategy(null)}>Close</Button>
+          <Button variant="solid">Edit Strategy</Button>
         </ModalFooter>
       </Modal>
           </Stack>

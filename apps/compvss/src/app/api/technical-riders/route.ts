@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ riders: data });
@@ -95,8 +95,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Add items
+    interface RiderItem { category: string; item_name: string; quantity?: number; specifications?: string; is_required?: boolean; is_provided?: boolean; substitute_allowed?: boolean; substitute_notes?: string }
     if (items && items.length > 0) {
-      const itemRecords = items.map((item: any, index: number) => ({
+      const itemRecords = items.map((item: RiderItem, index: number) => ({
         rider_id: rider.id,
         category: item.category,
         item_name: item.item_name,
@@ -114,7 +115,7 @@ export async function POST(request: NextRequest) {
 
     // Add notes
     if (notes && notes.length > 0) {
-      const noteRecords = notes.map((note: any) => ({
+      const noteRecords = notes.map((note: Record<string, unknown>) => ({
         rider_id: rider.id,
         section: note.section,
         content: note.content,
@@ -158,7 +159,7 @@ export async function PATCH(request: NextRequest) {
         .eq('id', item_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -201,7 +202,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', rider_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

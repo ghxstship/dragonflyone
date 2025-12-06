@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch interactive venue map data
 export async function GET(
@@ -43,7 +37,7 @@ export async function GET(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Fetch sections and amenities
@@ -119,7 +113,7 @@ export async function POST(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Update sections if provided
@@ -130,7 +124,7 @@ export async function POST(
         .eq('venue_id', params.id);
 
       await supabase.from('venue_sections').insert(
-        sections.map((s: any) => ({
+        sections.map((s: Record<string, unknown>) => ({
           venue_id: params.id,
           ...s,
         }))
@@ -145,7 +139,7 @@ export async function POST(
         .eq('venue_id', params.id);
 
       await supabase.from('venue_amenities').insert(
-        amenity_locations.map((a: any) => ({
+        amenity_locations.map((a: Record<string, unknown>) => ({
           venue_id: params.id,
           ...a,
         }))

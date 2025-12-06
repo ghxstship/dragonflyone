@@ -103,27 +103,33 @@ export const GET = apiRoute(
       };
     }
 
-    // Cast to any to work around Supabase type generation issues
-    const projectsData = (projects || []) as any[];
-    const dealsData = (deals || []) as any[];
-    const revenueData = (revenue || []) as any[];
-    const expensesData = (expenses || []) as any[];
-    const assetsData = (assets || []) as any[];
-    const employeesData = (employees || []) as any[];
+    // Define interfaces for dashboard data
+    interface ProjectRecord { status: string; budget?: number }
+    interface DealRecord { status: string; value?: number }
+    interface RevenueRecord { amount?: number }
+    interface ExpenseRecord { amount?: number }
+    interface AssetRecord { status: string; current_value?: number }
+    interface EmployeeRecord { status: string }
+    const projectsData = (projects || []) as ProjectRecord[];
+    const dealsData = (deals || []) as DealRecord[];
+    const revenueData = (revenue || []) as RevenueRecord[];
+    const expensesData = (expenses || []) as ExpenseRecord[];
+    const assetsData = (assets || []) as AssetRecord[];
+    const employeesData = (employees || []) as EmployeeRecord[];
 
     const currentMetrics = {
       projects: {
         total: projectsData.length,
-        active: projectsData.filter(p => p.status === 'active').length,
-        completed: projectsData.filter(p => p.status === 'completed').length,
-        totalBudget: projectsData.reduce((sum, p) => sum + (p.budget || 0), 0),
+        active: projectsData.filter((p: ProjectRecord) => p.status === 'active').length,
+        completed: projectsData.filter((p: ProjectRecord) => p.status === 'completed').length,
+        totalBudget: projectsData.reduce((sum: number, p: ProjectRecord) => sum + (p.budget || 0), 0),
       },
       deals: {
         total: dealsData.length,
-        won: dealsData.filter(d => d.status === 'won').length,
-        lost: dealsData.filter(d => d.status === 'lost').length,
-        pipeline: dealsData.filter(d => !['won', 'lost'].includes(d.status)).length,
-        totalValue: dealsData.reduce((sum, d) => sum + (d.value || 0), 0),
+        won: dealsData.filter((d: DealRecord) => d.status === 'won').length,
+        lost: dealsData.filter((d: DealRecord) => d.status === 'lost').length,
+        pipeline: dealsData.filter((d: DealRecord) => !['won', 'lost'].includes(d.status)).length,
+        totalValue: dealsData.reduce((sum: number, d: DealRecord) => sum + (d.value || 0), 0),
         wonValue: dealsData.filter(d => d.status === 'won').reduce((sum, d) => sum + (d.value || 0), 0),
       },
       financial: {

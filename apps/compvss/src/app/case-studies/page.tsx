@@ -63,8 +63,8 @@ export default function CaseStudiesPage() {
       <EnterprisePageHeader
         title="Case Studies"
         subtitle="Project post-mortems and lessons learned"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

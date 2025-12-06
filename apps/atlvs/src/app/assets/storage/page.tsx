@@ -118,11 +118,18 @@ export default function StorageOptimizationPage() {
         })}
         stats={stats}
         emptyMessage="No locations found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/assets/storage/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -134,7 +141,7 @@ export default function StorageOptimizationPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.type} • ${r.climate} • ${Math.round((r.used / r.capacity) * 100)}% utilized`}
           sections={detailSections}
-          actions={[{ id: 'assets', label: 'View Assets', icon: '📦' }]}
+          actions={[{ id: 'assets', label: 'View Assets', icon: <Package className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'assets') router.push(`/assets?location=${r.id}`); setDrawerOpen(false); }}
         />
       )}

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createAdminClient, fromDynamic } from '@/lib/supabase';
+import { createAdminClient } from '@/lib/supabase';
 
 // Validation schema
 const riskSchema = z.object({

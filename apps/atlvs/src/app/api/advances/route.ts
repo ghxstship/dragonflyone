@@ -62,13 +62,13 @@ export const GET = apiRoute(
       const { data, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Apply priority filtering if requested
       let filteredData = data;
       if (priority && data) {
-        filteredData = data.filter((advance: any) => {
+        filteredData = data.filter((advance: Record<string, unknown>) => {
           const cost = advance.estimated_cost || 0;
           if (priority === 'high') return cost >= 10000;
           if (priority === 'medium') return cost >= 1000 && cost < 10000;
@@ -83,8 +83,8 @@ export const GET = apiRoute(
         limit,
         offset
       });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

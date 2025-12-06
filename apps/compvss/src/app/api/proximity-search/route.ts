@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from(table).select('*')
       .not('latitude', 'is', null).not('longitude', 'is', null);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate distances and filter
     const results = data?.map(entity => {

@@ -21,7 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface MaintenanceItem {
   id: string;
@@ -101,6 +101,26 @@ export default function MaintenancePage() {
     refetch?.();
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<MaintenanceItem, 'id'>>({
+    entityType: 'maintenance',
+    requiredFields: ['equipment_name', 'type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/maintenance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('maintenance').length > 0 
+    ? getImportTemplates('maintenance') 
+    : [{ id: 'default', name: 'Maintenance Import', mapping: { equipment_name: 'equipment_name', type: 'type', priority: 'priority', status: 'status', next_due: 'next_due' } }];
+
   const stats = [
     { label: 'Total Items', value: items.length },
     { label: 'In Progress', value: inProgressCount },
@@ -126,12 +146,7 @@ export default function MaintenancePage() {
       <EnterprisePageHeader
         title="Equipment Maintenance"
         subtitle="Track and schedule equipment maintenance tasks"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -152,6 +167,9 @@ export default function MaintenancePage() {
           createLabel="Schedule Maintenance"
           onCreate={() => setCreateModalOpen(true)}
           entityType="maintenance"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['equipment_name', 'type', 'priority', 'status', 'next_due']}
           onExport={createExportHandler({
             filename: "maintenance",
             getData: () => items.map(i => ({
@@ -167,6 +185,27 @@ export default function MaintenancePage() {
           stats={stats}
           emptyMessage="No maintenance records found"
           emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/maintenance/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch?.();
+            } else if (action === 'complete') {
+              await fetch('/api/maintenance/bulk-complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch?.();
+            }
+          }}
+          bulkActions={[
+            { id: 'complete', label: 'Complete Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
 

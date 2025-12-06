@@ -32,9 +32,13 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     const includeEnrollments = searchParams.get('include_enrollments') === 'true';
 
+    const selectQuery = includeEnrollments
+      ? `*, enrollments:training_enrollments(id, user_id, status, enrolled_at)`
+      : '*';
+
     let query = supabase
       .from('training_programs')
-      .select('*')
+      .select(selectQuery)
       .order('start_date', { ascending: true });
 
     if (category) {
@@ -67,9 +71,10 @@ export async function GET(request: NextRequest) {
       .limit(10);
 
     // Calculate summary statistics
-    const programList = programs as any[] || [];
-    const activePrograms = programList.filter(p => p.status === 'active');
-    const totalEnrolled = programList.reduce((sum, p) => sum + (p.enrolled_count || 0), 0);
+    interface TrainingProgram { status: string; enrolled_count?: number; category?: string }
+    const programList = (programs || []) as TrainingProgram[];
+    const activePrograms = programList.filter((p: TrainingProgram) => p.status === 'active');
+    const totalEnrolled = programList.reduce((sum: number, p: TrainingProgram) => sum + (p.enrolled_count || 0), 0);
 
     const summary = {
       total_programs: programList.length,

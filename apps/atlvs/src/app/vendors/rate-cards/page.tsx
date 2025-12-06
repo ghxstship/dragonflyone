@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface RateItem {
   id: string;
@@ -128,6 +128,25 @@ export default function RateCardsPage() {
     { id: "quote", label: "Create Quote", icon: "📝", onClick: (r) => router.push(`/vendors/rate-cards/${r.id}/quote`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'rate-cards',
+    requiredFields: ['vendorName', 'category'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/vendors/rate-cards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('rate-cards').length > 0 
+    ? getImportTemplates('rate-cards') 
+    : [{ id: 'default', name: 'Rate Card Import', mapping: { vendorName: 'vendorName', category: 'category', effectiveDate: 'effectiveDate', expirationDate: 'expirationDate' } }];
+
   const stats = [
     { label: "Total Rate Cards", value: rateCards.length },
     { label: "Active", value: activeCards },
@@ -174,6 +193,9 @@ export default function RateCardsPage() {
         createLabel="Request New Rate Card"
         onCreate={() => router.push("/vendors/rate-cards/request")}
         entityType="rate-cards"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['vendorName', 'category', 'effectiveDate', 'expirationDate']}
         onExport={createExportHandler({
           filename: "rate-cards",
           getData: () => rateCards.map(r => ({
@@ -188,11 +210,25 @@ export default function RateCardsPage() {
         })}
         stats={stats}
         emptyMessage="No rate cards found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/vendors/rate-cards/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/vendors/rate-cards/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

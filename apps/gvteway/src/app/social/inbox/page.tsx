@@ -154,7 +154,7 @@ export default function SocialInboxPage() {
                 <Label className="font-weight-bold">{selectedMessage.author}</Label>
                 <Label className="text-ink-500">{selectedMessage.authorHandle}</Label>
               </Stack>
-              <Card className="p-4 border border-ink-200 bg-ink-50">
+              <Card className="p-4 border-2 border-ink-200 bg-ink-50">
                 <Body>{selectedMessage.content}</Body>
               </Card>
               <Label className="text-ink-500">{selectedMessage.timestamp}</Label>

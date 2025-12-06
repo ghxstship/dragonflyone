@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -47,9 +47,28 @@ const MOCK_ASSETS: Asset[] = [
 
 export default function ProductionAssetsPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [assets] = useState(MOCK_ASSETS);
+  const productionId = params?.productionId as string;
+  const [assets, setAssets] = useState<Asset[]>(MOCK_ASSETS);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchAssets = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/assets`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.assets && data.assets.length > 0) {
+          setAssets(data.assets);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch assets:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchAssets();
+  }, [fetchAssets]);
 
   const totalValue = assets.reduce((sum, a) => sum + a.value, 0);
   const inUseCount = assets.filter(a => a.status === 'in-use').length;

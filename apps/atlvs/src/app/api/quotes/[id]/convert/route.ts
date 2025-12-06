@@ -51,18 +51,19 @@ export async function POST(
     }
 
     // Calculate totals
-    const lineItems = quote.line_items || [];
-    const selectedItems = lineItems.filter((item: any) => item.is_selected);
+    interface ConvertQuoteItem { is_selected?: boolean; taxable?: boolean; quantity: number; unit_price: number; discount_amount?: number; discount_percentage?: number; item_name?: string; description?: string; sort_order?: number }
+    const lineItems = (quote.line_items || []) as ConvertQuoteItem[];
+    const selectedItems = lineItems.filter((item: ConvertQuoteItem) => item.is_selected);
     
-    const subtotal = selectedItems.reduce((sum: number, item: any) => {
+    const subtotal = selectedItems.reduce((sum: number, item: ConvertQuoteItem) => {
       const itemTotal = item.quantity * item.unit_price;
       const itemDiscount = item.discount_amount || (itemTotal * (item.discount_percentage || 0) / 100);
       return sum + (itemTotal - itemDiscount);
     }, 0);
 
     const taxableAmount = selectedItems
-      .filter((item: any) => item.taxable)
-      .reduce((sum: number, item: any) => {
+      .filter((item: ConvertQuoteItem) => item.taxable)
+      .reduce((sum: number, item: ConvertQuoteItem) => {
         const itemTotal = item.quantity * item.unit_price;
         const itemDiscount = item.discount_amount || (itemTotal * (item.discount_percentage || 0) / 100);
         return sum + (itemTotal - itemDiscount);
@@ -117,10 +118,10 @@ export async function POST(
           await supabase
             .from('contract_line_items')
             .insert(
-              selectedItems.map((item: any, index: number) => ({
+              selectedItems.map((item: ConvertQuoteItem & { item_type?: string; name?: string; unit_of_measure?: string }, index: number) => ({
                 contract_id: contract.id,
                 item_type: item.item_type,
-                name: item.name,
+                name: item.name || item.item_name,
                 description: item.description,
                 quantity: item.quantity,
                 unit_price: item.unit_price,
@@ -203,9 +204,9 @@ export async function POST(
           await supabase
             .from('invoice_line_items')
             .insert(
-              selectedItems.map((item: any, index: number) => ({
+              selectedItems.map((item: ConvertQuoteItem & { name?: string }, index: number) => ({
                 invoice_id: invoice.id,
-                description: `${item.name}${item.description ? ` - ${item.description}` : ''}`,
+                description: `${item.name || item.item_name}${item.description ? ` - ${item.description}` : ''}`,
                 quantity: item.quantity,
                 unit_price: item.unit_price,
                 amount: item.quantity * item.unit_price,
@@ -273,7 +274,7 @@ export async function POST(
           await supabase
             .from('project_budget_items')
             .insert(
-              selectedItems.map((item: any) => ({
+              selectedItems.map((item: Record<string, unknown>) => ({
                 project_id: project.id,
                 category: item.item_type,
                 name: item.name,

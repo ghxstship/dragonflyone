@@ -52,7 +52,7 @@ const columns: ListPageColumn<ExpenseCategory>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -145,7 +145,9 @@ export default function ExpenseCategoriesPage() {
   };
 
   const handleDelete = async () => {
-    Logger.info("Delete action triggered");
+    if (categoryToDelete) {
+      await fetch(`/api/expense-categories/${categoryToDelete.id}`, { method: 'DELETE' });
+    }
     setDeleteDialogOpen(false);
     setCategoryToDelete(null);
     refetch();
@@ -170,7 +172,7 @@ export default function ExpenseCategoriesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={selectedCategory.is_active ? 'success' : 'default'}>
+            <Badge variant={selectedCategory.is_active ? 'success' : 'ghost'}>
               {selectedCategory.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
@@ -208,6 +210,19 @@ export default function ExpenseCategoriesPage() {
         stats={pageStats}
         emptyMessage="No expense categories yet"
         emptyAction={{ label: 'Create First Category', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/expense-categories/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -218,7 +233,7 @@ export default function ExpenseCategoriesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="md"
-        defaultValues={{ is_active: true }}
+        record={{ is_active: true }}
       />
 
       <RecordFormModal
@@ -229,7 +244,7 @@ export default function ExpenseCategoriesPage() {
         fields={formFields}
         onSubmit={handleEdit}
         size="md"
-        defaultValues={selectedCategory ? {
+        record={selectedCategory ? {
           name: selectedCategory.name,
           description: selectedCategory.description,
           budget_amount: selectedCategory.budget_amount,

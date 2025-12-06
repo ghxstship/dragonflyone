@@ -20,11 +20,12 @@ export async function GET(request: NextRequest) {
     if (search) query = query.ilike('title', `%${search}%`);
 
     const { data, error } = await query.order('title', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by discipline
-    const byDiscipline: Record<string, any[]> = {};
-    data?.forEach(bp => {
+    interface BestPractice { id: string; title: string; discipline: string }
+    const byDiscipline: Record<string, BestPractice[]> = {};
+    data?.forEach((bp: BestPractice) => {
       if (!byDiscipline[bp.discipline]) byDiscipline[bp.discipline] = [];
       byDiscipline[bp.discipline].push(bp);
     });
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
       resources: resources || [], published: false, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ best_practice: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

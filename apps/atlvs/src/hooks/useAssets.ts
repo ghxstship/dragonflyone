@@ -14,7 +14,7 @@ export interface Asset {
   assigned_to?: string;
   depreciation_rate?: number;
   current_value?: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

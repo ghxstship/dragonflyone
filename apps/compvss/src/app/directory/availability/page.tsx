@@ -64,8 +64,8 @@ export default function AvailabilityPage() {
       <EnterprisePageHeader
         title="Availability Calendar"
         subtitle="Crew availability integration with calendars"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -76,30 +70,38 @@ export async function GET(
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
 
-    const eventProgram = (event.event_programs as any[])?.[0];
+    interface ProgramInfo { id: string; sections?: unknown[] }
+    interface ProgramVenueInfo { name?: string }
+    interface PerformerInfo { id: string; name: string; role?: string; image?: string; bio?: string; order_index: number }
+    interface SponsorInfo { name: string; logo?: string; tier?: string; order_index: number }
+    const programs = (event.event_programs || []) as ProgramInfo[];
+    const eventProgram = programs[0];
 
     if (!eventProgram) {
       // Return default program structure if none exists
+      const venue = event.venues as ProgramVenueInfo | null;
+      const performers = (event.event_performers || []) as PerformerInfo[];
+      const sponsors = (event.event_sponsors || []) as SponsorInfo[];
       return NextResponse.json({
         program: {
           event_id: event.id,
           event_title: event.title,
           event_date: event.date,
-          venue_name: (event.venues as any)?.name,
+          venue_name: venue?.name,
           program_notes: null,
           sections: [],
-          performers: ((event.event_performers as any[]) || [])
-            .sort((a, b) => a.order_index - b.order_index)
-            .map(p => ({
+          performers: performers
+            .sort((a: PerformerInfo, b: PerformerInfo) => a.order_index - b.order_index)
+            .map((p: PerformerInfo) => ({
               id: p.id,
               name: p.name,
               role: p.role,
               image: p.image,
               bio: p.bio,
             })),
-          sponsors: ((event.event_sponsors as any[]) || [])
-            .sort((a, b) => a.order_index - b.order_index)
-            .map(s => ({
+          sponsors: sponsors
+            .sort((a: SponsorInfo, b: SponsorInfo) => a.order_index - b.order_index)
+            .map((s: SponsorInfo) => ({
               name: s.name,
               logo: s.logo,
               tier: s.tier,
@@ -108,43 +110,52 @@ export async function GET(
       });
     }
 
+    interface SectionItem { id: string; order_index: number; title: string; artist?: string; duration?: number; notes?: string; is_encore?: boolean }
+    interface ProgramSection { id: string; title: string; start_time?: string; description?: string; order_index: number; setlist_items?: SectionItem[] }
+    const venueInfo = event.venues as ProgramVenueInfo | null;
+    const sections = ((eventProgram as { program_sections?: ProgramSection[] }).program_sections || []) as ProgramSection[];
+    const eventPerformers = (event.event_performers || []) as PerformerInfo[];
+    const eventSponsors = (event.event_sponsors || []) as SponsorInfo[];
     const program = {
       event_id: event.id,
       event_title: event.title,
       event_date: event.date,
-      venue_name: (event.venues as any)?.name,
-      program_notes: eventProgram.notes,
-      sections: ((eventProgram.program_sections as any[]) || [])
-        .sort((a, b) => a.order_index - b.order_index)
-        .map(section => ({
-          id: section.id,
-          title: section.title,
-          start_time: section.start_time,
-          description: section.description,
-          items: ((section.setlist_items as any[]) || [])
-            .sort((a, b) => a.order_index - b.order_index)
-            .map(item => ({
-              id: item.id,
-              order: item.order_index,
-              title: item.title,
-              artist: item.artist,
-              duration: item.duration,
-              notes: item.notes,
-              is_encore: item.is_encore,
-            })),
-        })),
-      performers: ((event.event_performers as any[]) || [])
-        .sort((a, b) => a.order_index - b.order_index)
-        .map(p => ({
+      venue_name: venueInfo?.name,
+      program_notes: (eventProgram as { notes?: string }).notes,
+      sections: sections
+        .sort((a: ProgramSection, b: ProgramSection) => a.order_index - b.order_index)
+        .map((section: ProgramSection) => {
+          const items = (section.setlist_items || []) as SectionItem[];
+          return {
+            id: section.id,
+            title: section.title,
+            start_time: section.start_time,
+            description: section.description,
+            items: items
+              .sort((a: SectionItem, b: SectionItem) => a.order_index - b.order_index)
+              .map((item: SectionItem) => ({
+                id: item.id,
+                order: item.order_index,
+                title: item.title,
+                artist: item.artist,
+                duration: item.duration,
+                notes: item.notes,
+                is_encore: item.is_encore,
+              })),
+          };
+        }),
+      performers: eventPerformers
+        .sort((a: PerformerInfo, b: PerformerInfo) => a.order_index - b.order_index)
+        .map((p: PerformerInfo) => ({
           id: p.id,
           name: p.name,
           role: p.role,
           image: p.image,
           bio: p.bio,
         })),
-      sponsors: ((event.event_sponsors as any[]) || [])
-        .sort((a, b) => a.order_index - b.order_index)
-        .map(s => ({
+      sponsors: eventSponsors
+        .sort((a: SponsorInfo, b: SponsorInfo) => a.order_index - b.order_index)
+        .map((s: SponsorInfo) => ({
           name: s.name,
           logo: s.logo,
           tier: s.tier,

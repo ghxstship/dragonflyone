@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('scheduled_date', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ schedules: data });
@@ -97,8 +97,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Add tasks
+    interface LoadTask { title: string; description?: string; department?: string; assigned_to?: string; start_time?: string; duration_minutes?: number; dependencies?: string[] }
     if (tasks && tasks.length > 0) {
-      const taskRecords = tasks.map((task: any, index: number) => ({
+      const taskRecords = tasks.map((task: LoadTask, index: number) => ({
         schedule_id: schedule.id,
         title: task.title,
         description: task.description,
@@ -116,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     // Add truck assignments
     if (truck_assignments && truck_assignments.length > 0) {
-      const truckRecords = truck_assignments.map((truck: any) => ({
+      const truckRecords = truck_assignments.map((truck: Record<string, unknown>) => ({
         schedule_id: schedule.id,
         truck_id: truck.truck_id,
         driver_id: truck.driver_id,
@@ -153,7 +154,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { schedule_id, task_id, action, ...updateData } = body;
+    const { schedule_id, task_id, ...updateData } = body;
 
     if (task_id) {
       // Update task
@@ -166,7 +167,7 @@ export async function PATCH(request: NextRequest) {
         .eq('id', task_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Check if all tasks complete
@@ -198,7 +199,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', schedule_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

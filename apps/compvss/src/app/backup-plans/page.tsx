@@ -71,8 +71,8 @@ export default function BackupPlansPage() {
       <EnterprisePageHeader
         title="Backup Plans"
         subtitle="Contingency and backup plan documentation"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create Plan', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings

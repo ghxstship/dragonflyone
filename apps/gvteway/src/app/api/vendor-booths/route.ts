@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const boothSchema = z.object({
   event_id: z.string().uuid(),
@@ -65,13 +59,15 @@ export async function GET(request: NextRequest) {
         `)
         .eq('event_id', eventId);
 
-      const report = booths?.map(booth => ({
+      interface SaleEntry { gross_amount: number; commission_amount?: number; net_amount?: number }
+      interface BoothData { id: string; booth_name: string; commission_rate: number; sales?: SaleEntry[] }
+      const report = booths?.map((booth: BoothData) => ({
         booth_id: booth.id,
         booth_name: booth.booth_name,
         commission_rate: booth.commission_rate,
-        total_gross: booth.sales?.reduce((sum: number, s: any) => sum + s.gross_amount, 0) || 0,
-        total_commission: booth.sales?.reduce((sum: number, s: any) => sum + (s.commission_amount || 0), 0) || 0,
-        total_net: booth.sales?.reduce((sum: number, s: any) => sum + (s.net_amount || 0), 0) || 0,
+        total_gross: booth.sales?.reduce((sum: number, s: SaleEntry) => sum + s.gross_amount, 0) || 0,
+        total_commission: booth.sales?.reduce((sum: number, s: SaleEntry) => sum + (s.commission_amount || 0), 0) || 0,
+        total_net: booth.sales?.reduce((sum: number, s: SaleEntry) => sum + (s.net_amount || 0), 0) || 0,
       }));
 
       return NextResponse.json({ commission_report: report });
@@ -88,8 +84,8 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ booths });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -140,11 +136,11 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ booth }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -163,8 +159,8 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ booth });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -183,7 +179,7 @@ export async function DELETE(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (search) query = query.or(`title.ilike.%${search}%,summary.ilike.%${search}%`);
 
     const { data, error } = await query.order('updated_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     let filtered = data;
     if (skills) {
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       searchable: true, updated_at: new Date().toISOString()
     }, { onConflict: 'user_id' }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ resume: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });

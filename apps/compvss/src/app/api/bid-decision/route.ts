@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (rfpId) query = query.eq('rfp_id', rfpId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ decisions: data });
   } catch (error) {
@@ -45,19 +45,20 @@ export async function POST(request: NextRequest) {
       const { rfp_id, scores, notes } = body;
 
       // Calculate weighted score
-      const totalWeight = scores.reduce((s: number, sc: any) => s + (sc.weight || 1), 0);
-      const weightedScore = scores.reduce((s: number, sc: any) => s + sc.score * (sc.weight || 1), 0) / totalWeight;
+      interface ScoreEntry { score: number; weight?: number; criterion?: string; notes?: string }
+      const totalWeight = scores.reduce((s: number, sc: ScoreEntry) => s + (sc.weight || 1), 0);
+      const weightedScore = scores.reduce((s: number, sc: ScoreEntry) => s + sc.score * (sc.weight || 1), 0) / totalWeight;
 
       const { data, error } = await supabase.from('bid_decisions').insert({
         rfp_id, weighted_score: weightedScore, notes, status: 'pending_approval',
         recommendation: weightedScore >= 70 ? 'bid' : 'no_bid', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Save individual scores
       await supabase.from('bid_decision_scores').insert(
-        scores.map((s: any) => ({ decision_id: data.id, criterion: s.criterion, score: s.score, weight: s.weight, notes: s.notes }))
+        scores.map((s: Record<string, unknown>) => ({ decision_id: data.id, criterion: s.criterion, score: s.score, weight: s.weight, notes: s.notes }))
       );
 
       return NextResponse.json({ decision: data }, { status: 201 });

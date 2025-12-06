@@ -5,8 +5,10 @@ import { supabase } from '@/lib/supabase';
 
 interface Project {
   id: string;
+  code: string;
   name: string;
   description?: string;
+  organization_id: string;
   client_id?: string;
   status: 'planning' | 'active' | 'on-hold' | 'completed' | 'cancelled';
   budget?: number;
@@ -79,7 +81,7 @@ export function useCreateProject() {
     mutationFn: async (project: Omit<Project, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('projects')
-        .insert(project as any)
+        .insert(project)
         .select()
         .single();
 

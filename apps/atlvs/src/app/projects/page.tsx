@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useProjects, useCreateProject, useDeleteProject } from '@/hooks/useProjects';
 
 interface Project {
@@ -191,6 +191,26 @@ export default function ProjectsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Project, 'id'>>({
+    entityType: 'projects',
+    requiredFields: ['name'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/projects', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('projects').length > 0 
+    ? getImportTemplates('projects') 
+    : [{ id: 'default', name: 'Project Import', mapping: { name: 'name', code: 'code', status: 'status', budget: 'budget', start_date: 'start_date', end_date: 'end_date' } }];
+
   const stats = [
     { label: 'Total Projects', value: projects?.length || 0 },
     { label: 'Active', value: projects?.filter(p => p.status === 'active').length || 0 },
@@ -243,6 +263,9 @@ export default function ProjectsPage() {
         createLabel="New Project"
         onCreate={() => setCreateModalOpen(true)}
         entityType="projects"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'code', 'status', 'budget', 'start_date', 'end_date']}
         onExport={createExportHandler({
           filename: "projects",
           getData: () => (projects || []).map(p => ({
@@ -257,12 +280,7 @@ export default function ProjectsPage() {
         stats={stats}
         emptyMessage="No projects yet"
         emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 

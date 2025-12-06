@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, H3, Button, Box } from "@ghxstship/ui";
-import { Ticket, QrCode, Download, Share2 } from "lucide-react";
+import { QrCode, Download, Share2 } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
 export default function EventTicketPage() {

@@ -87,7 +87,7 @@ export default function AccessibilityPage() {
               </Stack>
               <Body className="text-ink-600">{mockAgeRestriction.description}</Body>
               <Grid cols={2} gap={4}>
-                <Card className="p-3 bg-ink-50 border border-ink-200">
+                <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                   <Stack direction="horizontal" gap={2}>
                     <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-ink-600"}>
                       {mockAgeRestriction.idRequired ? "✓" : "○"}
@@ -95,7 +95,7 @@ export default function AccessibilityPage() {
                     <Label>Photo ID Required</Label>
                   </Stack>
                 </Card>
-                <Card className="p-3 bg-ink-50 border border-ink-200">
+                <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                   <Stack direction="horizontal" gap={2}>
                     <Label className={mockAgeRestriction.guardianRequired ? "text-success-600" : "text-ink-600"}>
                       {mockAgeRestriction.guardianRequired ? "✓" : "○"}
@@ -234,7 +234,7 @@ export default function AccessibilityPage() {
         <ModalBody>
           <Stack gap={4}>
             {selectedService ? (
-              <Card className="p-3 bg-ink-50 border border-ink-200">
+              <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                 <Body className="font-weight-bold">{selectedService.name}</Body>
                 <Label className="text-ink-600 text-body-sm">{selectedService.description}</Label>
               </Card>

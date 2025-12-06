@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -15,6 +15,7 @@ import {
   Spinner,
   AuthenticatedShell,
   Link,
+  CommandPalette,
 } from "@ghxstship/ui";
 import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
@@ -28,13 +29,13 @@ import {
   atlvsDemoTeams,
   atlvsDemoWorkspaces,
   atlvsDemoOrganizations,
-  type ProductionContext,
 } from "../data/atlvs";
 import {
-  useRoleAwareNavigation,
-  useNavigationContext,
-  type UserRoleContext,
+  useCommandPalette,
+  buildNavigationCommands,
+  buildActionCommands,
 } from "@ghxstship/config/hooks";
+import { Plus, Search, FileText, Users } from "lucide-react";
 
 // =============================================================================
 // ATLVS APP LAYOUT WRAPPERS
@@ -78,6 +79,36 @@ export function AtlvsAppLayout({
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
+
+  // Build command palette navigation and action items
+  const navigationCommands = useMemo(() => 
+    buildNavigationCommands(atlvsSidebarNavigation as Parameters<typeof buildNavigationCommands>[0]),
+    []
+  );
+
+  const actionCommands = useMemo(() => 
+    buildActionCommands([
+      { label: "New Deal", href: "/deals/new", icon: <Plus size={16} />, shortcut: "D" },
+      { label: "New Project", href: "/projects/new", icon: <Plus size={16} />, shortcut: "P" },
+      { label: "New Contact", href: "/contacts/new", icon: <Users size={16} />, shortcut: "C" },
+      { label: "New Invoice", href: "/invoices/new", icon: <FileText size={16} />, shortcut: "I" },
+      { label: "Search", href: "/search", icon: <Search size={16} />, shortcut: "/" },
+    ]),
+    []
+  );
+
+  // Command palette hook
+  const {
+    isOpen: commandPaletteOpen,
+    close: closeCommandPalette,
+    categories: commandCategories,
+    recentItems,
+    handleSelect: handleCommandSelect,
+  } = useCommandPalette({
+    navigationItems: navigationCommands,
+    actionItems: actionCommands,
+    onNavigate: (href) => router.push(href),
+  });
 
   // Determine if we're in production context
   const productionId = params?.productionId as string | undefined;
@@ -216,33 +247,47 @@ export function AtlvsAppLayout({
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {
     return (
-      <AuthenticatedShell
-        navigation={getContextualNavigation()}
-        currentPath={pathname}
-        logo={
-          <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
-            ATLVS
-          </Link>
-        }
-        breadcrumbContext={buildBreadcrumbContext()}
-        contextOptions={contextOptions}
-        onContextSwitch={handleContextSwitch}
-        user={{
-          name: "Demo User",
-          email: "demo@ghxstship.com",
-        }}
-        quickActions={atlvsQuickActions.slice(0, 3)}
-        inverted={background === "black"}
-        onNavigate={(href: string) => router.push(href)}
-        settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
-        notifications={demoNotifications}
-        onSignOut={handleSignOut}
-        className={className}
-      >
-        <div className="p-6 lg:p-8">
-          {children}
-        </div>
-      </AuthenticatedShell>
+      <>
+        <AuthenticatedShell
+          navigation={getContextualNavigation()}
+          currentPath={pathname}
+          logo={
+            <Link href="/dashboard" className="font-display text-h5-md uppercase text-white transition-colors hover:text-grey-200">
+              ATLVS
+            </Link>
+          }
+          breadcrumbContext={buildBreadcrumbContext()}
+          contextOptions={contextOptions}
+          onContextSwitch={handleContextSwitch}
+          user={{
+            name: "Demo User",
+            email: "demo@ghxstship.com",
+          }}
+          quickActions={atlvsQuickActions.slice(0, 3)}
+          inverted={background === "black"}
+          onNavigate={(href: string) => router.push(href)}
+          settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
+          notifications={demoNotifications}
+          onSignOut={handleSignOut}
+          className={className}
+        >
+          <div className="p-6 lg:p-8">
+            {children}
+          </div>
+        </AuthenticatedShell>
+        
+        {/* Command Palette - Cmd/Ctrl+K to open */}
+        <CommandPalette
+          open={commandPaletteOpen}
+          onClose={closeCommandPalette}
+          categories={commandCategories}
+          recentItems={recentItems}
+          onSelect={handleCommandSelect}
+          onNavigate={(href) => router.push(href)}
+          placeholder="Search commands, pages, or actions..."
+          inverted={background === "black"}
+        />
+      </>
     );
   }
 

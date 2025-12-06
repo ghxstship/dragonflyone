@@ -130,6 +130,25 @@ export default function RFIDPage() {
         })}
         stats={stats}
         emptyMessage="No wristbands registered"
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch(`/api/events/${params.id}/rfid/bulk`, {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'deactivate') {
+            await fetch(`/api/events/${params.id}/rfid/bulk-deactivate`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'deactivate', label: 'Deactivate Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
       {selectedWristband && (
         <DetailDrawer

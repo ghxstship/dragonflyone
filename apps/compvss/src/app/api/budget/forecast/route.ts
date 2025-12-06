@@ -6,6 +6,9 @@ import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
+// Module-level supabase client
+const supabase = getServerSupabase();
+
 const forecastSchema = z.object({
   event_id: z.string().uuid(),
   forecast_type: z.enum(['optimistic', 'realistic', 'pessimistic', 'monte_carlo']),
@@ -100,7 +103,7 @@ export const GET = apiRoute(
 
 // POST - Generate budget forecast
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const validated = forecastSchema.parse(body);
 
@@ -189,7 +192,7 @@ async function getHistoricalData(eventId: string) {
   return historicalEvents || [];
 }
 
-function generateOptimisticForecast(config: any, historical: any[] | null) {
+function generateOptimisticForecast(config: Record<string, unknown>, _historical: unknown[] | null) {
   const base = config.base_budget;
   const contingency = base * (config.contingency_percentage / 100);
   
@@ -210,7 +213,7 @@ function generateOptimisticForecast(config: any, historical: any[] | null) {
   };
 }
 
-function generatePessimisticForecast(config: any, historical: any[] | null) {
+function generatePessimisticForecast(config: Record<string, unknown>, _historical: unknown[] | null) {
   const base = config.base_budget;
   const contingency = base * (config.contingency_percentage / 100);
   
@@ -235,7 +238,7 @@ function generatePessimisticForecast(config: any, historical: any[] | null) {
   };
 }
 
-function generateRealisticForecast(config: any, historical: any[] | null) {
+function generateRealisticForecast(config: Record<string, unknown>, historical: unknown[] | null) {
   const base = config.base_budget;
   const contingency = base * (config.contingency_percentage / 100);
   
@@ -260,11 +263,11 @@ function generateRealisticForecast(config: any, historical: any[] | null) {
     total: Object.values(categories).reduce((sum: number, val) => sum + val, 0),
     categories,
     confidence_interval: { min: base * 0.95, max: base * 1.15 },
-    top_risks: (config.risk_factors || []).filter((r: any) => r.probability > 50)
+    top_risks: (config.risk_factors || []).filter((r: Record<string, unknown>) => r.probability > 50)
   };
 }
 
-function generateMonteCarloForecast(config: any, historical: any[] | null) {
+function generateMonteCarloForecast(config: Record<string, unknown>, _historical: unknown[] | null) {
   const iterations = 1000;
   const results = [];
 
@@ -301,10 +304,13 @@ function generateMonteCarloForecast(config: any, historical: any[] | null) {
   };
 }
 
-function calculateVariance(forecast: any, actuals: any[]) {
+interface ForecastData { categories?: Record<string, number> }
+interface ActualEntry { category: string; sum?: number }
+interface VarianceEntry { forecast: number; actual: number; difference: number; percentage: number }
+function calculateVariance(forecast: ForecastData, actuals: ActualEntry[]) {
   if (!forecast || !actuals) return {};
   
-  const variance: any = {};
+  const variance: Record<string, VarianceEntry> = {};
   for (const actual of actuals) {
     const forecastAmount = forecast.categories?.[actual.category] || 0;
     const actualAmount = actual.sum || 0;

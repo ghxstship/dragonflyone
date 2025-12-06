@@ -40,19 +40,20 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     // Group by phase
-    const byPhase = photos?.reduce((acc: Record<string, any[]>, p) => {
+    interface PhotoDoc { id: string; phase: string; photo_url: string; caption?: string }
+    const byPhase = photos?.reduce((acc: Record<string, PhotoDoc[]>, p: PhotoDoc) => {
       if (!acc[p.phase]) acc[p.phase] = [];
       acc[p.phase].push(p);
       return acc;
-    }, {});
+    }, {} as Record<string, PhotoDoc[]>);
 
     return NextResponse.json({
       photos,
       by_phase: byPhase,
       total: photos?.length || 0,
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
     if (action === 'bulk_upload') {
       const { photos, project_id, event_id, phase, taken_by } = body.data;
 
-      const photoRecords = photos.map((p: any) => ({
+      const photoRecords = photos.map((p: Record<string, unknown>) => ({
         project_id,
         event_id,
         phase,
@@ -101,11 +102,11 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ photo }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -121,7 +122,7 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

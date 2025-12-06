@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -13,6 +13,7 @@ import {
   Grid,
   Body,
   H3,
+  Spinner,
   Table,
   TableHeader,
   TableBody,
@@ -49,8 +50,31 @@ const MOCK_SETTLEMENTS: SettlementItem[] = [
 
 export default function ProductionSettlementPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [settlements] = useState(MOCK_SETTLEMENTS);
+  const productionId = params?.productionId as string;
+  const [settlements, setSettlements] = useState<SettlementItem[]>(MOCK_SETTLEMENTS);
+  const [loading, setLoading] = useState(true);
+
+  const fetchSettlements = useCallback(async () => {
+    if (!productionId) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/productions/${productionId}/settlements`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.settlements && data.settlements.length > 0) {
+          setSettlements(data.settlements);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch settlements:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchSettlements();
+  }, [fetchSettlements]);
 
   const totalContract = settlements.reduce((sum, s) => sum + s.contractAmount, 0);
   const totalFinal = settlements.reduce((sum, s) => sum + s.finalAmount, 0);
@@ -82,6 +106,11 @@ export default function ProductionSettlementPage() {
           <CardBody>
             <Stack gap={4}>
               <H3 className="text-white">All Settlements</H3>
+              {loading ? (
+                <Stack className="items-center py-12">
+                  <Spinner variant="grey" size="lg" />
+                </Stack>
+              ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -115,6 +144,7 @@ export default function ProductionSettlementPage() {
                   ))}
                 </TableBody>
               </Table>
+              )}
             </Stack>
           </CardBody>
         </Card>

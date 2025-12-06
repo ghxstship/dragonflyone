@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         cached_at: new Date().toISOString()
       }, { onConflict: 'user_id,content_id' }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ offline_content: data });
     }
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
 
     if (action === 'sync_changes') {
       const { changes } = body;
-      const results: any[] = [];
+      const results: unknown[] = [];
 
       for (const change of changes || []) {
         try {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -56,7 +56,6 @@ interface ChatMessage {
 }
 
 export default function WatchPartiesPage() {
-  const router = useRouter();
   const [parties, setParties] = useState<WatchParty[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedParty, setSelectedParty] = useState<WatchParty | null>(null);
@@ -546,6 +545,38 @@ export default function WatchPartiesPage() {
                   Close
                 </Button>
               </Stack>
+
+              {selectedParty.status === 'live' && (
+                <Card className="border-2 border-ink-200">
+                  <Stack gap={3}>
+                    <H3>Live Chat</H3>
+                    <Stack className="h-48 overflow-y-auto bg-ink-50 rounded p-3" gap={2}>
+                      {chatMessages.length > 0 ? (
+                        chatMessages.map((msg) => (
+                          <Stack key={msg.id} gap={1}>
+                            <Body size="sm" className="font-weight-medium">{msg.user_name}</Body>
+                            <Body size="sm" className="text-ink-600">{msg.content}</Body>
+                          </Stack>
+                        ))
+                      ) : (
+                        <Body size="sm" className="text-ink-400">No messages yet. Be the first to chat!</Body>
+                      )}
+                    </Stack>
+                    <Stack direction="horizontal" gap={2}>
+                      <Input
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder="Type a message..."
+                        className="flex-1"
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                      />
+                      <Button variant="solid" onClick={handleSendMessage}>
+                        Send
+                      </Button>
+                    </Stack>
+                  </Stack>
+                </Card>
+              )}
             </Stack>
           )}
         </Modal>

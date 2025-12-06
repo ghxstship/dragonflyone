@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,18 +38,22 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const galleries = data?.map(g => ({
-      id: g.id,
-      event_id: g.event_id,
-      event_name: (g.event as any)?.title || 'Unknown Event',
-      event_date: (g.event as any)?.date,
-      cover_photo: g.cover_photo_url,
-      photo_count: g.photo_count || 0,
-      status: g.status,
-    })) || [];
+    interface GalleryEventInfo { title?: string; date?: string }
+    const galleries = data?.map(g => {
+      const event = g.event as GalleryEventInfo | null;
+      return {
+        id: g.id,
+        event_id: g.event_id,
+        event_name: event?.title || 'Unknown Event',
+        event_date: event?.date,
+        cover_photo: g.cover_photo_url,
+        photo_count: g.photo_count || 0,
+        status: g.status,
+      };
+    }) || [];
 
     return NextResponse.json({ galleries });
   } catch (error) {
@@ -109,7 +107,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ gallery: data }, { status: 201 });

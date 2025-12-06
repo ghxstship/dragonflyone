@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (projectId) query = query.eq('project_id', projectId);
 
     const { data, error } = await query.order('scheduled_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ debriefs: data });
   } catch (error) {
@@ -51,11 +51,11 @@ export async function POST(request: NextRequest) {
         agenda: agenda || [], status: 'scheduled', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (attendees?.length) {
         await supabase.from('debrief_attendees').insert(
-          attendees.map((a: any) => ({ debrief_id: data.id, name: a.name, role: a.role, email: a.email, confirmed: false }))
+          attendees.map((a: Record<string, unknown>) => ({ debrief_id: data.id, name: a.name, role: a.role, email: a.email, confirmed: false }))
         );
       }
 
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
         debrief_id, topic, content, action_items: action_items || [], created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ note: data }, { status: 201 });
     }
 

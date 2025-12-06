@@ -37,8 +37,8 @@ export default function CommunicationsPage() {
       <EnterprisePageHeader
         title="Communications"
         subtitle="Radio channels and team messaging"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

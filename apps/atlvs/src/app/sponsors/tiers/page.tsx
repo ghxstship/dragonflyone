@@ -231,6 +231,19 @@ export default function SponsorTiersPage() {
         stats={stats}
         emptyMessage="No sponsor tiers configured"
         emptyAction={{ label: 'Create First Tier', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sponsors/tiers/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal

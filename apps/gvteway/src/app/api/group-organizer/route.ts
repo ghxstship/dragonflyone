@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const groupSchema = z.object({
   event_id: z.string().uuid(),
@@ -70,9 +64,9 @@ export async function GET(request: NextRequest) {
 
       const summary = {
         total_members: group.members?.length || 0,
-        confirmed_members: group.members?.filter((m: any) => m.status === 'confirmed').length || 0,
-        pending_members: group.members?.filter((m: any) => m.status === 'pending').length || 0,
-        total_paid: group.payments?.reduce((sum: number, p: any) => p.status === 'completed' ? sum + p.amount : sum, 0) || 0,
+        confirmed_members: group.members?.filter((m: Record<string, unknown>) => m.status === 'confirmed').length || 0,
+        pending_members: group.members?.filter((m: Record<string, unknown>) => m.status === 'pending').length || 0,
+        total_paid: group.payments?.reduce((sum: number, p: { status?: string; amount?: number }) => p.status === 'completed' ? sum + (p.amount || 0) : sum, 0) || 0,
       };
 
       return NextResponse.json({ group, summary });
@@ -90,8 +84,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'group_id, event_id, or organizer_email required' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -211,11 +205,11 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -268,7 +262,7 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ group: data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

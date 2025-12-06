@@ -22,11 +22,12 @@ export async function GET(request: NextRequest) {
     if (search) query = query.or(`term.ilike.%${search}%,definition.ilike.%${search}%`);
 
     const { data, error } = await query.order('term', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by first letter
-    const byLetter: Record<string, any[]> = {};
-    data?.forEach(term => {
+    interface GlossaryTerm { id: string; term: string; definition: string; category?: string }
+    const byLetter: Record<string, GlossaryTerm[]> = {};
+    data?.forEach((term: GlossaryTerm) => {
       const firstLetter = term.term[0].toUpperCase();
       if (!byLetter[firstLetter]) byLetter[firstLetter] = [];
       byLetter[firstLetter].push(term);
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
       term, definition, category, related_terms: related_terms || [], examples: examples || []
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ term: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

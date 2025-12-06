@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Contest and giveaway management
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
     if (status !== 'all') query = query.eq('status', status);
 
     const { data, error } = await query.order('end_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ contests: data });
   } catch (error) {
@@ -65,7 +59,7 @@ export async function POST(request: NextRequest) {
         start_date, end_date, rules, max_entries, status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ contest: data }, { status: 201 });
     }
 
@@ -86,7 +80,7 @@ export async function POST(request: NextRequest) {
         contest_id, user_id: user.id, entry_data: entry_data || {}
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ entry: data }, { status: 201 });
     }
 

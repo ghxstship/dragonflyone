@@ -25,11 +25,12 @@ export async function GET(request: NextRequest) {
     if (employeeId) query = query.eq('employee_id', employeeId);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by employee and calculate overtime
-    const byEmployee: Record<string, any[]> = {};
-    data?.forEach(entry => {
+    interface TimeEntry { employee_id: string; employee?: { state?: string }; hours?: number; date?: string }
+    const byEmployee: Record<string, TimeEntry[]> = {};
+    data?.forEach((entry: TimeEntry) => {
       if (!byEmployee[entry.employee_id]) byEmployee[entry.employee_id] = [];
       byEmployee[entry.employee_id].push(entry);
     });
@@ -110,8 +111,9 @@ function getWeekStart(date: Date): Date {
   return d;
 }
 
-function getLaborRules(state: string): any {
-  const rules: Record<string, any> = {
+interface LaborRules { name: string; dailyOvertime: boolean; dailyOvertimeThreshold?: number; doubleTimeThreshold?: number; weeklyOvertimeThreshold: number }
+function getLaborRules(state: string): LaborRules {
+  const rules: Record<string, LaborRules> = {
     CA: { name: 'California', dailyOvertime: true, dailyOvertimeThreshold: 8, doubleTimeThreshold: 12, weeklyOvertimeThreshold: 40 },
     NY: { name: 'New York', dailyOvertime: false, weeklyOvertimeThreshold: 40 },
     default: { name: 'Federal', dailyOvertime: false, weeklyOvertimeThreshold: 40 }

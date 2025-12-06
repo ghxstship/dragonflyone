@@ -65,8 +65,8 @@ export default function BestPracticesPage() {
       <EnterprisePageHeader
         title="Best Practices Library"
         subtitle="Industry best practices organized by discipline"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

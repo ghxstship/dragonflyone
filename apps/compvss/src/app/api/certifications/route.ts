@@ -179,7 +179,8 @@ export async function PATCH(request: NextRequest) {
     // User obtained from auth context
     const userId = body.user_id || '00000000-0000-0000-0000-000000000000';
 
-    let updateData: any = {
+    interface CertificationUpdate { updated_at: string; verified?: boolean; verified_by?: string; verified_date?: string; verification_method?: string; status?: string; [key: string]: unknown }
+    let updateData: CertificationUpdate = {
       updated_at: new Date().toISOString(),
     };
 

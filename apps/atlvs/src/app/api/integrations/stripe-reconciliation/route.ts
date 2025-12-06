@@ -176,7 +176,7 @@ export async function GET(request: NextRequest) {
         },
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({ error: error.message || 'Failed to fetch data' }, { status: 500 });
   }
 }
@@ -262,7 +262,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Alert if variance exceeds threshold
@@ -319,7 +319,7 @@ export async function POST(request: NextRequest) {
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -337,7 +337,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({ error: error.message || 'Failed to process request' }, { status: 500 });
   }
 }

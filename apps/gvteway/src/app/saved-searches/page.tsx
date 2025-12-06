@@ -277,6 +277,24 @@ export default function SavedSearchesPage() {
                     <Button variant="solid" inverted onClick={() => handleRunSearch(search)}>
                       Run Search
                     </Button>
+                    <Button variant="ghost" onClick={() => {
+                      setEditingSearch(search);
+                      setFormData({
+                        name: search.name,
+                        query: search.query || '',
+                        category: search.filters.category || 'all',
+                        location: search.filters.location || '',
+                        priceMin: search.filters.priceMin?.toString() || '',
+                        priceMax: search.filters.priceMax?.toString() || '',
+                        dateFrom: search.filters.dateFrom || '',
+                        dateTo: search.filters.dateTo || '',
+                        alerts_enabled: search.alerts_enabled,
+                        alert_frequency: search.alert_frequency,
+                      });
+                      setShowCreateModal(true);
+                    }}>
+                      Edit
+                    </Button>
                     <Button variant="outlineInk" onClick={() => handleDelete(search.id)}>
                       Delete
                     </Button>
@@ -299,8 +317,8 @@ export default function SavedSearchesPage() {
 
         <Modal
           open={showCreateModal}
-          onClose={() => { setShowCreateModal(false); resetForm(); }}
-          title="Create Saved Search"
+          onClose={() => { setShowCreateModal(false); setEditingSearch(null); resetForm(); }}
+          title={editingSearch ? 'Edit Saved Search' : 'Create Saved Search'}
         >
           <Form onSubmit={handleCreate}>
             <Stack gap={4}>

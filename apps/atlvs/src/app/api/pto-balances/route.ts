@@ -23,6 +23,16 @@ export async function GET(request: NextRequest) {
     const year = searchParams.get('year') || new Date().getFullYear().toString();
     const departmentId = searchParams.get('department_id');
 
+    // Get employee IDs for department filter if specified
+    let departmentEmployeeIds: string[] = [];
+    if (departmentId && !employeeId) {
+      const { data: deptEmployees } = await supabase
+        .from('employees')
+        .select('id')
+        .eq('department_id', departmentId);
+      departmentEmployeeIds = deptEmployees?.map(e => e.id) || [];
+    }
+
     let query = supabase
       .from('pto_balances')
       .select(`
@@ -34,6 +44,8 @@ export async function GET(request: NextRequest) {
 
     if (employeeId) {
       query = query.eq('employee_id', employeeId);
+    } else if (departmentEmployeeIds.length > 0) {
+      query = query.in('employee_id', departmentEmployeeIds);
     }
 
     const { data, error } = await query;
@@ -78,7 +90,7 @@ export async function GET(request: NextRequest) {
           available: balance.available_hours,
         };
         return acc;
-      }, {} as Record<string, any>);
+      }, {} as Record<string, unknown>);
 
       result = { employees: Object.values(grouped) };
     }

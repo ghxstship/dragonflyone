@@ -14,19 +14,8 @@ const updateRunOfShowSchema = z.object({
   status: z.enum(['draft', 'published', 'in_progress', 'completed', 'cancelled']).optional(),
 });
 
-const addCueSchema = z.object({
-  time: z.string(),
-  cue_number: z.string().max(50),
-  description: z.string().min(1).max(500),
-  department: z.string().max(100).optional(),
-  assigned_to: z.string().uuid().optional(),
-  duration_minutes: z.number().int().positive().optional(),
-  notes: z.string().max(1000).optional(),
-  order: z.number().int().nonnegative().optional(),
-});
-
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
 
     const { data: runOfShow, error } = await fromDynamic(supabaseAdmin, 'run_of_shows')
@@ -60,7 +49,7 @@ export const GET = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
     const body = await request.json();
     
@@ -93,7 +82,7 @@ export const PATCH = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
 
     // Delete all cues first

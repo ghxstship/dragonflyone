@@ -13,8 +13,9 @@ import {
   Switch,
   Select,
   Kicker,
+  Alert,
 } from '@ghxstship/ui';
-import { Bell, Mail, Smartphone, MessageSquare, Clock } from 'lucide-react';
+import { Bell, Mail, Smartphone, MessageSquare} from 'lucide-react';
 
 interface NotificationPreferences {
   email_enabled: boolean;
@@ -133,6 +134,14 @@ export default function NotificationSettingsPage() {
               <H2 size="lg" className="text-white">Notification Settings</H2>
               <Body className="text-on-dark-muted">Control how and when you receive notifications</Body>
             </Stack>
+
+            {error && (
+              <Alert variant="error">{error}</Alert>
+            )}
+
+            {success && (
+              <Alert variant="success">{success}</Alert>
+            )}
 
             {/* Notification Channels */}
             <Card inverted variant="elevated" className="p-6">

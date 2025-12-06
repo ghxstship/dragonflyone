@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Wifi, CreditCard, Smartphone, Watch, QrCode } from 'lucide-react';
+import { CreditCard, Smartphone, Watch, QrCode, Wifi, RotateCcw, Power } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   H2,
@@ -115,6 +115,20 @@ export default function CashlessPaymentPage() {
     ));
   };
 
+  const handleTerminalStatusChange = (terminalId: string, newStatus: 'online' | 'offline' | 'processing' | 'error') => {
+    setTerminals(terminals.map(t =>
+      t.id === terminalId ? { ...t, status: newStatus } : t
+    ));
+    setSuccess(`Terminal ${terminalId} status updated to ${newStatus}`);
+  };
+
+  const handleRefundTransaction = (transactionId: string) => {
+    setTransactions(transactions.map(t =>
+      t.id === transactionId ? { ...t, status: 'refunded' } : t
+    ));
+    setSuccess(`Transaction ${transactionId} refunded`);
+  };
+
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
       online: 'solid',
@@ -130,15 +144,15 @@ export default function CashlessPaymentPage() {
   };
 
   const getMethodIcon = (method: string) => {
-    const icons: Record<string, string> = {
-      tap: '📶',
-      chip: '💳',
-      swipe: '📇',
-      nfc: '📱',
-      qr: '📷',
-      wristband: '⌚',
+    const iconMap: Record<string, React.ReactNode> = {
+      tap: <Wifi className="size-4" />,
+      chip: <CreditCard className="size-4" />,
+      swipe: <CreditCard className="size-4" />,
+      nfc: <Smartphone className="size-4" />,
+      qr: <QrCode className="size-4" />,
+      wristband: <Watch className="size-4" />,
     };
-    return icons[method] || '💳';
+    return iconMap[method] || <CreditCard className="size-4" />;
   };
 
   const filteredTerminals = terminals.filter(t => {
@@ -281,7 +295,23 @@ export default function CashlessPaymentPage() {
                           Details
                         </Button>
                         {terminal.status === 'offline' && (
-                          <Button variant="solid" size="sm" inverted>Reconnect</Button>
+                          <Button 
+                            variant="solid" 
+                            size="sm" 
+                            inverted
+                            onClick={() => handleTerminalStatusChange(terminal.id, 'online')}
+                          >
+                            <Power className="size-4 mr-1" /> Reconnect
+                          </Button>
+                        )}
+                        {terminal.status === 'online' && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => handleTerminalStatusChange(terminal.id, 'offline')}
+                          >
+                            <Power className="size-4 mr-1" /> Disconnect
+                          </Button>
                         )}
                       </Stack>
                     </Stack>
@@ -303,6 +333,7 @@ export default function CashlessPaymentPage() {
                     <TableHead className="text-on-dark-muted">Method</TableHead>
                     <TableHead className="text-on-dark-muted">Card</TableHead>
                     <TableHead className="text-on-dark-muted">Status</TableHead>
+                    <TableHead className="text-on-dark-muted">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -344,6 +375,17 @@ export default function CashlessPaymentPage() {
                       </TableCell>
                       <TableCell>
                         {getStatusBadge(txn.status)}
+                      </TableCell>
+                      <TableCell>
+                        {txn.status === 'completed' && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleRefundTransaction(txn.id)}
+                          >
+                            <RotateCcw className="size-4" />
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

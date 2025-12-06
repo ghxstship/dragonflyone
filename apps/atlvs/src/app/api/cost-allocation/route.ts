@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'rules') {
       // Get allocation rules
-      const { data: rules, error } = await supabase
+      let rulesQuery = supabase
         .from('allocation_rules')
         .select(`
           *,
@@ -49,6 +49,12 @@ export async function GET(request: NextRequest) {
         `)
         .eq('status', 'active')
         .order('name', { ascending: true });
+
+      if (departmentId) {
+        rulesQuery = rulesQuery.eq('department_id', departmentId);
+      }
+
+      const { data: rules, error } = await rulesQuery;
 
       if (error) throw error;
 
@@ -66,6 +72,12 @@ export async function GET(request: NextRequest) {
         `)
         .order('period_end', { ascending: false });
 
+      if (departmentId) {
+        query = query.eq('department_id', departmentId);
+      }
+      if (projectId) {
+        query = query.eq('project_id', projectId);
+      }
       if (period) {
         const periodStart = `${period}-01T00:00:00Z`;
         const periodEnd = new Date(parseInt(period.split('-')[0]), parseInt(period.split('-')[1]), 0).toISOString();
@@ -128,12 +140,13 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by target
-      const byTarget = details?.reduce((acc: Record<string, { total: number; periods: any[] }>, d) => {
+      interface AllocationData { period_start?: string }
+      const byTarget = details?.reduce((acc: Record<string, { total: number; periods: unknown[] }>, d) => {
         if (!acc[d.target_id]) acc[d.target_id] = { total: 0, periods: [] };
         acc[d.target_id].total += d.allocated_amount;
         acc[d.target_id].periods.push({
           amount: d.allocated_amount,
-          period: (d.allocation as any)?.period_start?.substring(0, 7),
+          period: (d.allocation as AllocationData | null)?.period_start?.substring(0, 7),
         });
         return acc;
       }, {});
@@ -183,21 +196,26 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Build report structure
+      interface RuleData { name?: string; allocation_type?: string }
+      interface DetailData { target_type: string; target_id: string; allocated_amount: number; allocation_percentage?: number }
+      interface RuleReport { rule_name?: string; allocation_type?: string; source_amount: number; targets: { target_type: string; target_id: string; amount: number; percentage?: number }[] }
       const report = {
         period: reportPeriod,
         total_allocated: 0,
-        by_rule: [] as any[],
+        by_rule: [] as RuleReport[],
         by_target_type: {} as Record<string, number>,
       };
 
       allocations?.forEach(alloc => {
         report.total_allocated += alloc.source_amount;
+        const rule = alloc.rule as RuleData | null;
+        const details = (alloc.details || []) as DetailData[];
         
         report.by_rule.push({
-          rule_name: (alloc.rule as any)?.name,
-          allocation_type: (alloc.rule as any)?.allocation_type,
+          rule_name: rule?.name,
+          allocation_type: rule?.allocation_type,
           source_amount: alloc.source_amount,
-          targets: (alloc.details as any[])?.map(d => ({
+          targets: details.map((d: DetailData) => ({
             target_type: d.target_type,
             target_id: d.target_id,
             amount: d.allocated_amount,
@@ -205,7 +223,7 @@ export async function GET(request: NextRequest) {
           })),
         });
 
-        (alloc.details as any[])?.forEach(d => {
+        details.forEach((d: DetailData) => {
           report.by_target_type[d.target_type] = (report.by_target_type[d.target_type] || 0) + d.allocated_amount;
         });
       });
@@ -231,9 +249,9 @@ export async function GET(request: NextRequest) {
         current_month_allocated: allocations?.reduce((sum, a) => sum + a.source_amount, 0) || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Cost allocation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -316,14 +334,15 @@ export async function POST(request: NextRequest) {
       if (error) throw error;
 
       // Calculate and create allocation details
-      const targets = (rule.targets as any[]) || [];
+      interface AllocationTarget { target_type: string; target_id: string; allocation_percentage?: number; allocation_basis?: number }
+      const targets = (rule.targets || []) as AllocationTarget[];
       let totalBasis = 0;
 
       if (rule.allocation_type !== 'percentage') {
-        totalBasis = targets.reduce((sum, t) => sum + (t.allocation_basis || 0), 0);
+        totalBasis = targets.reduce((sum: number, t: AllocationTarget) => sum + (t.allocation_basis || 0), 0);
       }
 
-      const details = targets.map(t => {
+      const details = targets.map((t: AllocationTarget) => {
         let percentage = t.allocation_percentage || 0;
         
         if (rule.allocation_type !== 'percentage' && totalBasis > 0) {
@@ -451,12 +470,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Cost allocation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -480,9 +499,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ rule });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Cost allocation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -505,8 +524,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Cost allocation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

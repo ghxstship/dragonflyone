@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const MessageSchema = z.object({
   conversation_id: z.string().uuid().optional(),
@@ -91,14 +85,31 @@ export async function GET(request: NextRequest) {
       const eventId = searchParams.get('event_id');
       const category = searchParams.get('category');
 
-      const replies = [
-        { id: 'hours', text: 'What are the venue hours?' },
-        { id: 'parking', text: 'Where can I park?' },
-        { id: 'refund', text: 'How do I get a refund?' },
-        { id: 'transfer', text: 'Can I transfer my tickets?' },
-        { id: 'accessibility', text: 'What accessibility options are available?' },
-        { id: 'contact', text: 'How do I contact support?' },
-      ];
+      // Define replies by category
+      const repliesByCategory: Record<string, { id: string; text: string }[]> = {
+        tickets: [
+          { id: 'refund', text: 'How do I get a refund?' },
+          { id: 'transfer', text: 'Can I transfer my tickets?' },
+          { id: 'resale', text: 'Can I resell my tickets?' },
+        ],
+        venue: [
+          { id: 'hours', text: 'What are the venue hours?' },
+          { id: 'parking', text: 'Where can I park?' },
+          { id: 'accessibility', text: 'What accessibility options are available?' },
+        ],
+        general: [
+          { id: 'hours', text: 'What are the venue hours?' },
+          { id: 'parking', text: 'Where can I park?' },
+          { id: 'refund', text: 'How do I get a refund?' },
+          { id: 'transfer', text: 'Can I transfer my tickets?' },
+          { id: 'accessibility', text: 'What accessibility options are available?' },
+          { id: 'contact', text: 'How do I contact support?' },
+        ],
+      };
+
+      const replies = category && repliesByCategory[category] 
+        ? [...repliesByCategory[category]]
+        : [...repliesByCategory.general];
 
       if (eventId) {
         replies.unshift(
@@ -245,7 +256,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update conversation
@@ -367,7 +378,7 @@ async function generateAutoResponse(
   category: string | undefined,
   message: string,
   eventId: string | undefined
-): Promise<{ message: string; metadata?: any } | null> {
+): Promise<{ message: string; metadata?: Record<string, unknown> } | null> {
   const lowerMessage = message.toLowerCase();
 
   // Check for common questions

@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { z } from 'zod';
 
 // GET /api/contracts/[id] - Get contract by ID
 export async function GET(
@@ -63,7 +62,18 @@ export async function PATCH(
     const body = await request.json();
 
     // Remove fields that shouldn't be updated directly
-    const { id: _, created_at, created_by, organization_id, ...updates } = body;
+    // Destructure to exclude id, created_at, created_by, organization_id from updates
+    const { 
+      id: _id, 
+      created_at: _createdAt, 
+      created_by: _createdBy, 
+      organization_id: _orgId, 
+      ...updates 
+    } = body;
+    // Log excluded fields for audit purposes
+    if (_id || _createdAt || _createdBy || _orgId) {
+      Logger.debug('Excluded immutable fields from contract update');
+    }
 
     const { data, error } = await supabase
       .from('contracts')

@@ -14,7 +14,7 @@ export interface RFP {
   category?: string;
   requirements?: string[];
   attachments?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }
@@ -24,7 +24,7 @@ export const useRFPs = (filters?: { status?: string; category?: string }) => {
     queryKey: ['rfps', filters],
     queryFn: async () => {
       let query = supabase
-        .from('rfps' as any)
+        .from('rfps')
         .select('*')
         .order('deadline', { ascending: true });
 

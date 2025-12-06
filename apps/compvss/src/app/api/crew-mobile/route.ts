@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
       const { data: schedules, error } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ schedules });
@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({ time_entry: data }, { status: 201 });
@@ -253,7 +253,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({ time_entry: data });
@@ -263,7 +263,7 @@ export async function POST(request: NextRequest) {
     // Sync offline time entries
     if (action === 'sync_time_entries') {
       const { entries } = body;
-      const results: any[] = [];
+      const results: unknown[] = [];
 
       const { data: profile } = await supabase
         .from('crew_members')
@@ -323,7 +323,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ incident: data }, { status: 201 });
@@ -352,7 +352,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ availability: data });

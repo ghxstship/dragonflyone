@@ -182,7 +182,7 @@ export default function EventCollaborationPage() {
                     { role: "Artist", perms: ["Artist info editing", "Event viewing", "Rider access"] },
                     { role: "Sponsor", perms: ["Event viewing", "Analytics viewing", "Brand placement"] },
                   ].map((level) => (
-                    <Card key={level.role} className="p-4 border border-ink-200">
+                    <Card key={level.role} className="p-4 border-2 border-ink-200">
                       <Stack gap={2}>
                         <Badge className={getRoleColor(level.role)}>{level.role}</Badge>
                         <Stack gap={1}>

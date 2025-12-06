@@ -13,12 +13,8 @@ function getSupabaseClient() {
   );
 }
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 const nftTicketSchema = z.object({
   event_id: z.string().uuid(),
@@ -43,7 +39,7 @@ const nftTicketSchema = z.object({
 
 // GET - List NFT tickets or get details
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const nft_id = searchParams.get('nft_id');
     const user_id = context.user?.id;
@@ -131,7 +127,7 @@ export const GET = apiRoute(
 
 // POST - Mint NFT tickets or transfer
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { action } = body;
 
@@ -348,7 +344,7 @@ export const PUT = apiRoute(
 
 // DELETE - Burn NFT ticket
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const nft_id = searchParams.get('nft_id');
 

@@ -154,8 +154,8 @@ export default function KPILibraryPage() {
       <EnterprisePageHeader
         title="KPI Master Library"
         subtitle="Complete reference library of 200 preconfigured KPI metrics for analytics and insights"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

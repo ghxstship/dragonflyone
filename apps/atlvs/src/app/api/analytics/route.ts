@@ -45,10 +45,11 @@ export const GET = apiRoute(
       const totalExpenses = expenseData?.reduce((sum, entry) => sum + Math.abs(entry.amount || 0), 0) || 0;
       const totalProfit = totalRevenue - totalExpenses;
 
-      const projectCounts = projectData?.reduce((acc: any, p: any) => {
+      interface ProjectRecord { status: string }
+      const projectCounts = projectData?.reduce((acc: Record<string, number>, p: ProjectRecord) => {
         acc[p.status] = (acc[p.status] || 0) + 1;
         return acc;
-      }, {});
+      }, {} as Record<string, number>);
 
       const analytics = {
         revenue: {
@@ -80,7 +81,7 @@ export const GET = apiRoute(
       }
 
       return NextResponse.json({ analytics, period });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ error: error.message || 'Failed to fetch analytics' }, { status: 500 });
     }
   },

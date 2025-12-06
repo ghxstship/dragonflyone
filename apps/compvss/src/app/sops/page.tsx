@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, FileText, CheckCircle, BookOpen, Download, FolderOpen } from 'lucide-react';
+import { Eye, Pencil, CheckCircle, BookOpen, FolderOpen } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 import { useSOPs, useSOPStats, useSOPCategories } from '../../hooks/useSOPs';
 import {
@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SOP {
   id: string;
@@ -34,10 +34,10 @@ interface SOP {
   owner?: { id: string; first_name: string; last_name: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   approved: 'success',
   review: 'warning',
-  draft: 'default',
+  draft: 'ghost',
   archived: 'error',
 };
 
@@ -72,7 +72,7 @@ const columns: ListPageColumn<SOP>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -186,10 +186,34 @@ export default function SOPsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+    await fetch('/api/sops', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'sops',
+    requiredFields: ['title', 'version'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/sops', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('sops').length > 0 
+    ? getImportTemplates('sops') 
+    : [{ id: 'default', name: 'SOP Import', mapping: { title: 'title', description: 'description', version: 'version', status: 'status' } }];
 
   const pageStats = [
     { label: 'Total SOPs', value: stats?.total || 0 },
@@ -214,7 +238,7 @@ export default function SOPsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedSOP.status] || 'default'}>
+            <Badge variant={statusColors[selectedSOP.status] || 'ghost'}>
               {selectedSOP.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -266,9 +290,12 @@ export default function SOPsPage() {
         createLabel="New SOP"
         onCreate={() => setCreateModalOpen(true)}
         entityType="sops"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'description', 'version', 'status']}
         onExport={createExportHandler({
           filename: "sops",
-          getData: () => sops.map(s => ({
+          getData: () => (sops || []).map(s => ({
             id: s.id,
             title: s.title,
             description: s.description || '',
@@ -287,6 +314,27 @@ export default function SOPsPage() {
           { id: 'acknowledgments', label: 'Acknowledgments', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/sops/acknowledgments') },
           { id: 'training', label: 'Training', icon: <BookOpen className="size-4" />, onClick: () => router.push('/sops/training') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sops/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'archive') {
+            await fetch('/api/sops/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -297,7 +345,7 @@ export default function SOPsPage() {
         fields={dynamicFormFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'draft', version: '1.0', requires_acknowledgment: false, requires_training: false }}
+        record={{ status: 'draft', version: '1.0', requires_acknowledgment: false, requires_training: false }}
       />
 
       <DetailDrawer

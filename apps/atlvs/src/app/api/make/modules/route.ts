@@ -6,7 +6,6 @@ import crypto from 'crypto';
 
 // GET /api/make/modules - List available Make modules
 export async function GET(request: NextRequest) {
-  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) {
@@ -230,7 +229,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { action, module_name, parameters } = body;
+    const { action, module_name: _module_name, parameters } = body;
 
     if (action === 'register_webhook') {
       const { event_type, webhook_url } = body;
@@ -247,12 +246,12 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ webhook }, { status: 201 });
     } else if (action === 'bulk_fetch') {
-      const { endpoint, limit, cursor } = parameters;
+      const { endpoint: _endpoint, limit, cursor } = parameters;
 
       // Implement iterator-friendly bulk fetch
       const pageSize = Math.min(limit || 500, 10000);

@@ -132,11 +132,17 @@ export default function RentalEquipmentPage() {
         })}
         stats={stats}
         emptyMessage="No rentals found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(r => !ids.includes(r.id)));
+          } else if (action === 'return') {
+            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Returned' as const } : r));
+          }
+        }}
+        bulkActions={[
+          { id: 'return', label: 'Mark Returned', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -148,7 +154,7 @@ export default function RentalEquipmentPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.vendor} • ${r.status} • $${r.totalCost.toLocaleString()}`}
           sections={detailSections}
-          actions={[{ id: 'return', label: 'Mark Returned', icon: '✅' }]}
+          actions={[{ id: 'return', label: 'Mark Returned', icon: <Check className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'return') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)); setDrawerOpen(false); }}
         />
       )}

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (priority) query = query.eq('priority', priority);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       issues: data,
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       assigned_to, status: 'open', reported_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Notify for critical issues
     if (priority === 'critical' && assigned_to) {

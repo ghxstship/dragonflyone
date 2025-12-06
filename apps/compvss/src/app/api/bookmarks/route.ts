@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('bookmark_type', type);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ bookmarks: data });
   } catch (error) {
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       user_id: user.id, bookmark_type, reference_id, name, notes
     }, { onConflict: 'user_id,bookmark_type,reference_id' }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ bookmark: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

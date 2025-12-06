@@ -32,7 +32,7 @@ interface SyncJob {
   target_system: string;
   status: string;
   created_at: string;
-  payload: any;
+  payload: Record<string, unknown>;
 }
 
 export default function CompvssIntegrationsPage() {
@@ -89,8 +89,8 @@ export default function CompvssIntegrationsPage() {
       <EnterprisePageHeader
         title="Platform Integrations"
         subtitle="Monitor cross-platform data synchronization and manage production workflows."
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

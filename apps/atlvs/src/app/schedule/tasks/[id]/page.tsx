@@ -99,10 +99,10 @@ export default function TaskDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{task.title}</H2>
-                    <Badge variant={statusColors[task.status] || 'default'}>
+                    <Badge variant={statusColors[task.status] || 'ghost'}>
                       {task.status.replace('_', ' ').toUpperCase()}
                     </Badge>
-                    <Badge variant={priorityColors[task.priority] || 'default'}>
+                    <Badge variant={priorityColors[task.priority] || 'ghost'}>
                       {task.priority.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -224,13 +224,13 @@ export default function TaskDetailPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Priority</Body>
-                        <Badge variant={priorityColors[task.priority] || 'default'}>
+                        <Badge variant={priorityColors[task.priority] || 'ghost'}>
                           {task.priority.toUpperCase()}
                         </Badge>
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Status</Body>
-                        <Badge variant={statusColors[task.status] || 'default'}>
+                        <Badge variant={statusColors[task.status] || 'ghost'}>
                           {task.status.replace('_', ' ').toUpperCase()}
                         </Badge>
                       </Stack>

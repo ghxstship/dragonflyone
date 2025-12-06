@@ -121,7 +121,7 @@ export default function StoryTemplatesPage() {
                 <Label className="text-ink-500">Template Elements</Label>
                 <Grid cols={2} gap={2}>
                   {selectedTemplate.elements.map((el, idx) => (
-                    <Card key={idx} className="p-2 border border-ink-200">
+                    <Card key={idx} className="p-2 border-2 border-ink-200">
                       <Label>{el}</Label>
                     </Card>
                   ))}

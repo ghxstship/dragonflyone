@@ -69,8 +69,8 @@ export default function MessagesPage() {
       <EnterprisePageHeader
         title="Messages"
         subtitle="Direct messaging with crew and vendors"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

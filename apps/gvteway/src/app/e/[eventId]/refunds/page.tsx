@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -11,9 +11,9 @@ import {
   Button,
   Badge,
   Grid,
-  Body,
   H3,
   Input,
+  Spinner,
   Table,
   TableHeader,
   TableBody,
@@ -49,9 +49,32 @@ const MOCK_REFUNDS: RefundRequest[] = [
 
 export default function EventRefundsPage() {
   const params = useParams();
-  const _eventId = params?.eventId as string;
-  const [refunds, setRefunds] = useState(MOCK_REFUNDS);
+  const eventId = params?.eventId as string;
+  const [refunds, setRefunds] = useState<RefundRequest[]>(MOCK_REFUNDS);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchRefunds = useCallback(async () => {
+    if (!eventId) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/events/${eventId}/refunds`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.refunds && data.refunds.length > 0) {
+          setRefunds(data.refunds);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch refunds:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    fetchRefunds();
+  }, [fetchRefunds]);
 
   const totalPending = refunds.filter(r => r.status === 'pending').reduce((sum, r) => sum + r.amount, 0);
   const totalProcessed = refunds.filter(r => r.status === 'processed').reduce((sum, r) => sum + r.amount, 0);
@@ -62,12 +85,26 @@ export default function EventRefundsPage() {
     r.orderId.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleApprove = (id: string) => {
-    setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'approved' as const } : r));
+  const handleApprove = async (id: string) => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/refunds/${id}/approve`, { method: 'POST' });
+      if (response.ok) {
+        setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'approved' as const } : r));
+      }
+    } catch (error) {
+      console.error('Failed to approve refund:', error);
+    }
   };
 
-  const handleReject = (id: string) => {
-    setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'rejected' as const } : r));
+  const handleReject = async (id: string) => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/refunds/${id}/reject`, { method: 'POST' });
+      if (response.ok) {
+        setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'rejected' as const } : r));
+      }
+    } catch (error) {
+      console.error('Failed to reject refund:', error);
+    }
   };
 
   const getStatusBadge = (status: RefundRequest['status']) => {
@@ -99,6 +136,11 @@ export default function EventRefundsPage() {
                   <Button variant="outline"><Search size={16} /></Button>
                 </Stack>
               </Stack>
+              {loading ? (
+                <Stack className="items-center py-12">
+                  <Spinner variant="grey" size="lg" />
+                </Stack>
+              ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -132,6 +174,7 @@ export default function EventRefundsPage() {
                   ))}
                 </TableBody>
               </Table>
+              )}
             </Stack>
           </CardBody>
         </Card>

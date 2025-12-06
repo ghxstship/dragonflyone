@@ -73,7 +73,7 @@ async function checkStorageStatus(): Promise<ServiceStatus> {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const supabase = createAdminClient();
   const startTime = Date.now();
   

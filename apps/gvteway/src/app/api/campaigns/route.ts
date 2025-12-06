@@ -148,7 +148,7 @@ export const GET = apiRoute(
 
 // POST - Create campaign or automation rule
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabase = getServerSupabase();
     const body = await request.json();
     const { type } = body;
@@ -218,7 +218,8 @@ export const POST = apiRoute(
 );
 
 // Helper function to build audience
-async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>, targetAudience: any) {
+interface TargetAudience { segment: string; membership_tier?: string; age_range?: { min?: number; max?: number }; location?: string }
+async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>, targetAudience: TargetAudience) {
   let userIds: string[] | null = null;
 
   // Get user IDs based on segment
@@ -281,7 +282,7 @@ async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>
 }
 
 // Helper function to process campaign
-async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, campaignId: string, recipients: any[]) {
+async function processCampaign(supabase: ReturnType<typeof getServerSupabase>, campaignId: string, recipients: unknown[]) {
   // Update status
   await supabase
     .from('marketing_campaigns')

@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useVendors, type Vendor } from '../../hooks/useVendors';
 
 const columns: ListPageColumn<Vendor>[] = [
@@ -185,6 +185,26 @@ export default function VendorsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Vendor, 'id'>>({
+    entityType: 'vendors',
+    requiredFields: ['name', 'category', 'email'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/vendors', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('vendors').length > 0 
+    ? getImportTemplates('vendors') 
+    : [{ id: 'default', name: 'Vendor Import', mapping: { name: 'name', category: 'category', email: 'email', phone: 'phone', status: 'status' } }];
+
   const vendorList = vendors || [];
   const stats = [
     { label: 'Total Vendors', value: vendorList.length },
@@ -239,6 +259,9 @@ export default function VendorsPage() {
         createLabel="Add Vendor"
         onCreate={() => setCreateModalOpen(true)}
         entityType="vendors"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'category', 'email', 'phone', 'status', 'contact_name']}
         onExport={createExportHandler({
           filename: "vendors",
           getData: () => vendorList.map(v => ({
@@ -255,12 +278,7 @@ export default function VendorsPage() {
         stats={stats}
         emptyMessage="No vendors found"
         emptyAction={{ label: 'Add Vendor', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -283,7 +301,7 @@ export default function VendorsPage() {
         sections={detailSections}
         onEdit={(v) => router.push(`/vendors/${v.id}/edit`)}
         onDelete={(v) => { setVendorToDelete(v); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[{ id: 'order', label: 'New Order', icon: '📦' }]}
+        actions={[{ id: 'order', label: 'New Order', icon: <Package className="size-4" /> }]}
         onAction={(actionId, vendor) => {
           if (actionId === 'order') router.push(`/procurement/new?vendor=${vendor.id}`);
         }}

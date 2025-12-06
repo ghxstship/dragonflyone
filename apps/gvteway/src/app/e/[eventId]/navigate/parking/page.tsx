@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
-import { Car, DollarSign, Clock, MapPin } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Body} from "@ghxstship/ui";
+import { DollarSign, MapPin } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
 export default function ParkingPage() {

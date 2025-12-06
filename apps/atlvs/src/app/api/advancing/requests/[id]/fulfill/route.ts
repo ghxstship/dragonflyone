@@ -73,9 +73,10 @@ export async function POST(
     }
 
     // Update fulfillment for each item
-    const items = (existing as any).items || [];
+    interface AdvanceItem { id: string; quantity: number; quantity_fulfilled?: number; notes?: string }
+    const items = ((existing as { items?: AdvanceItem[] }).items || []) as AdvanceItem[];
     const updatePromises = validation.data.items.map(async (item) => {
-      const existingItem = items.find((i: any) => i.id === item.item_id);
+      const existingItem = items.find((i: AdvanceItem) => i.id === item.item_id);
       if (!existingItem) {
         throw new Error(`Item ${item.item_id} not found in advance`);
       }
@@ -115,8 +116,9 @@ export async function POST(
       .select('fulfillment_status')
       .eq('advance_id', id);
 
-    const allComplete = updatedItems?.every((item: any) => item.fulfillment_status === 'complete');
-    const anyPartial = updatedItems?.some((item: any) => item.fulfillment_status === 'partial');
+    interface FulfillmentItem { fulfillment_status: string }
+    const allComplete = updatedItems?.every((item: FulfillmentItem) => item.fulfillment_status === 'complete');
+    const anyPartial = updatedItems?.some((item: FulfillmentItem) => item.fulfillment_status === 'partial');
 
     // Update advance status
     const newStatus = allComplete ? 'fulfilled' : anyPartial || existing.status === 'approved' ? 'in_progress' : existing.status;
@@ -126,7 +128,7 @@ export async function POST(
       .update({
         status: newStatus,
         fulfilled_by: fulfiller_id,
-        fulfilled_at: allComplete ? new Date().toISOString() : (existing as any).fulfilled_at,
+        fulfilled_at: allComplete ? new Date().toISOString() : (existing as { fulfilled_at?: string }).fulfilled_at,
         fulfillment_notes: validation.data.fulfillment_notes,
         ...(validation.data.actual_cost !== undefined && {
           actual_cost: validation.data.actual_cost,

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Destination experiences (travel + event packages)
 export async function GET(request: NextRequest) {
@@ -34,7 +28,7 @@ export async function GET(request: NextRequest) {
     if (destination) query = query.ilike('destination_city', `%${destination}%`);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       packages: data,
@@ -62,8 +56,9 @@ export async function POST(request: NextRequest) {
     if (!pkg) return NextResponse.json({ error: 'Package not found' }, { status: 404 });
 
     // Calculate total
+    interface AddOn { price?: number }
     const basePrice = pkg.base_price * travelers;
-    const addOnTotal = (add_ons || []).reduce((sum: number, a: any) => sum + (a.price || 0), 0);
+    const addOnTotal = (add_ons || []).reduce((sum: number, a: AddOn) => sum + (a.price || 0), 0);
     const total = basePrice + addOnTotal;
 
     const { data: booking, error } = await supabase.from('travel_bookings').insert({
@@ -71,7 +66,7 @@ export async function POST(request: NextRequest) {
       add_ons, base_price: basePrice, total_price: total, status: 'pending'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ booking, total }, { status: 201 });
   } catch (error) {

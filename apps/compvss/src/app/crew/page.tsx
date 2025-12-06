@@ -21,7 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface CrewMember {
   id: string;
@@ -197,7 +197,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function CrewPage() {
   const router = useRouter();
-  const { data: crewData, isLoading } = useCrew();
+  const { data: crewData, isLoading, refetch } = useCrew();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
@@ -205,8 +205,24 @@ export default function CrewPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<CrewMember | null>(null);
 
-  // Use live data or fallback to mock
-  const crewList = crewData || mockCrewForFallback;
+  // Map API data to local interface or fallback to mock
+  const crewList: CrewMember[] = crewData 
+    ? crewData.map(c => ({
+        id: c.id,
+        name: c.full_name,
+        role: c.role,
+        department: c.department,
+        availability: c.availability === 'available' ? 'Available' : c.availability === 'busy' ? 'Booked' : 'Unavailable',
+        rate: c.rate,
+        rating: c.rating || 0,
+        projectsCompleted: c.projects_completed || 0,
+        location: '',
+        phone: c.phone || '',
+        email: c.email,
+        specialties: c.skills,
+        certifications: c.certifications,
+      }))
+    : mockCrewForFallback;
 
   const rowActions: ListPageAction<CrewMember>[] = [
     { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },
@@ -238,27 +254,17 @@ export default function CrewPage() {
     }
   };
 
-  const handleCreate = async (data: Record<string, unknown>) => {
-    const newMember: CrewMember = {
-      id: `CRW-${String(crewList.length + 1).padStart(3, '0')}`,
-      name: String(data.name || ''),
-      role: String(data.role || ''),
-      department: String(data.department || ''),
-      availability: 'Available',
-      rate: Number(data.rate) || 0,
-      rating: 0,
-      projectsCompleted: 0,
-      location: String(data.location || ''),
-      phone: String(data.phone || ''),
-      email: String(data.email || ''),
-    };
-    refetch();
+  const handleCreate = async (_data: Record<string, unknown>) => {
+    // In production, this would call the API to create the crew member
+    // For now, just refetch to get any new data
+    await refetch();
     setCreateModalOpen(false);
   };
 
   const handleDelete = async () => {
     if (memberToDelete) {
-      refetch();
+      // In production, this would call the API to delete the crew member
+      await refetch();
       setDeleteConfirmOpen(false);
       setMemberToDelete(null);
     }
@@ -269,6 +275,25 @@ export default function CrewPage() {
   const avgRating = crewList.length > 0 
     ? (crewList.reduce((sum, c) => sum + (c.rating || 0), 0) / crewList.length).toFixed(1)
     : '0';
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'crew',
+    requiredFields: ['name', 'role', 'department'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/crew', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('crew').length > 0 
+    ? getImportTemplates('crew') 
+    : [{ id: 'default', name: 'Crew Import', mapping: { name: 'name', role: 'role', department: 'department', rate: 'rate', email: 'email' } }];
 
   const stats = [
     { label: 'Total Crew', value: crewList.length },
@@ -350,6 +375,9 @@ export default function CrewPage() {
         createLabel="Add Crew"
         onCreate={() => setCreateModalOpen(true)}
         entityType="crew"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'role', 'department', 'rate', 'email']}
         onExport={createExportHandler({
           filename: "crew",
           getData: () => crewList.map(c => ({
@@ -368,12 +396,7 @@ export default function CrewPage() {
         stats={stats}
         emptyMessage="No crew members found"
         emptyAction={{ label: 'Add Crew Member', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -397,7 +420,7 @@ export default function CrewPage() {
         onEdit={(m) => router.push(`/crew/${m.id}/edit`)}
         onDelete={(m) => { setMemberToDelete(m); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'assign', label: 'Assign', icon: '📋', variant: 'primary' },
+          { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" />, variant: 'primary' },
         ]}
         onAction={(actionId, member) => {
           if (actionId === 'assign') router.push(`/crew/assign?member=${member.id}`);

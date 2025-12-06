@@ -98,7 +98,7 @@ async function calculateClientHealth(supabase: SupabaseClient, clientId: string)
   };
 }
 
-function calculatePaymentScore(invoices: any[]): number {
+function calculatePaymentScore(invoices: unknown[]): number {
   if (invoices.length === 0) return 70;
   
   const paid = invoices.filter(i => i.status === 'paid').length;
@@ -107,7 +107,8 @@ function calculatePaymentScore(invoices: any[]): number {
   return Math.max(0, Math.min(100, 100 - (overdue * 20) + (paid * 5)));
 }
 
-function generateRecommendations(score: number, components: any): string[] {
+interface HealthComponents { engagementScore: number; paymentScore: number; npsScore: number }
+function generateRecommendations(score: number, components: HealthComponents): string[] {
   const recommendations: string[] = [];
 
   if (components.engagementScore < 50) {

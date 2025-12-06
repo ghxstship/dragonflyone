@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Box, Grid } from "@ghxstship/ui";
-import { Plus, GraduationCap, CheckCircle } from "lucide-react";
+import { Plus, GraduationCap } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
 export default function TeamTrainingPage() {

@@ -227,7 +227,7 @@ export default function ParkingTransportPage() {
         <ModalBody>
           {selectedParking && (
             <Stack gap={4}>
-              <Card className="p-4 bg-ink-50 border border-ink-200">
+              <Card className="p-4 bg-ink-50 border-2 border-ink-200">
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
                     <Body className="font-weight-bold">{selectedParking.name}</Body>

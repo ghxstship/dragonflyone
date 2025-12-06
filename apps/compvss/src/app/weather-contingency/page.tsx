@@ -16,7 +16,6 @@ import {
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   Badge,
   Alert,
   Modal,
@@ -111,11 +110,11 @@ export default function WeatherContingencyPage() {
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case "Low": return "text-success-400";
-      case "Moderate": return "text-warning-400";
-      case "High": return "text-warning-400";
-      case "Severe": return "text-error-400";
-      default: return "text-ink-400";
+      case "Low": return "success";
+      case "Moderate": return "warning";
+      case "High": return "warning";
+      case "Severe": return "error";
+      default: return "ghost";
     }
   };
 
@@ -129,12 +128,12 @@ export default function WeatherContingencyPage() {
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Active": return "text-success-400";
-      case "Triggered": return "text-warning-400";
-      case "Cleared": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Active": return "success";
+      case "Triggered": return "warning";
+      case "Cleared": return "ghost";
+      default: return "ghost";
     }
   };
 
@@ -143,10 +142,6 @@ export default function WeatherContingencyPage() {
       <EnterprisePageHeader
         title="Weather Contingency Planning"
         subtitle="Monitor conditions and manage weather-related contingency plans"
-        views={[
-          { id: 'default', label: 'Default', icon: 'grid' },
-        ]}
-        activeView="default"
         showFavorite
         showSettings
       />
@@ -196,11 +191,11 @@ export default function WeatherContingencyPage() {
                         <Stack direction="horizontal" gap={4} className="items-center">
                           <Stack gap={1} className="text-right">
                             <Body className="text-body-sm">Risk Level</Body>
-                            <Badge variant={plan.riskLevel === "High" || plan.riskLevel === "Severe" ? "solid" : "outline"}>{plan.riskLevel}</Badge>
+                            <Badge variant={getRiskColor(plan.riskLevel)} className={getRiskBg(plan.riskLevel)}>{plan.riskLevel}</Badge>
                           </Stack>
                           <Stack gap={1} className="text-right">
                             <Body className="text-body-sm">Status</Body>
-                            <Badge variant={plan.status === "Triggered" ? "solid" : "outline"}>{plan.status}</Badge>
+                            <Badge variant={getStatusVariant(plan.status)}>{plan.status}</Badge>
                           </Stack>
                         </Stack>
                       </Stack>
@@ -223,7 +218,7 @@ export default function WeatherContingencyPage() {
                               <Stack gap={2}>
                                 <Stack direction="horizontal" className="justify-between">
                                   <Badge variant="outline">{action.trigger}</Badge>
-                                  <Badge variant={action.status === "Activated" ? "solid" : "outline"}>{action.status}</Badge>
+                                  <Badge variant={getStatusVariant(action.status)}>{action.status}</Badge>
                                 </Stack>
                                 <Body className="text-body-sm">Threshold: {action.threshold}</Body>
                                 <Body>{action.action}</Body>
@@ -264,7 +259,7 @@ export default function WeatherContingencyPage() {
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Body className="text-body-sm">Event Date</Body><Body>{selectedPlan.eventDate}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Risk Level</Body><Badge variant={selectedPlan.riskLevel === "High" || selectedPlan.riskLevel === "Severe" ? "solid" : "outline"}>{selectedPlan.riskLevel}</Badge></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Risk Level</Body><Badge variant={getRiskColor(selectedPlan.riskLevel)} className={getRiskBg(selectedPlan.riskLevel)}>{selectedPlan.riskLevel}</Badge></Stack>
               </Grid>
               <Stack gap={1}><Body className="text-body-sm">Current Conditions</Body><Body>{selectedPlan.currentConditions}</Body></Stack>
               <Stack gap={2}>
@@ -274,7 +269,7 @@ export default function WeatherContingencyPage() {
                     <Stack gap={1}>
                       <Stack direction="horizontal" className="justify-between">
                         <Body>{action.trigger}: {action.threshold}</Body>
-                        <Badge variant={action.status === "Activated" ? "solid" : "outline"}>{action.status}</Badge>
+                        <Badge variant={getStatusVariant(action.status)}>{action.status}</Badge>
                       </Stack>
                       <Body>{action.action}</Body>
                       <Body className="text-body-sm">{action.responsible}</Body>

@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
-import { Camera, Upload, Image } from "lucide-react";
+import { Upload, Image as ImageIcon } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
 export default function EventPhotosPage() {
@@ -38,7 +38,7 @@ export default function EventPhotosPage() {
             <CardBody>
               <Stack gap={3}>
                 <Box className="flex aspect-video items-center justify-center rounded bg-ink-800">
-                  <Image size={48} className="text-on-dark-muted" />
+                  <ImageIcon size={48} className="text-on-dark-muted" />
                 </Box>
                 <Body className="text-body-sm text-on-dark-muted">{photo.caption}</Body>
               </Stack>

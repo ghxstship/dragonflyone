@@ -60,7 +60,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = createRFPSchema.parse(body);

@@ -10,12 +10,8 @@ function getSupabaseClient() {
   );
 }
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 interface HealthCheck {
   status: 'healthy' | 'degraded' | 'unhealthy';
@@ -23,7 +19,7 @@ interface HealthCheck {
   error?: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const startTime = Date.now();
   const checks: Record<string, HealthCheck> = {};
   

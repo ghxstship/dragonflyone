@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'pending') {
       // Get POs pending receiving
-      const { data: pendingPOs, error } = await supabase
+      let pendingQuery = supabase
         .from('purchase_orders')
         .select(`
           *,
@@ -71,13 +71,18 @@ export async function GET(request: NextRequest) {
         .in('status', ['approved', 'sent', 'acknowledged', 'partial'])
         .order('expected_delivery', { ascending: true });
 
+      if (vendorId) pendingQuery = pendingQuery.eq('vendor_id', vendorId);
+
+      const { data: pendingPOs, error } = await pendingQuery;
+
       if (error) throw error;
 
       // Calculate pending quantities
+      interface POItem { quantity: number; quantity_received?: number }
       const enriched = pendingPOs?.map(po => {
-        const items = (po.items as any[]) || [];
-        const totalOrdered = items.reduce((sum, i) => sum + i.quantity, 0);
-        const totalReceived = items.reduce((sum, i) => sum + (i.quantity_received || 0), 0);
+        const items = (po.items || []) as POItem[];
+        const totalOrdered = items.reduce((sum: number, i: POItem) => sum + i.quantity, 0);
+        const totalReceived = items.reduce((sum: number, i: POItem) => sum + (i.quantity_received || 0), 0);
         const pendingQty = totalOrdered - totalReceived;
 
         return {
@@ -126,19 +131,24 @@ export async function GET(request: NextRequest) {
         .eq('purchase_order_id', poId);
 
       // Calculate match status for each line
-      const poItems = (po.items as any[]) || [];
-      const matchStatus = poItems.map(item => {
-        const receivedQty = receipts?.flatMap(r => (r.items as any[]))
-          .filter(ri => ri.po_line_id === item.id)
-          .reduce((sum, ri) => sum + ri.quantity_received, 0) || 0;
+      interface MatchPOItem { id: string; description: string; quantity: number; total_price: number }
+      interface ReceiptItem { po_line_id: string; quantity_received: number }
+      interface InvoiceItem { po_line_id: string; quantity: number; total_price: number }
+      const poItems = (po.items || []) as MatchPOItem[];
+      const matchStatus = poItems.map((item: MatchPOItem) => {
+        const receiptItems = receipts?.flatMap(r => (r.items || []) as ReceiptItem[]) || [];
+        const receivedQty = receiptItems
+          .filter((ri: ReceiptItem) => ri.po_line_id === item.id)
+          .reduce((sum: number, ri: ReceiptItem) => sum + ri.quantity_received, 0);
 
-        const invoicedQty = invoices?.flatMap(i => (i.items as any[]))
-          .filter(ii => ii.po_line_id === item.id)
-          .reduce((sum, ii) => sum + ii.quantity, 0) || 0;
+        const invoiceItems = invoices?.flatMap(i => (i.items || []) as InvoiceItem[]) || [];
+        const invoicedQty = invoiceItems
+          .filter((ii: InvoiceItem) => ii.po_line_id === item.id)
+          .reduce((sum: number, ii: InvoiceItem) => sum + ii.quantity, 0);
 
-        const invoicedAmount = invoices?.flatMap(i => (i.items as any[]))
-          .filter(ii => ii.po_line_id === item.id)
-          .reduce((sum, ii) => sum + ii.total_price, 0) || 0;
+        const invoicedAmount = invoiceItems
+          .filter((ii: InvoiceItem) => ii.po_line_id === item.id)
+          .reduce((sum: number, ii: InvoiceItem) => sum + ii.total_price, 0);
 
         return {
           po_line_id: item.id,
@@ -185,22 +195,26 @@ export async function GET(request: NextRequest) {
 
       const discrepancies = [];
 
+      interface DiscrepancyPOItem { id: string; quantity: number; quantity_received?: number; total_price: number }
+      interface DiscrepancyInvoiceItem { po_line_id: string; quantity: number; total_price: number }
+      interface VendorData { name?: string }
       for (const po of pos || []) {
         const { data: invoices } = await supabase
           .from('vendor_invoices')
           .select('items:vendor_invoice_items(po_line_id, quantity, total_price)')
           .eq('purchase_order_id', po.id);
 
-        const items = (po.items as any[]) || [];
+        const items = (po.items || []) as DiscrepancyPOItem[];
         
         for (const item of items) {
-          const invoicedQty = invoices?.flatMap(i => (i.items as any[]))
-            .filter(ii => ii.po_line_id === item.id)
-            .reduce((sum, ii) => sum + ii.quantity, 0) || 0;
+          const discrepancyInvoiceItems = invoices?.flatMap(i => (i.items || []) as DiscrepancyInvoiceItem[]) || [];
+          const invoicedQty = discrepancyInvoiceItems
+            .filter((ii: DiscrepancyInvoiceItem) => ii.po_line_id === item.id)
+            .reduce((sum: number, ii: DiscrepancyInvoiceItem) => sum + ii.quantity, 0);
 
-          const invoicedAmount = invoices?.flatMap(i => (i.items as any[]))
-            .filter(ii => ii.po_line_id === item.id)
-            .reduce((sum, ii) => sum + ii.total_price, 0) || 0;
+          const invoicedAmount = discrepancyInvoiceItems
+            .filter((ii: DiscrepancyInvoiceItem) => ii.po_line_id === item.id)
+            .reduce((sum: number, ii: DiscrepancyInvoiceItem) => sum + ii.total_price, 0);
 
           const qtyVariance = item.quantity - (item.quantity_received || 0);
           const amountVariance = item.total_price - invoicedAmount;
@@ -209,7 +223,7 @@ export async function GET(request: NextRequest) {
             discrepancies.push({
               po_id: po.id,
               po_number: po.po_number,
-              vendor_name: (po.vendor as any)?.name,
+              vendor_name: (po.vendor as VendorData | null)?.name,
               po_line_id: item.id,
               ordered_qty: item.quantity,
               received_qty: item.quantity_received || 0,
@@ -243,9 +257,9 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ receipts });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('PO receiving error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -409,12 +423,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('PO receiving error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -435,8 +449,8 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ receipt });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('PO receiving error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   H3,

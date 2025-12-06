@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -74,25 +68,35 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const activities = data?.map(activity => ({
-      id: activity.id,
-      type: activity.type,
-      user_id: activity.user_id,
-      user_name: (activity.user as any)?.full_name || 'Unknown',
-      user_avatar: (activity.user as any)?.avatar_url,
-      event_id: activity.event_id,
-      event_title: (activity.event as any)?.title,
-      event_image: (activity.event as any)?.image,
-      artist_id: activity.artist_id,
-      artist_name: (activity.artist as any)?.name,
-      venue_id: activity.venue_id,
-      venue_name: (activity.venue as any)?.name,
-      content: activity.content,
-      created_at: activity.created_at,
-    })) || [];
+    interface UserInfo { full_name?: string; avatar_url?: string }
+    interface EventInfo { title?: string; image?: string }
+    interface ArtistInfo { name?: string }
+    interface VenueInfo { name?: string }
+    const activities = data?.map(activity => {
+      const user = activity.user as UserInfo | null;
+      const event = activity.event as EventInfo | null;
+      const artist = activity.artist as ArtistInfo | null;
+      const venue = activity.venue as VenueInfo | null;
+      return {
+        id: activity.id,
+        type: activity.type,
+        user_id: activity.user_id,
+        user_name: user?.full_name || 'Unknown',
+        user_avatar: user?.avatar_url,
+        event_id: activity.event_id,
+        event_title: event?.title,
+        event_image: event?.image,
+        artist_id: activity.artist_id,
+        artist_name: artist?.name,
+        venue_id: activity.venue_id,
+        venue_name: venue?.name,
+        content: activity.content,
+        created_at: activity.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ activities });
   } catch (error) {

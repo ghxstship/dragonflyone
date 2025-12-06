@@ -18,7 +18,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface TravelBooking {
   id: string;
@@ -96,6 +96,26 @@ export default function TravelPage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/travel/${r.id}/edit`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<TravelBooking, 'id'>>({
+    entityType: 'travel',
+    requiredFields: ['booking_reference', 'crew_member_name', 'departure_date'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/travel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchTravelData();
+    },
+  });
+
+  const importTemplates = getImportTemplates('travel').length > 0 
+    ? getImportTemplates('travel') 
+    : [{ id: 'default', name: 'Travel Import', mapping: { booking_reference: 'booking_reference', crew_member_name: 'crew_member_name', departure_date: 'departure_date', origin: 'origin', destination: 'destination', cost: 'cost' } }];
+
   const stats = [
     { label: 'Total Bookings', value: bookings.length },
     { label: 'Confirmed', value: confirmedCount },
@@ -128,12 +148,7 @@ export default function TravelPage() {
       <EnterprisePageHeader
         title="Travel Coordination"
         subtitle="Manage crew flights, accommodations, and travel logistics"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
+primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
         showFavorite
         showSettings
       />
@@ -154,6 +169,9 @@ export default function TravelPage() {
           createLabel="Book Travel"
           onCreate={() => router.push('/travel/new')}
           entityType="travel"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['booking_reference', 'crew_member_name', 'departure_date', 'origin', 'destination', 'cost']}
           onExport={createExportHandler({
             filename: "travel-bookings",
             getData: () => bookings.map(b => ({
@@ -174,6 +192,27 @@ export default function TravelPage() {
           stats={stats}
           emptyMessage="No travel bookings"
           emptyAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new') }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/travel/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              fetchTravelData();
+            } else if (action === 'cancel') {
+              await fetch('/api/travel/bulk-cancel', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              fetchTravelData();
+            }
+          }}
+          bulkActions={[
+            { id: 'cancel', label: 'Cancel Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
       {selectedBooking && (

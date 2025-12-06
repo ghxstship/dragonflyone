@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Event listing on third-party aggregators
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('listing_aggregators').select('*')
       .eq('active', true);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ aggregators: data });
   } catch (error) {

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ templates: data });
   } catch (error) {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         branding: branding || {}, is_public: false, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ template: data }, { status: 201 });
     }
 
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
         rfp_id, template_id, content, status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ proposal: data }, { status: 201 });
     }
 

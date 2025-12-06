@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, CheckCircle, Send, Calendar, Users, DollarSign } from 'lucide-react';
+import { Eye, Pencil, CheckCircle, Send, Calendar } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useDailyReports, useReportStats, useSubmitDailyReport, useApproveDailyReport } from '../../../hooks/useReports';
+import { useAuth } from '@ghxstship/config';
 import {
   ListPage,
   Badge,
@@ -34,11 +35,11 @@ interface DailyReport {
   submitter?: { id: string; first_name: string; last_name: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   approved: 'success',
   submitted: 'warning',
   reviewed: 'info',
-  draft: 'default',
+  draft: 'ghost',
 };
 
 const columns: ListPageColumn<DailyReport>[] = [
@@ -81,7 +82,7 @@ const columns: ListPageColumn<DailyReport>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -101,6 +102,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DailyReportsPage() {
   const router = useRouter();
+  const { user } = useAuth();
   const { data: reports, isLoading, error, refetch } = useDailyReports();
   const { data: stats } = useReportStats();
   const submitMutation = useSubmitDailyReport();
@@ -158,8 +160,12 @@ export default function DailyReportsPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/reports/daily', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -243,6 +249,27 @@ export default function DailyReportsPage() {
         quickActions={[
           { id: 'wrap', label: 'Wrap Reports', icon: <Calendar className="size-4" />, onClick: () => router.push('/reports/wrap') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/reports/daily/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'approve') {
+            await fetch('/api/reports/daily/bulk-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -253,7 +280,7 @@ export default function DailyReportsPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ report_date: new Date().toISOString().split('T')[0] }}
+        record={{ report_date: new Date().toISOString().split('T')[0] }}
       />
 
       <DetailDrawer
@@ -270,7 +297,7 @@ export default function DailyReportsPage() {
         open={approveDialogOpen}
         title="Approve Report"
         message={`Are you sure you want to approve this daily report for ${reportToApprove ? new Date(reportToApprove.report_date).toLocaleDateString() : ''}?`}
-        variant="default"
+        variant="info"
         confirmLabel="Approve"
         onConfirm={handleApprove}
         onCancel={() => { setApproveDialogOpen(false); setReportToApprove(null); }}

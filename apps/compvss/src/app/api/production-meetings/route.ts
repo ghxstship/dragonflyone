@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (upcoming) query = query.gte('scheduled_at', new Date().toISOString());
 
     const { data, error } = await query.order('scheduled_at', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ meetings: data });
   } catch (error) {
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       location, meeting_type, agenda: agenda || [], organizer_id: user.id, status: 'scheduled'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Add attendees
     if (attendee_ids?.length) {
@@ -95,7 +95,7 @@ export async function PATCH(request: NextRequest) {
         decisions: decisions || [], recorded_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Update meeting status
       await supabase.from('production_meetings').update({ status: 'completed' }).eq('id', id);

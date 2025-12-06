@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
-import { Plus, Map, Upload, Download } from "lucide-react";
+import { Map, Upload, Download } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
 export default function VenueMapsPage() {

@@ -66,8 +66,15 @@ export const mockAsset = (overrides = {}) => ({
 });
 
 // Test data builders
+interface TestProject {
+  id: string;
+  name: string;
+  status: string;
+  budget: number;
+}
+
 export class ProjectBuilder {
-  private project: any = {
+  private project: TestProject = {
     id: '1',
     name: 'Test Project',
     status: 'active',

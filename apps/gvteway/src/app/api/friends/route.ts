@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -52,14 +46,14 @@ export async function GET(request: NextRequest) {
       .eq('status', 'accepted');
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get event names for friends at events
-    const friendsAtEvents = friendships?.filter((f: any) => f.friend?.current_event_id) || [];
-    const eventIds = friendsAtEvents.map((f: any) => f.friend.current_event_id);
+    const friendsAtEvents = friendships?.filter((f: Record<string, unknown>) => f.friend?.current_event_id) || [];
+    const eventIds = friendsAtEvents.map((f: Record<string, unknown>) => f.friend.current_event_id);
 
-    let events: any[] = [];
+    let events: unknown[] = [];
     if (eventIds.length > 0) {
       const { data: eventData } = await supabase
         .from('events')
@@ -68,7 +62,7 @@ export async function GET(request: NextRequest) {
       events = eventData || [];
     }
 
-    const friends = friendships?.map((f: any) => {
+    const friends = friendships?.map((f: Record<string, unknown>) => {
       const friend = f.friend;
       const event = events.find(e => e.id === friend?.current_event_id);
       return {
@@ -141,7 +135,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ friendship: data }, { status: 201 });
@@ -155,7 +149,7 @@ export async function POST(request: NextRequest) {
         .eq('user_id', friend_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create reverse friendship

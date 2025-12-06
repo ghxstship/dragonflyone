@@ -266,7 +266,7 @@ export default function WaitlistPage() {
 
               {waitlist.length > 0 ? (
                 <Stack gap={3}>
-                  {waitlist.slice(0, 10).map((entry, index) => (
+                  {waitlist.slice(0, 10).map((entry) => (
                     <Stack
                       key={entry.id}
                       direction="horizontal"

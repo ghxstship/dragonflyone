@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       checked_by:platform_users(first_name, last_name)
     `).eq('project_id', projectId).order('returned_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       returns: data,
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       returned_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update equipment status
     await supabase.from('equipment').update({

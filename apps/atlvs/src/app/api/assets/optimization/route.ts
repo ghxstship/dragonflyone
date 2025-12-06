@@ -27,9 +27,10 @@ export async function GET(request: NextRequest) {
     const daysInQuarter = Math.ceil((now.getTime() - quarterStart.getTime()) / (1000 * 60 * 60 * 24));
 
     // Calculate usage patterns
+    interface Checkout { checkout_date: string; return_date?: string }
     const patterns = assets.map(asset => {
-      const checkouts = asset.checkouts || [];
-      const totalCheckoutDays = checkouts.reduce((sum: number, c: any) => {
+      const checkouts = (asset.checkouts || []) as Checkout[];
+      const totalCheckoutDays = checkouts.reduce((sum: number, c: Checkout) => {
         const start = new Date(c.checkout_date);
         const end = c.return_date ? new Date(c.return_date) : now;
         return sum + Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));

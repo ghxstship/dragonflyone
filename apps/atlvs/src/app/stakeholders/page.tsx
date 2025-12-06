@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Key, Mail } from 'lucide-react';
+import { Eye, Key, Mail, Download, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -16,9 +16,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
+  type ListPageBulkAction,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Stakeholder {
   id: string;
@@ -120,6 +120,47 @@ export default function StakeholdersPage() {
     { id: 'manage', label: 'Manage Access', icon: <Key className="size-4" />, onClick: (r) => router.push(`/stakeholders/${r.id}/access`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'stakeholders',
+    requiredFields: ['name', 'email'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newStakeholder: Stakeholder = {
+          id: `STK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          name: String(record.name || ''),
+          email: String(record.email || ''),
+          role: String(record.role || ''),
+          organization: String(record.organization || ''),
+          permission_level: (record.permission_level as Stakeholder['permission_level']) || 'view',
+          projects: [],
+          last_activity: new Date().toISOString(),
+          status: 'invited',
+        };
+        setStakeholders(prev => [...prev, newStakeholder]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('stakeholders').length > 0 
+    ? getImportTemplates('stakeholders') 
+    : [{ id: 'default', name: 'Stakeholder Import', mapping: { name: 'name', email: 'email', role: 'role', organization: 'organization', permission_level: 'permission_level' } }];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'email', label: 'Send Email', icon: <Mail className="size-4" /> },
+    { id: 'delete', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger' },
+  ];
+
+  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+    if (actionId === 'delete') {
+      setStakeholders(prev => prev.filter(s => !selectedIds.includes(s.id)));
+    } else if (actionId === 'email') {
+      const emails = stakeholders.filter(s => selectedIds.includes(s.id)).map(s => s.email).join(',');
+      window.location.href = `mailto:${emails}`;
+    }
+  };
+
   const stats = [
     { label: 'Total Stakeholders', value: stakeholders.length },
     { label: 'Active', value: activeCount },
@@ -156,10 +197,15 @@ export default function StakeholdersPage() {
         searchPlaceholder="Search stakeholders..."
         filters={filters}
         rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
         onRowClick={(r) => { setSelectedStakeholder(r); setDrawerOpen(true); }}
         createLabel="Invite Stakeholder"
         onCreate={() => setCreateModalOpen(true)}
         entityType="stakeholders"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'email', 'role', 'organization', 'permission_level']}
         onExport={createExportHandler({
           filename: "stakeholders",
           getData: () => stakeholders.map(s => ({
@@ -176,12 +222,7 @@ export default function StakeholdersPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Invite Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 

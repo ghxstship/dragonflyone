@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Ambassador and superfan programs with rewards
 export async function GET(request: NextRequest) {
@@ -87,7 +81,7 @@ export async function POST(request: NextRequest) {
         applied_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ application: data }, { status: 201 });
     }
 
@@ -109,7 +103,7 @@ export async function POST(request: NextRequest) {
         created_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ link: data, referral_code: referralCode }, { status: 201 });
     }
 

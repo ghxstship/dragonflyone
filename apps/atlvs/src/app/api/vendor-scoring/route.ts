@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (vendorId) query = query.eq('vendor_id', vendorId);
 
     const { data, error } = await query.order('evaluation_date', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate aggregate scores per vendor
     const vendorScores = new Map();
@@ -30,9 +30,10 @@ export async function GET(request: NextRequest) {
       vendorScores.get(score.vendor_id).scores.push(score);
     });
 
+    interface VendorScore { quality_score?: number; delivery_score?: number; price_score?: number; communication_score?: number; [key: string]: unknown }
     const aggregated = Array.from(vendorScores.entries()).map(([id, data]) => {
-      const scores = data.scores;
-      const avg = (field: string) => scores.reduce((sum: number, s: any) => sum + (s[field] || 0), 0) / scores.length;
+      const scores = data.scores as VendorScore[];
+      const avg = (field: string) => scores.reduce((sum: number, s: VendorScore) => sum + (Number(s[field]) || 0), 0) / scores.length;
       return {
         vendor_id: id,
         vendor: data.vendor,
@@ -73,7 +74,7 @@ export async function POST(request: NextRequest) {
       comments, evaluation_date: new Date().toISOString(), evaluated_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update vendor's average score
     const { data: allScores } = await supabase.from('vendor_scores')

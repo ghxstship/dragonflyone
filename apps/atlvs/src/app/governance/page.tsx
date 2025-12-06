@@ -141,11 +141,19 @@ export default function GovernancePage() {
         stats={stats}
         emptyMessage="No meetings scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => router.push('/governance/meetings/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/governance/meetings/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchGovernanceData();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

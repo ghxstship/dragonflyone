@@ -79,12 +79,12 @@ export default function SiteAccessPage() {
   const activeVehicles = mockAccessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);
   const activePasses = mockVehiclePasses.filter(p => p.status === "Active").length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Open": case "Active": return "text-success-400";
-      case "Restricted": case "Pending": return "text-warning-400";
-      case "Closed": case "Expired": return "text-error-400";
-      default: return "text-ink-400";
+      case "Open": case "Active": return "success";
+      case "Restricted": case "Pending": return "warning";
+      case "Closed": case "Expired": return "error";
+      default: return "ghost";
     }
   };
 
@@ -93,8 +93,6 @@ export default function SiteAccessPage() {
       <EnterprisePageHeader
         title="Site Access Management"
         subtitle="Gates, parking, loading docks, and vehicle passes"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
         primaryAction={{ label: 'Issue Vehicle Pass', onClick: () => setShowAddPassModal(true) }}
         showFavorite
         showSettings
@@ -127,7 +125,7 @@ export default function SiteAccessPage() {
                             <H3>{point.name}</H3>
                             <Badge variant="outline">{point.type}</Badge>
                           </Stack>
-                          <Badge variant={point.status === "Open" ? "solid" : "outline"}>{point.status}</Badge>
+                          <Badge variant={getStatusVariant(point.status)}>{point.status}</Badge>
                         </Stack>
                         {point.currentVehicles !== undefined && (
                           <Stack gap={2}>
@@ -174,7 +172,7 @@ export default function SiteAccessPage() {
                           </Stack>
                         </TableCell>
                         <TableCell><Body className="text-body-sm">{new Date(pass.validUntil).toLocaleTimeString()}</Body></TableCell>
-                        <TableCell><Badge variant={pass.status === "Active" ? "solid" : "outline"}>{pass.status}</Badge></TableCell>
+                        <TableCell><Badge variant={getStatusVariant(pass.status)}>{pass.status}</Badge></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2}>
                             <Button variant="ghost" size="sm" onClick={() => setSelectedPass(pass)}>View</Button>

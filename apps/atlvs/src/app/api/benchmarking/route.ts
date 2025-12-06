@@ -59,12 +59,12 @@ export async function GET(request: NextRequest) {
     const { data: benchmarks, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get organization metrics for comparison if requested
     let orgMetrics: Record<string, number> | null = null;
-    let comparisons: any[] | null = null;
+    let comparisons: unknown[] | null = null;
 
     if (compareToOrg) {
       // Calculate organization's current metrics
@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ benchmark }, { status: 201 });
@@ -267,12 +267,30 @@ export async function POST(request: NextRequest) {
 // Helper function to calculate organization metrics
 async function calculateOrgMetrics(period?: string): Promise<Record<string, number>> {
   const metrics: Record<string, number> = {};
+  
+  // Calculate date range based on period
+  const now = new Date();
+  let startDate: Date | null = null;
+  if (period === 'month') {
+    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  } else if (period === 'quarter') {
+    const quarterStart = Math.floor(now.getMonth() / 3) * 3;
+    startDate = new Date(now.getFullYear(), quarterStart, 1);
+  } else if (period === 'year') {
+    startDate = new Date(now.getFullYear(), 0, 1);
+  }
 
   // Financial metrics
-  const { data: revenue } = await supabase
+  let revenueQuery = supabase
     .from('invoices')
     .select('total_amount')
     .eq('status', 'paid');
+  
+  if (startDate) {
+    revenueQuery = revenueQuery.gte('created_at', startDate.toISOString());
+  }
+  
+  const { data: revenue } = await revenueQuery;
   
   const totalRevenue = revenue?.reduce((sum, i) => sum + (i.total_amount || 0), 0) || 0;
 

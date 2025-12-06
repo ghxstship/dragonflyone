@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
         conversation_id, sender_id: user.id, content, attachments: attachments || []
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       await supabase.from('conversations').update({ updated_at: new Date().toISOString() })
         .eq('id', conversation_id);

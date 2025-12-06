@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Local fan chapters and geographic communities
 export async function GET(request: NextRequest) {
@@ -36,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (artistId) query = query.eq('artist_id', artistId);
 
     const { data, error } = await query.order('member_count', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // If location provided, sort by distance
     let sortedData = data;
@@ -77,7 +71,7 @@ export async function POST(request: NextRequest) {
         leader_id: user.id, member_count: 1, status: 'active'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add creator as first member
       await supabase.from('fan_chapter_members').insert({
@@ -114,7 +108,7 @@ export async function POST(request: NextRequest) {
         created_by: user.id, status: 'scheduled'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ event: data }, { status: 201 });
     }
 

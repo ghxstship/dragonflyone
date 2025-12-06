@@ -205,18 +205,19 @@ export async function GET(request: NextRequest) {
         }
 
         // Calculate running balance
+        interface ProjectionWeek { week_start: string; receivables: number; payables: number; net: number; projected_balance?: number }
         let balance = 0;
-        projection.forEach(week => {
+        const projectionWithBalance = projection.map((week): ProjectionWeek => {
           balance += week.net;
-          (week as any).projected_balance = balance;
+          return { ...week, projected_balance: balance };
         });
 
         return NextResponse.json({
-          projection,
+          projection: projectionWithBalance,
           summary: {
             total_receivables: receivables?.reduce((sum, r) => sum + (r.total_amount || 0), 0) || 0,
             total_payables: payables?.reduce((sum, p) => sum + (p.amount || 0), 0) || 0,
-            lowest_balance_week: projection.reduce((min, w) => (w as any).projected_balance < (min as any).projected_balance ? w : min),
+            lowest_balance_week: projectionWithBalance.reduce((min, w) => (w.projected_balance || 0) < (min.projected_balance || 0) ? w : min),
           },
         });
       }
@@ -318,12 +319,14 @@ export async function GET(request: NextRequest) {
         // Calculate utilization per employee
         const utilization: Record<string, { name: string; hours: number; skills: string[] }> = {};
 
+        interface EmployeeInfo { first_name?: string; last_name?: string; skills?: string[] }
         assignments?.forEach(a => {
+          const employee = a.employee as EmployeeInfo | null;
           if (!utilization[a.employee_id]) {
             utilization[a.employee_id] = {
-              name: `${(a.employee as any)?.first_name} ${(a.employee as any)?.last_name}`,
+              name: `${employee?.first_name} ${employee?.last_name}`,
               hours: 0,
-              skills: (a.employee as any)?.skills || [],
+              skills: employee?.skills || [],
             };
           }
           utilization[a.employee_id].hours += a.hours_allocated || 0;

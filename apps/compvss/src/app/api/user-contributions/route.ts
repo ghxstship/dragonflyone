@@ -23,13 +23,13 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate vote scores
     const withScores = data?.map(c => ({
       ...c,
-      score: (c.votes?.filter((v: any) => v.vote_type === 'up').length || 0) -
-             (c.votes?.filter((v: any) => v.vote_type === 'down').length || 0)
+      score: (c.votes?.filter((v: Record<string, unknown>) => v.vote_type === 'up').length || 0) -
+             (c.votes?.filter((v: Record<string, unknown>) => v.vote_type === 'down').length || 0)
     }));
 
     return NextResponse.json({ contributions: withScores });
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
         author_id: user.id, status: 'pending'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ contribution: data }, { status: 201 });
     }
 

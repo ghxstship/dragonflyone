@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface AvailabilitySlot {
   id: string;
@@ -130,6 +130,34 @@ export default function AvailabilityPage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedSlot(r); setCreateModalOpen(true); } },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'availability',
+    requiredFields: ['user_name', 'date', 'status'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newSlot: AvailabilitySlot = {
+          id: `SLOT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          user_id: String(record.user_id || 'CREW-001'),
+          user_name: String(record.user_name || ''),
+          role: String(record.role || 'Staff'),
+          department: String(record.department || 'General'),
+          date: String(record.date || ''),
+          status: record.status as AvailabilitySlot['status'],
+          start_time: record.start_time ? String(record.start_time) : undefined,
+          end_time: record.end_time ? String(record.end_time) : undefined,
+          notes: record.notes ? String(record.notes) : undefined,
+          calendar_source: 'manual',
+        };
+        setAvailability(prev => [...prev, newSlot]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('availability').length > 0 
+    ? getImportTemplates('availability') 
+    : [{ id: 'default', name: 'Availability Import', mapping: { user_name: 'user_name', date: 'date', status: 'status', start_time: 'start_time', end_time: 'end_time' } }];
+
   const stats = [
     { label: 'Available', value: availableCount },
     { label: 'Unavailable', value: unavailableCount },
@@ -158,12 +186,7 @@ export default function AvailabilityPage() {
       <EnterprisePageHeader
         title="Availability"
         subtitle="Crew availability and calendar integration"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -182,6 +205,9 @@ export default function AvailabilityPage() {
           createLabel="Set Availability"
           onCreate={() => setCreateModalOpen(true)}
           entityType="availability"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['user_name', 'date', 'status', 'start_time', 'end_time']}
           onExport={createExportHandler({
             filename: "availability",
             getData: () => availability.map(s => ({
@@ -199,6 +225,17 @@ export default function AvailabilityPage() {
           })}
           stats={stats}
           emptyMessage="No availability records"
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              setAvailability(prev => prev.filter(s => !ids.includes(s.id)));
+            } else if (action === 'book') {
+              setAvailability(prev => prev.map(s => ids.includes(s.id) ? { ...s, status: 'booked' as const } : s));
+            }
+          }}
+          bulkActions={[
+            { id: 'book', label: 'Book Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
 

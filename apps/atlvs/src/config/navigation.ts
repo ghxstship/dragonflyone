@@ -11,7 +11,6 @@ import {
   Plug,
   Calendar,
   MapPin,
-  ClipboardList,
   Briefcase,
   Target,
   TrendingUp,
@@ -22,7 +21,6 @@ import {
   Megaphone,
   Lightbulb,
   Key,
-  Webhook,
   FileSearch,
   Database,
   PieChart,
@@ -34,7 +32,6 @@ import {
   Flag,
   Layers,
   Sparkles,
-  type LucideIcon,
 } from 'lucide-react';
 
 import type { NavigationConfig, NavSection } from '@ghxstship/ui/navigation';

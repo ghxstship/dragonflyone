@@ -64,8 +64,8 @@ export default function KnowledgePage() {
       <EnterprisePageHeader
         title="Knowledge Base"
         subtitle="SOPs, guides, and training materials"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Contribute', onClick: () => router.push('/knowledge/contribute') }}
         showFavorite
         showSettings

@@ -14,6 +14,7 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface PromoCode {
   id: string;
@@ -252,6 +253,21 @@ export default function PromoCodesPage() {
         onBulkAction={handleBulkAction}
         createLabel="Create Code"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="promo-codes"
+        onExport={createExportHandler({
+          filename: 'promo-codes',
+          getData: () => promoCodes.map(p => ({
+            id: p.id,
+            code: p.code,
+            discount_type: p.discount_type,
+            discount_value: p.discount_value,
+            max_uses: p.max_uses || 'unlimited',
+            current_uses: p.current_uses,
+            valid_from: p.valid_from,
+            valid_until: p.valid_until,
+            status: p.status,
+          })),
+        })}
         stats={stats}
         emptyMessage="No promo codes yet"
         emptyAction={{ label: 'Create Promo Code', onClick: () => setCreateModalOpen(true) }}

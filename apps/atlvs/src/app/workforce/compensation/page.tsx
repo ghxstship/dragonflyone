@@ -15,7 +15,6 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant } from '@ghxstship/config';
 
 interface CompensationPlan {
   id: string;
@@ -118,11 +117,17 @@ export default function CompensationPage() {
         stats={stats}
         emptyMessage="No compensation plans found"
         emptyAction={{ label: 'Create Plan', onClick: () => router.push('/workforce/compensation/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setPlans(prev => prev.filter(p => !ids.includes(p.id)));
+          } else if (action === 'approve') {
+            setPlans(prev => prev.map(p => ids.includes(p.id) ? { ...p, status: 'Approved' as const } : p));
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

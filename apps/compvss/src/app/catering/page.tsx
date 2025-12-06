@@ -106,7 +106,7 @@ const DEMO_CATERING_SUMMARY: CateringSummary = {
 
 export default function CateringPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const { addNotification: _addNotification } = useNotifications();
   const [services, setServices] = useState<MealService[]>([]);
   const [summary, setSummary] = useState<CateringSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -202,8 +202,8 @@ export default function CateringPage() {
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -222,8 +222,8 @@ export default function CateringPage() {
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -245,8 +245,8 @@ export default function CateringPage() {
       <EnterprisePageHeader
         title="Catering & Hospitality"
         subtitle="Manage crew meals, dietary requirements, and hospitality services"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Schedule Meal', onClick: () => router.push('/catering/schedule') }}
         showFavorite
         showSettings

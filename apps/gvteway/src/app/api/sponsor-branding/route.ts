@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Sponsor and partner branding
 export async function GET(request: NextRequest) {
@@ -35,11 +29,12 @@ export async function GET(request: NextRequest) {
     if (eventId) query = query.eq('event_id', eventId);
 
     const { data, error } = await query.order('tier', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by tier
-    const byTier: Record<string, any[]> = {};
-    data?.forEach(s => {
+    interface SponsorData { tier: string; [key: string]: unknown }
+    const byTier: Record<string, SponsorData[]> = {};
+    data?.forEach((s: SponsorData) => {
       if (!byTier[s.tier]) byTier[s.tier] = [];
       byTier[s.tier].push(s);
     });
@@ -67,7 +62,7 @@ export async function POST(request: NextRequest) {
         branding_assets: branding_assets || {}
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ sponsor: data }, { status: 201 });
     }
 
@@ -78,7 +73,7 @@ export async function POST(request: NextRequest) {
         name, logo_url, website, contact_name, contact_email
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ sponsor: data }, { status: 201 });
     }
 

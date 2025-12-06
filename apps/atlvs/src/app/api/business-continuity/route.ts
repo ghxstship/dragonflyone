@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('updated_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get upcoming test dates
@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
     thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
     const upcomingTests = data.flatMap(plan => 
-      (plan.tests || []).filter((test: any) => 
+      (plan.tests || []).filter((test: Record<string, unknown>) => 
         test.scheduled_date && new Date(test.scheduled_date) <= thirtyDaysFromNow && test.status === 'scheduled'
       )
     );
@@ -133,7 +133,7 @@ export async function POST(request: NextRequest) {
 
     // Add contacts
     if (contacts && contacts.length > 0) {
-      const contactRecords = contacts.map((contact: any) => ({
+      const contactRecords = contacts.map((contact: Record<string, unknown>) => ({
         plan_id: plan.id,
         name: contact.name,
         role: contact.role,
@@ -146,8 +146,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Add procedures
+    interface ProcedureInput { title: string; description?: string; responsible_party?: string; time_to_complete?: string }
     if (procedures && procedures.length > 0) {
-      const procedureRecords = procedures.map((proc: any, index: number) => ({
+      const procedureRecords = procedures.map((proc: ProcedureInput, index: number) => ({
         plan_id: plan.id,
         title: proc.title,
         description: proc.description,
@@ -202,7 +203,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ test });
@@ -264,7 +265,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', plan_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

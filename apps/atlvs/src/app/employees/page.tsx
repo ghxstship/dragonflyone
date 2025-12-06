@@ -19,8 +19,7 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
-} from '@ghxstship/ui';
+  } from '@ghxstship/ui';
 import { createExportHandler } from '@ghxstship/config';
 import { useEmployees } from '../../hooks/useEmployees';
 
@@ -252,12 +251,7 @@ export default function EmployeesPage() {
         stats={stats}
         emptyMessage="No employees found"
         emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 

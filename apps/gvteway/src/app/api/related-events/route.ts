@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Related event linking
 export async function GET(request: NextRequest) {
@@ -34,7 +28,7 @@ export async function GET(request: NextRequest) {
       *, related:events!related_event_id(id, title, date, venue, image_url)
     `).eq('event_id', eventId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ related_events: data?.map(r => ({ ...r.related, relationship: r.relationship })) });
   } catch (error) {
@@ -58,7 +52,7 @@ export async function POST(request: NextRequest) {
         event_id, related_event_id, relationship: relationship || 'similar'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Create bidirectional link
       await supabase.from('related_events').insert({

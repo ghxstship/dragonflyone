@@ -9,7 +9,6 @@ import {
   Badge,
   RecordFormModal,
   DetailDrawer,
-  ConfirmDialog,
   useNotifications,
   Grid,
   Body,
@@ -80,7 +79,7 @@ export default function PayrollPage() {
   const [entries, setEntries] = useState<PayrollEntry[]>([]);
   const [summary, setSummary] = useState<PayrollSummary | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<PayrollEntry | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -95,7 +94,7 @@ export default function PayrollPage() {
       setSummary(data.summary || null);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err : new Error('An error occurred'));
     } finally {
       setLoading(false);
     }
@@ -180,6 +179,7 @@ export default function PayrollPage() {
         columns={columns}
         rowKey="id"
         loading={loading}
+        error={error}
         onRetry={fetchPayroll}
         searchPlaceholder="Search employees..."
         filters={filters}
@@ -191,11 +191,27 @@ export default function PayrollPage() {
         stats={stats}
         emptyMessage="No payroll entries found"
         emptyAction={{ label: 'Add Entry', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/payroll/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchPayroll();
+          } else if (action === 'approve') {
+            await fetch('/api/payroll/bulk-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchPayroll();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -110,7 +110,7 @@ export default function FriendFinderPage() {
             <H3>SUGGESTED MEETUP SPOTS</H3>
             <Grid cols={3} gap={4}>
               {meetupSpots.map((spot) => (
-                <Card key={spot.id} className="p-4 border border-ink-200">
+                <Card key={spot.id} className="p-4 border-2 border-ink-200">
                   <Stack gap={2}>
                     <Body className="font-weight-bold">{spot.name}</Body>
                     <Label size="xs" className="text-ink-500">{spot.description}</Label>
@@ -123,12 +123,12 @@ export default function FriendFinderPage() {
 
           <Stack gap={4}>
             <H3>INVITE FRIENDS</H3>
-            <Card className="p-4 border border-ink-200">
+            <Card className="p-4 border-2 border-ink-200">
               <Stack gap={4}>
                 <Input placeholder="Search contacts..." className="border-ink-300" />
                 <Grid cols={2} gap={2}>
                   {mockFriends.filter(f => f.status !== "attending").map((friend) => (
-                    <Card key={friend.id} className="p-3 border border-ink-200">
+                    <Card key={friend.id} className="p-3 border-2 border-ink-200">
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Label>{friend.name}</Label>
                         <Button variant="outline" size="sm">
@@ -154,7 +154,7 @@ export default function FriendFinderPage() {
               <Stack gap={2}>
                 <Label>Select Location</Label>
                 {meetupSpots.map((spot) => (
-                  <Card key={spot.id} className="p-3 border border-ink-200 cursor-pointer hover:border-black">
+                  <Card key={spot.id} className="p-3 border-2 border-ink-200 cursor-pointer hover:border-black">
                     <Stack gap={1}>
                       <Label className="font-weight-bold">{spot.name}</Label>
                       <Label size="xs" className="text-ink-500">{spot.description}</Label>

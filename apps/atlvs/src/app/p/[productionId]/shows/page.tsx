@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
-import { Play, ListOrdered, Zap, Clock, Plus } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
+import { ListOrdered, Zap, Clock} from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
 export default function ProductionShowsPage() {

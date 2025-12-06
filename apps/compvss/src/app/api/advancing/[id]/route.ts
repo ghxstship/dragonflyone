@@ -17,7 +17,7 @@ const updateAdvanceSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const { id } = context.params;
@@ -55,12 +55,12 @@ export const GET = apiRoute(
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 404 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 404 });
       }
 
       return NextResponse.json({ advance: data });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {
@@ -72,7 +72,7 @@ export const GET = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const { id } = context.params;
@@ -99,7 +99,8 @@ export const PATCH = apiRoute(
       }
 
       // Update advance
-      const updates: any = {};
+      interface AdvanceUpdates { team_workspace?: string; activation_name?: string; estimated_cost?: number; status?: string; submitted_at?: string }
+      const updates: AdvanceUpdates = {};
       if (payload.team_workspace) updates.team_workspace = payload.team_workspace;
       if (payload.activation_name) updates.activation_name = payload.activation_name;
       if (payload.estimated_cost !== undefined) updates.estimated_cost = payload.estimated_cost;
@@ -122,12 +123,12 @@ export const PATCH = apiRoute(
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ advance: data });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {
@@ -140,7 +141,7 @@ export const PATCH = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const { id } = context.params;
@@ -176,12 +177,12 @@ export const DELETE = apiRoute(
         .eq('id', id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ message: 'Advance deleted successfully' });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

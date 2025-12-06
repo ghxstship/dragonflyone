@@ -24,10 +24,6 @@ import {
   ModalBody,
   ModalFooter,
   Textarea,
-  Table,
-  TableHeader,
-  TableRow,
-  TableCell,
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
@@ -70,23 +66,14 @@ export default function SoundcheckPage() {
 
   const filteredSoundchecks = stageFilter === "All" ? mockSoundchecks : mockSoundchecks.filter(s => s.stage === stageFilter);
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Completed": return "text-success-400";
-      case "In Progress": return "text-info-400";
-      case "Scheduled": return "text-ink-400";
-      case "Delayed": return "text-warning-400";
-      case "Cancelled": return "text-error-400";
-      default: return "text-ink-400";
-    }
-  };
-
-  const getStatusBg = (status: string) => {
-    switch (status) {
-      case "In Progress": return "border-info-800 bg-info-900/20";
-      case "Delayed": return "border-warning-800 bg-warning-900/20";
-      case "Completed": return "border-success-800 bg-success-900/10";
-      default: return "border-ink-800 bg-ink-900/50";
+      case "Completed": return "success";
+      case "In Progress": return "info";
+      case "Scheduled": return "ghost";
+      case "Delayed": return "warning";
+      case "Cancelled": return "error";
+      default: return "ghost";
     }
   };
 
@@ -95,8 +82,8 @@ export default function SoundcheckPage() {
       <EnterprisePageHeader
         title="Soundcheck Coordination"
         subtitle="Schedule and manage soundcheck and focus time for all artists"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Soundcheck', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -179,7 +166,7 @@ export default function SoundcheckPage() {
                           <Body className="text-body-sm">Engineer</Body>
                           <Body>{slot.engineer || "-"}</Body>
                         </Stack>
-                        <Badge variant={slot.status === "Completed" ? "solid" : "outline"}>{slot.status}</Badge>
+                        <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
                         <Stack direction="horizontal" gap={2}>
                           {slot.status === "Scheduled" && <Button variant="outline" size="sm">Start</Button>}
                           {slot.status === "In Progress" && <Button variant="outline" size="sm">Complete</Button>}
@@ -205,7 +192,7 @@ export default function SoundcheckPage() {
                                 <Body>{slot.artistName}</Body>
                                 <Body className="text-body-sm">{slot.scheduledStart} - {slot.scheduledEnd}</Body>
                               </Stack>
-                              <Badge variant={slot.status === "Completed" || slot.status === "In Progress" ? "solid" : "outline"}>{slot.status}</Badge>
+                              <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
                             </Stack>
                           </Card>
                         ))}
@@ -238,7 +225,7 @@ export default function SoundcheckPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Status</Body>
-                  <Badge variant={selectedSlot.status === "Completed" ? "solid" : "outline"}>{selectedSlot.status}</Badge>
+                  <Badge variant={getStatusVariant(selectedSlot.status)}>{selectedSlot.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>

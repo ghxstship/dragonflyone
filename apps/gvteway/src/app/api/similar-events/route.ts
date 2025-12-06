@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Similar events and "Fans also bought" recommendations
 export async function GET(request: NextRequest) {
@@ -74,7 +68,7 @@ export async function GET(request: NextRequest) {
       .or(`genre.eq.${event.genre},venue.eq.${event.venue}`)
       .limit(10);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Score by similarity
     const scored = similar?.map(e => ({

@@ -61,16 +61,18 @@ export default function ReportsPage() {
         .from('platform_users')
         .select('id');
 
+      interface LedgerEntry { side: string; amount: string | number }
+      interface Project { phase: string }
       if (!projError && !ledgerError && projects && ledgerEntries) {
         const revenue = ledgerEntries
-          .filter((e: any) => e.side === 'credit')
-          .reduce((sum: number, e: any) => sum + parseFloat(e.amount.toString()), 0);
+          .filter((e: LedgerEntry) => e.side === 'credit')
+          .reduce((sum: number, e: LedgerEntry) => sum + parseFloat(e.amount.toString()), 0);
         
         const expenses = ledgerEntries
-          .filter((e: any) => e.side === 'debit')
-          .reduce((sum: number, e: any) => sum + parseFloat(e.amount.toString()), 0);
+          .filter((e: LedgerEntry) => e.side === 'debit')
+          .reduce((sum: number, e: LedgerEntry) => sum + parseFloat(e.amount.toString()), 0);
 
-        const completedProjects = projects.filter((p: any) => p.phase === 'post').length;
+        const completedProjects = projects.filter((p: Project) => p.phase === 'post').length;
 
         setAnalytics({
           totalRevenue: revenue,
@@ -103,8 +105,8 @@ export default function ReportsPage() {
         <EnterprisePageHeader
           title="Executive Reports"
           subtitle="Loading..."
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -123,8 +125,8 @@ export default function ReportsPage() {
         <EnterprisePageHeader
           title="Executive Reports"
           subtitle="No data available"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -142,8 +144,8 @@ export default function ReportsPage() {
       <EnterprisePageHeader
         title="Executive Reports"
         subtitle="Business intelligence and analytics dashboard"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         secondaryActions={[
           {
             id: 'export',

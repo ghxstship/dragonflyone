@@ -11,14 +11,12 @@ import {
   Spinner,
   Container,
   useNotifications,
-  H1,
   H2,
   H3,
   Body,
   Label,
   Card,
   Grid,
-  Link,
   Badge,
   Section,
   EnterprisePageHeader,
@@ -56,7 +54,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         const response = await fetch(`/api/projects/${params.id}`);
         if (!response.ok) {
           if (response.status === 404) {
-            setError("Project not found");
+            notFound();
           } else {
             throw new Error("Failed to fetch project");
           }
@@ -106,8 +104,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <EnterprisePageHeader
           title="Loading..."
           subtitle="Fetching project details"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
@@ -124,8 +122,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <EnterprisePageHeader
           title="Error"
           subtitle={error || "Project not found"}
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
         />
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] flex-col items-center justify-center gap-4">
@@ -166,8 +164,8 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
       <EnterprisePageHeader
         title={project.name}
         subtitle={project.client?.name || project.client_name || "No client"}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Update Status', onClick: handleUpdateStatus }}
         secondaryActions={[
           { id: 'milestone', label: 'Add Milestone', onClick: handleAddMilestone },

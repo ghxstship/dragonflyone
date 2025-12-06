@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get campaign stats
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
       const { data: campaigns, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get stats for each campaign
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
         .select('*')
         .in('campaign_id', campaignIds);
 
-      const statsByCampaign: Record<string, any> = {};
+      const statsByCampaign: Record<string, unknown> = {};
       allStats?.forEach(s => {
         statsByCampaign[s.campaign_id] = s;
       });
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Initialize stats
@@ -247,7 +247,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // In production, this would trigger the email sending service
@@ -354,7 +354,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ campaign });
@@ -396,7 +396,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', campaignId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

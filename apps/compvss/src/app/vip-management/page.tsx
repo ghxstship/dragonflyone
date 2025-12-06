@@ -71,12 +71,12 @@ export default function VIPManagementPage() {
     g.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const _getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Checked In": return "text-success-400";
-      case "Approved": return "text-info-400";
-      case "Pending": return "text-warning-400";
-      case "Denied": return "text-error-400";
+      case "Checked In": return "success";
+      case "Approved": return "info";
+      case "Pending": return "warning";
+      case "Denied": return "error";
       default: return "text-ink-600";
     }
   };
@@ -86,8 +86,8 @@ export default function VIPManagementPage() {
       <EnterprisePageHeader
         title="VIP & Backstage Management"
         subtitle="Guest list management and access control"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Guest', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -137,7 +137,7 @@ export default function VIPManagementPage() {
                             {guest.accessAreas.slice(0,2).map(a => <Badge key={a} variant="outline">{a}</Badge>)}
                           </Stack>
                         </TableCell>
-                        <TableCell><Badge variant={guest.status === "Checked In" ? "solid" : "outline"}>{guest.status}</Badge></TableCell>
+                        <TableCell><Badge variant={getStatusVariant(guest.status)}>{guest.status}</Badge></TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" onClick={() => setSelectedGuest(guest)}>Details</Button>
                         </TableCell>
@@ -204,7 +204,7 @@ export default function VIPManagementPage() {
               <Body className="font-display">{selectedGuest.name}</Body>
               <Body className="text-body-sm">{selectedGuest.email}</Body>
               <Badge variant="outline">{selectedGuest.passType}</Badge>
-              <Badge variant={selectedGuest.status === "Checked In" ? "solid" : "outline"}>{selectedGuest.status}</Badge>
+              <Badge variant={getStatusVariant(selectedGuest.status)}>{selectedGuest.status}</Badge>
               {selectedGuest.notes && <Body>{selectedGuest.notes}</Body>}
             </Stack>
           )}

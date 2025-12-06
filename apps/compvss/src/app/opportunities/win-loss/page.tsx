@@ -84,8 +84,8 @@ export default function WinLossPage() {
       <EnterprisePageHeader
         title="Win/Loss Analysis"
         subtitle="Track outcomes and competitive intelligence"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

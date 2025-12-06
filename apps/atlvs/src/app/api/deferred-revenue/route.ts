@@ -62,9 +62,10 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Calculate recognized and remaining amounts
+      interface Recognition { amount: number }
       const enrichedSchedules = schedules?.map(schedule => {
-        const recognitions = (schedule.recognitions as any[]) || [];
-        const recognizedAmount = recognitions.reduce((sum, r) => sum + r.amount, 0);
+        const recognitions = (schedule.recognitions || []) as Recognition[];
+        const recognizedAmount = recognitions.reduce((sum: number, r: Recognition) => sum + r.amount, 0);
         const remainingAmount = schedule.total_amount - recognizedAmount;
         const percentRecognized = (recognizedAmount / schedule.total_amount) * 100;
 
@@ -97,7 +98,8 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       const pendingItems = schedules?.map(schedule => {
-        const recognizedAmount = (schedule.recognitions as any[])?.reduce((sum, r) => sum + r.amount, 0) || 0;
+        const recs = (schedule.recognitions || []) as Recognition[];
+        const recognizedAmount = recs.reduce((sum: number, r: Recognition) => sum + r.amount, 0);
         const remainingAmount = schedule.total_amount - recognizedAmount;
 
         // Calculate expected recognition based on method
@@ -187,7 +189,8 @@ export async function GET(request: NextRequest) {
       }
 
       schedules?.forEach(schedule => {
-        const recognizedAmount = (schedule.recognitions as any[])?.reduce((sum, r) => sum + r.amount, 0) || 0;
+        const recs = (schedule.recognitions || []) as Recognition[];
+        const recognizedAmount = recs.reduce((sum: number, r: Recognition) => sum + r.amount, 0);
         const remainingAmount = schedule.total_amount - recognizedAmount;
         
         if (remainingAmount <= 0) return;
@@ -258,7 +261,9 @@ export async function GET(request: NextRequest) {
           }
 
           // Sum recognitions for this month
-          (schedule.recognitions as any[])?.forEach(r => {
+          interface RecognitionWithDate { amount: number; recognition_date: string }
+          const scheduleRecs = (schedule.recognitions || []) as RecognitionWithDate[];
+          scheduleRecs.forEach((r: RecognitionWithDate) => {
             const recDate = new Date(r.recognition_date);
             if (recDate >= monthDate && recDate <= monthEnd) {
               recognized += r.amount;
@@ -293,9 +298,11 @@ export async function GET(request: NextRequest) {
     let totalDeferred = 0;
     let totalRecognized = 0;
 
+    interface SummaryRecognition { amount: number }
     schedules?.forEach(s => {
       totalDeferred += s.total_amount;
-      totalRecognized += (s.recognitions as any[])?.reduce((sum, r) => sum + r.amount, 0) || 0;
+      const sRecs = (s.recognitions || []) as SummaryRecognition[];
+      totalRecognized += sRecs.reduce((sum: number, r: SummaryRecognition) => sum + r.amount, 0);
     });
 
     return NextResponse.json({
@@ -306,9 +313,9 @@ export async function GET(request: NextRequest) {
         schedule_count: schedules?.length || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Deferred revenue error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -371,7 +378,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Schedule not found' }, { status: 404 });
       }
 
-      const recognizedAmount = (schedule.recognitions as any[])?.reduce((sum, r) => sum + r.amount, 0) || 0;
+      const postRecs = (schedule.recognitions || []) as Recognition[];
+      const recognizedAmount = postRecs.reduce((sum: number, r: Recognition) => sum + r.amount, 0);
       const remainingAmount = schedule.total_amount - recognizedAmount;
 
       if (validated.amount > remainingAmount) {
@@ -443,7 +451,8 @@ export async function POST(request: NextRequest) {
       const recognitions = [];
 
       for (const schedule of schedules || []) {
-        const recognizedAmount = (schedule.recognitions as any[])?.reduce((sum, r) => sum + r.amount, 0) || 0;
+        const recs = (schedule.recognitions || []) as Recognition[];
+        const recognizedAmount = recs.reduce((sum: number, r: Recognition) => sum + r.amount, 0);
         const startDate = new Date(schedule.start_date);
         const endDate = new Date(schedule.end_date);
         const asOf = new Date(asOfDate);
@@ -478,12 +487,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Deferred revenue error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -507,9 +516,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ schedule });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Deferred revenue error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -533,7 +542,9 @@ export async function DELETE(request: NextRequest) {
       .eq('id', id)
       .single();
 
-    if ((schedule?.recognitions as any[])?.length > 0) {
+    interface DeleteRecognition { id: string }
+    const deleteRecs = (schedule?.recognitions || []) as DeleteRecognition[];
+    if (deleteRecs.length > 0) {
       return NextResponse.json({ 
         error: 'Cannot delete schedule with recognized revenue' 
       }, { status: 400 });
@@ -547,8 +558,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Deferred revenue error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

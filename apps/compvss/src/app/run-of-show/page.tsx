@@ -64,8 +64,8 @@ export default function RunOfShowPage() {
       <EnterprisePageHeader
         title="Run of Show"
         subtitle={`Current Time: ${currentTime}`}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Cue', onClick: () => router.push('/run-of-show/cues/new') }}
         showFavorite
         showSettings

@@ -14,7 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface VendorContract {
   id: string;
@@ -86,6 +86,25 @@ export default function VendorContractsPage() {
     { id: "renew", label: "Renew", icon: "🔄", onClick: (r) => router.push(`/vendors/contracts/${r.id}/renew`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'vendor-contracts',
+    requiredFields: ['vendorName', 'contractType', 'value'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/vendors/contracts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('vendor-contracts').length > 0 
+    ? getImportTemplates('vendor-contracts') 
+    : [{ id: 'default', name: 'Contract Import', mapping: { vendorName: 'vendorName', contractType: 'contractType', value: 'value', startDate: 'startDate', expiryDate: 'expiryDate' } }];
+
   const stats = [
     { label: "Total Contracts", value: contracts.length },
     { label: "Total Value", value: formatCurrency(totalValue) },
@@ -123,6 +142,9 @@ export default function VendorContractsPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedContract(r); setDrawerOpen(true); }}
         entityType="vendor-contracts"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['vendorName', 'contractType', 'value', 'startDate', 'expiryDate']}
         onExport={createExportHandler({
           filename: "vendor-contracts",
           getData: () => contracts.map(c => ({
@@ -137,11 +159,25 @@ export default function VendorContractsPage() {
         })}
         stats={stats}
         emptyMessage="No vendor contracts found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/vendors/contracts/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'renew') {
+            await fetch('/api/vendors/contracts/bulk-renew', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'renew', label: 'Renew Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -14,7 +14,7 @@ const rejectSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const { id } = context.params;
@@ -63,8 +63,8 @@ export const POST = apiRoute(
         advance: updatedAdvance,
         message: 'Advance rejected'
       });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

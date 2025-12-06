@@ -22,20 +22,21 @@ export async function GET(request: NextRequest) {
     if (ownerId) query = query.eq('owner_id', ownerId);
 
     const { data, error } = await query.order('expected_close_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate weighted pipeline
     const weightedTotal = data?.reduce((sum, opp) => sum + (opp.value * (opp.probability / 100)), 0) || 0;
     const totalValue = data?.reduce((sum, opp) => sum + opp.value, 0) || 0;
 
     // Group by stage
-    const byStage = data?.reduce((acc: any, opp) => {
+    interface StageData { count: number; value: number; weighted: number }
+    const byStage = data?.reduce((acc: Record<string, StageData>, opp) => {
       if (!acc[opp.stage]) acc[opp.stage] = { count: 0, value: 0, weighted: 0 };
       acc[opp.stage].count++;
       acc[opp.stage].value += opp.value;
       acc[opp.stage].weighted += opp.value * (opp.probability / 100);
       return acc;
-    }, {}) || {};
+    }, {} as Record<string, StageData>) || {};
 
     return NextResponse.json({
       opportunities: data,
@@ -69,7 +70,7 @@ export async function POST(request: NextRequest) {
       expected_close_date, source, notes, owner_id: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ opportunity: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create opportunity' }, { status: 500 });
@@ -95,7 +96,7 @@ export async function PATCH(request: NextRequest) {
       updated_at: new Date().toISOString()
     }).eq('id', id);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });

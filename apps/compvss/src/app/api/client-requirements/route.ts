@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (projectId) query = query.eq('project_id', projectId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ requirements: data });
   } catch (error) {
@@ -47,11 +47,11 @@ export async function POST(request: NextRequest) {
       exclusions: exclusions || [], status: 'draft', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Add requirement items
     if (items?.length) {
-      const itemRecords = items.map((item: any) => ({
+      const itemRecords = items.map((item: Record<string, unknown>) => ({
         requirement_id: requirement.id,
         category: item.category,
         description: item.description,
@@ -94,7 +94,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('client_requirements').update(body).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

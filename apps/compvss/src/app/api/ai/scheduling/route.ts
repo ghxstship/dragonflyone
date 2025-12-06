@@ -93,15 +93,21 @@ export async function GET(request: NextRequest) {
       });
 
       // Transform crew data
-      const crewMembers: CrewMember[] = (crew || []).map(c => ({
-        id: c.id,
-        name: `${(c.user as any)?.first_name} ${(c.user as any)?.last_name}`,
-        skills: c.skills || [],
-        availability: availabilityMap[c.id] || [],
-        hourly_rate: c.hourly_rate || 0,
-        rating: (c.performance as any)?.average_rating || 3,
-        location: c.location || '',
-      }));
+      interface UserData { first_name?: string; last_name?: string }
+      interface PerformanceData { average_rating?: number }
+      const crewMembers: CrewMember[] = (crew || []).map(c => {
+        const userData = c.user as UserData | null;
+        const perfData = c.performance as PerformanceData | null;
+        return {
+          id: c.id,
+          name: `${userData?.first_name} ${userData?.last_name}`,
+          skills: c.skills || [],
+          availability: availabilityMap[c.id] || [],
+          hourly_rate: c.hourly_rate || 0,
+          rating: perfData?.average_rating || 3,
+          location: c.location || '',
+        };
+      });
 
       // Optimize assignments
       const assignments = optimizeSchedule(shifts || [], crewMembers);
@@ -154,16 +160,22 @@ export async function GET(request: NextRequest) {
           .contains('skills', shift.required_skills || [])
           .limit(5);
 
+        interface RecUserData { first_name?: string; last_name?: string }
+        interface RecPerfData { average_rating?: number }
         recommendations.push({
           shift_id: shift.id,
           shift_role: shift.role,
-          recommended_crew: matchingCrew?.map(c => ({
-            crew_id: c.id,
-            name: `${(c.user as any)?.first_name} ${(c.user as any)?.last_name}`,
-            match_score: calculateMatchScore(c, shift),
-            rating: (c.performance as any)?.average_rating || 0,
-            hourly_rate: c.hourly_rate,
-          })).sort((a, b) => b.match_score - a.match_score) || [],
+          recommended_crew: matchingCrew?.map(c => {
+            const recUser = c.user as RecUserData | null;
+            const recPerf = c.performance as RecPerfData | null;
+            return {
+              crew_id: c.id,
+              name: `${recUser?.first_name} ${recUser?.last_name}`,
+              match_score: calculateMatchScore(c, shift),
+              rating: recPerf?.average_rating || 0,
+              hourly_rate: c.hourly_rate,
+            };
+          }).sort((a, b) => b.match_score - a.match_score) || [],
         });
       }
 
@@ -182,12 +194,14 @@ export async function GET(request: NextRequest) {
         .lte('start_time', new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString());
 
       // Calculate hours per crew
+      interface WorkloadCrewData { first_name?: string; last_name?: string }
       const workload: Record<string, { name: string; hours: number; shifts: number }> = {};
 
       assignments?.forEach(a => {
+        const crewData = a.crew as WorkloadCrewData | null;
         if (!workload[a.crew_id]) {
           workload[a.crew_id] = {
-            name: `${(a.crew as any)?.first_name} ${(a.crew as any)?.last_name}`,
+            name: `${crewData?.first_name} ${crewData?.last_name}`,
             hours: 0,
             shifts: 0,
           };
@@ -293,7 +307,7 @@ export async function POST(request: NextRequest) {
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update shift statuses
@@ -436,7 +450,9 @@ function scoreCrewForShift(crew: CrewMember, shift: Shift): { score: number; rea
   return { score: Math.round(score), reasons };
 }
 
-function calculateMatchScore(crew: any, shift: any): number {
+interface MatchCrew { skills?: string[]; performance?: { average_rating?: number } }
+interface MatchShift { required_skills?: string[] }
+function calculateMatchScore(crew: MatchCrew, shift: MatchShift): number {
   let score = 50;
 
   const requiredSkills = shift.required_skills || [];
@@ -444,12 +460,13 @@ function calculateMatchScore(crew: any, shift: any): number {
   const matchedSkills = requiredSkills.filter((s: string) => crewSkills.includes(s));
 
   score += requiredSkills.length > 0 ? (matchedSkills.length / requiredSkills.length) * 30 : 15;
-  score += ((crew.performance as any)?.average_rating || 3) / 5 * 20;
+  score += (crew.performance?.average_rating || 3) / 5 * 20;
 
   return Math.round(score);
 }
 
-function calculateScheduleMetrics(assignments: Assignment[], shifts: Shift[], crew: CrewMember[]): any {
+interface ScheduleMetrics { total_shifts: number; assigned_shifts: number; coverage_rate: number; avg_match_score: number; unique_crew_used: number }
+function calculateScheduleMetrics(assignments: Assignment[], shifts: Shift[], crew: CrewMember[]): ScheduleMetrics {
   const totalShifts = shifts.length;
   const assignedShifts = assignments.length;
   const avgScore = assignments.length > 0
@@ -466,11 +483,12 @@ function calculateScheduleMetrics(assignments: Assignment[], shifts: Shift[], cr
   };
 }
 
-function detectConflicts(assignments: any[]): any[] {
-  const conflicts: any[] = [];
-  const crewAssignments: Record<string, any[]> = {};
+interface CrewAssignment { crew_id: string; shift_date: string; start_time: string; end_time: string }
+function detectConflicts(assignments: CrewAssignment[]): unknown[] {
+  const conflicts: unknown[] = [];
+  const crewAssignments: Record<string, CrewAssignment[]> = {};
 
-  assignments.forEach(a => {
+  assignments.forEach((a: CrewAssignment) => {
     if (!crewAssignments[a.crew_id]) crewAssignments[a.crew_id] = [];
     crewAssignments[a.crew_id].push(a);
   });

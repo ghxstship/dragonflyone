@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,14 +40,14 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const bundles = data?.map(b => ({
       id: b.id,
       name: b.name,
       description: b.description,
-      products: b.products?.map((p: any) => p.product) || [],
+      products: b.products?.map((p: Record<string, unknown>) => p.product) || [],
       original_price: b.original_price,
       bundle_price: b.bundle_price,
       savings_percent: Math.round(((b.original_price - b.bundle_price) / b.original_price) * 100),
@@ -155,7 +149,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Bundle ID required' }, { status: 400 });
     }
 
-    const updates: Record<string, any> = { updated_at: new Date().toISOString() };
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
     if (name) updates.name = name;
     if (description) updates.description = description;
     if (bundle_price) updates.bundle_price = bundle_price;
@@ -170,7 +164,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ bundle: data });

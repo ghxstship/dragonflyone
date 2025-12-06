@@ -1,35 +1,27 @@
 
+
 > @ghxstship/integrations@1.0.0 lint /Users/julianclarkson/Documents/Dragonflyone/packages/integrations
 > eslint . --ext .ts
 
 Pages directory cannot be found at /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/pages or /Users/julianclarkson/Documents/Dragonflyone/packages/integrations/src/pages. If using a custom path, please configure with the `no-html-link-for-pages` rule in your eslint config file.
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/integration-validation.test.ts
-    1:32  warning  'beforeAll' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
-    1:43  warning  'afterAll' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
-   95:40  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  169:7   warning  Unexpected console statement                                                 no-console
-  187:9   warning  Unexpected console statement                                                 no-console
-  328:38  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/n8n-regression.test.ts
-    1:32  warning  'beforeAll' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
-    1:43  warning  'afterAll' is defined but never used. Allowed unused vars must match /^_/u   @typescript-eslint/no-unused-vars
-  363:42  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  363:83  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  388:42  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/zapier-qa.test.ts
-    1:32  warning  'beforeAll' is defined but never used. Allowed unused vars must match /^_/u  @typescript-eslint/no-unused-vars
-  159:35  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  203:53  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  204:48  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  220:23  warning  Unexpected any. Specify a different type                                     @typescript-eslint/no-explicit-any
-  259:9   warning  Unexpected console statement                                                 no-console
-
-/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/webhooks/verify.ts
-  122:22  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-  122:32  warning  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
-
-✖ 19 problems (0 errors, 19 warnings)
-
+[0m[0m
+[0m[4m/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/integration-validation.test.ts[24m[0m
+[0m   [2m95:40[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m169:7[22m   [33mwarning[39m  Unexpected console statement              [2mno-console[22m[0m
+[0m  [2m187:9[22m   [33mwarning[39m  Unexpected console statement              [2mno-console[22m[0m
+[0m  [2m328:38[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/n8n-regression.test.ts[24m[0m
+[0m  [2m363:42[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m363:83[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m388:42[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m[0m
+[0m[4m/Users/julianclarkson/Documents/Dragonflyone/packages/integrations/tests/zapier-qa.test.ts[24m[0m
+[0m  [2m159:35[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m203:53[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m204:48[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m220:23[22m  [33mwarning[39m  Unexpected any. Specify a different type  [2m@typescript-eslint/no-explicit-any[22m[0m
+[0m  [2m259:9[22m   [33mwarning[39m  Unexpected console statement              [2mno-console[22m[0m
+[0m[0m
+[0m[33m[1m✖ 12 problems (0 errors, 12 warnings)[22m[39m[0m
+[0m[33m[1m[22m[39m[0m

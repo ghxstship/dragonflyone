@@ -17,7 +17,6 @@ import {
   Body,
   Button,
   Input,
-  Select,
   Badge,
   Box,
 } from '@ghxstship/ui';

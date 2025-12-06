@@ -20,7 +20,6 @@ import {
   TableHead,
   TableCell,
   Button,
-  Card,
   Tabs,
   TabsList,
   Tab,
@@ -95,8 +94,8 @@ export default function VendorAuditsPage() {
       <EnterprisePageHeader
         title="Vendor Audit & Evaluation"
         subtitle="Schedule and track vendor audits and evaluations"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

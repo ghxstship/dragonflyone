@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Upload } from "lucide-react";
+import { Eye, Upload, BarChart3 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
@@ -140,11 +140,19 @@ export default function TaxesPage() {
         stats={stats}
         emptyMessage="No tax documents found"
         emptyAction={{ label: 'Add Tax Document', onClick: () => router.push('/taxes/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/taxes/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchTaxDocuments();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -156,7 +164,7 @@ export default function TaxesPage() {
           title={(d) => d.document_type}
           subtitle={(d) => `${d.entity_name} • ${d.jurisdiction}`}
           sections={detailSections}
-          actions={[{ id: 'file', label: 'File Tax', icon: '📤' }, { id: 'report', label: 'Generate Report', icon: '📊' }]}
+          actions={[{ id: 'file', label: 'File Tax', icon: <Upload className="size-4" /> }, { id: 'report', label: 'Generate Report', icon: <BarChart3 className="size-4" /> }]}
           onAction={(id, d) => { if (id === 'file') fetch(`/api/taxes/${d.id}/file`, { method: 'POST' }); setDrawerOpen(false); }}
         />
       )}

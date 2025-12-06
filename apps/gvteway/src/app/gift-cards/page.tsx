@@ -45,7 +45,7 @@ const GIFT_CARD_DESIGNS = [
 ];
 
 export default function GiftCardsPage() {
-  const _router = useRouter();
+  const router = useRouter();
   const [myCards, setMyCards] = useState<GiftCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
@@ -113,12 +113,19 @@ export default function GiftCardsPage() {
       });
 
       if (response.ok) {
+        const data = await response.json();
         setSuccess('Gift card purchased successfully!');
         setRecipientEmail('');
         setRecipientName('');
         setMessage('');
         setCustomAmount('');
         fetchMyCards();
+        // Navigate to the gift card details page after a short delay
+        if (data.gift_card?.id) {
+          setTimeout(() => {
+            router.push(`/gift-cards/${data.gift_card.id}`);
+          }, 1500);
+        }
       } else {
         const data = await response.json();
         setError(data.error || 'Failed to purchase gift card');

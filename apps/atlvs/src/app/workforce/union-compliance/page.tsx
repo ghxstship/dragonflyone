@@ -11,7 +11,6 @@ import {
   Grid,
   Stack,
   StatCard,
-  Select,
   Button,
   Card,
   Tabs,
@@ -92,8 +91,8 @@ export default function UnionCompliancePage() {
       <EnterprisePageHeader
         title="Union Compliance"
         subtitle="Union rules, agreements, and compliance tracking"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

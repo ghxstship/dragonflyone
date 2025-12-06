@@ -107,11 +107,12 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by payment method
-      const byMethod = pending?.reduce((acc: Record<string, any[]>, p) => {
+      interface PendingPayment { payment_method: string; amount: number; [key: string]: unknown }
+      const byMethod = pending?.reduce((acc: Record<string, PendingPayment[]>, p: PendingPayment) => {
         if (!acc[p.payment_method]) acc[p.payment_method] = [];
         acc[p.payment_method].push(p);
         return acc;
-      }, {});
+      }, {} as Record<string, PendingPayment[]>);
 
       return NextResponse.json({
         pending,
@@ -133,12 +134,16 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
-      const enrichedBatches = batches?.map(batch => ({
-        ...batch,
-        payment_count: (batch.payments as any[])?.length || 0,
-        total_amount: (batch.payments as any[])?.reduce((sum, p) => sum + p.amount, 0) || 0,
-        completed_count: (batch.payments as any[])?.filter(p => p.status === 'completed').length || 0,
-      }));
+      interface BatchPayment { id: string; amount: number; status: string }
+      const enrichedBatches = batches?.map(batch => {
+        const payments = (batch.payments || []) as BatchPayment[];
+        return {
+          ...batch,
+          payment_count: payments.length,
+          total_amount: payments.reduce((sum: number, p: BatchPayment) => sum + p.amount, 0),
+          completed_count: payments.filter((p: BatchPayment) => p.status === 'completed').length,
+        };
+      });
 
       return NextResponse.json({ batches: enrichedBatches });
     }
@@ -201,9 +206,9 @@ export async function GET(request: NextRequest) {
         failed_last_30_days: failedResult.data?.length || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Payment processing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -432,12 +437,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Payment processing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -486,8 +491,8 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ payment });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Payment processing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('scheduled_at', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ meetings: data });
@@ -127,8 +127,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Add agenda items
+    interface AgendaItem { title: string; description?: string; duration_minutes?: number; presenter_id?: string }
     if (agenda_items && agenda_items.length > 0) {
-      const agendaRecords = agenda_items.map((item: any, index: number) => ({
+      const agendaRecords = agenda_items.map((item: AgendaItem, index: number) => ({
         meeting_id: meeting.id,
         title: item.title,
         description: item.description,
@@ -187,7 +188,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update meeting status
@@ -233,7 +234,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', meeting_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

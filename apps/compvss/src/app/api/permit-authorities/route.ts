@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (permitType) query = query.contains('permit_types', [permitType]);
 
     const { data, error } = await query.order('state', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ authorities: data });
   } catch (error) {
@@ -45,11 +45,11 @@ export async function POST(request: NextRequest) {
       name, city, state, permit_types: permit_types || [], phone, email, website, processing_time
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (contacts?.length) {
       await supabase.from('authority_contacts').insert(
-        contacts.map((c: any) => ({ authority_id: data.id, ...c }))
+        contacts.map((c: Record<string, unknown>) => ({ authority_id: data.id, ...c }))
       );
     }
 

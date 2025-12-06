@@ -23,8 +23,8 @@ async function executeBatchOperation(
   supabaseAdmin: ReturnType<typeof createAdminClient>,
   operation: string,
   entityType: string,
-  records: any[],
-  options: any,
+  records: unknown[],
+  options: Record<string, unknown>,
   userId: string
 ) {
   const results = [];
@@ -37,7 +37,7 @@ async function executeBatchOperation(
       
       switch (operation) {
         case 'create':
-          const { data: created, error: createError } = await (supabaseAdmin as any)
+          const { data: created, error: createError } = await supabaseAdmin
             .from(entityType)
             .insert({ ...record.data, created_by: userId })
             .select()
@@ -51,7 +51,7 @@ async function executeBatchOperation(
         case 'update':
           if (!record.id) throw new Error('ID required for update');
           
-          const { data: updated, error: updateError } = await (supabaseAdmin as any)
+          const { data: updatedRecord, error: updateError } = await supabaseAdmin
             .from(entityType)
             .update(record.data)
             .eq('id', record.id)
@@ -59,14 +59,14 @@ async function executeBatchOperation(
             .single();
           
           if (updateError) throw updateError;
-          result = { success: true, id: record.id, operation: 'update' };
+          result = { success: true, id: updatedRecord?.id || record.id, operation: 'update', data: updatedRecord };
           successCount++;
           break;
 
         case 'delete':
           if (!record.id) throw new Error('ID required for delete');
           
-          const { error: deleteError } = await (supabaseAdmin as any)
+          const { error: deleteError } = await supabaseAdmin
             .from(entityType)
             .delete()
             .eq('id', record.id);
@@ -79,7 +79,7 @@ async function executeBatchOperation(
         case 'archive':
           if (!record.id) throw new Error('ID required for archive');
           
-          const { error: archiveError } = await (supabaseAdmin as any)
+          const { error: archiveError } = await supabaseAdmin
             .from(entityType)
             .update({ status: 'archived', archived_at: new Date().toISOString() })
             .eq('id', record.id);
@@ -110,7 +110,7 @@ async function executeBatchOperation(
 }
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = batchOperationSchema.parse(body);

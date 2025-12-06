@@ -28,6 +28,22 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
   });
 
   useEffect(() => {
+    // Fetch event-specific social proof data if eventId is provided
+    if (eventId) {
+      fetch(`/api/events/${eventId}/social-proof`)
+        .then(res => res.ok ? res.json() : null)
+        .then(eventData => {
+          if (eventData) {
+            setData(prev => ({ ...prev, ...eventData }));
+          }
+        })
+        .catch(() => {
+          // Use default data on error
+        });
+    }
+  }, [eventId]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setData(prev => ({
         ...prev,

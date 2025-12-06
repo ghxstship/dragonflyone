@@ -76,8 +76,8 @@ export default function EmergencyPage() {
       <EnterprisePageHeader
         title="Emergency Procedures"
         subtitle="Contact tree, emergency protocols, and response procedures"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

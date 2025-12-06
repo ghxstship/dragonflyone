@@ -243,6 +243,19 @@ export default function CredentialTypesPage() {
         stats={stats}
         emptyMessage="No credential types configured"
         emptyAction={{ label: 'Create First Type', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/credentials/types/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal

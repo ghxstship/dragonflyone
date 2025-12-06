@@ -17,7 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface BackgroundCheck {
   id: string;
@@ -143,6 +143,31 @@ export default function BackgroundChecksPage() {
     setCreateModalOpen(false);
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'background-checks',
+    requiredFields: ['crewMemberName', 'checkType', 'provider'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newCheck: BackgroundCheck = {
+          id: `BGC-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          crewMemberId: String(record.crewMemberId || ''),
+          crewMemberName: String(record.crewMemberName || ''),
+          department: String(record.department || ''),
+          checkType: record.checkType as BackgroundCheck['checkType'],
+          status: 'Pending',
+          submittedDate: new Date().toISOString().split('T')[0],
+          provider: String(record.provider || ''),
+        };
+        setChecks(prev => [...prev, newCheck]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('background-checks').length > 0 
+    ? getImportTemplates('background-checks') 
+    : [{ id: 'default', name: 'Background Check Import', mapping: { crewMemberName: 'crewMemberName', department: 'department', checkType: 'checkType', provider: 'provider' } }];
+
   const stats = [
     { label: 'Cleared', value: cleared },
     { label: 'Pending', value: pending },
@@ -183,6 +208,9 @@ export default function BackgroundChecksPage() {
         createLabel="Initiate Check"
         onCreate={() => setCreateModalOpen(true)}
         entityType="background-checks"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['crewMemberName', 'department', 'checkType', 'provider']}
         onExport={createExportHandler({
           filename: "background-checks",
           getData: () => checks.map(c => ({
@@ -200,11 +228,21 @@ export default function BackgroundChecksPage() {
         stats={stats}
         emptyMessage="No background checks found"
         emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setChecks(prev => prev.filter(c => !ids.includes(c.id)));
+          } else if (action === 'renew') {
+            await fetch('/api/background-checks/bulk-renew', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'renew', label: 'Renew Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

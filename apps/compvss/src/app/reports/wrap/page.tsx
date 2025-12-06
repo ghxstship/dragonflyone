@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, CheckCircle, Send, FileText, TrendingUp, DollarSign, Users } from 'lucide-react';
+import { Eye, Pencil, CheckCircle, Send, FileText } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useWrapReports, useReportStats } from '../../../hooks/useReports';
 import {
@@ -34,11 +34,11 @@ interface WrapReport {
   submitter?: { id: string; first_name: string; last_name: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   approved: 'success',
   submitted: 'warning',
   reviewed: 'info',
-  draft: 'default',
+  draft: 'ghost',
 };
 
 const columns: ListPageColumn<WrapReport>[] = [
@@ -92,7 +92,7 @@ const columns: ListPageColumn<WrapReport>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -164,8 +164,12 @@ export default function WrapReportsPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/reports/wrap', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -250,6 +254,27 @@ export default function WrapReportsPage() {
         quickActions={[
           { id: 'daily', label: 'Daily Reports', icon: <FileText className="size-4" />, onClick: () => router.push('/reports/daily') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/reports/wrap/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'approve') {
+            await fetch('/api/reports/wrap/bulk-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -260,7 +285,7 @@ export default function WrapReportsPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ total_shows: 0, total_attendance: 0, total_revenue: 0, total_expenses: 0, total_incidents: 0 }}
+        record={{ total_shows: 0, total_attendance: 0, total_revenue: 0, total_expenses: 0, total_incidents: 0 }}
       />
 
       <DetailDrawer

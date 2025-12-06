@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Lead {
   id: string;
@@ -78,6 +78,25 @@ export default function LeadScoringPage() {
     { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.email}` },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'leads',
+    requiredFields: ['name', 'email', 'company'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('leads').length > 0 
+    ? getImportTemplates('leads') 
+    : [{ id: 'default', name: 'Lead Import', mapping: { name: 'name', email: 'email', company: 'company', source: 'source', score: 'score' } }];
+
   const stats = [
     { label: 'Hot Leads (80+)', value: hotLeads },
     { label: 'Avg Lead Score', value: avgScore },
@@ -119,6 +138,9 @@ export default function LeadScoringPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="leads"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'email', 'company', 'source', 'score']}
         onExport={createExportHandler({
           filename: "leads",
           getData: () => data.map(l => ({
@@ -134,11 +156,25 @@ export default function LeadScoringPage() {
         })}
         stats={stats}
         emptyMessage="No leads found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/crm/leads/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'qualify') {
+            await fetch('/api/crm/leads/bulk-qualify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'qualify', label: 'Qualify Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -150,7 +186,7 @@ export default function LeadScoringPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.company} • Grade ${r.grade} • Score: ${r.score}`}
           sections={detailSections}
-          actions={[{ id: 'convert', label: 'Convert to Deal', icon: '🎯' }, { id: 'email', label: 'Send Email', icon: '✉️' }]}
+          actions={[{ id: 'convert', label: 'Convert to Deal', icon: <Target className="size-4" /> }, { id: 'email', label: 'Send Email', icon: <Mail className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'convert') router.push(`/deals/new?lead=${r.id}`); if (id === 'email') window.location.href = `mailto:${r.email}`; setDrawerOpen(false); }}
         />
       )}

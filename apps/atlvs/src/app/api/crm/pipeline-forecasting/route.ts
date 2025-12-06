@@ -210,8 +210,9 @@ export async function GET(request: NextRequest) {
 
       deals?.forEach(deal => {
         const ownerId = deal.owner_id || 'unassigned';
-        const ownerName = deal.owner 
-          ? `${(deal.owner as any).first_name} ${(deal.owner as any).last_name}`
+        const owner = deal.owner as { first_name?: string; last_name?: string } | null;
+        const ownerName = owner 
+          ? `${owner.first_name || ''} ${owner.last_name || ''}`.trim()
           : 'Unassigned';
 
         if (!byOwner[ownerId]) {
@@ -329,7 +330,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ forecast }, { status: 201 });
@@ -348,7 +349,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ deal });
@@ -363,7 +364,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       // Update deal
-      const updates: any = {
+      const updates: { stage: string; updated_at: string; closed_at?: string } = {
         stage: new_stage,
         updated_at: new Date().toISOString(),
       };
@@ -380,7 +381,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Log stage change

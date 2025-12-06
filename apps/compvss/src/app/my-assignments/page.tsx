@@ -14,7 +14,6 @@ import {
   H3,
 } from '@ghxstship/ui';
 import {
-  Briefcase,
   Check,
   X,
   Clock,

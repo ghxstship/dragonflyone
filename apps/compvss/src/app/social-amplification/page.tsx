@@ -80,13 +80,13 @@ export default function SocialAmplificationPage() {
     return num.toString();
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Active": return "text-success-400";
-      case "Scheduled": return "text-info-400";
-      case "Pending": return "text-warning-400";
-      case "Completed": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Active": return "success";
+      case "Scheduled": return "info";
+      case "Pending": return "warning";
+      case "Completed": return "ghost";
+      default: return "ghost";
     }
   };
 
@@ -95,8 +95,6 @@ export default function SocialAmplificationPage() {
       <EnterprisePageHeader
         title="Social Amplification"
         subtitle="Coordinate artist and performer social media promotion"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
         showFavorite
         showSettings
       />
@@ -132,7 +130,7 @@ export default function SocialAmplificationPage() {
                           <Body className="font-display">{artist.name}</Body>
                           <Badge variant="outline">{artist.genre}</Badge>
                         </Stack>
-                        <Badge variant={artist.status === "Active" ? "solid" : "outline"}>{artist.status}</Badge>
+                        <Badge variant={getStatusVariant(artist.status)}>{artist.status}</Badge>
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm">Total Followers</Body>
@@ -185,7 +183,7 @@ export default function SocialAmplificationPage() {
                         <Body className="text-body-sm">Reach</Body>
                         <Body>{formatNumber(campaign.reach)}</Body>
                       </Stack>
-                      <Badge variant={campaign.status === "Active" ? "solid" : "outline"}>{campaign.status}</Badge>
+                      <Badge variant={getStatusVariant(campaign.status)}>{campaign.status}</Badge>
                       <Button variant="outline" size="sm" onClick={() => setSelectedCampaign(campaign)}>Details</Button>
                     </Grid>
                   </Card>
@@ -223,7 +221,7 @@ export default function SocialAmplificationPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
                 <Badge variant="outline">{selectedArtist.genre}</Badge>
-                <Badge variant={selectedArtist.status === "Active" ? "solid" : "outline"}>{selectedArtist.status}</Badge>
+                <Badge variant={getStatusVariant(selectedArtist.status)}>{selectedArtist.status}</Badge>
               </Stack>
               <Stack gap={1}>
                 <Body className="text-body-sm">Total Reach</Body>
@@ -281,6 +279,49 @@ export default function SocialAmplificationPage() {
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowCreateModal(false)}>Cancel</Button>
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
+        </ModalFooter>
+      </Modal>
+
+      {/* Campaign Details Modal */}
+      <Modal open={!!selectedCampaign} onClose={() => setSelectedCampaign(null)}>
+        <ModalHeader>
+          <H3>{selectedCampaign?.name}</H3>
+        </ModalHeader>
+        <ModalBody>
+          {selectedCampaign && (
+            <Stack gap={4}>
+              <Grid cols={2} gap={4}>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Event</Body>
+                  <Body className="font-display">{selectedCampaign.event}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Status</Body>
+                  <Badge variant={getStatusVariant(selectedCampaign.status)}>{selectedCampaign.status}</Badge>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Artists</Body>
+                  <Body className="font-display">{selectedCampaign.artists}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Total Reach</Body>
+                  <Body className="font-display">{formatNumber(selectedCampaign.reach)}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Posts</Body>
+                  <Body className="font-display">{selectedCampaign.posts}</Body>
+                </Stack>
+                <Stack gap={1}>
+                  <Body className="text-body-sm text-ink-500">Engagement</Body>
+                  <Body className="font-display">{selectedCampaign.engagement}</Body>
+                </Stack>
+              </Grid>
+            </Stack>
+          )}
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => setSelectedCampaign(null)}>Close</Button>
+          <Button variant="solid">Edit Campaign</Button>
         </ModalFooter>
       </Modal>
     </CompvssAppLayout>

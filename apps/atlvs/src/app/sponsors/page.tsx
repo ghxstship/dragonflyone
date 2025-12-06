@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Sponsor {
   id: string;
@@ -32,19 +33,19 @@ interface Sponsor {
   tier?: { id: string; name: string; level: number; price: number };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   confirmed: 'success',
   active: 'success',
   negotiating: 'warning',
   prospect: 'info',
-  completed: 'default',
+  completed: 'ghost',
   cancelled: 'error',
 };
 
-const paymentColors: Record<string, 'success' | 'warning' | 'error' | 'default'> = {
+const paymentColors: Record<string, 'success' | 'warning' | 'error' | 'ghost'> = {
   paid: 'success',
   partial: 'warning',
-  pending: 'default',
+  pending: 'ghost',
   overdue: 'error',
 };
 
@@ -90,7 +91,7 @@ const columns: ListPageColumn<Sponsor>[] = [
     accessor: 'payment_status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={paymentColors[String(value)] || 'default'}>
+      <Badge variant={paymentColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -101,7 +102,7 @@ const columns: ListPageColumn<Sponsor>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -204,8 +205,12 @@ export default function SponsorsPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/sponsors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -261,7 +266,7 @@ export default function SponsorsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Payment Status</Body>
-            <Badge variant={paymentColors[selectedSponsor.payment_status] || 'default'}>
+            <Badge variant={paymentColors[selectedSponsor.payment_status] || 'ghost'}>
               {selectedSponsor.payment_status.toUpperCase()}
             </Badge>
           </Stack>
@@ -287,6 +292,18 @@ export default function SponsorsPage() {
         onRowClick={(row) => router.push(`/sponsors/${row.id}`)}
         createLabel="Add Sponsor"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="sponsors"
+        onExport={createExportHandler({
+          filename: 'sponsors',
+          getData: () => (sponsors || []).map(s => ({
+            id: s.id,
+            company: s.company_name,
+            contact: s.contact_name || '',
+            email: s.contact_email || '',
+            status: s.status,
+            contract_value: s.contract_value,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No sponsors yet"
         emptyAction={{ label: 'Add First Sponsor', onClick: () => setCreateModalOpen(true) }}
@@ -294,6 +311,27 @@ export default function SponsorsPage() {
           { id: 'tiers', label: 'Manage Tiers', icon: <Building2 className="size-4" />, onClick: () => router.push('/sponsors/tiers') },
           { id: 'deck', label: 'Sponsorship Deck', icon: <FileText className="size-4" />, onClick: () => router.push('/sponsors/deck') },
           { id: 'fulfillment', label: 'Fulfillment', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/sponsors/fulfillment') },
+        ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sponsors/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'archive') {
+            await fetch('/api/sponsors/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
       />
 
@@ -305,7 +343,7 @@ export default function SponsorsPage() {
         fields={dynamicFormFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'prospect', payment_status: 'pending', contract_value: 0, amount_paid: 0 }}
+        record={{ status: 'prospect', payment_status: 'pending', contract_value: 0, amount_paid: 0 }}
       />
 
       <DetailDrawer

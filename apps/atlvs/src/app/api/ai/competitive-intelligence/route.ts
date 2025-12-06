@@ -186,12 +186,13 @@ export async function GET(request: NextRequest) {
         .eq('is_active', true);
 
       // Group by category
-      const categories: Record<string, any[]> = {};
+      interface CategoryItem { competitor: string | undefined; price: number; features: unknown }
+      const categories: Record<string, CategoryItem[]> = {};
       pricing?.forEach(p => {
         const cat = p.product_category || 'other';
         if (!categories[cat]) categories[cat] = [];
         categories[cat].push({
-          competitor: (p.competitor as any)?.name,
+          competitor: (p.competitor as { name?: string } | null)?.name,
           price: p.price,
           features: p.features,
         });
@@ -328,7 +329,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ competitor }, { status: 201 });
@@ -350,7 +351,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ update }, { status: 201 });
@@ -371,7 +372,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ pricing });
@@ -391,7 +392,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ item }, { status: 201 });
@@ -413,14 +414,14 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ alert }, { status: 201 });
     } else if (action === 'log_deal_outcome') {
       const { deal_id, outcome, competitor_id, reason } = body;
 
-      const updateData: any = {
+      const updateData: { stage: string; closed_at: string; competitor_id: string; win_reason?: string; loss_reason?: string } = {
         stage: outcome === 'won' ? 'closed_won' : 'closed_lost',
         closed_at: new Date().toISOString(),
         competitor_id,
@@ -438,7 +439,7 @@ export async function POST(request: NextRequest) {
         .eq('id', deal_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -454,13 +455,15 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper function
-function analyzePositioning(competitorPricing: any[], ourPricing: any[]): any {
+interface PricingItem { price?: number }
+interface PositioningAnalysis { our_average_price: number; competitor_average_price: number; price_difference_percent: string | number; market_position: string }
+function analyzePositioning(competitorPricing: PricingItem[], ourPricing: PricingItem[]): PositioningAnalysis {
   const avgCompetitorPrice = competitorPricing.length > 0
-    ? competitorPricing.reduce((sum, p) => sum + (p.price || 0), 0) / competitorPricing.length
+    ? competitorPricing.reduce((sum: number, p: PricingItem) => sum + (p.price || 0), 0) / competitorPricing.length
     : 0;
 
   const avgOurPrice = ourPricing.length > 0
-    ? ourPricing.reduce((sum, p) => sum + (p.price || 0), 0) / ourPricing.length
+    ? ourPricing.reduce((sum: number, p: PricingItem) => sum + (p.price || 0), 0) / ourPricing.length
     : 0;
 
   let position = 'mid-market';

@@ -3,6 +3,9 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
+interface TriggerInput { type: string; config?: Record<string, unknown> }
+interface ActionInput { type: string; config?: Record<string, unknown> }
+
 /**
  * Workflow Automation API
  * Create, manage, and execute automated workflows with triggers and actions
@@ -39,7 +42,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflows: data });
@@ -59,7 +62,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow: data });
@@ -83,7 +86,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await query.limit(50);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ executions: data });
@@ -176,7 +179,7 @@ export async function POST(request: NextRequest) {
 
       // Create triggers
       if (triggers && triggers.length > 0) {
-        const triggerRecords = triggers.map((t: any, i: number) => ({
+        const triggerRecords = triggers.map((t: TriggerInput, i: number) => ({
           workflow_id: workflow.id,
           trigger_type: t.type,
           config: t.config || {},
@@ -188,7 +191,7 @@ export async function POST(request: NextRequest) {
 
       // Create actions
       if (workflowActions && workflowActions.length > 0) {
-        const actionRecords = workflowActions.map((a: any, i: number) => ({
+        const actionRecords = workflowActions.map((a: ActionInput, i: number) => ({
           workflow_id: workflow.id,
           action_type: a.type,
           config: a.config || {},
@@ -218,13 +221,13 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update triggers if provided
       if (triggers) {
         await supabase.from('workflow_triggers').delete().eq('workflow_id', workflow_id);
-        const triggerRecords = triggers.map((t: any, i: number) => ({
+        const triggerRecords = triggers.map((t: TriggerInput, i: number) => ({
           workflow_id,
           trigger_type: t.type,
           config: t.config || {},
@@ -236,7 +239,7 @@ export async function POST(request: NextRequest) {
       // Update actions if provided
       if (workflowActions) {
         await supabase.from('workflow_actions').delete().eq('workflow_id', workflow_id);
-        const actionRecords = workflowActions.map((a: any, i: number) => ({
+        const actionRecords = workflowActions.map((a: ActionInput, i: number) => ({
           workflow_id,
           action_type: a.type,
           config: a.config || {},
@@ -259,7 +262,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow: data });
@@ -276,7 +279,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow: data });
@@ -314,7 +317,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Execute actions (simplified - in production would be async with proper error handling)
-      const results: any[] = [];
+      const results: unknown[] = [];
       for (const wfAction of workflow.actions || []) {
         const stepResult = {
           action_id: wfAction.id,
@@ -355,12 +358,13 @@ export async function POST(request: NextRequest) {
       const { workflow_id } = body;
 
       // Get execution IDs first
-      const { data: executions } = await (supabase as any)
+      const { data: executions } = await supabase
         .from('workflow_executions')
         .select('id')
         .eq('workflow_id', workflow_id);
 
-      const executionIds = ((executions || []) as Array<{ id: string }>).map(e => e.id);
+      interface ExecutionRecord { id: string }
+      const executionIds = ((executions || []) as ExecutionRecord[]).map((e: ExecutionRecord) => e.id);
 
       // Delete related records
       if (executionIds.length > 0) {
@@ -400,12 +404,12 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Copy triggers
       if (original.triggers?.length > 0) {
-        const triggers = original.triggers.map((t: any) => ({
+        const triggers = original.triggers.map((t: Record<string, unknown>) => ({
           workflow_id: copy.id,
           trigger_type: t.trigger_type,
           config: t.config,
@@ -416,7 +420,7 @@ export async function POST(request: NextRequest) {
 
       // Copy actions
       if (original.actions?.length > 0) {
-        const actions = original.actions.map((a: any) => ({
+        const actions = original.actions.map((a: Record<string, unknown>) => ({
           workflow_id: copy.id,
           action_type: a.action_type,
           config: a.config,

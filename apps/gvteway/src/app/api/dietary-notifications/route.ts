@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Dietary restriction and allergy notifications
 export async function GET(request: NextRequest) {
@@ -81,14 +75,16 @@ export async function POST(request: NextRequest) {
       updated_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ preferences: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save preferences' }, { status: 500 });
   }
 }
 
-function generateWarnings(preferences: any, foodOptions: any[]): string[] {
+interface DietaryPreferences { restrictions?: string[]; allergies?: string[] }
+interface FoodOption { name: string; allergens?: string[] }
+function generateWarnings(preferences: DietaryPreferences, foodOptions: FoodOption[]): string[] {
   const warnings: string[] = [];
   const userAllergens = [...(preferences?.restrictions || []), ...(preferences?.allergies || [])];
 

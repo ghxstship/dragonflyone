@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, artist:artists(id, name)
     `).eq('event_id', eventId).order('sequence', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ encores: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       duration_minutes, status: 'planned'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ encore: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

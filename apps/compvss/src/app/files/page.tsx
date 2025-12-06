@@ -86,8 +86,8 @@ export default function FileSharingPage() {
       <EnterprisePageHeader
         title="File Sharing"
         subtitle="Project files with version control and cloud storage"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Upload File', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings

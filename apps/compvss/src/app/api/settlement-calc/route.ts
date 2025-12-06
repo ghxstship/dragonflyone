@@ -62,19 +62,20 @@ export async function POST(request: NextRequest) {
     if (action === 'create') {
       const { line_items } = body;
 
-      const revenue = line_items?.filter((i: any) => i.type === 'revenue').reduce((s: number, i: any) => s + i.amount, 0) || 0;
-      const expenses = line_items?.filter((i: any) => i.type === 'expense').reduce((s: number, i: any) => s + i.amount, 0) || 0;
+      interface LineItem { type: string; amount: number }
+      const revenue = line_items?.filter((i: LineItem) => i.type === 'revenue').reduce((s: number, i: LineItem) => s + i.amount, 0) || 0;
+      const expenses = line_items?.filter((i: LineItem) => i.type === 'expense').reduce((s: number, i: LineItem) => s + i.amount, 0) || 0;
 
       const { data, error } = await supabase.from('event_settlements').insert({
         event_id, total_revenue: revenue, total_expenses: expenses,
         net_amount: revenue - expenses, status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (line_items?.length) {
         await supabase.from('settlement_line_items').insert(
-          line_items.map((i: any) => ({ settlement_id: data.id, ...i }))
+          line_items.map((i: Record<string, unknown>) => ({ settlement_id: data.id, ...i }))
         );
       }
 

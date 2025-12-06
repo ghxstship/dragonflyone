@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (vendorId) query = query.eq('vendor_id', vendorId);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ portfolios: data });
   } catch (error) {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         title, description, specialties: specialties || []
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ portfolio: data }, { status: 201 });
     }
 
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         portfolio_id, title, description, media_url, media_type, project_date, client, role
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ item: data }, { status: 201 });
     }
 

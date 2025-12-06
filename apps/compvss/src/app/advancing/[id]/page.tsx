@@ -30,8 +30,8 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
       <EnterprisePageHeader
         title="Advance Request"
         subtitle={`Request ID: ${params.id}`}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

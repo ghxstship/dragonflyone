@@ -6,6 +6,9 @@ import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
+// Module-level supabase client
+const supabase = getServerSupabase();
+
 const trainingModuleSchema = z.object({
   title: z.string().min(1),
   description: z.string(),
@@ -39,7 +42,7 @@ const progressSchema = z.object({
 
 // GET - List training modules or user enrollments
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
     const user_id = searchParams.get('user_id') || context.user.id;
@@ -114,7 +117,7 @@ export const GET = apiRoute(
 
 // POST - Create module, enroll user, or update progress
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { action } = body;
 

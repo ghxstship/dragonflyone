@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (venueId) query = query.eq('venue_id', venueId);
 
     const { data, error } = await query.order('emergency_type', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ procedures: data });
   } catch (error) {
@@ -48,11 +48,12 @@ export async function POST(request: NextRequest) {
       created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+    interface ProcedureStep { action: string; responsible_party?: string }
     if (steps?.length) {
       await supabase.from('procedure_steps').insert(
-        steps.map((s: any, i: number) => ({
+        steps.map((s: ProcedureStep, i: number) => ({
           procedure_id: data.id, step_number: i + 1,
           action: s.action, responsible_party: s.responsible_party
         }))

@@ -85,7 +85,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get schema information for source tables
@@ -130,7 +130,7 @@ export async function GET(request: NextRequest) {
       const { data: datasets, error } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get API keys for user
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ dataset }, { status: 201 });
@@ -210,7 +210,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Return the full key only once
@@ -251,7 +251,7 @@ export async function POST(request: NextRequest) {
         if (filters) {
           for (const [key, value] of Object.entries(filters)) {
             if (typeof value === 'object' && value !== null) {
-              const filterObj = value as Record<string, any>;
+              const filterObj = value as Record<string, unknown>;
               if (filterObj.eq) query = query.eq(key, filterObj.eq);
               if (filterObj.neq) query = query.neq(key, filterObj.neq);
               if (filterObj.gt) query = query.gt(key, filterObj.gt);
@@ -269,7 +269,7 @@ export async function POST(request: NextRequest) {
         const { data, error, count } = await query;
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({
@@ -365,7 +365,7 @@ export async function DELETE(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, message: 'API key revoked' });

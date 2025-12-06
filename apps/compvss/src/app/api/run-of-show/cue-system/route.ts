@@ -51,8 +51,9 @@ export async function GET(request: NextRequest) {
         .order('sort_order');
 
       // Group by department
-      const byDepartment: Record<string, any[]> = {};
-      cues?.forEach(cue => {
+      interface CueEntry { id: string; department?: string; cue_number: string; description: string }
+      const byDepartment: Record<string, CueEntry[]> = {};
+      cues?.forEach((cue: CueEntry) => {
         const dept = cue.department || 'General';
         if (!byDepartment[dept]) byDepartment[dept] = [];
         byDepartment[dept].push(cue);
@@ -179,7 +180,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ cue }, { status: 201 });
@@ -199,7 +200,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Log show start
@@ -395,7 +396,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ cue });
@@ -426,7 +427,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', cueId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

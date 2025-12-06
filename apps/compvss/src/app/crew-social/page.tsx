@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState} from 'react';
 import { useRouter } from 'next/navigation';
+import { logger } from '@ghxstship/config';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
@@ -56,14 +57,6 @@ interface CrewPhoto {
   liked_by: string[];
 }
 
-interface Connection {
-  id: string;
-  from_user_id: string;
-  to_user_id: string;
-  status: 'pending' | 'accepted' | 'declined';
-  created_at: string;
-}
-
 const mockCrewMembers: CrewMember[] = [
   { id: 'CREW-001', name: 'John Martinez', role: 'Audio Engineer', department: 'Audio', bio: 'FOH engineer with 15 years experience in live sound.', skills: ['FOH Mixing', 'System Design', 'RF Coordination'], projects_count: 127, connections: ['CREW-002', 'CREW-003'], is_online: true, joined_date: '2020-03-15', location: 'Los Angeles, CA', email: 'john@crew.com' },
   { id: 'CREW-002', name: 'Sarah Chen', role: 'Lighting Designer', department: 'Lighting', bio: 'Award-winning LD specializing in concert touring.', skills: ['grandMA', 'Vectorworks', 'Previz'], projects_count: 89, connections: ['CREW-001', 'CREW-004'], is_online: true, joined_date: '2019-08-22', location: 'Nashville, TN', email: 'sarah@crew.com' },
@@ -80,7 +73,7 @@ const mockPhotos: CrewPhoto[] = [
 
 export default function CrewSocialPage() {
   const router = useRouter();
-  const [crewMembers, setCrewMembers] = useState<CrewMember[]>(mockCrewMembers);
+  const [crewMembers] = useState<CrewMember[]>(mockCrewMembers);
   const [photos, setPhotos] = useState<CrewPhoto[]>(mockPhotos);
   const [activeTab, setActiveTab] = useState('roster');
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
@@ -91,6 +84,8 @@ export default function CrewSocialPage() {
   const [success, setSuccess] = useState<string | null>(null);
 
   const handleConnect = (memberId: string) => {
+    // In a real app, this would send a connection request to the API
+    logger.info(`Sending connection request to member: ${memberId}`);
     setSuccess('Connection request sent!');
     setShowConnectModal(false);
   };
@@ -127,8 +122,8 @@ export default function CrewSocialPage() {
       <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share photos, build your network"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Full Directory', onClick: () => router.push('/crew') }}
         showFavorite
         showSettings

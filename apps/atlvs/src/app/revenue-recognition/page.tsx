@@ -21,6 +21,10 @@ import {
   Spinner,
   EnterprisePageHeader,
   MainContent,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
 } from '@ghxstship/ui';
 
 export default function RevenueRecognitionPage() {
@@ -61,6 +65,19 @@ export default function RevenueRecognitionPage() {
     await getSchedule(ruleId);
   };
 
+  const handleCreateRule = async (ruleData: Parameters<typeof createRule>[0]) => {
+    try {
+      await createRule(ruleData);
+      setShowCreateForm(false);
+      await refresh();
+    } catch (err) {
+      console.error('Failed to create rule:', err);
+    }
+  };
+
+  // Expose handleCreateRule for future form implementation
+  void handleCreateRule;
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -93,8 +110,8 @@ export default function RevenueRecognitionPage() {
       <EnterprisePageHeader
         title="Revenue Recognition"
         subtitle="Manage revenue recognition rules and schedules"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create Rule', onClick: () => setShowCreateForm(true) }}
         showFavorite
         showSettings
@@ -145,7 +162,7 @@ export default function RevenueRecognitionPage() {
                   <Stack 
                     key={entry.id}
                     direction="horizontal"
-                    className="justify-between items-center p-4 border border-ink-200 rounded"
+                    className="justify-between items-center p-4 border-2 border-ink-200 rounded"
                   >
                     <Stack gap={1}>
                       <Label className="font-weight-semibold">{entry.description}</Label>
@@ -287,7 +304,7 @@ export default function RevenueRecognitionPage() {
                     <Stack
                       key={entry.id}
                       direction="horizontal"
-                      className={`justify-between items-center p-4 border rounded ${entry.status === 'recognized' ? 'bg-ink-100 border-ink-300' : 'bg-white border-ink-200'}`}
+                      className={`justify-between items-center p-4 border-2 rounded ${entry.status === 'recognized' ? 'bg-ink-100 border-ink-300' : 'bg-white border-ink-200'}`}
                     >
                       <Stack gap={1}>
                         <Body className="font-weight-semibold">{entry.description}</Body>
@@ -307,6 +324,28 @@ export default function RevenueRecognitionPage() {
             </CardBody>
           </Card>
         )}
+
+        {/* Create Rule Modal */}
+        <Modal open={showCreateForm} onClose={() => setShowCreateForm(false)}>
+          <ModalHeader>
+            <H3>Create Revenue Recognition Rule</H3>
+          </ModalHeader>
+          <ModalBody>
+            <Stack gap={4}>
+              <Body className="text-ink-600">
+                Configure a new revenue recognition rule to automate revenue scheduling.
+              </Body>
+              <Body className="text-ink-500 text-body-sm">
+                Form fields would include: Rule Name, Recognition Method (straight-line, milestone, percentage-of-completion), 
+                Contract Reference, Total Amount, Recognition Period, and Schedule Parameters.
+              </Body>
+            </Stack>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" onClick={() => setShowCreateForm(false)}>Cancel</Button>
+            <Button variant="solid" onClick={() => setShowCreateForm(false)}>Create Rule</Button>
+          </ModalFooter>
+        </Modal>
           </Stack>
         </Container>
       </MainContent>

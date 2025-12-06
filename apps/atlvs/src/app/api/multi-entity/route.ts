@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
         .order('name');
 
       // Build tree structure
-      const buildTree = (parentId: string | null): any[] => {
+      const buildTree = (parentId: string | null): unknown[] => {
         return (entities || [])
           .filter(e => e.parent_id === parentId)
           .map(e => ({
@@ -84,9 +84,26 @@ export async function GET(request: NextRequest) {
       const entityIds = searchParams.get('entity_ids')?.split(',');
       const period = searchParams.get('period') || 'month';
 
+      // Calculate date range based on period
+      const now = new Date();
+      let startDate: string;
+      if (period === 'week') {
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      } else if (period === 'month') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      } else if (period === 'quarter') {
+        const quarterStart = Math.floor(now.getMonth() / 3) * 3;
+        startDate = new Date(now.getFullYear(), quarterStart, 1).toISOString();
+      } else if (period === 'year') {
+        startDate = new Date(now.getFullYear(), 0, 1).toISOString();
+      } else {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+      }
+
       let query = supabase
         .from('entity_financials')
-        .select('*');
+        .select('*')
+        .gte('period_start', startDate);
 
       if (entityIds && entityIds.length > 0) {
         query = query.in('entity_id', entityIds);
@@ -214,7 +231,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Grant creator admin access
@@ -241,7 +258,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ access });
@@ -255,7 +272,7 @@ export async function POST(request: NextRequest) {
         .eq('user_id', user_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -278,7 +295,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ transaction }, { status: 201 });
@@ -297,7 +314,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ transaction });
@@ -369,7 +386,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ entity });
@@ -418,7 +435,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', entityId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

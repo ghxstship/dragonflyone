@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -54,30 +48,36 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const parties = data?.map(p => ({
-      id: p.id,
-      title: p.title,
-      description: p.description,
-      host_id: p.host_id,
-      host_name: p.host ? `${(p.host as any).first_name} ${(p.host as any).last_name}` : 'Anonymous',
-      host_avatar: (p.host as any)?.avatar_url,
-      event_id: p.event_id,
-      event_name: (p.event as any)?.title,
-      content_type: p.content_type,
-      content_url: p.content_url,
-      thumbnail_url: p.thumbnail_url,
-      scheduled_at: p.scheduled_at,
-      duration_minutes: p.duration_minutes || 120,
-      status: p.status,
-      attendees_count: p.attendees_count || 0,
-      max_attendees: p.max_attendees,
-      is_private: p.is_private || false,
-      chat_enabled: p.chat_enabled !== false,
-      video_enabled: p.video_enabled || false,
-    })) || [];
+    interface HostInfo { first_name?: string; last_name?: string; avatar_url?: string }
+    interface PartyEventInfo { title?: string }
+    const parties = data?.map(p => {
+      const host = p.host as HostInfo | null;
+      const event = p.event as PartyEventInfo | null;
+      return {
+        id: p.id,
+        title: p.title,
+        description: p.description,
+        host_id: p.host_id,
+        host_name: host ? `${host.first_name} ${host.last_name}` : 'Anonymous',
+        host_avatar: host?.avatar_url,
+        event_id: p.event_id,
+        event_name: event?.title,
+        content_type: p.content_type,
+        content_url: p.content_url,
+        thumbnail_url: p.thumbnail_url,
+        scheduled_at: p.scheduled_at,
+        duration_minutes: p.duration_minutes || 120,
+        status: p.status,
+        attendees_count: p.attendees_count || 0,
+        max_attendees: p.max_attendees,
+        is_private: p.is_private || false,
+        chat_enabled: p.chat_enabled !== false,
+        video_enabled: p.video_enabled || false,
+      };
+    }) || [];
 
     return NextResponse.json({ parties });
   } catch (error) {
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Add host as attendee

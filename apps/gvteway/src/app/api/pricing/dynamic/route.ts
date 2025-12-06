@@ -14,12 +14,8 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 const pricingRuleSchema = z.object({
   event_id: z.string().uuid(),
@@ -103,7 +99,7 @@ export const GET = apiRoute(
 
 // POST - Create dynamic pricing rule
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const validated = pricingRuleSchema.parse(body);
 
@@ -141,8 +137,21 @@ export const POST = apiRoute(
 );
 
 // Helper function to calculate dynamic price
-async function calculateDynamicPrice(rule: any, eventId: string, ticketTypeId: string) {
-  const factors: any = {};
+interface TimeFactor { days_before_event: number; multiplier: number; price_multiplier?: number }
+interface DemandThreshold { percentage_sold: number; multiplier: number }
+interface InventoryThreshold { percentage_sold: number; multiplier: number }
+interface SurgePricing { enabled: boolean; threshold_purchases_per_hour: number; multiplier: number }
+interface PricingRules { 
+  time_factors?: TimeFactor[]; 
+  demand_thresholds?: DemandThreshold[]; 
+  inventory_thresholds?: InventoryThreshold[];
+  surge_pricing?: SurgePricing;
+  demand_multiplier?: number;
+}
+interface PricingRule { base_price: number; strategy: string; rules: PricingRules; min_price?: number; max_price?: number }
+interface PricingFactors { time_multiplier?: number; demand_multiplier?: number; inventory_multiplier?: number; surge_multiplier?: number; [key: string]: number | { [key: string]: unknown } | undefined }
+async function calculateDynamicPrice(rule: PricingRule, eventId: string, ticketTypeId: string) {
+  const factors: PricingFactors = {};
   let priceMultiplier = 1.0;
 
   // Get event and ticket data

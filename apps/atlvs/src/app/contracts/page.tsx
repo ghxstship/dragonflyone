@@ -21,6 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Contract {
   id: string;
@@ -165,9 +166,30 @@ export default function ContractsPage() {
     }
   };
 
-  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+  const handleBulkAction = async (actionId: string, _selectedIds: string[]) => {
     if (actionId === 'export') handleExportReport();
   };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Contract, 'id'>>({
+    entityType: 'contracts',
+    requiredFields: ['title', 'type', 'value'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/contracts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+      addNotification({ type: 'success', title: 'Import Complete', message: `${records.length} contracts imported` });
+    },
+  });
+
+  const importTemplates = getImportTemplates('contracts').length > 0 
+    ? getImportTemplates('contracts') 
+    : [{ id: 'default', name: 'Contract Import', mapping: { title: 'title', type: 'type', value: 'value', status: 'status', start_date: 'start_date', end_date: 'end_date' } }];
 
   const totalValue = contractList.reduce((sum, c) => sum + (c.value || 0), 0);
   const renewalsDue = contractList.filter(c => {
@@ -222,16 +244,15 @@ export default function ContractsPage() {
         onRowClick={(row) => { setSelectedContract(row); setDrawerOpen(true); }}
         createLabel="Create Contract"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="contracts"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'type', 'value', 'status', 'start_date', 'end_date']}
         onExport={handleExportReport}
         stats={stats}
         emptyMessage="No contracts found"
         emptyAction={{ label: 'Create Contract', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -254,7 +275,7 @@ export default function ContractsPage() {
         sections={detailSections}
         onEdit={(c) => router.push(`/contracts/${c.id}/edit`)}
         onDelete={(c) => { setContractToDelete(c); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[{ id: 'renew', label: 'Renew', icon: '🔄' }]}
+        actions={[{ id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" /> }]}
         onAction={(actionId, contract) => {
           if (actionId === 'renew') router.push(`/contracts/${contract.id}/renew`);
         }}

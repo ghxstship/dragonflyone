@@ -74,8 +74,8 @@ export default function BackgroundChecksPage() {
       <EnterprisePageHeader
         title="Background Checks"
         subtitle="Background check status and renewal alerts"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

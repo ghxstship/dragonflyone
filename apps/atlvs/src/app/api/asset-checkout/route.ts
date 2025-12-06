@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('checkout_date', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       checkouts: data,
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       status: requires_approval ? 'pending_approval' : 'checked_out'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update asset status
     await supabase.from('assets').update({ status: 'checked_out' }).eq('id', asset_id);

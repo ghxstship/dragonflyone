@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import clsx from "clsx";
 
-export type FieldType = "text" | "email" | "password" | "number" | "textarea" | "select" | "checkbox" | "radio" | "date" | "datetime" | "file";
+export type FieldType = "text" | "email" | "password" | "number" | "textarea" | "select" | "multiselect" | "checkbox" | "radio" | "date" | "datetime" | "file" | "url";
 
 export interface FormFieldOption {
   value: string;
@@ -205,6 +205,21 @@ export function RecordFormModal<T = Record<string, unknown>>({
             className={baseInputClasses}
           >
             <option value="">{field.placeholder || "Select..."}</option>
+            {field.options?.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        ) : field.type === "multiselect" ? (
+          <select
+            multiple
+            value={Array.isArray(value) ? value : []}
+            onChange={(e) => {
+              const selected = Array.from(e.target.selectedOptions, option => option.value);
+              handleChange(field.name, selected);
+            }}
+            disabled={field.disabled || submitting}
+            className={clsx(baseInputClasses, "min-h-[100px]")}
+          >
             {field.options?.map(opt => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
             ))}

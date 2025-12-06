@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (level) query = query.eq('level', level);
 
     const { data, error } = await query.order('title', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ learning_paths: data });
   } catch (error) {
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
         path_id, user_id: user.id, progress_percent: 0, started_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ enrollment: data }, { status: 201 });
     }
 

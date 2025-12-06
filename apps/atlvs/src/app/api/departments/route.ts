@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (!orgId) return NextResponse.json({ error: 'organization_id required' }, { status: 400 });
 
     const { data, error } = await supabase.from('departments').select('*').eq('organization_id', orgId).order('name');
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ departments: data });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.from('departments').insert(payload).select().single();
     if (error) {
       if (error.code === '23505') return NextResponse.json({ error: 'Department code already exists' }, { status: 409 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ department: data }, { status: 201 });
   } catch (error) {

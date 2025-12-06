@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (venueId) query = query.eq('venue_id', venueId);
 
     const { data, error } = await query.order('version', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ plans: data });
   } catch (error) {
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         version, uploaded_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ plan: data }, { status: 201 });
     }
 
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
         plan_id, x, y, label, type, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ annotation: data }, { status: 201 });
     }
 

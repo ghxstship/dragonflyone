@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { compvssNavigation, compvssLandingNavigation } from "../data/compvss";
+import { compvssLandingNavigation } from "../data/compvss";
 import { AppNavigation, UnifiedHeader, Link } from "@ghxstship/ui";
 import type { ContextLevel } from "@ghxstship/ui";
 

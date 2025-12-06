@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     if (eventType) query = query.eq('event_type', eventType);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       templates: data,
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       created_by: user.id, is_public: false
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ template: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create template' }, { status: 500 });

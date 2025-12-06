@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, ClipboardList, Flag } from "lucide-react";
+import { Eye, ClipboardList, Flag, Trophy } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
@@ -17,6 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
 
 interface Contest {
   id: string;
@@ -160,9 +161,43 @@ export default function ContestsPage() {
         onRowClick={(r) => { setSelectedContest(r); setDrawerOpen(true); }}
         createLabel="Create Contest"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="contests"
+        onExport={createExportHandler({
+          filename: 'contests',
+          getData: () => contests.map(c => ({
+            id: c.id,
+            name: c.name,
+            type: c.type,
+            prize: c.prize,
+            prize_value: c.prizeValue,
+            start_date: c.startDate,
+            end_date: c.endDate,
+            status: c.status,
+            entries: c.entries,
+          })),
+        })}
         stats={stats}
         emptyMessage="No contests found"
         emptyAction={{ label: 'Create Contest', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/admin/contests/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'end') {
+            await fetch('/api/admin/contests/bulk-end', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'end', label: 'End Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -184,9 +219,9 @@ export default function ContestsPage() {
           subtitle={(c) => `${c.type} • ${c.status}`}
           sections={detailSections}
           actions={[
-            { id: 'entries', label: 'View Entries', icon: '📋' },
-            ...(selectedContest.status === 'Active' ? [{ id: 'end', label: 'End Contest', icon: '🏁' }] : []),
-            ...(selectedContest.status === 'Ended' && !selectedContest.winnerName ? [{ id: 'winner', label: 'Select Winner', icon: '🏆' }] : []),
+            { id: 'entries', label: 'View Entries', icon: <ClipboardList className="size-4" /> },
+            ...(selectedContest.status === 'Active' ? [{ id: 'end', label: 'End Contest', icon: <Flag className="size-4" /> }] : []),
+            ...(selectedContest.status === 'Ended' && !selectedContest.winnerName ? [{ id: 'winner', label: 'Select Winner', icon: <Trophy className="size-4" /> }] : []),
           ]}
           onAction={(id, c) => {
             if (id === 'end') handleEndContest(c.id);

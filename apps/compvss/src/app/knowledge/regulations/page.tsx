@@ -60,12 +60,12 @@ export default function RegulationsPage() {
   const updatedCount = mockRegulations.filter(r => r.status === "Updated").length;
   const reviewCount = mockRegulations.filter(r => r.status === "Review Required").length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
-      case "Current": return "text-success-400";
-      case "Updated": return "text-info-400";
-      case "Review Required": return "text-warning-400";
-      default: return "text-ink-400";
+      case "Current": return "success";
+      case "Updated": return "info";
+      case "Review Required": return "warning";
+      default: return "ghost";
     }
   };
 
@@ -87,8 +87,8 @@ export default function RegulationsPage() {
       <EnterprisePageHeader
         title="Industry Regulations"
         subtitle="Compliance documentation and regulatory references"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -128,7 +128,7 @@ export default function RegulationsPage() {
                           </Stack>
                         </Stack>
                       </Stack>
-                      <Badge variant={reg.status === "Current" ? "solid" : "outline"}>{reg.status}</Badge>
+                      <Badge variant={getStatusVariant(reg.status)}>{reg.status}</Badge>
                     </Stack>
                     <Body>{reg.summary}</Body>
                     <Stack direction="horizontal" className="justify-between items-center">
@@ -178,7 +178,7 @@ export default function RegulationsPage() {
                 <Body>{getCategoryIcon(selectedRegulation.category)}</Body>
                 <Badge variant="outline">{selectedRegulation.category}</Badge>
                 <Badge variant="outline">{selectedRegulation.jurisdiction}</Badge>
-                <Badge variant={selectedRegulation.status === "Current" ? "solid" : "outline"}>{selectedRegulation.status}</Badge>
+                <Badge variant={getStatusVariant(selectedRegulation.status)}>{selectedRegulation.status}</Badge>
               </Stack>
               <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedRegulation.lastUpdated}</Body></Stack>
               <Stack gap={1}><Body className="text-body-sm">Summary</Body><Body>{selectedRegulation.summary}</Body></Stack>

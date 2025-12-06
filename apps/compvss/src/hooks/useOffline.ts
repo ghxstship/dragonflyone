@@ -88,7 +88,7 @@ export function useOffline(): OfflineState & {
   const requestSync = useCallback(async (tag: string) => {
     if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
       const registration = await navigator.serviceWorker.ready;
-      await (registration as any).sync.register(tag);
+      await (registration as ServiceWorkerRegistration & { sync: { register: (tag: string) => Promise<void> } }).sync.register(tag);
     }
   }, []);
 
@@ -198,7 +198,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
   }, [storeName]);
 
   // Add item to queue
-  const addToQueue = useCallback(async (data: any) => {
+  const addToQueue = useCallback(async (data: Record<string, unknown>) => {
     try {
       const db = await openDB();
       const transaction = db.transaction(storeName, 'readwrite');
@@ -214,7 +214,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
       // Request background sync if available
       if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
         const registration = await navigator.serviceWorker.ready;
-        await (registration as any).sync.register(`sync-${storeName}`);
+        await (registration as ServiceWorkerRegistration & { sync: { register: (tag: string) => Promise<void> } }).sync.register(`sync-${storeName}`);
       }
     } catch (error) {
       console.error('[Queue] Failed to add:', error);
@@ -229,7 +229,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
       const transaction = db.transaction(storeName, 'readonly');
       const store = transaction.objectStore(storeName);
       
-      return new Promise<any[]>((resolve, reject) => {
+      return new Promise<Record<string, unknown>[]>((resolve, reject) => {
         const request = store.getAll();
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);

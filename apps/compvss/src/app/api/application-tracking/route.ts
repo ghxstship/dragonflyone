@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, opportunity:opportunities(id, title, client_name)
     `).eq('applicant_id', user.id).order('created_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ applications: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       status: 'pending'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ application: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to apply' }, { status: 500 });

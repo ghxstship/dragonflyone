@@ -21,7 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Shipment {
   id: string;
@@ -85,6 +85,26 @@ export default function LogisticsPage() {
     refetch?.();
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Shipment, 'id'>>({
+    entityType: 'logistics',
+    requiredFields: ['equipment', 'origin', 'destination'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/shipments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('logistics').length > 0 
+    ? getImportTemplates('logistics') 
+    : [{ id: 'default', name: 'Shipment Import', mapping: { equipment: 'equipment', origin: 'origin', destination: 'destination', driver: 'driver', truck: 'truck', status: 'status' } }];
+
   const stats = [
     { label: 'Active Shipments', value: shipments.length },
     { label: 'In Transit', value: inTransitCount },
@@ -112,12 +132,7 @@ export default function LogisticsPage() {
       <EnterprisePageHeader
         title="Logistics & Transportation"
         subtitle="Track shipments, manage fleet, and coordinate deliveries"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -137,6 +152,9 @@ export default function LogisticsPage() {
           createLabel="Schedule Shipment"
           onCreate={() => setCreateModalOpen(true)}
           entityType="logistics"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['equipment', 'origin', 'destination', 'driver', 'truck', 'status']}
           onExport={createExportHandler({
             filename: "shipments",
             getData: () => shipments.map(s => ({
@@ -153,10 +171,31 @@ export default function LogisticsPage() {
           stats={stats}
           emptyMessage="No shipments found"
           emptyAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(true) }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/logistics/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch?.();
+            } else if (action === 'complete') {
+              await fetch('/api/logistics/bulk-complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch?.();
+            }
+          }}
+          bulkActions={[
+            { id: 'complete', label: 'Mark Delivered', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Schedule Shipment" fields={formFields} onSubmit={handleCreate} size="lg" />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedShipment} title={(s) => s.id} subtitle={(s) => s.equipment} sections={detailSections} onEdit={(s) => router.push(`/logistics/${s.id}/edit`)} actions={[{ id: 'track', label: 'Track', icon: '📍' }]} onAction={(id, s) => id === 'track' && router.push(`/logistics/${s.id}`)} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedShipment} title={(s) => s.id} subtitle={(s) => s.equipment} sections={detailSections} onEdit={(s) => router.push(`/logistics/${s.id}/edit`)} actions={[{ id: 'track', label: 'Track', icon: <MapPin className="size-4" /> }]} onAction={(id, s) => id === 'track' && router.push(`/logistics/${s.id}`)} />
     </CompvssAppLayout>
   );
 }

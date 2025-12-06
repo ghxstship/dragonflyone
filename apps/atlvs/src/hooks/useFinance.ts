@@ -14,7 +14,7 @@ export interface Transaction {
   vendor_id?: string;
   project_id?: string;
   status: 'pending' | 'completed' | 'cancelled';
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

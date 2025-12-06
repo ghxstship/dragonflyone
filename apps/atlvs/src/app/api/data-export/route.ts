@@ -41,8 +41,8 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ exports });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     // Process export based on type
     const exportType = validated.export_type;
     const params = validated.parameters || {};
-    let data: any[] = [];
+    let data: unknown[] = [];
     let rowCount = 0;
 
     if (exportType === 'contacts') {
@@ -136,10 +136,10 @@ export async function POST(request: NextRequest) {
       row_count: rowCount,
       preview: data.slice(0, 5),
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

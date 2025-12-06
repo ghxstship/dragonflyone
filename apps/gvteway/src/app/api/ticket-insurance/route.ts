@@ -11,16 +11,9 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const ticketPrice = parseFloat(searchParams.get('ticket_price') || '0');
 
@@ -74,7 +67,7 @@ export async function POST(request: NextRequest) {
       policy_number: `INS-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ insurance: data }, { status: 201 });
   } catch (error) {
@@ -108,7 +101,7 @@ export async function PATCH(request: NextRequest) {
         status: 'pending', submitted_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       return NextResponse.json({ claim: data }, { status: 201 });
     }

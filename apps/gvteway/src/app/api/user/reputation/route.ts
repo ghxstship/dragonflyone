@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const KARMA_LEVELS = [
   { level: 1, name: 'Newcomer', min: 0 },
@@ -141,11 +135,13 @@ export async function GET(request: NextRequest) {
           break;
       }
 
-      const earned = earnedAchievements?.find(a => a.achievement_id === achievement.id);
+      const isEarned = earnedIds.has(achievement.id);
+      const earned = isEarned ? earnedAchievements?.find(a => a.achievement_id === achievement.id) : null;
 
       return {
         ...achievement,
         progress: Math.min(progress, achievement.total),
+        is_earned: isEarned,
         earned_at: earned?.earned_at || null,
       };
     });

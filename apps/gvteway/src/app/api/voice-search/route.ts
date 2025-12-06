@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Voice search capability
 export async function POST(request: NextRequest) {
@@ -50,22 +44,24 @@ export async function POST(request: NextRequest) {
     }
 
     const { data: events, error } = await query.limit(20);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       transcript,
       parsed_query: parsed,
       results: events,
-      suggestions: generateSuggestions(parsed, events || [])
+      suggestions: generateSuggestions(parsed, events || []),
+      audio_source: audio_url ? 'url' : 'transcript',
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to process voice search' }, { status: 500 });
   }
 }
 
-function parseVoiceQuery(transcript: string): any {
+interface ParsedVoiceQuery { original: string; artist?: string; venue?: string; city?: string; date_range?: { start: string; end: string }; genre?: string }
+function parseVoiceQuery(transcript: string): ParsedVoiceQuery {
   const lower = transcript.toLowerCase();
-  const parsed: any = { original: transcript };
+  const parsed: ParsedVoiceQuery = { original: transcript };
 
   // Extract artist
   const artistMatch = lower.match(/(?:by|see|watch|hear)\s+([a-z\s]+?)(?:\s+(?:in|at|on|this|next)|$)/);
@@ -107,7 +103,7 @@ function parseVoiceQuery(transcript: string): any {
   return parsed;
 }
 
-function generateSuggestions(parsed: any, results: any[]): string[] {
+function generateSuggestions(parsed: ParsedVoiceQuery, results: unknown[]): string[] {
   const suggestions: string[] = [];
   
   if (results.length === 0) {

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, tasks:set_change_tasks(id, task, assigned_to, sequence, status)
     `).eq('event_id', eventId).order('sequence', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ set_changes: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -37,11 +37,12 @@ export async function POST(request: NextRequest) {
       event_id, sequence, from_set, to_set, duration_minutes, status: 'planned'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+    interface SetChangeTask { task: string; assigned_to?: string }
     if (tasks?.length) {
       await supabase.from('set_change_tasks').insert(
-        tasks.map((t: any, i: number) => ({
+        tasks.map((t: SetChangeTask, i: number) => ({
           set_change_id: data.id, task: t.task, assigned_to: t.assigned_to, sequence: i + 1, status: 'pending'
         }))
       );

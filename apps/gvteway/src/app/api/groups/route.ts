@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch group ticket orders
 export async function GET(request: NextRequest) {
@@ -52,7 +46,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ groups: data });
@@ -203,6 +197,35 @@ export async function PATCH(request: NextRequest) {
       }
 
       return NextResponse.json({ success: true, group: member.group_order });
+    }
+
+    if (action === 'join_direct' && group_id) {
+      // Join group directly by ID (for authenticated users)
+      if (!authHeader) {
+        return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+      }
+
+      const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
+      if (!user) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const { data: newMember, error: joinError } = await supabase
+        .from('group_order_members')
+        .insert({
+          group_order_id: group_id,
+          user_id: user.id,
+          status: 'confirmed',
+          confirmed_at: new Date().toISOString(),
+        })
+        .select('*, group_order:group_orders(*)')
+        .single();
+
+      if (joinError) {
+        return NextResponse.json({ error: 'Failed to join group' }, { status: 500 });
+      }
+
+      return NextResponse.json({ success: true, member: newMember });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

@@ -16,8 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
-  type ExportFormat,
-} from '@ghxstship/ui';
+  } from '@ghxstship/ui';
 import { createExportHandler } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 
@@ -158,11 +157,25 @@ export default function PartnershipsPage() {
         stats={stats}
         emptyMessage="No partnerships found"
         emptyAction={{ label: 'Add Partnership', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/partnerships/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/partnerships/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

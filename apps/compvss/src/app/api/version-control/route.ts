@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('document.category', type);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ updates: data });
   } catch (error) {
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         document_id, version_number: newVersion, content, change_summary, author_id: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Update main document
       await supabase.from('knowledge_documents').update({

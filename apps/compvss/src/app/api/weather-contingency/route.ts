@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (weatherCondition) query = query.contains('weather_conditions', [weatherCondition]);
 
     const { data, error } = await query.order('event_type', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ plans: data });
   } catch (error) {
@@ -47,11 +47,11 @@ export async function POST(request: NextRequest) {
       decision_timeline, communication_plan, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (triggers?.length) {
       await supabase.from('contingency_triggers').insert(
-        triggers.map((t: any) => ({
+        triggers.map((t: Record<string, unknown>) => ({
           plan_id: data.id, condition: t.condition,
           threshold: t.threshold, action: t.action
         }))

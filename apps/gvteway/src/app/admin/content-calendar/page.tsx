@@ -39,16 +39,6 @@ export default function ContentCalendarPage() {
   const scheduledCount = mockPosts.filter(p => p.status === "Scheduled").length;
   const publishedCount = mockPosts.filter(p => p.status === "Published").length;
 
-  // Status color helper - now using Badge variants instead
-  const _getStatusColor = (status: string) => {
-    switch (status) {
-      case "Published": return "text-success-600";
-      case "Scheduled": return "text-info-600";
-      case "Draft": return "text-ink-500";
-      default: return "text-ink-600";
-    }
-  };
-
   return (
     <GvtewayAppLayout>
           <Stack gap={10}>

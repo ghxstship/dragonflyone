@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
-import { PlatformRole } from '@ghxstship/config/roles';
 
 function getSupabaseClient() {
   return createClient(
@@ -13,12 +12,8 @@ function getSupabaseClient() {
   );
 }
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
+// Module-level supabase client for use in handlers and helper functions
+const supabase = getSupabaseClient();
 
 const transferSchema = z.object({
   ticket_id: z.string().uuid(),
@@ -36,7 +31,7 @@ const acceptTransferSchema = z.object({
 
 // GET - List transfers (sent/received)
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'sent' or 'received'
     const status = searchParams.get('status');
@@ -102,7 +97,7 @@ export const GET = apiRoute(
 
 // POST - Initiate ticket transfer
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const validated = transferSchema.parse(body);
 
@@ -196,7 +191,7 @@ export const POST = apiRoute(
 
 // PUT - Accept or decline transfer
 export const PUT = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const validated = acceptTransferSchema.parse(body);
 
@@ -314,7 +309,7 @@ export const PUT = apiRoute(
 
 // DELETE - Cancel transfer (sender only)
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const transfer_id = searchParams.get('transfer_id');
 

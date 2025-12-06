@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const ProductSchema = z.object({
   name: z.string(),
@@ -111,9 +105,9 @@ export async function GET(request: NextRequest) {
       }
 
       // Calculate average rating
-      const ratings = product.reviews?.filter((r: any) => r.rating) || [];
+      const ratings = product.reviews?.filter((r: Record<string, unknown>) => r.rating) || [];
       const avgRating = ratings.length > 0
-        ? ratings.reduce((sum: number, r: any) => sum + r.rating, 0) / ratings.length
+        ? ratings.reduce((sum: number, r: Record<string, unknown>) => sum + (Number(r.rating) || 0), 0) / ratings.length
         : 0;
 
       return NextResponse.json({
@@ -187,7 +181,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create variants if provided
@@ -284,7 +278,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create order items
@@ -336,7 +330,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ review }, { status: 201 });
@@ -353,7 +347,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ wishlist_item: wishlistItem }, { status: 201 });
@@ -395,7 +389,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ product });
@@ -413,7 +407,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ order });
@@ -453,7 +447,7 @@ export async function DELETE(request: NextRequest) {
       .eq('product_id', productId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

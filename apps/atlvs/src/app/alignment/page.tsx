@@ -159,8 +159,8 @@ export default function StrategicAlignmentPage() {
       <EnterprisePageHeader
         title="Strategic Alignment"
         subtitle="Measure how projects align with strategic goals"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Align Project', onClick: () => setShowAlignModal(true) }}
         showFavorite
         showSettings

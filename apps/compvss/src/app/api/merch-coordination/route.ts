@@ -54,14 +54,14 @@ export async function POST(request: NextRequest) {
         event_id, location, booth_number, status: 'setup'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ booth: data }, { status: 201 });
     }
 
     if (action === 'load_inventory') {
       const { booth_id, items } = body;
 
-      const records = items.map((i: any) => ({
+      const records = items.map((i: Record<string, unknown>) => ({
         event_id, booth_id, product_id: i.product_id,
         quantity: i.quantity, price: i.price
       }));
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
         sold_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Update inventory
       for (const item of items) {

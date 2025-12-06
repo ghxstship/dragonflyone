@@ -77,8 +77,8 @@ export default function ChannelsPage() {
       <EnterprisePageHeader
         title="Communication Channels"
         subtitle="Department-specific channels and groups"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create Channel', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings

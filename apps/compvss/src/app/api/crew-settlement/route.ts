@@ -54,8 +54,8 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json({ settlements, totals });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -82,11 +82,13 @@ export async function POST(request: NextRequest) {
         .eq('status', 'approved');
 
       // Aggregate by crew member
-      const byCrewMember: Record<string, any> = {};
+      interface EmployeeData { hourly_rate?: number }
+      interface CrewSettlement { crew_member_id: string; event_id: string; total_hours: number; regular_hours: number; overtime_hours: number; hourly_rate: number }
+      const byCrewMember: Record<string, CrewSettlement> = {};
       timesheets?.forEach(ts => {
         const empId = ts.employee_id;
         if (!byCrewMember[empId]) {
-          const emp = ts.employee as any;
+          const emp = ts.employee as EmployeeData | null;
           byCrewMember[empId] = {
             crew_member_id: empId,
             event_id,
@@ -102,7 +104,7 @@ export async function POST(request: NextRequest) {
       });
 
       // Calculate pay for each
-      const settlements = Object.values(byCrewMember).map((s: any) => {
+      const settlements = Object.values(byCrewMember).map((s: Record<string, unknown>) => {
         const overtimeRate = s.hourly_rate * 1.5;
         const regularPay = s.regular_hours * s.hourly_rate;
         const overtimePay = s.overtime_hours * overtimeRate;
@@ -159,11 +161,11 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ settlement }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -226,7 +228,7 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ settlement: data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

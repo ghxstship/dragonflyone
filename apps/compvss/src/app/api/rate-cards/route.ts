@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (serviceType) query = query.eq('service_type', serviceType);
 
     const { data, error } = await query.order('service_type', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ rate_cards: data });
   } catch (error) {
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       rate, currency: currency || 'USD', minimum_hours, notes
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ rate_card: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

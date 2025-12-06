@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Age verification requirements
 export async function GET(request: NextRequest) {
@@ -34,7 +28,7 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await supabase.from('age_verification_methods').select('*');
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ methods: data });
   } catch (error) {
@@ -62,7 +56,7 @@ export async function POST(request: NextRequest) {
         wristband_policy, updated_by: user.id
       }, { onConflict: 'event_id' }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ requirements: data });
     }
 

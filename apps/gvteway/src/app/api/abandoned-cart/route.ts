@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Abandoned cart recovery automation
 export async function GET(request: NextRequest) {
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest) {
       *, items:cart_items(*, product:products(id, name, price, images))
     `).eq('user_id', user.id).eq('status', 'abandoned');
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       abandoned_carts: carts,

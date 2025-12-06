@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Eye, Check } from "lucide-react";
+
+import { Eye, Check, DollarSign } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
@@ -68,7 +68,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function CommissionsPage() {
-  const router = useRouter();
   const [records, setRecords] = useState<CommissionRecord[]>(mockRecords);
   const [selectedRecord, setSelectedRecord] = useState<CommissionRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -157,11 +156,20 @@ export default function CommissionsPage() {
         stats={stats}
         emptyMessage="No commission records found"
         emptyAction={{ label: 'Add Commission', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setRecords(prev => prev.filter(r => !ids.includes(r.id)));
+          } else if (action === 'approve') {
+            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Approved' as const } : r));
+          } else if (action === 'pay') {
+            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Paid' as const, paymentDate: new Date().toISOString().split('T')[0] } : r));
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'pay', label: 'Mark Paid', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -174,8 +182,8 @@ export default function CommissionsPage() {
           subtitle={(r) => `${r.salesRep} • $${r.commissionAmount.toLocaleString()}`}
           sections={detailSections}
           actions={[
-            { id: 'approve', label: 'Approve', icon: '✓' },
-            { id: 'pay', label: 'Mark Paid', icon: '💰' },
+            { id: 'approve', label: 'Approve', icon: <Check className="size-4" /> },
+            { id: 'pay', label: 'Mark Paid', icon: <DollarSign className="size-4" /> },
           ]}
           onAction={(id, r) => {
             if (id === 'approve') setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Approved' as const } : rec));

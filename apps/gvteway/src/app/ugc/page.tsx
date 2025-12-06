@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -67,7 +67,6 @@ interface Campaign {
 }
 
 export default function UGCPage() {
-  const router = useRouter();
   const [posts, setPosts] = useState<UGCPost[]>([]);
   const [hashtags, setHashtags] = useState<Hashtag[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);

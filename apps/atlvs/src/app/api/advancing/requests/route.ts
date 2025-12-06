@@ -164,7 +164,8 @@ export async function POST(request: NextRequest) {
     if (itemsError) {
       Logger.error('Error creating advance items:', itemsError);
       // Rollback: delete the advance
-      await supabase.from('production_advances').delete().eq('id', (advance as any).id);
+      const advanceRecord = advance as { id: string };
+      await supabase.from('production_advances').delete().eq('id', advanceRecord.id);
 
       return NextResponse.json(
         { error: 'Failed to create advance items', details: itemsError.message },

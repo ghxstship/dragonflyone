@@ -18,11 +18,12 @@ export async function GET(request: NextRequest) {
     if (department) query = query.eq('department', department);
 
     const { data, error } = await query.order('run_number', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by department
-    const byDept: Record<string, any[]> = {};
-    data?.forEach(run => {
+    interface CableRun { id: string; department?: string; run_number: string }
+    const byDept: Record<string, CableRun[]> = {};
+    data?.forEach((run: CableRun) => {
       const dept = run.department || 'general';
       if (!byDept[dept]) byDept[dept] = [];
       byDept[dept].push(run);
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
       source, destination, signal_type, notes, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ cable_run: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

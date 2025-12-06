@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Digital wallet integration (Apple Wallet, Google Pay)
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
         *, event:events(id, name, date, venue, image_url)
       `).eq('id', ticketId).single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       return NextResponse.json({
         ticket,
@@ -50,7 +44,7 @@ export async function GET(request: NextRequest) {
       *, event:events(id, name, date, venue)
     `).eq('user_id', user.id).eq('status', 'active').gte('event.date', new Date().toISOString());
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ tickets });
   } catch (error) {
@@ -102,7 +96,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function generateWalletPassData(ticket: any) {
+interface TicketData { id: string; seat_info?: string; event?: { name?: string; date?: string; venue?: string } }
+function generateWalletPassData(ticket: TicketData) {
   const event = ticket.event;
   return {
     formatVersion: 1,

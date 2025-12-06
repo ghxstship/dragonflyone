@@ -61,7 +61,9 @@
     "logging.ts",
     "session-config.ts",
     "rate-limiting.ts",
-    "export-utils.ts"
+    "export-utils.ts",
+    "import-utils.ts",
+    "saved-filters.ts"
   ],
   "exclude": [
     "node_modules",

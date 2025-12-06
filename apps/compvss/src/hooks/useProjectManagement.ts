@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 
 export interface Project {
   id: string;
@@ -74,7 +74,7 @@ export function useProjectManagement(initialProjects: Project[] = []) {
     setProjects(prev => prev.filter(project => project.id !== id));
   }, []);
 
-  const updateFilter = useCallback((key: keyof ProjectFilters, value: any) => {
+  const updateFilter = useCallback((key: keyof ProjectFilters, value: string | string[] | undefined) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   }, []);
 

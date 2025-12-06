@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 /**
  * Social Media Integration API
@@ -43,7 +37,7 @@ export async function GET(request: NextRequest) {
         .order('platform', { ascending: true });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ connections: data });
@@ -70,7 +64,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await query.limit(50);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ posts: data });
@@ -88,11 +82,11 @@ export async function GET(request: NextRequest) {
         .limit(100);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Aggregate by platform
-      const byPlatform = (data || []).reduce((acc: Record<string, any>, m) => {
+      const byPlatform = (data || []).reduce((acc: Record<string, unknown>, m) => {
         const p = m.post?.platform || 'unknown';
         if (!acc[p]) {
           acc[p] = { impressions: 0, engagements: 0, clicks: 0, shares: 0, posts: 0 };
@@ -116,7 +110,7 @@ export async function GET(request: NextRequest) {
         .order('name', { ascending: true });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ templates: data });
@@ -166,7 +160,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ connection: data }, { status: 201 });
@@ -201,7 +195,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // If publish_now, trigger immediate publish
@@ -235,7 +229,7 @@ export async function POST(request: NextRequest) {
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ posts: data }, { status: 201 });
@@ -274,7 +268,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Create scheduled posts
-      const scheduledPosts = (posts || []).map((p: any) => ({
+      const scheduledPosts = (posts || []).map((p: Record<string, unknown>) => ({
         ...p,
         event_id,
         campaign_id: campaign.id,
@@ -308,7 +302,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ metrics: data });
@@ -328,16 +322,20 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Event not found' }, { status: 404 });
       }
 
-      // Generate platform-specific content suggestions
+      // Generate platform-specific content suggestions based on tone
+      const tonePrefix = tone === 'professional' ? '' : tone === 'casual' ? 'Hey! ' : tone === 'urgent' ? 'LAST CHANCE! ' : '';
+      const toneEmoji = tone === 'professional' ? '' : tone === 'urgent' ? '🚨' : '🎉';
+      
       const suggestions = {
-        facebook: `🎉 Don't miss ${event.name}! Join us on ${new Date(event.date).toLocaleDateString()} for an unforgettable experience. Get your tickets now! 🎫`,
-        instagram: `✨ ${event.name} is coming! ✨\n\n📅 ${new Date(event.date).toLocaleDateString()}\n📍 ${event.venue || 'TBA'}\n\nLink in bio for tickets! 🎟️\n\n#LiveMusic #Events #${event.name?.replace(/\s+/g, '')}`,
-        twitter: `🎤 ${event.name} - ${new Date(event.date).toLocaleDateString()}\n\nTickets available now! Don't miss out 🔥\n\n#LiveEvents`,
-        tiktok: `POV: You're about to experience ${event.name} 🤩 Mark your calendars for ${new Date(event.date).toLocaleDateString()}!`
+        facebook: `${toneEmoji} ${tonePrefix}Don't miss ${event.name}! Join us on ${new Date(event.date).toLocaleDateString()} for an unforgettable experience. Get your tickets now!`,
+        instagram: `${event.name} is coming!\n\n${new Date(event.date).toLocaleDateString()}\n${event.venue || 'TBA'}\n\nLink in bio for tickets!\n\n#LiveMusic #Events #${event.name?.replace(/\s+/g, '')}`,
+        twitter: `${tonePrefix}${event.name} - ${new Date(event.date).toLocaleDateString()}\n\nTickets available now! Don't miss out\n\n#LiveEvents`,
+        tiktok: `POV: You're about to experience ${event.name} Mark your calendars for ${new Date(event.date).toLocaleDateString()}!`
       };
 
       return NextResponse.json({
-        suggestions: platform ? { [platform]: suggestions[platform as keyof typeof suggestions] } : suggestions
+        suggestions: platform ? { [platform]: suggestions[platform as keyof typeof suggestions] } : suggestions,
+        tone_applied: tone || 'default',
       });
     }
 

@@ -15,6 +15,7 @@ import {
   ProgressBar,
   EnterprisePageHeader,
   MainContent,
+  Select,
 } from "@ghxstship/ui";
 
 interface Vendor {
@@ -87,8 +88,8 @@ export default function VendorComparePage() {
       <EnterprisePageHeader
         title="Vendor Comparison"
         subtitle="Compare vendors side-by-side to make informed decisions"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -105,16 +106,28 @@ export default function VendorComparePage() {
 
             <Card>
               <Stack gap={4}>
-                <Body className="text-body-sm">Select vendors to compare (max 4)</Body>
+                <Stack direction="horizontal" className="justify-between items-center">
+                  <Body className="text-body-sm">Select vendors to compare (max 4)</Body>
+                  <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                    <option value="All">All Categories</option>
+                    <option value="Audio">Audio</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Video">Video</option>
+                    <option value="Staging">Staging</option>
+                  </Select>
+                </Stack>
                 <Grid cols={4} gap={3}>
-                  {mockVendors.map((vendor) => (
+                  {mockVendors.filter(v => categoryFilter === "All" || v.category === categoryFilter).map((vendor) => (
                     <Card key={vendor.id} onClick={() => toggleVendor(vendor.id)}>
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="justify-between items-start">
                           <Body>{vendor.name}</Body>
                           {selectedVendors.includes(vendor.id) && <Badge variant="solid">✓</Badge>}
                         </Stack>
-                        <Body className="text-body-sm">{vendor.rating}★ • {vendor.pricing}</Body>
+                        <Stack direction="horizontal" gap={2}>
+                          <Body className={`text-body-sm ${getAvailabilityColor(vendor.availability)}`}>{vendor.availability}</Body>
+                          <Badge className={getPricingColor(vendor.pricing)}>{vendor.pricing}</Badge>
+                        </Stack>
                       </Stack>
                     </Card>
                   ))}

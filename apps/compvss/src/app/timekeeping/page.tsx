@@ -57,8 +57,8 @@ export default function TimekeepingPage() {
         <EnterprisePageHeader
           title="Timekeeping"
           subtitle="Track crew hours, overtime, and timesheet approvals"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -76,8 +76,8 @@ export default function TimekeepingPage() {
       <EnterprisePageHeader
         title="Timekeeping"
         subtitle="Track crew hours, overtime, and timesheet approvals"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Log Time', onClick: () => router.push('/timekeeping/log') }}
         showFavorite
         showSettings

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Video, Music, Camera, FileText, Theater, Folder } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -107,17 +108,17 @@ export default function ExclusiveContentPage() {
   };
 
   const getTypeBadge = (type: string) => {
-    const variants: Record<string, { color: string; icon: string }> = {
-      video: { color: 'bg-error-500 text-white', icon: '🎬' },
-      audio: { color: 'bg-purple-500 text-white', icon: '🎵' },
-      photo_gallery: { color: 'bg-info-500 text-white', icon: '📸' },
-      document: { color: 'bg-ink-500 text-white', icon: '📄' },
-      behind_the_scenes: { color: 'bg-warning-500 text-white', icon: '🎭' },
+    const variants: Record<string, { color: string; icon: React.ReactNode }> = {
+      video: { color: 'bg-error-500 text-white', icon: <Video className="size-3 inline mr-1" /> },
+      audio: { color: 'bg-purple-500 text-white', icon: <Music className="size-3 inline mr-1" /> },
+      photo_gallery: { color: 'bg-info-500 text-white', icon: <Camera className="size-3 inline mr-1" /> },
+      document: { color: 'bg-ink-500 text-white', icon: <FileText className="size-3 inline mr-1" /> },
+      behind_the_scenes: { color: 'bg-warning-500 text-white', icon: <Theater className="size-3 inline mr-1" /> },
     };
-    const variant = variants[type] || { color: '', icon: '📁' };
+    const variant = variants[type] || { color: '', icon: <Folder className="size-3 inline mr-1" /> };
     return (
       <Badge className={variant.color}>
-        {variant.icon} {type.replace('_', ' ')}
+        {variant.icon}{type.replace('_', ' ')}
       </Badge>
     );
   };

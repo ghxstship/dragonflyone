@@ -5,7 +5,7 @@ import { useState } from 'react';
 interface BatchOperation {
   operation: 'create' | 'update' | 'delete';
   table: string;
-  data: Record<string, any>[];
+  data: Record<string, unknown>[];
 }
 
 export function useBatchOperations() {

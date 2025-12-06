@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Grid } from "@ghxstship/ui";
-import { Building2, Users, CreditCard, Shield, Settings, Bell } from "lucide-react";
+import { Building2, Users, CreditCard, Shield } from "lucide-react";
 
 export default function OrganizationPage() {
   const router = useRouter();

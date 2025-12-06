@@ -9,7 +9,7 @@ interface HealthCheck {
   error?: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const supabase = createAdminClient();
   const startTime = Date.now();
   const checks: Record<string, HealthCheck> = {};

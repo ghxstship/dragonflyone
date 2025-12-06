@@ -17,7 +17,7 @@ export async function GET() {
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { data, error } = await supabase.from('organizations').select('*').order('name');
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ organizations: data });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.from('organizations').insert(payload).select().single();
     if (error) {
       if (error.code === '23505') return NextResponse.json({ error: 'Organization slug already exists' }, { status: 409 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ organization: data }, { status: 201 });
   } catch (error) {

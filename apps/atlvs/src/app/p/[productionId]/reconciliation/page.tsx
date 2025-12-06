@@ -11,7 +11,6 @@ import {
   Button,
   Badge,
   Grid,
-  Body,
   H3,
   Table,
   TableHeader,

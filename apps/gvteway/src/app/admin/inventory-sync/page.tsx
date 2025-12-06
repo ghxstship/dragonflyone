@@ -62,7 +62,7 @@ const mockInventory: InventoryItem[] = [
   { id: 'INV-005', sku: 'VINYL-ALBUM', name: 'Vinyl Album', category: 'Music', online_quantity: 50, physical_quantity: 48, reserved_quantity: 3, available_quantity: 45, sync_status: 'pending', last_sync: '2024-11-24T14:15:00Z', locations: defaultLocations },
 ];
 
-const _mockSyncLogs: SyncLog[] = [
+const mockSyncLogs: SyncLog[] = [
   { id: 'LOG-001', timestamp: '2024-11-24T14:30:00Z', type: 'auto', items_synced: 5, conflicts: 1, status: 'completed', duration_ms: 1500 },
   { id: 'LOG-002', timestamp: '2024-11-24T14:00:00Z', type: 'scheduled', items_synced: 5, conflicts: 0, status: 'completed', duration_ms: 1200 },
   { id: 'LOG-003', timestamp: '2024-11-24T13:30:00Z', type: 'manual', items_synced: 3, conflicts: 0, status: 'completed', duration_ms: 800 },
@@ -98,6 +98,7 @@ export default function InventorySyncPage() {
   const [inventory, setInventory] = useState<InventoryItem[]>(mockInventory);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [syncLogs] = useState<SyncLog[]>(mockSyncLogs);
 
   const conflictCount = inventory.filter(i => i.sync_status === 'conflict').length;
   const pendingCount = inventory.filter(i => i.sync_status === 'pending').length;
@@ -125,11 +126,13 @@ export default function InventorySyncPage() {
     { id: 'sync', label: 'Sync Item', icon: <RefreshCw className="size-4" />, onClick: (r) => handleResolveConflict(r.id) },
   ];
 
+  const lastSync = syncLogs.length > 0 ? new Date(syncLogs[0].timestamp).toLocaleTimeString() : 'Never';
   const stats = [
     { label: 'Total Items', value: totalItems },
     { label: 'Synced', value: syncedCount },
-    { label: 'Conflicts', value: conflictCount },
     { label: 'Pending', value: pendingCount },
+    { label: 'Conflicts', value: conflictCount },
+    { label: 'Last Sync', value: lastSync },
   ];
 
   const detailSections: DetailSection[] = selectedItem ? [
@@ -181,6 +184,17 @@ export default function InventorySyncPage() {
         })}
         stats={stats}
         emptyMessage="No inventory items"
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setInventory(prev => prev.filter(i => !ids.includes(i.id)));
+          } else if (action === 'sync') {
+            setInventory(prev => prev.map(i => ids.includes(i.id) ? { ...i, sync_status: 'synced' as const, last_sync: new Date().toISOString() } : i));
+          }
+        }}
+        bulkActions={[
+          { id: 'sync', label: 'Sync Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       {selectedItem && (

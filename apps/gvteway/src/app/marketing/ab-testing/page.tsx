@@ -158,7 +158,7 @@ export default function ABTestingPage() {
 
                   <Grid cols={2} gap={4}>
                     {test.variants.map((variant, idx) => (
-                      <Card key={idx} className={`p-4 border ${test.winner === variant.name ? "border-success-500 bg-success-50" : "border-ink-200"}`}>
+                      <Card key={idx} className={`p-4 border-2 ${test.winner === variant.name ? "border-success-500 bg-success-50" : "border-ink-200"}`}>
                         <Stack gap={3}>
                           <Label className="font-weight-medium">{variant.name}</Label>
                           <Grid cols={3} gap={2}>
@@ -230,7 +230,7 @@ export default function ABTestingPage() {
               <Stack gap={2}>
                 <Label className="text-ink-500">Variant Performance</Label>
                 {selectedTest.variants.map((variant, idx) => (
-                  <Card key={idx} className={`p-3 border ${selectedTest.winner === variant.name ? "border-success-500" : "border-ink-200"}`}>
+                  <Card key={idx} className={`p-3 border-2 ${selectedTest.winner === variant.name ? "border-success-500" : "border-ink-200"}`}>
                     <Stack direction="horizontal" className="justify-between">
                       <Label>{variant.name}</Label>
                       <Label className="font-mono">{variant.conversionRate.toFixed(1)}% conversion</Label>

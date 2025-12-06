@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Calculate compliance status for each record
@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
 
     // Add crew assignments
     if (crew_assignments && crew_assignments.length > 0) {
-      const assignmentRecords = crew_assignments.map((assignment: any) => ({
+      const assignmentRecords = crew_assignments.map((assignment: Record<string, unknown>) => ({
         compliance_id: compliance.id,
         crew_id: assignment.crew_id,
         role: assignment.role,
@@ -240,7 +240,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', compliance_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -252,7 +252,9 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function calculateComplianceStatus(record: any): {
+interface CrewMember { meal_penalty?: boolean; hours_worked?: number; crew?: { first_name?: string; last_name?: string } }
+interface ComplianceRecord { crew_members?: CrewMember[] }
+function calculateComplianceStatus(record: ComplianceRecord): {
   status: 'compliant' | 'warning' | 'violation';
   issues: string[];
 } {
@@ -263,7 +265,7 @@ function calculateComplianceStatus(record: any): {
       if (member.meal_penalty) {
         issues.push(`Meal penalty for ${member.crew?.first_name} ${member.crew?.last_name}`);
       }
-      if (member.hours_worked > 16) {
+      if (member.hours_worked && member.hours_worked > 16) {
         issues.push(`Excessive hours (${member.hours_worked}h) for ${member.crew?.first_name}`);
       }
     }

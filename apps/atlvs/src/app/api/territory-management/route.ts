@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       let accounts = null;
@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
       const { data: territories, error } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get account counts per territory
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ territory }, { status: 201 });
@@ -217,7 +217,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({ assignment, updated: true });
@@ -233,7 +233,7 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({ assignment }, { status: 201 });
@@ -256,19 +256,20 @@ export async function POST(request: NextRequest) {
       let contactQuery = supabase.from('contacts').select('id');
       let orgQuery = supabase.from('organizations').select('id');
 
-      const criteria = territory.criteria as any;
+      interface TerritoryCriteria { states?: string[]; countries?: string[]; industries?: string[] }
+      const criteria = territory.criteria as TerritoryCriteria | null;
 
-      if (criteria.states?.length > 0) {
+      if (criteria?.states?.length && criteria.states.length > 0) {
         contactQuery = contactQuery.in('state', criteria.states);
         orgQuery = orgQuery.in('state', criteria.states);
       }
 
-      if (criteria.countries?.length > 0) {
+      if (criteria?.countries?.length && criteria.countries.length > 0) {
         contactQuery = contactQuery.in('country', criteria.countries);
         orgQuery = orgQuery.in('country', criteria.countries);
       }
 
-      if (criteria.industries?.length > 0) {
+      if (criteria?.industries?.length && criteria.industries.length > 0) {
         orgQuery = orgQuery.in('industry', criteria.industries);
       }
 
@@ -351,7 +352,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ territory });
@@ -380,7 +381,7 @@ export async function DELETE(request: NextRequest) {
         .eq('id', assignmentId);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true, message: 'Assignment removed' });
@@ -392,7 +393,7 @@ export async function DELETE(request: NextRequest) {
         .eq('id', territoryId);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true, message: 'Territory deactivated' });

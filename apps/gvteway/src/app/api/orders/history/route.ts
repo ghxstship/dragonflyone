@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -85,31 +79,37 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const orders = data?.map(order => ({
-      id: order.id,
-      order_number: order.order_number || `ORD-${order.id.substring(0, 8).toUpperCase()}`,
-      event_title: (order.events as any)?.title,
-      event_date: (order.events as any)?.date,
-      event_venue: (order.events as any)?.venue,
-      event_image: (order.events as any)?.image,
-      items: (order.order_items as any[])?.map(item => ({
-        id: item.id,
-        name: item.name,
-        quantity: item.quantity,
-        price: item.price,
-        type: item.item_type || 'ticket',
-      })) || [],
-      subtotal: order.subtotal || 0,
-      fees: order.fees || 0,
-      tax: order.tax || 0,
-      total: order.total || 0,
-      status: order.status,
-      payment_method: order.payment_method || 'Card',
-      created_at: order.created_at,
-    })) || [];
+    interface OrderEventInfo { title?: string; date?: string; venue?: string; image?: string }
+    interface OrderItemInfo { id: string; name: string; quantity: number; price: number; item_type?: string }
+    const orders = data?.map(order => {
+      const event = order.events as OrderEventInfo | null;
+      const items = (order.order_items || []) as OrderItemInfo[];
+      return {
+        id: order.id,
+        order_number: order.order_number || `ORD-${order.id.substring(0, 8).toUpperCase()}`,
+        event_title: event?.title,
+        event_date: event?.date,
+        event_venue: event?.venue,
+        event_image: event?.image,
+        items: items.map((item: OrderItemInfo) => ({
+          id: item.id,
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          type: item.item_type || 'ticket',
+        })),
+        subtotal: order.subtotal || 0,
+        fees: order.fees || 0,
+        tax: order.tax || 0,
+        total: order.total || 0,
+        status: order.status,
+        payment_method: order.payment_method || 'Card',
+        created_at: order.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ orders });
   } catch (error) {

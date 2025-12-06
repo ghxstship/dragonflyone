@@ -94,8 +94,8 @@ export default function StakeholderPortalPage() {
       <EnterprisePageHeader
         title="Stakeholder Portal"
         subtitle="Role-based communication portal for project stakeholders"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Invite Stakeholder', onClick: () => setShowInviteModal(true) }}
         showFavorite
         showSettings
@@ -162,7 +162,7 @@ export default function StakeholderPortalPage() {
                           <Body className="text-body-sm">{stakeholder.organization}</Body>
                         </Stack>
                         <Stack gap={1} className="text-right">
-                          <Badge variant="outline">{stakeholder.role}</Badge>
+                          <Badge className={getRoleColor(stakeholder.role)}>{stakeholder.role}</Badge>
                           <Badge variant={stakeholder.status === "Active" ? "solid" : "outline"}>{stakeholder.status}</Badge>
                         </Stack>
                       </Stack>

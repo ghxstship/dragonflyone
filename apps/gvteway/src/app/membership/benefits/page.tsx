@@ -158,7 +158,7 @@ export default function MemberBenefitsPage() {
             <TabPanel active={activeTab === "benefits"}>
               <Stack gap={6}>
                 {availableBenefits.map((category) => (
-                  <Card key={category.type} className="border border-ink-200 p-4">
+                  <Card key={category.type} className="border-2 border-ink-200 p-4">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Badge className={getBenefitTypeColor(category.type)}>{category.type}</Badge>
@@ -166,7 +166,7 @@ export default function MemberBenefitsPage() {
                       </Stack>
                       <Grid cols={4} gap={2}>
                         {category.options.map((option) => (
-                          <Card key={option} className="p-2 border border-ink-200 text-center cursor-pointer hover:border-black">
+                          <Card key={option} className="p-2 border-2 border-ink-200 text-center cursor-pointer hover:border-black">
                             <Label className="text-body-sm">{option}</Label>
                           </Card>
                         ))}
@@ -240,7 +240,7 @@ export default function MemberBenefitsPage() {
               <Stack gap={2}>
                 <Label>Benefits</Label>
                 {selectedTier.benefits.map((benefit) => (
-                  <Card key={benefit.id} className="p-3 border border-ink-200">
+                  <Card key={benefit.id} className="p-3 border-2 border-ink-200">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={0}>
                         <Label className="font-weight-bold">{benefit.name}</Label>

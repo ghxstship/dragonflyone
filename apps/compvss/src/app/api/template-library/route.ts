@@ -20,11 +20,12 @@ export async function GET(request: NextRequest) {
     if (search) query = query.ilike('name', `%${search}%`);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by category
-    const byCategory: Record<string, any[]> = {};
-    data?.forEach(t => {
+    interface Template { id: string; name: string; category: string }
+    const byCategory: Record<string, Template[]> = {};
+    data?.forEach((t: Template) => {
       if (!byCategory[t.category]) byCategory[t.category] = [];
       byCategory[t.category].push(t);
     });
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
         tags: tags || [], created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ template: data }, { status: 201 });
     }
 

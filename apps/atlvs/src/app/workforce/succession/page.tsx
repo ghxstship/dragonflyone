@@ -59,7 +59,6 @@ const mockPlans: SuccessionPlan[] = [
 
 export default function SuccessionPlanningPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('plans');
   const [selectedPlan, setSelectedPlan] = useState<SuccessionPlan | null>(null);
   const [riskFilter, setRiskFilter] = useState('All');
 
@@ -92,8 +91,8 @@ export default function SuccessionPlanningPage() {
       <EnterprisePageHeader
         title="Succession Planning"
         subtitle="Identify and develop future leaders for key positions"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -141,7 +140,7 @@ export default function SuccessionPlanningPage() {
                     <Label className="text-ink-400">Successors ({plan.successors.length})</Label>
                     <Grid cols={2} gap={3}>
                       {plan.successors.map((successor) => (
-                        <Card key={successor.id} className="p-3 border border-ink-700 bg-ink-800">
+                        <Card key={successor.id} className="p-3 border-2 border-ink-700 bg-ink-800">
                           <Stack gap={2}>
                             <Stack direction="horizontal" className="justify-between">
                               <Stack gap={0}>

@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const channels = data?.map(c => ({
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
       type: c.type,
       department: c.department,
       description: c.description,
-      members: c.members?.map((m: any) => ({
+      members: c.members?.map((m: Record<string, unknown>) => ({
         id: m.user?.id,
         name: `${m.user?.first_name} ${m.user?.last_name}`,
         role: m.user?.role,

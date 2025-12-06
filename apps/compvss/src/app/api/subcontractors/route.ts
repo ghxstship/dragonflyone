@@ -25,12 +25,14 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate average ratings
-    const withRatings = data?.map((s: any) => ({
+    interface RatingEntry { rating: number }
+    interface SubcontractorData { ratings?: RatingEntry[] }
+    const withRatings = data?.map((s: SubcontractorData) => ({
       ...s,
-      avg_rating: s.ratings?.length ? s.ratings.reduce((sum: number, r: any) => sum + r.rating, 0) / s.ratings.length : null
+      avg_rating: s.ratings?.length ? s.ratings.reduce((sum: number, r: RatingEntry) => sum + r.rating, 0) / s.ratings.length : null
     }));
 
     return NextResponse.json({ subcontractors: withRatings });
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
         project_id, subcontractor_id, scope, contract_value, status: 'active'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ assignment: data }, { status: 201 });
     }
 

@@ -73,19 +73,6 @@ export default function MyHospitalityPage() {
   const pendingCount = requests.filter(r => r.status === 'pending').length;
   const approvedCount = requests.filter(r => r.status === 'approved').length;
 
-  const getCategoryIcon = (category: HospitalityRequest['category']) => {
-    switch (category) {
-      case 'catering':
-        return <Utensils size={16} />;
-      case 'transport':
-        return <Car size={16} />;
-      case 'accommodation':
-        return <Hotel size={16} />;
-      default:
-        return <Coffee size={16} />;
-    }
-  };
-
   const getStatusBadge = (status: HospitalityRequest['status']) => {
     switch (status) {
       case 'pending':
@@ -94,6 +81,19 @@ export default function MyHospitalityPage() {
         return <Badge variant="success">Approved</Badge>;
       case 'declined':
         return <Badge variant="error">Declined</Badge>;
+    }
+  };
+
+  const getCategoryIcon = (category: HospitalityRequest['category']) => {
+    switch (category) {
+      case 'catering':
+        return <Utensils size={20} className="text-white" />;
+      case 'transport':
+        return <Car size={20} className="text-white" />;
+      case 'accommodation':
+        return <Hotel size={20} className="text-white" />;
+      case 'other':
+        return <Coffee size={20} className="text-white" />;
     }
   };
 

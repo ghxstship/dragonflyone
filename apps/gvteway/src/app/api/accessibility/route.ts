@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch accessibility services for an event or user requests
 export async function GET(request: NextRequest) {
@@ -40,7 +34,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Fetch venue accessibility features
@@ -80,7 +74,7 @@ export async function GET(request: NextRequest) {
           .order('created_at', { ascending: false });
 
         if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 });
+          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
         }
 
         return NextResponse.json({ requests });
@@ -146,7 +140,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Create notification for venue staff
@@ -199,7 +193,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', request_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Notify user of status change

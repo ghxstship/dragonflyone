@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (date) query = query.eq('call_date', date);
 
     const { data, error } = await query.order('call_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       crew_calls: data,
@@ -51,10 +51,10 @@ export async function POST(request: NextRequest) {
       project_id, call_date, call_time, location, notes, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (assignments && assignments.length > 0) {
-      const assignmentRecords = assignments.map((a: any) => ({
+      const assignmentRecords = assignments.map((a: Record<string, unknown>) => ({
         crew_call_id: call.id, crew_id: a.crew_id, role: a.role,
         call_time: a.call_time || call_time, department: a.department
       }));
@@ -98,7 +98,7 @@ export async function PATCH(request: NextRequest) {
 
     if (id) {
       const { error } = await supabase.from('crew_calls').update(updateData).eq('id', id);
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Notify crew of changes
       const { data: assignments } = await supabase.from('crew_call_assignments')

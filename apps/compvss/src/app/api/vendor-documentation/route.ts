@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error } = await query.order('title', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ documents: data });
   } catch (error) {
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
       version: version || '1.0', uploaded_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ document: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

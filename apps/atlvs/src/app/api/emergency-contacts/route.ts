@@ -38,6 +38,16 @@ export async function GET(request: NextRequest) {
     const departmentId = searchParams.get('department_id');
 
     if (type === 'contacts' || !type) {
+      // Get employee IDs for department filter if specified
+      let departmentEmployeeIds: string[] = [];
+      if (departmentId && !employeeId) {
+        const { data: deptEmployees } = await supabase
+          .from('platform_users')
+          .select('id')
+          .eq('department_id', departmentId);
+        departmentEmployeeIds = deptEmployees?.map(e => e.id) || [];
+      }
+
       let query = supabase
         .from('emergency_contacts')
         .select(`
@@ -46,7 +56,11 @@ export async function GET(request: NextRequest) {
         `)
         .order('is_primary', { ascending: false });
 
-      if (employeeId) query = query.eq('employee_id', employeeId);
+      if (employeeId) {
+        query = query.eq('employee_id', employeeId);
+      } else if (departmentEmployeeIds.length > 0) {
+        query = query.in('employee_id', departmentEmployeeIds);
+      }
 
       const { data: contacts, error } = await query;
 
@@ -107,11 +121,15 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by department
-      const byDepartment = employees?.reduce((acc: Record<string, any[]>, emp) => {
-        const deptName = (emp.department as any)?.name || 'Unassigned';
+      interface DepartmentData { name?: string }
+      interface EmergencyContact { is_primary?: boolean; name: string; phone_primary: string; relationship: string }
+      interface EmployeeEntry { employee_id: string; employee_name: string; employee_phone: string; employee_email: string; emergency_contact: { name: string; phone: string; relationship: string } | null; has_emergency_contact: boolean }
+      const byDepartment = employees?.reduce((acc: Record<string, EmployeeEntry[]>, emp) => {
+        const deptName = (emp.department as DepartmentData | null)?.name || 'Unassigned';
         if (!acc[deptName]) acc[deptName] = [];
         
-        const primaryContact = (emp.emergency_contacts as any[])?.find(c => c.is_primary);
+        const contacts = (emp.emergency_contacts || []) as EmergencyContact[];
+        const primaryContact = contacts.find((c: EmergencyContact) => c.is_primary);
         
         acc[deptName].push({
           employee_id: emp.id,
@@ -123,16 +141,17 @@ export async function GET(request: NextRequest) {
             phone: primaryContact.phone_primary,
             relationship: primaryContact.relationship,
           } : null,
-          has_emergency_contact: (emp.emergency_contacts as any[])?.length > 0,
+          has_emergency_contact: contacts.length > 0,
         });
         
         return acc;
-      }, {});
+      }, {} as Record<string, EmployeeEntry[]>);
 
       // Count missing contacts
-      const missingContacts = employees?.filter(e => 
-        !(e.emergency_contacts as any[])?.length
-      ).length || 0;
+      const missingContacts = employees?.filter(e => {
+        const empContacts = (e.emergency_contacts || []) as EmergencyContact[];
+        return empContacts.length === 0;
+      }).length || 0;
 
       return NextResponse.json({
         directory: byDepartment,
@@ -156,7 +175,11 @@ export async function GET(request: NextRequest) {
       `)
       .eq('status', 'active');
 
-    const withContacts = employees?.filter(e => (e.emergency_contacts as any[])?.length > 0).length || 0;
+    interface ContactRecord { id: string }
+    const withContacts = employees?.filter(e => {
+      const empContacts = (e.emergency_contacts || []) as ContactRecord[];
+      return empContacts.length > 0;
+    }).length || 0;
     const total = employees?.length || 0;
 
     return NextResponse.json({
@@ -167,9 +190,9 @@ export async function GET(request: NextRequest) {
         compliance_rate: total > 0 ? Math.round((withContacts / total) * 100) : 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Emergency contacts error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -290,7 +313,7 @@ export async function POST(request: NextRequest) {
       // Bulk import emergency contacts
       const { contacts } = body.data;
 
-      const contactRecords = contacts.map((c: any) => ({
+      const contactRecords = contacts.map((c: Record<string, unknown>) => ({
         ...c,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -309,12 +332,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Emergency contacts error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -355,9 +378,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ contact });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Emergency contacts error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -380,8 +403,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Emergency contacts error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

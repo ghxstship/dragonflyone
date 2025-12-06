@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const totalImpact = data?.reduce((sum, co) => sum + (co.cost_impact || 0), 0) || 0;
 
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       requested_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ change_order: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create change order' }, { status: 500 });
@@ -111,7 +111,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('change_orders').update(updateData).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

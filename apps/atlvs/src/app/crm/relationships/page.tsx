@@ -145,11 +145,14 @@ export default function RelationshipsPage() {
         stats={stats}
         emptyMessage="No stakeholders found"
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setStakeholders(prev => prev.filter(s => !ids.includes(s.id)));
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

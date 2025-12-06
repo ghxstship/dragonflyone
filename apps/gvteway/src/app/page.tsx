@@ -18,8 +18,6 @@ import {
 } from "@ghxstship/ui";
 import {
   Lock,
-  Clock,
-  DollarSign,
   Headphones,
   Globe,
   Users,
@@ -35,7 +33,6 @@ import {
   Lightbulb,
   TrendingUp,
   Heart,
-  FileText,
   Package,
   UserPlus,
   Gift,
@@ -56,12 +53,9 @@ export const runtime = "edge";
 // =============================================================================
 const iconMap: Record<string, LucideIcon> = {
   Lock,
-  Clock,
-  DollarSign,
   Headphones,
   Globe,
   Users,
-  FileText,
   Package,
   UserPlus,
   Gift,

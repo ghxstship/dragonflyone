@@ -164,10 +164,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Add line items if provided
+    interface LineItem { item_name: string; description?: string; quantity: number; unit_price: number; unit_of_measure?: string; tax_rate?: number; discount_amount?: number }
+    interface InsertedLineItem extends LineItem { purchase_order_id: string; tax_amount: number; line_total: number; sort_order: number }
     if (body.line_items && Array.isArray(body.line_items) && body.line_items.length > 0) {
-      const validatedItems = body.line_items.map((item: any) => LineItemSchema.parse(item));
+      const validatedItems = body.line_items.map((item: Record<string, unknown>) => LineItemSchema.parse(item)) as LineItem[];
       
-      const lineItemsToInsert = validatedItems.map((item: any, index: number) => {
+      const lineItemsToInsert: InsertedLineItem[] = validatedItems.map((item: LineItem, index: number) => {
         const lineTotal = item.quantity * item.unit_price;
         const taxAmount = lineTotal * (item.tax_rate || 0) / 100;
         return {
@@ -180,7 +182,7 @@ export async function POST(request: NextRequest) {
           tax_rate: item.tax_rate,
           tax_amount: taxAmount,
           discount_amount: item.discount_amount,
-          line_total: lineTotal - item.discount_amount + taxAmount,
+          line_total: lineTotal - (item.discount_amount || 0) + taxAmount,
           sort_order: index,
         };
       });
@@ -194,12 +196,12 @@ export async function POST(request: NextRequest) {
       }
 
       // Update PO totals
-      const subtotal = lineItemsToInsert.reduce((sum: number, item: any) => 
+      const subtotal = lineItemsToInsert.reduce((sum: number, item: InsertedLineItem) => 
         sum + (item.quantity * item.unit_price), 0);
-      const totalTax = lineItemsToInsert.reduce((sum: number, item: any) => 
+      const totalTax = lineItemsToInsert.reduce((sum: number, item: InsertedLineItem) => 
         sum + item.tax_amount, 0);
-      const totalDiscount = lineItemsToInsert.reduce((sum: number, item: any) => 
-        sum + item.discount_amount, 0);
+      const totalDiscount = lineItemsToInsert.reduce((sum: number, item: InsertedLineItem) => 
+        sum + (item.discount_amount || 0), 0);
 
       await supabase
         .from('purchase_orders')

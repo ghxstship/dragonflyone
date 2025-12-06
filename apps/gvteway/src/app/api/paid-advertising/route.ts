@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Paid advertising campaign management
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
     if (platform) query = query.eq('platform', platform);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate totals
     const totals = data?.reduce((acc, c) => {
@@ -77,7 +71,7 @@ export async function POST(request: NextRequest) {
         status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ campaign: data }, { status: 201 });
     }
 

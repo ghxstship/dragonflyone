@@ -13,11 +13,22 @@
  [32m[1m✓[22m[39m Compiled successfully
  [37m[1m [22m[39m Skipping validation of types
  [37m[1m [22m[39m Skipping linting
-[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
+[?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [33m[1m⚠[22m[39m Using edge runtime on a page currently disables static generation for that page
 [?25l [37m[1m [22m[39m Collecting page data  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting page data     [32m[1m✓[22m[39m Collecting page data 
-[?25l [37m[1m [22m[39m Generating static pages (0/121)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (1/121)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (17/121)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (17/121)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (32/121)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (47/121)  [36m[  ==][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (62/121)  [36m[   =][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (77/121)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (92/121)  [36m[   =][39m ⚠ Entire page "/sops/acknowledgments" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:11178)
-    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:22175)
+[?25l [37m[1m [22m[39m Generating static pages (0/121)  [36m[    ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (0/121)  [36m[=   ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (31/121)  [36m[==  ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (46/121)  [36m[=== ][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (74/121)  [36m[ ===][39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Generating static pages (103/121)  [36m[  ==][39m ⚠ Entire page "/credentials/zones" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:11178)
+    at s (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:22175)
+    at g (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/credentials/zones/page.js:1:4639)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
+    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
+    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
+ ⚠ Entire page "/sops/acknowledgments" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:11178)
+    at s (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:22175)
     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/acknowledgments/page.js:1:3639)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
@@ -26,21 +37,10 @@
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
- ⚠ Entire page "/credentials/zones" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:11178)
-    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:22175)
-    at b (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/credentials/zones/page.js:1:4641)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
-    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47010)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47717)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
-    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
  ⚠ Entire page "/sops/training" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:11178)
-    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8846.js:71:22175)
-    at b (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/training/page.js:1:4294)
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:11178)
+    at s (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/7706.js:66:22175)
+    at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/training/page.js:1:4292)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46251)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47571)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
@@ -49,16 +49,16 @@
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61546)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.3_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18._33picamnipeyva4ml5r7zhbrie/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64546)
 [2K[1G[1A[2K[1G[?25h [32m[1m✓[22m[39m Generating static pages (121/121)
-[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
-[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
+[?25l [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[?25l [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Collecting build traces  [36m..[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Collecting build traces     [32m[1m✓[22m[39m Collecting build traces 
+[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m..[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m...[39m[2K[1G[1A[2K[1G [37m[1m [22m[39m Finalizing page optimization  [36m.[39m[2K[1G[1A[2K[1G[?25h [37m[1m [22m[39m Finalizing page optimization     [32m[1m✓[22m[39m Finalizing page optimization 
 
 [4mRoute (app)[24m                                             [4mSize[24m     [4mFirst Load JS[24m
-┌ ƒ /                                                   5.55 kB         [37m[1m406 kB[22m[39m
+┌ ƒ /                                                   4.79 kB         [37m[1m440 kB[22m[39m
 ├ ○ /_not-found                                         143 B          [37m[1m87.4 kB[22m[39m
-├ ○ /advancing                                          3.04 kB         [37m[1m441 kB[22m[39m
-├ ƒ /advancing/[id]                                     3.7 kB          [37m[1m442 kB[22m[39m
-├ ○ /advancing/catalog                                  5.1 kB          [37m[1m346 kB[22m[39m
-├ ○ /advancing/new                                      3.86 kB         [37m[1m442 kB[22m[39m
+├ ○ /advancing                                          1.71 kB         [37m[1m476 kB[22m[39m
+├ ƒ /advancing/[id]                                     2.36 kB         [37m[1m477 kB[22m[39m
+├ ○ /advancing/catalog                                  2.99 kB         [37m[1m434 kB[22m[39m
+├ ○ /advancing/new                                      2.53 kB         [37m[1m477 kB[22m[39m
 ├ ƒ /api/advancing                                      0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/advancing/[id]                                 0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/advancing/[id]/fulfill                         0 B                [37m[1m0 B[22m[39m
@@ -288,168 +288,168 @@
 ├ ƒ /api/weather                                        0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/weather-contingency                            0 B                [37m[1m0 B[22m[39m
 ├ ƒ /api/win-loss-tracking                              0 B                [37m[1m0 B[22m[39m
-├ ○ /artist-portal                                      4.23 kB         [37m[1m343 kB[22m[39m
-├ ○ /artists                                            5.05 kB         [37m[1m443 kB[22m[39m
-├ ○ /auth/forgot-password                               2.36 kB         [37m[1m341 kB[22m[39m
-├ ○ /auth/magic-link                                    2.41 kB         [37m[1m342 kB[22m[39m
-├ ○ /auth/reset-password                                2.38 kB         [37m[1m341 kB[22m[39m
-├ ○ /auth/signin                                        944 B           [37m[1m446 kB[22m[39m
-├ ○ /auth/signup                                        2.1 kB          [37m[1m341 kB[22m[39m
-├ ○ /auth/verify-email                                  2.05 kB         [37m[1m341 kB[22m[39m
-├ ○ /availability                                       4.66 kB         [37m[1m443 kB[22m[39m
-├ ○ /background-checks                                  4.93 kB         [37m[1m443 kB[22m[39m
-├ ○ /backup-plans                                       3.74 kB         [37m[1m336 kB[22m[39m
-├ ○ /best-practices                                     3.18 kB         [37m[1m335 kB[22m[39m
-├ ○ /bid-portal                                         3.39 kB         [37m[1m336 kB[22m[39m
-├ ○ /build-strike                                       2.69 kB         [37m[1m335 kB[22m[39m
-├ ○ /case-studies                                       3.6 kB          [37m[1m336 kB[22m[39m
-├ ○ /catering                                           5.23 kB         [37m[1m337 kB[22m[39m
-├ ○ /certifications                                     5.36 kB         [37m[1m444 kB[22m[39m
-├ ○ /channels                                           4.09 kB         [37m[1m336 kB[22m[39m
-├ ○ /clock-in                                           4.24 kB         [37m[1m336 kB[22m[39m
-├ ○ /communications                                     4.36 kB         [37m[1m337 kB[22m[39m
-├ ○ /communications/channels                            3.51 kB         [37m[1m336 kB[22m[39m
-├ ○ /credentials                                        3.12 kB         [37m[1m445 kB[22m[39m
-├ ○ /credentials/issue                                  2.75 kB         [37m[1m445 kB[22m[39m
-├ ○ /credentials/reports                                2.2 kB          [37m[1m444 kB[22m[39m
-├ ○ /credentials/scan                                   2.95 kB         [37m[1m445 kB[22m[39m
-├ ○ /credentials/types                                  2.47 kB         [37m[1m444 kB[22m[39m
-├ ○ /credentials/zones                                  2.94 kB         [37m[1m445 kB[22m[39m
-├ ○ /crew                                               3.29 kB         [37m[1m445 kB[22m[39m
-├ ○ /crew-social                                        4.56 kB         [37m[1m337 kB[22m[39m
-├ ○ /crew/assign                                        3.04 kB         [37m[1m335 kB[22m[39m
-├ ○ /crew/background-checks                             3.6 kB          [37m[1m336 kB[22m[39m
-├ ○ /crew/social                                        3.86 kB         [37m[1m336 kB[22m[39m
-├ ○ /dashboard                                          5.18 kB         [37m[1m444 kB[22m[39m
-├ ○ /deliveries                                         5.9 kB          [37m[1m444 kB[22m[39m
-├ ○ /directory                                          4.26 kB         [37m[1m443 kB[22m[39m
-├ ○ /directory/availability                             3.41 kB         [37m[1m336 kB[22m[39m
-├ ○ /directory/filters                                  3.33 kB         [37m[1m336 kB[22m[39m
-├ ○ /drawings                                           3.67 kB         [37m[1m336 kB[22m[39m
-├ ○ /emergency                                          4.18 kB         [37m[1m336 kB[22m[39m
-├ ○ /equipment                                          2.86 kB         [37m[1m444 kB[22m[39m
-├ ○ /expenses                                           5.04 kB         [37m[1m443 kB[22m[39m
-├ ○ /files                                              3.52 kB         [37m[1m336 kB[22m[39m
-├ ○ /glossary                                           4.02 kB         [37m[1m336 kB[22m[39m
-├ ○ /incidents                                          4.68 kB         [37m[1m443 kB[22m[39m
-├ ○ /integrations                                       3.09 kB         [37m[1m335 kB[22m[39m
-├ ○ /issues                                             5.04 kB         [37m[1m443 kB[22m[39m
-├ ○ /knowledge                                          4.34 kB         [37m[1m337 kB[22m[39m
-├ ○ /knowledge/brand-guidelines                         3.89 kB         [37m[1m336 kB[22m[39m
-├ ○ /knowledge/multilingual                             3.77 kB         [37m[1m336 kB[22m[39m
-├ ○ /knowledge/offline                                  3.96 kB         [37m[1m336 kB[22m[39m
-├ ○ /knowledge/regulations                              3.64 kB         [37m[1m336 kB[22m[39m
-├ ○ /logistics                                          4.42 kB         [37m[1m443 kB[22m[39m
-├ ○ /maintenance                                        4.6 kB          [37m[1m443 kB[22m[39m
-├ ○ /mentorship                                         4 kB            [37m[1m336 kB[22m[39m
-├ ○ /messages                                           3.25 kB         [37m[1m335 kB[22m[39m
-├ ○ /my-assignments                                     3.9 kB          [37m[1m336 kB[22m[39m
-├ ○ /my-contracts                                       4.17 kB         [37m[1m336 kB[22m[39m
-├ ○ /my-credentials                                     4.03 kB         [37m[1m336 kB[22m[39m
-├ ○ /my-deliveries                                      4.39 kB         [37m[1m337 kB[22m[39m
-├ ○ /my-hospitality                                     4.37 kB         [37m[1m337 kB[22m[39m
-├ ○ /my-invoices                                        4.15 kB         [37m[1m336 kB[22m[39m
-├ ○ /my-rider                                           4.65 kB         [37m[1m337 kB[22m[39m
-├ ○ /my-schedule                                        4.08 kB         [37m[1m336 kB[22m[39m
-├ ○ /my-timesheets                                      3.99 kB         [37m[1m336 kB[22m[39m
-├ ○ /my-training                                        3.98 kB         [37m[1m336 kB[22m[39m
-├ ○ /notifications                                      4.57 kB         [37m[1m337 kB[22m[39m
-├ ○ /offline                                            1.05 kB         [37m[1m330 kB[22m[39m
-├ ○ /onboarding                                         4.83 kB         [37m[1m447 kB[22m[39m
-├ ○ /opportunities                                      4.83 kB         [37m[1m337 kB[22m[39m
-├ ○ /opportunities/bid-decision                         3.35 kB         [37m[1m336 kB[22m[39m
-├ ○ /opportunities/mobile                               3.97 kB         [37m[1m336 kB[22m[39m
-├ ○ /opportunities/proposals                            3.7 kB          [37m[1m336 kB[22m[39m
-├ ○ /opportunities/win-loss                             3.65 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/advancing                         2.41 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/communication                     2.22 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/communication/channels            1.89 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/communication/messages            1.95 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/communication/stakeholder-portal  2.01 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/credentials                       2.44 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/crew                              2.49 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/crew/timekeeping                  2.06 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/documents                         2.34 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/documents/backup-plans            1.92 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/documents/files                   1.99 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/documents/sops                    1.88 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/documents/spec-sheets             1.92 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/documents/templates               2.04 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/expenses                          4.35 kB         [37m[1m337 kB[22m[39m
-├ ƒ /p/[productionId]/incidents                         4.49 kB         [37m[1m337 kB[22m[39m
-├ ƒ /p/[productionId]/load-in                           4.39 kB         [37m[1m337 kB[22m[39m
-├ ƒ /p/[productionId]/load-out                          4.13 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/logistics                         2.75 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/lost-found                        4.42 kB         [37m[1m337 kB[22m[39m
-├ ƒ /p/[productionId]/operations                        2.42 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/overview                          3.75 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/quality                           2.36 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/quality/issues                    1.88 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/quality/punch-list                1.9 kB          [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/quality/qa-checkpoints            1.9 kB          [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/quality/troubleshooting           1.93 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/reports                           2.35 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/safety                            2.86 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/schedule                          2.36 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/build-strike             2.22 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/run-of-show              2.01 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/set-times                1.85 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/show-call                2.12 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/soundcheck               1.94 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/schedule/tech-rehearsal           1.93 kB         [37m[1m334 kB[22m[39m
-├ ƒ /p/[productionId]/settings                          2.62 kB         [37m[1m335 kB[22m[39m
-├ ƒ /p/[productionId]/settlement                        4.04 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/strike                            4.22 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/vendors                           4.22 kB         [37m[1m336 kB[22m[39m
-├ ƒ /p/[productionId]/weather                           4.36 kB         [37m[1m337 kB[22m[39m
-├ ƒ /p/[productionId]/wrap                              3.84 kB         [37m[1m336 kB[22m[39m
-├ ○ /permits                                            3.78 kB         [37m[1m336 kB[22m[39m
-├ ○ /photo-documentation                                3.83 kB         [37m[1m336 kB[22m[39m
-├ ○ /profile                                            4.46 kB         [37m[1m337 kB[22m[39m
-├ ○ /projects                                           2.79 kB         [37m[1m441 kB[22m[39m
-├ ○ /projects/new                                       2.91 kB         [37m[1m335 kB[22m[39m
-├ ○ /punch-list                                         3.97 kB         [37m[1m336 kB[22m[39m
-├ ○ /qa-checkpoints                                     3.84 kB         [37m[1m336 kB[22m[39m
-├ ○ /reports/daily                                      2.37 kB         [37m[1m444 kB[22m[39m
-├ ƒ /reports/daily/[id]                                 2.07 kB         [37m[1m444 kB[22m[39m
-├ ○ /reports/wrap                                       2.36 kB         [37m[1m444 kB[22m[39m
-├ ƒ /reports/wrap/[id]                                  2.59 kB         [37m[1m444 kB[22m[39m
-├ ○ /risk-register                                      4.35 kB         [37m[1m337 kB[22m[39m
-├ ○ /run-of-show                                        2.79 kB         [37m[1m441 kB[22m[39m
-├ ○ /safety                                             4.45 kB         [37m[1m337 kB[22m[39m
-├ ○ /schedule                                           2.98 kB         [37m[1m441 kB[22m[39m
-├ ○ /set-times                                          3.78 kB         [37m[1m336 kB[22m[39m
-├ ○ /settings                                           2.76 kB         [37m[1m335 kB[22m[39m
-├ ○ /settlement                                         3.88 kB         [37m[1m336 kB[22m[39m
-├ ○ /show-call                                          3.25 kB         [37m[1m335 kB[22m[39m
-├ ○ /site-access                                        3.67 kB         [37m[1m336 kB[22m[39m
-├ ○ /site-surveys                                       3.75 kB         [37m[1m336 kB[22m[39m
-├ ○ /skills                                             3.58 kB         [37m[1m442 kB[22m[39m
-├ ○ /social-amplification                               3.73 kB         [37m[1m336 kB[22m[39m
-├ ○ /sops                                               2.72 kB         [37m[1m444 kB[22m[39m
-├ ƒ /sops/[id]                                          2.93 kB         [37m[1m445 kB[22m[39m
-├ ○ /sops/acknowledgments                               1.46 kB         [37m[1m443 kB[22m[39m
-├ ○ /sops/categories                                    2.3 kB          [37m[1m444 kB[22m[39m
-├ ○ /sops/training                                      2.27 kB         [37m[1m444 kB[22m[39m
-├ ○ /soundcheck                                         3.97 kB         [37m[1m336 kB[22m[39m
-├ ○ /spec-sheets                                        3.39 kB         [37m[1m336 kB[22m[39m
-├ ○ /stage-management                                   2 kB            [37m[1m334 kB[22m[39m
-├ ○ /stakeholder-portal                                 3.79 kB         [37m[1m336 kB[22m[39m
-├ ○ /subcontractors                                     3.63 kB         [37m[1m336 kB[22m[39m
-├ ○ /tech-rehearsal                                     4.24 kB         [37m[1m336 kB[22m[39m
-├ ○ /templates                                          4 kB            [37m[1m336 kB[22m[39m
-├ ○ /timekeeping                                        3.24 kB         [37m[1m442 kB[22m[39m
-├ ○ /travel                                             4.34 kB         [37m[1m443 kB[22m[39m
-├ ○ /troubleshooting                                    3.3 kB          [37m[1m336 kB[22m[39m
-├ ○ /vendor-portal                                      4.13 kB         [37m[1m343 kB[22m[39m
-├ ○ /vendors/compare                                    3.22 kB         [37m[1m335 kB[22m[39m
-├ ○ /venues                                             2.29 kB         [37m[1m335 kB[22m[39m
-├ ○ /vip-management                                     3.37 kB         [37m[1m336 kB[22m[39m
-├ ○ /weather                                            2.96 kB         [37m[1m335 kB[22m[39m
-└ ○ /weather-contingency                                3.88 kB         [37m[1m336 kB[22m[39m
+├ ○ /artist-portal                                      1.99 kB         [37m[1m440 kB[22m[39m
+├ ○ /artists                                            3.38 kB         [37m[1m478 kB[22m[39m
+├ ○ /auth/forgot-password                               2.36 kB         [37m[1m371 kB[22m[39m
+├ ○ /auth/magic-link                                    2.41 kB         [37m[1m371 kB[22m[39m
+├ ○ /auth/reset-password                                2.38 kB         [37m[1m371 kB[22m[39m
+├ ○ /auth/signin                                        1.38 kB         [37m[1m477 kB[22m[39m
+├ ○ /auth/signup                                        2.1 kB          [37m[1m371 kB[22m[39m
+├ ○ /auth/verify-email                                  2.05 kB         [37m[1m371 kB[22m[39m
+├ ○ /availability                                       2.86 kB         [37m[1m477 kB[22m[39m
+├ ○ /background-checks                                  3.2 kB          [37m[1m478 kB[22m[39m
+├ ○ /backup-plans                                       2.32 kB         [37m[1m434 kB[22m[39m
+├ ○ /best-practices                                     1.73 kB         [37m[1m433 kB[22m[39m
+├ ○ /bid-portal                                         1.93 kB         [37m[1m433 kB[22m[39m
+├ ○ /build-strike                                       1.25 kB         [37m[1m433 kB[22m[39m
+├ ○ /case-studies                                       2.15 kB         [37m[1m434 kB[22m[39m
+├ ○ /catering                                           3.1 kB          [37m[1m435 kB[22m[39m
+├ ○ /certifications                                     3.48 kB         [37m[1m478 kB[22m[39m
+├ ○ /channels                                           2.74 kB         [37m[1m434 kB[22m[39m
+├ ○ /clock-in                                           2.09 kB         [37m[1m434 kB[22m[39m
+├ ○ /communications                                     2.1 kB          [37m[1m434 kB[22m[39m
+├ ○ /communications/channels                            2.09 kB         [37m[1m434 kB[22m[39m
+├ ○ /credentials                                        4.46 kB         [37m[1m479 kB[22m[39m
+├ ○ /credentials/issue                                  3.84 kB         [37m[1m478 kB[22m[39m
+├ ○ /credentials/reports                                3.35 kB         [37m[1m478 kB[22m[39m
+├ ○ /credentials/scan                                   4.11 kB         [37m[1m479 kB[22m[39m
+├ ○ /credentials/types                                  3.79 kB         [37m[1m478 kB[22m[39m
+├ ○ /credentials/zones                                  4.28 kB         [37m[1m479 kB[22m[39m
+├ ○ /crew                                               4.03 kB         [37m[1m478 kB[22m[39m
+├ ○ /crew-social                                        3.17 kB         [37m[1m478 kB[22m[39m
+├ ○ /crew/assign                                        1.6 kB          [37m[1m433 kB[22m[39m
+├ ○ /crew/background-checks                             2.17 kB         [37m[1m434 kB[22m[39m
+├ ○ /crew/social                                        2.44 kB         [37m[1m434 kB[22m[39m
+├ ○ /dashboard                                          2.25 kB         [37m[1m477 kB[22m[39m
+├ ○ /deliveries                                         4.02 kB         [37m[1m478 kB[22m[39m
+├ ○ /directory                                          2.97 kB         [37m[1m477 kB[22m[39m
+├ ○ /directory/availability                             1.98 kB         [37m[1m433 kB[22m[39m
+├ ○ /directory/filters                                  1.89 kB         [37m[1m433 kB[22m[39m
+├ ○ /drawings                                           2.25 kB         [37m[1m434 kB[22m[39m
+├ ○ /emergency                                          2.75 kB         [37m[1m434 kB[22m[39m
+├ ○ /equipment                                          3.31 kB         [37m[1m478 kB[22m[39m
+├ ○ /expenses                                           3.12 kB         [37m[1m478 kB[22m[39m
+├ ○ /files                                              2.07 kB         [37m[1m434 kB[22m[39m
+├ ○ /glossary                                           2.6 kB          [37m[1m434 kB[22m[39m
+├ ○ /incidents                                          2.84 kB         [37m[1m477 kB[22m[39m
+├ ○ /integrations                                       1.68 kB         [37m[1m433 kB[22m[39m
+├ ○ /issues                                             3.29 kB         [37m[1m478 kB[22m[39m
+├ ○ /knowledge                                          2.12 kB         [37m[1m434 kB[22m[39m
+├ ○ /knowledge/brand-guidelines                         2.46 kB         [37m[1m434 kB[22m[39m
+├ ○ /knowledge/multilingual                             2.35 kB         [37m[1m434 kB[22m[39m
+├ ○ /knowledge/offline                                  2.56 kB         [37m[1m434 kB[22m[39m
+├ ○ /knowledge/regulations                              2.23 kB         [37m[1m434 kB[22m[39m
+├ ○ /logistics                                          2.61 kB         [37m[1m477 kB[22m[39m
+├ ○ /maintenance                                        2.79 kB         [37m[1m477 kB[22m[39m
+├ ○ /mentorship                                         2.81 kB         [37m[1m434 kB[22m[39m
+├ ○ /messages                                           1.81 kB         [37m[1m433 kB[22m[39m
+├ ○ /my-assignments                                     1.67 kB         [37m[1m433 kB[22m[39m
+├ ○ /my-contracts                                       1.95 kB         [37m[1m433 kB[22m[39m
+├ ○ /my-credentials                                     1.9 kB          [37m[1m433 kB[22m[39m
+├ ○ /my-deliveries                                      2.13 kB         [37m[1m434 kB[22m[39m
+├ ○ /my-hospitality                                     2.23 kB         [37m[1m434 kB[22m[39m
+├ ○ /my-invoices                                        2 kB            [37m[1m433 kB[22m[39m
+├ ○ /my-rider                                           2.5 kB          [37m[1m434 kB[22m[39m
+├ ○ /my-schedule                                        1.86 kB         [37m[1m433 kB[22m[39m
+├ ○ /my-timesheets                                      1.77 kB         [37m[1m433 kB[22m[39m
+├ ○ /my-training                                        1.83 kB         [37m[1m433 kB[22m[39m
+├ ○ /notifications                                      2.31 kB         [37m[1m434 kB[22m[39m
+├ ○ /offline                                            1.05 kB         [37m[1m360 kB[22m[39m
+├ ○ /onboarding                                         5.25 kB         [37m[1m477 kB[22m[39m
+├ ○ /opportunities                                      2.68 kB         [37m[1m434 kB[22m[39m
+├ ○ /opportunities/bid-decision                         1.97 kB         [37m[1m433 kB[22m[39m
+├ ○ /opportunities/mobile                               2.62 kB         [37m[1m434 kB[22m[39m
+├ ○ /opportunities/proposals                            2.32 kB         [37m[1m434 kB[22m[39m
+├ ○ /opportunities/win-loss                             2.2 kB          [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/advancing                         2.41 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/communication                     2.22 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/communication/channels            1.89 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/communication/messages            1.95 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/communication/stakeholder-portal  2.01 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/credentials                       2.44 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/crew                              2.49 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/crew/timekeeping                  2.06 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents                         2.34 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents/backup-plans            1.92 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents/files                   1.99 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents/sops                    1.88 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents/spec-sheets             1.92 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/documents/templates               2.04 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/expenses                          2.37 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/incidents                         2.54 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/load-in                           2.31 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/load-out                          2.15 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/logistics                         2.75 kB         [37m[1m365 kB[22m[39m
+├ ƒ /p/[productionId]/lost-found                        2.42 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/operations                        2.42 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/overview                          3.75 kB         [37m[1m366 kB[22m[39m
+├ ƒ /p/[productionId]/quality                           2.36 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/quality/issues                    1.88 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/quality/punch-list                1.9 kB          [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/quality/qa-checkpoints            1.9 kB          [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/quality/troubleshooting           1.93 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/reports                           2.35 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/safety                            2.86 kB         [37m[1m365 kB[22m[39m
+├ ƒ /p/[productionId]/schedule                          2.36 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/build-strike             2.22 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/run-of-show              2.01 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/set-times                1.85 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/show-call                2.12 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/soundcheck               1.95 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/schedule/tech-rehearsal           1.93 kB         [37m[1m364 kB[22m[39m
+├ ƒ /p/[productionId]/settings                          2.63 kB         [37m[1m365 kB[22m[39m
+├ ƒ /p/[productionId]/settlement                        2.02 kB         [37m[1m433 kB[22m[39m
+├ ƒ /p/[productionId]/strike                            2.24 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/vendors                           2.26 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/weather                           2.36 kB         [37m[1m434 kB[22m[39m
+├ ƒ /p/[productionId]/wrap                              1.83 kB         [37m[1m433 kB[22m[39m
+├ ○ /permits                                            2.39 kB         [37m[1m434 kB[22m[39m
+├ ○ /photo-documentation                                2.51 kB         [37m[1m434 kB[22m[39m
+├ ○ /profile                                            2.33 kB         [37m[1m434 kB[22m[39m
+├ ○ /projects                                           1.49 kB         [37m[1m476 kB[22m[39m
+├ ○ /projects/new                                       1.47 kB         [37m[1m433 kB[22m[39m
+├ ○ /punch-list                                         2.6 kB          [37m[1m434 kB[22m[39m
+├ ○ /qa-checkpoints                                     2.44 kB         [37m[1m434 kB[22m[39m
+├ ○ /reports/daily                                      3.53 kB         [37m[1m478 kB[22m[39m
+├ ƒ /reports/daily/[id]                                 3.17 kB         [37m[1m478 kB[22m[39m
+├ ○ /reports/wrap                                       3.62 kB         [37m[1m478 kB[22m[39m
+├ ƒ /reports/wrap/[id]                                  3.62 kB         [37m[1m478 kB[22m[39m
+├ ○ /risk-register                                      2.97 kB         [37m[1m434 kB[22m[39m
+├ ○ /run-of-show                                        1.47 kB         [37m[1m476 kB[22m[39m
+├ ○ /safety                                             2.35 kB         [37m[1m434 kB[22m[39m
+├ ○ /schedule                                           1.66 kB         [37m[1m476 kB[22m[39m
+├ ○ /set-times                                          2.4 kB          [37m[1m434 kB[22m[39m
+├ ○ /settings                                           1.32 kB         [37m[1m433 kB[22m[39m
+├ ○ /settlement                                         2.47 kB         [37m[1m434 kB[22m[39m
+├ ○ /show-call                                          1.86 kB         [37m[1m433 kB[22m[39m
+├ ○ /site-access                                        2.28 kB         [37m[1m434 kB[22m[39m
+├ ○ /site-surveys                                       2.43 kB         [37m[1m434 kB[22m[39m
+├ ○ /skills                                             2.3 kB          [37m[1m477 kB[22m[39m
+├ ○ /social-amplification                               2.46 kB         [37m[1m434 kB[22m[39m
+├ ○ /sops                                               4.01 kB         [37m[1m478 kB[22m[39m
+├ ƒ /sops/[id]                                          3.97 kB         [37m[1m478 kB[22m[39m
+├ ○ /sops/acknowledgments                               2.58 kB         [37m[1m477 kB[22m[39m
+├ ○ /sops/categories                                    3.44 kB         [37m[1m478 kB[22m[39m
+├ ○ /sops/training                                      3.47 kB         [37m[1m478 kB[22m[39m
+├ ○ /soundcheck                                         2.6 kB          [37m[1m434 kB[22m[39m
+├ ○ /spec-sheets                                        1.92 kB         [37m[1m433 kB[22m[39m
+├ ○ /stage-management                                   505 B           [37m[1m432 kB[22m[39m
+├ ○ /stakeholder-portal                                 2.44 kB         [37m[1m434 kB[22m[39m
+├ ○ /subcontractors                                     2.24 kB         [37m[1m434 kB[22m[39m
+├ ○ /tech-rehearsal                                     2.84 kB         [37m[1m434 kB[22m[39m
+├ ○ /templates                                          2.53 kB         [37m[1m434 kB[22m[39m
+├ ○ /timekeeping                                        1.92 kB         [37m[1m476 kB[22m[39m
+├ ○ /travel                                             2.59 kB         [37m[1m477 kB[22m[39m
+├ ○ /troubleshooting                                    1.85 kB         [37m[1m433 kB[22m[39m
+├ ○ /vendor-portal                                      1.89 kB         [37m[1m440 kB[22m[39m
+├ ○ /vendors/compare                                    2.01 kB         [37m[1m433 kB[22m[39m
+├ ○ /venues                                             821 B           [37m[1m432 kB[22m[39m
+├ ○ /vip-management                                     1.99 kB         [37m[1m433 kB[22m[39m
+├ ○ /weather                                            1.54 kB         [37m[1m433 kB[22m[39m
+└ ○ /weather-contingency                                2.58 kB         [37m[1m434 kB[22m[39m
 + First Load JS shared by all                           [37m[1m87.3 kB[22m[39m
-  ├ chunks/3030-24184d2c4b93a50b.js                     31.7 kB
-  ├ chunks/7357bd3c-75313584e71c3235.js                 53.6 kB
+  ├ chunks/3030-6248a206709a59ff.js                     31.7 kB
+  ├ chunks/7357bd3c-a446c05a02049e59.js                 53.6 kB
   └ other shared chunks (total)                         1.99 kB
 
 

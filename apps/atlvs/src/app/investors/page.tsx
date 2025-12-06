@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, DollarSign, FileText, Users, Building2 } from 'lucide-react';
+import { Eye, Pencil, DollarSign, FileText, Building2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useInvestors, useInvestorStats, useInvestmentRounds } from '../../hooks/useInvestors';
 import {
@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Investor {
   id: string;
@@ -34,7 +35,7 @@ interface Investor {
   round?: { id: string; name: string; round_type: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   funded: 'success',
   committed: 'warning',
   prospect: 'info',
@@ -87,7 +88,7 @@ const columns: ListPageColumn<Investor>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -188,8 +189,12 @@ export default function InvestorsPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/investors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -221,7 +226,7 @@ export default function InvestorsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedInvestor.status] || 'default'}>
+            <Badge variant={statusColors[selectedInvestor.status] || 'ghost'}>
               {selectedInvestor.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -271,6 +276,19 @@ export default function InvestorsPage() {
         onRowClick={(row) => router.push(`/investors/${row.id}`)}
         createLabel="Add Investor"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="investors"
+        onExport={createExportHandler({
+          filename: 'investors',
+          getData: () => (investors || []).map(i => ({
+            id: i.id,
+            name: i.name,
+            type: i.investor_type,
+            contact: i.contact_name || '',
+            email: i.contact_email || '',
+            investment: i.investment_amount,
+            status: i.status,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No investors yet"
         emptyAction={{ label: 'Add First Investor', onClick: () => setCreateModalOpen(true) }}
@@ -278,6 +296,19 @@ export default function InvestorsPage() {
           { id: 'rounds', label: 'Investment Rounds', icon: <Building2 className="size-4" />, onClick: () => router.push('/investors/rounds') },
           { id: 'documents', label: 'Documents', icon: <FileText className="size-4" />, onClick: () => router.push('/investors/documents') },
           { id: 'reports', label: 'Reports', icon: <DollarSign className="size-4" />, onClick: () => router.push('/investors/reports') },
+        ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/investors/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
       />
 
@@ -289,7 +320,7 @@ export default function InvestorsPage() {
         fields={dynamicFormFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'prospect', investor_type: 'individual', investment_amount: 0 }}
+        record={{ status: 'prospect', investor_type: 'individual', investment_amount: 0 }}
       />
 
       <DetailDrawer

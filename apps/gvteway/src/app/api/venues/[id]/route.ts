@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const updateVenueSchema = z.object({
   name: z.string().min(1).optional(),
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const { data, error } = await supabase.from('venues').select('*').eq('id', params.id).single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Venue not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ venue: data });
   } catch (error) {
@@ -49,7 +43,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const { data, error } = await supabase.from('venues').update(payload).eq('id', params.id).select().single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Venue not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ venue: data });
   } catch (error) {
@@ -62,7 +56,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   try {
     const supabase = getSupabaseClient();
     const { error } = await supabase.from('venues').delete().eq('id', params.id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

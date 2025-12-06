@@ -14,12 +14,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const createMembershipSchema = z.object({
   user_id: z.string().uuid(),
@@ -31,7 +25,7 @@ const createMembershipSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = getSupabaseClient();
       const { searchParams } = new URL(request.url);
@@ -63,7 +57,7 @@ export const GET = apiRoute(
       const { data, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ 
@@ -72,8 +66,8 @@ export const GET = apiRoute(
         limit,
         offset
       });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {
@@ -84,7 +78,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = getSupabaseClient();
       const payload = context.validated;
@@ -100,12 +94,12 @@ export const POST = apiRoute(
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ membership: data }, { status: 201 });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

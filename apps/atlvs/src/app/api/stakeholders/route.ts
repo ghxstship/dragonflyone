@@ -27,12 +27,12 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const stakeholders = data?.map(s => ({
       ...s,
-      projects: s.stakeholder_projects?.map((sp: any) => sp.project_id) || [],
+      projects: s.stakeholder_projects?.map((sp: Record<string, unknown>) => sp.project_id) || [],
     })) || [];
 
     return NextResponse.json({ stakeholders });
@@ -114,7 +114,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ stakeholder: data });
@@ -143,7 +143,7 @@ export async function DELETE(request: NextRequest) {
     const { error } = await supabase.from('stakeholders').delete().eq('id', id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

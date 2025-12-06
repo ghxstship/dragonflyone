@@ -198,7 +198,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ config }, { status: 201 });
@@ -285,7 +285,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ line_item: lineItem }, { status: 201 });
@@ -302,7 +302,7 @@ export async function POST(request: NextRequest) {
         .eq('id', alert_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -318,7 +318,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper function to calculate monthly trend
-function calculateMonthlyTrend(expenses: any[]): any[] {
+function calculateMonthlyTrend(expenses: unknown[]): unknown[] {
   const monthlyData: Record<string, number> = {};
 
   expenses.forEach(expense => {

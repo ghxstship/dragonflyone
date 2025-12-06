@@ -25,12 +25,12 @@ export default function ProjectsPage() {
   const [userRole] = useState('COMPVSS_ADMIN');
   
   const { data: projects, isLoading } = useProjects({
-    status: filterPhase !== 'all' ? filterPhase as any : undefined
+    status: filterPhase !== 'all' ? filterPhase : undefined
   });
 
   const filteredProjects = projects || [];
   const canCreateProject = userRole === 'COMPVSS_ADMIN';
-  const totalBudget = (projects || []).reduce((sum: number, p: any) => sum + (p.budget || 0), 0);
+  const totalBudget = (projects || []).reduce((sum: number, p: { budget?: number }) => sum + (p.budget || 0), 0);
 
   if (isLoading) {
     return (
@@ -49,8 +49,8 @@ export default function ProjectsPage() {
       <EnterprisePageHeader
         title="Projects"
         subtitle="Manage production projects and events"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={canCreateProject ? { label: 'New Project', onClick: () => router.push('/projects/new') } : undefined}
         showFavorite
         showSettings
@@ -61,7 +61,7 @@ export default function ProjectsPage() {
             <Grid cols={3} gap={6}>
               <StatCard value={filteredProjects.length.toString()} label="Total Projects" />
               <StatCard value={`$${(totalBudget / 1000000).toFixed(1)}M`} label="Total Budget" />
-              <StatCard value={filteredProjects.filter((p: any) => p.status === 'active').length.toString()} label="Active Projects" />
+              <StatCard value={filteredProjects.filter((p: { status?: string }) => p.status === 'active').length.toString()} label="Active Projects" />
             </Grid>
 
             <Stack gap={4} direction="horizontal">

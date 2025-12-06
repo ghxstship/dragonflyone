@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const { data, error } = await supabase.from('employees').select('*, departments(*)').eq('id', params.id).single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ employee: data });
   } catch (error) {
@@ -41,7 +41,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const { data, error } = await supabase.from('employees').update(payload).eq('id', params.id).select().single();
     if (error) {
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Employee not found' }, { status: 404 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ employee: data });
   } catch (error) {
@@ -54,7 +54,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { error } = await supabase.from('employees').delete().eq('id', params.id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

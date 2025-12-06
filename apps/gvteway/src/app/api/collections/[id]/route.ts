@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -55,8 +49,8 @@ export async function GET(
       image: data.image,
       featured: data.featured,
       events: data.collection_events
-        ?.sort((a: any, b: any) => a.sort_order - b.sort_order)
-        .map((ce: any) => ce.events)
+        ?.sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order)
+        .map((ce: { events?: unknown }) => ce.events)
         .filter(Boolean) || [],
     };
 
@@ -78,7 +72,7 @@ export async function PATCH(
     const body = await request.json();
     const { name, description, image, featured, status } = body;
 
-    const updates: Record<string, any> = {};
+    const updates: Record<string, unknown> = {};
     if (name !== undefined) updates.name = name;
     if (description !== undefined) updates.description = description;
     if (image !== undefined) updates.image = image;
@@ -93,7 +87,7 @@ export async function PATCH(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ collection: data });
@@ -124,7 +118,7 @@ export async function DELETE(
       .eq('id', params.id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

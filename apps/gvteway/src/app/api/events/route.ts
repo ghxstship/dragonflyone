@@ -68,7 +68,7 @@ const createEventSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const payload = context.validated;
 
@@ -91,11 +91,11 @@ export const POST = apiRoute(
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ event: data }, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ error: error.message || 'Unable to create event' }, { status: 500 });
     }
   },

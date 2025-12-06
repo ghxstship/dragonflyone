@@ -128,6 +128,21 @@ export default function ModerationPage() {
         onRowClick={(r) => { setSelectedContent(r); setDrawerOpen(true); }}
         stats={stats}
         emptyMessage="No flagged content"
+        onBulkAction={async (action, ids) => {
+          if (action === 'approve') {
+            for (const id of ids) {
+              handleModerate(id, 'Approved');
+            }
+          } else if (action === 'remove') {
+            for (const id of ids) {
+              handleModerate(id, 'Removed');
+            }
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'remove', label: 'Remove Selected', variant: 'danger' },
+        ]}
       />
 
       {selectedContent && (

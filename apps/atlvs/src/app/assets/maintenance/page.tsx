@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Eye, Check, Pencil } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
@@ -80,7 +79,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AssetMaintenancePage() {
-  const router = useRouter();
   const [records, setRecords] = useState<MaintenanceRecord[]>(mockRecords);
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -170,11 +168,17 @@ export default function AssetMaintenancePage() {
         stats={stats}
         emptyMessage="No maintenance records found"
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setRecords(prev => prev.filter(r => !ids.includes(r.id)));
+          } else if (action === 'complete') {
+            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Completed' as const, completedDate: new Date().toISOString().split('T')[0] } : r));
+          }
+        }}
+        bulkActions={[
+          { id: 'complete', label: 'Complete Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

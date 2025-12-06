@@ -3,6 +3,11 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
+interface EmployeeData {
+  first_name: string;
+  last_name: string;
+}
+
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
@@ -23,14 +28,14 @@ export async function GET(request: NextRequest) {
         byCategory[cat].push(po.total_amount);
       });
 
-      const anomalies: any[] = [];
+      const anomalies: unknown[] = [];
       Object.entries(byCategory).forEach(([category, amounts]) => {
         if (amounts.length < 3) return;
         const mean = amounts.reduce((a, b) => a + b, 0) / amounts.length;
         const stdDev = Math.sqrt(amounts.reduce((sum, x) => sum + Math.pow(x - mean, 2), 0) / amounts.length);
         const threshold = mean + 2 * stdDev;
 
-        amounts.forEach((amount, i) => {
+        amounts.forEach((amount) => {
           if (amount > threshold) {
             anomalies.push({
               type: 'high_spend',
@@ -87,14 +92,14 @@ export async function GET(request: NextRequest) {
 
       const byEmployee: Record<string, { name: string; hours: number[] }> = {};
       timesheets?.forEach(ts => {
-        const emp = ts.employee as any;
+        const emp = ts.employee as EmployeeData | null;
         if (!byEmployee[ts.employee_id]) {
           byEmployee[ts.employee_id] = { name: emp ? `${emp.first_name} ${emp.last_name}` : 'Unknown', hours: [] };
         }
         byEmployee[ts.employee_id].hours.push(ts.hours);
       });
 
-      const anomalies: any[] = [];
+      const anomalies: unknown[] = [];
       Object.entries(byEmployee).forEach(([empId, data]) => {
         if (data.hours.length < 5) return;
         const mean = data.hours.reduce((a, b) => a + b, 0) / data.hours.length;
@@ -117,8 +122,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -143,7 +148,7 @@ export async function POST(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ alert }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

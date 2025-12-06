@@ -35,7 +35,7 @@ export async function POST(
 
     if (error) {
       Logger.error('OAuth error:', error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 400 });
     }
 
     return NextResponse.json({ url: data.url });

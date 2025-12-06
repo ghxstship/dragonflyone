@@ -20,8 +20,6 @@ import {
   Spinner,
   H3,
   Body,
-  Search,
-  Plus,
 } from '@ghxstship/ui';
 import { useAdvancingCatalog, useCatalogCategories, type CatalogCategory } from '@ghxstship/config';
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
@@ -160,8 +158,9 @@ export function CatalogBrowser({
                         size="sm"
                         variant={isItemSelected(item) ? 'solid' : 'outline'}
                         onClick={() => handleSelectItem(item)}
+                        disabled={!multiSelect && selectedItems.length > 0 && !isItemSelected(item)}
                       >
-                        {isItemSelected(item) ? 'Selected' : 'Add'}
+                        {isItemSelected(item) ? (multiSelect ? 'Remove' : 'Selected') : 'Add'}
                       </Button>
                     </TableCell>
                   </TableRow>

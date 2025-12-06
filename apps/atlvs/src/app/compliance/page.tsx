@@ -19,6 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface ComplianceItem {
   id: string;
@@ -127,6 +128,26 @@ export default function CompliancePage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'compliance',
+    requiredFields: ['title', 'compliance_type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/compliance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchCompliance();
+    },
+  });
+
+  const importTemplates = getImportTemplates('compliance').length > 0 
+    ? getImportTemplates('compliance') 
+    : [{ id: 'default', name: 'Compliance Import', mapping: { title: 'title', compliance_type: 'compliance_type', status: 'status', effective_date: 'effective_date' } }];
+
   const stats = [
     { label: 'Total Items', value: summary?.total || items.length },
     { label: 'Active', value: summary?.active || 0 },
@@ -166,14 +187,33 @@ export default function CompliancePage() {
         createLabel="Add Compliance Item"
         onCreate={() => setCreateModalOpen(true)}
         onExport={handleGenerateReport}
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'compliance_type', 'status', 'effective_date']}
         stats={stats}
         emptyMessage="No compliance items found"
         emptyAction={{ label: 'Add Item', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/compliance/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchCompliance();
+          } else if (action === 'renew') {
+            await fetch('/api/compliance/bulk-renew', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchCompliance();
+          }
+        }}
+        bulkActions={[
+          { id: 'renew', label: 'Renew Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, Button,
-  Card, Badge, Alert, Box, ProgressBar,
+  Card, Badge, Alert, ProgressBar,
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 import { Globe, Check } from "lucide-react";

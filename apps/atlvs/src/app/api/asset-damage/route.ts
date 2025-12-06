@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('reported_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       reports: data,
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       reported_by: user.id, reported_at: new Date().toISOString(), status: 'pending_review'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update asset status
     await supabase.from('assets').update({ status: 'damaged' }).eq('id', asset_id);

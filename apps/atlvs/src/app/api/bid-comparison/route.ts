@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     // Score bids based on criteria
     const scoredBids = bids.map(bid => {
       const scores = calculateBidScores(bid, rfp.scoring_criteria || defaultCriteria);
-      const totalScore = Object.values(scores).reduce((s: number, v: any) => s + v.weighted, 0);
+      const totalScore = Object.values(scores).reduce((s: number, v: { weighted: number }) => s + v.weighted, 0);
       return { ...bid, scores, total_score: Math.round(totalScore * 100) / 100 };
     }).sort((a, b) => b.total_score - a.total_score);
 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       terms, notes, submitted_at: new Date().toISOString(), status: 'submitted'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ bid: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to submit bid' }, { status: 500 });
@@ -100,8 +100,13 @@ const defaultCriteria = {
   terms: { weight: 5, description: 'Payment and contract terms' }
 };
 
-function calculateBidScores(bid: any, criteria: any): any {
-  const scores: any = {};
+interface Bid { price: number; quality_score?: number; delivery_time: number; experience_score?: number }
+interface Criterion { weight: number; description: string }
+interface Criteria { price: Criterion; quality: Criterion; delivery: Criterion; experience: Criterion; terms: Criterion }
+interface Score { raw: number; weighted: number }
+
+function calculateBidScores(bid: Bid, criteria: Criteria): Record<string, Score> {
+  const scores: Record<string, Score> = {};
 
   // Price score (lower is better, normalized 0-100)
   scores.price = { raw: bid.price, weighted: (100 - Math.min(bid.price / 1000, 100)) * (criteria.price.weight / 100) };

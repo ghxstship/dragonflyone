@@ -44,12 +44,13 @@ export async function GET(request: NextRequest) {
       // Calculate utilization for each asset
       const periodDays = Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / (24 * 60 * 60 * 1000));
 
+      interface AssetCheckout { checkout_date: string; return_date?: string }
       const utilizationData = assets?.map(asset => {
-        const checkouts = (asset.checkouts as any[]) || [];
+        const checkouts = (asset.checkouts || []) as AssetCheckout[];
         
         // Calculate days in use
         let daysInUse = 0;
-        checkouts.forEach(checkout => {
+        checkouts.forEach((checkout: AssetCheckout) => {
           const checkoutStart = new Date(checkout.checkout_date);
           const checkoutEnd = checkout.return_date ? new Date(checkout.return_date) : new Date();
           
@@ -125,14 +126,16 @@ export async function GET(request: NextRequest) {
 
       const projectMap = new Map(projects?.map(p => [p.id, p]) || []);
 
+      interface ROICheckout { project_id?: string }
+      interface ROIMaintenance { total_cost?: number }
       const roiData = assets?.map(asset => {
         const purchasePrice = asset.purchase_price || 0;
         const currentValue = asset.current_value || 0;
-        const checkouts = (asset.checkouts as any[]) || [];
-        const maintenanceRecords = (asset.maintenance as any[]) || [];
+        const checkouts = (asset.checkouts || []) as ROICheckout[];
+        const maintenanceRecords = (asset.maintenance || []) as ROIMaintenance[];
 
         // Calculate total maintenance cost
-        const maintenanceCost = maintenanceRecords.reduce((sum, m) => sum + (m.total_cost || 0), 0);
+        const maintenanceCost = maintenanceRecords.reduce((sum: number, m: ROIMaintenance) => sum + (m.total_cost || 0), 0);
 
         // Calculate revenue contribution (simplified - based on projects used)
         let revenueContribution = 0;
@@ -214,20 +217,21 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface IdleCheckout { checkout_date: string; return_date?: string }
       const idleAssets = assets?.filter(asset => {
-        const checkouts = (asset.last_checkout as any[]) || [];
+        const checkouts = (asset.last_checkout || []) as IdleCheckout[];
         if (checkouts.length === 0) return true;
         
-        const lastCheckout = checkouts.sort((a, b) => 
+        const lastCheckout = checkouts.sort((a: IdleCheckout, b: IdleCheckout) => 
           new Date(b.return_date || b.checkout_date).getTime() - new Date(a.return_date || a.checkout_date).getTime()
         )[0];
         
         const lastActivity = lastCheckout.return_date || lastCheckout.checkout_date;
         return new Date(lastActivity) < new Date(thirtyDaysAgo);
       }).map(asset => {
-        const checkouts = (asset.last_checkout as any[]) || [];
+        const checkouts = (asset.last_checkout || []) as IdleCheckout[];
         const lastCheckout = checkouts.length > 0 
-          ? checkouts.sort((a, b) => 
+          ? checkouts.sort((a: IdleCheckout, b: IdleCheckout) => 
               new Date(b.return_date || b.checkout_date).getTime() - new Date(a.return_date || a.checkout_date).getTime()
             )[0]
           : null;
@@ -297,12 +301,13 @@ export async function GET(request: NextRequest) {
         categoryData[cat].count++;
         categoryData[cat].totalValue += asset.purchase_price || 0;
         
-        const checkouts = (asset.checkouts as any[]) || [];
+        interface CategoryCheckout { checkout_date: string; return_date?: string }
+        const checkouts = (asset.checkouts || []) as CategoryCheckout[];
         categoryData[cat].checkoutCount += checkouts.length;
 
         // Calculate utilization
         let daysInUse = 0;
-        checkouts.forEach(checkout => {
+        checkouts.forEach((checkout: CategoryCheckout) => {
           const checkoutStart = new Date(checkout.checkout_date);
           const checkoutEnd = checkout.return_date ? new Date(checkout.return_date) : new Date();
           const effectiveStart = checkoutStart < new Date(startDate) ? new Date(startDate) : checkoutStart;
@@ -398,9 +403,9 @@ export async function GET(request: NextRequest) {
         status_distribution: statusCounts,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset utilization error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -415,8 +420,9 @@ function getUtilizationGrade(rate: number): string {
 
 function getIdleRecommendation(idleDays: number | null, purchasePrice: number | null): string {
   if (idleDays === null) return 'Review - Never used since tracking began';
-  if (idleDays > 180) return 'Consider disposal or sale';
-  if (idleDays > 90) return 'Review for potential rental or reallocation';
+  const isHighValue = purchasePrice !== null && purchasePrice > 50000;
+  if (idleDays > 180) return isHighValue ? 'High-value asset idle - urgent review for sale or rental' : 'Consider disposal or sale';
+  if (idleDays > 90) return isHighValue ? 'High-value asset - prioritize reallocation' : 'Review for potential rental or reallocation';
   if (idleDays > 60) return 'Monitor - Extended idle period';
   return 'Normal idle period';
 }

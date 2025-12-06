@@ -17,7 +17,6 @@ import {
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   Badge,
   Modal,
   ModalHeader,
@@ -39,15 +38,6 @@ interface PhotoSet {
   description?: string;
   tags: string[];
   approved: boolean;
-}
-
-interface Photo {
-  id: string;
-  setId: string;
-  filename: string;
-  caption?: string;
-  location?: string;
-  timestamp: string;
 }
 
 const mockPhotoSets: PhotoSet[] = [
@@ -90,8 +80,8 @@ export default function PhotoDocumentationPage() {
       <EnterprisePageHeader
         title="Photo Documentation"
         subtitle="Phase-by-phase photo and video documentation for all projects"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Upload Photos', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings
@@ -114,7 +104,7 @@ export default function PhotoDocumentationPage() {
                   {phases.map((phase) => {
                     const count = mockPhotoSets.filter(s => s.phase === phase).length;
                     return (
-                      <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : ""}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
+                      <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : getPhaseColor(phase)}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
                         <Stack gap={1} className="text-center">
                           <Body className="text-body-sm">{phase}</Body>
                           <Body className="text-body-sm">{count} sets</Body>

@@ -25,12 +25,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ pool: data });
     }
 
-    const query = supabase.from('talent_pools').select(`
+    let query = supabase.from('talent_pools').select(`
       *, member_count:talent_pool_members(count)
     `);
 
+    // Filter by skills if provided
+    if (skills) {
+      const skillList = skills.split(',').map(s => s.trim());
+      query = query.contains('criteria->required_skills', skillList);
+    }
+
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ pools: data });
   } catch (error) {
@@ -58,7 +64,7 @@ export async function POST(request: NextRequest) {
         tags: tags || [], created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ pool: data }, { status: 201 });
     }
 
@@ -70,7 +76,7 @@ export async function POST(request: NextRequest) {
         source: source || 'manual', added_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ member: data }, { status: 201 });
     }
 
@@ -100,6 +106,11 @@ export async function POST(request: NextRequest) {
       let filtered: typeof data = data || [];
       if (skills?.length) {
         filtered = (data || []).filter(m => skills.some((s: string) => m.skills?.includes(s)));
+      }
+
+      // Filter by availability if specified
+      if (availability) {
+        filtered = filtered.filter(m => m.availability_status === availability);
       }
 
       return NextResponse.json({ candidates: filtered });

@@ -11,7 +11,6 @@ import {
   Grid,
   Stack,
   StatCard,
-  Select,
   Button,
   Card,
   Tabs,
@@ -89,8 +88,8 @@ export default function MarketingAttributionPage() {
       <EnterprisePageHeader
         title="Marketing Attribution"
         subtitle="Track marketing sources and campaign performance"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

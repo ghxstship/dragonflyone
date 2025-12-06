@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Deal {
   id: string;
@@ -71,6 +71,26 @@ export default function PipelinePage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/pipeline/${r.id}`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'pipeline',
+    requiredFields: ['name', 'client', 'value'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/deals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('pipeline').length > 0 
+    ? getImportTemplates('pipeline') 
+    : [{ id: 'default', name: 'Pipeline Import', mapping: { name: 'name', client: 'client', value: 'value', probability: 'probability', stage: 'stage' } }];
+
   const stats = [
     { label: 'Active Deals', value: dealData.length },
     { label: 'Total Value', value: formatCurrency(totalValue) },
@@ -111,6 +131,9 @@ export default function PipelinePage() {
         createLabel="Add Deal"
         onCreate={() => router.push('/pipeline/new')}
         entityType="deals"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'client', 'value', 'probability', 'stage']}
         onExport={createExportHandler({
           filename: "deals",
           getData: () => (deals || []).map((d: Deal) => ({
@@ -126,11 +149,27 @@ export default function PipelinePage() {
         stats={stats}
         emptyMessage="No deals found"
         emptyAction={{ label: 'Add Deal', onClick: () => router.push('/pipeline/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/pipeline/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          } else if (action === 'archive') {
+            await fetch('/api/pipeline/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

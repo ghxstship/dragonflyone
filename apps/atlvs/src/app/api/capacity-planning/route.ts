@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     const { data: allocations } = await supabase.from('resource_allocations').select('*').gte('end_date', startDate);
 
     // Calculate capacity by month
-    const forecast: any[] = [];
+    const forecast: unknown[] = [];
     const start = new Date(startDate);
 
     for (let i = 0; i < months; i++) {
@@ -46,12 +46,13 @@ export async function GET(request: NextRequest) {
     }
 
     // Department breakdown
-    const byDepartment = employees?.reduce((acc: any, emp) => {
+    interface DepartmentStats { count: number; capacity: number }
+    const byDepartment = employees?.reduce((acc: Record<string, DepartmentStats>, emp) => {
       if (!acc[emp.department]) acc[emp.department] = { count: 0, capacity: 0 };
       acc[emp.department].count++;
       acc[emp.department].capacity += emp.weekly_hours * 4;
       return acc;
-    }, {}) || {};
+    }, {} as Record<string, DepartmentStats>) || {};
 
     return NextResponse.json({
       forecast,
@@ -65,7 +66,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function generateRecommendations(forecast: any[]): string[] {
+function generateRecommendations(forecast: unknown[]): string[] {
   const recommendations: string[] = [];
   
   const overUtilized = forecast.filter(f => f.utilization_percent > 90);

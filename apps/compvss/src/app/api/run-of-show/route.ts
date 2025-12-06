@@ -25,25 +25,6 @@ const createRunOfShowSchema = z.object({
   })).optional(),
 });
 
-const updateRunOfShowSchema = z.object({
-  name: z.string().min(1).max(255).optional(),
-  date: z.string().datetime().optional(),
-  venue_id: z.string().uuid().optional(),
-  notes: z.string().max(5000).optional(),
-  status: z.enum(['draft', 'published', 'in_progress', 'completed', 'cancelled']).optional(),
-});
-
-const addCueSchema = z.object({
-  time: z.string(),
-  cue_number: z.string().max(50),
-  description: z.string().min(1).max(500),
-  department: z.string().max(100).optional(),
-  assigned_to: z.string().uuid().optional(),
-  duration_minutes: z.number().int().positive().optional(),
-  notes: z.string().max(1000).optional(),
-  order: z.number().int().nonnegative().optional(),
-});
-
 export const GET = apiRoute(
   async (request: NextRequest) => {
     const { searchParams } = new URL(request.url);
@@ -93,7 +74,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const data = createRunOfShowSchema.parse(body);
 

@@ -6,7 +6,6 @@ import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
   H3,
-  Body,
   Label,
   Grid,
   Stack,
@@ -14,7 +13,6 @@ import {
   Select,
   Button,
   Input,
-  Card,
   Tabs,
   TabsList,
   Tab,
@@ -87,8 +85,8 @@ export default function ScheduledReportsPage() {
       <EnterprisePageHeader
         title="Scheduled Reports"
         subtitle="Automated report generation and distribution"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create Schedule', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings

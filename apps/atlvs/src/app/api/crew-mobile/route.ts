@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const lastSync = searchParams.get('last_sync');
     const dataTypes = searchParams.get('types')?.split(',') || ['all'];
 
-    const syncData: Record<string, any> = {};
+    const syncData: Record<string, unknown> = {};
 
     // Get user's crew assignments and schedules
     if (dataTypes.includes('all') || dataTypes.includes('schedules')) {
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
 
     if (action === 'sync_offline_changes') {
       const { changes } = body;
-      const results: any[] = [];
+      const results: unknown[] = [];
 
       for (const change of changes || []) {
         try {

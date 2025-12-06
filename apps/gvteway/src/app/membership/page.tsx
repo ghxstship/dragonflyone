@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2,
@@ -140,7 +140,6 @@ const faqs = [
 ];
 
 export default function MembershipPage() {
-  const router = useRouter();
 
   return (
     <GvtewayAppLayout>

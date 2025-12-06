@@ -94,8 +94,8 @@ export default function WeatherPage() {
         <EnterprisePageHeader
           title="Weather Monitoring"
           subtitle="Track weather alerts and forecasts for event planning"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -113,8 +113,8 @@ export default function WeatherPage() {
       <EnterprisePageHeader
         title="Weather Monitoring"
         subtitle="Track weather alerts and forecasts for event planning"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

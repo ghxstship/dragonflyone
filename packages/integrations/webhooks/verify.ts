@@ -118,8 +118,10 @@ export function parseWebhookHeader(header: string): { timestamp?: string; signat
 /**
  * Express/Next.js middleware for webhook verification
  */
+interface WebhookRequest { headers: Record<string, string | undefined>; body: unknown }
+interface WebhookResponse { status: (code: number) => { json: (data: unknown) => void } }
 export function createWebhookMiddleware(secret: string) {
-  return async (req: any, res: any, next: () => void) => {
+  return async (req: WebhookRequest, res: WebhookResponse, next: () => void) => {
     const signatureHeader = req.headers['x-ghxstship-signature'] || req.headers['x-webhook-signature'];
     
     if (!signatureHeader) {

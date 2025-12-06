@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
-import { Clapperboard, Monitor, Music, Crown, UtensilsCrossed, Plane } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
+import { Monitor, Music, Crown, UtensilsCrossed, Plane } from "lucide-react";
 import { compvssDemoProductions } from "../../../../data/compvss";
 
 export default function ProductionOperationsPage() {

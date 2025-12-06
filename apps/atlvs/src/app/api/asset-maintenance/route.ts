@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('scheduled_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const upcoming = data?.filter(m => 
       m.status === 'scheduled' && new Date(m.scheduled_date) <= new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       })
       .select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ maintenance: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to schedule maintenance' }, { status: 500 });
@@ -98,7 +98,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('asset_maintenance').update(updateData).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update maintenance' }, { status: 500 });

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       approvals:walkthrough_approvals(id, approved_by, approved_at, signature_url)
     `).eq('project_id', projectId).order('scheduled_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ walkthroughs: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
         status: 'scheduled', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add areas to check
       if (areas?.length) {

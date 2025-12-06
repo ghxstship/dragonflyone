@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     }));
 
     const { data, error } = await supabase
-      .from('project_assignments' as any)
+      .from('project_assignments')
       .insert(assignments)
       .select();
 

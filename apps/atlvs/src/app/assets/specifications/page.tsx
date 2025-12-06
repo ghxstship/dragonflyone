@@ -174,8 +174,8 @@ export default function AssetSpecificationsPage() {
       <EnterprisePageHeader
         title="Asset Specifications Library"
         subtitle="Technical documentation, specifications, and manuals for all equipment"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -294,7 +294,7 @@ export default function AssetSpecificationsPage() {
                 <Label className="text-ink-400">Specifications</Label>
                 <Grid cols={2} gap={3}>
                   {selectedSpec.specifications.map((s, idx) => (
-                    <Card key={idx} className="p-2 bg-ink-800 border border-ink-700">
+                    <Card key={idx} className="p-2 bg-ink-800 border-2 border-ink-700">
                       <Stack gap={0}>
                         <Label size="xs" className="text-ink-500">{s.label}</Label>
                         <Label className="text-white">{s.value}{s.unit ? ` ${s.unit}` : ""}</Label>
@@ -307,7 +307,7 @@ export default function AssetSpecificationsPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">Documents</Label>
                 {selectedSpec.documents.map((doc) => (
-                  <Card key={doc.id} className="p-3 bg-ink-800 border border-ink-700">
+                  <Card key={doc.id} className="p-3 bg-ink-800 border-2 border-ink-700">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={1}>
                         <Label className="text-white">{doc.name}</Label>

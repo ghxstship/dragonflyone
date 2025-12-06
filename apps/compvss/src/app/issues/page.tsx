@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Issue {
   id: string;
@@ -125,6 +125,35 @@ export default function IssuesPage() {
     setCreateModalOpen(false);
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'issues',
+    requiredFields: ['title', 'category', 'priority'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const issue: Issue = {
+          id: `ISS-${String(issues.length + 1).padStart(3, '0')}`,
+          title: String(record.title || ''),
+          description: String(record.description || ''),
+          category: record.category as Issue['category'],
+          priority: record.priority as Issue['priority'],
+          status: 'open',
+          reported_by: String(record.reported_by || 'Import'),
+          department: String(record.department || ''),
+          location: record.location ? String(record.location) : undefined,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          escalation_level: 0,
+        };
+        setIssues(prev => [issue, ...prev]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('issues').length > 0 
+    ? getImportTemplates('issues') 
+    : [{ id: 'default', name: 'Issue Import', mapping: { title: 'title', description: 'description', category: 'category', priority: 'priority', department: 'department' } }];
+
   const stats = [
     { label: 'Active Issues', value: activeIssues.length },
     { label: 'Critical', value: criticalCount },
@@ -156,12 +185,7 @@ export default function IssuesPage() {
       <EnterprisePageHeader
         title="Live Issue Tracking"
         subtitle="Real-time issue management and escalation"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -180,6 +204,9 @@ export default function IssuesPage() {
           createLabel="Report Issue"
           onCreate={() => setCreateModalOpen(true)}
           entityType="issues"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['title', 'description', 'category', 'priority', 'department']}
           onExport={createExportHandler({
             filename: "issues",
             getData: () => issues.map(i => ({
@@ -197,6 +224,25 @@ export default function IssuesPage() {
           stats={stats}
           emptyMessage="No issues found"
           emptyAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/issues/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            } else if (action === 'resolve') {
+              await fetch('/api/issues/bulk-resolve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            }
+          }}
+          bulkActions={[
+            { id: 'resolve', label: 'Resolve Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
 
@@ -219,8 +265,8 @@ export default function IssuesPage() {
           subtitle={(i) => `${i.category} • ${i.priority} priority`}
           sections={detailSections}
           actions={[
-            { id: 'escalate', label: 'Escalate', icon: '⬆️' },
-            { id: 'resolve', label: 'Resolve', icon: '✅' },
+            { id: 'escalate', label: 'Escalate', icon: <ArrowUp className="size-4" /> },
+            { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" /> },
           ]}
           onAction={(id, i) => {
             if (id === 'escalate') handleEscalate(i.id);

@@ -156,6 +156,18 @@ export default function SalesReportingPage() {
         })}
         stats={stats}
         emptyMessage="No sales data available"
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sales/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       {selectedPeriod && (

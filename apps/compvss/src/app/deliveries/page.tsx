@@ -22,7 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Delivery {
   id: string;
@@ -180,6 +180,25 @@ export default function DeliveriesPage() {
   const arrivedCount = deliveries.filter(d => d.status === "Arrived").length;
   const delayedCount = deliveries.filter(d => d.status === "Delayed").length;
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Delivery, 'id'>>({
+    entityType: 'deliveries',
+    requiredFields: ['vendor', 'description', 'scheduledDate'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newDelivery: Delivery = {
+          id: `DEL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          ...record as Omit<Delivery, 'id'>,
+        };
+        setDeliveries(prev => [...prev, newDelivery]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('deliveries').length > 0 
+    ? getImportTemplates('deliveries') 
+    : [{ id: 'default', name: 'Delivery Import', mapping: { vendor: 'vendor', description: 'description', scheduledDate: 'scheduledDate', scheduledTime: 'scheduledTime', status: 'status' } }];
+
   const stats = [
     { label: 'Total Deliveries', value: deliveries.length },
     { label: 'In Transit', value: inTransit },
@@ -225,12 +244,7 @@ export default function DeliveriesPage() {
       <EnterprisePageHeader
         title="Delivery Tracking"
         subtitle="Track incoming deliveries, receiving, and signature capture"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -252,6 +266,9 @@ export default function DeliveriesPage() {
           createLabel="Add Delivery"
           onCreate={() => setCreateModalOpen(true)}
           entityType="deliveries"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['vendor', 'description', 'scheduledDate', 'scheduledTime', 'status']}
           onExport={createExportHandler({
             filename: "deliveries",
             getData: () => deliveries.map(d => ({
@@ -291,8 +308,8 @@ export default function DeliveriesPage() {
         onEdit={(d) => router.push(`/deliveries/${d.id}/edit`)}
         onDelete={(d) => { setDeliveryToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'receive', label: 'Receive', icon: '📦' },
-          { id: 'track', label: 'Track', icon: '🚚' },
+          { id: 'receive', label: 'Receive', icon: <Package className="size-4" /> },
+          { id: 'track', label: 'Track', icon: <Truck className="size-4" /> },
         ]}
         onAction={(actionId, del) => {
           if (actionId === 'receive') router.push(`/deliveries/${del.id}/receive`);

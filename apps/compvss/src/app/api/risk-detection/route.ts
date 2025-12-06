@@ -44,7 +44,7 @@ export async function GET(request: NextRequest) {
         .order('risk_score', { ascending: false });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ risks: data });
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
         .limit(50);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ alerts: data });
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create alert if high risk
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ risk: data });
@@ -212,7 +212,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ mitigation: data }, { status: 201 });
@@ -233,7 +233,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ alert: data });
@@ -255,7 +255,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ alert: data });
@@ -276,7 +276,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ schedule: data });
@@ -310,7 +310,7 @@ async function runRiskAssessment(projectId: string) {
     throw new Error('Project not found');
   }
 
-  const risks: any[] = [];
+  const risks: unknown[] = [];
   const now = new Date();
 
   // Schedule risk analysis
@@ -361,7 +361,9 @@ async function runRiskAssessment(projectId: string) {
   };
 }
 
-function analyzeScheduleRisks(project: any): any[] {
+interface ProjectData { end_date?: string; schedules?: ScheduleItem[] }
+interface ScheduleItem { start_time: string; end_time: string }
+function analyzeScheduleRisks(project: ProjectData): unknown[] {
   const risks = [];
   const now = new Date();
 
@@ -386,8 +388,8 @@ function analyzeScheduleRisks(project: any): any[] {
   const schedules = project.schedules || [];
   if (schedules.length > 0) {
     // Simplified conflict detection
-    const hasConflicts = schedules.some((s: any, i: number) =>
-      schedules.slice(i + 1).some((s2: any) =>
+    const hasConflicts = schedules.some((s: ScheduleItem, i: number) =>
+      schedules.slice(i + 1).some((s2: ScheduleItem) =>
         s.start_time < s2.end_time && s.end_time > s2.start_time
       )
     );
@@ -407,7 +409,8 @@ function analyzeScheduleRisks(project: any): any[] {
   return risks;
 }
 
-function analyzeCrewRisks(project: any): any[] {
+interface CrewProjectData { crew_assignments?: { status?: string }[] }
+function analyzeCrewRisks(project: CrewProjectData): unknown[] {
   const risks = [];
   const assignments = project.crew_assignments || [];
 
@@ -424,7 +427,7 @@ function analyzeCrewRisks(project: any): any[] {
   }
 
   // Check for unconfirmed assignments
-  const unconfirmed = assignments.filter((a: any) => a.status !== 'confirmed');
+  const unconfirmed = assignments.filter((a: Record<string, unknown>) => a.status !== 'confirmed');
   if (unconfirmed.length > 0) {
     risks.push({
       title: 'Unconfirmed crew assignments',
@@ -439,7 +442,8 @@ function analyzeCrewRisks(project: any): any[] {
   return risks;
 }
 
-function analyzeBudgetRisks(project: any): any[] {
+interface BudgetProjectData { budget?: { spent?: number; total?: number }[] }
+function analyzeBudgetRisks(project: BudgetProjectData): unknown[] {
   const risks = [];
   const budget = project.budget?.[0];
 
@@ -472,7 +476,7 @@ function analyzeBudgetRisks(project: any): any[] {
   return risks;
 }
 
-function calculateOverallScore(risks: any[]): number {
+function calculateOverallScore(risks: unknown[]): number {
   if (risks.length === 0) return 0;
   const totalScore = risks.reduce((sum, r) => sum + r.risk_score, 0);
   return Math.round((totalScore / risks.length) * 10) / 10;

@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     `).eq('project_id', projectId).single();
 
     if (error && error.code !== 'PGRST116') {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ load_out: data });
@@ -47,11 +47,12 @@ export async function POST(request: NextRequest) {
         project_id, start_time, status: 'planned', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add trucks
+      interface TruckEntry { truck_number: string; driver?: string; departure_time?: string; destination?: string }
       if (trucks?.length) {
-        const truckRecords = trucks.map((t: any, i: number) => ({
+        const truckRecords = trucks.map((t: TruckEntry, i: number) => ({
           schedule_id: schedule.id, truck_number: t.truck_number,
           driver: t.driver, departure_time: t.departure_time,
           destination: t.destination, sequence: i + 1, status: 'pending'
@@ -60,8 +61,9 @@ export async function POST(request: NextRequest) {
       }
 
       // Add tasks
+      interface TaskEntry { description: string; assigned_to?: string }
       if (tasks?.length) {
-        const taskRecords = tasks.map((t: any, i: number) => ({
+        const taskRecords = tasks.map((t: TaskEntry, i: number) => ({
           schedule_id: schedule.id, description: t.description,
           assigned_to: t.assigned_to, sequence: i + 1, status: 'pending'
         }));
@@ -77,7 +79,7 @@ export async function POST(request: NextRequest) {
         schedule_id, truck_number, driver, departure_time, destination, status: 'pending'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ truck: data }, { status: 201 });
     }
 

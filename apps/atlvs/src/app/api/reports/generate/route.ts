@@ -16,7 +16,7 @@ const generateReportSchema = z.object({
   metrics: z.array(z.string()).optional(),
 });
 
-async function generateFinancialReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: any) {
+async function generateFinancialReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, _filters: Record<string, unknown>) {
   const { data: revenue } = await supabaseAdmin
     .from('ledger_entries')
     .select('amount, type, created_at, account_id')
@@ -52,7 +52,7 @@ async function generateFinancialReport(supabaseAdmin: ReturnType<typeof createAd
 }
 
 async function generateProjectReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
-  let query = (supabaseAdmin as any)
+  let query = supabaseAdmin
     .from('projects')
     .select('id, name, status, estimated_budget, actual_cost, start_date, end_date, created_at')
     .gte('created_at', start)
@@ -89,8 +89,8 @@ async function generateProjectReport(supabaseAdmin: ReturnType<typeof createAdmi
   return { summary, projects };
 }
 
-async function generateAssetReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
-  const { data } = await (supabaseAdmin as any)
+async function generateAssetReport(supabaseAdmin: ReturnType<typeof createAdminClient>, _start: string, _end: string, _filters: Record<string, unknown>) {
+  const { data } = await (supabaseAdmin as ReturnType<typeof createAdminClient>)
     .from('assets')
     .select('id, name, type, status, value, purchase_date, location');
 
@@ -122,8 +122,8 @@ async function generateAssetReport(supabaseAdmin: ReturnType<typeof createAdminC
   return { summary, assets };
 }
 
-async function generateWorkforceReport(supabaseAdmin: ReturnType<typeof createAdminClient>, start: string, end: string, filters: Record<string, unknown>) {
-  const { data } = await (supabaseAdmin as any)
+async function generateWorkforceReport(supabaseAdmin: ReturnType<typeof createAdminClient>, _start: string, _end: string, _filters: Record<string, unknown>) {
+  const { data } = await (supabaseAdmin as ReturnType<typeof createAdminClient>)
     .from('workforce_employees')
     .select('id, full_name, role, status, salary, hire_date, department');
 
@@ -157,12 +157,12 @@ async function generateWorkforceReport(supabaseAdmin: ReturnType<typeof createAd
 }
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const body = await request.json();
     const data = generateReportSchema.parse(body);
 
-    let reportData: any;
+    let reportData: Record<string, unknown> | null = null;
 
     switch (data.report_type) {
       case 'financial':

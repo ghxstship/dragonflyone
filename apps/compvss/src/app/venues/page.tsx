@@ -25,8 +25,8 @@ export default function VenuesPage() {
       <EnterprisePageHeader
         title="Venue Directory"
         subtitle="Browse and manage venue information for productions"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

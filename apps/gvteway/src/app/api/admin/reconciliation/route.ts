@@ -129,7 +129,7 @@ export async function POST(request: Request) {
 
     // Calculate database totals
     const dbTotals = (orders || []).reduce(
-      (acc: { totalRevenue: number; recordedFees: number; totalOrders: number }, order: any) => {
+      (acc: { totalRevenue: number; recordedFees: number; totalOrders: number }, order: { status?: string; total?: number; fees?: number }) => {
         if (order.status === 'succeeded') {
           acc.totalRevenue += order.total || 0;
           acc.recordedFees += order.fees || 0;
@@ -166,7 +166,7 @@ export async function POST(request: Request) {
     }
 
     // Check for missing transactions
-    const dbPaymentIntents = new Set((orders || []).map((o: any) => o.payment_intent_id).filter(Boolean));
+    const dbPaymentIntents = new Set((orders || []).map((o: Record<string, unknown>) => o.payment_intent_id).filter(Boolean));
 
     for (const txn of transactions) {
       if ((txn.type === 'charge' || txn.type === 'payment') && !dbPaymentIntents.has(txn.id)) {

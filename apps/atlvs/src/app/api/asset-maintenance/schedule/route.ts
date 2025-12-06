@@ -88,8 +88,9 @@ export async function GET(request: NextRequest) {
         .order('next_due_date');
 
       // Group by date
-      const calendar: Record<string, any[]> = {};
-      schedules?.forEach(s => {
+      interface ScheduleItem { id: string; asset_id: string; maintenance_type: string; next_due_date: string; is_active: boolean }
+      const calendar: Record<string, ScheduleItem[]> = {};
+      schedules?.forEach((s: ScheduleItem) => {
         const date = s.next_due_date.slice(0, 10);
         if (!calendar[date]) calendar[date] = [];
         calendar[date].push(s);
@@ -194,7 +195,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ schedule }, { status: 201 });
@@ -384,7 +385,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ schedule });
@@ -416,7 +417,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', scheduleId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

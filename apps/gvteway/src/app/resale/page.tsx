@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface ResaleListing {
   id: string;
@@ -107,6 +107,36 @@ export default function ResalePage() {
     { id: 'cancel', label: 'Cancel', icon: <X className="size-4" />, onClick: (r) => { setSelectedListing(r); setDeleteConfirmOpen(true); }, variant: 'danger' },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'resale',
+    requiredFields: ['event_name', 'ticket_type', 'asking_price'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newListing: ResaleListing = {
+          id: `RSL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          ticket_id: String(record.ticket_id || ''),
+          event_id: String(record.event_id || ''),
+          event_name: String(record.event_name || ''),
+          event_date: String(record.event_date || ''),
+          venue_name: String(record.venue_name || ''),
+          ticket_type: String(record.ticket_type || ''),
+          original_price: Number(record.original_price) || 0,
+          asking_price: Number(record.asking_price) || 0,
+          seller_id: String(record.seller_id || ''),
+          seller_name: String(record.seller_name || ''),
+          status: 'active',
+          listed_at: new Date().toISOString(),
+        };
+        setListings(prev => [...prev, newListing]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('resale').length > 0 
+    ? getImportTemplates('resale') 
+    : [{ id: 'default', name: 'Resale Import', mapping: { event_name: 'event_name', ticket_type: 'ticket_type', asking_price: 'asking_price', original_price: 'original_price' } }];
+
   const stats = [
     { label: 'Total Listings', value: listings.length },
     { label: 'Active', value: activeCount },
@@ -151,6 +181,9 @@ export default function ResalePage() {
         createLabel="List a Ticket"
         onCreate={() => router.push('/tickets')}
         entityType="resale-listings"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['event_name', 'ticket_type', 'asking_price', 'original_price']}
         onExport={createExportHandler({
           filename: "resale-listings",
           getData: () => listings.map(l => ({
@@ -169,6 +202,27 @@ export default function ResalePage() {
         stats={stats}
         emptyMessage="No listings found"
         emptyAction={{ label: 'List a Ticket', onClick: () => router.push('/tickets') }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/resale/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchListings();
+          } else if (action === 'delist') {
+            await fetch('/api/resale/bulk-delist', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchListings();
+          }
+        }}
+        bulkActions={[
+          { id: 'delist', label: 'Delist Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
       {selectedListing && (
         <DetailDrawer

@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status !== 'all') query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ opportunities: data });
   } catch (error) {
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         deadline, status: 'open', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ opportunity: data }, { status: 201 });
     }
 
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
         status: 'submitted', submitted_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ application: data }, { status: 201 });
     }
 

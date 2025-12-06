@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Event collaboration tools (promoter, venue, artist permissions)
 export async function GET(request: NextRequest) {
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest) {
       permissions:collaborator_permissions(permission, granted)
     `).eq('event_id', eventId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ collaborators: data });
   } catch (error) {
@@ -60,7 +54,7 @@ export async function POST(request: NextRequest) {
         event_id, user_id, email, role, status: 'pending', invited_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (permissions?.length) {
         await supabase.from('collaborator_permissions').insert(

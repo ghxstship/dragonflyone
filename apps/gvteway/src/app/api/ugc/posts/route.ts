@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -62,28 +56,32 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const posts = data?.map(p => ({
-      id: p.id,
-      platform: p.platform,
-      content_type: p.content_type,
-      content_url: p.content_url,
-      thumbnail_url: p.thumbnail_url,
-      caption: p.caption,
-      author_name: p.author_name,
-      author_handle: p.author_handle,
-      author_avatar: p.author_avatar,
-      hashtags: p.hashtags || [],
-      event_id: p.event_id,
-      event_name: (p.event as any)?.title,
-      likes: p.likes || 0,
-      comments: p.comments || 0,
-      shares: p.shares || 0,
-      is_featured: p.is_featured || false,
-      created_at: p.created_at,
-    })) || [];
+    interface EventData { title?: string }
+    const posts = data?.map(p => {
+      const eventData = p.event as EventData | null;
+      return {
+        id: p.id,
+        platform: p.platform,
+        content_type: p.content_type,
+        content_url: p.content_url,
+        thumbnail_url: p.thumbnail_url,
+        caption: p.caption,
+        author_name: p.author_name,
+        author_handle: p.author_handle,
+        author_avatar: p.author_avatar,
+        hashtags: p.hashtags || [],
+        event_id: p.event_id,
+        event_name: eventData?.title,
+        likes: p.likes || 0,
+        comments: p.comments || 0,
+        shares: p.shares || 0,
+        is_featured: p.is_featured || false,
+        created_at: p.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ posts });
   } catch (error) {

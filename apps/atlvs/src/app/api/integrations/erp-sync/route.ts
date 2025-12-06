@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Mask credentials
@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
         .order('created_at', { ascending: false });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -179,7 +179,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ connection }, { status: 201 });
@@ -202,7 +202,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get GL entries for export
@@ -246,7 +246,7 @@ export async function POST(request: NextRequest) {
       const { connection_id, rates } = body;
 
       // Update currency rates
-      const updates = rates.map((rate: any) => ({
+      const updates = rates.map((rate: Record<string, unknown>) => ({
         currency_code: rate.currency_code,
         base_currency: rate.base_currency || 'USD',
         rate: rate.rate,
@@ -263,7 +263,7 @@ export async function POST(request: NextRequest) {
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Log sync
@@ -284,7 +284,7 @@ export async function POST(request: NextRequest) {
       const { connection_id, tax_rates } = body;
 
       // Update tax rates
-      const updates = tax_rates.map((tax: any) => ({
+      const updates = tax_rates.map((tax: Record<string, unknown>) => ({
         jurisdiction: tax.jurisdiction,
         tax_type: tax.tax_type,
         rate: tax.rate,
@@ -303,7 +303,7 @@ export async function POST(request: NextRequest) {
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Log sync
@@ -324,8 +324,9 @@ export async function POST(request: NextRequest) {
       const { connection_id, reconciliation_type, erp_data, atlvs_data } = body;
 
       // Calculate variance
-      const erpTotal = erp_data.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
-      const atlvsTotal = atlvs_data.reduce((sum: number, item: any) => sum + (item.amount || 0), 0);
+      interface AmountItem { amount?: number }
+      const erpTotal = erp_data.reduce((sum: number, item: AmountItem) => sum + (item.amount || 0), 0);
+      const atlvsTotal = atlvs_data.reduce((sum: number, item: AmountItem) => sum + (item.amount || 0), 0);
       const variance = Math.abs(erpTotal - atlvsTotal);
       const variancePercent = atlvsTotal !== 0 ? (variance / atlvsTotal) * 100 : 0;
 
@@ -358,7 +359,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Send alert if variance exceeds threshold
@@ -417,7 +418,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ connection });

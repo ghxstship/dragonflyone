@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import { Eye } from 'lucide-react';
 import {
@@ -16,8 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 
 interface Referral {
@@ -80,7 +78,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ReferralProgramPage() {
-  const _router = useRouter();
   const [referrals, setReferrals] = useState<Referral[]>(mockReferrals);
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -166,11 +163,17 @@ export default function ReferralProgramPage() {
         stats={stats}
         emptyMessage="No referrals found"
         emptyAction={{ label: "Submit Referral", onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setReferrals(prev => prev.filter(r => !ids.includes(r.id)));
+          } else if (action === 'hire') {
+            setReferrals(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Hired' as const } : r));
+          }
+        }}
+        bulkActions={[
+          { id: 'hire', label: 'Mark Hired', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

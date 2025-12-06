@@ -89,8 +89,8 @@ export default function BrandGuidelinesPage() {
       <EnterprisePageHeader
         title="Brand Guidelines"
         subtitle="Brand standards and asset documentation"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const PostSchema = z.object({
   content: z.string().min(1).max(5000),
@@ -86,8 +80,9 @@ export async function GET(request: NextRequest) {
           .in('post_id', postIds);
 
         const likedPostIds = new Set(userLikes?.map(l => l.post_id) || []);
-        posts.forEach(post => {
-          (post as any).user_liked = likedPostIds.has(post.id);
+        interface PostWithLike { id: string; user_liked?: boolean }
+        posts.forEach((post: PostWithLike) => {
+          post.user_liked = likedPostIds.has(post.id);
         });
       }
 
@@ -291,7 +286,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ post }, { status: 201 });
@@ -311,7 +306,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Notify post author
@@ -420,7 +415,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update member count
@@ -455,7 +450,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Add creator as admin

@@ -7,10 +7,12 @@ import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
 const executeSchema = z.object({
-  input_data: z.record(z.any()).optional(),
+  input_data: z.record(z.unknown()).optional(),
 });
 
-async function executeWorkflowAction(supabaseAdmin: ReturnType<typeof createAdminClient>, action: any, context: any): Promise<any> {
+interface WorkflowAction { type: string; config: Record<string, unknown> }
+interface ExecuteContext { params: Promise<Record<string, string>>; project_id?: string; record_id?: string }
+async function executeWorkflowAction(supabaseAdmin: ReturnType<typeof createAdminClient>, action: WorkflowAction, context: ExecuteContext): Promise<unknown> {
   switch (action.type) {
     case 'send_email':
       return { status: 'completed', result: { sent: true, recipient: action.config.to } };
@@ -49,7 +51,7 @@ async function executeWorkflowAction(supabaseAdmin: ReturnType<typeof createAdmi
 }
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const { id: workflowId } = context.params;
     const body = await request.json();
@@ -139,7 +141,7 @@ export const POST = apiRoute(
 
     const finalStatus = actionResults.some(r => r.status === 'failed') ? 'failed' : 'completed';
 
-    await (supabaseAdmin as any)
+    await supabaseAdmin
       .from('workflow_executions')
       .update({
         status: finalStatus,

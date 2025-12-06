@@ -3,6 +3,18 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+interface TourDate {
+  date: string;
+  city?: string;
+  state?: string;
+  venue?: string;
+}
+
+interface Artist {
+  name?: string;
+  image?: string;
+}
+
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,12 +23,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -59,25 +65,25 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Transform and filter data
     let tours = data?.map(tour => ({
       id: tour.id,
       artist_id: tour.artist_id,
-      artist_name: (tour.artists as any)?.name,
-      artist_image: (tour.artists as any)?.image,
+      artist_name: (tour.artists as Artist)?.name,
+      artist_image: (tour.artists as Artist)?.image,
       tour_name: tour.tour_name,
-      dates: ((tour.tour_dates as any[]) || [])
-        .filter((date: any) => {
+      dates: ((tour.tour_dates as TourDate[]) || [])
+        .filter((date: TourDate) => {
           if (city) {
             return `${date.city}, ${date.state}` === city;
           }
           return true;
         })
-        .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime()),
-      total_dates: ((tour.tour_dates as any[]) || []).length,
+        .sort((a: TourDate, b: TourDate) => new Date(a.date).getTime() - new Date(b.date).getTime()),
+      total_dates: ((tour.tour_dates as TourDate[]) || []).length,
     })).filter(tour => tour.dates.length > 0) || [];
 
     // Filter by artist name if provided

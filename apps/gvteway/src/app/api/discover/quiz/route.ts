@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function POST(request: NextRequest) {
   try {
@@ -74,7 +68,7 @@ export async function POST(request: NextRequest) {
     const { data: events, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Score and filter events
@@ -89,7 +83,10 @@ export async function POST(request: NextRequest) {
         }
 
         // Price match
-        const prices = (event.ticket_types as any[])?.map(t => t.price) || [];
+        interface TicketType { price: number }
+        interface VenueData { name?: string }
+        const ticketTypes = (event.ticket_types || []) as TicketType[];
+        const prices = ticketTypes.map((t: TicketType) => t.price);
         const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
         if (minPrice >= priceRange.min && minPrice <= priceRange.max) {
@@ -99,11 +96,12 @@ export async function POST(request: NextRequest) {
         // Random variation for variety
         score += Math.floor(Math.random() * 15);
 
+        const venue = event.venues as VenueData | null;
         return {
           id: event.id,
           title: event.title,
           date: event.date,
-          venue: (event.venues as any)?.name || 'TBA',
+          venue: venue?.name || 'TBA',
           image: event.image,
           match_score: Math.min(score, 99),
         };

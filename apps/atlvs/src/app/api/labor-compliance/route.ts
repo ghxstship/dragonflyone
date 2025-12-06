@@ -135,8 +135,9 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Calculate overtime by employee
+      interface Employee { id: string; full_name?: string; work_state?: string }
       const employeeHours: Record<string, { 
-        employee: any; 
+        employee: Employee | null; 
         regular: number; 
         overtime: number; 
         double_time: number;
@@ -145,7 +146,7 @@ export async function GET(request: NextRequest) {
 
       timesheets?.forEach(ts => {
         const empId = ts.employee_id;
-        const empState = (ts.employee as any)?.work_state || 'DEFAULT';
+        const empState = (ts.employee as Employee | null)?.work_state || 'DEFAULT';
         const rules = STATE_LABOR_RULES[empState] || STATE_LABOR_RULES.DEFAULT;
 
         if (!employeeHours[empId]) {
@@ -177,7 +178,8 @@ export async function GET(request: NextRequest) {
 
       // Calculate weekly overtime
       Object.values(employeeHours).forEach(emp => {
-        const rules = STATE_LABOR_RULES[(emp.employee as any)?.work_state] || STATE_LABOR_RULES.DEFAULT;
+        const workState = emp.employee?.work_state || 'DEFAULT';
+        const rules = STATE_LABOR_RULES[workState] || STATE_LABOR_RULES.DEFAULT;
         if (emp.regular > rules.overtime_threshold) {
           emp.overtime = emp.regular - rules.overtime_threshold;
           emp.regular = rules.overtime_threshold;
@@ -214,19 +216,22 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface BreakEmployeeData { work_state?: string; first_name?: string; last_name?: string }
+      interface BreakRecord { type: string; duration_minutes: number }
       const breakCompliance = timesheets?.map(ts => {
-        const empState = (ts.employee as any)?.work_state || 'DEFAULT';
+        const employee = ts.employee as BreakEmployeeData | null;
+        const empState = employee?.work_state || 'DEFAULT';
         const rules = STATE_LABOR_RULES[empState] || STATE_LABOR_RULES.DEFAULT;
-        const breaks = (ts.breaks as any[]) || [];
+        const breaks = (ts.breaks || []) as BreakRecord[];
 
-        const mealBreaks = breaks.filter(b => b.type === 'meal');
-        const restBreaks = breaks.filter(b => b.type === 'rest');
+        const mealBreaks = breaks.filter((b: BreakRecord) => b.type === 'meal');
+        const restBreaks = breaks.filter((b: BreakRecord) => b.type === 'rest');
 
         const violations = [];
 
         // Check meal break compliance
         if (rules.meal_break_required_after > 0 && ts.hours >= rules.meal_break_required_after) {
-          const totalMealMinutes = mealBreaks.reduce((sum, b) => sum + b.duration_minutes, 0);
+          const totalMealMinutes = mealBreaks.reduce((sum: number, b: BreakRecord) => sum + b.duration_minutes, 0);
           if (totalMealMinutes < rules.meal_break_duration) {
             violations.push({
               type: 'meal_break',
@@ -252,7 +257,7 @@ export async function GET(request: NextRequest) {
 
         return {
           employee_id: ts.employee_id,
-          employee_name: `${(ts.employee as any)?.first_name} ${(ts.employee as any)?.last_name}`,
+          employee_name: `${employee?.first_name} ${employee?.last_name}`,
           date: ts.date,
           hours_worked: ts.hours,
           state: empState,
@@ -324,9 +329,9 @@ export async function GET(request: NextRequest) {
         states_configured: Object.keys(STATE_LABOR_RULES).length - 1, // Exclude DEFAULT
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Labor compliance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -436,11 +441,11 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Labor compliance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

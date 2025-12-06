@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey) as any;
+    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
     const searchParams = request.nextUrl.searchParams;
     const query = searchParams.get('q') || '';
@@ -60,10 +60,10 @@ export async function GET(request: NextRequest) {
     let filteredEvents = events || [];
 
     if (minPrice || maxPrice) {
-      filteredEvents = filteredEvents.filter((event: any) => {
+      filteredEvents = filteredEvents.filter((event: Record<string, unknown>) => {
         const prices = event.ticket_types || [];
-        const eventMinPrice = Math.min(...prices.map((t: any) => t.price_min || 0));
-        const eventMaxPrice = Math.max(...prices.map((t: any) => t.price_max || 0));
+        const eventMinPrice = Math.min(...prices.map((t: Record<string, unknown>) => t.price_min || 0));
+        const eventMaxPrice = Math.max(...prices.map((t: Record<string, unknown>) => t.price_max || 0));
 
         if (minPrice && eventMinPrice < parseFloat(minPrice)) return false;
         if (maxPrice && eventMaxPrice > parseFloat(maxPrice)) return false;
@@ -72,8 +72,8 @@ export async function GET(request: NextRequest) {
     }
 
     const facets = {
-      categories: [...new Set(events?.map((e: any) => e.category))],
-      cities: [...new Set(events?.map((e: any) => e.venue?.city).filter(Boolean))],
+      categories: [...new Set(events?.map((e: Record<string, unknown>) => e.category))],
+      cities: [...new Set(events?.map((e: Record<string, unknown>) => e.venue?.city).filter(Boolean))],
       dateRange: {
         earliest: events?.[0]?.event_date,
         latest: events?.[events.length - 1]?.event_date,

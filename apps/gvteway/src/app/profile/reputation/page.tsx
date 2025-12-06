@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { Sprout, Leaf, TreeDeciduous, Star, Sparkles, Crown } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -48,17 +48,16 @@ interface Achievement {
 }
 
 const KARMA_LEVELS = [
-  { level: 1, name: 'Newcomer', min: 0, icon: '🌱' },
-  { level: 2, name: 'Regular', min: 100, icon: '🌿' },
-  { level: 3, name: 'Contributor', min: 500, icon: '🌳' },
-  { level: 4, name: 'Trusted', min: 1500, icon: '⭐' },
-  { level: 5, name: 'Expert', min: 5000, icon: '🌟' },
-  { level: 6, name: 'Master', min: 15000, icon: '💫' },
-  { level: 7, name: 'Legend', min: 50000, icon: '👑' },
+  { level: 1, name: 'Newcomer', min: 0, icon: <Sprout className="size-4" /> },
+  { level: 2, name: 'Regular', min: 100, icon: <Leaf className="size-4" /> },
+  { level: 3, name: 'Contributor', min: 500, icon: <TreeDeciduous className="size-4" /> },
+  { level: 4, name: 'Trusted', min: 1500, icon: <Star className="size-4" /> },
+  { level: 5, name: 'Expert', min: 5000, icon: <Sparkles className="size-4" /> },
+  { level: 6, name: 'Master', min: 15000, icon: <Sparkles className="size-4 text-warning-500" /> },
+  { level: 7, name: 'Legend', min: 50000, icon: <Crown className="size-4 text-warning-500" /> },
 ];
 
 export default function ReputationPage() {
-  const router = useRouter();
   const [stats, setStats] = useState<ReputationStats | null>(null);
   const [transactions, setTransactions] = useState<KarmaTransaction[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);

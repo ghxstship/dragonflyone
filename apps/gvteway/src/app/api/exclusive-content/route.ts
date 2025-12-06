@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Exclusive content for community members
 export async function GET(request: NextRequest) {
@@ -49,7 +43,7 @@ export async function GET(request: NextRequest) {
     if (contentType) query = query.eq('content_type', contentType);
 
     const { data, error } = await query.order('published_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       content: data,
@@ -105,7 +99,7 @@ export async function POST(request: NextRequest) {
         content_id, user_id: user.id, comment_text
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ comment: data }, { status: 201 });
     }
 

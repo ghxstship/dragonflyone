@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
   Body,
-  Button,
   Input,
   Badge,
   Card,
@@ -23,7 +22,6 @@ const mockResults = [
 ];
 
 export default function SearchPage() {
-  const router = useRouter();
   const [query, setQuery] = useState("");
   const debouncedQuery = useDebounce(query, 300);
   

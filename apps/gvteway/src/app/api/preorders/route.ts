@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Pre-order functionality with release date management
 export async function GET(request: NextRequest) {
@@ -42,10 +36,10 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data: preorderProducts, error } = await query.order('release_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get user's preorders if authenticated
-    let userPreorders: any[] = [];
+    let userPreorders: unknown[] = [];
     if (userId) {
       const { data } = await supabase.from('preorders').select(`
         *, product:preorder_products(*, product:products(name, images))
@@ -103,7 +97,7 @@ export async function POST(request: NextRequest) {
       status: 'pending', estimated_ship_date: preorderProduct.release_date
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update preorder count
     await supabase.from('preorder_products').update({

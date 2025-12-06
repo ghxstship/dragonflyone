@@ -163,7 +163,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <Stack gap={4}>
                   {event.ticket_types && event.ticket_types.length > 0 ? (
                     event.ticket_types.map((tier) => (
-                      <Card key={tier.id} className="border-2 border-ink-700 p-4">
+                      <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-ink-700'}`}>
                         <Stack direction="horizontal" className="items-start justify-between">
                           <Stack>
                             <Label className="text-white">{tier.name}</Label>

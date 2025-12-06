@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Live social media feeds on event pages
 export async function GET(request: NextRequest) {
@@ -39,7 +33,7 @@ export async function GET(request: NextRequest) {
       .eq('event_id', eventId).eq('moderated', true)
       .order('posted_at', { ascending: false }).limit(limit);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       posts: data,
@@ -68,7 +62,7 @@ export async function POST(request: NextRequest) {
         auto_moderate: auto_moderate || false, filter_keywords: filter_keywords || []
       }, { onConflict: 'event_id' }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ config: data });
     }
 
@@ -80,7 +74,7 @@ export async function POST(request: NextRequest) {
         content, media_url, posted_at, moderated: false
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ post: data }, { status: 201 });
     }
 

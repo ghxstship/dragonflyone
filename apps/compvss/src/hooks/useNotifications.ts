@@ -62,7 +62,7 @@ export function useNotifications() {
 
     const channel = supabase
       .channel('notifications')
-      .on('broadcast', { event: 'notification' }, (payload: any) => {
+      .on('broadcast', { event: 'notification' }, (payload: { payload: { notification: Notification } }) => {
         setNotifications(prev => [payload.payload.notification, ...prev]);
         setUnreadCount(prev => prev + 1);
       })

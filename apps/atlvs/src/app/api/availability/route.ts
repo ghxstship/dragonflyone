@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by employee
-      const byEmployee = schedules?.reduce((acc: Record<string, any>, s) => {
+      const byEmployee = schedules?.reduce((acc: Record<string, unknown>, s) => {
         const empId = s.employee_id;
         if (!acc[empId]) {
           acc[empId] = {
@@ -255,7 +255,7 @@ export async function GET(request: NextRequest) {
       ]);
 
       // Build calendar
-      const calendar: Record<string, any> = {};
+      const calendar: Record<string, unknown> = {};
       const startDateObj = new Date(monthStart);
       const endDateObj = new Date(monthEnd);
 
@@ -301,7 +301,9 @@ export async function GET(request: NextRequest) {
       });
 
       // Add shifts
-      (shiftsResult as any).data?.forEach((s: any) => {
+      interface ShiftData { date: string; [key: string]: unknown }
+      const shiftsData = (shiftsResult as { data?: ShiftData[] }).data || [];
+      shiftsData.forEach((s: ShiftData) => {
         if (calendar[s.date]) {
           calendar[s.date].shifts.push(s);
         }
@@ -332,9 +334,9 @@ export async function GET(request: NextRequest) {
         employees_with_schedules: uniqueEmployees.size,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Availability error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -383,7 +385,7 @@ export async function POST(request: NextRequest) {
         .eq('employee_id', employee_id);
 
       // Insert new schedule
-      const scheduleRecords = schedule.map((s: any) => ({
+      const scheduleRecords = schedule.map((s: Record<string, unknown>) => ({
         employee_id,
         day_of_week: s.day_of_week,
         start_time: s.start_time,
@@ -449,12 +451,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Availability error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -492,9 +494,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Availability error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -527,8 +529,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Availability error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

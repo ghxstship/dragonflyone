@@ -3,9 +3,11 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
+// Module-level supabase client
+const supabase = createAdminClient();
+
 // Predictive analytics and forecasting models
 export async function GET(request: NextRequest) {
-  const supabase = createAdminClient();
   try {
     const authHeader = request.headers.get('authorization');
     if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -14,7 +16,7 @@ export async function GET(request: NextRequest) {
     const model = searchParams.get('model'); // 'revenue', 'demand', 'resource', 'risk'
     const months = parseInt(searchParams.get('months') || '6');
 
-    const results: any = {};
+    const results: Record<string, unknown> = {};
 
     if (!model || model === 'revenue') {
       results.revenue = await predictRevenue(months);
@@ -55,7 +57,7 @@ async function predictRevenue(months: number) {
   const avgGrowth = calculateGrowthRate(recentMonths.map(m => monthlyRevenue[m]));
 
   // Generate forecast
-  const forecast: any[] = [];
+  const forecast: unknown[] = [];
   let lastValue = monthlyRevenue[recentMonths[recentMonths.length - 1]] || 0;
 
   for (let i = 1; i <= months; i++) {
@@ -96,7 +98,7 @@ async function predictDemand(months: number) {
   const sortedMonths = Object.keys(monthlyDemand).sort().slice(-12);
   const avgDemand = sortedMonths.reduce((s, m) => s + monthlyDemand[m], 0) / sortedMonths.length;
 
-  const forecast: any[] = [];
+  const forecast: unknown[] = [];
   for (let i = 1; i <= months; i++) {
     const date = new Date();
     date.setMonth(date.getMonth() + i);
@@ -121,7 +123,7 @@ async function predictResourceNeeds(months: number) {
   const currentUtilization = employees?.length ? 
     (allocations?.reduce((s, a) => s + (a.allocation_percent || 0), 0) || 0) / (employees.length * 100) : 0;
 
-  const forecast: any[] = [];
+  const forecast: unknown[] = [];
   for (let i = 1; i <= months; i++) {
     const date = new Date();
     date.setMonth(date.getMonth() + i);

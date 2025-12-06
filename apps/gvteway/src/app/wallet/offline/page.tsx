@@ -112,7 +112,7 @@ export default function OfflineWalletPage() {
                   </Card>
                   
                   <Stack className="p-6" gap={4}>
-                    <Card className="aspect-square max-w-48 mx-auto bg-ink-100 border border-ink-200 flex items-center justify-center">
+                    <Card className="aspect-square max-w-48 mx-auto bg-ink-100 border-2 border-ink-200 flex items-center justify-center">
                       <Stack gap={2} className="text-center p-4">
                         <Label className="text-ink-500">QR Code</Label>
                         <Body className="text-mono-xs text-ink-600 font-mono break-all">{ticket.id}</Body>
@@ -141,7 +141,7 @@ export default function OfflineWalletPage() {
             ))}
           </Stack>
 
-          <Card className="p-4 border border-ink-200 bg-ink-50">
+          <Card className="p-4 border-2 border-ink-200 bg-ink-50">
             <Stack gap={3}>
               <H3>OFFLINE MODE INFO</H3>
               <Stack gap={2}>
@@ -167,7 +167,7 @@ export default function OfflineWalletPage() {
 
           <Stack gap={4}>
             <H3>STORAGE</H3>
-            <Card className="p-4 border border-ink-200">
+            <Card className="p-4 border-2 border-ink-200">
               <Stack gap={3}>
                 <Stack direction="horizontal" className="justify-between">
                   <Label>Cached Data</Label>

@@ -13,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET /api/wallet - Get user wallet with payment methods and recent transactions
 export async function GET(request: NextRequest) {
@@ -140,7 +134,6 @@ export async function GET(request: NextRequest) {
 // POST /api/wallet/transaction - Process a wallet transaction
 export async function POST(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
     const body = await request.json();
     const { action } = body;
 
@@ -173,7 +166,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper: Load wallet
-async function handleLoadWallet(body: any) {
+interface LoadWalletBody { user_id: string; amount: number; payment_method_id: string; description?: string }
+async function handleLoadWallet(body: LoadWalletBody) {
   const schema = z.object({
     user_id: z.string().uuid(),
     amount: z.number().positive(),
@@ -234,7 +228,8 @@ async function handleLoadWallet(body: any) {
 }
 
 // Helper: Transfer between users
-async function handleTransfer(body: any) {
+interface TransferBody { from_user_id: string; to_user_id: string; amount: number; description?: string }
+async function handleTransfer(body: TransferBody) {
   const schema = z.object({
     from_user_id: z.string().uuid(),
     to_user_id: z.string().uuid(),
@@ -295,7 +290,8 @@ async function handleTransfer(body: any) {
 }
 
 // Helper: Withdraw to bank account
-async function handleWithdraw(body: any) {
+interface WithdrawBody { user_id: string; amount: number; payment_method_id: string }
+async function handleWithdraw(body: WithdrawBody) {
   const schema = z.object({
     user_id: z.string().uuid(),
     amount: z.number().positive(),

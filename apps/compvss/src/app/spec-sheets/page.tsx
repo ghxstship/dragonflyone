@@ -52,7 +52,6 @@ const categories = ["All", "Audio", "Lighting", "Video", "Staging", "Rigging", "
 
 export default function SpecSheetsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
   const [selectedSpec, setSelectedSpec] = useState<SpecSheet | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -64,25 +63,13 @@ export default function SpecSheetsPage() {
     return matchesSearch && matchesCategory;
   });
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Audio": return "bg-info-900/20 border-info-800";
-      case "Lighting": return "bg-warning-900/20 border-warning-800";
-      case "Video": return "bg-purple-900/20 border-purple-800";
-      case "Staging": return "bg-success-900/20 border-success-800";
-      case "Rigging": return "bg-error-900/20 border-error-800";
-      case "Power": return "bg-warning-900/20 border-warning-800";
-      default: return "bg-ink-900/50 border-ink-800";
-    }
-  };
-
   return (
     <CompvssAppLayout>
       <EnterprisePageHeader
         title="Technical Specifications"
         subtitle="Equipment specification sheets and cut sheets library"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

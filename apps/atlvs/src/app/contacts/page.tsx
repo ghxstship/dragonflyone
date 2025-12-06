@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 
 interface Contact {
@@ -141,10 +141,29 @@ export default function ContactsPage() {
       a.click();
       URL.revokeObjectURL(url);
     } else if (actionId === 'tag') {
-      // Tag action would open a modal - for now just refresh
       refetch();
     }
   };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Contact, 'id'>>({
+    entityType: 'contacts',
+    requiredFields: ['first_name', 'last_name', 'email'],
+    onImport: async (records) => {
+      // Bulk create contacts via API
+      for (const record of records) {
+        await fetch('/api/contacts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+        });
+      }
+      refetch();
+    },
+  });
+
+  // Import templates for field mapping
+  const importTemplates = getImportTemplates('contacts');
 
   const stats = [
     { label: 'Total Contacts', value: contacts?.length || 0 },
@@ -189,6 +208,9 @@ export default function ContactsPage() {
         createLabel="New Contact"
         onCreate={() => setCreateModalOpen(true)}
         entityType="contacts"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['first_name', 'last_name', 'email', 'phone', 'company', 'title', 'type']}
         onExport={createExportHandler({
           filename: "contacts",
           getData: () => (contacts || []).map(c => ({
@@ -205,12 +227,7 @@ export default function ContactsPage() {
         stats={stats}
         emptyMessage="No contacts yet"
         emptyAction={{ label: 'Add Contact', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -232,7 +249,7 @@ export default function ContactsPage() {
         sections={detailSections}
         onEdit={(c) => router.push(`/contacts/${c.id}/edit`)}
         onDelete={(c) => { setContactToDelete(c); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]}
+        actions={[{ id: 'email', label: 'Send Email', icon: <Mail className="size-4" /> }]}
         onAction={(actionId, contact) => {
           if (actionId === 'email') window.location.href = `mailto:${contact.email}`;
         }}

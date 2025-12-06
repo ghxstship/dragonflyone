@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -87,7 +87,6 @@ const mockStakeholderMap: StakeholderMap = {
 };
 
 export default function RelationshipsPage() {
-  const router = useRouter();
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
   const [relationships, setRelationships] = useState<Relationship[]>(mockRelationships);
   const [stakeholderMap, setStakeholderMap] = useState<StakeholderMap>(mockStakeholderMap);
@@ -104,6 +103,14 @@ export default function RelationshipsPage() {
     strength: 'moderate',
     notes: '',
   });
+
+  const handleRefresh = () => {
+    // Refresh all data from mock sources
+    setContacts(mockContacts);
+    setStakeholderMap(mockStakeholderMap);
+    setRelationships(mockRelationships);
+    setSuccess('Data refreshed');
+  };
 
   const handleAddRelationship = () => {
     if (!newRelationship.from_contact_id || !newRelationship.to_contact_id) {
@@ -174,9 +181,10 @@ export default function RelationshipsPage() {
       <EnterprisePageHeader
         title="Relationship Mapping"
         subtitle="Stakeholder org charts and relationship visualization"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Relationship', onClick: () => setShowAddModal(true) }}
+        secondaryAction={{ label: 'Refresh', onClick: handleRefresh }}
         showFavorite
         showSettings
       />
@@ -309,7 +317,7 @@ export default function RelationshipsPage() {
                 <Stack direction="horizontal" className="justify-center gap-8">
                   <Stack className="items-center" gap={4}>
                     <Card className="w-1 h-8 bg-black" />
-                    <Card className="p-4 border border-ink-300 w-48">
+                    <Card className="p-4 border-2 border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
                         <Body className="font-weight-bold">{mockContacts[1].name}</Body>
                         <Label className="text-ink-500">{mockContacts[1].title}</Label>
@@ -318,7 +326,7 @@ export default function RelationshipsPage() {
                   </Stack>
                   <Stack className="items-center" gap={4}>
                     <Card className="w-1 h-8 bg-black" />
-                    <Card className="p-4 border border-ink-300 w-48">
+                    <Card className="p-4 border-2 border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
                         <Body className="font-weight-bold">{mockContacts[4].name}</Body>
                         <Label className="text-ink-500">{mockContacts[4].title}</Label>
@@ -334,7 +342,7 @@ export default function RelationshipsPage() {
         {activeTab === 'relationships' && (
           <Stack gap={4} className="mt-6">
             {relationships.map(rel => (
-              <Card key={rel.id} className="p-4 border">
+              <Card key={rel.id} className="p-4 border-2">
                 <Grid cols={4} gap={4} className="items-center">
                   <Stack gap={1}>
                     <Body className="font-weight-bold">{rel.from_contact.name}</Body>
@@ -453,7 +461,7 @@ export default function RelationshipsPage() {
               <Stack gap={2}>
                 <Label className="text-ink-500">Relationships</Label>
                 {getContactRelationships(selectedContact.id).map(rel => (
-                  <Card key={rel.id} className="p-3 border">
+                  <Card key={rel.id} className="p-3 border-2">
                     <Stack direction="horizontal" gap={2} className="items-center">
                       {getRelationshipBadge(rel.relationship_type)}
                       <Body>

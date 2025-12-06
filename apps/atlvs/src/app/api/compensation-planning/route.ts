@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('compensation_plans').select('*')
       .order('created_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ plans: data });
   } catch (error) {
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
         status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ plan: data }, { status: 201 });
     }
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         status: 'pending', proposed_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ entry: data }, { status: 201 });
     }
 

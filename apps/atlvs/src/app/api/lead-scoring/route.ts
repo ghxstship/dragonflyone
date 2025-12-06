@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (minScore) query = query.gte('score', parseInt(minScore));
 
     const { data, error } = await query.order('score', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       leads: data,
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       score, qualification, status: 'new', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ lead: data, score, qualification }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create lead' }, { status: 500 });
@@ -82,7 +82,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('leads').update(updateData).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -90,7 +90,8 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function calculateLeadScore(data: any): number {
+interface LeadData { budget_range?: string; timeline?: string; decision_maker?: boolean | string; company_size?: string; industry?: string }
+function calculateLeadScore(data: LeadData): number {
   let score = 0;
 
   // Budget scoring (0-30 points)

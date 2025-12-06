@@ -6,9 +6,8 @@ import { Eye, Pencil, X, Link } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, type ExportFormat,
-} from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface CalendarEvent {
   id: string;
@@ -76,6 +75,31 @@ export default function CalendarIntegrationPage() {
     { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => setData(prev => prev.map(e => e.id === r.id ? { ...e, status: 'Cancelled' as const } : e)) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'calendar',
+    requiredFields: ['title', 'type', 'date'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newEvent: CalendarEvent = {
+          id: `EVT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          title: String(record.title || ''),
+          type: (record.type as CalendarEvent['type']) || 'Meeting',
+          date: String(record.date || ''),
+          time: String(record.time || '9:00 AM'),
+          duration: String(record.duration || '30 min'),
+          attendees: [],
+          status: 'Scheduled',
+        };
+        setData(prev => [...prev, newEvent]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('calendar').length > 0 
+    ? getImportTemplates('calendar') 
+    : [{ id: 'default', name: 'Calendar Import', mapping: { title: 'title', type: 'type', date: 'date', time: 'time', duration: 'duration' } }];
+
   const stats = [
     { label: "Today's Events", value: todayEvents },
     { label: 'This Week', value: data.length },
@@ -132,6 +156,9 @@ export default function CalendarIntegrationPage() {
         createLabel="Schedule Meeting"
         onCreate={() => setCreateModalOpen(true)}
         entityType="calendar-events"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'type', 'date', 'time', 'duration']}
         onExport={createExportHandler({
           filename: "calendar-events",
           getData: () => data.map(e => ({
@@ -149,11 +176,17 @@ export default function CalendarIntegrationPage() {
         stats={stats}
         emptyMessage="No events scheduled"
         emptyAction={{ label: 'Schedule Meeting', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(e => !ids.includes(e.id)));
+          } else if (action === 'cancel') {
+            setData(prev => prev.map(e => ids.includes(e.id) ? { ...e, status: 'Cancelled' as const } : e));
+          }
+        }}
+        bulkActions={[
+          { id: 'cancel', label: 'Cancel Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

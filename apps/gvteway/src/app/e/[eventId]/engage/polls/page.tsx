@@ -2,7 +2,6 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, H3 } from "@ghxstship/ui";
-import { BarChart, CheckCircle, Clock } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
 export default function PollsPage() {

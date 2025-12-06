@@ -37,8 +37,8 @@ export default function SettingsPage() {
       <EnterprisePageHeader
         title="Settings"
         subtitle="Configure your COMPVSS preferences"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -49,7 +49,7 @@ export default function SettingsPage() {
             <Stack gap={6}>
               <H2>Alert Preferences</H2>
               <Stack gap={4}>
-                <Card className="p-spacing-4 border border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Crew Alerts</Body>
@@ -61,7 +61,7 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Equipment Alerts</Body>
@@ -73,7 +73,7 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Schedule Changes</Body>
@@ -85,7 +85,7 @@ export default function SettingsPage() {
                     />
                   </Stack>
                 </Card>
-                <Card className="p-spacing-4 border border-ink-800 bg-transparent">
+                <Card className="p-spacing-4 border-2 border-ink-800 bg-transparent">
                   <Stack gap={4} direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="text-white">Weather Alerts</Body>

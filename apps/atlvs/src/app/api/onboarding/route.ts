@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('workflow_type', type);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       workflows: data,
@@ -53,10 +53,10 @@ export async function POST(request: NextRequest) {
     // Create workflow
     const { data: workflow, error } = await supabase.from('employee_workflows').insert({
       employee_id, workflow_type, start_date: start_date || new Date().toISOString(),
-      status: 'in_progress', created_by: user.id
+      status: 'in_progress', created_by: user.id, template_id: template_id || null
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Create default tasks based on type
     const tasks = workflow_type === 'onboarding' ? [

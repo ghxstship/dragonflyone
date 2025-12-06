@@ -13,11 +13,16 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const period = searchParams.get('period') || '12m';
 
+    // Calculate date range based on period
+    const now = new Date();
+    const periodMonths = period === '3m' ? 3 : period === '6m' ? 6 : period === '12m' ? 12 : 12;
+    const startDate = new Date(now.getFullYear(), now.getMonth() - periodMonths, now.getDate()).toISOString();
+
     const { data, error } = await supabase.from('bid_outcomes').select(`
       *, rfp:rfps(title, client, value), competitor_analysis:competitor_analyses(competitor, strengths, weaknesses)
-    `).order('outcome_date', { ascending: false });
+    `).gte('outcome_date', startDate).order('outcome_date', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate metrics
     const wins = data?.filter(d => d.outcome === 'won') || [];
@@ -68,7 +73,7 @@ export async function POST(request: NextRequest) {
         feedback, lessons_learned, recorded_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ outcome: data }, { status: 201 });
     }
 
@@ -80,7 +85,7 @@ export async function POST(request: NextRequest) {
         pricing_intel, strategy_notes
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ analysis: data }, { status: 201 });
     }
 

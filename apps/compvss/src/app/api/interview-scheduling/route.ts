@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (opportunityId) query = query.eq('opportunity_id', opportunityId);
 
     const { data, error } = await query.order('scheduled_at', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ interviews: data });
   } catch (error) {
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (interviewers?.length) {
         await supabase.from('interview_participants').insert(

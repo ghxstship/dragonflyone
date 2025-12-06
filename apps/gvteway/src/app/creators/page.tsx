@@ -1,13 +1,11 @@
 import { CreatorNavigationPublic } from "../../components/navigation";
 import { 
-  Badge, 
   StatusBadge, 
   Stack, 
   Grid, 
   Card, 
   Container, 
   H1, 
-  H2, 
   H3, 
   Body, 
   Label, 
@@ -29,23 +27,17 @@ import {
 } from "@ghxstship/ui";
 import { EventCreationForm } from "../../components/event-creation-form";
 import {
-  gvtewayCommunityTracks,
   gvtewayCommerceLanes,
   gvtewayEventBlueprint,
-  gvtewayGuestSignals,
-  gvtewayDiscoveryStreams,
   gvtewayIntegrationLinks,
   gvtewayRevenuePanels,
-  gvtewaySocialPlaybook,
   gvtewayAutomationProgram,
   gvtewayStripePlan,
   gvtewayDevelopmentPhases,
   gvtewayTicketingStack,
   gvtewayReconciliationInsights,
-  gvtewayMobileTickets,
   gvtewaySeatingBlueprint,
   gvtewayTicketTypes,
-  gvtewayEmailNotifications,
 } from "../../data/gvteway";
 
 export const runtime = "edge";
@@ -131,13 +123,13 @@ export default function CreatorsPage() {
             <Stack gap={3} className="text-mono-xs uppercase tracking-display text-white">
               <Link
                 href="/auth/signup?type=creator"
-                className="border border-white px-8 py-4 tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
+                className="border-2 border-white px-8 py-4 tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
               >
                 Start Free
               </Link>
               <Link
                 href="#pricing"
-                className="border border-ink-600 px-8 py-4 text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+                className="border-2 border-ink-600 px-8 py-4 text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
               >
                 View Pricing
               </Link>
@@ -158,7 +150,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Features Section */}
-        <Section id="features" border className="space-y-10">
+        <Section id="features" border-2 className="space-y-10">
           <SectionHeader
             kicker="Platform Features"
             title="Everything You Need to Sell Tickets"
@@ -166,7 +158,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayEventBlueprint.map((card) => (
-              <Article key={card.title} className="border border-ink-800 bg-ink-950/60 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 bg-ink-950/60 p-6">
                 <Label size="xs" className="tracking-display text-ink-500">Feature</Label>
                 <H3 size="sm" className="mt-4">{card.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
@@ -184,7 +176,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Event Creation Demo */}
-        <Section id="event-creation" border className="space-y-8">
+        <Section id="event-creation" border-2 className="space-y-8">
           <SectionHeader
             kicker="Event Management"
             title="Create Events in Minutes"
@@ -194,7 +186,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Seating Architecture */}
-        <Section id="seating" border className="space-y-8">
+        <Section id="seating" border-2 className="space-y-8">
           <SectionHeader
             kicker="Seating Architecture"
             title="Dynamic Layouts + Capacity Telemetry"
@@ -202,7 +194,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={2} gap={6}>
             {gvtewaySeatingBlueprint.map((node) => (
-              <Article key={node.id} className="space-y-4 border border-ink-800 p-6">
+              <Article key={node.id} className="space-y-4 border-2 border-ink-800 p-6">
                 <Stack direction="horizontal" className="items-center justify-between">
                   <Stack>
                     <Label size="xs" className="font-code tracking-display text-ink-500">{node.access}</Label>
@@ -232,35 +224,35 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Ticket Types Table */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Ticketing"
             title="Flexible Ticket Types"
             description="Create GA, VIP, and premium tiers with custom pricing, fees, and inventory controls."
           />
-          <Box className="overflow-x-auto border border-ink-800">
+          <Box className="overflow-x-auto border-2 border-ink-800">
             <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Tier</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Price</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Fee</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Available</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Description</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Tier</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Price</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Fee</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Available</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Description</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {gvtewayTicketTypes.map((ticket) => (
                   <TableRow key={ticket.id} className="border-t border-ink-800">
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-50">{ticket.name}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300 uppercase">{ticket.tier}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-50">{ticket.name}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-300 uppercase">{ticket.tier}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">
                       ${(ticket.priceCents / 100).toFixed(2)}
                     </TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">${(ticket.serviceFeeCents / 100).toFixed(2)}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{ticket.quantity - ticket.sold}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{ticket.description}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">${(ticket.serviceFeeCents / 100).toFixed(2)}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">{ticket.quantity - ticket.sold}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-300">{ticket.description}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -269,7 +261,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Pricing Section */}
-        <Section id="pricing" border className="space-y-8">
+        <Section id="pricing" border-2 className="space-y-8">
           <SectionHeader
             kicker="Simple Pricing"
             title="Plans for Every Creator"
@@ -295,7 +287,7 @@ export default function CreatorsPage() {
                 </List>
                 <Link
                   href={tier.name === "Enterprise" ? "mailto:sales@ghxstship.com" : "/auth/signup?type=creator"}
-                  className={`mt-6 block w-full border px-6 py-3 text-center text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 ${
+                  className={`mt-6 block w-full border-2 px-6 py-3 text-center text-mono-xs uppercase tracking-kicker transition hover:-translate-y-0.5 ${
                     tier.highlighted 
                       ? 'border-white bg-white text-black hover:bg-transparent hover:text-white' 
                       : 'border-ink-600 text-ink-400 hover:border-white hover:text-white'
@@ -309,7 +301,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Ticketing Stack */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Ticketing & Memberships"
             title="Access, Trust, and Financial Controls"
@@ -317,7 +309,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayTicketingStack.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
                 <List className="mt-4 space-y-2 text-body-sm text-ink-200">
@@ -334,7 +326,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Commerce & POS */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Commerce & POS"
             title="Merchandise, Venue Operations, and Loyalty"
@@ -342,7 +334,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayCommerceLanes.map((lane) => (
-              <Article key={lane.title} className="border border-ink-800 p-6">
+              <Article key={lane.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{lane.title}</H3>
                 <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {lane.bullets.map((bullet) => (
@@ -355,7 +347,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Revenue Panels */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Revenue Fabric"
             title="Commerce, Marketing, and Membership Telemetry"
@@ -363,7 +355,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayRevenuePanels.map((panel) => (
-              <Article key={panel.title} className="border border-ink-800 p-6">
+              <Article key={panel.title} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{panel.kicker}</Label>
                 <H3 size="sm" className="mt-4">{panel.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{panel.description}</Body>
@@ -381,7 +373,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Reconciliation */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Financial Integrity"
             title="Payout Reconciliation + Variance Control"
@@ -389,38 +381,38 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={4}>
             {gvtewayReconciliationInsights.stats.map((stat) => (
-              <Article key={stat.label} className="border border-ink-800 p-6">
+              <Article key={stat.label} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
                 <Body className="mt-3 font-display text-h3-md text-white">{stat.value}</Body>
                 <Body size="sm" className="text-ink-400">{stat.delta}</Body>
               </Article>
             ))}
           </Grid>
-          <Box className="overflow-x-auto border border-ink-800">
+          <Box className="overflow-x-auto border-2 border-ink-800">
             <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Window</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Gross</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Fees</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Refunds</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Net</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Variance</TableHead>
-                  <TableHead className="border border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Window</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Gross</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Fees</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Refunds</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Net</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Variance</TableHead>
+                  <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Status</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {gvtewayReconciliationInsights.payouts.map((payout) => (
                   <TableRow key={payout.id} className="border-t border-ink-800">
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-50">{payout.date}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-300">{payout.window}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{payout.gross}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{payout.fees}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{payout.refunds}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-white">{payout.net}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3 text-ink-200">{payout.variance}</TableCell>
-                    <TableCell className="border border-ink-800 px-4 py-3">
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-50">{payout.date}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-300">{payout.window}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">{payout.gross}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">{payout.fees}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">{payout.refunds}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-white">{payout.net}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3 text-ink-200">{payout.variance}</TableCell>
+                    <TableCell className="border-2 border-ink-800 px-4 py-3">
                       <StatusBadge 
                         status={payout.status === "cleared" ? "success" : payout.status === "investigating" ? "error" : "warning"}
                         size="sm"
@@ -436,7 +428,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Testimonials */}
-        <Section id="testimonials" border className="space-y-8">
+        <Section id="testimonials" border-2 className="space-y-8">
           <SectionHeader
             kicker="Creator Stories"
             title="Trusted by Event Creators"
@@ -445,7 +437,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {testimonials.map((testimonial) => (
-              <Article key={testimonial.author} className="border border-ink-800 p-6">
+              <Article key={testimonial.author} className="border-2 border-ink-800 p-6">
                 <Body size="sm" className="italic text-ink-200">&ldquo;{testimonial.quote}&rdquo;</Body>
                 <Stack className="mt-6">
                   <Body size="sm" className="text-white">{testimonial.author}</Body>
@@ -458,7 +450,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Integrations */}
-        <Section id="integrations" border className="space-y-8">
+        <Section id="integrations" border-2 className="space-y-8">
           <SectionHeader
             kicker="Automation & Integrations"
             title="Connect Your Stack"
@@ -466,7 +458,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayAutomationProgram.map((program) => (
-              <Article key={program.title} className="border border-ink-800 p-6">
+              <Article key={program.title} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{program.title}</Label>
                 <H3 size="sm" className="mt-4">{program.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{program.description}</Body>
@@ -481,7 +473,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Tri-Platform Integration */}
-        <Section border className="space-y-8">
+        <Section border-2 className="space-y-8">
           <SectionHeader
             kicker="Ecosystem"
             title="Tri-Platform Sync"
@@ -489,7 +481,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={3} gap={6}>
             {gvtewayIntegrationLinks.map((block) => (
-              <Article key={block.title} className="border border-ink-800 p-6">
+              <Article key={block.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{block.title}</H3>
                 <List className="mt-4 space-y-2 text-body-sm text-ink-200">
                   {block.bullets.map((bullet) => (
@@ -502,7 +494,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Roadmap */}
-        <Section id="roadmap" border className="space-y-10">
+        <Section id="roadmap" border-2 className="space-y-10">
           <SectionHeader
             kicker="Development Roadmap"
             title="Foundation → Enhancement → Scale"
@@ -510,7 +502,7 @@ export default function CreatorsPage() {
           />
           <Grid cols={2} gap={6}>
             {gvtewayDevelopmentPhases.map((phase) => (
-              <Article key={phase.phase} className="border border-ink-800 p-6">
+              <Article key={phase.phase} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{phase.phase}</Label>
                 <H3 size="sm" className="mt-4">{phase.focus}</H3>
                 <List className="mt-4 space-y-2 text-body-sm text-ink-200">
@@ -521,7 +513,7 @@ export default function CreatorsPage() {
               </Article>
             ))}
           </Grid>
-          <Section border className="space-y-6">
+          <Section border-2 className="space-y-6">
             <SectionHeader
               kicker="Stripe Integration"
               title="Payment Infrastructure"
@@ -529,7 +521,7 @@ export default function CreatorsPage() {
             />
             <List className="space-y-4 text-body-sm text-ink-200">
               {gvtewayStripePlan.map((step) => (
-                <ListItem key={step.step} className="flex flex-col gap-2 border border-ink-800 p-4">
+                <ListItem key={step.step} className="flex flex-col gap-2 border-2 border-ink-800 p-4">
                   <Text className="font-display text-h5-md uppercase text-white">{step.step}</Text>
                   <Body>{step.detail}</Body>
                 </ListItem>
@@ -539,7 +531,7 @@ export default function CreatorsPage() {
         </Section>
 
         {/* Final CTA */}
-        <Section border={false} className="border border-ink-700/60 p-8 text-center">
+        <Section border={false} className="border-2 border-ink-700/60 p-8 text-center">
           <SectionHeader
             kicker="Ready to Start?"
             title="Launch Your First Event Today"
@@ -549,13 +541,13 @@ export default function CreatorsPage() {
           <Stack direction="horizontal" gap={4} className="mt-8 flex-col items-center justify-center md:flex-row">
             <Link
               href="/auth/signup?type=creator"
-              className="border border-white px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
+              className="border-2 border-white px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-white hover:text-black"
             >
               Create Free Account
             </Link>
             <Link
               href="mailto:sales@ghxstship.com"
-              className="border border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
+              className="border-2 border-ink-600 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-white hover:text-white"
             >
               Contact Sales
             </Link>

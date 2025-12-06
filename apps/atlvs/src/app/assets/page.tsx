@@ -18,9 +18,8 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  } from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Asset {
   id: string;
@@ -79,7 +78,14 @@ export default function AssetsPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null);
 
-  const refetch = useCallback(() => setAssets(mockAssets), []);
+  const refetch = useCallback(() => {
+    setLoading(true);
+    // Simulate API fetch
+    setTimeout(() => {
+      setAssets(mockAssets);
+      setLoading(false);
+    }, 300);
+  }, []);
 
   const rowActions: ListPageAction<Asset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
@@ -122,6 +128,34 @@ export default function AssetsPage() {
 
   const totalValue = assets.reduce((sum, a) => sum + a.value, 0);
   const avgUtilization = assets.length > 0 ? assets.reduce((sum, a) => sum + a.utilization, 0) / assets.length : 0;
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'assets',
+    requiredFields: ['name', 'category'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newAsset: Asset = {
+          id: `AST-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          name: String(record.name || ''),
+          category: String(record.category || 'Audio'),
+          location: String(record.location || ''),
+          status: 'Available',
+          value: Number(record.value) || 0,
+          condition: String(record.condition || 'Good'),
+          lastMaintenance: new Date().toISOString().split('T')[0],
+          nextMaintenance: '',
+          utilization: 0,
+          projects: 0,
+        };
+        setAssets(prev => [...prev, newAsset]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('assets').length > 0 
+    ? getImportTemplates('assets') 
+    : [{ id: 'default', name: 'Asset Import', mapping: { name: 'name', category: 'category', location: 'location', value: 'value', condition: 'condition' } }];
 
   const stats = [
     { label: 'Total Assets', value: assets.length },
@@ -183,6 +217,9 @@ export default function AssetsPage() {
         createLabel="Add Asset"
         onCreate={() => setCreateModalOpen(true)}
         entityType="assets"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'category', 'location', 'value', 'condition']}
         onExport={createExportHandler({
           filename: "assets",
           getData: () => assets.map(a => ({
@@ -198,12 +235,7 @@ export default function AssetsPage() {
         stats={stats}
         emptyMessage="No assets found"
         emptyAction={{ label: 'Add Asset', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Asset" fields={formFields} onSubmit={handleCreate} size="lg" />

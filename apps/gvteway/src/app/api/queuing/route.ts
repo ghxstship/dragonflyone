@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch queue status or user's position
 export async function GET(request: NextRequest) {
@@ -32,7 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch all queues for the event
-    const { data: queues, error } = await supabase
+    let query = supabase
       .from('virtual_queues')
       .select(`
         *,
@@ -41,12 +35,18 @@ export async function GET(request: NextRequest) {
       .eq('event_id', eventId)
       .eq('is_active', true);
 
+    if (queueType) {
+      query = query.eq('queue_type', queueType);
+    }
+
+    const { data: queues, error } = await query;
+
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // If user is authenticated, get their queue positions
-    let userQueues: any[] = [];
+    let userQueues: unknown[] = [];
     if (authHeader) {
       const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
       if (user) {
@@ -206,7 +206,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
     }
 
-    let updateData: Record<string, any> = {};
+    let updateData: Record<string, unknown> = {};
 
     switch (action) {
       case 'leave':

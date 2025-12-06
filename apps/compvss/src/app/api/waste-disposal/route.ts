@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, vendor:vendors(id, name, contact_phone)
     `).eq('project_id', projectId).order('scheduled_at', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate totals by type
     const totals = {
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       scheduled_at, location, status: 'scheduled', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ disposal: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

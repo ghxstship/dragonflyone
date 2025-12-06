@@ -84,6 +84,14 @@ export async function GET(request: NextRequest) {
       const department = searchParams.get('department');
       const period = searchParams.get('period') || 'all';
 
+      // Calculate date range based on period
+      let startDate: string | null = null;
+      if (period !== 'all') {
+        const now = new Date();
+        const periodDays = period === '30d' ? 30 : period === '90d' ? 90 : period === '1y' ? 365 : 365;
+        startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000).toISOString();
+      }
+
       let query = supabase
         .from('crew_performance_summary')
         .select(`
@@ -92,12 +100,16 @@ export async function GET(request: NextRequest) {
           total_projects,
           rehire_rate,
           on_time_rate,
+          updated_at,
           crew:platform_users(first_name, last_name, avatar_url, department)
         `)
         .order('average_rating', { ascending: false });
 
       if (department) {
         query = query.eq('crew.department', department);
+      }
+      if (startDate) {
+        query = query.gte('updated_at', startDate);
       }
 
       const { data: leaderboard } = await query.limit(50);
@@ -130,9 +142,11 @@ export async function GET(request: NextRequest) {
         .single();
 
       // Calculate category averages
+      interface CategoryRating { category: string; rating: number }
+      interface ReviewData { categories?: CategoryRating[] }
       const categoryAverages: Record<string, { total: number; count: number }> = {};
-      reviews?.forEach(review => {
-        review.categories?.forEach((cat: any) => {
+      reviews?.forEach((review: ReviewData) => {
+        review.categories?.forEach((cat: CategoryRating) => {
           if (!categoryAverages[cat.category]) {
             categoryAverages[cat.category] = { total: 0, count: 0 };
           }
@@ -234,7 +248,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update crew assignment review status
@@ -263,7 +277,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ endorsement }, { status: 201 });
@@ -283,7 +297,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Notify crew member
@@ -334,7 +348,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ goals: goalRecord }, { status: 201 });

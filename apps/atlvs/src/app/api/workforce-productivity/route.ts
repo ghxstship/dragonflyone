@@ -24,9 +24,18 @@ export async function GET(request: NextRequest) {
         .select('id, hourly_rate')
         .eq('status', 'active');
 
+      // Create a map of employee hourly rates
+      const rateMap = new Map(employees?.map(e => [e.id, e.hourly_rate || 0]) || []);
+
       const totalHours = timesheets?.reduce((sum, ts) => sum + ts.hours, 0) || 0;
       const billableHours = timesheets?.reduce((sum, ts) => sum + (ts.billable_hours || 0), 0) || 0;
       const uniqueEmployees = new Set(timesheets?.map(ts => ts.employee_id)).size;
+
+      // Calculate estimated revenue based on billable hours and hourly rates
+      const estimatedRevenue = timesheets?.reduce((sum, ts) => {
+        const rate = rateMap.get(ts.employee_id) || 0;
+        return sum + (ts.billable_hours || 0) * rate;
+      }, 0) || 0;
 
       return NextResponse.json({
         overview: {
@@ -35,6 +44,7 @@ export async function GET(request: NextRequest) {
           billable_percentage: totalHours > 0 ? Math.round((billableHours / totalHours) * 10000) / 100 : 0,
           active_employees: uniqueEmployees,
           average_hours_per_employee: uniqueEmployees > 0 ? Math.round((totalHours / uniqueEmployees) * 100) / 100 : 0,
+          estimated_revenue: Math.round(estimatedRevenue * 100) / 100,
         },
       });
     }
@@ -47,11 +57,13 @@ export async function GET(request: NextRequest) {
         .lte('date', endDate.split('T')[0])
         .eq('status', 'approved');
 
-      const byEmployee: Record<string, any> = {};
+      interface EmployeeData { first_name?: string; last_name?: string }
+      interface EmployeeProductivity { employee_id: string; employee_name: string; total_hours: number; billable_hours: number }
+      const byEmployee: Record<string, EmployeeProductivity> = {};
       timesheets?.forEach(ts => {
         const empId = ts.employee_id;
         if (!byEmployee[empId]) {
-          const emp = ts.employee as any;
+          const emp = ts.employee as EmployeeData | null;
           byEmployee[empId] = {
             employee_id: empId,
             employee_name: emp ? `${emp.first_name} ${emp.last_name}` : 'Unknown',
@@ -63,7 +75,7 @@ export async function GET(request: NextRequest) {
         byEmployee[empId].billable_hours += ts.billable_hours || 0;
       });
 
-      const employees = Object.values(byEmployee).map((emp: any) => ({
+      const employees = Object.values(byEmployee).map((emp: EmployeeProductivity) => ({
         ...emp,
         billable_percentage: emp.total_hours > 0 ? Math.round((emp.billable_hours / emp.total_hours) * 10000) / 100 : 0,
       })).sort((a, b) => b.total_hours - a.total_hours);
@@ -79,9 +91,11 @@ export async function GET(request: NextRequest) {
         .lte('date', endDate.split('T')[0])
         .eq('status', 'approved');
 
-      const byDept: Record<string, any> = {};
+      interface DeptEmployeeData { department_id?: string; department?: { name?: string } }
+      interface DeptProductivity { department_name: string; total_hours: number; billable_hours: number }
+      const byDept: Record<string, DeptProductivity> = {};
       timesheets?.forEach(ts => {
-        const emp = ts.employee as any;
+        const emp = ts.employee as DeptEmployeeData | null;
         const deptId = emp?.department_id || 'unassigned';
         const deptName = emp?.department?.name || 'Unassigned';
         if (!byDept[deptId]) byDept[deptId] = { department_name: deptName, total_hours: 0, billable_hours: 0 };
@@ -89,7 +103,7 @@ export async function GET(request: NextRequest) {
         byDept[deptId].billable_hours += ts.billable_hours || 0;
       });
 
-      const departments = Object.values(byDept).map((d: any) => ({
+      const departments = Object.values(byDept).map((d: DeptProductivity) => ({
         ...d,
         billable_percentage: d.total_hours > 0 ? Math.round((d.billable_hours / d.total_hours) * 10000) / 100 : 0,
       }));
@@ -126,7 +140,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

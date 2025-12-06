@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (namespace) query = query.eq('namespace', namespace);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Convert to key-value format
     const translations: Record<string, string> = {};
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         updated_at: new Date().toISOString()
       }, { onConflict: 'language,namespace,key' }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ translation: data }, { status: 201 });
     }
 
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
         onConflict: 'language,namespace,key'
       });
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ imported: records.length });
     }
 

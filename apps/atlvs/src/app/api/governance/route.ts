@@ -39,16 +39,17 @@ export async function GET(request: NextRequest) {
       .order('title', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Group by category
-    const grouped = data.reduce((acc: Record<string, any[]>, doc) => {
+    interface GovernanceDoc { id: string; title: string; category?: string; status?: string; created_at: string }
+    const grouped = data.reduce((acc: Record<string, GovernanceDoc[]>, doc: GovernanceDoc) => {
       const cat = doc.category || 'general';
       if (!acc[cat]) acc[cat] = [];
       acc[cat].push(doc);
       return acc;
-    }, {});
+    }, {} as Record<string, GovernanceDoc[]>);
 
     return NextResponse.json({ documents: data, grouped });
   } catch (error) {
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Create initial version record
@@ -170,7 +171,7 @@ export async function PATCH(request: NextRequest) {
         });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -219,7 +220,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', document_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Influencer collaboration and tracking tools
 export async function GET(request: NextRequest) {
@@ -38,7 +32,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate ROI metrics
     const metrics = data?.map(c => ({
@@ -77,7 +71,7 @@ export async function POST(request: NextRequest) {
       compensation, start_date, end_date, status: 'pending', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ campaign: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create campaign' }, { status: 500 });
@@ -119,7 +113,8 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function calculateROI(campaign: any): number {
+interface CampaignData { conversions?: number; avg_ticket_value?: number; total_cost?: number }
+function calculateROI(campaign: CampaignData): number {
   const revenue = (campaign.conversions || 0) * (campaign.avg_ticket_value || 50);
   const cost = campaign.total_cost || 1;
   return Math.round(((revenue - cost) / cost) * 100);

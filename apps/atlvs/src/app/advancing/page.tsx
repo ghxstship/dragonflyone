@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { useAdvancingRequests, createExportHandler } from '@ghxstship/config';
+import { useAdvancingRequests, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import type { ProductionAdvance, AdvanceStatus } from '@ghxstship/config/types/advancing';
 
 const formatCurrency = (amount: number | null) => {
@@ -75,16 +75,37 @@ export default function AdvancingPage() {
   const totalValue = requests.reduce((sum, r) => sum + (r.estimated_cost || 0), 0);
   const pendingCount = requests.filter(r => r.status === 'submitted' || r.status === 'under_review').length;
   const approvedCount = requests.filter(r => r.status === 'approved').length;
-  const _inProgressCount = requests.filter(r => r.status === 'in_progress').length;
+  const inProgressCount = requests.filter(r => r.status === 'in_progress').length;
 
   const rowActions: ListPageAction<ProductionAdvance>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRequest(r); setDrawerOpen(true); } },
     { id: 'review', label: 'Review', icon: <Check className="size-4" />, onClick: (r) => router.push(`/advancing/requests/${r.id}`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'advancing',
+    requiredFields: ['activation_name'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/advancing', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('advancing').length > 0 
+    ? getImportTemplates('advancing') 
+    : [{ id: 'default', name: 'Advancing Import', mapping: { activation_name: 'activation_name', estimated_cost: 'estimated_cost', status: 'status' } }];
+
   const stats = [
     { label: 'Total Requests', value: requests.length },
     { label: 'Pending Review', value: pendingCount },
+    { label: 'In Progress', value: inProgressCount },
     { label: 'Approved', value: approvedCount },
     { label: 'Total Value', value: formatCurrency(totalValue) },
   ];
@@ -118,6 +139,9 @@ export default function AdvancingPage() {
         rowActions={rowActions}
         onRowClick={(r) => router.push(`/advancing/requests/${r.id}`)}
         entityType="advancing"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['activation_name', 'estimated_cost', 'status']}
         onExport={createExportHandler({
           filename: "advancing-requests",
           getData: () => requests.map(r => ({
@@ -132,11 +156,27 @@ export default function AdvancingPage() {
         })}
         stats={stats}
         emptyMessage="No advance requests found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/advancing/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'approve') {
+            await fetch('/api/advancing/bulk-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -147,7 +187,7 @@ export default function AdvancingPage() {
         title={(r) => r.team_workspace || r.activation_name || 'Advance Request'}
         subtitle={(r) => r.project?.name || ''}
         sections={detailSections}
-        actions={[{ id: 'review', label: 'Review Request', icon: '✅' }]}
+        actions={[{ id: 'review', label: 'Review Request', icon: <Check className="size-4" /> }]}
         onAction={(id, r) => { if (id === 'review') router.push(`/advancing/requests/${r.id}`); setDrawerOpen(false); }}
       />
     </AtlvsAppLayout>

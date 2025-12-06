@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const testSchema = z.object({
   name: z.string().min(1),
@@ -59,7 +53,7 @@ export async function GET(request: NextRequest) {
         .eq('test_id', testId);
 
       // Calculate stats per variant
-      const variantStats = test?.variants?.map((variant: any) => {
+      const variantStats = test?.variants?.map((variant: Record<string, unknown>) => {
         const variantImpressions = impressions?.filter(i => i.variant_id === variant.id).length || 0;
         const variantConversions = conversions?.filter(c => c.variant_id === variant.id) || [];
         const conversionCount = variantConversions.length;
@@ -77,7 +71,8 @@ export async function GET(request: NextRequest) {
       });
 
       // Determine winner
-      const winner = variantStats?.reduce((best: any, current: any) => {
+      interface VariantStat { variant_id: string; conversion_rate: string }
+      const winner = variantStats?.reduce((best: VariantStat | null, current: VariantStat) => {
         if (!best) return current;
         return parseFloat(current.conversion_rate) > parseFloat(best.conversion_rate) ? current : best;
       }, null);
@@ -100,7 +95,7 @@ export async function GET(request: NextRequest) {
         .eq('status', 'active')
         .or(`event_id.is.null,event_id.eq.${eventId}`);
 
-      const assignments: Record<string, any> = {};
+      const assignments: Record<string, unknown> = {};
 
       for (const test of tests || []) {
         // Check existing assignment
@@ -111,8 +106,9 @@ export async function GET(request: NextRequest) {
           .eq('user_id', userId)
           .single();
 
+        interface ABVariant { id: string; weight: number }
         if (existing) {
-          const variant = test.variants.find((v: any) => v.id === existing.variant_id);
+          const variant = test.variants.find((v: ABVariant) => v.id === existing.variant_id);
           assignments[test.id] = { test_id: test.id, variant };
         } else {
           // Assign based on weights
@@ -137,8 +133,8 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ tests });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -210,11 +206,11 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -249,12 +245,13 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
-function selectVariant(variants: any[]): any {
+interface ABVariant { id: string; weight: number }
+function selectVariant(variants: ABVariant[]): ABVariant {
   const totalWeight = variants.reduce((sum, v) => sum + v.weight, 0);
   let random = Math.random() * totalWeight;
 
@@ -266,7 +263,8 @@ function selectVariant(variants: any[]): any {
   return variants[0];
 }
 
-function calculateSignificance(stats: any[]): string {
+interface SignificanceStat { conversion_rate: string; impressions: number }
+function calculateSignificance(stats: SignificanceStat[]): string {
   if (!stats || stats.length < 2) return 'insufficient_data';
 
   const sorted = [...stats].sort((a, b) => parseFloat(b.conversion_rate) - parseFloat(a.conversion_rate));

@@ -103,7 +103,7 @@ const DEMO_SUBCONTRACTOR_SUMMARY: SubcontractorSummary = {
 
 export default function SubcontractorsPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const { addNotification: _addNotification } = useNotifications();
   const [subcontractors, setSubcontractors] = useState<Subcontractor[]>([]);
   const [summary, setSummary] = useState<SubcontractorSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -211,8 +211,8 @@ export default function SubcontractorsPage() {
       <EnterprisePageHeader
         title="Subcontractor Directory"
         subtitle="Manage subcontractor relationships and compliance"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Subcontractor', onClick: () => router.push('/subcontractors/new') }}
         showFavorite
         showSettings

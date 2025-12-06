@@ -13,7 +13,7 @@ const subscribeSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { tierId, paymentMethodId, promoCode } = subscribeSchema.parse(body);
     const userId = context.user.id;
@@ -63,7 +63,8 @@ export const POST = apiRoute(
       },
     });
 
-    const subscriptionData: any = {
+    interface SubscriptionCreateParams { customer: string; items: { price: string }[]; metadata: { userId: string; tierId: string }; promotion_code?: string }
+    const subscriptionData: SubscriptionCreateParams = {
       customer: customerId,
       items: [{ price: tier.stripe_price_id }],
       metadata: {
@@ -103,12 +104,16 @@ export const POST = apiRoute(
       );
     }
 
+    // Extract client secret from expanded invoice if available
+    interface ExpandedInvoice { payment_intent?: { client_secret?: string } | string }
+    const invoice = subscription.latest_invoice as ExpandedInvoice | string | null;
+    const clientSecret = invoice && typeof invoice === 'object' && invoice.payment_intent && typeof invoice.payment_intent === 'object'
+      ? invoice.payment_intent.client_secret
+      : null;
     return NextResponse.json({
       subscriptionId: subscription.id,
       status: subscription.status,
-      clientSecret: subscription.latest_invoice
-        ? (subscription.latest_invoice as any).payment_intent?.client_secret
-        : null,
+      clientSecret,
     });
   },
   {

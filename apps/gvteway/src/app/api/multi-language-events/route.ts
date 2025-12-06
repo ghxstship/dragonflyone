@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Multi-language event information
 export async function GET(request: NextRequest) {
@@ -34,7 +28,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('event_translations').select('*')
       .eq('event_id', eventId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get specific language or default
     const translation = data?.find(t => t.language === language) || data?.find(t => t.language === 'en');
@@ -68,7 +62,7 @@ export async function POST(request: NextRequest) {
       updated_at: new Date().toISOString()
     }, { onConflict: 'event_id,language' }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ translation: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });

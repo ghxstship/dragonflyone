@@ -78,9 +78,11 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Calculate paid amounts and balances
+      interface Payment { amount: number; status: string }
       const enrichedInvoices = invoices?.map(inv => {
-        const paidAmount = (inv.payments as any[])?.reduce((sum, p) => 
-          p.status === 'completed' ? sum + p.amount : sum, 0) || 0;
+        const payments = (inv.payments || []) as Payment[];
+        const paidAmount = payments.reduce((sum: number, p: Payment) => 
+          p.status === 'completed' ? sum + p.amount : sum, 0);
         const balance = inv.amount - paidAmount;
         const daysOverdue = inv.status !== 'paid' ? 
           Math.max(0, Math.floor((Date.now() - new Date(inv.due_date).getTime()) / (24 * 60 * 60 * 1000))) : 0;
@@ -122,17 +124,20 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       const today = new Date();
+      interface AgingPayment { amount: number; status: string }
+      interface AgingInvoice { id: string; invoice_number: string; amount: number; balance: number; days_overdue: number; [key: string]: unknown }
       const aging = {
-        current: { count: 0, amount: 0, invoices: [] as any[] },
-        days_1_30: { count: 0, amount: 0, invoices: [] as any[] },
-        days_31_60: { count: 0, amount: 0, invoices: [] as any[] },
-        days_61_90: { count: 0, amount: 0, invoices: [] as any[] },
-        over_90: { count: 0, amount: 0, invoices: [] as any[] },
+        current: { count: 0, amount: 0, invoices: [] as AgingInvoice[] },
+        days_1_30: { count: 0, amount: 0, invoices: [] as AgingInvoice[] },
+        days_31_60: { count: 0, amount: 0, invoices: [] as AgingInvoice[] },
+        days_61_90: { count: 0, amount: 0, invoices: [] as AgingInvoice[] },
+        over_90: { count: 0, amount: 0, invoices: [] as AgingInvoice[] },
       };
 
       invoices?.forEach(inv => {
-        const paidAmount = (inv.payments as any[])?.reduce((sum, p) => 
-          p.status === 'completed' ? sum + p.amount : sum, 0) || 0;
+        const agingPayments = (inv.payments || []) as AgingPayment[];
+        const paidAmount = agingPayments.reduce((sum: number, p: AgingPayment) => 
+          p.status === 'completed' ? sum + p.amount : sum, 0);
         const balance = inv.amount - paidAmount;
         
         if (balance <= 0) return; // Skip fully paid
@@ -210,8 +215,10 @@ export async function GET(request: NextRequest) {
         .order('due_date', { ascending: true });
 
       // Identify invoices needing action
+      interface ActionRecord { next_action_date?: string }
       const needsAction = overdueInvoices?.filter(inv => {
-        const lastAction = (inv.last_action as any[])?.[0];
+        const actions = (inv.last_action || []) as ActionRecord[];
+        const lastAction = actions[0];
         if (!lastAction) return true;
         if (lastAction.next_action_date && new Date(lastAction.next_action_date) <= new Date()) return true;
         return false;
@@ -305,9 +312,9 @@ export async function GET(request: NextRequest) {
         collected_last_30_days: collectedResult.data?.reduce((sum, p) => sum + p.amount, 0) || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Accounts receivable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -467,12 +474,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Accounts receivable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -496,9 +503,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ invoice });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Accounts receivable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -540,8 +547,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Accounts receivable error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

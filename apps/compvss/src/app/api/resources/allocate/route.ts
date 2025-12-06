@@ -2,10 +2,8 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { supabaseAdmin as _supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { apiRoute } from '@ghxstship/config/middleware';
-
-const supabaseAdmin = _supabaseAdmin as any;
 import { PlatformRole } from '@ghxstship/config/roles';
 
 const allocateResourcesSchema = z.object({
@@ -24,24 +22,8 @@ const allocateResourcesSchema = z.object({
   auto_assign: z.boolean().default(false),
 });
 
-interface CrewMember {
-  id: string;
-  name: string;
-  role: string;
-  skills: string[];
-  availability: boolean;
-}
-
-interface Equipment {
-  id: string;
-  name: string;
-  type: string;
-  status: string;
-  available: boolean;
-}
-
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const data = allocateResourcesSchema.parse(body);
 
@@ -55,8 +37,8 @@ export const POST = apiRoute(
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
-    const conflicts: any[] = [];
-    const allocations: any[] = [];
+    const conflicts: unknown[] = [];
+    const allocations: unknown[] = [];
 
     // Check crew availability
     if (data.crew_requirements && data.crew_requirements.length > 0) {
@@ -73,9 +55,9 @@ export const POST = apiRoute(
           .gte('end_date', data.start_date)
           .lte('start_date', data.end_date);
 
-        const assignedCrewIds = new Set(existingAssignments?.map((a: any) => a.crew_id) || []);
+        const assignedCrewIds = new Set(existingAssignments?.map((a: Record<string, unknown>) => a.crew_id) || []);
         
-        const eligibleCrew = (availableCrew || []).filter((crew: any) => {
+        const eligibleCrew = (availableCrew || []).filter((crew: Record<string, unknown>) => {
           if (assignedCrewIds.has(crew.id)) return false;
           
           if (requirement.skills && requirement.skills.length > 0) {
@@ -135,10 +117,9 @@ export const POST = apiRoute(
           .gte('end_date', data.start_date)
           .lte('start_date', data.end_date);
 
-        const bookingAssetIds = new Set(existingBookings?.map((b: any) => b.asset_id) || []);
+        const bookingAssetIds = new Set(existingBookings?.map((b: Record<string, unknown>) => b.asset_id) || []);
         
-        const eligibleEquipment = (availableEquipment || []).filter(
-          (asset: any) => !bookingAssetIds.has(asset.id)
+        const eligibleEquipment = (availableEquipment || []).filter((asset: Record<string, unknown>) => !bookingAssetIds.has(asset.id)
         );
 
         if (eligibleEquipment.length < requirement.quantity) {

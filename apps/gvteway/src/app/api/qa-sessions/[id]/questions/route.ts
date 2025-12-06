@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -37,21 +31,25 @@ export async function GET(
       .order('upvotes', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const questions = data?.map(q => ({
-      id: q.id,
-      session_id: q.session_id,
-      user_id: q.user_id,
-      user_name: q.user ? `${(q.user as any).first_name} ${(q.user as any).last_name}` : 'Anonymous',
-      content: q.content,
-      upvotes: q.upvotes || 0,
-      is_answered: q.is_answered || false,
-      answer: q.answer,
-      answered_at: q.answered_at,
-      created_at: q.created_at,
-    })) || [];
+    interface QuestionUserInfo { first_name?: string; last_name?: string }
+    const questions = data?.map(q => {
+      const user = q.user as QuestionUserInfo | null;
+      return {
+        id: q.id,
+        session_id: q.session_id,
+        user_id: q.user_id,
+        user_name: user ? `${user.first_name} ${user.last_name}` : 'Anonymous',
+        content: q.content,
+        upvotes: q.upvotes || 0,
+        is_answered: q.is_answered || false,
+        answer: q.answer,
+        answered_at: q.answered_at,
+        created_at: q.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ questions });
   } catch (error) {
@@ -130,7 +128,7 @@ export async function POST(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Update question count

@@ -7,7 +7,6 @@ import {
   H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -170,6 +169,29 @@ function MapViewContent() {
         );
       })}
 
+      {/* Cluster markers */}
+      {clusters.map(cluster => {
+        const offsetX = (cluster.longitude - mapCenter.lng) * 100 * mapZoom;
+        const offsetY = (mapCenter.lat - cluster.latitude) * 100 * mapZoom;
+        const x = 50 + offsetX;
+        const y = 50 + offsetY;
+
+        if (x < 0 || x > 100 || y < 0 || y > 100) return null;
+
+        return (
+          <Stack
+            key={`cluster-${cluster.latitude}-${cluster.longitude}`}
+            className="absolute w-12 h-12 -ml-6 -mt-6 cursor-pointer transition-transform hover:scale-110 z-15"
+            style={{ '--cluster-x': `${x}%`, '--cluster-y': `${y}%`, left: 'var(--cluster-x)', top: 'var(--cluster-y)' } as React.CSSProperties}
+            onClick={() => handleClusterClick(cluster)}
+          >
+            <Stack className="w-full h-full rounded-avatar bg-primary flex items-center justify-center border-2 border-white shadow-lg">
+              <Body className="text-white text-mono-sm font-weight-bold">{cluster.count}</Body>
+            </Stack>
+          </Stack>
+        );
+      })}
+
       {/* User location marker - DS Exception: Map marker positioning */}
       {userLocation && (
         <Stack
@@ -326,7 +348,7 @@ function MapViewContent() {
                 {events.slice(0, 10).map(event => (
                   <Stack
                     key={event.id}
-                    className="p-3 border border-ink-200 rounded cursor-pointer hover:bg-ink-50"
+                    className="p-3 border-2 border-ink-200 rounded cursor-pointer hover:bg-ink-50"
                     onClick={() => handleEventClick(event)}
                   >
                     <Body className="font-weight-medium text-body-sm">{event.title}</Body>

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, notes:rehearsal_notes(id, category, content, created_by, created_at)
     `).eq('project_id', projectId).order('scheduled_at', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ rehearsals: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
         departments: departments || [], status: 'scheduled', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ rehearsal: data }, { status: 201 });
     }
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         rehearsal_id, category, content, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ note: data }, { status: 201 });
     }
 

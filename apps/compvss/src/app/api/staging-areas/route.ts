@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (venueId) query = query.eq('venue_id', venueId);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       staging_areas: data,
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       status: 'available', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ staging_area: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create staging area' }, { status: 500 });
@@ -88,7 +88,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('staging_areas').update(body).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

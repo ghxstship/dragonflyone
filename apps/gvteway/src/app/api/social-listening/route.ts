@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Social listening and sentiment monitoring
 export async function GET(request: NextRequest) {
@@ -30,13 +24,18 @@ export async function GET(request: NextRequest) {
     const hashtag = searchParams.get('hashtag');
     const period = searchParams.get('period') || '7d';
 
-    let query = supabase.from('social_mentions').select('*');
+    // Calculate date range based on period
+    const now = new Date();
+    const periodDays = period === '24h' ? 1 : period === '7d' ? 7 : period === '30d' ? 30 : 7;
+    const startDate = new Date(now.getTime() - periodDays * 24 * 60 * 60 * 1000).toISOString();
+
+    let query = supabase.from('social_mentions').select('*').gte('posted_at', startDate);
 
     if (eventId) query = query.eq('event_id', eventId);
     if (hashtag) query = query.contains('hashtags', [hashtag]);
 
     const { data, error } = await query.order('posted_at', { ascending: false }).limit(500);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Analyze sentiment
     const sentimentAnalysis = analyzeSentiment(data || []);
@@ -71,7 +70,7 @@ export async function POST(request: NextRequest) {
         status: 'active', created_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ monitor: data }, { status: 201 });
     }
 
@@ -97,12 +96,14 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function analyzeSentiment(mentions: any[]): any {
+interface SentimentResult { positive: number; negative: number; neutral: number; overall: string }
+interface MentionData { sentiment_score?: number; hashtags?: string[]; likes?: number; shares?: number; comments?: number; topics?: string[] }
+function analyzeSentiment(mentions: MentionData[]): SentimentResult {
   let positive = 0, negative = 0, neutral = 0;
 
   mentions.forEach(m => {
-    if (m.sentiment_score > 0.3) positive++;
-    else if (m.sentiment_score < -0.3) negative++;
+    if ((m.sentiment_score || 0) > 0.3) positive++;
+    else if ((m.sentiment_score || 0) < -0.3) negative++;
     else neutral++;
   });
 
@@ -115,7 +116,7 @@ function analyzeSentiment(mentions: any[]): any {
   };
 }
 
-function getTopHashtags(mentions: any[]): any[] {
+function getTopHashtags(mentions: MentionData[]): { tag: string; count: number }[] {
   const counts: Record<string, number> = {};
   mentions.forEach(m => {
     (m.hashtags || []).forEach((h: string) => {
@@ -129,7 +130,8 @@ function getTopHashtags(mentions: any[]): any[] {
     .map(([tag, count]) => ({ tag, count }));
 }
 
-function calculateEngagement(mentions: any[]): any {
+interface EngagementResult { likes: number; shares: number; comments: number; total: number }
+function calculateEngagement(mentions: MentionData[]): EngagementResult {
   const totalLikes = mentions.reduce((s, m) => s + (m.likes || 0), 0);
   const totalShares = mentions.reduce((s, m) => s + (m.shares || 0), 0);
   const totalComments = mentions.reduce((s, m) => s + (m.comments || 0), 0);
@@ -137,7 +139,7 @@ function calculateEngagement(mentions: any[]): any {
   return { likes: totalLikes, shares: totalShares, comments: totalComments, total: totalLikes + totalShares + totalComments };
 }
 
-function getTrendingTopics(mentions: any[]): string[] {
+function getTrendingTopics(mentions: MentionData[]): string[] {
   const topics: Record<string, number> = {};
   mentions.forEach(m => {
     (m.topics || []).forEach((t: string) => {
@@ -148,7 +150,7 @@ function getTrendingTopics(mentions: any[]): string[] {
   return Object.entries(topics).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t]) => t);
 }
 
-function generateRecommendations(mentions: any[]): string[] {
+function generateRecommendations(mentions: unknown[]): string[] {
   const recommendations: string[] = [];
   const sentiment = analyzeSentiment(mentions);
 

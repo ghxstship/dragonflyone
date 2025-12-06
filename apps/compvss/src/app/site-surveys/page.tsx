@@ -110,7 +110,7 @@ interface SurveySummary {
 
 export default function SiteSurveysPage() {
   const router = useRouter();
-  const { addNotification } = useNotifications();
+  const { addNotification: _addNotification } = useNotifications();
   const [surveys, setSurveys] = useState<SiteSurvey[]>([]);
   const [summary, setSummary] = useState<SurveySummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -226,8 +226,8 @@ export default function SiteSurveysPage() {
       <EnterprisePageHeader
         title="Site Surveys"
         subtitle="Venue assessments, technical specifications, and site documentation"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Schedule Survey', onClick: () => router.push('/site-surveys/schedule') }}
         showFavorite
         showSettings
@@ -353,13 +353,13 @@ export default function SiteSurveysPage() {
                         <Body className="text-body-sm">{survey.surveyor_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{survey.power_assessment || "—"}</Body>
+                        <Body className={`text-body-sm ${getAssessmentColor(survey.power_assessment)}`}>{survey.power_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{survey.rigging_assessment || "—"}</Body>
+                        <Body className={`text-body-sm ${getAssessmentColor(survey.rigging_assessment)}`}>{survey.rigging_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{survey.load_in_assessment || "—"}</Body>
+                        <Body className={`text-body-sm ${getAssessmentColor(survey.load_in_assessment)}`}>{survey.load_in_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusVariant(survey.status)}>

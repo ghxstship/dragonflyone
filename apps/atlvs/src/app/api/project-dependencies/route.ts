@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const { data: dependencies, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Detect conflicts
@@ -111,7 +111,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Check for new conflicts
@@ -161,7 +161,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', dependencyId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -173,8 +173,8 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
-function detectConflicts(dependencies: any[]): any[] {
-  const conflicts: any[] = [];
+function detectConflicts(dependencies: unknown[]): unknown[] {
+  const conflicts: unknown[] = [];
 
   for (const dep of dependencies) {
     if (!dep.source_project || !dep.target_project) continue;
@@ -222,7 +222,8 @@ function detectConflicts(dependencies: any[]): any[] {
   return conflicts;
 }
 
-function datesOverlap(project1: any, project2: any): boolean {
+interface ProjectDates { start_date: string; end_date: string }
+function datesOverlap(project1: ProjectDates | null, project2: ProjectDates | null): boolean {
   if (!project1 || !project2) return false;
   const start1 = new Date(project1.start_date);
   const end1 = new Date(project1.end_date);
@@ -231,9 +232,11 @@ function datesOverlap(project1: any, project2: any): boolean {
   return start1 <= end2 && start2 <= end1;
 }
 
-function buildDependencyGraph(dependencies: any[]): any {
-  const nodes = new Map<string, any>();
-  const edges: any[] = [];
+interface GraphNode { id: string; name: string; status: string }
+interface DependencyGraph { nodes: GraphNode[]; edges: unknown[] }
+function buildDependencyGraph(dependencies: unknown[]): DependencyGraph {
+  const nodes = new Map<string, GraphNode>();
+  const edges: unknown[] = [];
 
   for (const dep of dependencies) {
     if (dep.source_project && !nodes.has(dep.source_project.id)) {
@@ -266,7 +269,7 @@ function buildDependencyGraph(dependencies: any[]): any {
   };
 }
 
-function calculateCriticalPath(dependencies: any[]): any[] {
+function calculateCriticalPath(dependencies: unknown[]): unknown[] {
   // Simplified critical path - return blocking dependencies chain
   const blocking = dependencies.filter(d => d.dependency_type === 'blocking');
   return blocking.map(d => ({

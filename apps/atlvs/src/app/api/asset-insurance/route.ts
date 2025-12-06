@@ -88,14 +88,18 @@ export async function GET(request: NextRequest) {
         else if (daysUntilExpiry <= 30) status = 'expiring_soon';
         else if (daysUntilExpiry <= 60) status = 'renewal_due';
 
-        const activeClaims = (policy.claims as any[])?.filter(c => c.status !== 'closed').length || 0;
-        const totalClaimAmount = (policy.claims as any[])?.reduce((sum, c) => sum + c.claim_amount, 0) || 0;
+        interface Claim { status: string; claim_amount: number }
+        interface CoveredAsset { id: string }
+        const claims = (policy.claims || []) as Claim[];
+        const coveredAssets = (policy.covered_assets || []) as CoveredAsset[];
+        const activeClaims = claims.filter((c: Claim) => c.status !== 'closed').length;
+        const totalClaimAmount = claims.reduce((sum: number, c: Claim) => sum + c.claim_amount, 0);
 
         return {
           ...policy,
           status,
           days_until_expiry: daysUntilExpiry,
-          covered_asset_count: (policy.covered_assets as any[])?.length || 0,
+          covered_asset_count: coveredAssets.length,
           active_claims: activeClaims,
           total_claim_amount: totalClaimAmount,
         };
@@ -224,8 +228,9 @@ export async function GET(request: NextRequest) {
         .eq('id', assetId)
         .single();
 
+      interface PolicyData { expiration_date: string }
       const activeCoverage = coverage?.filter(c => {
-        const policy = c.policy as any;
+        const policy = c.policy as PolicyData | null;
         return policy && new Date(policy.expiration_date) > new Date();
       });
 
@@ -269,9 +274,9 @@ export async function GET(request: NextRequest) {
         expiring_soon: expiringResult.data?.length || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset insurance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -383,12 +388,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Asset insurance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -432,9 +437,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset insurance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -457,8 +462,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset insurance error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

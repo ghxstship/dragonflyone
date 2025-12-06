@@ -77,7 +77,12 @@ export default function NearbyEventsPage() {
         setLocationLoading(false);
       },
       (err) => {
-        setError('Unable to get your location. Please enter it manually.');
+        const errorMessage = err.code === 1 
+          ? 'Location access denied. Please enable location permissions or enter your location manually.'
+          : err.code === 2
+          ? 'Location unavailable. Please try again or enter your location manually.'
+          : 'Unable to get your location. Please enter it manually.';
+        setError(errorMessage);
         setLocationLoading(false);
       }
     );

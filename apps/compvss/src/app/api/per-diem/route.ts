@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (crewId) query = query.eq('crew_id', crewId);
 
     const { data, error } = await query.order('expense_date', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const totalAmount = data?.reduce((sum, e) => sum + (e.amount || 0), 0) || 0;
 
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       receipt_url, status: 'pending', submitted_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ expense: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to submit expense' }, { status: 500 });

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Charity and cause campaign integration
 export async function GET(request: NextRequest) {
@@ -38,13 +32,14 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate totals
+    interface Donation { amount: number }
     const campaignsWithTotals = data?.map(c => ({
       ...c,
-      total_raised: c.donations?.reduce((s: number, d: any) => s + d.amount, 0) || 0,
-      progress_percent: c.goal_amount ? Math.round(((c.donations?.reduce((s: number, d: any) => s + d.amount, 0) || 0) / c.goal_amount) * 100) : 0
+      total_raised: c.donations?.reduce((s: number, d: Donation) => s + d.amount, 0) || 0,
+      progress_percent: c.goal_amount ? Math.round(((c.donations?.reduce((s: number, d: Donation) => s + d.amount, 0) || 0) / c.goal_amount) * 100) : 0
     }));
 
     return NextResponse.json({
@@ -84,7 +79,7 @@ export async function POST(request: NextRequest) {
         message, status: 'completed', donated_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Award points/badges for donation
       await supabase.from('user_badges').upsert({

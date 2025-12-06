@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Guitar, Tent, Theater, Trophy, Laugh, Music2, Mic, Headphones, Piano, HardHat, Wind, Music, Users, Building2, DollarSign, Gem, Zap, Coffee, Handshake, Palette, Calendar, CalendarDays, CalendarRange, PartyPopper } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,

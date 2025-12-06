@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -58,17 +52,21 @@ export async function GET(
       return NextResponse.json({ error: 'Survey has expired' }, { status: 410 });
     }
 
+    interface SurveyEventInfo { title?: string; date?: string; image?: string }
+    interface SurveyQuestion { id: string; type: string; question: string; required: boolean; options?: string[]; min_label?: string; max_label?: string; order_index: number }
+    const event = data.events as SurveyEventInfo | null;
+    const questions = (data.survey_questions || []) as SurveyQuestion[];
     const survey = {
       id: data.id,
       event_id: data.event_id,
-      event_title: (data.events as any)?.title,
-      event_date: (data.events as any)?.date,
-      event_image: (data.events as any)?.image,
+      event_title: event?.title,
+      event_date: event?.date,
+      event_image: event?.image,
       title: data.title,
       description: data.description,
-      questions: ((data.survey_questions as any[]) || [])
-        .sort((a, b) => a.order_index - b.order_index)
-        .map(q => ({
+      questions: questions
+        .sort((a: SurveyQuestion, b: SurveyQuestion) => a.order_index - b.order_index)
+        .map((q: SurveyQuestion) => ({
           id: q.id,
           type: q.type,
           question: q.question,

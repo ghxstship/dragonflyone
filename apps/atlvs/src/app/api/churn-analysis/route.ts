@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     const churnedClients = clients?.filter(c => !activeClientIds.has(c.id)) || [];
 
     // Calculate monthly churn
-    const monthlyChurn: any[] = [];
+    const monthlyChurn: unknown[] = [];
     for (let i = 0; i < parseInt(period); i++) {
       const monthStart = new Date();
       monthStart.setMonth(monthStart.getMonth() - i - 1);
@@ -59,10 +59,10 @@ export async function GET(request: NextRequest) {
     const { data: churnReasons } = await supabase.from('client_churn_records').select('reason, count')
       .gte('churned_at', startDate.toISOString());
 
-    const reasonCounts = churnReasons?.reduce((acc: any, r) => {
+    const reasonCounts = churnReasons?.reduce((acc: Record<string, number>, r) => {
       acc[r.reason] = (acc[r.reason] || 0) + 1;
       return acc;
-    }, {}) || {};
+    }, {} as Record<string, number>) || {};
 
     // Retention rate
     const retentionRate = clients?.length ? Math.round(((clients.length - churnedClients.length) / clients.length) * 100) : 100;

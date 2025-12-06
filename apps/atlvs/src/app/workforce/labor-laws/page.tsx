@@ -6,9 +6,8 @@ import { Eye, ExternalLink, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
-} from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface StateLaborLaw {
   id: string;
@@ -117,11 +116,18 @@ export default function LaborLawsPage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No labor laws found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/workforce/labor-laws/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

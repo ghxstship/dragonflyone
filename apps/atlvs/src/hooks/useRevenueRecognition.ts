@@ -34,7 +34,7 @@ export interface ScheduleEntry {
   status: 'pending' | 'recognized' | 'deferred';
   description: string;
   recognized_at?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export function useRevenueRecognition(projectId?: string) {
@@ -54,8 +54,8 @@ export function useRevenueRecognition(projectId?: string) {
       const response = await fetch(`/api/revenue-recognition?${params.toString()}`);
       const data = await response.json();
       setRules(data.rules || []);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch revenue recognition rules');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch revenue recognition rules');
     } finally {
       setLoading(false);
     }
@@ -79,8 +79,8 @@ export function useRevenueRecognition(projectId?: string) {
       const data = await response.json();
       await fetchRules(); // Refresh list
       return data;
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
       throw err;
     }
   };
@@ -102,8 +102,8 @@ export function useRevenueRecognition(projectId?: string) {
       
       await fetchRules(); // Refresh data
       return await response.json();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
       throw err;
     }
   };
@@ -116,8 +116,8 @@ export function useRevenueRecognition(projectId?: string) {
       const data = await response.json();
       setSchedule(data.schedule || []);
       return data.schedule;
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch schedule');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch schedule');
       return [];
     }
   };

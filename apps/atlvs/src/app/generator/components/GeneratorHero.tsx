@@ -106,7 +106,7 @@ export function GeneratorHero({
                   key={seed}
                   type="button"
                   onClick={() => onCreativeSeedChange(seed)}
-                  className="border border-grey-300 bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-grey-600 transition-colors hover:border-ink-950 hover:text-ink-950"
+                  className="border-2 border-grey-300 bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-grey-600 transition-colors hover:border-ink-950 hover:text-ink-950"
                 >
                   {seed}
                 </Button>

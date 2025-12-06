@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -45,19 +39,23 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const requests = data?.map(req => ({
-      id: req.id,
-      event_id: req.event_id,
-      event_title: (req.events as any)?.title,
-      event_date: (req.events as any)?.date,
-      request_type: req.services?.join(', ') || req.request_type,
-      status: req.status,
-      notes: req.notes,
-      created_at: req.created_at,
-    })) || [];
+    interface AccessibilityEventInfo { title?: string; date?: string }
+    const requests = data?.map(req => {
+      const event = req.events as AccessibilityEventInfo | null;
+      return {
+        id: req.id,
+        event_id: req.event_id,
+        event_title: event?.title,
+        event_date: event?.date,
+        request_type: req.services?.join(', ') || req.request_type,
+        status: req.status,
+        notes: req.notes,
+        created_at: req.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ requests });
   } catch (error) {
@@ -99,7 +97,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Save preferences if requested

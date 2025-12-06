@@ -19,6 +19,16 @@ export async function GET(request: NextRequest) {
     const dateTo = searchParams.get('date_to');
     const reportType = searchParams.get('report_type') || 'overview';
 
+    // Get asset IDs for category filter if specified
+    let assetIds: string[] = [];
+    if (category && !assetId) {
+      const { data: categoryAssets } = await supabase
+        .from('assets')
+        .select('id')
+        .eq('category', category);
+      assetIds = categoryAssets?.map(a => a.id) || [];
+    }
+
     // Get asset utilization data
     let utilizationQuery = supabase
       .from('asset_utilization_logs')
@@ -26,6 +36,8 @@ export async function GET(request: NextRequest) {
 
     if (assetId) {
       utilizationQuery = utilizationQuery.eq('asset_id', assetId);
+    } else if (assetIds.length > 0) {
+      utilizationQuery = utilizationQuery.in('asset_id', assetIds);
     }
 
     if (dateFrom) {
@@ -91,7 +103,8 @@ export async function GET(request: NextRequest) {
       .order('health_score', { ascending: true })
       .limit(10);
 
-    return NextResponse.json({
+    // Build response based on report type
+    const baseResponse = {
       overview: {
         total_utilization_hours: totalUtilizationHours,
         total_maintenance_cost: totalMaintenanceCost,
@@ -99,6 +112,35 @@ export async function GET(request: NextRequest) {
         mtbf,
         average_health_score: healthScore,
       },
+    };
+
+    if (reportType === 'utilization') {
+      return NextResponse.json({
+        ...baseResponse,
+        utilization_trend: calculateUtilizationTrend(utilizationData || []),
+        top_performing_assets: topAssets || [],
+      });
+    }
+
+    if (reportType === 'maintenance') {
+      return NextResponse.json({
+        ...baseResponse,
+        maintenance_trend: calculateMaintenanceTrend(maintenanceData || []),
+        assets_needing_attention: attentionAssets || [],
+      });
+    }
+
+    if (reportType === 'failures') {
+      return NextResponse.json({
+        ...baseResponse,
+        failure_prediction: failurePrediction,
+        recent_failures: failureData?.slice(0, 10) || [],
+      });
+    }
+
+    // Default: overview - return all data
+    return NextResponse.json({
+      ...baseResponse,
       failure_prediction: failurePrediction,
       utilization_trend: calculateUtilizationTrend(utilizationData || []),
       maintenance_trend: calculateMaintenanceTrend(maintenanceData || []),
@@ -112,9 +154,9 @@ export async function GET(request: NextRequest) {
 }
 
 function calculateFailurePrediction(
-  utilization: any[],
-  maintenance: any[],
-  failures: any[]
+  utilization: unknown[],
+  maintenance: unknown[],
+  failures: unknown[]
 ): { risk_level: string; probability: number; recommended_action: string; next_likely_failure_date: string | null } {
   // Simple prediction model based on historical patterns
   const recentFailures = failures.filter(f => {
@@ -165,7 +207,7 @@ function calculateFailurePrediction(
   };
 }
 
-function calculateHealthScore(utilization: any[], maintenance: any[], failures: any[]): number {
+function calculateHealthScore(utilization: unknown[], maintenance: unknown[], failures: unknown[]): number {
   let score = 100;
 
   // Deduct for failures
@@ -195,7 +237,7 @@ function calculateHealthScore(utilization: any[], maintenance: any[], failures: 
   return Math.max(0, Math.min(100, score));
 }
 
-function calculateUtilizationTrend(utilization: any[]): { period: string; hours: number; rate: number }[] {
+function calculateUtilizationTrend(utilization: unknown[]): { period: string; hours: number; rate: number }[] {
   const grouped: Record<string, { hours: number; count: number }> = {};
 
   utilization.forEach(u => {
@@ -217,7 +259,7 @@ function calculateUtilizationTrend(utilization: any[]): { period: string; hours:
     .slice(-12);
 }
 
-function calculateMaintenanceTrend(maintenance: any[]): { period: string; count: number; cost: number }[] {
+function calculateMaintenanceTrend(maintenance: unknown[]): { period: string; count: number; cost: number }[] {
   const grouped: Record<string, { count: number; cost: number }> = {};
 
   maintenance.forEach(m => {

@@ -6,8 +6,7 @@ import { Eye, Rocket, Pencil } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, type ExportFormat,
-} from '@ghxstship/ui';
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler } from '@ghxstship/config';
 
 interface AssetKit {
@@ -147,11 +146,17 @@ export default function AssetKitsPage() {
         stats={stats}
         emptyMessage="No kits found"
         emptyAction={{ label: 'Create Kit', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(k => !ids.includes(k.id)));
+          } else if (action === 'deploy') {
+            setData(prev => prev.map(k => ids.includes(k.id) ? { ...k, status: 'Deployed' as const } : k));
+          }
+        }}
+        bulkActions={[
+          { id: 'deploy', label: 'Deploy Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

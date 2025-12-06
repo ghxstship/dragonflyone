@@ -59,6 +59,9 @@ export async function GET(request: NextRequest) {
     if (endDate) {
       query = query.lte('work_date', endDate);
     }
+    if (payPeriod) {
+      query = query.eq('pay_period', payPeriod);
+    }
 
     const { data, error } = await query;
 

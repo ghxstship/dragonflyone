@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -99,8 +93,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'user_id or ticket_id required' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -151,13 +145,15 @@ export async function POST(request: NextRequest) {
 
       if (!ticket) return NextResponse.json({ error: 'Ticket not found' }, { status: 404 });
 
+      interface OfflineEventInfo { name?: string; start_date?: string; venue?: { name?: string } }
+      const eventInfo = ticket.event as OfflineEventInfo | null;
       const offlinePass = {
         ticket_id: ticket.id,
         qr_code: ticket.qr_code,
         barcode: ticket.barcode,
-        event_name: (ticket.event as any)?.name,
-        event_date: (ticket.event as any)?.start_date,
-        venue: (ticket.event as any)?.venue?.name,
+        event_name: eventInfo?.name,
+        event_date: eventInfo?.start_date,
+        venue: eventInfo?.venue?.name,
         seat_info: `${ticket.section || ''} ${ticket.row || ''} ${ticket.seat || ''}`.trim(),
         verification_hash: generateOfflineHash(ticket.id, ticket.qr_code),
         generated_at: new Date().toISOString(),
@@ -168,8 +164,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

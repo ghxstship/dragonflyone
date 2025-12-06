@@ -6,6 +6,9 @@ import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
+// Module-level supabase client
+const supabase = getServerSupabase();
+
 const maintenanceScheduleSchema = z.object({
   asset_id: z.string().uuid(),
   maintenance_type: z.enum(['preventive', 'corrective', 'predictive', 'inspection', 'calibration']),
@@ -134,7 +137,7 @@ export const GET = apiRoute(
       }
 
       // Calculate next due dates based on frequency
-      const upcoming = data?.filter((schedule: any) => {
+      const upcoming = data?.filter((schedule: Record<string, unknown>) => {
         const nextDue = calculateNextDueDate(schedule);
         return nextDue && nextDue <= futureDate;
       });
@@ -186,7 +189,7 @@ export const GET = apiRoute(
 
 // POST - Create schedule or log maintenance
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { action } = body;
 
@@ -207,12 +210,19 @@ export const POST = apiRoute(
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 
-      // Update asset status and usage metrics
+      // Update asset status and usage metrics - first get current count
+      const { data: assetData } = await supabase
+        .from('assets')
+        .select('maintenance_count')
+        .eq('id', validated.asset_id)
+        .single();
+      
+      const currentCount = assetData?.maintenance_count || 0;
       await supabase
         .from('assets')
         .update({
           last_maintenance_date: validated.completed_at,
-          maintenance_count: (supabase as any).raw('maintenance_count + 1')
+          maintenance_count: currentCount + 1
         })
         .eq('id', validated.asset_id);
 
@@ -269,7 +279,8 @@ export const POST = apiRoute(
 );
 
 // Helper function to calculate next due date
-function calculateNextDueDate(schedule: any): Date | null {
+interface MaintenanceSchedule { last_completed_at?: string; frequency: string }
+function calculateNextDueDate(schedule: MaintenanceSchedule): Date | null {
   const now = new Date();
   const lastCompleted = schedule.last_completed_at ? new Date(schedule.last_completed_at) : now;
 

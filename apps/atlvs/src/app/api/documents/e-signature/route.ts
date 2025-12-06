@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create signers
@@ -453,7 +453,7 @@ function generateAccessToken(): string {
   return crypto.randomBytes(32).toString('hex');
 }
 
-async function logAuditEvent(documentId: string, eventType: string, userId: string | null, metadata: any) {
+async function logAuditEvent(documentId: string, eventType: string, userId: string | null, metadata: Record<string, unknown>) {
   await supabase.from('document_audit_trail').insert({
     document_id: documentId,
     event_type: eventType,

@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Fetch goals if requested
-    let goals: any[] = [];
+    let goals: unknown[] = [];
     if (includeGoals) {
       let goalQuery = supabase
         .from('performance_goals')

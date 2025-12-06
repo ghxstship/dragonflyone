@@ -18,10 +18,10 @@ export async function GET(request: NextRequest) {
     `).eq('project_id', projectId).single();
 
     if (error && error.code !== 'PGRST116') {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const completedItems = data?.items?.filter((i: any) => i.status === 'completed').length || 0;
+    const completedItems = data?.items?.filter((i: Record<string, unknown>) => i.status === 'completed').length || 0;
     const totalItems = data?.items?.length || 0;
 
     return NextResponse.json({
@@ -52,11 +52,11 @@ export async function POST(request: NextRequest) {
         project_id, status: 'in_progress', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (items?.length) {
         await supabase.from('restoration_items').insert(
-          items.map((i: any) => ({ restoration_id: data.id, area: i.area, task: i.task, status: 'pending' }))
+          items.map((i: Record<string, unknown>) => ({ restoration_id: data.id, area: i.area, task: i.task, status: 'pending' }))
         );
       }
 

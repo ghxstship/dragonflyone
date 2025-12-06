@@ -8,7 +8,7 @@ import crypto from 'crypto';
 async function deliverWebhook(
   subscriptionId: string,
   webhookUrl: string,
-  payload: any
+  payload: Record<string, unknown>
 ): Promise<{ success: boolean; statusCode?: number; error?: string }> {
   const timestamp = Date.now();
   const signature = generateSignature(payload, timestamp);
@@ -35,7 +35,7 @@ async function deliverWebhook(
     });
 
     return { success: response.ok, statusCode: response.status };
-  } catch (error: any) {
+  } catch (error) {
     // Log failed delivery
     await supabase.from('webhook_delivery_logs').insert({
       subscription_id: subscriptionId,
@@ -50,7 +50,7 @@ async function deliverWebhook(
 }
 
 // Generate HMAC signature for webhook payload
-function generateSignature(payload: any, timestamp: number): string {
+function generateSignature(payload: Record<string, unknown>, timestamp: number): string {
   const secret = process.env.WEBHOOK_SECRET || 'default-webhook-secret';
   const data = `${timestamp}.${JSON.stringify(payload)}`;
   return crypto.createHmac('sha256', secret).update(data).digest('hex');
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       .eq('is_active', true);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     if (!subscriptions || subscriptions.length === 0) {
@@ -166,7 +166,7 @@ export async function GET(request: NextRequest) {
     const { data: logs, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get summary stats

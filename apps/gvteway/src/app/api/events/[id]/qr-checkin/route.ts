@@ -13,7 +13,7 @@ const checkinSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const body = await request.json();
     const data = checkinSchema.parse(body);
@@ -114,7 +114,7 @@ export const POST = apiRoute(
 );
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const { searchParams } = new URL(request.url);
     const ticketCode = searchParams.get('ticket_code');

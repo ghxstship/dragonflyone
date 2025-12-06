@@ -175,13 +175,16 @@ export async function GET(request: NextRequest) {
         const remainingLife = expectedLifespan - ageYears;
         const lifespanPercentage = (ageYears / expectedLifespan) * 100;
 
-        const maintenanceRecords = (asset.maintenance as any[]) || [];
-        const totalMaintenanceCost = maintenanceRecords.reduce((sum, m) => sum + (m.total_cost || 0), 0);
+        interface MaintenanceRecord { total_cost?: number }
+        interface CheckoutRecord { id: string }
+        const maintenanceRecords = (asset.maintenance || []) as MaintenanceRecord[];
+        const totalMaintenanceCost = maintenanceRecords.reduce((sum: number, m: MaintenanceRecord) => sum + (m.total_cost || 0), 0);
         
         const totalCostOfOwnership = (asset.purchase_price || 0) + totalMaintenanceCost;
         const annualCost = ageYears > 0 ? totalCostOfOwnership / ageYears : totalCostOfOwnership;
 
-        const checkoutCount = (asset.checkouts as any[])?.length || 0;
+        const checkouts = (asset.checkouts || []) as CheckoutRecord[];
+        const checkoutCount = checkouts.length;
 
         return {
           asset_id: asset.id,
@@ -280,9 +283,9 @@ export async function GET(request: NextRequest) {
         disposal_value_this_year: retirementsResult.data?.reduce((sum, r) => sum + (r.disposal_value || 0), 0) || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset lifecycle error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -368,12 +371,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Asset lifecycle error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -401,9 +404,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset lifecycle error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -426,9 +429,9 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset lifecycle error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

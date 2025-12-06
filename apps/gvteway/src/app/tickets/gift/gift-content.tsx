@@ -315,7 +315,7 @@ export default function GiftTicketsContent() {
                         className={`p-4 cursor-pointer text-center transition-all ${
                           formData.wrap_style === style.id
                             ? 'border-2 border-black bg-ink-50'
-                            : 'border border-ink-200 hover:border-ink-400'
+                            : 'border-2 border-ink-200 hover:border-ink-400'
                         }`}
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
@@ -349,7 +349,7 @@ export default function GiftTicketsContent() {
                     <Body className="text-body-sm text-ink-600">{selectedEvent.venue}</Body>
                   </Stack>
 
-                  <Stack className="border-t border-ink-200 pt-4">
+                  <Stack className="border-t-2 border-ink-200 pt-4">
                     <Stack direction="horizontal" className="justify-between">
                       <Body>{selectedTicketType.name}</Body>
                       <Body>${selectedTicketType.price}</Body>

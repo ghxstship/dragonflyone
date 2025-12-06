@@ -40,25 +40,30 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const issues = data?.map(i => ({
-      id: i.id,
-      title: i.title,
-      description: i.description,
-      category: i.category,
-      priority: i.priority,
-      status: i.status,
-      reported_by: i.reporter ? `${(i.reporter as any).first_name} ${(i.reporter as any).last_name}` : 'Unknown',
-      assigned_to: i.assignee ? `${(i.assignee as any).first_name} ${(i.assignee as any).last_name}` : null,
-      department: i.department,
-      location: i.location,
-      created_at: i.created_at,
-      updated_at: i.updated_at,
-      escalation_level: i.escalation_level || 0,
-      resolution: i.resolution,
-    })) || [];
+    interface PersonData { first_name?: string; last_name?: string }
+    const issues = data?.map(i => {
+      const reporter = i.reporter as PersonData | null;
+      const assignee = i.assignee as PersonData | null;
+      return {
+        id: i.id,
+        title: i.title,
+        description: i.description,
+        category: i.category,
+        priority: i.priority,
+        status: i.status,
+        reported_by: reporter ? `${reporter.first_name} ${reporter.last_name}` : 'Unknown',
+        assigned_to: assignee ? `${assignee.first_name} ${assignee.last_name}` : null,
+        department: i.department,
+        location: i.location,
+        created_at: i.created_at,
+        updated_at: i.updated_at,
+        escalation_level: i.escalation_level || 0,
+        resolution: i.resolution,
+      };
+    }) || [];
 
     return NextResponse.json({ issues });
   } catch (error) {
@@ -110,7 +115,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ issue: data }, { status: 201 });
@@ -142,7 +147,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'Issue ID required' }, { status: 400 });
     }
 
-    const updates: Record<string, any> = { updated_at: new Date().toISOString() };
+    const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
     if (status) updates.status = status;
     if (assigned_to) updates.assigned_to = assigned_to;
     if (resolution) updates.resolution = resolution;
@@ -156,7 +161,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ issue: data });

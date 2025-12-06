@@ -1,22 +1,6 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-function getSupabaseClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-}
-
-
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const platformSpecs = {
   instagram: {
@@ -41,7 +25,6 @@ const platformSpecs = {
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
 
@@ -61,25 +44,27 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ platform_specs: platformSpecs });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
     const body = await request.json();
     const { content, target_platforms } = body;
 
-    const optimizations: Record<string, any> = {};
+    const optimizations: Record<string, unknown> = {};
 
+    interface PlatformSpec { maxLength: number; imageRatio?: string }
+    interface OptimizedContent { platform: string; original_length: number; max_length: number; needs_truncation: boolean; recommended_ratio?: string; truncated_content?: string; characters_over?: number; optimized_content?: string }
     for (const platform of target_platforms) {
       const specs = platformSpecs[platform as keyof typeof platformSpecs];
       if (!specs) continue;
 
-      const postSpec = (specs as any).post || Object.values(specs)[0];
-      const optimized: any = {
+      const specValues = specs as Record<string, PlatformSpec>;
+      const postSpec = specValues.post || Object.values(specValues)[0];
+      const optimized: OptimizedContent = {
         platform,
         original_length: content.length,
         max_length: postSpec.maxLength,
@@ -122,7 +107,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ optimizations });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -32,11 +32,13 @@ export async function GET(request: NextRequest) {
     if (date) query = query.eq('date', date);
 
     const { data, error } = await query.order('department', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by department
-    const byDepartment: Record<string, any[]> = {};
-    data?.forEach(assignment => {
+    interface ManifestMember { name: string; role?: string; call_time?: string; phone?: string; email?: string; emergency_contact?: string; emergency_phone?: string }
+    interface CrewAssignment { department?: string; role?: string; call_time?: string; crew_member?: { first_name?: string; last_name?: string; role?: string; phone?: string; email?: string; emergency_contact?: string; emergency_phone?: string } }
+    const byDepartment: Record<string, ManifestMember[]> = {};
+    data?.forEach((assignment: CrewAssignment) => {
       const dept = assignment.department || 'General';
       if (!byDepartment[dept]) byDepartment[dept] = [];
       byDepartment[dept].push({
@@ -92,7 +94,7 @@ export async function POST(request: NextRequest) {
         data: assignments, generated_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ manifest_id: manifest.id }, { status: 201 });
     }
 

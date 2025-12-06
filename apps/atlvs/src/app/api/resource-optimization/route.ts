@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       .select(`*, project:projects(id, name), employee:employees(id, first_name, last_name)`)
       .gte('start_date', startDate);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const utilization = calculateUtilization(allocations || []);
     const recommendations = generateRecommendations(utilization);
@@ -46,14 +46,14 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ allocation: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create allocation' }, { status: 500 });
   }
 }
 
-function calculateUtilization(allocations: any[]) {
+function calculateUtilization(allocations: unknown[]) {
   const map = new Map();
   allocations.forEach(a => {
     const key = a.resource_id;
@@ -68,7 +68,7 @@ function calculateUtilization(allocations: any[]) {
   }));
 }
 
-function generateRecommendations(utilization: any[]) {
+function generateRecommendations(utilization: unknown[]) {
   return utilization
     .filter(u => u.status !== 'optimal')
     .map(u => ({

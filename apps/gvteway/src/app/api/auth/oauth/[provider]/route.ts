@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function POST(
   request: NextRequest,
@@ -50,7 +44,7 @@ export async function POST(
 
     if (error) {
       Logger.error('OAuth error:', error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 400 });
     }
 
     return NextResponse.json({ url: data.url });

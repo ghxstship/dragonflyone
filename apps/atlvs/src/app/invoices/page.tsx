@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Invoice {
   id: string;
@@ -212,6 +212,27 @@ export default function InvoicesPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Invoice, 'id'>>({
+    entityType: 'invoices',
+    requiredFields: ['invoice_number', 'client_name', 'total_amount'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/invoices', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchInvoices();
+      addNotification({ type: 'success', title: 'Import Complete', message: `${records.length} invoices imported` });
+    },
+  });
+
+  const importTemplates = getImportTemplates('invoices').length > 0 
+    ? getImportTemplates('invoices') 
+    : [{ id: 'default', name: 'Invoice Import', mapping: { invoice_number: 'invoice_number', client_name: 'client_name', total_amount: 'total_amount', due_date: 'due_date', status: 'status' } }];
+
   const totalInvoiced = invoices.reduce((sum, inv) => sum + inv.total_amount, 0);
   const totalOutstanding = invoices.reduce((sum, inv) => sum + inv.amount_due, 0);
   const overdueCount = invoices.filter(inv => inv.status === 'overdue').length;
@@ -262,6 +283,9 @@ export default function InvoicesPage() {
         createLabel="Create Invoice"
         onCreate={() => setCreateModalOpen(true)}
         entityType="invoices"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['invoice_number', 'client_name', 'total_amount', 'due_date', 'status']}
         onExport={createExportHandler({
           filename: "invoices",
           getData: () => (invoices || []).map(i => ({
@@ -278,12 +302,7 @@ export default function InvoicesPage() {
         stats={stats}
         emptyMessage="No invoices found"
         emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -307,8 +326,8 @@ export default function InvoicesPage() {
         onEdit={(inv) => router.push(`/invoices/${inv.id}/edit`)}
         onDelete={(inv) => { setInvoiceToDelete(inv); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'send', label: 'Send', icon: '📧' },
-          { id: 'payment', label: 'Payment', icon: '💰' },
+          { id: 'send', label: 'Send', icon: <Mail className="size-4" /> },
+          { id: 'payment', label: 'Payment', icon: <DollarSign className="size-4" /> },
         ]}
         onAction={(actionId, inv) => {
           if (actionId === 'send') handleSendInvoice(inv);

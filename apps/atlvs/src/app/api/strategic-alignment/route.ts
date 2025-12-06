@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'scores' && projectId) {
       // Get alignment scores for a project
-      const { data: scores, error } = await supabase
+      let scoresQuery = supabase
         .from('project_alignment_scores')
         .select(`
           *,
@@ -75,6 +75,12 @@ export async function GET(request: NextRequest) {
           scorer:platform_users(id, email, first_name, last_name)
         `)
         .eq('project_id', projectId);
+
+      if (objectiveId) {
+        scoresQuery = scoresQuery.eq('objective_id', objectiveId);
+      }
+
+      const { data: scores, error } = await scoresQuery;
 
       if (error) throw error;
 
@@ -241,9 +247,9 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ objectives });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Strategic alignment error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -321,7 +327,7 @@ export async function POST(request: NextRequest) {
       // Score multiple objectives for a project at once
       const { project_id, scores, scored_by } = body.data;
 
-      const scoreRecords = scores.map((s: any) => ({
+      const scoreRecords = scores.map((s: Record<string, unknown>) => ({
         project_id,
         strategic_objective_id: s.objective_id,
         alignment_score: s.alignment_score,
@@ -347,12 +353,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Strategic alignment error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -396,9 +402,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Strategic alignment error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -432,9 +438,9 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Strategic alignment error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

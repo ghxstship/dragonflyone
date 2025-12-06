@@ -13,7 +13,7 @@ export interface Document {
   uploaded_by: string;
   tags?: string[];
   status: 'active' | 'archived' | 'deleted';
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

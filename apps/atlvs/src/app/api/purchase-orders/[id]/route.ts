@@ -16,7 +16,7 @@ const updatePOSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const { id } = context.params;
 
@@ -48,7 +48,7 @@ export const GET = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const { id } = context.params;
     const body = await request.json();
@@ -94,7 +94,7 @@ export const PATCH = apiRoute(
         .select('*')
         .eq('purchase_order_id', id);
 
-      const totalAmount = items?.reduce((sum: number, item: any) => sum + (item.quantity * item.unit_price), 0) || 0;
+      const totalAmount = items?.reduce((sum: number, item: { quantity: number; unit_price: number }) => sum + (item.quantity * item.unit_price), 0) || 0;
 
       // Create accounts payable entry
       await supabaseAdmin.from('ledger_entries').insert({
@@ -119,7 +119,7 @@ export const PATCH = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabaseAdmin = createAdminClient();
     const { id } = context.params;
 

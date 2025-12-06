@@ -8,7 +8,6 @@ import {
   CardFooter,
   Button,
   Input,
-  Select,
   Field,
   Table,
   TableHeader,
@@ -27,7 +26,6 @@ import {
   ModalFooter,
   ButtonGroup,
   Minus,
-  Plus,
 } from '@ghxstship/ui';
 import { useCreateAdvance } from '@ghxstship/config';
 import { CatalogBrowser } from './catalog-browser';
@@ -145,8 +143,8 @@ export function AdvanceRequestForm({
           onSuccess(data.id);
         }
       },
-      onError: (err: any) => {
-        setError(err.message || 'Failed to create advance request');
+      onError: (err) => {
+        setError(err instanceof Error ? err.message : 'Failed to create advance request');
       },
     });
   };

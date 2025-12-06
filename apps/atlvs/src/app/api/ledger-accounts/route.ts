@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (!orgId) return NextResponse.json({ error: 'organization_id required' }, { status: 400 });
 
     const { data, error } = await supabase.from('ledger_accounts').select('*').eq('organization_id', orgId).order('code');
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ accounts: data });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.from('ledger_accounts').insert(payload).select().single();
     if (error) {
       if (error.code === '23505') return NextResponse.json({ error: 'Account code already exists' }, { status: 409 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ account: data }, { status: 201 });
   } catch (error) {

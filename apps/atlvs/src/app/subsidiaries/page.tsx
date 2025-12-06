@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Subsidiary {
   id: string;
@@ -93,6 +93,26 @@ export default function SubsidiariesPage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/subsidiaries/${r.id}/edit`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'subsidiaries',
+    requiredFields: ['name', 'legal_name', 'entity_type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/subsidiaries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchSubsidiaries();
+    },
+  });
+
+  const importTemplates = getImportTemplates('subsidiaries').length > 0 
+    ? getImportTemplates('subsidiaries') 
+    : [{ id: 'default', name: 'Subsidiary Import', mapping: { name: 'name', legal_name: 'legal_name', entity_type: 'entity_type', jurisdiction: 'jurisdiction', status: 'status' } }];
+
   const stats = [
     { label: 'Total Entities', value: subsidiaries.length },
     { label: 'Active', value: activeCount },
@@ -137,6 +157,9 @@ export default function SubsidiariesPage() {
         createLabel="Add Entity"
         onCreate={() => router.push('/subsidiaries/new')}
         entityType="subsidiaries"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'legal_name', 'entity_type', 'jurisdiction', 'status']}
         onExport={createExportHandler({
           filename: "subsidiaries",
           getData: () => subsidiaries.map(e => ({
@@ -152,11 +175,19 @@ export default function SubsidiariesPage() {
         stats={stats}
         emptyMessage="No subsidiaries found"
         emptyAction={{ label: 'Add Entity', onClick: () => router.push('/subsidiaries/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/subsidiaries/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchSubsidiaries();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

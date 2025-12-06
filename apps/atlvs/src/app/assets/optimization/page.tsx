@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Check, X } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
@@ -59,7 +58,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AssetOptimizationPage() {
-  const router = useRouter();
   const [data, setData] = useState<OptimizationRecommendation[]>(mockData);
   const [selected, setSelected] = useState<OptimizationRecommendation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -136,11 +134,20 @@ export default function AssetOptimizationPage() {
         })}
         stats={stats}
         emptyMessage="No recommendations found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(r => !ids.includes(r.id)));
+          } else if (action === 'implement') {
+            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'implemented' as const } : r));
+          } else if (action === 'dismiss') {
+            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'dismissed' as const } : r));
+          }
+        }}
+        bulkActions={[
+          { id: 'implement', label: 'Implement Selected', variant: 'default' },
+          { id: 'dismiss', label: 'Dismiss Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -152,7 +159,7 @@ export default function AssetOptimizationPage() {
           title={(r) => r.asset_name}
           subtitle={(r) => `${r.type.replace('_', ' ')} • ${r.priority} priority • ${formatCurrency(r.potential_savings)} savings`}
           sections={detailSections}
-          actions={[{ id: 'implement', label: 'Implement', icon: '✅' }, { id: 'dismiss', label: 'Dismiss', icon: '❌' }]}
+          actions={[{ id: 'implement', label: 'Implement', icon: <Check className="size-4" /> }, { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" /> }]}
           onAction={(id, r) => {
             if (id === 'implement') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec));
             if (id === 'dismiss') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec));

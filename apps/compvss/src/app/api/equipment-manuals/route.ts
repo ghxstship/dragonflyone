@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (search) query = query.or(`title.ilike.%${search}%,manufacturer.ilike.%${search}%`);
 
     const { data, error } = await query.order('title', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ manuals: data });
   } catch (error) {
@@ -45,11 +45,11 @@ export async function POST(request: NextRequest) {
       equipment_id, title, manufacturer, model, category, pdf_url, quick_start_url
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (videos?.length) {
       await supabase.from('manual_videos').insert(
-        videos.map((v: any) => ({ manual_id: data.id, title: v.title, url: v.url, duration_seconds: v.duration }))
+        videos.map((v: Record<string, unknown>) => ({ manual_id: data.id, title: v.title, url: v.url, duration_seconds: v.duration }))
       );
     }
 

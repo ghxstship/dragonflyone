@@ -22,11 +22,13 @@ export async function GET(request: NextRequest) {
     if (location) query = query.ilike('service_area', `%${location}%`);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    const withRatings = data?.map(v => ({
+    interface RatingEntry { rating: number }
+    interface VendorData { ratings?: RatingEntry[] }
+    const withRatings = data?.map((v: VendorData) => ({
       ...v,
-      avg_rating: v.ratings?.length ? v.ratings.reduce((s: number, r: any) => s + r.rating, 0) / v.ratings.length : null
+      avg_rating: v.ratings?.length ? v.ratings.reduce((s: number, r: RatingEntry) => s + r.rating, 0) / v.ratings.length : null
     }));
 
     return NextResponse.json({ vendors: withRatings });
@@ -49,7 +51,7 @@ export async function POST(request: NextRequest) {
       contact_name, phone, email, dietary_options: dietary_options || []
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ vendor: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

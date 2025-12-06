@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const deliverySchema = z.object({
   ticket_id: z.string().uuid(),
@@ -41,8 +35,8 @@ export async function GET(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ deliveries });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -89,14 +83,14 @@ export async function POST(request: NextRequest) {
         .select('id, owner:platform_users(email, phone)')
         .in('id', ticket_ids);
 
-      const deliveries = tickets?.map((t: any) => ({
+      const deliveries = tickets?.map((t: Record<string, unknown>) => ({
         ticket_id: t.id,
         delivery_method,
         recipient: delivery_method === 'email' ? t.owner?.email : t.owner?.phone,
         status: 'sent',
         sent_at: new Date().toISOString(),
         created_at: new Date().toISOString(),
-      })).filter((d: any) => d.recipient);
+      })).filter((d: Record<string, unknown>) => d.recipient);
 
       if (deliveries?.length) {
         const { data, error } = await supabase
@@ -112,11 +106,11 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -138,7 +132,7 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ delivery });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -13,7 +13,8 @@ export default function GvtewayIntegrationsPage() {
   const [ticketsSold, setTicketsSold] = useState('');
   const [revenue, setRevenue] = useState('');
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  interface SyncResult { success: boolean; message?: string; data?: Record<string, unknown> }
+  const [result, setResult] = useState<SyncResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleRevenueSync = async () => {

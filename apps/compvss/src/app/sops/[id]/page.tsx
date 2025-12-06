@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Pencil, Plus, Trash2, CheckCircle, AlertTriangle, Play, GripVertical } from 'lucide-react';
+import { ArrowLeft, Pencil, Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
-import { useSOP, useCreateSOPStep, useUpdateSOPStep, useDeleteSOPStep, useAcknowledgeSOP } from '../../../hooks/useSOPs';
+import { useSOP, useCreateSOPStep, useUpdateSOPStep, useDeleteSOPStep, useAcknowledgeSOP, type SOPStep } from '../../../hooks/useSOPs';
+import { useAuth } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -36,6 +37,7 @@ export default function SOPDetailPage() {
   const router = useRouter();
   const params = useParams();
   const sopId = params.id as string;
+  const { user } = useAuth();
   
   const { data: sop, isLoading, refetch } = useSOP(sopId);
   const createStepMutation = useCreateSOPStep();
@@ -44,21 +46,27 @@ export default function SOPDetailPage() {
   const acknowledgeMutation = useAcknowledgeSOP();
   
   const [stepModalOpen, setStepModalOpen] = useState(false);
-  const [editingStep, setEditingStep] = useState<any>(null);
+  const [editingStep, setEditingStep] = useState<SOPStep | null>(null);
   const [deleteStepId, setDeleteStepId] = useState<string | null>(null);
 
-  const statusColors: Record<string, 'success' | 'warning' | 'error' | 'default'> = {
+  const statusColors: Record<string, 'success' | 'warning' | 'error' | 'ghost'> = {
     approved: 'success',
     review: 'warning',
-    draft: 'default',
+    draft: 'ghost',
     archived: 'error',
   };
 
   const handleCreateStep = async (data: Record<string, unknown>) => {
     await createStepMutation.mutateAsync({
       sop_id: sopId,
-      ...data,
-    } as any);
+      step_number: data.step_number as number,
+      title: data.title as string,
+      description: data.description as string,
+      notes: data.notes as string | undefined,
+      warning: data.warning as string | undefined,
+      duration_minutes: data.duration_minutes as number | undefined,
+      is_critical: data.is_critical as boolean,
+    });
     setStepModalOpen(false);
     refetch();
   };
@@ -68,8 +76,14 @@ export default function SOPDetailPage() {
       await updateStepMutation.mutateAsync({
         id: editingStep.id,
         sopId,
-        ...data,
-      } as any);
+        step_number: data.step_number as number,
+        title: data.title as string,
+        description: data.description as string,
+        notes: data.notes as string | undefined,
+        warning: data.warning as string | undefined,
+        duration_minutes: data.duration_minutes as number | undefined,
+        is_critical: data.is_critical as boolean,
+      });
       setEditingStep(null);
       refetch();
     }
@@ -133,7 +147,7 @@ export default function SOPDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{sop.title}</H2>
-                    <Badge variant={statusColors[sop.status] || 'default'}>
+                    <Badge variant={statusColors[sop.status] || 'ghost'}>
                       {sop.status.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -180,7 +194,7 @@ export default function SOPDetailPage() {
 
                     {sop.steps && sop.steps.length > 0 ? (
                       <Stack gap={4}>
-                        {sop.steps.map((step, index) => (
+                        {sop.steps.map((step) => (
                           <Card
                             key={step.id}
                             className={`border-2 p-4 ${step.is_critical ? 'border-error bg-error/5' : 'border-grey-200'}`}
@@ -281,13 +295,13 @@ export default function SOPDetailPage() {
                     <Stack gap={3}>
                       <Stack direction="horizontal" gap={2} className="items-center justify-between">
                         <Body>Acknowledgment</Body>
-                        <Badge variant={sop.requires_acknowledgment ? 'warning' : 'default'}>
+                        <Badge variant={sop.requires_acknowledgment ? 'warning' : 'ghost'}>
                           {sop.requires_acknowledgment ? 'Required' : 'Not Required'}
                         </Badge>
                       </Stack>
                       <Stack direction="horizontal" gap={2} className="items-center justify-between">
                         <Body>Training</Body>
-                        <Badge variant={sop.requires_training ? 'warning' : 'default'}>
+                        <Badge variant={sop.requires_training ? 'warning' : 'ghost'}>
                           {sop.requires_training ? 'Required' : 'Not Required'}
                         </Badge>
                       </Stack>
@@ -325,7 +339,7 @@ export default function SOPDetailPage() {
         fields={stepFormFields}
         onSubmit={handleCreateStep}
         size="lg"
-        defaultValues={{ step_number: (sop.steps?.length || 0) + 1, is_critical: false }}
+        record={{ step_number: (sop.steps?.length || 0) + 1, is_critical: false }}
       />
 
       {/* Edit Step Modal */}
@@ -337,7 +351,7 @@ export default function SOPDetailPage() {
         fields={stepFormFields}
         onSubmit={handleUpdateStep}
         size="lg"
-        defaultValues={editingStep || {}}
+        record={editingStep ? { ...editingStep } : {}}
       />
 
       {/* Delete Confirmation */}

@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (search) query = query.or(`name.ilike.%${search}%,model.ilike.%${search}%`);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ spec_sheets: data });
   } catch (error) {
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       name, manufacturer, model, category, specifications: specifications || {}, pdf_url, cad_url
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ spec_sheet: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

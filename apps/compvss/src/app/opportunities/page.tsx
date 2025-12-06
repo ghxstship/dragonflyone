@@ -24,20 +24,35 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-import { Search, Briefcase, DollarSign, MapPin, Clock, FileText } from 'lucide-react';
+import { Search, Briefcase, DollarSign, MapPin, Clock} from 'lucide-react';
+
+interface Opportunity {
+  id: string;
+  title: string;
+  company?: string;
+  location?: string;
+  budget?: string;
+  salary?: string;
+  rate?: string;
+  deadline?: string;
+  posted?: string;
+  duration?: string;
+  description?: string;
+  type?: string;
+}
 
 export default function OpportunitiesPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'rfps' | 'jobs' | 'gigs'>('rfps');
   const [showApplyModal, setShowApplyModal] = useState(false);
-  const [selectedOpportunity, setSelectedOpportunity] = useState<any>(null);
+  const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
   const [applicationData, setApplicationData] = useState({ name: '', email: '', message: '' });
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('All Locations');
 
-  const handleApply = (opportunity: any, type: string) => {
+  const handleApply = (opportunity: Opportunity, type: string) => {
     setSelectedOpportunity({ ...opportunity, type });
     setShowApplyModal(true);
   };
@@ -119,8 +134,8 @@ export default function OpportunitiesPage() {
       <EnterprisePageHeader
         title="Opportunities"
         subtitle="RFPs, careers, and gig board"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Post Opportunity', onClick: () => router.push('/opportunities/new') }}
         showFavorite
         showSettings
@@ -150,13 +165,18 @@ export default function OpportunitiesPage() {
             <Stack gap={4} direction="horizontal">
               <Stack className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 size-5 -translate-y-1/2" />
-                <Input placeholder="Search opportunities..." className="w-full pl-10" />
+                <Input 
+                  placeholder="Search opportunities..." 
+                  className="w-full pl-10" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
               </Stack>
-              <Select>
-                <option>All Locations</option>
-                <option>Miami, FL</option>
-                <option>New York, NY</option>
-                <option>Los Angeles, CA</option>
+              <Select value={locationFilter} onChange={(e) => setLocationFilter(e.target.value)}>
+                <option value="All Locations">All Locations</option>
+                <option value="Miami, FL">Miami, FL</option>
+                <option value="New York, NY">New York, NY</option>
+                <option value="Los Angeles, CA">Los Angeles, CA</option>
               </Select>
               <Select>
                 <option>All Categories</option>

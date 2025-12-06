@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,6 +38,10 @@ export async function GET(request: NextRequest) {
     const securityCode = generateSecurityCode(ticket.id, ticket.qr_code);
     const watermark = generateWatermark(ticket.id);
 
+    interface PrintEventInfo { name?: string; start_date?: string; venue?: { name?: string; address?: string; city?: string; state?: string } }
+    interface PrintOwnerInfo { first_name?: string; last_name?: string }
+    const eventInfo = ticket.event as PrintEventInfo | null;
+    const ownerInfo = ticket.owner as PrintOwnerInfo | null;
     const printableTicket = {
       ticket_id: ticket.id,
       ticket_type: ticket.ticket_type,
@@ -56,13 +54,13 @@ export async function GET(request: NextRequest) {
       security_code: securityCode,
       watermark,
       event: {
-        name: (ticket.event as any)?.name,
-        date: (ticket.event as any)?.start_date,
-        venue: (ticket.event as any)?.venue?.name,
-        address: `${(ticket.event as any)?.venue?.address}, ${(ticket.event as any)?.venue?.city}, ${(ticket.event as any)?.venue?.state}`,
+        name: eventInfo?.name,
+        date: eventInfo?.start_date,
+        venue: eventInfo?.venue?.name,
+        address: `${eventInfo?.venue?.address}, ${eventInfo?.venue?.city}, ${eventInfo?.venue?.state}`,
       },
       attendee: {
-        name: `${(ticket.owner as any)?.first_name} ${(ticket.owner as any)?.last_name}`,
+        name: `${ownerInfo?.first_name} ${ownerInfo?.last_name}`,
       },
       print_instructions: [
         'Print on standard letter-size paper',
@@ -82,8 +80,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ printable_ticket: printableTicket });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -108,7 +106,12 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) throw error;
-      return NextResponse.json({ logged: true, print_count: 1 });
+      return NextResponse.json({ 
+        logged: true, 
+        print_count: 1,
+        log_id: log?.id,
+        printed_at: log?.printed_at,
+      });
     }
 
     if (action === 'verify_print') {
@@ -129,8 +132,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -149,7 +152,23 @@ function generateWatermark(ticketId: string): string {
   return `VALID-${ticketId.substring(0, 8).toUpperCase()}`;
 }
 
-function generatePrintableHTML(ticket: any): string {
+interface PrintableTicket { 
+  ticket_id: string;
+  event: { name?: string; date?: string; venue?: string; address?: string }; 
+  watermark: string; 
+  ticket_type: string; 
+  section?: string; 
+  row?: string; 
+  seat?: string; 
+  price?: number;
+  attendee: { name: string }; 
+  qr_code: string; 
+  barcode?: string;
+  security_code: string;
+  print_instructions: string[];
+  terms: string;
+}
+function generatePrintableHTML(ticket: PrintableTicket): string {
   return `
 <!DOCTYPE html>
 <html>

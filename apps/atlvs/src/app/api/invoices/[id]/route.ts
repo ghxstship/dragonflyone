@@ -80,7 +80,8 @@ export async function PUT(
       );
     }
 
-    const { user_id, line_items, ...updates } = body;
+    // Exclude user_id from updates (already extracted as userId)
+    const { user_id: _userId, line_items, ...updates } = body;
 
     const { data: updatedInvoice, error: updateError } = await supabase
       .from('invoices')
@@ -96,11 +97,29 @@ export async function PUT(
       );
     }
 
+    // Update line items if provided
+    if (line_items && Array.isArray(line_items)) {
+      // Delete existing line items and insert new ones
+      await supabase.from('invoice_line_items').delete().eq('invoice_id', id);
+      
+      if (line_items.length > 0) {
+        await supabase.from('invoice_line_items').insert(
+          line_items.map((item: { description: string; quantity: number; unit_price: number; amount: number }) => ({
+            invoice_id: id,
+            description: item.description,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            amount: item.amount,
+          }))
+        );
+      }
+    }
+
     await supabase.from('invoice_activity_log').insert({
       invoice_id: id,
       activity_type: 'updated',
       user_id: userId,
-      description: 'Invoice updated',
+      description: line_items ? 'Invoice and line items updated' : 'Invoice updated',
     });
 
     return NextResponse.json(updatedInvoice);

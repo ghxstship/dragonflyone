@@ -19,8 +19,9 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   approved: 'success',
   submitted: 'warning',
   pending: 'info',
@@ -61,7 +62,7 @@ const columns: ListPageColumn<Permit>[] = [
     key: 'permit_number', 
     label: 'Permit #', 
     accessor: 'permit_number', 
-    render: (value) => value || '—'
+    render: (value) => String(value) || '—'
   },
   { 
     key: 'expiration_date', 
@@ -91,7 +92,7 @@ const columns: ListPageColumn<Permit>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -169,8 +170,12 @@ export default function PermitsPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/permits', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -194,7 +199,7 @@ export default function PermitsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedPermit.status] || 'default'}>
+            <Badge variant={statusColors[selectedPermit.status] || 'ghost'}>
               {selectedPermit.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -244,12 +249,42 @@ export default function PermitsPage() {
         onRowClick={(row) => router.push(`/permits/${row.id}`)}
         createLabel="New Permit"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="permits"
+        onExport={createExportHandler({
+          filename: 'permits',
+          getData: () => (permits || []).map(p => ({
+            id: p.id,
+            type: p.permit_type,
+            status: p.status,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No permits yet"
         emptyAction={{ label: 'Add First Permit', onClick: () => setCreateModalOpen(true) }}
         quickActions={[
           { id: 'insurance', label: 'Insurance', icon: <FileText className="size-4" />, onClick: () => router.push('/insurance') },
           { id: 'compliance', label: 'Compliance', icon: <CheckCircle className="size-4" />, onClick: () => router.push('/compliance') },
+        ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/permits/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'renew') {
+            await fetch('/api/permits/bulk-renew', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'renew', label: 'Renew Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
       />
 
@@ -261,7 +296,7 @@ export default function PermitsPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'pending', permit_type: 'event' }}
+        record={{ status: 'pending', permit_type: 'event' }}
       />
 
       <DetailDrawer

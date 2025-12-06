@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ workflows: data });
   } catch (error) {
@@ -50,14 +50,14 @@ export async function POST(request: NextRequest) {
         user_id, position, start_date, template_id, status: 'pending', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Create default tasks from template
       const { data: template } = await supabase.from('onboarding_templates').select('tasks').eq('id', template_id).single();
 
       if (template?.tasks) {
         await supabase.from('onboarding_tasks').insert(
-          template.tasks.map((t: any) => ({
+          template.tasks.map((t: Record<string, unknown>) => ({
             workflow_id: data.id, title: t.title, category: t.category,
             required: t.required, due_days: t.due_days
           }))
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         workflow_id, name, document_type, file_url, status: 'pending_review', uploaded_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ document: data }, { status: 201 });
     }
 

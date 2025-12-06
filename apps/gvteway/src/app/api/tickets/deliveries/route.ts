@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -48,16 +42,18 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
+    interface DeliveryOrderData { events?: { title?: string; date?: string } }
     const deliveries = data?.map(d => {
       const steps = getDeliverySteps(d.delivery_method, d.delivery_status);
+      const orderData = d.orders as DeliveryOrderData | null;
       return {
         id: d.id,
         order_id: d.order_id,
-        event_title: (d.orders as any)?.events?.title,
-        event_date: (d.orders as any)?.events?.date,
+        event_title: orderData?.events?.title,
+        event_date: orderData?.events?.date,
         delivery_method: d.delivery_method,
         delivery_status: d.delivery_status,
         tracking_number: d.tracking_number,
@@ -85,7 +81,7 @@ function getDeliverySteps(method: string, status: string) {
     { title: 'Processing', description: 'Preparing your tickets' },
   ];
 
-  let deliverySteps: any[] = [];
+  let deliverySteps: unknown[] = [];
 
   switch (method) {
     case 'email':
@@ -131,11 +127,17 @@ function getDeliverySteps(method: string, status: string) {
 }
 
 function getStatusIndex(status: string, method: string): number {
-  const statusMap: Record<string, number> = {
+  // Different delivery methods have different status flows
+  const digitalStatusMap: Record<string, number> = {
     processing: 1,
     sent: 2,
     delivered: 3,
-    ready: 2,
   };
+  const willCallStatusMap: Record<string, number> = {
+    processing: 1,
+    ready: 2,
+    picked_up: 3,
+  };
+  const statusMap = method === 'will_call' ? willCallStatusMap : digitalStatusMap;
   return statusMap[status] || 0;
 }

@@ -21,7 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Artist {
   id: string;
@@ -121,6 +121,34 @@ export default function ArtistsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'artists',
+    requiredFields: ['name', 'genre', 'type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newArtist: Artist = {
+          id: `ART-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          name: String(record.name || ''),
+          genre: String(record.genre || ''),
+          type: record.type as Artist['type'],
+          manager: record.manager ? String(record.manager) : undefined,
+          managerEmail: record.managerEmail ? String(record.managerEmail) : undefined,
+          technicalRider: Boolean(record.technicalRider),
+          hospitalityRider: Boolean(record.hospitalityRider),
+          inputList: Boolean(record.inputList),
+          stageplot: Boolean(record.stageplot),
+          upcomingShows: Number(record.upcomingShows) || 0,
+        };
+        setArtists(prev => [...prev, newArtist]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('artists').length > 0 
+    ? getImportTemplates('artists') 
+    : [{ id: 'default', name: 'Artist Import', mapping: { name: 'name', genre: 'genre', type: 'type', manager: 'manager', managerEmail: 'managerEmail' } }];
+
   const stats = [
     { label: 'Total Artists', value: artists.length },
     { label: 'With Tech Riders', value: withRiders },
@@ -156,12 +184,7 @@ export default function ArtistsPage() {
       <EnterprisePageHeader
         title="Artist Management"
         subtitle="Manage artists, riders, and performance requirements"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -180,6 +203,9 @@ export default function ArtistsPage() {
           createLabel="Add Artist"
           onCreate={() => setCreateModalOpen(true)}
           entityType="artists"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['name', 'genre', 'type', 'manager', 'managerEmail']}
           onExport={createExportHandler({
             filename: "artists",
             getData: () => artists.map(a => ({
@@ -198,6 +224,25 @@ export default function ArtistsPage() {
           stats={stats}
           emptyMessage="No artists found"
           emptyAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/artists/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            } else if (action === 'archive') {
+              await fetch('/api/artists/bulk-archive', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            }
+          }}
+          bulkActions={[
+            { id: 'archive', label: 'Archive Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
 

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,7 +45,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const collections = data?.map(collection => ({
@@ -60,7 +54,7 @@ export async function GET(request: NextRequest) {
       description: collection.description,
       image: collection.image,
       featured: collection.featured,
-      events: collection.collection_events?.map((ce: any) => ce.events).filter(Boolean) || [],
+      events: collection.collection_events?.map((ce: Record<string, unknown>) => ce.events).filter(Boolean) || [],
     })) || [];
 
     return NextResponse.json({ collections });

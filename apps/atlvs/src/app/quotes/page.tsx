@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Quote {
   id: string;
@@ -88,6 +88,26 @@ export default function QuotesPage() {
     { id: 'send', label: 'Send', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch('/api/quotes', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quote_id: r.id, action: 'send' }) }); fetchQuotes(); } },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Quote, 'id'>>({
+    entityType: 'quotes',
+    requiredFields: ['quote_number', 'client_name', 'total_amount'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/quotes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchQuotes();
+    },
+  });
+
+  const importTemplates = getImportTemplates('quotes').length > 0 
+    ? getImportTemplates('quotes') 
+    : [{ id: 'default', name: 'Quote Import', mapping: { quote_number: 'quote_number', client_name: 'client_name', total_amount: 'total_amount', status: 'status', valid_until: 'valid_until' } }];
+
   const stats = [
     { label: 'Total Quotes', value: quotes.length },
     { label: 'Accepted', value: acceptedCount },
@@ -128,6 +148,9 @@ export default function QuotesPage() {
         createLabel="Create Quote"
         onCreate={() => router.push('/quotes/new')}
         entityType="quotes"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['quote_number', 'client_name', 'total_amount', 'status', 'valid_until']}
         onExport={createExportHandler({
           filename: "quotes",
           getData: () => quotes.map(q => ({
@@ -143,11 +166,27 @@ export default function QuotesPage() {
         stats={stats}
         emptyMessage="No quotes found"
         emptyAction={{ label: 'Create Quote', onClick: () => router.push('/quotes/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/quotes/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchQuotes();
+          } else if (action === 'send') {
+            await fetch('/api/quotes/bulk-send', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchQuotes();
+          }
+        }}
+        bulkActions={[
+          { id: 'send', label: 'Send Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

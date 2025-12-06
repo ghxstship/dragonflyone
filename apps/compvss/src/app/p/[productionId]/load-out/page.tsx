@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -46,8 +46,27 @@ const LOAD_OUT_TASKS: LoadOutTask[] = [
 
 export default function ProductionLoadOutPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [tasks, setTasks] = useState(LOAD_OUT_TASKS);
+  const productionId = params?.productionId as string;
+  const [tasks, setTasks] = useState<LoadOutTask[]>(LOAD_OUT_TASKS);
+
+  const fetchTasks = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/load-out`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.tasks && data.tasks.length > 0) {
+          setTasks(data.tasks);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch load-out tasks:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const completedCount = tasks.filter(t => t.status === 'completed').length;
   const inProgressCount = tasks.filter(t => t.status === 'in-progress').length;

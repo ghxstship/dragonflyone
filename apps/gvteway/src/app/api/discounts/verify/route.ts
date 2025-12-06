@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // POST - Verify student/military/senior discount eligibility
 export async function POST(request: NextRequest) {
@@ -64,6 +58,7 @@ export async function POST(request: NextRequest) {
       .insert({
         user_id: user.id,
         discount_type,
+        event_id: event_id || null,
         verification_method: verification_data.method, // 'sheerid', 'id.me', 'manual'
         verification_id: verification_data.verification_id,
         status: 'pending',
@@ -73,7 +68,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // For demo purposes, auto-verify (in production, integrate with SheerID or ID.me)
@@ -143,7 +138,7 @@ export async function GET(request: NextRequest) {
       .gte('expires_at', new Date().toISOString());
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     const discounts = verifications.map(v => ({

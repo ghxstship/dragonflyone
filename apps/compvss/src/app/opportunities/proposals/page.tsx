@@ -63,14 +63,14 @@ export default function ProposalsPage() {
   const wonValue = mockProposals.filter(p => p.status === "Won").reduce((s, p) => s + p.value, 0);
   const pendingCount = mockProposals.filter(p => ["Draft", "In Review", "Submitted"].includes(p.status)).length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' | 'error' => {
     switch (status) {
-      case "Won": return "text-success-400";
-      case "Submitted": return "text-info-400";
-      case "In Review": return "text-warning-400";
-      case "Draft": return "text-ink-400";
-      case "Lost": return "text-error-400";
-      default: return "text-ink-400";
+      case "Won": return "success";
+      case "Submitted": return "info";
+      case "In Review": return "warning";
+      case "Draft": return "ghost";
+      case "Lost": return "error";
+      default: return "ghost";
     }
   };
 
@@ -83,8 +83,8 @@ export default function ProposalsPage() {
       <EnterprisePageHeader
         title="Proposals"
         subtitle="Collaborative proposal creation with version control"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -137,7 +137,7 @@ export default function ProposalsPage() {
                     <TableCell><Body className="font-display">{formatCurrency(proposal.value)}</Body></TableCell>
                     <TableCell><Body className="text-body-sm">{proposal.dueDate}</Body></TableCell>
                     <TableCell><Badge variant="outline">v{proposal.version}</Badge></TableCell>
-                    <TableCell><Badge variant={proposal.status === "Won" ? "solid" : "outline"}>{proposal.status}</Badge></TableCell>
+                    <TableCell><Badge variant={getStatusVariant(proposal.status)}>{proposal.status}</Badge></TableCell>
                     <TableCell>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="ghost" size="sm" onClick={() => setSelectedProposal(proposal)}>View</Button>
@@ -165,7 +165,7 @@ export default function ProposalsPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">v{selectedProposal.version}</Badge>
-                <Badge variant={selectedProposal.status === "Won" ? "solid" : "outline"}>{selectedProposal.status}</Badge>
+                <Badge variant={getStatusVariant(selectedProposal.status)}>{selectedProposal.status}</Badge>
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>

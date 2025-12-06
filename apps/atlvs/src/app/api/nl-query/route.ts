@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
 
     // Execute the query (in production, this would be more secure)
     // For now, we'll simulate results based on the query type
-    let results: any[] = [];
+    let results: unknown[] = [];
     let rowCount = 0;
 
     try {
@@ -269,7 +269,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', queryId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -279,7 +279,7 @@ export async function PATCH(request: NextRequest) {
 }
 
 // Helper function to generate mock results
-function generateMockResults(description: string): any[] {
+function generateMockResults(description: string): unknown[] {
   if (description.includes('revenue')) {
     return [{ total_revenue: 1250000 }];
   } else if (description.includes('clients')) {

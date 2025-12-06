@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: orgData } = await (supabase as any)
+    const { data: orgData } = await supabase
       .from('user_organizations')
       .select('organization_id')
       .eq('user_id', user.id)
@@ -113,8 +113,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Call the database function to record the KPI
-    const { data, error } = await (supabase as any).rpc('record_kpi_data_point', {
-      p_organization_id: (orgData as any).organization_id,
+    interface OrgRecord { organization_id: string }
+    const orgRecord = orgData as OrgRecord;
+    const { data, error } = await supabase.rpc('record_kpi_data_point', {
+      p_organization_id: orgRecord.organization_id,
       p_kpi_code: kpi_code,
       p_kpi_name: kpi_name,
       p_value: value,

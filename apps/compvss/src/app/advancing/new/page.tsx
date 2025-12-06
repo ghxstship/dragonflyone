@@ -19,8 +19,8 @@ export default function NewAdvanceRequestPage() {
       <EnterprisePageHeader
         title="Create Advance Request"
         subtitle="Request production items and services for your event"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

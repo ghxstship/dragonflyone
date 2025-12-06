@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     `).eq('project_id', projectId).single();
 
     if (error && error.code !== 'PGRST116') {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ inspection: data });
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         project_id, status: 'in_progress', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (areas?.length) {
         await supabase.from('inspection_items').insert(

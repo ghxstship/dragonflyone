@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (crewId) query = query.eq('crew_id', crewId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate aggregate scores
     const aggregates = new Map();
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       crew_id: id,
       average_score: Math.round((data.total / data.ratings.length) * 10) / 10,
       total_reviews: data.ratings.length,
-      would_rehire_percent: Math.round((data.ratings.filter((r: any) => r.would_rehire).length / data.ratings.length) * 100)
+      would_rehire_percent: Math.round((data.ratings.filter((r: Record<string, unknown>) => r.would_rehire).length / data.ratings.length) * 100)
     }));
 
     return NextResponse.json({ ratings: data, crew_scores: crewScores });
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       notes, rated_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Update crew's average rating
     const { data: allRatings } = await supabase.from('crew_ratings').select('overall_score').eq('crew_id', crew_id);

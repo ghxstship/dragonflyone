@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const eventId = searchParams.get('event_id');
 
     const { data, error } = await supabase.from('show_timings').select('*').eq('event_id', eventId);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ timings: data });
   } catch (error) {

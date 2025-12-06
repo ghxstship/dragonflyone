@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -13,6 +13,7 @@ import {
   Grid,
   Body,
   H3,
+  Spinner,
   Input,
 } from '@ghxstship/ui';
 import {
@@ -47,9 +48,32 @@ const MOCK_VENDORS: Vendor[] = [
 
 export default function ProductionVendorsPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [vendors] = useState(MOCK_VENDORS);
+  const productionId = params?.productionId as string;
+  const [vendors, setVendors] = useState<Vendor[]>(MOCK_VENDORS);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchVendors = useCallback(async () => {
+    if (!productionId) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/productions/${productionId}/vendors`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.vendors && data.vendors.length > 0) {
+          setVendors(data.vendors);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch vendors:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchVendors();
+  }, [fetchVendors]);
 
   const totalContractValue = vendors.reduce((sum, v) => sum + v.contractValue, 0);
   const activeVendors = vendors.filter(v => v.status === 'active').length;
@@ -84,6 +108,11 @@ export default function ProductionVendorsPage() {
                   <Button variant="outline"><Search size={16} /></Button>
                 </Stack>
               </Stack>
+              {loading ? (
+                <Stack className="items-center py-12">
+                  <Spinner variant="grey" size="lg" />
+                </Stack>
+              ) : (
               <Grid cols={2} gap={4}>
                 {filteredVendors.map(vendor => (
                   <Card key={vendor.id} variant="elevated" inverted>
@@ -112,6 +141,7 @@ export default function ProductionVendorsPage() {
                   </Card>
                 ))}
               </Grid>
+              )}
             </Stack>
           </CardBody>
         </Card>

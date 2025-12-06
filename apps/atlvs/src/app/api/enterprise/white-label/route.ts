@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ config }, { status: action === 'create' ? 201 : 200 });
@@ -240,7 +240,11 @@ export async function POST(request: NextRequest) {
         })
         .eq('organization_id', organization_id);
 
-      return NextResponse.json({ url: logoUrl });
+      return NextResponse.json({ 
+        url: logoUrl,
+        received_bytes: logo_data?.length || 0,
+        logo_type,
+      });
     } else if (action === 'save_email_template') {
       const { organization_id, template_type, subject, html_content, text_content } = body;
 
@@ -258,7 +262,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ template });
@@ -277,10 +281,11 @@ export async function POST(request: NextRequest) {
         .eq('organization_id', organization_id);
 
       return NextResponse.json({
+        domain,
         verification_token: verificationToken,
         instructions: {
           type: 'TXT',
-          name: '_ghxstship-verification',
+          name: `_ghxstship-verification.${domain}`,
           value: verificationToken,
         },
       });
@@ -377,7 +382,7 @@ export async function DELETE(request: NextRequest) {
       .eq('organization_id', organizationId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

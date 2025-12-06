@@ -61,8 +61,8 @@ export default function TroubleshootingPage() {
       <EnterprisePageHeader
         title="Troubleshooting Guides"
         subtitle="Decision trees and step-by-step problem resolution"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

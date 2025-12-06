@@ -3,6 +3,13 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+interface ReceiptItem {
+  name: string;
+  quantity: number;
+  unit_price: number;
+  total: number;
+}
+
 function getSupabaseClient() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -11,12 +18,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
     const receipt = {
       receipt_number: `RCP-${Date.now().toString(36).toUpperCase()}`,
       date: transaction.created_at,
-      items: transaction.items?.map((item: any) => ({
+      items: transaction.items?.map((item: Record<string, unknown>) => ({
         name: item.product_name || item.product?.name,
         quantity: item.quantity,
         unit_price: item.unit_price,
@@ -75,7 +76,7 @@ export async function GET(request: NextRequest) {
       text += `Date: ${new Date(receipt.date).toLocaleString()}\n`;
       text += '--------------------------------\n';
 
-      receipt.items?.forEach((item: any) => {
+      receipt.items?.forEach((item: ReceiptItem) => {
         text += `${item.name}\n`;
         text += `  ${item.quantity} x $${item.unit_price.toFixed(2)} = $${item.total.toFixed(2)}\n`;
       });
@@ -97,8 +98,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ receipt });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -128,7 +129,7 @@ export async function POST(request: NextRequest) {
       delivery,
       message: `Receipt sent via ${delivery_method}`,
     }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

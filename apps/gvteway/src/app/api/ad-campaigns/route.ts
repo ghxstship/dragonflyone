@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const campaignSchema = z.object({
   event_id: z.string().uuid().optional(),
@@ -92,8 +86,10 @@ export async function GET(request: NextRequest) {
 
       const { data: campaigns } = await query;
 
+      interface MetricTotals { impressions: number; clicks: number; conversions: number; revenue: number }
+      interface Metric { impressions?: number; clicks?: number; conversions?: number; revenue?: number }
       const performance = campaigns?.map(c => {
-        const totals = c.metrics?.reduce((acc: any, m: any) => ({
+        const totals = c.metrics?.reduce((acc: MetricTotals, m: Metric) => ({
           impressions: acc.impressions + (m.impressions || 0),
           clicks: acc.clicks + (m.clicks || 0),
           conversions: acc.conversions + (m.conversions || 0),
@@ -122,8 +118,8 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ campaigns });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -187,11 +183,11 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -246,7 +242,7 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ campaign: data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

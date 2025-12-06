@@ -15,8 +15,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 
 interface Transaction {
@@ -68,11 +67,12 @@ export default function FinancePage() {
 
       if (fetchError) throw fetchError;
 
-      const formatted = ledger?.map((entry: any) => ({
+      interface LedgerEntry { id: string; side: string; memo?: string; ledger_accounts?: { name?: string }; amount: string | number; entry_date: string }
+      const formatted = ledger?.map((entry: LedgerEntry) => ({
         id: entry.id.substring(0, 8).toUpperCase(),
         type: entry.side === 'credit' ? 'Invoice' : 'Expense',
         entity: entry.memo || entry.ledger_accounts?.name || 'N/A',
-        amount: entry.side === 'credit' ? parseFloat(entry.amount) : -parseFloat(entry.amount),
+        amount: entry.side === 'credit' ? parseFloat(String(entry.amount)) : -parseFloat(String(entry.amount)),
         status: entry.side === 'credit' ? 'Paid' : 'Approved',
         date: entry.entry_date,
       })) || [];
@@ -149,11 +149,18 @@ export default function FinancePage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/finance/transactions/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

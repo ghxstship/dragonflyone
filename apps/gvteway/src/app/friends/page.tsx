@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -55,7 +55,6 @@ interface Meetup {
 }
 
 export default function FriendsPage() {
-  const router = useRouter();
   const [friends, setFriends] = useState<Friend[]>([]);
   const [meetups, setMeetups] = useState<Meetup[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,7 +64,6 @@ export default function FriendsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const _router = router; // Suppress unused warning
 
   const [meetupForm, setMeetupForm] = useState({
     event_id: '',

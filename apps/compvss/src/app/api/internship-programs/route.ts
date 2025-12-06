@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (status !== 'all') query = query.eq('status', status);
 
     const { data, error } = await query.order('application_deadline', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ programs: data });
   } catch (error) {
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
         application_deadline, start_date, status: 'active', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ program: data }, { status: 201 });
     }
 
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
         spots_available, skills_required: skills_required || []
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ position: data }, { status: 201 });
     }
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         availability, status: 'submitted'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ application: data }, { status: 201 });
     }
 

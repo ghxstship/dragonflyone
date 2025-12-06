@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -11,7 +11,6 @@ import {
   Button,
   Badge,
   Grid,
-  Body,
   H3,
   Input,
   Table,
@@ -19,6 +18,7 @@ import {
   TableBody,
   TableRow,
   TableHead,
+  Spinner,
   TableCell,
 } from '@ghxstship/ui';
 import {
@@ -50,9 +50,32 @@ const MOCK_WILL_CALL: WillCallTicket[] = [
 
 export default function EventWillCallPage() {
   const params = useParams();
-  const _eventId = params?.eventId as string;
-  const [tickets, setTickets] = useState(MOCK_WILL_CALL);
+  const eventId = params?.eventId as string;
+  const [tickets, setTickets] = useState<WillCallTicket[]>(MOCK_WILL_CALL);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchWillCallTickets = useCallback(async () => {
+    if (!eventId) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/events/${eventId}/will-call`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.tickets && data.tickets.length > 0) {
+          setTickets(data.tickets);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch will call tickets:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    fetchWillCallTickets();
+  }, [fetchWillCallTickets]);
 
   const pendingCount = tickets.filter(t => t.status === 'pending').length;
   const pickedUpCount = tickets.filter(t => t.status === 'picked-up').length;
@@ -92,6 +115,11 @@ export default function EventWillCallPage() {
                   <Button variant="outline"><Search size={16} /></Button>
                 </Stack>
               </Stack>
+              {loading ? (
+                <Stack className="items-center py-12">
+                  <Spinner variant="grey" size="lg" />
+                </Stack>
+              ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -128,6 +156,7 @@ export default function EventWillCallPage() {
                   ))}
                 </TableBody>
               </Table>
+              )}
             </Stack>
           </CardBody>
         </Card>

@@ -22,7 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Incident {
   id: string;
@@ -102,6 +102,26 @@ export default function IncidentsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Incident, 'id'>>({
+    entityType: 'incidents',
+    requiredFields: ['type', 'reporter', 'severity'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/incidents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('incidents').length > 0 
+    ? getImportTemplates('incidents') 
+    : [{ id: 'default', name: 'Incident Import', mapping: { type: 'type', reporter: 'reporter', severity: 'severity', status: 'status', incident_date: 'incident_date' } }];
+
   const stats = [
     { label: 'Total Incidents', value: incidents.length },
     { label: 'Open', value: openCount },
@@ -128,12 +148,7 @@ export default function IncidentsPage() {
       <EnterprisePageHeader
         title="Safety Incidents"
         subtitle="Track and manage safety incidents across all events"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -153,6 +168,9 @@ export default function IncidentsPage() {
           createLabel="Report Incident"
           onCreate={() => setCreateModalOpen(true)}
           entityType="incidents"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['type', 'reporter', 'severity', 'status', 'incident_date']}
           onExport={createExportHandler({
             filename: "incidents",
             getData: () => incidents.map(i => ({
@@ -169,6 +187,25 @@ export default function IncidentsPage() {
           stats={stats}
           emptyMessage="No incidents found"
           emptyAction={{ label: 'Report Incident', onClick: () => setCreateModalOpen(true) }}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/incidents/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            } else if (action === 'close') {
+              await fetch('/api/incidents/bulk-close', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+            }
+          }}
+          bulkActions={[
+            { id: 'close', label: 'Close Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Report Incident" fields={formFields} onSubmit={handleCreate} size="lg" />

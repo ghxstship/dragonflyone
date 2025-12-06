@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Sample tax rates by jurisdiction
 const taxRates: Record<string, { state: number; county?: number; city?: number; special?: number }> = {
@@ -85,8 +79,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ rates: taxRates });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -117,8 +111,9 @@ export async function POST(request: NextRequest) {
         }
       }
 
+      interface CartItem { price: number; quantity: number; taxable?: boolean }
       let subtotal = 0;
-      const taxableItems = items.map((item: any) => {
+      const taxableItems = items.map((item: CartItem) => {
         const itemTotal = item.price * item.quantity;
         subtotal += itemTotal;
 
@@ -134,7 +129,8 @@ export async function POST(request: NextRequest) {
         };
       });
 
-      const totalTax = taxableItems.reduce((sum: number, item: any) => sum + item.tax, 0);
+      interface TaxableItem { tax: number }
+      const totalTax = taxableItems.reduce((sum: number, item: TaxableItem) => sum + item.tax, 0);
 
       return NextResponse.json({
         items: taxableItems,
@@ -169,8 +165,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

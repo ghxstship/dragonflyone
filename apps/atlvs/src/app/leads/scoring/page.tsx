@@ -23,7 +23,6 @@ import {
   Tabs,
   TabsList,
   Tab,
-  TabPanel,
   Table,
   TableHeader,
   TableBody,
@@ -176,8 +175,8 @@ export default function LeadScoringPage() {
       <EnterprisePageHeader
         title="Lead Scoring"
         subtitle="Automated lead qualification and scoring"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'View Pipeline', onClick: () => router.push('/deals') }}
         secondaryActions={[{ id: 'add-rule', label: 'Add Rule', onClick: () => setShowRuleModal(true) }]}
         showFavorite
@@ -337,12 +336,12 @@ export default function LeadScoringPage() {
         {activeTab === 'rules' && (
           <Stack gap={4} className="mt-6">
             {['demographic', 'behavioral', 'engagement', 'fit'].map(category => (
-              <Card key={category} className="p-6 border">
+              <Card key={category} className="p-6 border-2">
                 <Stack gap={4}>
                   <H3 className="capitalize">{category} Scoring</H3>
                   <Stack gap={2}>
                     {rules.filter(r => r.category === category).map(rule => (
-                      <Card key={rule.id} className={`p-4 border ${!rule.is_active ? 'opacity-50' : ''}`}>
+                      <Card key={rule.id} className={`p-4 border-2 ${!rule.is_active ? 'opacity-50' : ''}`}>
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Stack gap={1}>
                             <Body className="font-weight-bold">{rule.name}</Body>
@@ -372,7 +371,7 @@ export default function LeadScoringPage() {
 
         {activeTab === 'analytics' && (
           <Grid cols={2} gap={6} className="mt-6">
-            <Card className="p-6 border">
+            <Card className="p-6 border-2">
               <Stack gap={4}>
                 <H3>Score Distribution</H3>
                 <Stack gap={2}>
@@ -391,7 +390,7 @@ export default function LeadScoringPage() {
                 </Stack>
               </Stack>
             </Card>
-            <Card className="p-6 border">
+            <Card className="p-6 border-2">
               <Stack gap={4}>
                 <H3>Qualification Funnel</H3>
                 <Stack gap={2}>
@@ -414,7 +413,7 @@ export default function LeadScoringPage() {
                 </Stack>
               </Stack>
             </Card>
-            <Card className="p-6 border">
+            <Card className="p-6 border-2">
               <Stack gap={4}>
                 <H3>Source Performance</H3>
                 <Stack gap={2}>
@@ -433,7 +432,7 @@ export default function LeadScoringPage() {
                 </Stack>
               </Stack>
             </Card>
-            <Card className="p-6 border">
+            <Card className="p-6 border-2">
               <Stack gap={4}>
                 <H3>Pipeline Value</H3>
                 <Stack gap={2}>
@@ -524,7 +523,7 @@ export default function LeadScoringPage() {
                 {getQualificationBadge(selectedLead.qualification_status)}
               </Stack>
 
-              <Card className="p-4 border">
+              <Card className="p-4 border-2">
                 <Stack gap={3}>
                   <H3>Score Breakdown</H3>
                   <Grid cols={2} gap={4}>

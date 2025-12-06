@@ -14,9 +14,8 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  type ExportFormat,
-} from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+  } from '@ghxstship/ui';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 import { useDeals } from '@/hooks/useDeals';
 
@@ -65,6 +64,26 @@ export default function CRMPage() {
     { id: 'email', label: 'Send Email', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.email}` },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'crm',
+    requiredFields: ['name', 'email'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/contacts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('crm').length > 0 
+    ? getImportTemplates('crm') 
+    : [{ id: 'default', name: 'CRM Import', mapping: { name: 'name', email: 'email', company: 'company', type: 'type', status: 'status' } }];
+
   const stats = [
     { label: 'Total Contacts', value: contactList.length },
     { label: 'Active Clients', value: activeContacts },
@@ -101,6 +120,9 @@ export default function CRMPage() {
         createLabel="Add Contact"
         onCreate={() => router.push('/contacts')}
         entityType="contacts"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['name', 'email', 'company', 'type', 'status']}
         onExport={createExportHandler({
           filename: "contacts",
           getData: () => (contacts || []).map(c => ({
@@ -116,15 +138,31 @@ export default function CRMPage() {
         stats={stats}
         emptyMessage="No contacts found"
         emptyAction={{ label: 'Add Contact', onClick: () => router.push('/contacts') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/contacts/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          } else if (action === 'archive') {
+            await fetch('/api/contacts/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: '✉️' }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: <Mail className="size-4" /> }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
     </AtlvsAppLayout>
   );
 }

@@ -130,14 +130,17 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by project
-      const byProject = costs?.reduce((acc: Record<string, any>, c) => {
+      interface ProjectData { name?: string; budget?: number; status?: string }
+      interface ProjectCostSummary { project_id: string; project_name?: string; budget: number; status?: string; total_cost: number; billable_cost: number; by_type: Record<string, number> }
+      const byProject = costs?.reduce((acc: Record<string, ProjectCostSummary>, c) => {
         const pid = c.project_id;
+        const project = c.project as ProjectData | null;
         if (!acc[pid]) {
           acc[pid] = {
             project_id: pid,
-            project_name: (c.project as any)?.name,
-            budget: (c.project as any)?.budget || 0,
-            status: (c.project as any)?.status,
+            project_name: project?.name,
+            budget: project?.budget || 0,
+            status: project?.status,
             total_cost: 0,
             billable_cost: 0,
             by_type: {},
@@ -152,7 +155,7 @@ export async function GET(request: NextRequest) {
         return acc;
       }, {});
 
-      const projectSummaries = Object.values(byProject).map((p: any) => ({
+      const projectSummaries = Object.values(byProject).map((p: Record<string, unknown>) => ({
         ...p,
         budget_variance: p.budget - p.total_cost,
         budget_utilization: p.budget > 0 ? (p.total_cost / p.budget) * 100 : 0,
@@ -186,9 +189,10 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface CostRecord { total_cost: number }
       const profitability = projects?.map(project => {
-        const costs = (project.costs as any[]) || [];
-        const totalCost = costs.reduce((sum, c) => sum + c.total_cost, 0);
+        const costs = (project.costs || []) as CostRecord[];
+        const totalCost = costs.reduce((sum: number, c: CostRecord) => sum + c.total_cost, 0);
         const revenue = project.revenue || 0;
         const grossProfit = revenue - totalCost;
         const grossMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
@@ -243,9 +247,13 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface WIPCost { total_cost: number }
+      interface WIPBilling { status: string; amount: number }
       const wipReport = projects?.map(project => {
-        const totalCost = (project.costs as any[])?.reduce((sum, c) => sum + c.total_cost, 0) || 0;
-        const totalBilled = (project.billings as any[])?.filter(b => b.status !== 'voided').reduce((sum, b) => sum + b.amount, 0) || 0;
+        const wipCosts = (project.costs || []) as WIPCost[];
+        const wipBillings = (project.billings || []) as WIPBilling[];
+        const totalCost = wipCosts.reduce((sum: number, c: WIPCost) => sum + c.total_cost, 0);
+        const totalBilled = wipBillings.filter((b: WIPBilling) => b.status !== 'voided').reduce((sum: number, b: WIPBilling) => sum + b.amount, 0);
         const percentComplete = project.percent_complete || 0;
         const earnedRevenue = (project.revenue || 0) * (percentComplete / 100);
         
@@ -300,9 +308,9 @@ export async function GET(request: NextRequest) {
         cost_entries: costs?.length || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Job costing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -368,12 +376,14 @@ export async function POST(request: NextRequest) {
 
       if (error) throw error;
 
+      interface EmployeeData { hourly_rate?: number; first_name?: string; last_name?: string }
       const costRecords = timesheets?.map(ts => {
-        const rate = labor_rate || (ts.employee as any)?.hourly_rate || 50;
+        const employee = ts.employee as EmployeeData | null;
+        const rate = labor_rate || employee?.hourly_rate || 50;
         return {
           project_id,
           cost_type: 'labor',
-          description: `Labor - ${(ts.employee as any)?.first_name} ${(ts.employee as any)?.last_name}`,
+          description: `Labor - ${employee?.first_name} ${employee?.last_name}`,
           quantity: ts.hours,
           unit_cost: rate,
           total_cost: ts.hours * rate,
@@ -447,12 +457,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Job costing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -490,9 +500,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Job costing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -515,8 +525,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Job costing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

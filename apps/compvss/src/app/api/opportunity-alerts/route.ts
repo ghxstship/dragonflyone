@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data, error } = await supabase.from('opportunity_alerts').select('*').eq('user_id', user.id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ alerts: data });
   } catch (error) {
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         locations: locations || [], min_rate, max_rate, frequency: frequency || 'daily', active: true
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ alert: data }, { status: 201 });
     }
 

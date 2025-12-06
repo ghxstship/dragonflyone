@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const exchangeRates: Record<string, number> = {
   USD: 1.0,
@@ -111,8 +105,8 @@ export async function GET(request: NextRequest) {
       base_currency: 'USD',
       last_updated: new Date().toISOString(),
     });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -144,7 +138,7 @@ export async function POST(request: NextRequest) {
       const { items, currency } = body.data;
 
       let subtotal = 0;
-      const itemsWithPrices = items.map((item: any) => {
+      const itemsWithPrices = items.map((item: Record<string, unknown>) => {
         const localPrice = item.price * (exchangeRates[currency] || 1);
         subtotal += localPrice * item.quantity;
         return {
@@ -163,8 +157,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

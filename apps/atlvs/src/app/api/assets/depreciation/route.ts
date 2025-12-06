@@ -81,7 +81,7 @@ export const GET = apiRoute(
 
 // POST - Create depreciation schedule
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabase = createAdminClient();
     const body = await request.json();
     const validated = depreciationSchema.parse(body);
@@ -127,7 +127,8 @@ export const POST = apiRoute(
 );
 
 // Helper function to calculate depreciation
-function calculateDepreciation(config: any, targetYear: number | null) {
+interface DepreciationConfig { start_date: string; purchase_price: number; salvage_value: number; useful_life_years: number; method: string }
+function calculateDepreciation(config: DepreciationConfig, targetYear: number | null) {
   const startDate = new Date(config.start_date);
   const currentYear = targetYear || new Date().getFullYear();
   const yearsElapsed = currentYear - startDate.getFullYear();

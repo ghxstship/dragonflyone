@@ -95,12 +95,13 @@ export async function GET(request: NextRequest) {
     const { data: emails, error, count } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Group by thread if thread_id exists
-    const threads: Record<string, any[]> = {};
-    emails?.forEach(email => {
+    interface EmailItem { id: string; thread_id?: string; subject?: string; from_address?: string; to_address?: string; body?: string; created_at: string }
+    const threads: Record<string, EmailItem[]> = {};
+    emails?.forEach((email: EmailItem) => {
       const threadId = email.thread_id || email.id;
       if (!threads[threadId]) {
         threads[threadId] = [];
@@ -159,7 +160,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ 
@@ -207,7 +208,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update contact's last_contacted_at
@@ -272,7 +273,7 @@ export async function DELETE(request: NextRequest) {
       .eq('user_id', user.id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

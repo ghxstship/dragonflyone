@@ -73,7 +73,7 @@ export default function PrintAtHomePage() {
                   { icon: "🛡️", name: "Holographic Pattern", desc: "Anti-counterfeit design" },
                   { icon: "📋", name: "Barcode Backup", desc: "Secondary validation" },
                 ].map((feature, idx) => (
-                  <Card key={idx} className="p-4 border border-ink-200 text-center">
+                  <Card key={idx} className="p-4 border-2 border-ink-200 text-center">
                     <Stack gap={2}>
                       <Label className="text-h5-md">{feature.icon}</Label>
                       <Label className="font-weight-bold">{feature.name}</Label>

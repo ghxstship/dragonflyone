@@ -24,14 +24,17 @@ export async function GET(request: NextRequest) {
     `).in('id', vendorIds);
 
     // Build comparison matrix
-    const comparison = vendors?.map(v => ({
+    interface RatingEntry { rating: number }
+    interface RateCard { service_type: string; rate: number }
+    interface VendorData { id: string; name: string; ratings?: RatingEntry[]; services?: string[]; certifications?: { verified?: boolean }[]; rate_cards?: RateCard[]; insurance_verified?: boolean; years_in_business?: number }
+    const comparison = vendors?.map((v: VendorData) => ({
       id: v.id,
       name: v.name,
-      avg_rating: v.ratings?.length ? v.ratings.reduce((s: number, r: any) => s + r.rating, 0) / v.ratings.length : null,
+      avg_rating: v.ratings?.length ? v.ratings.reduce((s: number, r: RatingEntry) => s + r.rating, 0) / v.ratings.length : null,
       total_reviews: v.ratings?.length || 0,
       services: v.services || [],
-      certifications: v.certifications?.filter((c: any) => c.verified).length || 0,
-      rates: v.rate_cards?.reduce((acc: any, rc: any) => {
+      certifications: v.certifications?.filter((c: { verified?: boolean }) => c.verified).length || 0,
+      rates: v.rate_cards?.reduce((acc: Record<string, number>, rc: RateCard) => {
         acc[rc.service_type] = rc.rate;
         return acc;
       }, {}) || {},
@@ -62,7 +65,7 @@ export async function POST(request: NextRequest) {
       vendor_ids, project_id, notes, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ comparison: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });

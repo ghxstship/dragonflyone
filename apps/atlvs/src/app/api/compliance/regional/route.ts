@@ -128,7 +128,7 @@ export async function GET(request: NextRequest) {
       // Get compliance requirements for a specific operation
       const operation = searchParams.get('operation');
 
-      const requirements: Record<string, any> = {
+      const requirements: Record<string, unknown> = {
         data_collection: {
           EU: { consent_required: true, purpose_limitation: true, data_minimization: true },
           UK: { consent_required: true, purpose_limitation: true, data_minimization: true },
@@ -221,7 +221,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Log configuration change
@@ -252,7 +252,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ consent }, { status: 201 });
@@ -286,7 +286,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Notify DPO if configured
@@ -320,7 +320,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ item }, { status: 201 });

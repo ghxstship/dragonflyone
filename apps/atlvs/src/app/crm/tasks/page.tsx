@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import { Eye, Check, Pencil, Trash2 } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
@@ -17,9 +17,8 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+  } from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Task {
   id: string;
@@ -82,7 +81,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function TasksPage() {
-  const router = useRouter();
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -134,6 +132,30 @@ export default function TasksPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'tasks',
+    requiredFields: ['title', 'type', 'priority'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newTask: Task = {
+          id: `TSK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          title: String(record.title || ''),
+          type: record.type as Task['type'],
+          priority: record.priority as Task['priority'],
+          dueDate: String(record.dueDate || ''),
+          assignedTo: String(record.assignedTo || ''),
+          status: 'Pending',
+        };
+        setTasks(prev => [...prev, newTask]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('tasks').length > 0 
+    ? getImportTemplates('tasks') 
+    : [{ id: 'default', name: 'Task Import', mapping: { title: 'title', type: 'type', priority: 'priority', dueDate: 'dueDate', assignedTo: 'assignedTo' } }];
+
   const stats = [
     { label: 'Total Tasks', value: tasks.length },
     { label: 'Pending', value: pendingCount },
@@ -173,6 +195,9 @@ export default function TasksPage() {
         createLabel="Create Task"
         onCreate={() => setCreateModalOpen(true)}
         entityType="tasks"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'type', 'priority', 'dueDate', 'assignedTo']}
         onExport={createExportHandler({
           filename: "tasks",
           getData: () => tasks.map(t => ({
@@ -190,11 +215,17 @@ export default function TasksPage() {
         stats={stats}
         emptyMessage="No tasks found"
         emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setTasks(prev => prev.filter(t => !ids.includes(t.id)));
+          } else if (action === 'complete') {
+            setTasks(prev => prev.map(t => ids.includes(t.id) ? { ...t, status: 'Completed' } : t));
+          }
+        }}
+        bulkActions={[
+          { id: 'complete', label: 'Complete Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -230,7 +261,7 @@ export default function TasksPage() {
           sections={detailSections}
           onEdit={(t) => { setSelectedTask(t); setEditModalOpen(true); setDrawerOpen(false); }}
           onDelete={(t) => { setTaskToDelete(t); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-          actions={[{ id: 'complete', label: 'Mark Complete', icon: '✅' }]}
+          actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }]}
           onAction={(id, t) => { if (id === 'complete') setTasks(tasks.map(task => task.id === t.id ? { ...task, status: 'Completed' } : task)); }}
         />
       )}

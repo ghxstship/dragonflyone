@@ -22,7 +22,7 @@ const fulfillAdvanceSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const { id } = context.params;
@@ -48,7 +48,8 @@ export const POST = apiRoute(
 
       // Update each item's fulfillment status
       for (const itemUpdate of payload.items) {
-        const item = advance.items.find((i: any) => i.id === itemUpdate.item_id);
+        interface AdvanceItem { id: string; quantity: number; quantity_fulfilled?: number; notes?: string }
+        const item = advance.items.find((i: AdvanceItem) => i.id === itemUpdate.item_id);
         
         if (!item) {
           continue; // Skip items that don't exist
@@ -73,8 +74,9 @@ export const POST = apiRoute(
         .select('fulfillment_status')
         .eq('advance_id', id);
 
-      const allFulfilled = updatedItems?.every((item: any) => item.fulfillment_status === 'complete');
-      const someFulfilled = updatedItems?.some((item: any) => item.fulfillment_status !== 'pending');
+      interface FulfillmentItem { fulfillment_status: string }
+      const allFulfilled = updatedItems?.every((item: FulfillmentItem) => item.fulfillment_status === 'complete');
+      const someFulfilled = updatedItems?.some((item: FulfillmentItem) => item.fulfillment_status !== 'pending');
 
       // Update advance status
       const newStatus = allFulfilled ? 'fulfilled' : (someFulfilled ? 'in_progress' : 'approved');
@@ -103,8 +105,8 @@ export const POST = apiRoute(
         advance: updatedAdvance,
         message: allFulfilled ? 'Advance fully fulfilled' : 'Advance partially fulfilled'
       });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

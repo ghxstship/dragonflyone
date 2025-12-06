@@ -69,8 +69,8 @@ export default function DirectoryFiltersPage() {
       <EnterprisePageHeader
         title="Directory Search"
         subtitle="Filter by language and specialty"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

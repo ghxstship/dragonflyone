@@ -22,7 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Certification {
   id: string;
@@ -181,6 +181,25 @@ export default function CertificationsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Certification, 'id'>>({
+    entityType: 'certifications',
+    requiredFields: ['crew_member_name', 'certification_type', 'expiry_date'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newCert: Certification = {
+          id: `CERT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          ...record as Omit<Certification, 'id'>,
+        };
+        setCertifications(prev => [...prev, newCert]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('certifications').length > 0 
+    ? getImportTemplates('certifications') 
+    : [{ id: 'default', name: 'Certification Import', mapping: { crew_member_name: 'crew_member_name', certification_type: 'certification_type', issue_date: 'issue_date', expiry_date: 'expiry_date', status: 'status' } }];
+
   const stats = [
     { label: 'Total Certs', value: certifications.length },
     { label: 'Active', value: certifications.filter(c => c.status === 'active').length },
@@ -210,12 +229,7 @@ export default function CertificationsPage() {
       <EnterprisePageHeader
         title="Certifications & Licenses"
         subtitle="Track crew certifications, licenses, and renewal dates"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -237,6 +251,9 @@ export default function CertificationsPage() {
           createLabel="Add Certification"
           onCreate={() => setCreateModalOpen(true)}
           entityType="certifications"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['crew_member_name', 'certification_type', 'issue_date', 'expiry_date', 'status']}
           onExport={createExportHandler({
             filename: "certifications",
             getData: () => certifications.map(c => ({
@@ -275,7 +292,7 @@ export default function CertificationsPage() {
         sections={detailSections}
         onEdit={(c) => router.push(`/certifications/${c.id}/edit`)}
         onDelete={(c) => { setCertToDelete(c); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
-        actions={[{ id: 'renew', label: 'Renew', icon: '🔄' }]}
+        actions={[{ id: 'renew', label: 'Renew', icon: <RefreshCw className="size-4" /> }]}
         onAction={(actionId, cert) => {
           if (actionId === 'renew') router.push(`/certifications/${cert.id}/renew`);
         }}

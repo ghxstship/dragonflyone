@@ -16,8 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
   type FormFieldConfig,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { createExportHandler } from "@ghxstship/config";
 
 interface BackgroundCheck {
@@ -187,11 +186,21 @@ export default function BackgroundChecksPage() {
         })}
         stats={stats}
         emptyMessage="No background checks found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setChecks(prev => prev.filter(c => !ids.includes(c.id)));
+          } else if (action === 'renew') {
+            await fetch('/api/workforce/background-checks/bulk-renew', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'renew', label: 'Renew Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

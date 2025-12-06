@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -45,16 +39,20 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const reports = data?.map(r => ({
-      id: r.id,
-      reported_user_name: (r.reported_user as any)?.full_name || 'Unknown',
-      reason: r.reason,
-      status: r.status,
-      created_at: r.created_at,
-    })) || [];
+    interface ReportedUserInfo { full_name?: string }
+    const reports = data?.map(r => {
+      const reportedUser = r.reported_user as ReportedUserInfo | null;
+      return {
+        id: r.id,
+        reported_user_name: reportedUser?.full_name || 'Unknown',
+        reason: r.reason,
+        status: r.status,
+        created_at: r.created_at,
+      };
+    }) || [];
 
     return NextResponse.json({ reports });
   } catch (error) {
@@ -100,7 +98,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true }, { status: 201 });

@@ -16,7 +16,7 @@ const createNotificationSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const unreadOnly = searchParams.get('unread') === 'true';
     const type = searchParams.get('type');
@@ -64,7 +64,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const data = createNotificationSchema.parse(body);
 
@@ -92,13 +92,14 @@ export const POST = apiRoute(
       );
     }
 
+    interface NotificationChannel { type: string; user_id: string; enabled: boolean }
     for (const recipientId of data.recipient_ids) {
       await fromDynamic(supabaseAdmin, 'notification_channels')
         .select('*')
         .eq('user_id', recipientId)
         .eq('enabled', true)
-        .then(({ data: channels }: { data: any }) => {
-          channels?.forEach(async (channel: any) => {
+        .then(({ data: channels }: { data: NotificationChannel[] | null }) => {
+          channels?.forEach(async (channel: NotificationChannel) => {
             if (channel.type === 'realtime') {
               await supabaseAdmin
                 .channel('notifications')
@@ -125,7 +126,7 @@ export const POST = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { notification_ids, read } = z.object({
       notification_ids: z.array(z.string().uuid()),

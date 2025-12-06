@@ -88,23 +88,13 @@ export default function TechRehearsalPage() {
   const inProgressSession = mockSessions.find(s => s.status === "In Progress");
   const unresolvedIssues = mockNotes.filter(n => !n.resolved && n.type === "Issue").length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Completed": return "text-success-400";
-      case "In Progress": return "text-info-400";
-      case "Scheduled": return "text-ink-400";
-      case "Cancelled": return "text-error-400";
-      default: return "text-ink-400";
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "Critical": return "text-error-400";
-      case "High": return "text-warning-400";
-      case "Medium": return "text-warning-400";
-      case "Low": return "text-success-400";
-      default: return "text-ink-400";
+      case "Completed": return "success";
+      case "In Progress": return "info";
+      case "Scheduled": return "ghost";
+      case "Cancelled": return "error";
+      default: return "ghost";
     }
   };
 
@@ -113,8 +103,8 @@ export default function TechRehearsalPage() {
       <EnterprisePageHeader
         title="Technical Rehearsals"
         subtitle="Schedule and manage tech rehearsals, sound checks, and run-throughs"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Schedule Rehearsal', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -171,7 +161,7 @@ export default function TechRehearsalPage() {
                             {session.departments.length > 2 && <Body className="text-body-sm">+{session.departments.length - 2}</Body>}
                           </Stack>
                         </Stack>
-                        <Badge variant={session.status === "Completed" ? "solid" : "outline"}>{session.status}</Badge>
+                        <Badge variant={getStatusVariant(session.status)}>{session.status}</Badge>
                         <Stack direction="horizontal" gap={2}>
                           <Button variant="ghost" size="sm" onClick={() => setSelectedSession(session)}>Details</Button>
                           {session.status === "In Progress" && (
@@ -330,7 +320,7 @@ export default function TechRehearsalPage() {
               <Body className="font-display">{selectedSession.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Body className="text-body-sm">Type</Body><Badge variant="outline">{selectedSession.type}</Badge></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Status</Body><Badge variant={selectedSession.status === "Completed" ? "solid" : "outline"}>{selectedSession.status}</Badge></Stack>
+                <Stack gap={1}><Body className="text-body-sm">Status</Body><Badge variant={getStatusVariant(selectedSession.status)}>{selectedSession.status}</Badge></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Body className="text-body-sm">Date</Body><Body>{selectedSession.date}</Body></Stack>

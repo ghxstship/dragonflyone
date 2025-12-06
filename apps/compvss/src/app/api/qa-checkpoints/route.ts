@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (projectId) query = query.eq('project_id', projectId);
 
     const { data, error } = await query.order('sequence', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const completed = data?.filter(c => c.status === 'passed').length || 0;
     const total = data?.length || 0;
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
       status: 'pending', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ checkpoint: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create checkpoint' }, { status: 500 });

@@ -139,7 +139,7 @@ export default function EntryInfoPage() {
               <H2 className="mb-6">ENTRY GATES</H2>
               <Stack gap={4}>
                 {info.entry_gates.map((gate, index) => (
-                  <Stack key={index} className="p-4 border border-ink-200 rounded">
+                  <Stack key={index} className="p-4 border-2 border-ink-200 rounded">
                     <Stack direction="horizontal" className="justify-between items-start">
                       <Stack>
                         <Body className="font-weight-bold">{gate.name}</Body>
@@ -189,7 +189,7 @@ export default function EntryInfoPage() {
                 <H2 className="mb-6">PARKING</H2>
                 <Stack gap={4}>
                   {info.parking_info.lots.map((lot, index) => (
-                    <Stack key={index} className="p-4 border border-ink-200 rounded">
+                    <Stack key={index} className="p-4 border-2 border-ink-200 rounded">
                       <Stack direction="horizontal" className="justify-between">
                         <Stack>
                           <Body className="font-weight-bold">{lot.name}</Body>

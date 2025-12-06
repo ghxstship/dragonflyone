@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Badge, Body, Box } from "@ghxstship/ui";
-import { AlertTriangle, Plus, Shield } from "lucide-react";
+import { Plus, Shield } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../../data/atlvs";
 
 export default function ProductionContingenciesPage() {

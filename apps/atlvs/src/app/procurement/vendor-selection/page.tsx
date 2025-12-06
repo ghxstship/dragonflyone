@@ -11,7 +11,6 @@ import {
   Grid,
   Stack,
   StatCard,
-  Select,
   Table,
   TableHeader,
   TableBody,
@@ -30,7 +29,6 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  ProgressBar,
   Textarea,
   EnterprisePageHeader,
   MainContent,
@@ -156,8 +154,8 @@ export default function VendorSelectionPage() {
       <EnterprisePageHeader
         title="Vendor Selection"
         subtitle="Evaluate bids, score vendors, and route for approval"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -212,7 +210,7 @@ export default function VendorSelectionPage() {
                         </Stack>
                       </Grid>
 
-                      <Table variant="dark" className="border border-ink-700">
+                      <Table variant="dark" className="border-2 border-ink-700">
                         <TableHeader>
                           <TableRow className="bg-ink-800">
                             <TableHead>Rank</TableHead>
@@ -276,7 +274,7 @@ export default function VendorSelectionPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">Evaluation Criteria</Label>
                 {selectedSelection.evaluationCriteria.map((criteria) => (
-                  <Card key={criteria.name} className="p-3 bg-ink-800 border border-ink-700">
+                  <Card key={criteria.name} className="p-3 bg-ink-800 border-2 border-ink-700">
                     <Stack direction="horizontal" className="justify-between">
                       <Stack gap={1}>
                         <Label className="text-white">{criteria.name}</Label>
@@ -290,7 +288,7 @@ export default function VendorSelectionPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">Approval Chain</Label>
                 {selectedSelection.approvers.map((approver) => (
-                  <Card key={approver.id} className={`p-3 border ${approver.status === "Approved" ? "border-success-800 bg-success-900/10" : "border-ink-700 bg-ink-800"}`}>
+                  <Card key={approver.id} className={`p-3 border-2 ${approver.status === "Approved" ? "border-success-800 bg-success-900/10" : "border-ink-700 bg-ink-800"}`}>
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack gap={1}>
                         <Label className="text-white">{approver.name}</Label>

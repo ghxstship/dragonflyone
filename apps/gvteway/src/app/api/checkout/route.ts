@@ -13,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const checkoutSchema = z.object({
   event_id: z.string().uuid(),
@@ -215,6 +209,8 @@ export async function POST(request: NextRequest) {
         total_amount: totalAmount,
         promo_code_id: promoCodeId,
         promo_code: validated.promo_code,
+        gift_card_code: giftCardId,
+        gift_card_amount: giftCardAmount,
         delivery_method: validated.delivery_method,
         billing_address: validated.billing_address,
         expires_at: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // 15 min expiry

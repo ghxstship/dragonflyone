@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -60,7 +60,7 @@ export default function EventBoxOfficePage() {
 
   const soldPercentage = Math.round((totals.sold / totals.capacity) * 100);
 
-  const handleRefresh = async () => {
+  const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
     try {
       const response = await fetch(`/api/events/${eventId}/box-office`);
@@ -74,12 +74,12 @@ export default function EventBoxOfficePage() {
     } finally {
       setIsRefreshing(false);
     }
-  };
+  }, [eventId]);
 
   useEffect(() => {
     const interval = setInterval(handleRefresh, 30000);
     return () => clearInterval(interval);
-  }, [eventId]);
+  }, [eventId, handleRefresh]);
 
   return (
     <GvtewayAppLayout>

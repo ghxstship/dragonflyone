@@ -72,6 +72,9 @@ export async function GET(request: NextRequest) {
     if (search) {
       query = query.or(`name.ilike.%${search}%,serial_number.ilike.%${search}%,barcode.ilike.%${search}%`);
     }
+    if (assignedTo) {
+      query = query.eq('assigned_to', assignedTo);
+    }
 
     const { data, error } = await query;
 

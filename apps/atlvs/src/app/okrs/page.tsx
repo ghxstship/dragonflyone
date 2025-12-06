@@ -18,7 +18,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface KeyResult {
   kr: string;
@@ -98,6 +98,28 @@ export default function OKRsPage() {
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/okrs/${r.id}/edit`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'okrs',
+    requiredFields: ['objective', 'owner'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newOKR: OKR = {
+          id: `OKR-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          objective: String(record.objective || ''),
+          owner: String(record.owner || ''),
+          keyResults: [],
+          progress: Number(record.progress) || 0,
+        };
+        setOkrs(prev => [...prev, newOKR]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('okrs').length > 0 
+    ? getImportTemplates('okrs') 
+    : [{ id: 'default', name: 'OKR Import', mapping: { objective: 'objective', owner: 'owner', progress: 'progress' } }];
+
   const stats = [
     { label: 'Active OKRs', value: okrs.length },
     { label: 'Avg Progress', value: `${avgProgress}%` },
@@ -155,6 +177,9 @@ export default function OKRsPage() {
         createLabel="Create New OKR"
         onCreate={() => setCreateModalOpen(true)}
         entityType="okrs"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['objective', 'owner', 'progress']}
         onExport={createExportHandler({
           filename: "okrs",
           getData: () => okrs.map(o => ({
@@ -170,11 +195,21 @@ export default function OKRsPage() {
         stats={stats}
         emptyMessage="No OKRs found"
         emptyAction={{ label: 'Create OKR', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setOkrs(prev => prev.filter(o => !ids.includes(o.id)));
+          } else if (action === 'archive') {
+            await fetch('/api/okrs/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     if (applicationId) query = query.eq('application_id', applicationId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ interviews: data });
   } catch (error) {
@@ -53,11 +53,12 @@ export async function POST(request: NextRequest) {
         application_id, interview_type, deadline, status: 'pending', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+      interface InterviewQuestion { question: string; time_limit?: number }
       if (questions?.length) {
         await supabase.from('interview_questions').insert(
-          questions.map((q: any, i: number) => ({
+          questions.map((q: InterviewQuestion, i: number) => ({
             interview_id: data.id, question: q.question,
             time_limit: q.time_limit || 120, order: i + 1
           }))
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
         submitted_by: user.id, submitted_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Check if all questions answered
       const { data: questions } = await supabase.from('interview_questions').select('id').eq('interview_id', interview_id);

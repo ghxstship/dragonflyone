@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, assignments:capture_assignments(id, photographer, position, time_slot, status)
     `).eq('event_id', eventId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ captures: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -43,11 +43,11 @@ export async function POST(request: NextRequest) {
         event_id, capture_type, requirements, status: 'planned', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (positions?.length) {
         await supabase.from('capture_assignments').insert(
-          positions.map((p: any) => ({ capture_id: data.id, position: p.position, time_slot: p.time_slot, status: 'assigned' }))
+          positions.map((p: Record<string, unknown>) => ({ capture_id: data.id, position: p.position, time_slot: p.time_slot, status: 'assigned' }))
         );
       }
 
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         capture_id, media_url, media_type, timestamp, notes, uploaded_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ media: data }, { status: 201 });
     }
 

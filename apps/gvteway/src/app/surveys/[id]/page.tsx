@@ -41,6 +41,9 @@ interface Survey {
   expires_at?: string;
 }
 
+// Survey answers can be: rating (number), text (string), multiple_choice (string), checkbox (string[]), scale (number)
+type SurveyAnswer = string | number | string[];
+
 export default function SurveyPage() {
   const router = useRouter();
   const params = useParams();
@@ -51,7 +54,7 @@ export default function SurveyPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<Record<string, SurveyAnswer>>({});
   const [currentStep, setCurrentStep] = useState(0);
 
   const fetchSurvey = useCallback(async () => {
@@ -111,7 +114,7 @@ export default function SurveyPage() {
     }
   };
 
-  const updateAnswer = (questionId: string, value: any) => {
+  const updateAnswer = (questionId: string, value: SurveyAnswer) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
   };
 

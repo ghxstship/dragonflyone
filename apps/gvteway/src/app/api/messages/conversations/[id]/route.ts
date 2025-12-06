@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -61,7 +55,7 @@ export async function GET(
       .order('created_at', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Mark messages as read
@@ -72,15 +66,19 @@ export async function GET(
       .neq('sender_id', user.id)
       .eq('read', false);
 
-    const formattedMessages = messages?.map(m => ({
-      id: m.id,
-      sender_id: m.sender_id,
-      sender_name: (m.sender as any)?.full_name || 'Unknown',
-      sender_avatar: (m.sender as any)?.avatar_url,
-      content: m.content,
-      created_at: m.created_at,
-      read: m.read,
-    })) || [];
+    interface SenderData { full_name?: string; avatar_url?: string }
+    const formattedMessages = messages?.map(m => {
+      const sender = m.sender as SenderData | null;
+      return {
+        id: m.id,
+        sender_id: m.sender_id,
+        sender_name: sender?.full_name || 'Unknown',
+        sender_avatar: sender?.avatar_url,
+        content: m.content,
+        created_at: m.created_at,
+        read: m.read,
+      };
+    }) || [];
 
     return NextResponse.json({ messages: formattedMessages });
   } catch (error) {
@@ -138,7 +136,7 @@ export async function POST(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Update conversation last message

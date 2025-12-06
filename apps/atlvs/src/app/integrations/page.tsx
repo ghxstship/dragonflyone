@@ -72,8 +72,8 @@ export default function IntegrationsPage() {
       <EnterprisePageHeader
         title="Cross-Platform Integrations"
         subtitle="Manage data synchronization between ATLVS, COMPVSS, and GVTEWAY platforms"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

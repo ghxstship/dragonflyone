@@ -13,7 +13,7 @@ export interface Venue {
   capacity: number;
   type: string;
   status: 'active' | 'inactive';
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

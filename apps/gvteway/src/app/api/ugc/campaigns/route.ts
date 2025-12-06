@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -44,21 +38,25 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const campaigns = data?.map(c => ({
-      id: c.id,
-      name: c.name,
-      hashtag: c.hashtag,
-      event_id: c.event_id,
-      event_name: (c.event as any)?.title,
-      start_date: c.start_date,
-      end_date: c.end_date,
-      post_count: c.post_count || 0,
-      total_engagement: c.total_engagement || 0,
-      status: c.status,
-    })) || [];
+    interface CampaignEventData { title?: string }
+    const campaigns = data?.map(c => {
+      const eventData = c.event as CampaignEventData | null;
+      return {
+        id: c.id,
+        name: c.name,
+        hashtag: c.hashtag,
+        event_id: c.event_id,
+        event_name: eventData?.title,
+        start_date: c.start_date,
+        end_date: c.end_date,
+        post_count: c.post_count || 0,
+        total_engagement: c.total_engagement || 0,
+        status: c.status,
+      };
+    }) || [];
 
     return NextResponse.json({ campaigns });
   } catch (error) {
@@ -119,7 +117,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ campaign: data }, { status: 201 });

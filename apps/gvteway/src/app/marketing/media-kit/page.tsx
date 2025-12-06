@@ -166,14 +166,14 @@ export default function MediaKitPage() {
                 <Stack gap={6}>
                   <H3>Press Contact Information</H3>
                   <Grid cols={2} gap={6}>
-                    <Card className="p-4 border border-ink-200">
+                    <Card className="p-4 border-2 border-ink-200">
                       <Stack gap={2}>
                         <Label className="font-weight-bold">Media Inquiries</Label>
                         <Label>press@company.com</Label>
                         <Label>+1 (555) 123-4567</Label>
                       </Stack>
                     </Card>
-                    <Card className="p-4 border border-ink-200">
+                    <Card className="p-4 border-2 border-ink-200">
                       <Stack gap={2}>
                         <Label className="font-weight-bold">Press Contact</Label>
                         <Label>Sarah Johnson</Label>
@@ -189,7 +189,7 @@ export default function MediaKitPage() {
                         { name: "Local Media", count: 89 },
                         { name: "Industry Publications", count: 56 },
                       ].map((list, idx) => (
-                        <Card key={idx} className="p-3 border border-ink-200">
+                        <Card key={idx} className="p-3 border-2 border-ink-200">
                           <Stack direction="horizontal" className="justify-between">
                             <Label>{list.name}</Label>
                             <Label className="text-ink-500">{list.count} contacts</Label>

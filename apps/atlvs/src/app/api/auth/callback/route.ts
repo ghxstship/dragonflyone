@@ -88,6 +88,17 @@ export async function GET(request: NextRequest) {
       },
     });
 
+    // Handle different callback types
+    if (type === 'recovery') {
+      // Password recovery - redirect to reset password page
+      return NextResponse.redirect(`${baseUrl}/auth/reset-password`);
+    }
+
+    if (type === 'email_change') {
+      // Email change confirmation - redirect to settings
+      return NextResponse.redirect(`${baseUrl}/settings/account?email_changed=true`);
+    }
+
     // Check onboarding status
     const { data: profile } = await supabase
       .from('profiles')

@@ -1,8 +1,8 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Badge, Body, Box, StatCard, Grid } from "@ghxstship/ui";
-import { Calendar, CheckSquare, Clock, ListOrdered, Plus, Phone, Hammer } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid } from "@ghxstship/ui";
+import { Clock, ListOrdered, Phone, Hammer } from "lucide-react";
 import { compvssDemoProductions } from "../../../../data/compvss";
 
 export default function ProductionSchedulePage() {

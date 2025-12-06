@@ -22,7 +22,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useEquipment } from '@/hooks/useEquipment';
 
 interface Equipment {
@@ -184,6 +184,24 @@ export default function EquipmentPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Equipment, 'id'>>({
+    entityType: 'equipment',
+    requiredFields: ['tag', 'category'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/equipment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('equipment');
+
   const stats = [
     { label: 'Total Items', value: equipmentList.length },
     { label: 'Available', value: equipmentList.filter(e => (e.status || e.state) === 'available').length },
@@ -223,12 +241,7 @@ export default function EquipmentPage() {
       <EnterprisePageHeader
         title="Equipment Inventory"
         subtitle="Track and manage production equipment"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
+primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true) }}
         showFavorite
         showSettings
       />
@@ -250,6 +263,9 @@ export default function EquipmentPage() {
           createLabel="Add Equipment"
           onCreate={() => setCreateModalOpen(true)}
           entityType="equipment"
+          onImport={handleImport}
+          importTemplates={importTemplates}
+          importSampleFields={['name', 'tag', 'category', 'type', 'status', 'location', 'serial_number']}
           onExport={createExportHandler({
             filename: "equipment",
             getData: () => equipmentList.map(e => ({
@@ -287,8 +303,8 @@ export default function EquipmentPage() {
         onEdit={(e) => router.push(`/equipment/${e.id}/edit`)}
         onDelete={(e) => { setEquipmentToDelete(e); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'assign', label: 'Assign', icon: '📋' },
-          { id: 'maintenance', label: 'Maintenance', icon: '🔧' },
+          { id: 'assign', label: 'Assign', icon: <ClipboardList className="size-4" /> },
+          { id: 'maintenance', label: 'Maintenance', icon: <Wrench className="size-4" /> },
         ]}
         onAction={(actionId, eq) => {
           if (actionId === 'assign') router.push(`/equipment/${eq.id}/assign`);

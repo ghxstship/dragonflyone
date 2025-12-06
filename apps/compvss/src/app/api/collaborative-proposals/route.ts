@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         rfp_id, title, content, status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Add creator as owner
       await supabase.from('proposal_collaborators').insert({ proposal_id: data.id, user_id: user.id, role: 'owner' });
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       // Add collaborators
       if (collaborators?.length) {
         await supabase.from('proposal_collaborators').insert(
-          collaborators.map((c: any) => ({ proposal_id: data.id, user_id: c.user_id, role: c.role || 'editor' }))
+          collaborators.map((c: Record<string, unknown>) => ({ proposal_id: data.id, user_id: c.user_id, role: c.role || 'editor' }))
         );
       }
 
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         proposal_id, version_number: newVersion, content, comment, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Update proposal content
       await supabase.from('proposals').update({ content, updated_at: new Date().toISOString() }).eq('id', proposal_id);

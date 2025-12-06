@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -45,8 +45,27 @@ const MOCK_PERMITS: Permit[] = [
 
 export default function ProductionPermitsPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [permits] = useState(MOCK_PERMITS);
+  const productionId = params?.productionId as string;
+  const [permits, setPermits] = useState<Permit[]>(MOCK_PERMITS);
+
+  const fetchPermits = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/permits`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.permits && data.permits.length > 0) {
+          setPermits(data.permits);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch permits:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchPermits();
+  }, [fetchPermits]);
 
   const approvedCount = permits.filter(p => p.status === 'approved').length;
   const pendingCount = permits.filter(p => p.status === 'pending').length;

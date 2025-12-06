@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid } from "@ghxstship/ui";
 import { IdCard, Plus, QrCode, Layers, BarChart } from "lucide-react";
 import { compvssDemoProductions } from "../../../../data/compvss";
 

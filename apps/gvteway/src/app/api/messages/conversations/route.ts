@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -46,7 +40,7 @@ export async function GET(request: NextRequest) {
       .order('last_message_at', { ascending: false, nullsFirst: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get unread counts
@@ -65,14 +59,15 @@ export async function GET(request: NextRequest) {
 
     const conversations = data?.map(conv => {
       const isParticipant1 = conv.participant1_id === user.id;
-      const participant = isParticipant1 ? conv.participant2 : conv.participant1;
+      interface ParticipantData { id?: string; full_name?: string; avatar_url?: string; is_verified?: boolean }
+      const participant = (isParticipant1 ? conv.participant2 : conv.participant1) as ParticipantData | null;
 
       return {
         id: conv.id,
-        participant_id: (participant as any)?.id,
-        participant_name: (participant as any)?.full_name || 'Unknown',
-        participant_avatar: (participant as any)?.avatar_url,
-        participant_verified: (participant as any)?.is_verified || false,
+        participant_id: participant?.id,
+        participant_name: participant?.full_name || 'Unknown',
+        participant_avatar: participant?.avatar_url,
+        participant_verified: participant?.is_verified || false,
         last_message: conv.last_message,
         last_message_at: conv.last_message_at,
         unread_count: unreadMap[conv.id] || 0,
@@ -130,7 +125,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ conversation_id: conversation.id }, { status: 201 });

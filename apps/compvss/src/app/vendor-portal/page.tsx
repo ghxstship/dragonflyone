@@ -19,7 +19,6 @@ import {
   Calendar,
   ArrowRight,
   CheckCircle,
-  Clock,
 } from 'lucide-react';
 import Link from 'next/link';
 import { CompvssAppLayout } from '../../components/app-layout';

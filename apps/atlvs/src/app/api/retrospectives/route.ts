@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Aggregate lessons learned
     const lessons = data?.flatMap(r => r.lessons_learned || []) || [];
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       facilitator_id: user.id, conducted_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ retrospective: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create retrospective' }, { status: 500 });

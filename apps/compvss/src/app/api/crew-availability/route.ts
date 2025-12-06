@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (endDate) query = query.lte('date', endDate);
 
     const { data, error } = await query.order('date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get blackout dates
     const { data: blackouts } = await supabase.from('crew_blackout_dates').select('*')
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         reason: blackout_reason
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ blackout: data }, { status: 201 });
     }
 
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       crew_id: crew_id || user.id, date, status, start_time, end_time, notes
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ availability: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to set availability' }, { status: 500 });
@@ -91,7 +91,7 @@ export async function DELETE(request: NextRequest) {
     const table = type === 'blackout' ? 'crew_blackout_dates' : 'crew_availability';
     const { error } = await supabase.from(table).delete().eq('id', id);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });

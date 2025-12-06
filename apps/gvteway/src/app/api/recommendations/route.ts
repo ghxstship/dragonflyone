@@ -3,25 +3,17 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-function getSupabaseClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-}
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch personalized recommendations
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
+    // Using module-level supabase client
     const authHeader = request.headers.get('authorization');
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'for_you', 'similar', 'because_you_liked', 'friends_attending'
@@ -81,7 +73,8 @@ async function getPersonalizedRecommendations(userId: string, limit: number) {
   const genres = new Set<string>();
   const artists = new Set<string>();
 
-  history?.forEach((h: any) => {
+  interface HistoryItem { events?: { genre?: string; artist_ids?: string[] } }
+  history?.forEach((h: HistoryItem) => {
     if (h.events?.genre) genres.add(h.events.genre);
     if (h.events?.artist_ids) {
       h.events.artist_ids.forEach((a: string) => artists.add(a));
@@ -108,7 +101,7 @@ async function getPersonalizedRecommendations(userId: string, limit: number) {
   const { data: events, error } = await query;
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 
   // Score and sort events
@@ -156,7 +149,7 @@ async function getSimilarEvents(eventId: string, limit: number) {
     .limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 
   return NextResponse.json({
@@ -195,7 +188,7 @@ async function getBecauseYouLiked(userId: string, eventId: string, limit: number
   const { data: events, error } = await query.limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 
   return NextResponse.json({
@@ -234,9 +227,10 @@ async function getFriendsAttending(userId: string, limit: number) {
     .gte('events.date', new Date().toISOString());
 
   // Group by event and count friends
-  const eventMap = new Map<string, { event: any; friends: string[] }>();
+  interface FriendOrder { event_id: string; user_id: string; events?: Record<string, unknown> }
+  const eventMap = new Map<string, { event: Record<string, unknown>; friends: string[] }>();
 
-  friendOrders?.forEach((order: any) => {
+  friendOrders?.forEach((order: FriendOrder) => {
     if (order.events) {
       const existing = eventMap.get(order.event_id);
       if (existing) {
@@ -275,7 +269,7 @@ async function getTrendingEvents(limit: number) {
     .limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 
   return NextResponse.json({

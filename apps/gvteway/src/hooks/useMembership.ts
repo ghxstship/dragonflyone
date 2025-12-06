@@ -12,7 +12,7 @@ export interface Membership {
   end_date?: string;
   benefits: string[];
   points: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at?: string;
   updated_at?: string;
 }

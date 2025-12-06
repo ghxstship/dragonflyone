@@ -229,9 +229,9 @@ export async function GET(request: NextRequest) {
         unreconciled_transactions: unreconciledCount || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Bank reconciliation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -273,7 +273,7 @@ export async function POST(request: NextRequest) {
     if (action === 'import_transactions') {
       const { bank_account_id, transactions } = body.data;
 
-      const txnRecords = transactions.map((t: any) => ({
+      const txnRecords = transactions.map((t: Record<string, unknown>) => ({
         bank_account_id,
         transaction_date: t.date,
         amount: t.amount,
@@ -294,7 +294,8 @@ export async function POST(request: NextRequest) {
       if (error) throw error;
 
       // Update account balance
-      const totalAmount = transactions.reduce((sum: number, t: any) => sum + t.amount, 0);
+      interface Transaction { amount: number }
+      const totalAmount = transactions.reduce((sum: number, t: Transaction) => sum + t.amount, 0);
       await supabase.rpc('update_bank_balance', { 
         p_account_id: bank_account_id, 
         p_amount: totalAmount 
@@ -461,12 +462,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Bank reconciliation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -507,9 +508,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Bank reconciliation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -561,8 +562,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Bank reconciliation error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

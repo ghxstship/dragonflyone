@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (endDate) query = query.lte('shift_date', endDate);
 
     const { data, error } = await query.order('shift_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Detect conflicts
     const conflicts = detectShiftConflicts(data || []);
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       status: 'scheduled', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ shift: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create shift' }, { status: 500 });
@@ -93,7 +93,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('shifts').update(updateData).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -101,11 +101,12 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function detectShiftConflicts(shifts: any[]): any[] {
-  const conflicts: any[] = [];
-  const byEmployee = new Map<string, any[]>();
+interface ShiftItem { id: string; employee_id: string; start_time: string; end_time: string }
+function detectShiftConflicts(shifts: ShiftItem[]): unknown[] {
+  const conflicts: unknown[] = [];
+  const byEmployee = new Map<string, ShiftItem[]>();
 
-  shifts.forEach(s => {
+  shifts.forEach((s: ShiftItem) => {
     if (!byEmployee.has(s.employee_id)) byEmployee.set(s.employee_id, []);
     byEmployee.get(s.employee_id)!.push(s);
   });

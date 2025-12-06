@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Eye, Pencil, MapPin, Shield, Plus } from 'lucide-react';
+import { Eye, Pencil, MapPin } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useZones, useCredentialTypes, useCredentialZoneAccess, useUpdateZoneAccess, useCreateZone } from '../../../hooks/useCredentials';
 import {
@@ -88,7 +88,7 @@ const columns: ListPageColumn<Zone>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -308,6 +308,19 @@ export default function ZonesPage() {
           quickActions={[
             { id: 'map', label: 'Zone Map', icon: <MapPin className="size-4" />, onClick: () => {} },
           ]}
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/credentials/zones/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch();
+            }
+          }}
+          bulkActions={[
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       )}
 
@@ -319,7 +332,7 @@ export default function ZonesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ is_active: true, access_level: 1, zone_type: 'public' }}
+        record={{ is_active: true, access_level: 1, zone_type: 'public' }}
       />
 
       <DetailDrawer

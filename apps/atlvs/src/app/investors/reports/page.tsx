@@ -112,7 +112,7 @@ export default function InvestorReportsPage() {
                       <Box key={round.id} className="flex flex-col gap-2">
                         <Stack direction="horizontal" gap={4} className="items-center justify-between">
                           <Body className="font-weight-semibold">{round.name}</Body>
-                          <Badge variant={round.status === 'closed' ? 'success' : round.status === 'open' ? 'info' : 'default'}>
+                          <Badge variant={round.status === 'closed' ? 'success' : round.status === 'open' ? 'info' : 'ghost'}>
                             {round.status.toUpperCase()}
                           </Badge>
                         </Stack>

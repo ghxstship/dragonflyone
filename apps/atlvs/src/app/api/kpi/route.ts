@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 
 import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 import { KPI_MASTER_LIST, getKPIByCode } from '@ghxstship/config/kpi-definitions';
 import type { KPIDefinition } from '@ghxstship/config/types/kpi-types';
 
@@ -13,9 +12,22 @@ import type { KPIDefinition } from '@ghxstship/config/types/kpi-types';
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
+    const code = searchParams.get('code');
     const category = searchParams.get('category');
     const subcategory = searchParams.get('subcategory');
     const enabled = searchParams.get('enabled');
+
+    // If code is specified, return single KPI
+    if (code) {
+      const kpi = getKPIByCode(code);
+      if (!kpi) {
+        return NextResponse.json(
+          { success: false, error: `KPI with code '${code}' not found` },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json({ success: true, data: kpi });
+    }
 
     let kpis = KPI_MASTER_LIST;
 

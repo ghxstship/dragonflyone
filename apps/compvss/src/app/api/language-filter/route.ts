@@ -41,20 +41,21 @@ export async function GET(request: NextRequest) {
       `, { count: 'exact' })
       .range(offset, offset + limit - 1);
 
-    const { data: profiles, error, count } = await query;
+    const { data: profiles, error, count: totalCount } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Filter by languages
     let filteredProfiles = profiles || [];
     
+    interface UserLanguage { code: string; proficiency?: string }
     if (languages && languages.length > 0) {
       filteredProfiles = filteredProfiles.filter(p => {
-        const userLanguages = p.languages || [];
+        const userLanguages = (p.languages || []) as UserLanguage[];
         return languages.some(lang => 
-          userLanguages.some((ul: any) => ul.code === lang)
+          userLanguages.some((ul: UserLanguage) => ul.code === lang)
         );
       });
     }
@@ -65,9 +66,9 @@ export async function GET(request: NextRequest) {
       const minIndex = proficiencyLevels.indexOf(proficiency);
       
       filteredProfiles = filteredProfiles.filter(p => {
-        const userLanguages = p.languages || [];
-        return userLanguages.some((ul: any) => {
-          const ulIndex = proficiencyLevels.indexOf(ul.proficiency);
+        const userLanguages = (p.languages || []) as UserLanguage[];
+        return userLanguages.some((ul: UserLanguage) => {
+          const ulIndex = proficiencyLevels.indexOf(ul.proficiency || '');
           return ulIndex >= minIndex;
         });
       });
@@ -84,7 +85,7 @@ export async function GET(request: NextRequest) {
     // Get available languages for filtering
     const allLanguages = new Set<string>();
     profiles?.forEach(p => {
-      (p.languages || []).forEach((l: any) => allLanguages.add(l.code));
+      ((p.languages || []) as UserLanguage[]).forEach((l: UserLanguage) => allLanguages.add(l.code));
     });
 
     // Get available specialties
@@ -112,6 +113,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       profiles: filteredProfiles,
       total: filteredProfiles.length,
+      total_unfiltered: totalCount || 0,
+      entity_type: entityType,
       filters: {
         available_languages: Array.from(allLanguages),
         available_specialties: Array.from(allSpecialties),
@@ -166,7 +169,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ profile, updated: true });
@@ -183,7 +186,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ profile }, { status: 201 });

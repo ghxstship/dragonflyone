@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (employeeId) query = query.eq('employee_id', employeeId);
 
     const { data, error } = await query.order('expiry_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get expired credentials
     const { data: expired } = await supabase.from('employee_credentials').select(`
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       issue_date, expiry_date, document_url, status: 'active', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ credential: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create credential' }, { status: 500 });

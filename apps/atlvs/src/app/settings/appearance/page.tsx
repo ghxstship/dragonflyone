@@ -74,8 +74,8 @@ export default function AppearanceSettingsPage() {
       <EnterprisePageHeader
         title="Appearance"
         subtitle="Customize the look and feel of your workspace"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -83,7 +83,7 @@ export default function AppearanceSettingsPage() {
         <Container>
           <Stack gap={10}>
             {/* Quick Presets */}
-            <Section border noPadding title="Quick Presets">
+            <Section border-2 noPadding title="Quick Presets">
               <Grid cols={4} gap={4}>
                 <Button
                   variant="outlineInk"
@@ -129,7 +129,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Theme Settings */}
-            <Section border noPadding title="Theme">
+            <Section border-2 noPadding title="Theme">
               <Stack gap={4}>
                 <Grid cols={2} gap={6}>
                   <Stack gap={2}>
@@ -162,7 +162,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Accent Color */}
-            <Section border noPadding title="Accent Color">
+            <Section border-2 noPadding title="Accent Color">
               <Grid cols={6} gap={3}>
                 {ACCENT_COLOR_OPTIONS.map((option) => (
                   <button
@@ -190,7 +190,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Density & Spacing */}
-            <Section border noPadding title="Density">
+            <Section border-2 noPadding title="Density">
               <Stack gap={4}>
                 {DENSITY_OPTIONS.map((option) => (
                   <Card
@@ -219,7 +219,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Typography */}
-            <Section border noPadding title="Typography">
+            <Section border-2 noPadding title="Typography">
               <Grid cols={2} gap={6}>
                 <Stack gap={2}>
                   <Label>Font Scale</Label>
@@ -255,7 +255,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Motion & Animations */}
-            <Section border noPadding title="Motion">
+            <Section border-2 noPadding title="Motion">
               <Stack gap={4}>
                 <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                   <Stack gap={1}>
@@ -285,7 +285,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Layout */}
-            <Section border noPadding title="Layout">
+            <Section border-2 noPadding title="Layout">
               <Stack gap={4}>
                 <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                   <Stack gap={1}>
@@ -303,7 +303,7 @@ export default function AppearanceSettingsPage() {
             </Section>
 
             {/* Preview Card */}
-            <Section border noPadding title="Preview">
+            <Section border-2 noPadding title="Preview">
               <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Sample Card</H3>

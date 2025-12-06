@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,26 +45,32 @@ export async function GET(request: NextRequest) {
       .order('updated_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const conversations = data?.map(conv => ({
-      id: conv.id,
-      subject: conv.subject,
-      status: conv.status,
-      event_id: conv.event_id,
-      event_title: (conv.events as any)?.title,
-      created_at: conv.created_at,
-      messages: ((conv.support_messages as any[]) || [])
-        .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
-        .map(msg => ({
-          id: msg.id,
-          sender: msg.sender,
-          content: msg.content,
-          agent_name: msg.agent_name,
-          timestamp: msg.created_at,
-        })),
-    })) || [];
+    interface SupportEventInfo { title?: string }
+    interface SupportMessage { id: string; sender: string; content: string; agent_name?: string; created_at: string }
+    const conversations = data?.map(conv => {
+      const event = conv.events as SupportEventInfo | null;
+      const messages = (conv.support_messages || []) as SupportMessage[];
+      return {
+        id: conv.id,
+        subject: conv.subject,
+        status: conv.status,
+        event_id: conv.event_id,
+        event_title: event?.title,
+        created_at: conv.created_at,
+        messages: messages
+          .sort((a: SupportMessage, b: SupportMessage) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())
+          .map((msg: SupportMessage) => ({
+            id: msg.id,
+            sender: msg.sender,
+            content: msg.content,
+            agent_name: msg.agent_name,
+            timestamp: msg.created_at,
+          })),
+      };
+    }) || [];
 
     return NextResponse.json({ conversations });
   } catch (error) {

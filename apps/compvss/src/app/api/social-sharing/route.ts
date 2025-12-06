@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('opportunity_shares').select('*')
       .eq('opportunity_id', opportunityId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Aggregate by platform
     const byPlatform: Record<string, number> = {};

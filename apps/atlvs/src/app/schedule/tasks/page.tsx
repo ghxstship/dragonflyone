@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, CheckCircle, Clock, AlertTriangle, User } from 'lucide-react';
+import { Eye, Pencil, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useTasks, useTaskStats, useCompleteTask } from '../../../hooks/useTasks';
 import {
@@ -36,7 +36,7 @@ interface ScheduleTask {
   show?: { id: string; title: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   completed: 'success',
   in_progress: 'warning',
   pending: 'default',
@@ -44,7 +44,7 @@ const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'd
   cancelled: 'error',
 };
 
-const priorityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const priorityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   critical: 'error',
   high: 'warning',
   medium: 'info',
@@ -70,7 +70,7 @@ const columns: ListPageColumn<ScheduleTask>[] = [
     accessor: 'priority', 
     sortable: true,
     render: (value) => (
-      <Badge variant={priorityColors[String(value)] || 'default'}>
+      <Badge variant={priorityColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -99,7 +99,7 @@ const columns: ListPageColumn<ScheduleTask>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).replace('_', ' ').toUpperCase()}
       </Badge>
     )
@@ -206,8 +206,12 @@ export default function ScheduleTasksPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/schedule/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -240,13 +244,13 @@ export default function ScheduleTasksPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Priority</Body>
-            <Badge variant={priorityColors[selectedTask.priority] || 'default'}>
+            <Badge variant={priorityColors[selectedTask.priority] || 'ghost'}>
               {selectedTask.priority.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedTask.status] || 'default'}>
+            <Badge variant={statusColors[selectedTask.status] || 'ghost'}>
               {selectedTask.status.replace('_', ' ').toUpperCase()}
             </Badge>
           </Stack>
@@ -304,6 +308,27 @@ export default function ScheduleTasksPage() {
           { id: 'contingencies', label: 'Contingencies', icon: <AlertTriangle className="size-4" />, onClick: () => router.push('/schedule/contingencies') },
           { id: 'templates', label: 'Templates', icon: <Clock className="size-4" />, onClick: () => router.push('/schedule/templates') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/schedule/tasks/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'complete') {
+            await fetch('/api/schedule/tasks/bulk-complete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'complete', label: 'Complete Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -314,7 +339,7 @@ export default function ScheduleTasksPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'pending', priority: 'medium', task_type: 'other' }}
+        record={{ status: 'pending', priority: 'medium', task_type: 'other' }}
       />
 
       <DetailDrawer

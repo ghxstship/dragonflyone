@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -29,6 +23,16 @@ export async function GET(request: NextRequest) {
     const terminalId = searchParams.get('terminal_id');
 
     if (type === 'by_location') {
+      // Get terminal IDs for location filter if specified
+      let locationTerminalIds: string[] = [];
+      if (locationId) {
+        const { data: locationTerminals } = await supabase
+          .from('pos_terminals')
+          .select('id')
+          .eq('location', locationId);
+        locationTerminalIds = locationTerminals?.map(t => t.id) || [];
+      }
+
       let query = supabase
         .from('pos_transactions')
         .select(`total, terminal:pos_terminals(id, terminal_name, location)`)
@@ -36,11 +40,16 @@ export async function GET(request: NextRequest) {
 
       if (startDate) query = query.gte('created_at', startDate);
       if (endDate) query = query.lte('created_at', endDate);
+      if (locationTerminalIds.length > 0) query = query.in('terminal_id', locationTerminalIds);
 
       const { data: transactions } = await query;
 
-      const byLocation = transactions?.reduce((acc: Record<string, { total: number; count: number }>, t) => {
-        const loc = (t.terminal as any)?.location || 'Unknown';
+      interface TransactionWithTerminal {
+        total: number;
+        terminal: { id: string; terminal_name: string; location: string } | null;
+      }
+      const byLocation = (transactions as TransactionWithTerminal[] | null)?.reduce((acc: Record<string, { total: number; count: number }>, t) => {
+        const loc = t.terminal?.location || 'Unknown';
         if (!acc[loc]) acc[loc] = { total: 0, count: 0 };
         acc[loc].total += t.total;
         acc[loc].count++;
@@ -154,7 +163,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

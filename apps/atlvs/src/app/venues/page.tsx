@@ -20,6 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Venue {
   id: string;
@@ -220,7 +221,7 @@ export default function VenuesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedVenue.status] || 'default'}>
+            <Badge variant={statusColors[selectedVenue.status] || 'ghost'}>
               {selectedVenue.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -270,9 +271,42 @@ export default function VenuesPage() {
         onRowClick={(row) => router.push(`/venues/${row.id}`)}
         createLabel="Add Venue"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="venues"
+        onExport={createExportHandler({
+          filename: 'venues',
+          getData: () => (venues || []).map(v => ({
+            id: v.id,
+            name: v.name,
+            type: v.venue_type,
+            city: v.city || '',
+            state: v.state || '',
+            capacity: v.capacity || 0,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No venues yet"
         emptyAction={{ label: 'Add First Venue', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/venues/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'archive') {
+            await fetch('/api/venues/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal

@@ -10,7 +10,7 @@ const ForumSchema = z.object({
   created_by: z.string(),
 });
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const mockForums = [
       {
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     const body = await request.json();
     const validatedData = ForumSchema.parse(body);

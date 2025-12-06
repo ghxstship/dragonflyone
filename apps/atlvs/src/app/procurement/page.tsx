@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { usePurchaseOrders, useCreatePurchaseOrder, useDeletePurchaseOrder } from '@/hooks/useProcurement';
 
 interface PurchaseOrder {
@@ -144,7 +144,14 @@ export default function ProcurementPage() {
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'export') {
-      router.push('/procurement/export');
+      const params = new URLSearchParams();
+      selectedIds.forEach(id => params.append('ids', id));
+      router.push(`/procurement/export?${params.toString()}`);
+    } else if (actionId === 'approve') {
+      for (const id of selectedIds) {
+        await updatePOMutation.mutateAsync({ id, status: 'approved' });
+      }
+      refetch();
     }
   };
 
@@ -165,6 +172,26 @@ export default function ProcurementPage() {
 
   const totalSpend = poList.reduce((sum, po) => sum + po.amount, 0);
   const avgValue = poList.length > 0 ? totalSpend / poList.length : 0;
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'procurement',
+    requiredFields: ['vendor', 'description', 'amount'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/procurement', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('procurement').length > 0 
+    ? getImportTemplates('procurement') 
+    : [{ id: 'default', name: 'PO Import', mapping: { vendor: 'vendor', description: 'description', amount: 'amount', category: 'category', status: 'status' } }];
 
   const stats = [
     { label: 'Total POs', value: poList.length },
@@ -212,6 +239,9 @@ export default function ProcurementPage() {
         createLabel="New Purchase Order"
         onCreate={() => setCreateModalOpen(true)}
         entityType="purchase-orders"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['vendor', 'description', 'amount', 'category', 'status']}
         onExport={createExportHandler({
           filename: "purchase-orders",
           getData: () => (purchaseOrders || []).map(p => ({
@@ -227,12 +257,7 @@ export default function ProcurementPage() {
         stats={stats}
         emptyMessage="No purchase orders found"
         emptyAction={{ label: 'Create Purchase Order', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -256,7 +281,7 @@ export default function ProcurementPage() {
         onEdit={(po) => router.push(`/procurement/${po.id}/edit`)}
         onDelete={(po) => { setPOToDelete(po); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'approve', label: 'Approve', icon: '✅' },
+          { id: 'approve', label: 'Approve', icon: <Check className="size-4" /> },
         ]}
         onAction={(actionId, po) => {
           if (actionId === 'approve') router.push(`/procurement/${po.id}/approve`);

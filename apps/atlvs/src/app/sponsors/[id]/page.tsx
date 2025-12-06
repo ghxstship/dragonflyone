@@ -148,7 +148,7 @@ export default function SponsorDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{sponsor.company_name}</H2>
-                    <Badge variant={statusColors[sponsor.status] || 'default'}>
+                    <Badge variant={statusColors[sponsor.status] || 'ghost'}>
                       {sponsor.status.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -239,7 +239,7 @@ export default function SponsorDetailPage() {
                                   )}
                                 </Stack>
                                 <Stack direction="horizontal" gap={2} className="items-center">
-                                  <Badge variant={deliverable.status === 'completed' ? 'success' : 'default'}>
+                                  <Badge variant={deliverable.status === 'completed' ? 'success' : 'ghost'}>
                                     {deliverable.status.toUpperCase()}
                                   </Badge>
                                   {deliverable.status !== 'completed' && (
@@ -280,7 +280,7 @@ export default function SponsorDetailPage() {
                         <Body className="text-body-sm text-grey-500">
                           ${sponsor.amount_paid?.toLocaleString() || 0} of ${sponsor.contract_value?.toLocaleString() || 0}
                         </Body>
-                        <Badge variant={paymentColors[sponsor.payment_status] || 'default'}>
+                        <Badge variant={paymentColors[sponsor.payment_status] || 'ghost'}>
                           {sponsor.payment_status.toUpperCase()}
                         </Badge>
                       </Stack>
@@ -342,7 +342,7 @@ export default function SponsorDetailPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Status</Body>
-                        <Badge variant={statusColors[sponsor.status] || 'default'}>
+                        <Badge variant={statusColors[sponsor.status] || 'ghost'}>
                           {sponsor.status.toUpperCase()}
                         </Badge>
                       </Stack>
@@ -380,7 +380,7 @@ export default function SponsorDetailPage() {
         fields={paymentFormFields}
         onSubmit={handleRecordPayment}
         size="sm"
-        defaultValues={{ amount: outstanding > 0 ? outstanding : 0 }}
+        record={{ amount: outstanding > 0 ? outstanding : 0 }}
       />
 
       {/* Add Deliverable Modal */}

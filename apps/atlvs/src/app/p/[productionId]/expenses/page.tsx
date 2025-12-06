@@ -1,13 +1,12 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
 import { Receipt, Plus, Filter } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
 export default function ProductionExpensesPage() {
   const params = useParams();
-  const router = useRouter();
   const productionId = params?.productionId as string;
   const production = atlvsDemoProductions.find((p) => p.id === productionId);
 

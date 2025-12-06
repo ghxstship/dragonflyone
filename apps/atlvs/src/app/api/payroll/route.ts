@@ -23,6 +23,29 @@ export async function GET(request: NextRequest) {
     const year = searchParams.get('year');
     const employeeId = searchParams.get('employee_id');
 
+    // If employee_id is provided, get payroll items for that employee
+    if (employeeId) {
+      const { data: employeePayroll, error: empError } = await supabase
+        .from('payroll_items')
+        .select(`
+          *,
+          payroll_run:payroll_runs(id, pay_period_start, pay_period_end, pay_date, status),
+          employee:employees(id, first_name, last_name, employee_number)
+        `)
+        .eq('employee_id', employeeId)
+        .order('created_at', { ascending: false });
+
+      if (empError) {
+        Logger.error('Error fetching employee payroll:', empError);
+        return NextResponse.json(
+          { error: 'Failed to fetch employee payroll', details: empError.message },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json({ entries: employeePayroll });
+    }
+
     let query = supabase
       .from('payroll_runs')
       .select(`

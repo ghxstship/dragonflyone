@@ -119,19 +119,19 @@ export default function MarketingAnalyticsPage() {
                   <Stack gap={4}>
                     <H3>Key Metrics</H3>
                     <Grid cols={2} gap={4}>
-                      <Card className="p-4 border border-ink-200 text-center">
+                      <Card className="p-4 border-2 border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
                         <Label className="text-ink-500">Avg CTR</Label>
                       </Card>
-                      <Card className="p-4 border border-ink-200 text-center">
+                      <Card className="p-4 border-2 border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">${(totalSpend / totalConversions).toFixed(2)}</Label>
                         <Label className="text-ink-500">Cost per Conversion</Label>
                       </Card>
-                      <Card className="p-4 border border-ink-200 text-center">
+                      <Card className="p-4 border-2 border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">${(totalRevenue / totalConversions).toFixed(0)}</Label>
                         <Label className="text-ink-500">Avg Order Value</Label>
                       </Card>
-                      <Card className="p-4 border border-ink-200 text-center">
+                      <Card className="p-4 border-2 border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">{((totalConversions / mockCampaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
                         <Label className="text-ink-500">Conversion Rate</Label>
                       </Card>
@@ -208,7 +208,7 @@ export default function MarketingAnalyticsPage() {
                     <Body className="text-ink-600">
                       Last Click attribution assigns 100% of the conversion credit to the last touchpoint before conversion.
                     </Body>
-                    <Card className="p-4 border border-ink-200">
+                    <Card className="p-4 border-2 border-ink-200">
                       <Stack gap={2}>
                         <Label className="text-ink-500">Top Converting Path</Label>
                         <Stack direction="horizontal" gap={2}>

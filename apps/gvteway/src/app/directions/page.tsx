@@ -334,7 +334,7 @@ function DirectionsContent() {
               <Select
                 value={travelMode}
                 onChange={(e) => {
-                  setTravelMode(e.target.value as any);
+                  setTravelMode(e.target.value as 'driving' | 'walking' | 'transit');
                   if (userLocation) {
                     fetchDirections(userLocation.lat, userLocation.lng);
                   }

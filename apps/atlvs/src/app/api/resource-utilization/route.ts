@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get('end_date') || new Date().toISOString();
     const resourceType = searchParams.get('type'); // 'people', 'assets', 'capital'
 
-    const results: any = {};
+    const results: Record<string, unknown> = {};
 
     if (!resourceType || resourceType === 'people') {
       const { data: employees } = await supabase.from('employees').select('id, first_name, last_name, department');

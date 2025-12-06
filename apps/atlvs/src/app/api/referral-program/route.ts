@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
         relationship, notes, status: 'submitted'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ referral: data }, { status: 201 });
     }
 

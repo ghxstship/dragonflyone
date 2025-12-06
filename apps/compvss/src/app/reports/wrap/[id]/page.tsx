@@ -30,7 +30,7 @@ export default function WrapReportDetailPage() {
     approved: 'success',
     submitted: 'warning',
     reviewed: 'info',
-    draft: 'default',
+    draft: 'ghost',
   };
 
   if (isLoading) {
@@ -78,7 +78,7 @@ export default function WrapReportDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{report.title}</H2>
-                    <Badge variant={statusColors[report.status] || 'default'}>
+                    <Badge variant={statusColors[report.status] || 'ghost'}>
                       {report.status.toUpperCase()}
                     </Badge>
                   </Stack>

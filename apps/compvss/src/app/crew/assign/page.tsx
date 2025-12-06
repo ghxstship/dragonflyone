@@ -74,8 +74,8 @@ export default function AssignCrewPage() {
       <EnterprisePageHeader
         title="Assign Crew"
         subtitle="Assign crew members to projects"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

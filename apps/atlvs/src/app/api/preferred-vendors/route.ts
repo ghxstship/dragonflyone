@@ -81,7 +81,9 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by category
-      const matrix = preferred?.reduce((acc: Record<string, any[]>, p) => {
+      interface VendorEntry { vendor: unknown; priority: number; discount?: number }
+      interface PreferredVendor { category: string; vendor: unknown; priority: number; negotiated_discount?: number }
+      const matrix = preferred?.reduce((acc: Record<string, VendorEntry[]>, p: PreferredVendor) => {
         if (!acc[p.category]) acc[p.category] = [];
         acc[p.category].push({
           vendor: p.vendor,
@@ -89,7 +91,7 @@ export async function GET(request: NextRequest) {
           discount: p.negotiated_discount,
         });
         return acc;
-      }, {});
+      }, {} as Record<string, VendorEntry[]>);
 
       return NextResponse.json({
         matrix,
@@ -119,9 +121,9 @@ export async function GET(request: NextRequest) {
       categories,
       total: preferred?.length || 0,
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Preferred vendors error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -160,12 +162,12 @@ export async function POST(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ preferred_vendor: preferred }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Preferred vendors error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -186,9 +188,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ preferred_vendor: preferred });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Preferred vendors error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -211,8 +213,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Preferred vendors error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

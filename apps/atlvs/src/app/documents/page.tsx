@@ -17,8 +17,7 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
-} from '@ghxstship/ui';
+  } from '@ghxstship/ui';
 import { createExportHandler } from '@ghxstship/config';
 
 interface Document {
@@ -156,16 +155,30 @@ export default function DocumentsPage() {
         stats={stats}
         emptyMessage="No documents found"
         emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/documents/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/documents/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: '⬇️' }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: <Download className="size-4" /> }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Document" message={`Delete "${docToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDocToDelete(null); }} />
     </AtlvsAppLayout>
   );

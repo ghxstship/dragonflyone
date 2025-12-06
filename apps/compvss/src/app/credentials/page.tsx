@@ -19,7 +19,7 @@ import {
   type ListPageBulkAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Credential {
   id: string;
@@ -31,7 +31,7 @@ interface Credential {
   contact?: { id: string; first_name: string; last_name: string; email: string; phone?: string };
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   active: 'success',
   pending: 'warning',
   suspended: 'warning',
@@ -77,7 +77,7 @@ const columns: ListPageColumn<Credential>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -194,6 +194,26 @@ export default function CredentialsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'credentials',
+    requiredFields: ['badge_number'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/credentials', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('credentials').length > 0 
+    ? getImportTemplates('credentials') 
+    : [{ id: 'default', name: 'Credential Import', mapping: { badge_number: 'badge_number', status: 'status', expires_at: 'expires_at' } }];
+
   const pageStats = [
     { label: 'Total Credentials', value: stats?.total || 0 },
     { label: 'Active', value: stats?.active || 0 },
@@ -241,7 +261,7 @@ export default function CredentialsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-grey-500 text-body-sm">Status</Body>
-            <Badge variant={statusColors[selectedCredential.status] || 'default'}>
+            <Badge variant={statusColors[selectedCredential.status] || 'ghost'}>
               {selectedCredential.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -274,6 +294,9 @@ export default function CredentialsPage() {
         createLabel="Issue Credential"
         onCreate={() => router.push('/credentials/issue')}
         entityType="credentials"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['badge_number', 'status', 'expires_at']}
         onExport={createExportHandler({
           filename: "credentials",
           getData: () => credentials.map(c => ({
@@ -290,12 +313,7 @@ export default function CredentialsPage() {
         stats={pageStats}
         emptyMessage="No credentials issued yet"
         emptyAction={{ label: 'Issue First Credential', onClick: () => router.push('/credentials/issue') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        quickActions={[
+quickActions={[
           { id: 'scan', label: 'Scan Credential', icon: <QrCode className="size-4" />, onClick: () => router.push('/credentials/scan') },
           { id: 'types', label: 'Manage Types', icon: <Pencil className="size-4" />, onClick: () => router.push('/credentials/types') },
           { id: 'zones', label: 'Zone Access', icon: <UserPlus className="size-4" />, onClick: () => router.push('/credentials/zones') },

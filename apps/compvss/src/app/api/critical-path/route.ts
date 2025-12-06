@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function calculateCriticalPath(tasks: any[]): any[] {
+function calculateCriticalPath(tasks: unknown[]): unknown[] {
   // Build task graph
   const taskMap = new Map(tasks.map(t => [t.id, { ...t, earliestStart: 0, earliestFinish: 0, latestStart: Infinity, latestFinish: Infinity }]));
 
@@ -49,10 +49,10 @@ function calculateCriticalPath(tasks: any[]): any[] {
   const sorted = topologicalSort(tasks);
   for (const task of sorted) {
     const t = taskMap.get(task.id)!;
-    const deps = task.dependencies?.map((d: any) => taskMap.get(d.dependency_id)) || [];
+    const deps = task.dependencies?.map((d: Record<string, unknown>) => taskMap.get(d.dependency_id)) || [];
     
     if (deps.length > 0) {
-      t.earliestStart = Math.max(...deps.map((d: any) => d?.earliestFinish || 0));
+      t.earliestStart = Math.max(...deps.map((d: Record<string, unknown>) => d?.earliestFinish || 0));
     }
     t.earliestFinish = t.earliestStart + (t.duration || 1);
   }
@@ -63,7 +63,8 @@ function calculateCriticalPath(tasks: any[]): any[] {
   // Backward pass - calculate latest times
   for (const task of sorted.reverse()) {
     const t = taskMap.get(task.id)!;
-    const successors = tasks.filter(s => s.dependencies?.some((d: any) => d.dependency_id === task.id));
+    interface TaskDependency { dependency_id: string }
+    const successors = tasks.filter(s => s.dependencies?.some((d: TaskDependency) => d.dependency_id === task.id));
     
     if (successors.length === 0) {
       t.latestFinish = projectEnd;
@@ -88,17 +89,18 @@ function calculateCriticalPath(tasks: any[]): any[] {
   }));
 }
 
-function topologicalSort(tasks: any[]): any[] {
+interface SortableTask { id: string; dependencies?: { dependency_id: string }[] }
+function topologicalSort(tasks: SortableTask[]): SortableTask[] {
   const visited = new Set();
-  const result: any[] = [];
+  const result: SortableTask[] = [];
 
-  function visit(task: any) {
+  function visit(task: SortableTask) {
     if (visited.has(task.id)) return;
     visited.add(task.id);
     
     const deps = task.dependencies || [];
     for (const dep of deps) {
-      const depTask = tasks.find(t => t.id === dep.dependency_id);
+      const depTask = tasks.find((t: SortableTask) => t.id === dep.dependency_id);
       if (depTask) visit(depTask);
     }
     result.push(task);
@@ -111,8 +113,8 @@ function topologicalSort(tasks: any[]): any[] {
   return result;
 }
 
-function identifyRisks(tasks: any[], criticalPath: any[]): any[] {
-  const risks: any[] = [];
+function identifyRisks(tasks: unknown[], criticalPath: unknown[]): unknown[] {
+  const risks: unknown[] = [];
   const criticalIds = new Set(criticalPath.map(t => t.id));
 
   for (const task of tasks) {
@@ -144,7 +146,7 @@ function identifyRisks(tasks: any[], criticalPath: any[]): any[] {
   return risks;
 }
 
-function calculateSlack(tasks: any[], criticalPath: any[]): any[] {
+function calculateSlack(tasks: unknown[], criticalPath: unknown[]): unknown[] {
   const criticalIds = new Set(criticalPath.map(t => t.id));
   
   return tasks.filter(t => !criticalIds.has(t.id)).map(t => ({

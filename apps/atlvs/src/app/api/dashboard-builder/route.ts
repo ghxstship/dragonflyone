@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       .or(`created_by.eq.${user.id},is_shared.eq.true`)
       .order('updated_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       dashboards: data,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       is_shared: is_shared || false, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ dashboard: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create dashboard' }, { status: 500 });
@@ -73,7 +73,7 @@ export async function PATCH(request: NextRequest) {
       ...updateData, layout, widgets, updated_at: new Date().toISOString()
     }).eq('id', id);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
@@ -90,7 +90,7 @@ export async function DELETE(request: NextRequest) {
     const id = searchParams.get('id');
 
     const { error } = await supabase.from('custom_dashboards').delete().eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

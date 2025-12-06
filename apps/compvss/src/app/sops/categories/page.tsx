@@ -126,9 +126,14 @@ export default function SOPCategoriesPage() {
   };
 
   const handleDelete = async () => {
-    Logger.info("Delete action triggered");
+    if (categoryToDelete) {
+      await fetch(`/api/sops/categories/${categoryToDelete.id}`, {
+        method: 'DELETE',
+      });
+    }
     setDeleteDialogOpen(false);
     setCategoryToDelete(null);
+    refetch();
   };
 
   const stats = [
@@ -185,6 +190,19 @@ export default function SOPCategoriesPage() {
         stats={stats}
         emptyMessage="No categories created yet"
         emptyAction={{ label: 'Create First Category', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sops/categories/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal

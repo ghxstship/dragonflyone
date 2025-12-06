@@ -68,7 +68,7 @@ export const GET = apiRoute(
 
 // POST - Create revenue recognition rule
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabase = createAdminClient();
     const body = await request.json();
     const validated = revenueRuleSchema.parse(body);
@@ -117,7 +117,9 @@ export const POST = apiRoute(
 );
 
 // Helper function to generate recognition schedule
-async function generateRecognitionSchedule(rule: any) {
+interface Milestone { date: string; percentage: number; name: string }
+interface RecognitionRule { id: string; recognition_start_date: string; recognition_end_date?: string; revenue_type: string; total_amount: number; milestones?: Milestone[]; recognition_period_months?: number }
+async function generateRecognitionSchedule(rule: RecognitionRule) {
   const schedule = [];
   const startDate = new Date(rule.recognition_start_date);
   const endDate = rule.recognition_end_date ? new Date(rule.recognition_end_date) : new Date(startDate.getTime() + 365 * 24 * 60 * 60 * 1000);
@@ -137,7 +139,7 @@ async function generateRecognitionSchedule(rule: any) {
     case 'milestone':
       // Recognize based on milestones
       if (rule.milestones && rule.milestones.length > 0) {
-        rule.milestones.forEach((milestone: any) => {
+        rule.milestones.forEach((milestone: Milestone) => {
           schedule.push({
             rule_id: rule.id,
             recognition_date: milestone.date,

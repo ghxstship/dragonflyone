@@ -2,7 +2,6 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { z } from 'zod';
 
 // GET /api/automated-insights - Get insights and recommendations
 export async function GET(request: NextRequest) {
@@ -46,7 +45,7 @@ export async function GET(request: NextRequest) {
     const { data: insights, error, count } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get summary by type
@@ -96,7 +95,7 @@ export async function POST(request: NextRequest) {
     const action = body.action || 'generate';
 
     if (action === 'generate') {
-      const insights: any[] = [];
+      const insights: unknown[] = [];
 
       // Revenue trend analysis
       const revenueTrend = await analyzeRevenueTrend();
@@ -140,7 +139,7 @@ export async function POST(request: NextRequest) {
         .eq('id', insight_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -167,7 +166,7 @@ export async function POST(request: NextRequest) {
       const { error } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -196,7 +195,8 @@ export async function POST(request: NextRequest) {
 }
 
 // Analysis functions
-async function analyzeRevenueTrend(): Promise<any | null> {
+interface InsightResult { insight_type: string; category: string; title: string; description: string; severity: string; metric_name: string; metric_value?: number; comparison_value?: number; change_percent?: number; data_points?: Record<string, unknown> }
+async function analyzeRevenueTrend(): Promise<InsightResult | null> {
   const { data: currentPeriod } = await supabase
     .from('invoices')
     .select('total_amount')
@@ -232,7 +232,7 @@ async function analyzeRevenueTrend(): Promise<any | null> {
   };
 }
 
-async function analyzePipelineHealth(): Promise<any | null> {
+async function analyzePipelineHealth(): Promise<InsightResult | null> {
   const { data: deals } = await supabase
     .from('deals')
     .select('stage, value, created_at')
@@ -266,7 +266,7 @@ async function analyzePipelineHealth(): Promise<any | null> {
   };
 }
 
-async function analyzeOverdueItems(): Promise<any | null> {
+async function analyzeOverdueItems(): Promise<InsightResult | null> {
   const { data: overdueInvoices } = await supabase
     .from('invoices')
     .select('id, total_amount')
@@ -300,7 +300,7 @@ async function analyzeOverdueItems(): Promise<any | null> {
   };
 }
 
-async function analyzeAssetUtilization(): Promise<any | null> {
+async function analyzeAssetUtilization(): Promise<InsightResult | null> {
   const { data: assets } = await supabase
     .from('assets')
     .select('status, purchase_price');
@@ -329,7 +329,7 @@ async function analyzeAssetUtilization(): Promise<any | null> {
   };
 }
 
-async function analyzeBudgetVariance(): Promise<any | null> {
+async function analyzeBudgetVariance(): Promise<InsightResult | null> {
   const { data: projects } = await supabase
     .from('projects')
     .select('name, budget, actual_cost')
@@ -362,7 +362,8 @@ async function analyzeBudgetVariance(): Promise<any | null> {
   };
 }
 
-function generateRecommendations(insight: any): string[] {
+interface Insight { insight_type: string; change_percent?: number; category?: string }
+function generateRecommendations(insight: Insight): string[] {
   const recommendations: string[] = [];
 
   switch (insight.insight_type) {

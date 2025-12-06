@@ -104,14 +104,14 @@ export default function QACheckpointsPage() {
   const failedCount = mockCheckpoints.filter(c => c.status === "Failed").length;
   const criticalPending = mockCheckpoints.filter(c => c.status !== "Passed" && c.items.some(i => i.critical && !i.checked)).length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'ghost' | 'error' | 'info' => {
     switch (status) {
-      case "Passed": return "text-success-400";
-      case "In Progress": return "text-warning-400";
-      case "Pending": return "text-ink-400";
-      case "Failed": return "text-error-400";
-      case "Waived": return "text-info-400";
-      default: return "text-ink-400";
+      case "Passed": return "success";
+      case "In Progress": return "warning";
+      case "Pending": return "ghost";
+      case "Failed": return "error";
+      case "Waived": return "info";
+      default: return "ghost";
     }
   };
 
@@ -122,8 +122,8 @@ export default function QACheckpointsPage() {
       <EnterprisePageHeader
         title="QA Checkpoints"
         subtitle="Quality assurance and sign-off tracking for production phases"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -173,7 +173,7 @@ export default function QACheckpointsPage() {
                         </Stack>
                         <Stack gap={1}>
                           <Body className="text-body-sm">Status</Body>
-                          <Badge variant={checkpoint.status === "Passed" ? "solid" : "outline"}>{checkpoint.status}</Badge>
+                          <Badge variant={getStatusVariant(checkpoint.status)}>{checkpoint.status}</Badge>
                         </Stack>
                         <Stack direction="horizontal" gap={2} className="justify-end">
                           <Button variant="ghost" size="sm" onClick={() => setSelectedCheckpoint(checkpoint)}>Details</Button>

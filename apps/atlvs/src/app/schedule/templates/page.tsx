@@ -38,7 +38,7 @@ const taskTypeLabels: Record<string, string> = {
   other: 'Other',
 };
 
-const priorityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const priorityColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   critical: 'error',
   high: 'warning',
   medium: 'info',
@@ -64,7 +64,7 @@ const columns: ListPageColumn<TaskTemplate>[] = [
     accessor: 'default_priority', 
     sortable: true,
     render: (value) => (
-      <Badge variant={priorityColors[String(value)] || 'default'}>
+      <Badge variant={priorityColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -86,7 +86,7 @@ const columns: ListPageColumn<TaskTemplate>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -256,7 +256,7 @@ export default function TaskTemplatesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Default Priority</Body>
-            <Badge variant={priorityColors[selectedTemplate.default_priority] || 'default'}>
+            <Badge variant={priorityColors[selectedTemplate.default_priority] || 'ghost'}>
               {selectedTemplate.default_priority.toUpperCase()}
             </Badge>
           </Stack>
@@ -270,7 +270,7 @@ export default function TaskTemplatesPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={selectedTemplate.is_active ? 'success' : 'default'}>
+            <Badge variant={selectedTemplate.is_active ? 'success' : 'ghost'}>
               {selectedTemplate.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
@@ -322,6 +322,27 @@ export default function TaskTemplatesPage() {
           { id: 'tasks', label: 'Tasks', icon: <CheckSquare className="size-4" />, onClick: () => router.push('/schedule/tasks') },
           { id: 'contingencies', label: 'Contingencies', icon: <Clock className="size-4" />, onClick: () => router.push('/schedule/contingencies') },
         ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/schedule/templates/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          } else if (action === 'archive') {
+            await fetch('/api/schedule/templates/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -332,7 +353,7 @@ export default function TaskTemplatesPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ is_active: true, default_priority: 'medium', task_type: 'other' }}
+        record={{ is_active: true, default_priority: 'medium', task_type: 'other' }}
       />
 
       <RecordFormModal
@@ -343,7 +364,7 @@ export default function TaskTemplatesPage() {
         fields={formFields}
         onSubmit={handleEdit}
         size="lg"
-        defaultValues={selectedTemplate ? {
+        record={selectedTemplate ? {
           name: selectedTemplate.name,
           description: selectedTemplate.description,
           task_type: selectedTemplate.task_type,

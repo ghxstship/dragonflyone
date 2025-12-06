@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -46,8 +46,27 @@ const STRIKE_TASKS: StrikeTask[] = [
 
 export default function ProductionStrikePage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [tasks, setTasks] = useState(STRIKE_TASKS);
+  const productionId = params?.productionId as string;
+  const [tasks, setTasks] = useState<StrikeTask[]>(STRIKE_TASKS);
+
+  const fetchTasks = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/strike`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.tasks && data.tasks.length > 0) {
+          setTasks(data.tasks);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch strike tasks:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const completedCount = tasks.filter(t => t.status === 'completed').length;
   const progress = Math.round((completedCount / tasks.length) * 100);

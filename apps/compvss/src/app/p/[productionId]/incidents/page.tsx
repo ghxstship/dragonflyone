@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
   SectionHeader,
@@ -51,10 +51,29 @@ const MOCK_INCIDENTS: Incident[] = [
 export default function ProductionIncidentsPage() {
   const params = useParams();
   const router = useRouter();
-  const _productionId = params?.productionId as string;
-  const [incidents, setIncidents] = useState(MOCK_INCIDENTS);
+  const productionId = params?.productionId as string;
+  const [incidents, setIncidents] = useState<Incident[]>(MOCK_INCIDENTS);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newIncident, setNewIncident] = useState({ title: '', severity: 'medium', category: '', description: '' });
+
+  const fetchIncidents = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/incidents`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.incidents && data.incidents.length > 0) {
+          setIncidents(data.incidents);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch incidents:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchIncidents();
+  }, [fetchIncidents]);
 
   const openCount = incidents.filter(i => i.status === 'open' || i.status === 'investigating').length;
   const resolvedCount = incidents.filter(i => i.status === 'resolved' || i.status === 'closed').length;
@@ -121,7 +140,7 @@ export default function ProductionIncidentsPage() {
                         <Clock size={12} className="mr-1 inline" />{incident.reportedAt} by {incident.reportedBy}
                       </Body>
                     </Stack>
-                    <Button variant="ghost" size="sm"><Eye size={16} /></Button>
+                    <Button variant="ghost" size="sm" onClick={() => router.push(`/p/${productionId}/incidents/${incident.id}`)}><Eye size={16} /></Button>
                   </Stack>
                 ))}
               </Stack>

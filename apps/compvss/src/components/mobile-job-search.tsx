@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import {
   Container,
   Section,
-  Display,
   H3,
   Body,
   Button,
@@ -17,7 +16,7 @@ import {
   Field,
   Spinner,
 } from '@ghxstship/ui';
-import { Search, MapPin, DollarSign, Clock, Briefcase, Filter, X, ChevronDown } from 'lucide-react';
+import { Search, MapPin, DollarSign, Clock, Briefcase, Filter, X, RefreshCw } from 'lucide-react';
 
 interface Job {
   id: string;
@@ -88,6 +87,24 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
     }
   }, []);
 
+  // Refresh jobs from API
+  const refreshJobs = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/jobs');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.jobs && data.jobs.length > 0) {
+          setJobs(data.jobs);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to refresh jobs:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Filter jobs
   const filteredJobs = jobs.filter((job) => {
     const matchesSearch = !searchQuery || 
@@ -144,6 +161,14 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
               className="pl-10 w-full"
             />
           </Stack>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => refreshJobs()}
+            disabled={isLoading}
+          >
+            <RefreshCw className={`w-icon-sm h-icon-sm ${isLoading ? 'animate-spin' : ''}`} />
+          </Button>
           <Button
             variant={showFilters ? 'solid' : 'outline'}
             size="sm"

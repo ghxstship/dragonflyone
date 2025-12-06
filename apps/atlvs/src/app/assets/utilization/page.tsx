@@ -124,11 +124,18 @@ export default function AssetUtilizationPage() {
         })}
         stats={stats}
         emptyMessage="No utilization data found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/assets/utilization/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -140,7 +147,7 @@ export default function AssetUtilizationPage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.category} • ${(r.utilizationRate * 100).toFixed(0)}% utilized • ${r.roi}% ROI`}
           sections={detailSections}
-          actions={[{ id: 'history', label: 'View History', icon: '📊' }]}
+          actions={[{ id: 'history', label: 'View History', icon: <BarChart3 className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'history') router.push(`/assets/${r.id}/history`); setDrawerOpen(false); }}
         />
       )}

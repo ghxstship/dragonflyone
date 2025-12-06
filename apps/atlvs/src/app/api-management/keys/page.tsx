@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Trash2, Key, Copy, ArrowLeft } from 'lucide-react';
+import { Eye, Trash2, Copy, ArrowLeft } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useApiKeys, useCreateApiKey, useRevokeApiKey, type ApiKey } from '../../../hooks/useApiManagement';
+import { useAuth, useProductionContextSafe } from '@ghxstship/config';
 import {
   ListPage,
   Badge,
@@ -93,6 +94,9 @@ const formFields: FormFieldConfig[] = [
 
 export default function ApiKeysPage() {
   const router = useRouter();
+  const { user } = useAuth();
+  const { currentProductionId } = useProductionContextSafe();
+  const productionId = currentProductionId || '';
   const { data: apiKeys, isLoading, error, refetch } = useApiKeys();
   const createMutation = useCreateApiKey();
   const revokeMutation = useRevokeApiKey();
@@ -133,7 +137,7 @@ export default function ApiKeysPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      production_id: productionId || params?.productionId || '',
+      production_id: productionId,
       name: data.name as string,
       permissions: data.permissions as string[],
       rate_limit: data.rate_limit as number | undefined,
@@ -230,6 +234,19 @@ export default function ApiKeysPage() {
         stats={pageStats}
         emptyMessage="No API keys created yet"
         emptyAction={{ label: 'Create First Key', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'revoke') {
+            await fetch('/api/api-keys/bulk-revoke', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'revoke', label: 'Revoke Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -240,7 +257,7 @@ export default function ApiKeysPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="md"
-        defaultValues={{ permissions: [] }}
+        record={{ permissions: [] }}
       />
 
       <DetailDrawer

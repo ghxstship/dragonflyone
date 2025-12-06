@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -16,6 +16,7 @@ import {
   AuthenticatedShell,
   Link,
   ContextSwitcher,
+  CommandPalette,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
@@ -28,6 +29,12 @@ import {
   type ProductionContext,
 } from "../data/compvss";
 import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
+import {
+  useCommandPalette,
+  buildNavigationCommands,
+  buildActionCommands,
+} from "@ghxstship/config/hooks";
+import { Search, Users, Calendar, Wrench } from "lucide-react";
 
 // =============================================================================
 // COMPVSS APP LAYOUT WRAPPERS
@@ -68,6 +75,35 @@ export function CompvssAppLayout({
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
+
+  // Build command palette navigation and action items
+  const navigationCommands = useMemo(() => 
+    buildNavigationCommands(compvssSidebarNavigation as Parameters<typeof buildNavigationCommands>[0]),
+    []
+  );
+
+  const actionCommands = useMemo(() => 
+    buildActionCommands([
+      { label: "New Crew Member", href: "/crew/new", icon: <Users size={16} />, shortcut: "C" },
+      { label: "New Schedule", href: "/schedule/new", icon: <Calendar size={16} />, shortcut: "S" },
+      { label: "New Equipment", href: "/equipment/new", icon: <Wrench size={16} />, shortcut: "E" },
+      { label: "Search", href: "/search", icon: <Search size={16} />, shortcut: "/" },
+    ]),
+    []
+  );
+
+  // Command palette hook
+  const {
+    isOpen: commandPaletteOpen,
+    close: closeCommandPalette,
+    categories: commandCategories,
+    recentItems,
+    handleSelect: handleCommandSelect,
+  } = useCommandPalette({
+    navigationItems: navigationCommands,
+    actionItems: actionCommands,
+    onNavigate: (href) => router.push(href),
+  });
 
   // Determine if we're in production context
   const productionId = params?.productionId as string | undefined;
@@ -127,40 +163,54 @@ export function CompvssAppLayout({
     const inverted = background === "black";
     
     return (
-      <AuthenticatedShell
-        navigation={getContextualNavigation()}
-        currentPath={pathname}
-        logo={
-          <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
-            COMPVSS
-          </Link>
-        }
-        workspaceName={currentProduction?.name || "PRODUCTION"}
-        user={{
-          name: "Crew Lead",
-          email: "crew@ghxstship.com",
-        }}
-        quickActions={compvssQuickActions.slice(0, 3)}
-        inverted={inverted}
-        onNavigate={(href: string) => router.push(href)}
-        settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
-        className={className}
-        headerActions={
-          <ContextSwitcher
-            contextLevel={isProductionContext ? "production" : "platform"}
-            currentProduction={currentProduction}
-            productions={compvssDemoProductions}
-            onSelectProduction={handleSelectProduction}
-            onExitProduction={handleExitProduction}
-            onCreateProduction={handleCreateProduction}
-            inverted={inverted}
-          />
-        }
-      >
-        <div className="p-6 lg:p-8">
-          {children}
-        </div>
-      </AuthenticatedShell>
+      <>
+        <AuthenticatedShell
+          navigation={getContextualNavigation()}
+          currentPath={pathname}
+          logo={
+            <Link href="/dashboard" className={`font-display text-h5-md uppercase ${inverted ? "text-white hover:text-grey-200" : "text-black hover:text-grey-700"} transition-colors`}>
+              COMPVSS
+            </Link>
+          }
+          workspaceName={currentProduction?.name || "PRODUCTION"}
+          user={{
+            name: "Crew Lead",
+            email: "crew@ghxstship.com",
+          }}
+          quickActions={compvssQuickActions.slice(0, 3)}
+          inverted={inverted}
+          onNavigate={(href: string) => router.push(href)}
+          settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
+          className={className}
+          headerActions={
+            <ContextSwitcher
+              contextLevel={isProductionContext ? "production" : "platform"}
+              currentProduction={currentProduction}
+              productions={compvssDemoProductions}
+              onSelectProduction={handleSelectProduction}
+              onExitProduction={handleExitProduction}
+              onCreateProduction={handleCreateProduction}
+              inverted={inverted}
+            />
+          }
+        >
+          <div className="p-6 lg:p-8">
+            {children}
+          </div>
+        </AuthenticatedShell>
+        
+        {/* Command Palette - Cmd/Ctrl+K to open */}
+        <CommandPalette
+          open={commandPaletteOpen}
+          onClose={closeCommandPalette}
+          categories={commandCategories}
+          recentItems={recentItems}
+          onSelect={handleCommandSelect}
+          onNavigate={(href) => router.push(href)}
+          placeholder="Search commands, pages, or actions..."
+          inverted={inverted}
+        />
+      </>
     );
   }
 

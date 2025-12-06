@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState} from 'react';
 import { useRouter } from 'next/navigation';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -21,9 +21,6 @@ import {
   ModalBody,
   ModalFooter,
   StatCard,
-  Tabs,
-  TabsList,
-  Tab,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
@@ -164,8 +161,8 @@ export default function ChannelsPage() {
       <EnterprisePageHeader
         title="Department Channels"
         subtitle="Team communication and messaging"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create Channel', onClick: () => setShowCreateModal(true) }}
         showFavorite
         showSettings
@@ -227,7 +224,7 @@ export default function ChannelsPage() {
                             </Stack>
                             <Body className="text-body-sm">{channel.members.length} members</Body>
                           </Stack>
-                          <Badge variant="outline">{channel.type}</Badge>
+                          {getTypeBadge(channel.type)}
                         </Stack>
                       </Card>
                     ))}
@@ -243,7 +240,7 @@ export default function ChannelsPage() {
                       <Stack gap={1}>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <H3>{selectedChannel.name}</H3>
-                          <Badge variant="outline">{selectedChannel.type}</Badge>
+                          {getTypeBadge(selectedChannel.type)}
                         </Stack>
                         <Body className="text-body-sm">{selectedChannel.description}</Body>
                       </Stack>

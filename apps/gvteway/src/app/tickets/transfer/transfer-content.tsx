@@ -160,7 +160,7 @@ export default function TicketTransferContent() {
                       className={`p-4 cursor-pointer transition-all ${
                         selectedTicket === ticket.id 
                           ? 'border-2 border-black bg-ink-50' 
-                          : 'border border-ink-200 hover:border-ink-400'
+                          : 'border-2 border-ink-200 hover:border-ink-400'
                       }`}
                       onClick={() => setSelectedTicket(ticket.id)}
                     >

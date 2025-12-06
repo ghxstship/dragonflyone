@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     if (vendorId) query = query.eq('vendor_id', vendorId);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ badges: data });
   } catch (error) {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         requested_by: user.id, requested_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ request: data }, { status: 201 });
     }
 

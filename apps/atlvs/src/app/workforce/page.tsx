@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useEmployees, useCreateEmployee, useDeleteEmployee } from '@/hooks/useEmployees';
 
 interface Employee {
@@ -162,6 +162,26 @@ export default function WorkforcePage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'workforce',
+    requiredFields: ['full_name', 'email'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('workforce').length > 0 
+    ? getImportTemplates('workforce') 
+    : [{ id: 'default', name: 'Workforce Import', mapping: { full_name: 'full_name', email: 'email', department: 'department', position: 'position', status: 'status' } }];
+
   const stats = [
     { label: 'Total Employees', value: employeeList.length },
     { label: 'Active', value: employeeList.filter(e => e.status === 'active').length },
@@ -207,6 +227,9 @@ export default function WorkforcePage() {
         createLabel="Add Employee"
         onCreate={() => setCreateModalOpen(true)}
         entityType="employees"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['full_name', 'email', 'department', 'position', 'status']}
         onExport={createExportHandler({
           filename: "employees",
           getData: () => employeeList.map(e => ({
@@ -223,12 +246,7 @@ export default function WorkforcePage() {
         stats={stats}
         emptyMessage="No employees found"
         emptyAction={{ label: 'Add Employee', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
 
@@ -252,8 +270,8 @@ export default function WorkforcePage() {
         onEdit={(e) => router.push(`/employees/${e.id}/edit`)}
         onDelete={(e) => { setEmployeeToDelete(e); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
         actions={[
-          { id: 'assign', label: 'Assign to Project', icon: '📋' },
-          { id: 'schedule', label: 'View Schedule', icon: '📅' },
+          { id: 'assign', label: 'Assign to Project', icon: <ClipboardList className="size-4" /> },
+          { id: 'schedule', label: 'View Schedule', icon: <Calendar className="size-4" /> },
         ]}
         onAction={(actionId, employee) => {
           if (actionId === 'assign') router.push(`/employees/${employee.id}/assign`);

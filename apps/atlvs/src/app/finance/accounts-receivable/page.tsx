@@ -14,8 +14,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
-  type ExportFormat,
-} from "@ghxstship/ui";
+  } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface Invoice {
@@ -67,9 +66,18 @@ export default function AccountsReceivablePage() {
   const overdueAmount = invoices.filter(i => i.status === "Overdue").reduce((sum, i) => sum + (i.amount - i.paidAmount), 0);
   const overdueCount = invoices.filter(i => i.status === "Overdue").length;
 
+  const handleMarkPaid = (invoice: Invoice) => {
+    setInvoices(invoices.map(i => 
+      i.id === invoice.id 
+        ? { ...i, status: 'Paid' as const, paidAmount: i.amount }
+        : i
+    ));
+  };
+
   const rowActions: ListPageAction<Invoice>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
     { id: 'payment', label: 'Record Payment', icon: <DollarSign className="size-4" />, onClick: (r) => router.push(`/finance/accounts-receivable/${r.id}/payment`) },
+    { id: 'markPaid', label: 'Mark as Paid', icon: <DollarSign className="size-4" />, onClick: handleMarkPaid },
     { id: 'reminder', label: 'Send Reminder', icon: <Mail className="size-4" />, onClick: (r) => window.location.href = `mailto:${r.clientEmail}?subject=Payment Reminder: ${r.invoiceNumber}` },
   ];
 
@@ -129,11 +137,21 @@ export default function AccountsReceivablePage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No invoices found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setInvoices(prev => prev.filter(i => !ids.includes(i.id)));
+          } else if (action === 'reminder') {
+            await fetch('/api/finance/invoices/bulk-reminder', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'reminder', label: 'Send Reminders', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

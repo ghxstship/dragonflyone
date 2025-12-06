@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Pencil, Send, CheckCircle, Printer, Download } from 'lucide-react';
+import { ArrowLeft, Pencil, Send, CheckCircle, Printer} from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { useDailyReport, useSubmitDailyReport, useApproveDailyReport } from '../../../../hooks/useReports';
 import {
@@ -32,7 +32,7 @@ export default function DailyReportDetailPage() {
     approved: 'success',
     submitted: 'warning',
     reviewed: 'info',
-    draft: 'default',
+    draft: 'ghost',
   };
 
   const handleSubmit = async () => {
@@ -90,7 +90,7 @@ export default function DailyReportDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>Daily Report - {new Date(report.report_date).toLocaleDateString()}</H2>
-                    <Badge variant={statusColors[report.status] || 'default'}>
+                    <Badge variant={statusColors[report.status] || 'ghost'}>
                       {report.status.toUpperCase()}
                     </Badge>
                   </Stack>

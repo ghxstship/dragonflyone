@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Organic social content scheduler
 export async function GET(request: NextRequest) {
@@ -35,7 +29,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('scheduled_at', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ posts: data });
   } catch (error) {
@@ -63,7 +57,7 @@ export async function POST(request: NextRequest) {
         scheduled_at, hashtags: hashtags || [], status: 'scheduled', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ post: data }, { status: 201 });
     }
 
@@ -71,14 +65,14 @@ export async function POST(request: NextRequest) {
       const { event_id, posts } = body;
 
       const { data, error } = await supabase.from('scheduled_posts').insert(
-        posts.map((p: any) => ({
+        posts.map((p: Record<string, unknown>) => ({
           event_id, platforms: p.platforms || [], content: p.content,
           media_urls: p.media_urls || [], scheduled_at: p.scheduled_at,
           hashtags: p.hashtags || [], status: 'scheduled', created_by: user.id
         }))
       ).select();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ posts: data }, { status: 201 });
     }
 

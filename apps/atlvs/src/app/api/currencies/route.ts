@@ -73,18 +73,19 @@ export const GET = apiRoute(
       .order('valid_from', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Group by currency pair
-    const grouped = data?.reduce((acc: any, rate: any) => {
+    interface ExchangeRate { from_currency: string; to_currency: string; rate: number; date: string }
+    const grouped = data?.reduce((acc: Record<string, ExchangeRate[]>, rate: ExchangeRate) => {
       const key = `${rate.from_currency}_${rate.to_currency}`;
       if (!acc[key]) {
         acc[key] = [];
       }
       acc[key].push(rate);
       return acc;
-    }, {});
+    }, {} as Record<string, ExchangeRate[]>);
 
     return NextResponse.json({ rates: grouped });
   },
@@ -97,7 +98,7 @@ export const GET = apiRoute(
 
 // POST - Add exchange rate or sync from API
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const supabase = createAdminClient();
     const body = await request.json();
     const { action } = body;
@@ -123,7 +124,7 @@ export const POST = apiRoute(
         .select();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -145,7 +146,7 @@ export const POST = apiRoute(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -183,8 +184,9 @@ async function fetchExchangeRate(from: string, to: string): Promise<number | nul
 }
 
 // Helper function to fetch multiple rates
-async function fetchMultipleRates(base: string, targets: string[]): Promise<any[]> {
-  const rates = [];
+interface RateResult { from_currency: string; to_currency: string; rate: number; valid_from: string }
+async function fetchMultipleRates(base: string, targets: string[]): Promise<RateResult[]> {
+  const rates: RateResult[] = [];
   const now = new Date().toISOString();
 
   for (const target of targets) {
@@ -221,7 +223,7 @@ export const PUT = apiRoute(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ rate: data });
@@ -252,7 +254,7 @@ export const DELETE = apiRoute(
       .eq('id', id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ message: 'Exchange rate deactivated' });

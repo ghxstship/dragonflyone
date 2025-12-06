@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, H3, Button } from "@ghxstship/ui";
-import { Camera, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../../data/gvteway";
 
 export default function UGCPage() {

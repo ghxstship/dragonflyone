@@ -172,7 +172,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    let updateData: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    let updateData: Record<string, unknown> = { updated_at: new Date().toISOString(), updated_by: userId };
 
     if (action === 'start') {
       updateData.status = 'in_progress';

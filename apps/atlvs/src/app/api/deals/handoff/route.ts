@@ -20,7 +20,7 @@ const handoffSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const payload = context.validated;
@@ -79,7 +79,7 @@ export const POST = apiRoute(
       }
 
       return NextResponse.json({ error: 'Invalid target platform' }, { status: 400 });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ error: error.message || 'Handoff failed' }, { status: 500 });
     }
   },

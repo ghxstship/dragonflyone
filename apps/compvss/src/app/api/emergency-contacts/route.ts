@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
     if (crewId) {
       const { data, error } = await supabase.from('emergency_contacts').select('*').eq('crew_id', crewId);
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ contacts: data });
     }
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
         *, crew:platform_users(id, first_name, last_name)
       `).in('crew_id', crewIds);
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ contacts: data });
     }
 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       blood_type, updated_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ contact: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create contact' }, { status: 500 });
@@ -92,7 +92,7 @@ export async function PATCH(request: NextRequest) {
       ...updateData, updated_at: new Date().toISOString()
     }).eq('id', id);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update' }, { status: 500 });

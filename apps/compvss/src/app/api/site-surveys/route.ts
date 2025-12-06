@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('survey_date', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ surveys: data });
@@ -116,7 +116,7 @@ export async function POST(request: NextRequest) {
 
     // Add photos
     if (photos && photos.length > 0) {
-      const photoRecords = photos.map((photo: any) => ({
+      const photoRecords = photos.map((photo: Record<string, unknown>) => ({
         survey_id: survey.id,
         url: photo.url,
         caption: photo.caption,
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
 
     // Add measurements
     if (measurements && measurements.length > 0) {
-      const measurementRecords = measurements.map((m: any) => ({
+      const measurementRecords = measurements.map((m: Record<string, unknown>) => ({
         survey_id: survey.id,
         area: m.area,
         measurement_type: m.measurement_type,
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
 
     // Add issues
     if (issues && issues.length > 0) {
-      const issueRecords = issues.map((issue: any) => ({
+      const issueRecords = issues.map((issue: Record<string, unknown>) => ({
         survey_id: survey.id,
         title: issue.title,
         description: issue.description,
@@ -196,7 +196,7 @@ export async function PATCH(request: NextRequest) {
         .eq('id', issue_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -240,7 +240,7 @@ export async function PATCH(request: NextRequest) {
       .eq('id', survey_id);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

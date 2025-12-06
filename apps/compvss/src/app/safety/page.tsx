@@ -148,8 +148,8 @@ export default function SafetyPage() {
       <EnterprisePageHeader
         title="Safety Management"
         subtitle="Incident reporting and safety compliance"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Report Incident', onClick: () => router.push('/safety/report') }}
         showFavorite
         showSettings

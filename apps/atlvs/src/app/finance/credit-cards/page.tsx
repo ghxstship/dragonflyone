@@ -6,8 +6,7 @@ import { Eye, Paperclip, AlertTriangle } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type ExportFormat,
-} from "@ghxstship/ui";
+  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
 
 interface CreditCardTxn {
@@ -119,11 +118,17 @@ export default function CreditCardsPage() {
         exportFormats={["csv", "json"]}
         stats={stats}
         emptyMessage="No transactions found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(t => !ids.includes(t.id)));
+          } else if (action === 'approve') {
+            setData(prev => prev.map(t => ids.includes(t.id) ? { ...t, status: 'Posted' as const } : t));
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

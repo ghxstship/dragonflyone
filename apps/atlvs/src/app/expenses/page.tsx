@@ -20,6 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
 interface Expense {
   id: string;
@@ -172,8 +173,12 @@ export default function ExpensesPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/expenses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -256,9 +261,48 @@ export default function ExpensesPage() {
         onRowClick={(row) => router.push(`/expenses/${row.id}`)}
         createLabel="New Expense"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="expenses"
+        onExport={createExportHandler({
+          filename: 'expenses',
+          getData: () => expenses.map(e => ({
+            id: e.id,
+            description: e.description,
+            vendor: e.vendor_name || '',
+            amount: e.amount,
+            currency: e.currency,
+            date: e.expense_date,
+            category: e.category?.name || '',
+            status: e.status,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No expenses yet"
         emptyAction={{ label: 'Submit First Expense', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'approve') {
+            for (const id of ids) {
+              await approveExpense.mutateAsync(id);
+            }
+            refetch();
+          } else if (action === 'reject') {
+            for (const id of ids) {
+              await rejectExpense.mutateAsync(id);
+            }
+            refetch();
+          } else if (action === 'delete') {
+            await fetch('/api/expenses/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'reject', label: 'Reject Selected', variant: 'danger' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal

@@ -1,6 +1,6 @@
-import React, { type ReactNode, type PropsWithChildren } from 'react';
+import React, { type ReactNode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderHook, waitFor, type RenderHookOptions } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useProjects, useProject, useCreateProject, useUpdateProject, useDeleteProject } from '../useProjects';
 import { supabase } from '@/lib/supabase';

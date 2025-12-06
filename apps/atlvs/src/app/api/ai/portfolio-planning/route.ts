@@ -310,7 +310,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ goal }, { status: 201 });
@@ -323,7 +323,7 @@ export async function POST(request: NextRequest) {
         .eq('id', project_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -340,7 +340,7 @@ export async function POST(request: NextRequest) {
         .eq('id', project_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -353,7 +353,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper functions
-function calculatePortfolioHealth(projects: any[]): number {
+function calculatePortfolioHealth(projects: unknown[]): number {
   if (projects.length === 0) return 0;
 
   let score = 100;
@@ -373,16 +373,18 @@ function calculatePortfolioHealth(projects: any[]): number {
   return Math.max(0, Math.round(score));
 }
 
-function calculatePortfolioMetrics(projects: any[]): any {
+interface ProjectMetric { revenue?: number; actual_cost?: number }
+interface PortfolioMetrics { total_revenue: number; total_cost: number; profit: number; project_count: number }
+function calculatePortfolioMetrics(projects: ProjectMetric[]): PortfolioMetrics {
   return {
-    total_revenue: projects.reduce((sum, p) => sum + (p.revenue || 0), 0),
-    total_cost: projects.reduce((sum, p) => sum + (p.actual_cost || 0), 0),
-    profit: projects.reduce((sum, p) => sum + ((p.revenue || 0) - (p.actual_cost || 0)), 0),
+    total_revenue: projects.reduce((sum: number, p: ProjectMetric) => sum + (p.revenue || 0), 0),
+    total_cost: projects.reduce((sum: number, p: ProjectMetric) => sum + (p.actual_cost || 0), 0),
+    profit: projects.reduce((sum: number, p: ProjectMetric) => sum + ((p.revenue || 0) - (p.actual_cost || 0)), 0),
     project_count: projects.length,
   };
 }
 
-function generateAlignmentRecommendations(goalAlignment: any[], unalignedProjects: any[]): string[] {
+function generateAlignmentRecommendations(goalAlignment: unknown[], unalignedProjects: unknown[]): string[] {
   const recommendations: string[] = [];
 
   const underAligned = goalAlignment.filter(g => g.alignment_score < 50);
@@ -397,7 +399,7 @@ function generateAlignmentRecommendations(goalAlignment: any[], unalignedProject
   return recommendations;
 }
 
-function generateCapacityRecommendations(constraints: any[]): string[] {
+function generateCapacityRecommendations(constraints: unknown[]): string[] {
   const recommendations: string[] = [];
 
   if (constraints.length > 0) {

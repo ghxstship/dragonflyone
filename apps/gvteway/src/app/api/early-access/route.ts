@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Early access to tickets and announcements
 export async function GET(request: NextRequest) {
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest) {
       fan_club_id, tier:fan_club_tiers(early_access_hours)
     `).eq('user_id', user.id).eq('status', 'active');
 
-    const earlyAccessHours = Math.max(...(memberships?.map((m: any) => m.tier?.early_access_hours || 0) || [0]), 0);
+    const earlyAccessHours = Math.max(...(memberships?.map((m: Record<string, unknown>) => m.tier?.early_access_hours || 0) || [0]), 0);
 
     // Get events with early access windows
     const now = new Date();
@@ -94,7 +88,7 @@ export async function POST(request: NextRequest) {
         expires_at: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       return NextResponse.json({ presale_code: data }, { status: 201 });
     }

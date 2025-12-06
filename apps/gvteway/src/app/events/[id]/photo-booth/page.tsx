@@ -199,7 +199,7 @@ export default function PhotoBoothPage() {
               <Stack gap={2}>
                 <Label className="text-ink-500">Recent Activity</Label>
                 {mockSessions.filter(s => s.boothId === selectedBooth.id).slice(0, 3).map(session => (
-                  <Card key={session.id} className="p-3 bg-ink-50 border border-ink-200">
+                  <Card key={session.id} className="p-3 bg-ink-50 border-2 border-ink-200">
                     <Stack direction="horizontal" className="justify-between">
                       <Label>{new Date(session.timestamp).toLocaleTimeString()}</Label>
                       <Label>{session.photoCount} photos</Label>

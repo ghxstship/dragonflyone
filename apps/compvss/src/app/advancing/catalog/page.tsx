@@ -13,8 +13,7 @@ import {
   Card, 
   Grid, 
   Badge, 
-  Spinner, 
-  Alert,
+  Spinner,
   Stack,
   EmptyState,
   Select,
@@ -131,8 +130,8 @@ export default function CatalogPage() {
       <EnterprisePageHeader
         title="Production Advancing Catalog"
         subtitle={`Browse ${effectiveData?.total || 329} standardized production items across all categories`}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

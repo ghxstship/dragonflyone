@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
   const supabase = createAdminClient();
   try {
     // Get all goals
@@ -36,9 +36,9 @@ export async function GET(request: NextRequest) {
       const goalAlignments = alignments?.filter(a => a.goal_id === goal.id) || [];
       const projects = goalAlignments.map(a => a.projects).filter(Boolean);
 
-      const totalBudget = projects.reduce((sum, p: any) => sum + (p?.budget || 0), 0);
+      const totalBudget = projects.reduce((sum, p: Record<string, unknown>) => sum + (p?.budget || 0), 0);
       const avgProgress = projects.length > 0
-        ? Math.round(projects.reduce((sum, p: any) => sum + (p?.progress || 0), 0) / projects.length)
+        ? Math.round(projects.reduce((sum, p: Record<string, unknown>) => sum + (p?.progress || 0), 0) / projects.length)
         : 0;
 
       return {

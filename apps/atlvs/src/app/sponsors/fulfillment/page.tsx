@@ -208,7 +208,7 @@ function SponsorFulfillmentPageContent() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedDeliverable.status] || 'default'}>
+            <Badge variant={statusColors[selectedDeliverable.status] || 'ghost'}>
               {selectedDeliverable.status.replace('_', ' ').toUpperCase()}
             </Badge>
           </Stack>
@@ -255,6 +255,27 @@ function SponsorFulfillmentPageContent() {
           onRowClick={(row) => { setSelectedDeliverable(row); setDrawerOpen(true); }}
           stats={stats}
           emptyMessage="No deliverables found"
+          onBulkAction={async (action, ids) => {
+            if (action === 'delete') {
+              await fetch('/api/sponsors/deliverables/bulk', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch();
+            } else if (action === 'complete') {
+              await fetch('/api/sponsors/deliverables/bulk-complete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ids }),
+              });
+              refetch();
+            }
+          }}
+          bulkActions={[
+            { id: 'complete', label: 'Complete Selected', variant: 'default' },
+            { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+          ]}
         />
       </Stack>
 

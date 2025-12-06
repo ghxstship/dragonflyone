@@ -36,6 +36,7 @@ export interface Show {
 export interface Cue {
   id: string;
   show_id: string;
+  production_id: string;
   cue_number: string;
   cue_type: 'go' | 'standby' | 'warning' | 'note';
   scheduled_time?: string;
@@ -148,7 +149,7 @@ export function useCreateShow() {
     mutationFn: async (show: Omit<Show, 'id' | 'created_at' | 'updated_at' | 'production' | 'venue'>) => {
       const { data, error } = await supabase
         .from('shows')
-        .insert(show as any)
+        .insert(show)
         .select()
         .single();
 
@@ -207,7 +208,7 @@ export function useCreateCue() {
     mutationFn: async (cue: Omit<Cue, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('cues')
-        .insert(cue as any)
+        .insert(cue)
         .select()
         .single();
 

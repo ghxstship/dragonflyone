@@ -17,11 +17,21 @@ import {
 } from '@ghxstship/ui';
 import { useEvents } from '@/hooks/useEvents';
 
+interface CalendarEvent {
+  id: string;
+  title?: string;
+  name?: string;
+  date?: string;
+  start_date?: string;
+  venue?: string;
+  category?: string;
+}
+
 interface CalendarDay {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
-  events: any[];
+  events: CalendarEvent[];
 }
 
 export default function CalendarPage() {
@@ -55,8 +65,8 @@ export default function CalendarPage() {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
       
-      const dayEvents = (events || []).filter((event: any) => {
-        const eventDate = new Date(event.date || event.start_date);
+      const dayEvents = (events || []).filter((event: CalendarEvent) => {
+        const eventDate = new Date(event.date || event.start_date || '');
         return eventDate.toDateString() === date.toDateString();
       });
 
@@ -64,6 +74,7 @@ export default function CalendarPage() {
         date,
         isCurrentMonth: date.getMonth() === month,
         isToday: date.toDateString() === today.toDateString(),
+        isLastDayOfMonth: date.getDate() === lastDay.getDate() && date.getMonth() === month,
         events: dayEvents,
       });
     }
@@ -73,8 +84,8 @@ export default function CalendarPage() {
 
   const selectedDayEvents = useMemo(() => {
     if (!selectedDate) return [];
-    return (events || []).filter((event: any) => {
-      const eventDate = new Date(event.date || event.start_date);
+    return (events || []).filter((event: CalendarEvent) => {
+      const eventDate = new Date(event.date || event.start_date || '');
       return eventDate.toDateString() === selectedDate.toDateString();
     });
   }, [selectedDate, events]);
@@ -257,14 +268,14 @@ export default function CalendarPage() {
               <H3 className="mb-4 text-white">Upcoming This Month</H3>
               <Stack gap={3}>
                 {(events || [])
-                  .filter((event: any) => {
-                    const eventDate = new Date(event.date || event.start_date);
+                  .filter((event: CalendarEvent) => {
+                    const eventDate = new Date(event.date || event.start_date || '');
                     return eventDate.getMonth() === currentDate.getMonth() &&
                            eventDate.getFullYear() === currentDate.getFullYear() &&
                            eventDate >= new Date();
                   })
                   .slice(0, 5)
-                  .map((event: any) => (
+                  .map((event: CalendarEvent) => (
                     <Stack
                       key={event.id}
                       direction="horizontal"

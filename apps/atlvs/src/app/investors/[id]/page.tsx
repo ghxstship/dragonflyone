@@ -95,7 +95,7 @@ export default function InvestorDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{investor.name}</H2>
-                    <Badge variant={statusColors[investor.status] || 'default'}>
+                    <Badge variant={statusColors[investor.status] || 'ghost'}>
                       {investor.status.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -272,7 +272,7 @@ export default function InvestorDetailPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Status</Body>
-                        <Badge variant={statusColors[investor.status] || 'default'}>
+                        <Badge variant={statusColors[investor.status] || 'ghost'}>
                           {investor.status.toUpperCase()}
                         </Badge>
                       </Stack>

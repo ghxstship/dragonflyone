@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -13,6 +13,7 @@ import {
   Grid,
   Body,
   H3,
+  Spinner,
   Input,
 } from '@ghxstship/ui';
 import {
@@ -45,9 +46,32 @@ const MOCK_CREDENTIALS: Credential[] = [
 
 export default function EventCredentialsPage() {
   const params = useParams();
-  const _eventId = params?.eventId as string;
-  const [credentials] = useState(MOCK_CREDENTIALS);
+  const eventId = params?.eventId as string;
+  const [credentials, setCredentials] = useState<Credential[]>(MOCK_CREDENTIALS);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  const fetchCredentials = useCallback(async () => {
+    if (!eventId) return;
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/events/${eventId}/credentials`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.credentials && data.credentials.length > 0) {
+          setCredentials(data.credentials);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch credentials:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    fetchCredentials();
+  }, [fetchCredentials]);
 
   const activeCount = credentials.filter(c => c.status === 'active').length;
   const checkedInCount = credentials.filter(c => c.status === 'checked-in').length;
@@ -86,6 +110,11 @@ export default function EventCredentialsPage() {
                   <Button variant="outline"><Search size={16} /></Button>
                 </Stack>
               </Stack>
+              {loading ? (
+                <Stack className="items-center py-12">
+                  <Spinner variant="grey" size="lg" />
+                </Stack>
+              ) : (
               <Grid cols={2} gap={4}>
                 {filteredCredentials.map(cred => (
                   <Card key={cred.id} variant="elevated" inverted>
@@ -125,6 +154,7 @@ export default function EventCredentialsPage() {
                   </Card>
                 ))}
               </Grid>
+              )}
             </Stack>
           </CardBody>
         </Card>

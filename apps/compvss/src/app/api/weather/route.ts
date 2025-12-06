@@ -5,6 +5,9 @@ import { getServerSupabase } from '@ghxstship/config';
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
+// Module-level supabase client
+const supabase = getServerSupabase();
+
 // GET - Fetch weather data for event/venue
 export const GET = apiRoute(
   async (request: NextRequest) => {
@@ -111,7 +114,7 @@ export const GET = apiRoute(
           visibility: currentWeather.visibility,
           uv_index: alertsData.current?.uvi
         },
-        forecast: forecastData.list?.slice(0, 40).map((item: any) => ({
+        forecast: forecastData.list?.slice(0, 40).map((item: Record<string, unknown>) => ({
           datetime: item.dt_txt,
           temperature: item.main.temp,
           conditions: item.weather[0].main,
@@ -126,7 +129,7 @@ export const GET = apiRoute(
           name: currentWeather.name
         }
       });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ 
         error: 'Failed to fetch weather data',
         details: error.message 
@@ -142,7 +145,7 @@ export const GET = apiRoute(
 
 // POST - Create weather alert/contingency
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const body = await request.json();
     const { event_id, alert_type, threshold, action_plan, recipients } = body;
 
@@ -167,7 +170,7 @@ export const POST = apiRoute(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -203,7 +206,7 @@ export const PUT = apiRoute(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({

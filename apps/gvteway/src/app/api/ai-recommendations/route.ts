@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // AI-powered personalized recommendations and "Because you liked..." suggestions
 export async function GET(request: NextRequest) {
@@ -45,7 +39,7 @@ export async function GET(request: NextRequest) {
     // Build user profile
     const userProfile = buildUserProfile(purchaseHistory || [], preferences, following || []);
 
-    let recommendations: any[] = [];
+    let recommendations: unknown[] = [];
 
     if (!type || type === 'personalized') {
       recommendations = await getPersonalizedRecommendations(userProfile);
@@ -74,7 +68,11 @@ export async function GET(request: NextRequest) {
   }
 }
 
-function buildUserProfile(history: any[], preferences: any, following: any[]): any {
+interface UserProfile { genres: string[]; venues: string[]; artists: string[] }
+interface HistoryEntry { event?: { genre?: string; venue_id?: string; artist_ids?: string[] } }
+interface FollowEntry { artist_id?: string; venue_id?: string }
+interface UserPreferences { favorite_genres?: string[] }
+function buildUserProfile(history: HistoryEntry[], preferences: UserPreferences, following: FollowEntry[]): UserProfile {
   const genres: Record<string, number> = {};
   const venues: Record<string, number> = {};
   const artists: Record<string, number> = {};
@@ -109,7 +107,7 @@ function buildUserProfile(history: any[], preferences: any, following: any[]): a
   };
 }
 
-async function getPersonalizedRecommendations(profile: any) {
+async function getPersonalizedRecommendations(profile: UserProfile) {
   const { data: events } = await supabase.from('events').select('*')
     .gte('date', new Date().toISOString())
     .eq('status', 'published')
@@ -137,7 +135,7 @@ async function getPersonalizedRecommendations(profile: any) {
   return scored?.slice(0, 20) || [];
 }
 
-async function getBecauseYouLiked(eventId: string, profile: any) {
+async function getBecauseYouLiked(eventId: string, profile: { genres: string[]; venues: string[]; artists: string[] }) {
   const { data: sourceEvent } = await supabase.from('events').select('*').eq('id', eventId).single();
   if (!sourceEvent) return [];
 
@@ -148,14 +146,22 @@ async function getBecauseYouLiked(eventId: string, profile: any) {
     .or(`genre.eq.${sourceEvent.genre},venue_id.eq.${sourceEvent.venue_id}`)
     .limit(20);
 
-  return similar?.map(e => ({
+  // Score results based on user profile preferences
+  const scored = similar?.map(e => {
+    let score = 0;
+    if (profile.genres.includes(e.genre)) score += 2;
+    if (profile.venues.includes(e.venue_id)) score += 1;
+    return { ...e, profileScore: score };
+  }).sort((a, b) => b.profileScore - a.profileScore);
+
+  return scored?.map(e => ({
     ...e,
     reason: `Because you liked ${sourceEvent.name}`,
     similarity: e.genre === sourceEvent.genre ? 'Same genre' : 'Same venue'
   })) || [];
 }
 
-async function getTrendingForYou(profile: any) {
+async function getTrendingForYou(profile: UserProfile) {
   const { data: trending } = await supabase.from('events').select('*')
     .gte('date', new Date().toISOString())
     .eq('status', 'published')
@@ -171,14 +177,15 @@ async function getTrendingForYou(profile: any) {
   })) || [];
 }
 
-function getRecommendationReason(event: any, profile: any): string {
+interface EventData { artist_ids?: string[]; venue_id?: string; genre?: string }
+function getRecommendationReason(event: EventData, profile: UserProfile): string {
   if (profile.artists.some((a: string) => event.artist_ids?.includes(a))) {
     return 'Artist you follow';
   }
-  if (profile.venues.includes(event.venue_id)) {
+  if (event.venue_id && profile.venues.includes(event.venue_id)) {
     return 'At a venue you love';
   }
-  if (profile.genres.indexOf(event.genre) < 3) {
+  if (event.genre && profile.genres.indexOf(event.genre) < 3) {
     return `Popular in ${event.genre}`;
   }
   return 'Recommended for you';

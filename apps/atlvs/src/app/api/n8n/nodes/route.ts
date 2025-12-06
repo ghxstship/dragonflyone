@@ -311,7 +311,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ credential }, { status: 201 });
@@ -329,7 +329,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow }, { status: 201 });
@@ -355,7 +355,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update workflow stats
@@ -412,7 +412,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ credential });
@@ -429,7 +429,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ workflow });
@@ -442,7 +442,7 @@ export async function PATCH(request: NextRequest) {
 }
 
 // Helper functions
-function encryptCredentialData(data: Record<string, any>): Record<string, any> {
+function encryptCredentialData(data: Record<string, unknown>): Record<string, unknown> {
   // In production, use proper encryption (e.g., AES-256-GCM)
   const secret = process.env.CREDENTIAL_ENCRYPTION_KEY || 'default-key';
   const cipher = crypto.createCipher('aes-256-cbc', secret);
@@ -451,7 +451,7 @@ function encryptCredentialData(data: Record<string, any>): Record<string, any> {
   return { encrypted };
 }
 
-function verifyWebhookSignature(payload: any, signature: string, timestamp: string): boolean {
+function verifyWebhookSignature(payload: Record<string, unknown>, signature: string, timestamp: string): boolean {
   const secret = process.env.WEBHOOK_SECRET || 'default-secret';
   const data = `${timestamp}.${JSON.stringify(payload)}`;
   const expectedSignature = crypto

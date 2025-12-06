@@ -219,8 +219,8 @@ export default function PermitsPage() {
       <EnterprisePageHeader
         title="Permit Management"
         subtitle="Track permit applications, approvals, and compliance requirements"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'New Application', onClick: () => router.push('/permits/new') }}
         showFavorite
         showSettings

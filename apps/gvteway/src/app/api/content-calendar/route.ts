@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const postSchema = z.object({
   event_id: z.string().uuid().optional(),
@@ -52,16 +46,17 @@ export async function GET(request: NextRequest) {
     if (error) throw error;
 
     // Group by date for calendar view
-    const byDate = posts?.reduce((acc: Record<string, any[]>, post) => {
+    interface ContentPost { scheduled_at: string; [key: string]: unknown }
+    const byDate = posts?.reduce((acc: Record<string, ContentPost[]>, post: ContentPost) => {
       const date = post.scheduled_at.split('T')[0];
       if (!acc[date]) acc[date] = [];
       acc[date].push(post);
       return acc;
-    }, {});
+    }, {} as Record<string, ContentPost[]>);
 
     return NextResponse.json({ posts, by_date: byDate });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -74,7 +69,7 @@ export async function POST(request: NextRequest) {
     if (action === 'bulk_schedule') {
       const { posts } = body.data;
 
-      const postRecords = posts.map((p: any) => ({
+      const postRecords = posts.map((p: Record<string, unknown>) => ({
         ...p,
         status: 'scheduled',
         created_at: new Date().toISOString(),
@@ -105,11 +100,11 @@ export async function POST(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ post }, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -152,8 +147,8 @@ export async function PATCH(request: NextRequest) {
 
     if (error) throw error;
     return NextResponse.json({ post: data });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -169,7 +164,7 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

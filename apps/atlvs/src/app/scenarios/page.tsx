@@ -222,11 +222,19 @@ export default function ScenariosPage() {
         stats={stats}
         emptyMessage="No scenarios found"
         emptyAction={{ label: 'Create Scenario', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/scenarios/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchScenarios();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -251,7 +259,7 @@ export default function ScenariosPage() {
           sections={detailSections}
           onEdit={(s) => router.push(`/scenarios/${s.id}/edit`)}
           actions={[
-            { id: 'compare', label: 'Compare', icon: '📊' },
+            { id: 'compare', label: 'Compare', icon: <BarChart3 className="size-4" /> },
           ]}
           onAction={(id, s) => {
             if (id === 'compare') router.push(`/scenarios/compare?id=${s.id}`);

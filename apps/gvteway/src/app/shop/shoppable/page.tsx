@@ -91,7 +91,7 @@ export default function ShoppablePostsPage() {
                       <Card className="absolute top-2 right-2 px-2 py-1 bg-black text-white">
                         <Label size="xs">{getPlatformIcon(post.platform)} {post.platform}</Label>
                       </Card>
-                      <Card className="absolute bottom-2 left-2 px-2 py-1 bg-white border border-black">
+                      <Card className="absolute bottom-2 left-2 px-2 py-1 bg-white border-2 border-black">
                         <Label size="xs">🛍️ {post.products.length} products</Label>
                       </Card>
                     </Card>
@@ -106,7 +106,7 @@ export default function ShoppablePostsPage() {
                         <Label size="xs" className="text-ink-500">Shop Products:</Label>
                         <Grid cols={3} gap={2}>
                           {post.products.map((product) => (
-                            <Card key={product.id} className="p-2 border border-ink-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
+                            <Card key={product.id} className="p-2 border-2 border-ink-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
                               <Stack gap={1} className="text-center">
                                 <Card className="h-12 bg-ink-100 flex items-center justify-center">
                                   <Label>🛍️</Label>
@@ -150,7 +150,7 @@ export default function ShoppablePostsPage() {
               <Stack gap={2}>
                 <Label className="font-weight-bold">Products in this post:</Label>
                 {selectedPost.products.map((product) => (
-                  <Card key={product.id} className="p-3 border border-ink-200">
+                  <Card key={product.id} className="p-3 border-2 border-ink-200">
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={3}>
                         <Card className="w-12 h-12 bg-ink-100 flex items-center justify-center">

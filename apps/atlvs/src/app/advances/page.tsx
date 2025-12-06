@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Advance {
   id: string;
@@ -70,6 +70,26 @@ export default function AdvanceReviewQueuePage() {
     { id: 'review', label: 'Review', icon: <Check className="size-4" />, onClick: (r) => router.push(`/advances/${r.id}`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'advances',
+    requiredFields: ['activation_name'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/advances', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch();
+    },
+  });
+
+  const importTemplates = getImportTemplates('advances').length > 0 
+    ? getImportTemplates('advances') 
+    : [{ id: 'default', name: 'Advance Import', mapping: { activation_name: 'activation_name', estimated_cost: 'estimated_cost', status: 'status' } }];
+
   const stats = [
     { label: 'Pending Review', value: advances.length },
     { label: 'High Priority', value: highPriority },
@@ -108,6 +128,9 @@ export default function AdvanceReviewQueuePage() {
         rowActions={rowActions}
         onRowClick={(r) => router.push(`/advances/${r.id}`)}
         entityType="advances"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['activation_name', 'estimated_cost', 'status']}
         onExport={createExportHandler({
           filename: "advances",
           getData: () => advances.map(a => ({
@@ -122,15 +145,31 @@ export default function AdvanceReviewQueuePage() {
         })}
         stats={stats}
         emptyMessage="No advances pending review"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/advances/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          } else if (action === 'approve') {
+            await fetch('/api/advances/bulk-approve', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch?.();
+          }
+        }}
+        bulkActions={[
+          { id: 'approve', label: 'Approve Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
-      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: '✅' }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: <Check className="size-4" /> }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
     </AtlvsAppLayout>
   );
 }

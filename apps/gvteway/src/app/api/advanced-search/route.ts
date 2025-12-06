@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const SearchFiltersSchema = z.object({
   query: z.string().optional(),
@@ -155,7 +149,8 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
     const offset = (page - 1) * limit;
 
-    const results: any = {};
+    interface SearchResultSet { items: Record<string, unknown>[]; total: number }
+    const results: Record<string, SearchResultSet> = {};
 
     if (type === 'all' || type === 'events') {
       let eventQuery = supabase
@@ -300,7 +295,8 @@ export async function POST(request: NextRequest) {
     const filters = SearchFiltersSchema.parse(body);
 
     const offset = (filters.page - 1) * filters.limit;
-    const results: any = {};
+    interface PostSearchResultSet { items: Record<string, unknown>[]; total: number }
+    const results: Record<string, PostSearchResultSet> = {};
 
     if (filters.type === 'all' || filters.type === 'events') {
       let query = supabase

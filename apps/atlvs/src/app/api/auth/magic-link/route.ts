@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
           { status: 429 }
         );
       }
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 400 });
     }
 
     return NextResponse.json({ 

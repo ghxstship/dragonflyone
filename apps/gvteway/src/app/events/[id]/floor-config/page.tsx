@@ -81,7 +81,7 @@ export default function FloorConfigPage() {
                     <H3>Visual Floor Plan</H3>
                     <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Section</Button>
                   </Stack>
-                  <Card className="h-96 bg-ink-100 border border-ink-200 relative overflow-hidden">
+                  <Card className="h-96 bg-ink-100 border-2 border-ink-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
                       <Label className="text-ink-500">Interactive Floor Plan Editor</Label>
                       <Body className="text-ink-600 text-body-sm">Drag and drop sections to configure layout</Body>

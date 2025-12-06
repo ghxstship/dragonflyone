@@ -45,9 +45,15 @@ const mockRecentEvents: RecentEvent[] = [
 function EventCloneContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState("templates");
-  const [selectedTemplate, setSelectedTemplate] = useState<EventTemplate | null>(null);
-  const [selectedEvent, setSelectedEvent] = useState<RecentEvent | null>(null);
+  const templateId = searchParams.get('template_id');
+  const eventId = searchParams.get('event_id');
+  const [activeTab, setActiveTab] = useState(eventId ? "recent" : "templates");
+  const [selectedTemplate, setSelectedTemplate] = useState<EventTemplate | null>(
+    templateId ? mockTemplates.find(t => t.id === templateId) || null : null
+  );
+  const [selectedEvent, setSelectedEvent] = useState<RecentEvent | null>(
+    eventId ? mockRecentEvents.find(e => e.id === eventId) || null : null
+  );
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const getTypeIcon = (type: string) => {

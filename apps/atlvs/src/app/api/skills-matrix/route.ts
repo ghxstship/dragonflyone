@@ -16,20 +16,26 @@ export async function GET(request: NextRequest) {
     const department = searchParams.get('department');
 
     let query = supabase.from('employee_skills').select(`
-      *, employee:employees(id, first_name, last_name, department)
+      *, employee:employees(id, first_name, last_name, department, department_id)
     `);
 
     if (employeeId) query = query.eq('employee_id', employeeId);
     if (skill) query = query.eq('skill_name', skill);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+    // Filter by department if specified (done in memory since it's a nested field)
+    let filteredData = data;
+    if (department && data) {
+      filteredData = data.filter(s => s.employee?.department === department || s.employee?.department_id === department);
+    }
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Build skills matrix
     const matrix: Record<string, Record<string, number>> = {};
     const allSkills = new Set<string>();
 
-    data?.forEach(s => {
+    filteredData?.forEach(s => {
       const empName = `${s.employee?.first_name} ${s.employee?.last_name}`;
       if (!matrix[empName]) matrix[empName] = {};
       matrix[empName][s.skill_name] = s.proficiency_level;
@@ -48,11 +54,12 @@ export async function GET(request: NextRequest) {
     }) || [];
 
     return NextResponse.json({
-      skills: data,
+      skills: filteredData,
       matrix,
       all_skills: Array.from(allSkills),
       certifications: certs,
-      expiring_soon: expiringSoon
+      expiring_soon: expiringSoon,
+      department_filter: department,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch skills' }, { status: 500 });
@@ -78,7 +85,7 @@ export async function POST(request: NextRequest) {
         last_assessed: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ skill: data }, { status: 201 });
     }
 
@@ -89,7 +96,7 @@ export async function POST(request: NextRequest) {
         status: 'active'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ certification: data }, { status: 201 });
     }
 

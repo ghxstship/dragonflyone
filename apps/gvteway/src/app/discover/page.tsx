@@ -119,7 +119,7 @@ export default function DiscoverPage() {
               />
 
               {/* Browse by Category */}
-              <Section border className="py-12">
+              <Section border-2 className="py-12">
                 <SectionHeader
                   kicker="Explore"
                   title="Browse by Category"
@@ -144,7 +144,7 @@ export default function DiscoverPage() {
 
               {/* Trending Now */}
               {trendingEvents.length > 0 && (
-                <Section border className="py-12">
+                <Section border-2 className="py-12">
                   <Stack direction="horizontal" className="mb-8 items-end justify-between">
                     <SectionHeader
                       kicker="Hot Right Now"
@@ -177,7 +177,7 @@ export default function DiscoverPage() {
 
               {/* Recommended For You */}
               {recommendedEvents.length > 0 && (
-                <Section border className="py-12">
+                <Section border-2 className="py-12">
                   <Stack direction="horizontal" className="mb-8 items-end justify-between">
                     <SectionHeader
                       kicker="Personalized"
@@ -210,7 +210,7 @@ export default function DiscoverPage() {
 
               {/* Curated Collections */}
               {collections.length > 0 && (
-                <Section border className="py-12">
+                <Section border-2 className="py-12">
                   <SectionHeader
                     kicker="Hand-Picked"
                     title="Curated Collections"
@@ -246,7 +246,7 @@ export default function DiscoverPage() {
 
               {/* Near You */}
               {nearbyEvents.length > 0 && (
-                <Section border className="py-12">
+                <Section border-2 className="py-12">
                   <Stack direction="horizontal" className="mb-8 items-end justify-between">
                     <SectionHeader
                       kicker="Local"

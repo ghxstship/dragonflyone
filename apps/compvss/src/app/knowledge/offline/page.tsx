@@ -81,22 +81,13 @@ export default function OfflineAccessPage() {
   const totalSize = '186.9 MB';
   const downloadedPackages = mockPackages.filter(p => p.downloaded).length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case 'Synced': return 'text-success-400';
-      case 'Pending': return 'text-warning-400';
-      case 'Outdated': return 'text-warning-400';
-      case 'Error': return 'text-error-400';
-      default: return 'text-ink-400';
-    }
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'High': return 'text-error-400';
-      case 'Medium': return 'text-warning-400';
-      case 'Low': return 'text-ink-400';
-      default: return 'text-ink-400';
+      case 'Synced': return 'success';
+      case 'Pending': return 'warning';
+      case 'Outdated': return 'warning';
+      case 'Error': return 'error';
+      default: return 'ghost';
     }
   };
 
@@ -105,8 +96,8 @@ export default function OfflineAccessPage() {
       <EnterprisePageHeader
         title="Offline Access"
         subtitle="Download content for mobile-optimized offline access"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -159,7 +150,7 @@ export default function OfflineAccessPage() {
                       <TableCell><Body className="font-mono text-body-sm">{content.size}</Body></TableCell>
                       <TableCell><Badge variant="outline">{content.priority}</Badge></TableCell>
                       <TableCell><Body className="text-body-sm">{content.lastSynced}</Body></TableCell>
-                      <TableCell><Badge variant={content.status === 'Synced' ? 'solid' : 'outline'}>{content.status}</Badge></TableCell>
+                      <TableCell><Badge variant={getStatusVariant(content.status)}>{content.status}</Badge></TableCell>
                       <TableCell>
                         <Stack direction="horizontal" gap={2}>
                           {content.status === 'Outdated' && <Button variant="solid" size="sm">Update</Button>}

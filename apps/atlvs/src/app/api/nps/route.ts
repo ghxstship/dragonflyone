@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (clientId) query = query.eq('client_id', clientId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const scores = data?.map(d => d.score) || [];
     const promoters = scores.filter(s => s >= 9).length;
@@ -60,14 +60,14 @@ export async function POST(request: NextRequest) {
       })
       .select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ survey: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create survey' }, { status: 500 });
   }
 }
 
-function calculateTrend(surveys: any[]) {
+function calculateTrend(surveys: unknown[]) {
   const byMonth: Record<string, number[]> = {};
   surveys.forEach(s => {
     const month = s.created_at?.substring(0, 7);

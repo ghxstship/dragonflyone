@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey) as any;
+    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {

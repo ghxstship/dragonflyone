@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react';
 interface SearchResult {
   query: string;
   totalResults: number;
-  results: Record<string, any[]>;
+  results: Record<string, unknown[]>;
 }
 
 export function useSearch() {

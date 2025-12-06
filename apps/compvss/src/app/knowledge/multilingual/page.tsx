@@ -79,12 +79,12 @@ export default function MultilingualPage() {
   const totalTranslations = mockContent.flatMap(c => c.translations).filter(t => t.status === 'Complete').length;
   const pendingTranslations = mockContent.flatMap(c => c.translations).filter(t => t.status === 'Pending' || t.status === 'In Progress').length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'ghost' => {
     switch (status) {
-      case 'Complete': return 'text-success-400';
-      case 'In Progress': return 'text-warning-400';
-      case 'Pending': return 'text-ink-400';
-      default: return 'text-ink-400';
+      case 'Complete': return 'success';
+      case 'In Progress': return 'warning';
+      case 'Pending': return 'ghost';
+      default: return 'ghost';
     }
   };
 
@@ -93,8 +93,8 @@ export default function MultilingualPage() {
       <EnterprisePageHeader
         title="Multilingual Support"
         subtitle="Content translations for international crews"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -275,7 +275,7 @@ export default function MultilingualPage() {
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
                         <Body>{t.language}</Body>
-                        <Badge variant={t.status === 'Complete' ? 'solid' : 'outline'}>{t.status}</Badge>
+                        <Badge variant={getStatusVariant(t.status)}>{t.status}</Badge>
                       </Stack>
                       <ProgressBar value={t.progress} />
                     </Stack>

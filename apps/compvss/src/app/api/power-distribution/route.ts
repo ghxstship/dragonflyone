@@ -17,11 +17,12 @@ export async function GET(request: NextRequest) {
       *, circuits:power_circuits(id, name, amperage, voltage, phase, location, loads)
     `).eq('project_id', projectId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate totals
+    interface CircuitEntry { amperage?: number }
     const plan = data?.[0];
-    const totalAmps = plan?.circuits?.reduce((s: number, c: any) => s + (c.amperage || 0), 0) || 0;
+    const totalAmps = plan?.circuits?.reduce((s: number, c: CircuitEntry) => s + (c.amperage || 0), 0) || 0;
 
     return NextResponse.json({
       plan,
@@ -55,7 +56,7 @@ export async function POST(request: NextRequest) {
         project_id, venue_capacity_amps, voltage, phases, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ plan: data }, { status: 201 });
     }
 
@@ -66,7 +67,7 @@ export async function POST(request: NextRequest) {
         plan_id, name, amperage, voltage, phase, location, loads: loads || []
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ circuit: data }, { status: 201 });
     }
 

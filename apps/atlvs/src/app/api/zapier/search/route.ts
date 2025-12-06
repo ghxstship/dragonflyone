@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Perform search based on entity type
-    let results: any[] = [];
+    let results: unknown[] = [];
 
     switch (entityType) {
       case 'contacts': {

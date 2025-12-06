@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET /api/ai/recommendations - AI-powered event recommendation engine
 export async function GET(request: NextRequest) {
@@ -63,8 +57,9 @@ export async function GET(request: NextRequest) {
       });
 
       // From attendance history
+      interface AttendanceEventInfo { genres?: string[]; venue_id?: string }
       attendance?.forEach(a => {
-        const event = a.event as any;
+        const event = a.event as AttendanceEventInfo | null;
         if (event?.genres) {
           event.genres.forEach((g: string) => {
             genreWeights[g] = (genreWeights[g] || 0) + 1;

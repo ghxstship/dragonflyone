@@ -41,6 +41,12 @@ export type {
   CollaborationEvent,
 } from './useCollaboration';
 
+// Presence hook (simplified page-level presence)
+export { usePresence } from "./usePresence";
+export type { PresenceUser, UsePresenceOptions } from "./usePresence";
+export { useSmartViews, inferColumnType, columnsToDefinitions } from "./useSmartViews";
+export type { ViewType, ViewConfig, ColumnDefinition, SmartViewConfig } from "./useSmartViews";
+
 // Activity feed hook
 export { useActivityFeed } from './useActivityFeed';
 export type { ActivityItem } from './useActivityFeed';
@@ -48,3 +54,17 @@ export type { ActivityItem } from './useActivityFeed';
 // System health hook
 export { useSystemHealth, getHealthStatusColor, getHealthStatusLabel } from './useSystemHealth';
 export type { SystemHealthMetrics } from './useSystemHealth';
+
+// Command palette hook
+export {
+  useCommandPalette,
+  buildNavigationCommands,
+  buildActionCommands,
+} from './useCommandPalette';
+export type {
+  CommandItem,
+  CommandCategory,
+  UseCommandPaletteOptions,
+  UseCommandPaletteReturn,
+  QuickAction,
+} from './useCommandPalette';

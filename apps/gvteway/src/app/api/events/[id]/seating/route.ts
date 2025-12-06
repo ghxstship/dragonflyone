@@ -24,7 +24,7 @@ const createSeatingSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
 
     const { data: seating, error } = await supabaseAdmin
@@ -55,7 +55,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const body = await request.json();
     const data = createSeatingSchema.parse(body);
@@ -134,7 +134,7 @@ export const POST = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
 
     const { data: seating } = await supabaseAdmin

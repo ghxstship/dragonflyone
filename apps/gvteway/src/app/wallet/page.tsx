@@ -37,7 +37,7 @@ const transactionHistory = [
 ];
 
 export default function WalletPage() {
-  const _router = useRouter();
+  const router = useRouter();
   const [showAddCard, setShowAddCard] = useState(false);
 
   return (
@@ -156,7 +156,7 @@ export default function WalletPage() {
                   </TableHeader>
                   <TableBody>
                     {transactionHistory.map((txn) => (
-                      <TableRow key={txn.id}>
+                      <TableRow key={txn.id} className="cursor-pointer hover:bg-ink-800" onClick={() => router.push(`/wallet/transactions/${txn.id}`)}>
                         <TableCell>
                           <Label size="xs" className="font-mono text-on-dark-muted">{txn.date}</Label>
                         </TableCell>

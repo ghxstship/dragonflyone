@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Video trailer and promo embedding
 export async function GET(request: NextRequest) {
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('event_videos').select('*')
       .eq('event_id', eventId).order('display_order', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ videos: data });
   } catch (error) {
@@ -75,14 +69,14 @@ export async function POST(request: NextRequest) {
         thumbnail_url, duration_seconds, display_order: display_order || 0, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ video: data }, { status: 201 });
     }
 
     if (action === 'reorder') {
       const { videos } = body;
 
-      await Promise.all(videos.map((v: any, i: number) =>
+      await Promise.all(videos.map((v: { id: string }, i: number) =>
         supabase.from('event_videos').update({ display_order: i }).eq('id', v.id)
       ));
 

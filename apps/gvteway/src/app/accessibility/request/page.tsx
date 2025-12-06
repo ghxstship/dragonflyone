@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -47,7 +47,6 @@ const SERVICE_TYPES = [
 ];
 
 function AccessibilityRequestContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
   const orderId = searchParams.get('order');

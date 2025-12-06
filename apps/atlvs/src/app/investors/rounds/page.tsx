@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Users, DollarSign, TrendingUp } from 'lucide-react';
+import { Eye, Pencil, Users} from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { useInvestmentRounds, useCreateInvestmentRound, useUpdateInvestmentRound, useInvestors } from '../../../hooks/useInvestors';
 import {
@@ -33,7 +33,7 @@ interface InvestmentRound {
   close_date?: string;
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   closed: 'success',
   closing: 'warning',
   open: 'info',
@@ -97,7 +97,7 @@ const columns: ListPageColumn<InvestmentRound>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -227,7 +227,7 @@ export default function InvestmentRoundsPage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedRound.status] || 'default'}>
+            <Badge variant={statusColors[selectedRound.status] || 'ghost'}>
               {selectedRound.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -305,6 +305,19 @@ export default function InvestmentRoundsPage() {
         stats={stats}
         emptyMessage="No investment rounds yet"
         emptyAction={{ label: 'Create First Round', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/investors/rounds/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -315,7 +328,7 @@ export default function InvestmentRoundsPage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'planning', round_type: 'seed', target_amount: 0, minimum_investment: 0 }}
+        record={{ status: 'planning', round_type: 'seed', target_amount: 0, minimum_investment: 0 }}
       />
 
       <RecordFormModal
@@ -326,7 +339,7 @@ export default function InvestmentRoundsPage() {
         fields={formFields}
         onSubmit={handleUpdate}
         size="lg"
-        defaultValues={selectedRound || {}}
+        record={selectedRound || {}}
       />
 
       <DetailDrawer

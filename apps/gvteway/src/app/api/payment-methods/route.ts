@@ -13,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Validation schema
 const paymentMethodSchema = z.object({
@@ -248,10 +242,10 @@ export async function PATCH(request: NextRequest) {
                               'billing_state', 'billing_postal_code', 'billing_country'];
       const filteredUpdates = Object.keys(updates)
         .filter(key => allowedUpdates.includes(key))
-        .reduce((obj: any, key) => {
+        .reduce((obj: Record<string, unknown>, key) => {
           obj[key] = updates[key];
           return obj;
-        }, {});
+        }, {} as Record<string, unknown>);
 
       const { data, error } = await supabase
         .from('payment_methods')

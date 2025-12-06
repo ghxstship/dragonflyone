@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface TrainingProgram {
   id: string;
@@ -87,6 +87,26 @@ export default function TrainingPage() {
     { id: 'enroll', label: 'Enroll', icon: <FileEdit className="size-4" />, onClick: (r) => router.push(`/training/${r.id}/enroll`) },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'training',
+    requiredFields: ['title', 'category'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/training', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchTraining();
+    },
+  });
+
+  const importTemplates = getImportTemplates('training').length > 0 
+    ? getImportTemplates('training') 
+    : [{ id: 'default', name: 'Training Import', mapping: { title: 'title', category: 'category', duration_hours: 'duration_hours', instructor_name: 'instructor_name', capacity: 'capacity' } }];
+
   const stats = [
     { label: 'Total Programs', value: programs.length },
     { label: 'Active', value: activeCount },
@@ -130,6 +150,9 @@ export default function TrainingPage() {
         createLabel="Create Program"
         onCreate={() => router.push('/training/new')}
         entityType="training"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'category', 'duration_hours', 'instructor_name', 'capacity']}
         onExport={createExportHandler({
           filename: "training-programs",
           getData: () => programs.map(p => ({
@@ -148,11 +171,27 @@ export default function TrainingPage() {
         stats={stats}
         emptyMessage="No training programs found"
         emptyAction={{ label: 'Create Program', onClick: () => router.push('/training/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/training/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchTraining();
+          } else if (action === 'archive') {
+            await fetch('/api/training/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            fetchTraining();
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

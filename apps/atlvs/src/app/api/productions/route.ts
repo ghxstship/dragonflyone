@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       log.error('Failed to fetch productions', { error });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ productions: data });
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       log.error('Failed to create production', { error });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     log.info('Production created', { productionId: data.id });

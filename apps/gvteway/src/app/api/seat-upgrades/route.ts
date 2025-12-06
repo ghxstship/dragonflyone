@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -48,13 +42,20 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user's active bids
-    const { data: bids, error } = await supabase.from('seat_upgrade_bids').select(`
+    let bidsQuery = supabase.from('seat_upgrade_bids').select(`
       *, ticket:tickets(*, event:events(id, name, date))
     `).eq('user_id', user.id).order('created_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    // Filter by event if specified
+    if (eventId) {
+      bidsQuery = bidsQuery.eq('ticket.event_id', eventId);
+    }
 
-    return NextResponse.json({ bids });
+    const { data: bids, error } = await bidsQuery;
+
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+
+    return NextResponse.json({ bids, event_filter: eventId || null });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch upgrades' }, { status: 500 });
   }
@@ -102,7 +103,7 @@ export async function POST(request: NextRequest) {
       status: 'active', expires_at: offer.auction_end_time
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ bid, type: 'bid_placed' }, { status: 201 });
   } catch (error) {

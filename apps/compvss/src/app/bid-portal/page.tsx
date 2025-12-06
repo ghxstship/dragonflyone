@@ -65,8 +65,8 @@ export default function BidPortalPage() {
       <EnterprisePageHeader
         title="Bid Submission Portal"
         subtitle="Submit proposals and track bid opportunities"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

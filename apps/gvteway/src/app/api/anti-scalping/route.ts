@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -51,7 +45,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ alerts: data || [] });
@@ -84,7 +78,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ alert: data });
@@ -103,7 +97,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ blocked: data }, { status: 201 });
@@ -117,7 +111,7 @@ export async function POST(request: NextRequest) {
         .eq('id', block_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -168,6 +162,24 @@ export async function PUT(request: NextRequest) {
         reason: 'Email is blocked',
         action: 'block',
       });
+    }
+
+    // Check blocked device fingerprint
+    if (device_fingerprint) {
+      const { data: blockedDevice } = await supabase
+        .from('blocked_entities')
+        .select('id')
+        .eq('type', 'device')
+        .eq('value', device_fingerprint)
+        .single();
+
+      if (blockedDevice) {
+        return NextResponse.json({
+          allowed: false,
+          reason: 'Device is blocked',
+          action: 'block',
+        });
+      }
     }
 
     // Check purchase limits

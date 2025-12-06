@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (projectId) query = query.eq('project_id', projectId);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ vendors: data });
   } catch (error) {
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         sent_by: user.id, sent_at: new Date().toISOString(), status: 'sent'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ communication: data }, { status: 201 });
     }
 

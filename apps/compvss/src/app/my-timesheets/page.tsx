@@ -26,7 +26,6 @@ import {
   Calendar,
   DollarSign,
   Send,
-  Plus,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 

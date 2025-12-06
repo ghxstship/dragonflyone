@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
     }
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: 'Validation error', details: error.errors },
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
 async function handleBatchApprove(
   supabaseAdmin: ReturnType<typeof createAdminClient>,
-  body: any,
+  body: Record<string, unknown>,
   userId: string,
   orgId: string
 ): Promise<NextResponse> {
@@ -151,7 +151,7 @@ async function handleBatchApprove(
 
 async function handleBatchReject(
   supabaseAdmin: ReturnType<typeof createAdminClient>,
-  body: any,
+  body: Record<string, unknown>,
   userId: string,
   orgId: string
 ): Promise<NextResponse> {
@@ -221,7 +221,7 @@ async function handleBatchReject(
 
 async function handleBatchStatusUpdate(
   supabaseAdmin: ReturnType<typeof createAdminClient>,
-  body: any,
+  body: Record<string, unknown>,
   userId: string,
   orgId: string
 ): Promise<NextResponse> {

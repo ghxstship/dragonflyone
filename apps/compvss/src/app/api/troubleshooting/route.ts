@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (symptom) query = query.ilike('symptom', `%${symptom}%`);
 
     const { data, error } = await query.order('title', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ guides: data });
   } catch (error) {
@@ -45,11 +45,12 @@ export async function POST(request: NextRequest) {
       title, category, equipment_type, symptom, description
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+    interface TroubleshootingStep { question: string; yes_action?: string; no_action?: string; solution?: string }
     if (steps?.length) {
       await supabase.from('troubleshooting_steps').insert(
-        steps.map((s: any, i: number) => ({
+        steps.map((s: TroubleshootingStep, i: number) => ({
           guide_id: data.id, step_number: i + 1,
           question: s.question, yes_action: s.yes_action,
           no_action: s.no_action, solution: s.solution

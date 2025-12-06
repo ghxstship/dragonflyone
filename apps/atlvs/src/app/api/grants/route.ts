@@ -76,8 +76,10 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Calculate spent and remaining amounts
+      interface Expenditure { amount: number }
       const enriched = grants?.map(g => {
-        const totalSpent = (g.expenditures as any[])?.reduce((sum, e) => sum + e.amount, 0) || 0;
+        const expenditures = (g.expenditures || []) as Expenditure[];
+        const totalSpent = expenditures.reduce((sum: number, e: Expenditure) => sum + e.amount, 0);
         const remaining = g.amount_awarded - totalSpent;
         const utilizationRate = (totalSpent / g.amount_awarded) * 100;
         const daysRemaining = Math.ceil((new Date(g.end_date).getTime() - Date.now()) / (24 * 60 * 60 * 1000));
@@ -195,12 +197,13 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface GrantReport { status: string; due_date: string }
       const compliance = grants?.map(g => {
-        const reports = (g.reports as any[]) || [];
-        const overdueReports = reports.filter(r => 
+        const reports = (g.reports || []) as GrantReport[];
+        const overdueReports = reports.filter((r: GrantReport) => 
           r.status !== 'submitted' && new Date(r.due_date) < new Date()
         );
-        const upcomingReports = reports.filter(r => 
+        const upcomingReports = reports.filter((r: GrantReport) => 
           r.status !== 'submitted' && 
           new Date(r.due_date) >= new Date() && 
           new Date(r.due_date) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
@@ -258,9 +261,9 @@ export async function GET(request: NextRequest) {
         total_other_funding: fundingResult.data?.reduce((sum, f) => sum + f.amount, 0) || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Grants error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -340,7 +343,9 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Grant not found' }, { status: 404 });
       }
 
-      const totalSpent = (grant.expenditures as any[])?.reduce((sum, e) => sum + e.amount, 0) || 0;
+      interface GrantExpenditure { amount: number }
+      const grantExpenditures = (grant.expenditures || []) as GrantExpenditure[];
+      const totalSpent = grantExpenditures.reduce((sum: number, e: GrantExpenditure) => sum + e.amount, 0);
       const remaining = grant.amount_awarded - totalSpent;
 
       if (validated.amount > remaining) {
@@ -423,12 +428,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Grants error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -472,9 +477,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Grants error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -507,9 +512,9 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Grants error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -519,7 +524,7 @@ function generateReportingSchedule(
   startDate: string,
   endDate: string,
   frequency: string
-): any[] {
+): unknown[] {
   const reports = [];
   const start = new Date(startDate);
   const end = new Date(endDate);

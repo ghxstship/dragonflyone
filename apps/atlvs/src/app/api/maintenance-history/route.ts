@@ -67,6 +67,16 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20');
     const offset = (page - 1) * limit;
 
+    // Get asset IDs for category filter if specified
+    let categoryAssetIds: string[] = [];
+    if (category && !assetId) {
+      const { data: categoryAssets } = await supabase
+        .from('assets')
+        .select('id')
+        .eq('category', category);
+      categoryAssetIds = categoryAssets?.map(a => a.id) || [];
+    }
+
     if (type === 'history') {
       // Get maintenance history
       let query = supabase
@@ -81,6 +91,8 @@ export async function GET(request: NextRequest) {
 
       if (assetId) {
         query = query.eq('asset_id', assetId);
+      } else if (categoryAssetIds.length > 0) {
+        query = query.in('asset_id', categoryAssetIds);
       }
       if (startDate) {
         query = query.gte('scheduled_date', startDate);
@@ -125,7 +137,8 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by week
-      const byWeek = upcoming?.reduce((acc: Record<string, any[]>, record) => {
+      interface MaintenanceRecord { scheduled_date: string; [key: string]: unknown }
+      const byWeek = upcoming?.reduce((acc: Record<string, MaintenanceRecord[]>, record: MaintenanceRecord) => {
         const date = new Date(record.scheduled_date);
         const weekStart = new Date(date);
         weekStart.setDate(date.getDate() - date.getDay());
@@ -346,9 +359,9 @@ export async function GET(request: NextRequest) {
         year_to_date_cost: yearCost,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Maintenance history error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -408,7 +421,7 @@ export async function POST(request: NextRequest) {
       if (error) throw error;
 
       // Update asset condition and next service date
-      const updates: any = { updated_at: new Date().toISOString() };
+      const updates: { updated_at: string; condition?: string; next_maintenance_date?: string } = { updated_at: new Date().toISOString() };
       if (validated.condition_after) {
         updates.condition = validated.condition_after;
       }
@@ -498,12 +511,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Maintenance history error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -540,9 +553,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ record });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Maintenance history error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -586,8 +599,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Maintenance history error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

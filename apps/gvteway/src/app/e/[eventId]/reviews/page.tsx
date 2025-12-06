@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box} from "@ghxstship/ui";
 import { Star, Plus, Users } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 

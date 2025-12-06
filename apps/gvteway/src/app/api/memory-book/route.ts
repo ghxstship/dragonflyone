@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Automated memory book creation with photos
 export async function GET(request: NextRequest) {
@@ -38,7 +32,7 @@ export async function GET(request: NextRequest) {
     if (eventId) query = query.eq('event_id', eventId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ memory_books: data });
   } catch (error) {
@@ -82,7 +76,7 @@ export async function POST(request: NextRequest) {
         template: body.template || 'default'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // In production, trigger async PDF/book generation
       return NextResponse.json({ memory_book: memoryBook, message: 'Generation started' }, { status: 201 });

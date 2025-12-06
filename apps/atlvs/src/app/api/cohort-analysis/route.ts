@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
       // Track activity by month for each cohort
       invoices?.forEach(inv => {
         const activityMonth = inv.created_at.substring(0, 7);
-        Object.entries(cohorts).forEach(([cohortMonth, cohort]) => {
+        Object.values(cohorts).forEach((cohort) => {
           if (cohort.clients.has(inv.client_id)) {
             if (!cohort.activity[activityMonth]) {
               cohort.activity[activityMonth] = new Set();
@@ -101,7 +101,7 @@ export async function GET(request: NextRequest) {
       // Track revenue by month for each cohort
       invoices?.forEach(inv => {
         const activityMonth = inv.created_at.substring(0, 7);
-        Object.entries(cohorts).forEach(([cohortMonth, cohort]) => {
+        Object.values(cohorts).forEach((cohort) => {
           if (cohort.clients.has(inv.client_id)) {
             cohort.revenue[activityMonth] = (cohort.revenue[activityMonth] || 0) + inv.total_amount;
           }
@@ -182,7 +182,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

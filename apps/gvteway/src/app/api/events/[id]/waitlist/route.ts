@@ -14,7 +14,7 @@ const joinWaitlistSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
 
     const { data: waitlist, error } = await supabaseAdmin
@@ -36,10 +36,10 @@ export const GET = apiRoute(
 
     const stats = {
       total: waitlist?.length || 0,
-      pending: waitlist?.filter((w: any) => w.status === 'pending').length || 0,
-      notified: waitlist?.filter((w: any) => w.status === 'notified').length || 0,
-      converted: waitlist?.filter((w: any) => w.status === 'converted').length || 0,
-      expired: waitlist?.filter((w: any) => w.status === 'expired').length || 0,
+      pending: waitlist?.filter((w: Record<string, unknown>) => w.status === 'pending').length || 0,
+      notified: waitlist?.filter((w: Record<string, unknown>) => w.status === 'notified').length || 0,
+      converted: waitlist?.filter((w: Record<string, unknown>) => w.status === 'converted').length || 0,
+      expired: waitlist?.filter((w: Record<string, unknown>) => w.status === 'expired').length || 0,
     };
 
     return NextResponse.json({ waitlist: waitlist || [], stats });
@@ -51,7 +51,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const body = await request.json();
     const data = joinWaitlistSchema.parse(body);

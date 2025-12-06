@@ -67,22 +67,14 @@ export default function SetTimesPage() {
   const completed = mockSetTimes.filter(s => s.status === "Completed");
   const delayed = mockSetTimes.filter(s => s.status === "Delayed").length;
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'ghost' | 'warning' | 'error' => {
     switch (status) {
-      case "Completed": return "text-success-400";
-      case "On Stage": return "text-info-400";
-      case "Upcoming": return "text-ink-400";
-      case "Delayed": return "text-warning-400";
-      case "Cancelled": return "text-error-400";
-      default: return "text-ink-400";
-    }
-  };
-
-  const getStatusBg = (status: string) => {
-    switch (status) {
-      case "On Stage": return "border-info-800 bg-info-900/20";
-      case "Delayed": return "border-warning-800 bg-warning-900/20";
-      default: return "border-ink-800 bg-ink-900/50";
+      case "Completed": return "success";
+      case "On Stage": return "info";
+      case "Upcoming": return "ghost";
+      case "Delayed": return "warning";
+      case "Cancelled": return "error";
+      default: return "ghost";
     }
   };
 
@@ -99,8 +91,8 @@ export default function SetTimesPage() {
       <EnterprisePageHeader
         title="Set Time Tracking"
         subtitle="Track actual start/end times and monitor schedule variance"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -174,7 +166,7 @@ export default function SetTimesPage() {
                           <Body className="text-body-sm">Set Length</Body>
                           <Body>{set.setLength} min</Body>
                         </Stack>
-                        <Badge variant={set.status === "Completed" ? "solid" : "outline"}>{set.status}</Badge>
+                        <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
                         <Stack direction="horizontal" gap={2}>
                           {set.status === "Upcoming" && (
                             <Button variant="outline" size="sm" onClick={() => { setSelectedSet(set); setShowStartModal(true); }}>Start</Button>
@@ -204,7 +196,7 @@ export default function SetTimesPage() {
                                   <Body>{set.artistName}</Body>
                                   <Body className="text-body-sm">{set.scheduledStart} - {set.scheduledEnd}</Body>
                                 </Stack>
-                                <Badge variant={set.status === "On Stage" ? "solid" : "outline"}>{set.status}</Badge>
+                                <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
                               </Stack>
                             </Card>
                           ))}
@@ -239,7 +231,7 @@ export default function SetTimesPage() {
                                   {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
                                 </Body>
                               </Stack>
-                              <Badge variant={set.status === "Completed" ? "solid" : "outline"}>{set.status}</Badge>
+                              <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
                             </Grid>
                           </Card>
                         );
@@ -272,7 +264,7 @@ export default function SetTimesPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Status</Body>
-                  <Badge variant="outline">{selectedSet.status}</Badge>
+                  <Badge variant={getStatusVariant(selectedSet.status)}>{selectedSet.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>

@@ -6,10 +6,8 @@ import {
   Container,
   Section,
   Display,
-  H2,
   H3,
   Body,
-  Label,
   Button,
   Card,
   Field,
@@ -23,6 +21,26 @@ import {
   Pagination,
 } from '@ghxstship/ui';
 import { useEvents } from '@/hooks/useEvents';
+
+interface BrowseEvent {
+  id: string;
+  title?: string;
+  name?: string;
+  venue?: string;
+  venue_name?: string;
+  venue_type?: string;
+  category?: string;
+  date?: string;
+  start_date?: string;
+  price?: number;
+  location?: string;
+  city?: string;
+  state?: string;
+  image?: string;
+  image_url?: string;
+  description?: string;
+  tickets_sold?: number;
+}
 
 const ITEMS_PER_PAGE = 12;
 
@@ -46,17 +64,17 @@ export default function BrowseContent() {
   const { data: events, isLoading } = useEvents({ status: 'published' });
 
   const filteredEvents = useMemo(() => {
-    const displayEvents = events || [];
+    const displayEvents = (events || []) as BrowseEvent[];
     return displayEvents
-      .filter((e: any) => {
+      .filter((e: BrowseEvent) => {
         const matchesSearch = !searchTerm || 
           (e.title || e.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
           (e.venue && e.venue.toLowerCase().includes(searchTerm.toLowerCase()));
         const matchesCategory = category === 'all' || e.category === category;
-        const matchesDateFrom = !dateFrom || new Date(e.date) >= new Date(dateFrom);
-        const matchesDateTo = !dateTo || new Date(e.date) <= new Date(dateTo);
-        const matchesPriceMin = !priceMin || e.price >= parseFloat(priceMin);
-        const matchesPriceMax = !priceMax || e.price <= parseFloat(priceMax);
+        const matchesDateFrom = !dateFrom || new Date(e.date || e.start_date || '') >= new Date(dateFrom);
+        const matchesDateTo = !dateTo || new Date(e.date || e.start_date || '') <= new Date(dateTo);
+        const matchesPriceMin = !priceMin || (e.price || 0) >= parseFloat(priceMin);
+        const matchesPriceMax = !priceMax || (e.price || 0) <= parseFloat(priceMax);
         const matchesLocation = !location || 
           (e.city && e.city.toLowerCase().includes(location.toLowerCase())) ||
           (e.state && e.state.toLowerCase().includes(location.toLowerCase()));
@@ -65,13 +83,13 @@ export default function BrowseContent() {
         return matchesSearch && matchesCategory && matchesDateFrom && matchesDateTo && 
                matchesPriceMin && matchesPriceMax && matchesLocation && matchesVenueType;
       })
-      .sort((a: any, b: any) => {
+      .sort((a: BrowseEvent, b: BrowseEvent) => {
         switch (sortBy) {
           case 'price-asc': return (a.price || 0) - (b.price || 0);
           case 'price-desc': return (b.price || 0) - (a.price || 0);
           case 'name': return (a.title || a.name || '').localeCompare(b.title || b.name || '');
           case 'popularity': return (b.tickets_sold || 0) - (a.tickets_sold || 0);
-          default: return new Date(a.date || a.start_date).getTime() - new Date(b.date || b.start_date).getTime();
+          default: return new Date(a.date || a.start_date || '').getTime() - new Date(b.date || b.start_date || '').getTime();
         }
       });
   }, [events, searchTerm, category, dateFrom, dateTo, priceMin, priceMax, location, venueType, sortBy]);
@@ -273,12 +291,12 @@ export default function BrowseContent() {
         {paginatedEvents.length > 0 ? (
           <Stack gap={8}>
             <Grid cols={3} gap={6}>
-              {paginatedEvents.map((event: any) => (
+              {paginatedEvents.map((event: BrowseEvent) => (
                 <ProjectCard
                   key={event.id}
-                  title={event.title || event.name}
+                  title={event.title || event.name || 'Untitled Event'}
                   image={event.image || event.image_url || ''}
-                  metadata={`${event.date || event.start_date} • ${event.venue || event.venue_name} • From $${event.price || 0}`}
+                  metadata={`${event.date || event.start_date || 'TBD'} • ${event.venue || event.venue_name || 'TBD'} • From $${event.price || 0}`}
                   tags={event.category ? [event.category] : undefined}
                   onClick={() => handleEventClick(event.id)}
                 />

@@ -34,15 +34,15 @@ export interface SavedFilter {
   id: string;
   user_id: string;
   name: string;
-  description?: string;
+  description: string | null;
   entity_type: string;
   conditions: FilterCondition[];
-  sort_by?: string;
-  sort_order?: 'asc' | 'desc';
+  sort_by: string | null;
+  sort_order: 'asc' | 'desc' | null;
   is_public: boolean;
   is_default: boolean;
   use_count: number;
-  last_used_at?: string;
+  last_used_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -51,15 +51,15 @@ export interface SavedView {
   id: string;
   user_id: string;
   name: string;
-  description?: string;
+  description: string | null;
   entity_type: string;
   visible_columns: string[];
   column_order: string[];
-  column_widths?: Record<string, number>;
-  filters?: FilterCondition[];
-  sort_by?: string;
-  sort_order?: 'asc' | 'desc';
-  page_size?: number;
+  column_widths: Record<string, number> | null;
+  filters: FilterCondition[] | null;
+  sort_by: string | null;
+  sort_order: 'asc' | 'desc' | null;
+  page_size: number | null;
   is_public: boolean;
   is_default: boolean;
   created_at: string;
@@ -85,7 +85,14 @@ export class SavedFiltersManager {
         .from('saved_filters')
         .insert({
           user_id: userId,
-          ...filter,
+          name: filter.name,
+          description: filter.description,
+          entity_type: filter.entity_type,
+          conditions: filter.conditions as unknown as Json,
+          sort_by: filter.sort_by,
+          sort_order: filter.sort_order,
+          is_public: filter.is_public,
+          is_default: filter.is_default,
           use_count: 0,
         })
         .select('id')
@@ -123,7 +130,10 @@ export class SavedFiltersManager {
       return [];
     }
 
-    return data as SavedFilter[];
+    return data.map(row => ({
+      ...row,
+      conditions: row.conditions as unknown as FilterCondition[],
+    })) as SavedFilter[];
   }
 
   /**
@@ -141,7 +151,10 @@ export class SavedFiltersManager {
       return [];
     }
 
-    return data as SavedFilter[];
+    return data.map(row => ({
+      ...row,
+      conditions: row.conditions as unknown as FilterCondition[],
+    })) as SavedFilter[];
   }
 
   /**
@@ -152,9 +165,13 @@ export class SavedFiltersManager {
     updates: Partial<Omit<SavedFilter, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
   ): Promise<{ success: boolean; error?: string }> {
     try {
+      const dbUpdates: Record<string, unknown> = { ...updates };
+      if (updates.conditions) {
+        dbUpdates.conditions = updates.conditions as unknown as Json;
+      }
       const { error } = await this.supabase
         .from('saved_filters')
-        .update(updates)
+        .update(dbUpdates as Database['public']['Tables']['saved_filters']['Update'])
         .eq('id', filterId);
 
       if (error) {
@@ -216,7 +233,22 @@ export class SavedFiltersManager {
    * Track filter usage
    */
   async trackFilterUsage(filterId: string): Promise<void> {
-    await this.supabase.rpc('increment_filter_usage', { filter_id: filterId });
+    // Get current use_count and increment
+    const { data } = await this.supabase
+      .from('saved_filters')
+      .select('use_count')
+      .eq('id', filterId)
+      .single();
+    
+    const currentCount = data?.use_count ?? 0;
+    
+    await this.supabase
+      .from('saved_filters')
+      .update({ 
+        use_count: currentCount + 1,
+        last_used_at: new Date().toISOString()
+      })
+      .eq('id', filterId);
   }
 
   /**
@@ -296,7 +328,18 @@ export class SavedViewsManager {
         .from('saved_views')
         .insert({
           user_id: userId,
-          ...view,
+          name: view.name,
+          description: view.description,
+          entity_type: view.entity_type,
+          visible_columns: view.visible_columns,
+          column_order: view.column_order,
+          column_widths: view.column_widths as unknown as Json,
+          filters: view.filters as unknown as Json,
+          sort_by: view.sort_by,
+          sort_order: view.sort_order,
+          page_size: view.page_size,
+          is_public: view.is_public,
+          is_default: view.is_default,
         })
         .select('id')
         .single();
@@ -330,7 +373,11 @@ export class SavedViewsManager {
       return [];
     }
 
-    return data as SavedView[];
+    return data.map(row => ({
+      ...row,
+      filters: row.filters as unknown as FilterCondition[] | undefined,
+      column_widths: row.column_widths as unknown as Record<string, number> | undefined,
+    })) as unknown as SavedView[];
   }
 
   /**
@@ -349,7 +396,11 @@ export class SavedViewsManager {
       return null;
     }
 
-    return data as SavedView;
+    return {
+      ...data,
+      filters: data.filters as unknown as FilterCondition[] | undefined,
+      column_widths: data.column_widths as unknown as Record<string, number> | undefined,
+    } as unknown as SavedView;
   }
 
   /**
@@ -360,9 +411,16 @@ export class SavedViewsManager {
     updates: Partial<Omit<SavedView, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
   ): Promise<{ success: boolean; error?: string }> {
     try {
+      const dbUpdates: Record<string, unknown> = { ...updates };
+      if (updates.filters) {
+        dbUpdates.filters = updates.filters as unknown as Json;
+      }
+      if (updates.column_widths) {
+        dbUpdates.column_widths = updates.column_widths as unknown as Json;
+      }
       const { error } = await this.supabase
         .from('saved_views')
-        .update(updates)
+        .update(dbUpdates as Database['public']['Tables']['saved_views']['Update'])
         .eq('id', viewId);
 
       if (error) {

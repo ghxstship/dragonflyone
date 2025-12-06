@@ -203,7 +203,7 @@ export function ExperienceDiscovery() {
         <Switch label="New drops" checked={newOnly} onChange={() => setNewOnly((prev) => !prev)} />
       </Grid>
 
-      <Stack direction="horizontal" gap={4} className="flex-col border border-ink-800 p-4 lg:flex-row lg:items-center lg:justify-between">
+      <Stack direction="horizontal" gap={4} className="flex-col border-2 border-ink-800 p-4 lg:flex-row lg:items-center lg:justify-between">
         <Stack direction="horizontal" gap={4} className="flex-wrap text-body-sm text-ink-300">
           <Stat label="Matches" value={stats.matches.toString()} />
           <Stat label="Saved Filters" value={stats.saved.toString()} />

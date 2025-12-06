@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, MapPin, Phone, Mail, Calendar, DollarSign, Users } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
@@ -97,7 +96,7 @@ export default function VenueDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{venue.name}</H2>
-                    <Badge variant={statusColors[venue.status] || 'default'}>
+                    <Badge variant={statusColors[venue.status] || 'ghost'}>
                       {venue.status.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -241,7 +240,7 @@ export default function VenueDetailPage() {
                               <Stack gap={2}>
                                 <Stack direction="horizontal" gap={2} className="items-center justify-between">
                                   <Body className="font-weight-semibold">{zone.name}</Body>
-                                  <Badge variant={zone.is_active ? 'success' : 'default'}>
+                                  <Badge variant={zone.is_active ? 'success' : 'ghost'}>
                                     {zone.is_active ? 'ACTIVE' : 'INACTIVE'}
                                   </Badge>
                                 </Stack>

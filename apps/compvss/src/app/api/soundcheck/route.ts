@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       *, artist:artists(id, name), notes:soundcheck_notes(id, content, created_at)
     `).eq('event_id', eventId).order('start_time', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ schedule: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       type: type || 'soundcheck', status: 'scheduled'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ slot: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });
@@ -57,7 +57,8 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { id, status, actual_start, actual_end, notes } = body;
 
-    const updateData: any = { status };
+    interface SoundcheckUpdate { status: string; actual_start?: string; actual_end?: string }
+    const updateData: SoundcheckUpdate = { status };
     if (actual_start) updateData.actual_start = actual_start;
     if (actual_end) updateData.actual_end = actual_end;
 

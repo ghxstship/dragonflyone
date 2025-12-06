@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Visual search (upload image to find events)
 export async function POST(request: NextRequest) {
@@ -28,8 +22,9 @@ export async function POST(request: NextRequest) {
     // In production, this would use image recognition AI (Google Vision, AWS Rekognition)
     // For now, we'll simulate with metadata extraction
 
-    let searchResults: any[] = [];
-    let detectedInfo: any = {};
+    interface DetectedInfo { detected_text?: string[]; confidence?: number; possible_matches?: { name: string; confidence: number }[]; detected_venue?: string; possible_venues?: { name: string; confidence: number }[] }
+    let searchResults: unknown[] = [];
+    let detectedInfo: DetectedInfo = {};
 
     if (search_type === 'poster') {
       // Extract text from event poster
@@ -80,6 +75,7 @@ export async function POST(request: NextRequest) {
       search_type,
       detected_info: detectedInfo,
       results: searchResults,
+      image_source: image_url ? 'url' : image_base64 ? 'base64' : 'unknown',
       message: 'Visual search processed successfully'
     });
   } catch (error) {

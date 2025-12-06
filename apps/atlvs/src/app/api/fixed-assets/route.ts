@@ -176,9 +176,10 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
+      interface Disposal { disposal_date?: string; disposal_amount?: number; disposal_method?: string }
       const register = assets?.map(asset => {
         const depreciation = calculateDepreciation(asset);
-        const disposal = (asset.disposals as any[])?.[0];
+        const disposal = (asset.disposals as Disposal[])?.[0];
         
         return {
           asset_number: asset.asset_number,
@@ -241,9 +242,9 @@ export async function GET(request: NextRequest) {
         categories: [...new Set(activeAssets.map(a => a.category))].length,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Fixed assets error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -458,12 +459,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Fixed assets error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -487,14 +488,21 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ asset });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Fixed assets error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
 // Helper function to calculate depreciation
-function calculateDepreciation(asset: any): {
+interface DepreciableAsset {
+  acquisition_date: string;
+  useful_life_years: number;
+  acquisition_cost: number;
+  salvage_value: number;
+  depreciation_method: 'straight_line' | 'declining_balance' | 'sum_of_years' | string;
+}
+function calculateDepreciation(asset: DepreciableAsset): {
   accumulated: number;
   bookValue: number;
   monthly: number;

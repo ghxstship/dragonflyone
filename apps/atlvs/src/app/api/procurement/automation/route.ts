@@ -209,7 +209,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rfp }, { status: 201 });
@@ -239,7 +239,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rfq }, { status: 201 });
@@ -322,7 +322,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ response }, { status: 201 });
@@ -346,7 +346,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ quote }, { status: 201 });
@@ -368,7 +368,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ evaluation }, { status: 201 });
@@ -417,7 +417,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rule }, { status: 201 });
@@ -425,7 +425,7 @@ export async function POST(request: NextRequest) {
       // Automatically create PO from awarded RFP or selected quote
       const { source_type, source_id, vendor_id } = body;
 
-      const poData: any = {
+      const poData: { vendor_id: string; status: string; created_by: string; items?: unknown[]; total_amount?: number; source_rfp_id?: string; source_rfq_id?: string; notes?: string } = {
         vendor_id,
         status: 'pending_approval',
         created_by: user.id,
@@ -440,7 +440,7 @@ export async function POST(request: NextRequest) {
 
         poData.items = response?.pricing?.items || [];
         poData.total_amount = response?.pricing?.total || 0;
-        poData.notes = `Auto-generated from RFP: ${(response?.rfp as any)?.title}`;
+        poData.notes = `Auto-generated from RFP: ${(response?.rfp as { title?: string } | null)?.title}`;
         poData.source_rfp_id = source_id;
       } else if (source_type === 'rfq') {
         const { data: quote } = await supabase
@@ -451,7 +451,7 @@ export async function POST(request: NextRequest) {
 
         poData.items = quote?.line_items || [];
         poData.total_amount = quote?.total_amount || 0;
-        poData.notes = `Auto-generated from RFQ: ${(quote?.rfq as any)?.title}`;
+        poData.notes = `Auto-generated from RFQ: ${(quote?.rfq as { title?: string } | null)?.title}`;
         poData.source_rfq_id = source_id;
       }
 
@@ -473,7 +473,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ purchase_order: po }, { status: 201 });
@@ -513,7 +513,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rfp });
@@ -528,7 +528,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rfq });
@@ -543,7 +543,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ rule });

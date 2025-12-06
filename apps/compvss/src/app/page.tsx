@@ -59,7 +59,7 @@ export default function Home() {
           </Stack>
         </Header>
 
-        <Section border id="signal" kicker="Executive Signal" title="Mission telemetry" description="Live production readiness snapshot derived from the COMPVSS roadmap checklist.">
+        <Section border-2 id="signal" kicker="Executive Signal" title="Mission telemetry" description="Live production readiness snapshot derived from the COMPVSS roadmap checklist.">
           <Grid cols={2} gap={6} className="md:grid-cols-[2fr_1fr]">
             <List className="space-y-3 text-body-sm text-ink-300">
               {compvssSignal.highlights.map((item) => (
@@ -69,7 +69,7 @@ export default function Home() {
                 </ListItem>
               ))}
             </List>
-            <Card className="border border-ink-800 p-spacing-4">
+            <Card className="border-2 border-ink-800 p-spacing-4">
               <Body className="text-mono-xs uppercase tracking-kicker text-ink-500">Indicators</Body>
               <Stack gap={4} className="mt-spacing-4">
                 {compvssSignal.indicators.map((signal) => (
@@ -94,7 +94,7 @@ export default function Home() {
         >
           <Stack gap={6}>
             {compvssScheduleTracks.map((track) => (
-              <Article key={track.id} className="border border-ink-800 p-spacing-6">
+              <Article key={track.id} className="border-2 border-ink-800 p-spacing-6">
                 <Stack direction="horizontal" className="flex-col gap-spacing-2 md:flex-row md:items-baseline md:justify-between">
                   <Stack>
                     <Body className="text-mono-xs uppercase tracking-display text-ink-500">{track.dateLabel}</Body>
@@ -104,7 +104,7 @@ export default function Home() {
                 </Stack>
                 <Stack gap={4} className="mt-spacing-4">
                   {track.phases.map((phase) => (
-                    <Card key={`${track.id}-${phase.name}`} className="rounded border border-ink-800 p-4">
+                    <Card key={`${track.id}-${phase.name}`} className="rounded border-2 border-ink-800 p-4">
                       <Stack direction="horizontal" className="flex-col gap-spacing-2 md:flex-row md:items-center md:justify-between">
                         <Stack>
                           <Body className="font-code text-mono-xs uppercase tracking-display text-ink-500">{phase.owner}</Body>
@@ -141,13 +141,13 @@ export default function Home() {
         >
           <Grid cols={3} gap={4}>
             {compvssFileVaultEntries.map((file) => (
-              <Article key={file.id} className="border border-ink-800 p-spacing-4">
+              <Article key={file.id} className="border-2 border-ink-800 p-spacing-4">
                 <Body className="text-mono-xs uppercase tracking-display text-ink-500">{file.type}</Body>
                 <H3 className="mt-spacing-2 text-h5-md">{file.filename}</H3>
                 <Body className="mt-spacing-1 text-body-sm text-ink-300">{file.department}</Body>
                 <Stack direction="horizontal" gap={2} className="mt-3 flex-wrap text-mono-xs uppercase tracking-kicker text-ink-400">
-                  <Text className="border border-ink-800 px-spacing-3 py-spacing-1">{file.owner}</Text>
-                  <Text className="border border-ink-800 px-spacing-3 py-spacing-1">{file.updatedAt}</Text>
+                  <Text className="border-2 border-ink-800 px-spacing-3 py-spacing-1">{file.owner}</Text>
+                  <Text className="border-2 border-ink-800 px-spacing-3 py-spacing-1">{file.updatedAt}</Text>
                 </Stack>
                 <Body className="mt-spacing-3 text-mono-xs uppercase tracking-kicker text-ink-500">{file.status}</Body>
               </Article>
@@ -165,7 +165,7 @@ export default function Home() {
           title="Crew checkpoints"
           description="Badge, QR, and mobile confirmations feeding payroll + compliance audits."
         >
-          <Box className="overflow-x-auto border border-ink-800">
+          <Box className="overflow-x-auto border-2 border-ink-800">
             <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
@@ -193,7 +193,7 @@ export default function Home() {
                     <TableCell className="px-4 py-4 text-ink-300">{entry.actual ?? "—"}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-300">{entry.method}</TableCell>
                     <TableCell className="px-4 py-4">
-                      <Text className="rounded border border-ink-700 px-3 py-1 text-mono-xs uppercase tracking-kicker text-ink-300">
+                      <Text className="rounded border-2 border-ink-700 px-3 py-1 text-mono-xs uppercase tracking-kicker text-ink-300">
                         {entry.status}
                       </Text>
                     </TableCell>
@@ -210,7 +210,7 @@ export default function Home() {
           title="Pipeline triage"
           description="Live queue of productions moving from ATLVS deal capture into COMPVSS execution, with risk envelopes and ownership."
         >
-          <Box className="overflow-x-auto border border-ink-800">
+          <Box className="overflow-x-auto border-2 border-ink-800">
             <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
@@ -237,7 +237,7 @@ export default function Home() {
                     <TableCell className="px-4 py-4 text-ink-300">{project.owner}</TableCell>
                     <TableCell className="px-4 py-4 text-ink-50">{project.budget}</TableCell>
                     <TableCell className="px-4 py-4">
-                      <Text className="rounded border border-ink-700 px-3 py-1 text-mono-xs uppercase tracking-kicker text-ink-300">
+                      <Text className="rounded border-2 border-ink-700 px-3 py-1 text-mono-xs uppercase tracking-kicker text-ink-300">
                         {project.risk}
                       </Text>
                     </TableCell>
@@ -287,7 +287,7 @@ export default function Home() {
           />
           <Grid cols={2} gap={6}>
             {compvssProjectLanes.map((lane) => (
-              <Article key={lane.id} id={lane.id} className="border border-ink-800 p-6">
+              <Article key={lane.id} id={lane.id} className="border-2 border-ink-800 p-6">
                 <Body className="font-code text-mono-xs tracking-display text-ink-500">{lane.kicker}</Body>
                 <H3 className="mt-4 text-h5-md">{lane.title}</H3>
                 <Body className="mt-2 text-ink-300">{lane.description}</Body>
@@ -304,7 +304,7 @@ export default function Home() {
         <Section id="field" kicker="Field Intelligence" title="Build + strike telemetry" description="Real-time load-in velocity, safety posture, and asset turnover insights for production leadership.">
           <Grid cols={3} gap={6}>
             {compvssFieldInsights.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Stack direction="horizontal" gap={6} className="mt-4">
                   {card.metrics.map((metric) => (
@@ -323,7 +323,7 @@ export default function Home() {
         <Section id="show" kicker="Show Day" title="Control room console" description="Minute-by-minute orchestration for cues, talent ops, and incident response per MASTER_ROADMAP show operations.">
           <Grid cols={3} gap={6}>
             {compvssShowConsole.map((panel) => (
-              <Article key={panel.title} className="border border-ink-800 p-6">
+              <Article key={panel.title} className="border-2 border-ink-800 p-6">
                 <Body className="font-code text-mono-xs uppercase tracking-display text-ink-500">{panel.kicker}</Body>
                 <H3 className="mt-4 text-h5-md">{panel.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{panel.description}</Body>
@@ -335,7 +335,7 @@ export default function Home() {
               </Article>
             ))}
           </Grid>
-          <Box className="mt-8 overflow-x-auto border border-ink-800">
+          <Box className="mt-8 overflow-x-auto border-2 border-ink-800">
             <Table variant="dark" className="min-w-full text-left text-body-sm">
               <TableHeader className="font-code text-mono-xs uppercase tracking-kicker text-ink-500">
                 <TableRow>
@@ -367,7 +367,7 @@ export default function Home() {
           <Stack gap={8}>
             <Grid cols={3} gap={6}>
               {compvssDirectory.map((block) => (
-                <Article key={block.title} className="border border-ink-800 p-6">
+                <Article key={block.title} className="border-2 border-ink-800 p-6">
                   <H3 className="text-h5-md">{block.title}</H3>
                   <Body className="mt-2 text-body-sm text-ink-300">{block.description}</Body>
                   <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -383,7 +383,7 @@ export default function Home() {
               <H3 className="text-h6-md uppercase">Vendor network</H3>
               <Grid cols={3} gap={4}>
                 {compvssVendors.map((vendor) => (
-                  <Article key={vendor.name} className="border border-ink-800 p-4">
+                  <Article key={vendor.name} className="border-2 border-ink-800 p-4">
                     <Stack direction="horizontal" className="items-start justify-between gap-3">
                       <Stack>
                         <Body className="text-mono-xs uppercase tracking-kicker text-ink-500">{vendor.category}</Body>
@@ -411,7 +411,7 @@ export default function Home() {
               <H3 className="text-h6-md uppercase">Venue specs</H3>
               <Grid cols={3} gap={4}>
                 {compvssVenues.map((venue) => (
-                  <Article key={venue.name} className="border border-ink-800 p-4">
+                  <Article key={venue.name} className="border-2 border-ink-800 p-4">
                     <Stack direction="horizontal" className="items-start justify-between gap-3">
                       <H4 className="text-h5-md">{venue.name}</H4>
                       <Text className="text-mono-xs uppercase tracking-kicker text-ink-400">{venue.capacity}</Text>
@@ -434,7 +434,7 @@ export default function Home() {
               <H3 className="text-h6-md uppercase">Emergency services</H3>
               <Grid cols={3} gap={4}>
                 {compvssEmergencyDirectory.map((region) => (
-                  <Article key={region.region} className="border border-ink-800 p-4">
+                  <Article key={region.region} className="border-2 border-ink-800 p-4">
                     <H4 className="text-h5-md">{region.region}</H4>
                     <List className="mt-3 space-y-1 text-body-sm text-ink-200">
                       {region.contacts.map((contact) => (
@@ -454,7 +454,7 @@ export default function Home() {
         <Section id="knowledge" kicker="Knowledge Base" title="Operational intelligence vault" description="SOPs, training, and troubleshooting decks enumerated in the roadmap knowledge requirements.">
           <Grid cols={3} gap={6}>
             {compvssKnowledgeBase.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{card.description}</Body>
                 <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -470,7 +470,7 @@ export default function Home() {
         <Section id="opportunities" kicker="Opportunities" title="RFPs, gigs, careers" description="Bid, gig, and partnership pipelines lifted from the MASTER_ROADMAP opportunities checklist.">
           <Grid cols={3} gap={6}>
             {compvssOpportunities.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{card.description}</Body>
                 <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -486,7 +486,7 @@ export default function Home() {
         <Section id="analytics" kicker="Analytics" title="Live intelligence" description="Roadmap-required dashboards, predictive signals, and portability for executives + ops.">
           <Grid cols={3} gap={6}>
             {compvssAnalytics.map((card) => (
-              <Article key={card.title} className="border border-ink-800 p-6">
+              <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{card.description}</Body>
                 <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -502,7 +502,7 @@ export default function Home() {
         <Section id="risk" kicker="Risk + Compliance" title="Operational guardrails" description="Risk registers, safety, and resilience playbooks mandated by the audit + roadmap checklist.">
           <Grid cols={3} gap={6}>
             {compvssRiskProtocols.map((block) => (
-              <Article key={block.title} className="border border-ink-800 p-6">
+              <Article key={block.title} className="border-2 border-ink-800 p-6">
                 <H3 className="text-h5-md">{block.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{block.description}</Body>
                 <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -518,7 +518,7 @@ export default function Home() {
         <Section id="integrations" kicker="Integrations" title="Tri-platform sync" description="How ATLVS, COMPVSS, and GVTEWAY exchange data so production, finance, and guest signals stay aligned.">
           <Grid cols={3} gap={6}>
             {compvssIntegrationLinks.map((link) => (
-              <Article key={link.title} className="border border-ink-800 p-6">
+              <Article key={link.title} className="border-2 border-ink-800 p-6">
                 <H3 className="text-h5-md">{link.title}</H3>
                 <Body className="mt-2 text-body-sm text-ink-300">{link.description}</Body>
                 <List className="mt-4 space-y-1 text-body-sm text-ink-200">
@@ -539,7 +539,7 @@ export default function Home() {
           />
           <Grid gap={4}>
             {compvssWorkflowTimeline.map((stage) => (
-              <Article key={stage.label} className="flex flex-col gap-3 border border-ink-800 p-4 md:flex-row md:items-start md:gap-6">
+              <Article key={stage.label} className="flex flex-col gap-3 border-2 border-ink-800 p-4 md:flex-row md:items-start md:gap-6">
                 <Text className="font-display text-h3-md text-ink-500">{stage.label}</Text>
                 <Stack gap={3} className="flex-1">
                   <Stack>
@@ -557,7 +557,7 @@ export default function Home() {
           </Grid>
         </Section>
 
-        <Section id="cta" border={false} className="border border-ink-50/30 p-8 text-center">
+        <Section id="cta" border={false} className="border-2 border-ink-50/30 p-8 text-center">
           <SectionHeader
             kicker={compvssFinalCta.kicker}
             title={compvssFinalCta.title}
@@ -567,13 +567,13 @@ export default function Home() {
           <Stack direction="horizontal" gap={4} className="flex-col items-center justify-center md:flex-row">
             <Link
               href={compvssFinalCta.primary.href}
-              className="border border-ink-50 px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
+              className="border-2 border-ink-50 px-8 py-4 text-mono-xs uppercase tracking-kicker transition hover:-translate-y-1 hover:bg-ink-50 hover:text-ink-950"
             >
               {compvssFinalCta.primary.label}
             </Link>
             <Link
               href={compvssFinalCta.secondary.href}
-              className="border border-ink-700 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
+              className="border-2 border-ink-700 px-8 py-4 text-mono-xs uppercase tracking-kicker text-ink-400 transition hover:-translate-y-1 hover:border-ink-50 hover:text-ink-50"
             >
               {compvssFinalCta.secondary.label}
             </Link>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Handshake, Sparkles, Shield, Target, Scale } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   H2,
@@ -19,7 +20,7 @@ const GUIDELINES = [
   {
     id: 'respect',
     title: 'Be Respectful',
-    icon: '🤝',
+    icon: <Handshake className="size-6" />,
     description: 'Treat all community members with respect and kindness.',
     rules: [
       'No harassment, bullying, or personal attacks',
@@ -31,7 +32,7 @@ const GUIDELINES = [
   {
     id: 'authentic',
     title: 'Be Authentic',
-    icon: '✨',
+    icon: <Sparkles className="size-6" />,
     description: 'Share genuine experiences and honest opinions.',
     rules: [
       'Write honest reviews based on real experiences',
@@ -43,7 +44,7 @@ const GUIDELINES = [
   {
     id: 'safe',
     title: 'Keep It Safe',
-    icon: '🛡️',
+    icon: <Shield className="size-6" />,
     description: 'Help maintain a safe environment for everyone.',
     rules: [
       'No sharing of personal information without consent',
@@ -55,7 +56,7 @@ const GUIDELINES = [
   {
     id: 'relevant',
     title: 'Stay Relevant',
-    icon: '🎯',
+    icon: <Target className="size-6" />,
     description: 'Keep discussions focused and on-topic.',
     rules: [
       'Post content relevant to events and experiences',
@@ -67,7 +68,7 @@ const GUIDELINES = [
   {
     id: 'legal',
     title: 'Follow the Law',
-    icon: '⚖️',
+    icon: <Scale className="size-6" />,
     description: 'Comply with all applicable laws and regulations.',
     rules: [
       'No ticket scalping or fraud',

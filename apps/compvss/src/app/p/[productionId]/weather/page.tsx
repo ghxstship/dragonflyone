@@ -45,9 +45,31 @@ const MOCK_FORECAST: WeatherForecast[] = [
 
 export default function ProductionWeatherPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [forecast, setForecast] = useState(MOCK_FORECAST);
+  const productionId = params?.productionId as string;
+  const [forecast, setForecast] = useState<WeatherForecast[]>(MOCK_FORECAST);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchWeather = useCallback(async () => {
+    if (!productionId) return;
+    setIsRefreshing(true);
+    try {
+      const response = await fetch(`/api/productions/${productionId}/weather`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.forecast && data.forecast.length > 0) {
+          setForecast(data.forecast);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch weather:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchWeather();
+  }, [fetchWeather]);
 
   const getConditionIcon = (condition: WeatherForecast['condition']) => {
     switch (condition) {
@@ -60,28 +82,23 @@ export default function ProductionWeatherPage() {
 
   const hasAlerts = forecast.some(f => f.alert);
 
-  const handleRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    setTimeout(() => setIsRefreshing(false), 1000);
-  }, []);
-
   useEffect(() => {
-    const interval = setInterval(handleRefresh, 300000);
+    const interval = setInterval(fetchWeather, 300000);
     return () => clearInterval(interval);
-  }, [handleRefresh]);
+  }, [fetchWeather]);
 
   return (
     <CompvssAppLayout>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Weather Monitor" description="Weather forecast and contingency planning" colorScheme="on-dark" />
-          <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing}>
+          <Button variant="outline" onClick={fetchWeather} disabled={isRefreshing}>
             <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
           </Button>
         </Stack>
 
         <Grid cols={4} gap={4}>
-          <StatCard label="Today" value={`${forecast[0]?.tempHigh}°F`} icon={getConditionIcon(forecast[0]?.condition || 'sunny')} inverted />
+          <StatCard label="Today" value={`${forecast[0]?.tempHigh}°F`} icon={<Thermometer size={20} />} inverted />
           <StatCard label="Precipitation" value={`${forecast[0]?.precipitation}%`} icon={<CloudRain size={20} />} inverted />
           <StatCard label="Wind" value={`${forecast[0]?.wind} mph`} icon={<Wind size={20} />} inverted />
           <StatCard label="Alerts" value={hasAlerts ? 'Active' : 'None'} icon={<AlertTriangle size={20} />} inverted />

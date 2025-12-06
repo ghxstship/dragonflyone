@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -53,12 +47,15 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
+    interface TicketTypeInfo { price: number }
+    interface FavoriteEventInfo { id?: string; title?: string; date?: string; venue?: string; city?: string; category?: string; image?: string; ticket_types?: TicketTypeInfo[] }
     const favorites = data?.map(fav => {
-      const event = fav.events as any;
-      const prices = (event?.ticket_types as any[])?.map(t => t.price) || [];
+      const event = fav.events as FavoriteEventInfo | null;
+      const ticketTypes = (event?.ticket_types || []) as TicketTypeInfo[];
+      const prices = ticketTypes.map((t: TicketTypeInfo) => t.price);
       const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
       return {
@@ -113,7 +110,7 @@ export async function POST(request: NextRequest) {
       if (error.code === '23505') {
         return NextResponse.json({ error: 'Already in favorites' }, { status: 400 });
       }
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ favorite: data }, { status: 201 });

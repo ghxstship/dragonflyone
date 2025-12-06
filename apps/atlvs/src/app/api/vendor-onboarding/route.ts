@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get qualification criteria
@@ -77,11 +77,12 @@ export async function GET(request: NextRequest) {
         .eq('is_active', true);
 
       // Calculate qualification score
+      interface Evaluation { is_met?: boolean; criteria_id?: string }
       const evaluations = request.evaluations || [];
       const totalWeight = criteria?.reduce((sum, c) => sum + c.weight, 0) || 0;
       const earnedWeight = evaluations
-        .filter((e: any) => e.is_met)
-        .reduce((sum: number, e: any) => {
+        .filter((e: Evaluation) => e.is_met)
+        .reduce((sum: number, e: Evaluation) => {
           const criterion = criteria?.find(c => c.id === e.criteria_id);
           return sum + (criterion?.weight || 0);
         }, 0);
@@ -114,7 +115,7 @@ export async function GET(request: NextRequest) {
       const { data: requests, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Get summary stats
@@ -172,7 +173,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Create checklist items based on vendor type
@@ -215,7 +216,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ criteria }, { status: 201 });
@@ -239,7 +240,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Update checklist item
@@ -307,7 +308,7 @@ export async function POST(request: NextRequest) {
         .eq('id', request_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // Transfer compliance documents to vendor
@@ -334,7 +335,7 @@ export async function POST(request: NextRequest) {
         .eq('id', request_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ message: 'Vendor request rejected' });
@@ -348,11 +349,12 @@ export async function POST(request: NextRequest) {
           info_requested_at: new Date().toISOString(),
           info_requested_by: user.id,
           info_items_needed: items_needed,
+          info_request_message: message || null,
         })
         .eq('id', request_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // In production, this would send an email to the vendor contact
@@ -397,7 +399,7 @@ export async function PATCH(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ request: onboardingRequest });

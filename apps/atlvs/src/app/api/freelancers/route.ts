@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     if (available === 'true') query = query.eq('is_available', true);
 
     const { data, error } = await query.order('average_rating', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get all unique skills
     const allSkills = new Set<string>();
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
       created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ freelancer: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create freelancer' }, { status: 500 });
@@ -94,7 +94,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('freelancers').update(body).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {

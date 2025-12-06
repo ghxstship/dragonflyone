@@ -21,7 +21,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface Expense {
   id: string;
@@ -142,6 +142,26 @@ export default function ExpensesPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Expense, 'id'>>({
+    entityType: 'expenses',
+    requiredFields: ['expense_number', 'amount', 'category'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/expenses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchExpenses();
+    },
+  });
+
+  const importTemplates = getImportTemplates('expenses').length > 0 
+    ? getImportTemplates('expenses') 
+    : [{ id: 'default', name: 'Expense Import', mapping: { expense_number: 'expense_number', amount: 'amount', category: 'category', description: 'description', expense_date: 'expense_date', status: 'status' } }];
+
   const stats = [
     { label: 'Total Expenses', value: summary?.total_expenses || expenses.length },
     { label: 'Pending Approval', value: summary?.pending_count || 0 },
@@ -208,6 +228,9 @@ export default function ExpensesPage() {
         createLabel="Submit Expense"
         onCreate={() => setCreateModalOpen(true)}
         entityType="expenses"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['expense_number', 'amount', 'category', 'description', 'expense_date', 'status']}
         onExport={createExportHandler({
           filename: "expenses",
           getData: () => expenses.map(e => ({
@@ -229,12 +252,7 @@ export default function ExpensesPage() {
         stats={stats}
         emptyMessage="No expenses found"
         emptyAction={{ label: 'Submit Expense', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Submit Expense" fields={formFields} onSubmit={handleCreate} size="lg" />

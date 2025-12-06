@@ -197,12 +197,13 @@ export async function POST(request: NextRequest) {
 
     // Add line items if provided
     if (body.line_items && Array.isArray(body.line_items) && body.line_items.length > 0) {
-      const validatedItems = body.line_items.map((item: any) => lineItemSchema.parse(item));
+      interface QuoteLineItem { sort_order?: number; [key: string]: unknown }
+      const validatedItems = body.line_items.map((item: Record<string, unknown>) => lineItemSchema.parse(item)) as QuoteLineItem[];
       
       const { error: itemsError } = await supabase
         .from('quote_line_items')
         .insert(
-          validatedItems.map((item: any, index: number) => ({
+          validatedItems.map((item: QuoteLineItem, index: number) => ({
             ...item,
             quote_id: quote.id,
             sort_order: item.sort_order || index,

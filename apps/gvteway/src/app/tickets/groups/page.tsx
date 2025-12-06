@@ -146,7 +146,7 @@ export default function GroupTicketsPage() {
                       { min: 50, max: 99, discount: 15 },
                       { min: 100, max: null, discount: 20 },
                     ].map((tier, idx) => (
-                      <Card key={idx} className="p-4 border border-ink-200">
+                      <Card key={idx} className="p-4 border-2 border-ink-200">
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack gap={1}>
                             <Label className="text-ink-500">Group Size</Label>

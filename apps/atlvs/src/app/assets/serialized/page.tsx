@@ -199,8 +199,8 @@ export default function SerializedComponentsPage() {
       <EnterprisePageHeader
         title="Serialized Component Tracking"
         subtitle="Track individual components within assets by serial number"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Component', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -400,7 +400,7 @@ export default function SerializedComponentsPage() {
               <Stack gap={2}>
                 <Label className="text-ink-400">History</Label>
                 {selectedComponent.history.map((h, idx) => (
-                  <Card key={idx} className="p-3 bg-ink-800 border border-ink-700">
+                  <Card key={idx} className="p-3 bg-ink-800 border-2 border-ink-700">
                     <Stack direction="horizontal" className="justify-between">
                       <Stack gap={1}>
                         <Label className="text-white">{h.action}</Label>
@@ -468,7 +468,24 @@ export default function SerializedComponentsPage() {
           <Button variant="outline" onClick={() => setShowAddModal(false)}>
             Cancel
           </Button>
-          <Button variant="solid" onClick={() => setShowAddModal(false)}>
+          <Button variant="solid" onClick={() => {
+            // Add new component with generated ID
+            const newComponent: SerializedComponent = {
+              id: `COMP-${String(components.length + 1).padStart(4, '0')}`,
+              serialNumber: `SN-${Date.now()}`,
+              componentType: 'Lamp',
+              parentAssetId: 'AST-001',
+              parentAssetName: 'New Asset',
+              manufacturer: 'Generic',
+              model: 'Standard',
+              installDate: new Date().toISOString().split('T')[0],
+              status: 'Active',
+              location: 'Warehouse',
+              history: [],
+            };
+            setComponents([...components, newComponent]);
+            setShowAddModal(false);
+          }}>
             Add Component
           </Button>
         </ModalFooter>

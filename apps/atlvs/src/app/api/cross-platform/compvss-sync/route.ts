@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ link }, { status: 201 });
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
         .eq('id', link.compvss_project_id)
         .single();
 
-      const syncResults: Record<string, any> = {};
+      const syncResults: Record<string, unknown> = {};
       const syncFields = validated.sync_fields || ['budget', 'timeline', 'status', 'team'];
 
       // Sync budget (ATLVS → COMPVSS)
@@ -313,7 +313,7 @@ export async function DELETE(request: NextRequest) {
       .eq('id', linkId);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

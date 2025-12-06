@@ -11,7 +11,7 @@ interface Contact {
   phone?: string;
   company?: string;
   title?: string;
-  organization_id?: string;
+  organization_id: string;
   created_at: string;
   updated_at: string;
   // Computed/derived fields
@@ -75,7 +75,7 @@ export function useCreateContact() {
     mutationFn: async (contact: Omit<Contact, 'id' | 'created_at' | 'updated_at'>) => {
       const { data, error } = await supabase
         .from('contacts')
-        .insert(contact as any)
+        .insert(contact)
         .select()
         .single();
 

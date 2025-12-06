@@ -21,7 +21,6 @@ import {
   TableCell,
   Button,
   Card,
-  Badge,
   Modal,
   ModalHeader,
   ModalBody,
@@ -88,8 +87,8 @@ export default function EmergencyProcurementPage() {
       <EnterprisePageHeader
         title="Emergency Procurement"
         subtitle="Fast-track procurement for urgent operational needs"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -112,7 +111,7 @@ export default function EmergencyProcurementPage() {
             <Stack gap={4}>
               <H3>Emergency Procurement Guidelines</H3>
               <Grid cols={3} gap={4}>
-                <Card className="p-4 border border-error-800 bg-error-900/20">
+                <Card className="p-4 border-2 border-error-800 bg-error-900/20">
                   <Stack gap={2}>
                     <Label className="text-error-400 font-weight-bold">CRITICAL</Label>
                     <Label className="text-ink-300">Show-stopping issue</Label>
@@ -120,7 +119,7 @@ export default function EmergencyProcurementPage() {
                     <Label className="text-ink-400">Target: 1 hour</Label>
                   </Stack>
                 </Card>
-                <Card className="p-4 border border-warning-800 bg-warning-900/20">
+                <Card className="p-4 border-2 border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
                     <Label className="text-warning-400 font-weight-bold">HIGH</Label>
                     <Label className="text-ink-300">Significant impact</Label>
@@ -128,7 +127,7 @@ export default function EmergencyProcurementPage() {
                     <Label className="text-ink-400">Target: 4 hours</Label>
                   </Stack>
                 </Card>
-                <Card className="p-4 border border-warning-800 bg-warning-900/20">
+                <Card className="p-4 border-2 border-warning-800 bg-warning-900/20">
                   <Stack gap={2}>
                     <Label className="text-warning-400 font-weight-bold">MEDIUM</Label>
                     <Label className="text-ink-300">Operational need</Label>

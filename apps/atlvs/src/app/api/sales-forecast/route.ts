@@ -65,8 +65,8 @@ function getProbability(stage: string): number {
   return probabilities[stage] || 0;
 }
 
-function generateForecast(pipeline: any[], historical: any[], months: number, winRate: number): any[] {
-  const forecast: any[] = [];
+function generateForecast(pipeline: unknown[], historical: unknown[], months: number, winRate: number): unknown[] {
+  const forecast: unknown[] = [];
   const avgDealValue = historical.length > 0 
     ? historical.reduce((s, d) => s + d.value, 0) / historical.length 
     : 50000;
@@ -97,9 +97,11 @@ function generateForecast(pipeline: any[], historical: any[], months: number, wi
   return forecast;
 }
 
-function analyzeTrend(historical: any[]): any {
+interface HistoricalDeal { closed_at?: string; value: number }
+interface TrendAnalysis { direction: string; change: number; recent_average?: number; monthly_data?: Record<string, number> }
+function analyzeTrend(historical: HistoricalDeal[]): TrendAnalysis {
   const byMonth: Record<string, number> = {};
-  historical.forEach(d => {
+  historical.forEach((d: HistoricalDeal) => {
     const month = d.closed_at?.substring(0, 7);
     if (month) byMonth[month] = (byMonth[month] || 0) + d.value;
   });

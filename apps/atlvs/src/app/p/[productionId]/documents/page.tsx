@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
 import { FileText, Plus, Upload, Folder, Download } from "lucide-react";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 

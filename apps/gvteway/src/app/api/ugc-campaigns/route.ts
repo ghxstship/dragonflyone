@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // User-generated content campaigns
 export async function GET(request: NextRequest) {
@@ -44,7 +38,7 @@ export async function GET(request: NextRequest) {
     if (eventId) query = query.eq('event_id', eventId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ campaigns: data });
   } catch (error) {
@@ -72,7 +66,7 @@ export async function POST(request: NextRequest) {
         start_date, end_date, prizes: prizes || [], status: 'active', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ campaign: data }, { status: 201 });
     }
 
@@ -83,7 +77,7 @@ export async function POST(request: NextRequest) {
         campaign_id, user_id: user.id, content_url, content_type, caption, status: 'pending'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ submission: data }, { status: 201 });
     }
 

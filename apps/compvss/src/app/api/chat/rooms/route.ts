@@ -83,14 +83,20 @@ export async function GET(request: NextRequest) {
       ) || !room.is_private
     );
 
-    // Calculate unread counts
+    // Calculate unread counts based on last_read_at
     const roomsWithUnread = userRooms?.map(room => {
       const membership = room.members?.find((m: { user_id: string }) => m.user_id === platformUser.id);
       const lastReadAt = membership?.last_read_at;
       
+      // Count messages after last_read_at
+      const messages = room.messages || [];
+      const unreadCount = lastReadAt 
+        ? messages.filter((m: { created_at: string }) => new Date(m.created_at) > new Date(lastReadAt)).length
+        : messages.length;
+      
       return {
         ...room,
-        unread_count: 0, // Would calculate from messages after last_read_at
+        unread_count: unreadCount,
         my_role: membership?.role || 'member',
       };
     });

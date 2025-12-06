@@ -33,11 +33,11 @@ interface InvestorDocument {
   round_id?: string;
 }
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   executed: 'success',
   signed: 'success',
   sent: 'warning',
-  draft: 'default',
+  draft: 'ghost',
 };
 
 const documentTypeLabels: Record<string, string> = {
@@ -73,7 +73,7 @@ const columns: ListPageColumn<InvestorDocument>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -174,7 +174,7 @@ function InvestorDocumentsPageContent() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedDocument.status] || 'default'}>
+            <Badge variant={statusColors[selectedDocument.status] || 'ghost'}>
               {selectedDocument.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -256,6 +256,19 @@ function InvestorDocumentsPageContent() {
             </Select>
           </Stack>
         }
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/investors/documents/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <DetailDrawer

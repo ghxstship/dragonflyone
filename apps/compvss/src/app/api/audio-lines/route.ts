@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('audio_lines').select('*')
       .eq('project_id', projectId).order('channel', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by type
     const inputs = data?.filter(l => l.type === 'input') || [];
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       signal_type, phantom: phantom || false, notes, created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ line: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

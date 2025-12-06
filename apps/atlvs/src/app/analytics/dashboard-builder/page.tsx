@@ -135,11 +135,14 @@ export default function DashboardBuilderPage() {
         stats={stats}
         emptyMessage="No dashboards found"
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setData(prev => prev.filter(d => !ids.includes(d.id)));
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Size, color, and variant management
 export async function GET(request: NextRequest) {
@@ -33,7 +27,7 @@ export async function GET(request: NextRequest) {
     const { data: variants, error } = await supabase.from('product_variants').select('*')
       .eq('product_id', productId).order('sort_order', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group variants by type
     const sizes = variants?.filter(v => v.variant_type === 'size') || [];
@@ -75,7 +69,7 @@ export async function POST(request: NextRequest) {
       image_url, sort_order: sort_order || 0, status: 'active'
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Initialize inventory
     await supabase.from('variant_inventory').insert({
@@ -103,7 +97,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     const { error } = await supabase.from('product_variants').update(body).eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -111,11 +105,11 @@ export async function PATCH(request: NextRequest) {
   }
 }
 
-function generateCombinations(sizes: any[], colors: any[]): any[] {
+function generateCombinations(sizes: unknown[], colors: unknown[]): unknown[] {
   if (sizes.length === 0) return colors.map(c => ({ color: c.value }));
   if (colors.length === 0) return sizes.map(s => ({ size: s.value }));
   
-  const combinations: any[] = [];
+  const combinations: unknown[] = [];
   sizes.forEach(s => {
     colors.forEach(c => {
       combinations.push({ size: s.value, color: c.value });

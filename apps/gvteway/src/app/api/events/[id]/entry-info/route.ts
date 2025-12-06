@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(
   request: NextRequest,
@@ -56,7 +50,8 @@ export async function GET(
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
 
-    const venue = event.venues as any;
+    interface EntryVenueInfo { name?: string; address?: string; city?: string; state?: string; entry_gates?: { name: string; location: string; recommended_for: string }[]; prohibited_items?: string[] }
+    const venue = event.venues as EntryVenueInfo | null;
     const entryInfo = event.entry_info || {};
 
     const info = {

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Download, BarChart3, Users, Shield, Clock, TrendingUp } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';

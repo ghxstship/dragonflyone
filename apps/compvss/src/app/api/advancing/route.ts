@@ -76,7 +76,7 @@ export const GET = apiRoute(
       const { data, error, count } = await query;
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ 
@@ -85,8 +85,8 @@ export const GET = apiRoute(
         limit,
         offset
       });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {
@@ -98,7 +98,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
       const payload = context.validated;
@@ -110,7 +110,8 @@ export const POST = apiRoute(
       }
 
       // Calculate total cost from items
-      const totalCost = payload.items.reduce((sum: number, item: any) => {
+      interface AdvanceItemInput { unit_cost?: number; quantity: number }
+      const totalCost = payload.items.reduce((sum: number, item: AdvanceItemInput) => {
         return sum + ((item.unit_cost || 0) * item.quantity);
       }, 0);
 
@@ -135,7 +136,7 @@ export const POST = apiRoute(
       }
 
       // Create advance items
-      const items = payload.items.map((item: any) => ({
+      const items = payload.items.map((item: Record<string, unknown>) => ({
         advance_id: advance.id,
         catalog_item_id: item.catalog_item_id,
         item_name: item.item_name,
@@ -168,8 +169,8 @@ export const POST = apiRoute(
         .single();
 
       return NextResponse.json({ advance: completeAdvance }, { status: 201 });
-    } catch (error: any) {
-      return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
   },
   {

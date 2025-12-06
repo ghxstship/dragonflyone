@@ -29,8 +29,30 @@ import {
 
 const skillCategories = ["Rigging", "Audio", "Video", "Lighting", "Staging", "Electrical", "Safety"];
 
+interface CrewSkill {
+  id: string;
+  crew_id: string;
+  skill_name: string;
+  proficiency_level: string;
+  years_experience?: number;
+}
+
+interface CrewMember {
+  id: string;
+  full_name?: string;
+  first_name?: string;
+  last_name?: string;
+  status: string;
+}
+
+interface CrewWithSkills extends CrewMember {
+  skills: string[];
+  skillDetails: CrewSkill[];
+  level: string;
+}
+
 // Demo data for unauthenticated users
-const DEMO_SKILLS = [
+const DEMO_SKILLS: CrewSkill[] = [
   { id: "demo-1", crew_id: "crew-1", skill_name: "Rigging", proficiency_level: "expert", years_experience: 8 },
   { id: "demo-2", crew_id: "crew-1", skill_name: "Safety", proficiency_level: "advanced", years_experience: 5 },
   { id: "demo-3", crew_id: "crew-2", skill_name: "Audio", proficiency_level: "expert", years_experience: 10 },
@@ -38,7 +60,7 @@ const DEMO_SKILLS = [
   { id: "demo-5", crew_id: "crew-3", skill_name: "Lighting", proficiency_level: "advanced", years_experience: 6 },
 ];
 
-const DEMO_CREW = [
+const DEMO_CREW: CrewMember[] = [
   { id: "crew-1", full_name: "John Smith", status: "Active" },
   { id: "crew-2", full_name: "Sarah Johnson", status: "Active" },
   { id: "crew-3", full_name: "Mike Williams", status: "Active" },
@@ -60,8 +82,8 @@ export default function SkillsPage() {
         <EnterprisePageHeader
           title="Skills Matrix"
           subtitle="Crew skills, certifications, and proficiency levels"
-          views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-          activeView="default"
+  
+  
           showFavorite
           showSettings
         />
@@ -79,14 +101,14 @@ export default function SkillsPage() {
   const effectiveCrew = skillsError ? DEMO_CREW : (crew || []);
 
   // Group skills by crew member
-  const crewWithSkills = effectiveCrew.map((member: any) => {
-    const memberSkills = effectiveSkills.filter((s: any) => s.crew_id === member.id);
+  const crewWithSkills: CrewWithSkills[] = effectiveCrew.map((member: CrewMember) => {
+    const memberSkills = effectiveSkills.filter((s: CrewSkill) => s.crew_id === member.id);
     return {
       ...member,
-      skills: memberSkills.map((s: any) => s.skill_name),
+      skills: memberSkills.map((s: CrewSkill) => s.skill_name),
       skillDetails: memberSkills,
       level: memberSkills.length > 0 
-        ? memberSkills.reduce((highest: string, s: any) => {
+        ? memberSkills.reduce((highest: string, s: CrewSkill) => {
             const levels = ['beginner', 'intermediate', 'advanced', 'expert'];
             return levels.indexOf(s.proficiency_level) > levels.indexOf(highest) ? s.proficiency_level : highest;
           }, 'beginner')
@@ -94,7 +116,7 @@ export default function SkillsPage() {
     };
   });
 
-  const filteredCrew = crewWithSkills.filter((member: any) => {
+  const filteredCrew = crewWithSkills.filter((member: CrewWithSkills) => {
     const matchesSearch = member.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           member.first_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           member.last_name?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -103,9 +125,9 @@ export default function SkillsPage() {
     return matchesSearch && matchesSkill;
   });
 
-  const expertCount = crewWithSkills.filter((c: any) => c.level === 'expert').length;
+  const expertCount = crewWithSkills.filter((c: CrewWithSkills) => c.level === 'expert').length;
   const totalSkills = skills?.length || 0;
-  const uniqueSkillNames = new Set((skills || []).map((s: any) => s.skill_name));
+  const uniqueSkillNames = new Set((skills || []).map((s: CrewSkill) => s.skill_name));
 
   const getLevelVariant = (level: string): "solid" | "outline" | "ghost" => {
     switch (level?.toLowerCase()) {
@@ -123,9 +145,10 @@ export default function SkillsPage() {
       <EnterprisePageHeader
         title="Skills Matrix"
         subtitle="Crew skills, certifications, and proficiency levels"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Skills', onClick: () => router.push('/skills/new') }}
+        secondaryActions={[{ id: 'refresh', label: 'Refresh', onClick: () => { refetch(); } }]}
         showFavorite
         showSettings
       />
@@ -188,7 +211,7 @@ export default function SkillsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredCrew.map((member: any) => (
+                  {filteredCrew.map((member: CrewWithSkills) => (
                     <TableRow key={member.id}>
                       <TableCell>
                         <Body>{member.full_name || `${member.first_name || ''} ${member.last_name || ''}`.trim() || 'Unknown'}</Body>

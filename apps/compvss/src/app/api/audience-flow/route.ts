@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
       .eq('event_id', eventId).order('recorded_at', { ascending: false });
 
     // Get latest count per zone
-    const latestCounts: Record<string, any> = {};
+    const latestCounts: Record<string, unknown> = {};
     counts?.forEach(c => {
       if (!latestCounts[c.zone_id]) latestCounts[c.zone_id] = c;
     });
@@ -34,7 +34,8 @@ export async function GET(request: NextRequest) {
     }));
 
     const totalCapacity = zones?.reduce((s, z) => s + z.capacity, 0) || 0;
-    const totalCount = Object.values(latestCounts).reduce((s: number, c: any) => s + c.count, 0);
+    interface CountEntry { count: number }
+    const totalCount = Object.values(latestCounts).reduce((s: number, c: CountEntry) => s + c.count, 0);
 
     return NextResponse.json({
       zones: zonesWithCounts,
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
       recorded_by: user.id, recorded_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Check capacity and alert if needed
     const { data: zone } = await supabase.from('venue_zones').select('capacity, name').eq('id', zone_id).single();

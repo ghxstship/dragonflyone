@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('candidate_communications').select('*')
       .eq('application_id', applicationId).order('sent_at', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ communications: data });
   } catch (error) {
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
         status: 'sent', sent_at: new Date().toISOString(), sent_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ communication: data }, { status: 201 });
     }
 
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         variables, status: 'scheduled', scheduled_at, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ communication: data }, { status: 201 });
     }
 
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
         template_type, name, subject, content, variables: variables || [], created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ template: data }, { status: 201 });
     }
 

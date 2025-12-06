@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Generate scenario forecast
@@ -143,12 +143,12 @@ export async function POST(request: NextRequest) {
 }
 
 function generateCashFlowForecast(
-  historicalData: any[],
-  receivables: any[],
-  payables: any[],
+  historicalData: unknown[],
+  receivables: unknown[],
+  payables: unknown[],
   months: number
-): any[] {
-  const forecast: any[] = [];
+): unknown[] {
+  const forecast: unknown[] = [];
   const today = new Date();
 
   // Calculate average monthly inflows and outflows from historical data
@@ -206,7 +206,7 @@ function generateCashFlowForecast(
   return forecast;
 }
 
-function calculateAging(items: any[]): Record<string, number> {
+function calculateAging(items: unknown[]): Record<string, number> {
   const today = new Date();
   const aging = {
     current: 0,
@@ -237,9 +237,11 @@ function calculateAging(items: any[]): Record<string, number> {
   return aging;
 }
 
-async function generateScenarioForecast(scenario: any): Promise<any[]> {
+interface Scenario { forecast_months: number; adjustments?: { revenue_growth?: number; cost_reduction?: number }; scenario_type?: string }
+interface ForecastItem { month: string; projected_inflows: number; projected_outflows: number; net_cash_flow: number }
+async function generateScenarioForecast(scenario: Scenario): Promise<ForecastItem[]> {
   // Simplified scenario forecast generation
-  const forecast: any[] = [];
+  const forecast: ForecastItem[] = [];
   const adjustments = scenario.adjustments || {};
 
   for (let i = 0; i < scenario.forecast_months; i++) {

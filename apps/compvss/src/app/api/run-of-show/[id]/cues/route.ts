@@ -17,18 +17,6 @@ const createCueSchema = z.object({
   order: z.number().int().nonnegative().optional(),
 });
 
-const updateCueSchema = z.object({
-  time: z.string().optional(),
-  cue_number: z.string().max(50).optional(),
-  description: z.string().min(1).max(500).optional(),
-  department: z.string().max(100).optional(),
-  assigned_to: z.string().uuid().optional(),
-  duration_minutes: z.number().int().positive().optional(),
-  notes: z.string().max(1000).optional(),
-  order: z.number().int().nonnegative().optional(),
-  status: z.enum(['pending', 'ready', 'in_progress', 'completed', 'skipped']).optional(),
-});
-
 const bulkUpdateSchema = z.object({
   cues: z.array(z.object({
     id: z.string().uuid(),
@@ -37,7 +25,7 @@ const bulkUpdateSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
 
     const { data: cues, error } = await fromDynamic(supabaseAdmin, 'run_of_show_cues')
@@ -65,7 +53,7 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
     const body = await request.json();
     const data = createCueSchema.parse(body);
@@ -96,7 +84,7 @@ export const POST = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id } = context.params;
     const body = await request.json();
     

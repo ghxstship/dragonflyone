@@ -42,8 +42,8 @@ export default function SettingsPage() {
       <EnterprisePageHeader
         title="Settings"
         subtitle="Configure your account preferences and notifications"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -51,7 +51,7 @@ export default function SettingsPage() {
         <Container>
           <Stack gap={10}>
 
-          <Section border noPadding title="Notification Preferences">
+          <Section border-2 noPadding title="Notification Preferences">
             <Stack gap={4}>
               <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
@@ -96,7 +96,7 @@ export default function SettingsPage() {
             </Stack>
           </Section>
 
-          <Section border noPadding title="General Preferences">
+          <Section border-2 noPadding title="General Preferences">
             <Grid cols={2} gap={6}>
               <Stack gap={2}>
                 <Label>Timezone</Label>
@@ -154,7 +154,7 @@ export default function SettingsPage() {
             </Grid>
           </Section>
 
-          <Section border noPadding title="Appearance">
+          <Section border-2 noPadding title="Appearance">
             <Stack gap={4}>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/appearance')}>
                 <Stack gap={1}>
@@ -165,7 +165,7 @@ export default function SettingsPage() {
             </Stack>
           </Section>
 
-          <Section border noPadding title="Security">
+          <Section border-2 noPadding title="Security">
             <Stack gap={4}>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/password')}>
                 <Stack gap={1}>

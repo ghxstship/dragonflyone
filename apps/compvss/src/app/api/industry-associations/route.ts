@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (search) query = query.ilike('name', `%${search}%`);
 
     const { data, error } = await query.order('name', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ associations: data });
   } catch (error) {
@@ -43,11 +43,11 @@ export async function POST(request: NextRequest) {
       name, category, description, website, membership_info, contact_email
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     if (resources?.length) {
       await supabase.from('association_resources').insert(
-        resources.map((r: any) => ({ association_id: data.id, title: r.title, type: r.type, url: r.url }))
+        resources.map((r: Record<string, unknown>) => ({ association_id: data.id, title: r.title, type: r.type, url: r.url }))
       );
     }
 

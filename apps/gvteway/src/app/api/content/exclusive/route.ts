@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -81,29 +75,33 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Check if content is new (released in last 7 days)
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - 7);
 
-    const content = data?.map(c => ({
-      id: c.id,
-      title: c.title,
-      description: c.description,
-      type: c.type,
-      event_id: c.event_id,
-      event_name: (c.event as any)?.title || 'Unknown Event',
-      thumbnail_url: c.thumbnail_url,
-      duration: c.duration,
-      file_count: c.file_count,
-      access_level: c.access_level,
-      release_date: c.release_date,
-      views: c.views || 0,
-      likes: c.likes || 0,
-      is_new: new Date(c.release_date) > weekAgo,
-    })) || [];
+    interface ContentEventInfo { title?: string }
+    const content = data?.map(c => {
+      const event = c.event as ContentEventInfo | null;
+      return {
+        id: c.id,
+        title: c.title,
+        description: c.description,
+        type: c.type,
+        event_id: c.event_id,
+        event_name: event?.title || 'Unknown Event',
+        thumbnail_url: c.thumbnail_url,
+        duration: c.duration,
+        file_count: c.file_count,
+        access_level: c.access_level,
+        release_date: c.release_date,
+        views: c.views || 0,
+        likes: c.likes || 0,
+        is_new: new Date(c.release_date) > weekAgo,
+      };
+    }) || [];
 
     return NextResponse.json({ content });
   } catch (error) {
@@ -167,7 +165,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ content: data }, { status: 201 });

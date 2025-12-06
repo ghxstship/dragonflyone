@@ -156,8 +156,8 @@ export default function AssetScanPage() {
       <EnterprisePageHeader
         title="Barcode Scanner"
         subtitle="Scan assets for check-in, check-out, and inventory"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         secondaryActions={[{ id: 'asset-list', label: 'Asset List', onClick: () => router.push('/assets') }]}
         showFavorite
         showSettings
@@ -263,7 +263,7 @@ export default function AssetScanPage() {
                 </Button>
               </Stack>
 
-              <Card className="p-4 bg-ink-50 border">
+              <Card className="p-4 bg-ink-50 border-2">
                 <Stack gap={2}>
                   <Label className="text-ink-500">Instructions</Label>
                   <Body className="text-body-sm text-ink-600">
@@ -281,7 +281,7 @@ export default function AssetScanPage() {
             <H2>RECENT SCANS</H2>
             <Stack gap={3}>
               {scanHistory.slice(0, 5).map(scan => (
-                <Card key={scan.id} className="p-4 border">
+                <Card key={scan.id} className="p-4 border-2">
                   <Stack direction="horizontal" className="justify-between items-center">
                     <Stack gap={1}>
                       <Body className="font-weight-bold">{scan.asset_name}</Body>
@@ -297,7 +297,7 @@ export default function AssetScanPage() {
                 </Card>
               ))}
               {scanHistory.length === 0 && (
-                <Card className="p-8 text-center border">
+                <Card className="p-8 text-center border-2">
                   <Body className="text-ink-500">No scans yet today</Body>
                 </Card>
               )}
@@ -315,7 +315,7 @@ export default function AssetScanPage() {
         >
           {scannedAsset && (
             <Stack gap={6}>
-              <Card className="p-4 bg-ink-50 border">
+              <Card className="p-4 bg-ink-50 border-2">
                 <Stack gap={2}>
                   <Body className="font-mono text-body-md">{scannedAsset.barcode}</Body>
                   <H3>{scannedAsset.name}</H3>

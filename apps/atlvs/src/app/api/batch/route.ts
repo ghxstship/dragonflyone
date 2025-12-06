@@ -24,15 +24,15 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = BatchOperationSchema.parse(body);
 
-    let result;
+    let result: { data: unknown; error: { message: string } | null } = { data: null, error: null };
     switch (validated.operation) {
       case 'create':
-        result = await (supabase as any).from(validated.table).insert(validated.data).select();
+        result = await supabase.from(validated.table).insert(validated.data).select();
         break;
       case 'update':
         const updates = await Promise.all(
           validated.data.map((item) =>
-            (supabase as any)
+            supabase
               .from(validated.table)
               .update(item)
               .eq('id', item.id)
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
         break;
       case 'delete':
         const ids = validated.data.map((item) => item.id);
-        result = await (supabase as any).from(validated.table).delete().in('id', ids);
+        result = await supabase.from(validated.table).delete().in('id', ids);
         break;
     }
 

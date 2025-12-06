@@ -103,7 +103,7 @@ export async function POST(request: NextRequest) {
       check_out: 'checked_out',
     };
 
-    const updates: Record<string, any> = {
+    const updates: Record<string, unknown> = {
       last_scan: new Date().toISOString(),
     };
 

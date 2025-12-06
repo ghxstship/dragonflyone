@@ -70,11 +70,12 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Aggregate by vendor
+      interface VendorData { name?: string; category?: string }
       const byVendor: Record<string, { name: string; spend: number; count: number; category: string }> = {};
 
       pos?.forEach(po => {
         const vendorId = po.vendor_id;
-        const vendor = po.vendor as any;
+        const vendor = po.vendor as VendorData | null;
         if (!byVendor[vendorId]) {
           byVendor[vendorId] = {
             name: vendor?.name || 'Unknown',
@@ -194,7 +195,8 @@ export async function GET(request: NextRequest) {
         totalDiscount += discount;
 
         const vendorId = po.vendor_id;
-        const vendor = po.vendor as any;
+        interface SavingsVendorData { name?: string }
+        const vendor = po.vendor as SavingsVendorData | null;
         if (!savingsByVendor[vendorId]) {
           savingsByVendor[vendorId] = {
             name: vendor?.name || 'Unknown',
@@ -250,16 +252,18 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Calculate spend by diversity classification
+      interface DiversityPO { status?: string; created_at: string; total_amount: number }
       const byClassification: Record<string, { vendors: number; spend: number }> = {};
 
       vendors?.forEach(vendor => {
         const classification = vendor.diversity_classification || 'Non-Diverse';
-        const vendorSpend = (vendor.purchase_orders as any[])
-          ?.filter(po => 
+        const purchaseOrders = (vendor.purchase_orders || []) as DiversityPO[];
+        const vendorSpend = purchaseOrders
+          .filter((po: DiversityPO) => 
             po.status && ['approved', 'sent', 'received', 'completed'].includes(po.status) &&
             po.created_at >= startDate && po.created_at <= endDate
           )
-          .reduce((sum, po) => sum + po.total_amount, 0) || 0;
+          .reduce((sum: number, po: DiversityPO) => sum + po.total_amount, 0);
 
         if (!byClassification[classification]) {
           byClassification[classification] = { vendors: 0, spend: 0 };
@@ -314,8 +318,8 @@ export async function GET(request: NextRequest) {
         period: { start: startDate, end: endDate },
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Spend analytics error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

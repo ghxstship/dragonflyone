@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
@@ -15,7 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface AuditLog {
   id: string;
@@ -52,7 +51,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AuditPage() {
-  const router = useRouter();
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [summary, setSummary] = useState<AuditSummary | null>(null);
   const [loading, setLoading] = useState(true);
@@ -76,6 +74,26 @@ export default function AuditPage() {
   const rowActions: ListPageAction<AuditLog>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedLog(r); setDrawerOpen(true); } },
   ];
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'audit',
+    requiredFields: ['action', 'resource_type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/audit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchAuditLogs();
+    },
+  });
+
+  const importTemplates = getImportTemplates('audit').length > 0 
+    ? getImportTemplates('audit') 
+    : [{ id: 'default', name: 'Audit Import', mapping: { action: 'action', resource_type: 'resource_type', resource_id: 'resource_id', user_email: 'user_email' } }];
 
   const stats = [
     { label: 'Total Events', value: summary?.total || logs.length },
@@ -112,6 +130,9 @@ export default function AuditPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedLog(r); setDrawerOpen(true); }}
         entityType="audit"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['action', 'resource_type', 'resource_id', 'user_email']}
         onExport={createExportHandler({
           filename: "audit-logs",
           getData: () => logs.map(l => ({
@@ -127,12 +148,7 @@ export default function AuditPage() {
         })}
         stats={stats}
         emptyMessage="No audit logs found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedLog} title={(l) => l.action} subtitle={(l) => l.user?.email || l.user_email || 'Unknown user'} sections={detailSections} />

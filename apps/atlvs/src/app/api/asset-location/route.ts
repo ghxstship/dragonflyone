@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (warehouseId) query = query.eq('warehouse_id', warehouseId);
 
     const { data, error } = await query.order('updated_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Get location history for tracking
     const { data: history } = await supabase.from('asset_location_history').select('*')
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       updated_by: user.id, updated_at: new Date().toISOString()
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ location: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update location' }, { status: 500 });

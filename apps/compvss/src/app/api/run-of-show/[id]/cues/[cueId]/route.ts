@@ -1,10 +1,8 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin as _supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase';
 import { z } from 'zod';
-
-const supabaseAdmin = _supabaseAdmin as any;
 import { apiRoute } from '@ghxstship/config/middleware';
 import { PlatformRole } from '@ghxstship/config/roles';
 
@@ -21,7 +19,7 @@ const updateCueSchema = z.object({
 });
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id, cueId } = context.params;
     const body = await request.json();
     
@@ -53,7 +51,7 @@ export const PATCH = apiRoute(
 );
 
 export const DELETE = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id, cueId } = context.params;
 
     const { error } = await supabaseAdmin

@@ -79,12 +79,16 @@ export async function GET(request: NextRequest) {
 
       if (error) throw error;
 
-      const enrichedDistributions = distributions?.map(d => ({
-        ...d,
-        total_allocated: (d.allocations as any[])?.reduce((sum, a) => sum + a.gross_amount, 0) || 0,
-        total_vested: (d.allocations as any[])?.reduce((sum, a) => sum + a.vested_amount, 0) || 0,
-        participant_count: (d.allocations as any[])?.length || 0,
-      }));
+      interface Allocation { gross_amount: number; vested_amount: number }
+      const enrichedDistributions = distributions?.map(d => {
+        const allocations = (d.allocations || []) as Allocation[];
+        return {
+          ...d,
+          total_allocated: allocations.reduce((sum: number, a: Allocation) => sum + a.gross_amount, 0),
+          total_vested: allocations.reduce((sum: number, a: Allocation) => sum + a.vested_amount, 0),
+          participant_count: allocations.length,
+        };
+      });
 
       return NextResponse.json({ distributions: enrichedDistributions });
     }
@@ -134,9 +138,11 @@ export async function GET(request: NextRequest) {
 
       const projectedProfit = parseFloat(searchParams.get('projected_profit') || '0');
       
+      interface EligibilityCriteria { min_tenure_months?: number; departments?: string[] }
+      interface PlanWithRate { distribution_rate?: number }
       const forecasts = plans?.map(plan => {
         const eligibleEmployees = employees?.filter(e => {
-          const criteria = plan.eligibility_criteria as any;
+          const criteria = plan.eligibility_criteria as EligibilityCriteria | null;
           if (!criteria) return true;
           
           if (criteria.min_tenure_months) {
@@ -155,7 +161,7 @@ export async function GET(request: NextRequest) {
         if (plan.plan_type === 'percentage_of_profit') {
           const threshold = plan.profit_threshold || 0;
           if (projectedProfit > threshold) {
-            poolAmount = (projectedProfit - threshold) * ((plan as any).distribution_rate || 0.1);
+            poolAmount = (projectedProfit - threshold) * ((plan as PlanWithRate).distribution_rate || 0.1);
           }
         }
 
@@ -194,9 +200,9 @@ export async function GET(request: NextRequest) {
         ytd_distributions: distributions?.reduce((sum, d) => sum + d.distribution_amount, 0) || 0,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Profit sharing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -283,7 +289,8 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'Distribution not found' }, { status: 404 });
       }
 
-      const plan = distribution.plan as any;
+      interface PlanData { eligibility_criteria?: { min_tenure_months?: number } }
+      const plan = distribution.plan as PlanData | null;
 
       // Get eligible employees
       const { data: employees } = await supabase
@@ -292,7 +299,7 @@ export async function POST(request: NextRequest) {
         .eq('status', 'active');
 
       const eligibleEmployees = employees?.filter(e => {
-        const criteria = plan.eligibility_criteria as any;
+        const criteria = plan?.eligibility_criteria;
         if (!criteria) return true;
         
         if (criteria.min_tenure_months) {
@@ -397,12 +404,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Profit sharing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -430,9 +437,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Profit sharing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -455,8 +462,8 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Profit sharing error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

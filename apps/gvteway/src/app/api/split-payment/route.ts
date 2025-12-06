@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const splitPaymentSchema = z.object({
   order_id: z.string().uuid(),
@@ -49,8 +43,8 @@ export async function GET(request: NextRequest) {
     const totalPaid = splits?.reduce((sum, s) => s.status === 'completed' ? sum + s.amount : sum, 0) || 0;
 
     return NextResponse.json({ splits, total_paid: totalPaid });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -107,6 +101,8 @@ export async function POST(request: NextRequest) {
           transaction_id: success ? `SPL_${Date.now()}` : null,
           processed_at: new Date().toISOString(),
           error_message: success ? null : 'Payment failed',
+          payment_method: payment_details?.method || 'card',
+          last_four: payment_details?.last_four || null,
         })
         .eq('id', split_id)
         .select()
@@ -144,10 +140,10 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

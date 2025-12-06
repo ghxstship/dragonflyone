@@ -68,22 +68,13 @@ export default function ShowCallPage() {
     return matchesSearch;
   });
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
-      case "Checked In": case "On Site": return "text-success-400";
-      case "Late": return "text-warning-400";
-      case "No Show": return "text-error-400";
-      case "Not Due": return "text-ink-400";
-      default: return "text-ink-400";
-    }
-  };
-
-  const getStatusBg = (status: string) => {
-    switch (status) {
-      case "Checked In": case "On Site": return "border-success-800 bg-success-900/10";
-      case "Late": return "border-warning-800 bg-warning-900/10";
-      case "No Show": return "border-error-800 bg-error-900/10";
-      default: return "border-ink-800 bg-ink-900/50";
+      case "Checked In": case "On Site": return "success";
+      case "Late": return "warning";
+      case "No Show": return "error";
+      case "Not Due": return "ghost";
+      default: return "ghost";
     }
   };
 
@@ -92,8 +83,8 @@ export default function ShowCallPage() {
       <EnterprisePageHeader
         title="Show Call Status"
         subtitle="Real-time crew check-in and attendance tracking"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -167,7 +158,7 @@ export default function ShowCallPage() {
                           )}
                         </Stack>
                         <Stack gap={2} className="items-end">
-                          <Badge variant={crew.status === "Checked In" || crew.status === "On Site" ? "solid" : "outline"}>{crew.status}</Badge>
+                          <Badge variant={getStatusVariant(crew.status)}>{crew.status}</Badge>
                           {(crew.status === "Late" || crew.status === "No Show") && (
                             <Button variant="outline" size="sm">Contact</Button>
                           )}

@@ -71,8 +71,8 @@ export default function GlossaryPage() {
       <EnterprisePageHeader
         title="Industry Glossary"
         subtitle="Comprehensive glossary of live event production terminology"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

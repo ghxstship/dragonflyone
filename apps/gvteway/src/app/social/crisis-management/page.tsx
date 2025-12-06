@@ -179,7 +179,7 @@ export default function CrisisManagementPage() {
                         { step: "6. Monitor", desc: "Track sentiment and mentions" },
                         { step: "7. Review", desc: "Post-crisis analysis" },
                       ].map((item, idx) => (
-                        <Card key={idx} className="p-3 border border-ink-200">
+                        <Card key={idx} className="p-3 border-2 border-ink-200">
                           <Stack direction="horizontal" gap={3}>
                             <Label className="font-weight-bold">{item.step}</Label>
                             <Label className="text-ink-500">{item.desc}</Label>
@@ -199,7 +199,7 @@ export default function CrisisManagementPage() {
                         { role: "Social Media Lead", name: "Sarah Johnson", phone: "555-0103" },
                         { role: "Customer Service", name: "Mike Davis", phone: "555-0104" },
                       ].map((contact, idx) => (
-                        <Card key={idx} className="p-3 border border-ink-200">
+                        <Card key={idx} className="p-3 border-2 border-ink-200">
                           <Stack direction="horizontal" className="justify-between">
                             <Stack gap={0}>
                               <Label className="font-weight-bold">{contact.role}</Label>

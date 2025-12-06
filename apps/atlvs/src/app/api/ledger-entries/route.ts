@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     if (projectId) query = query.eq('project_id', projectId);
 
     const { data, error, count } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ entries: data, total: count, limit, offset });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const payload = createEntrySchema.parse(body);
     const { data, error } = await supabase.from('ledger_entries').insert(payload).select().single();
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ entry: data }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: error.issues }, { status: 422 });

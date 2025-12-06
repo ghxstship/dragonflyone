@@ -36,8 +36,8 @@ export default function AdvancingPage() {
       <EnterprisePageHeader
         title="Production Advancing"
         subtitle="Submit and manage production advance requests"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Create New Request', onClick: () => router.push('/advancing/new') }}
         showFavorite
         showSettings

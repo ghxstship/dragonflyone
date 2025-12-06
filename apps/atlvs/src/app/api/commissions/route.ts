@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (period) query = query.gte('period_start', `${period}-01`).lte('period_end', `${period}-31`);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     const totalCommissions = data?.reduce((sum, c) => sum + (c.amount || 0), 0) || 0;
 
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       period_start, period_end, status: 'pending', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ commission: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create commission' }, { status: 500 });

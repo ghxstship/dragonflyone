@@ -155,14 +155,14 @@ export default function EventLanguagesPage() {
                       <Label className="font-weight-bold">{field.field}</Label>
                       <Label className={getStatusColor(field.status)}>{field.status}</Label>
                     </Stack>
-                    <Card className="p-3 bg-ink-50 border border-ink-200">
+                    <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                       <Stack gap={1}>
                         <Label size="xs" className="text-ink-500">Original (English)</Label>
                         <Body>{field.original}</Body>
                       </Stack>
                     </Card>
                     {field.translated ? (
-                      <Card className="p-3 bg-info-50 border border-info-200">
+                      <Card className="p-3 bg-info-50 border-2 border-info-200">
                         <Stack gap={1}>
                           <Label size="xs" className="text-info-600">Translation</Label>
                           <Body>{field.translated}</Body>

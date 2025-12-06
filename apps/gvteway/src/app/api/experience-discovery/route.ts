@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET /api/experience-discovery - Discover events and experiences
 export async function GET(request: NextRequest) {
@@ -124,10 +118,12 @@ export async function GET(request: NextRequest) {
         .limit(20);
 
       // Build preference profile
+      interface DiscoveryEventInfo { genres?: string[] }
       const genres = new Set<string>(profile?.favorite_genres || []);
       attendance?.forEach(a => {
-        if (Array.isArray((a.event as any)?.genres)) {
-          (a.event as any).genres.forEach((g: string) => genres.add(g));
+        const event = a.event as DiscoveryEventInfo | null;
+        if (Array.isArray(event?.genres)) {
+          event.genres.forEach((g: string) => genres.add(g));
         }
       });
 
@@ -309,7 +305,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       if (event_ids?.length) {

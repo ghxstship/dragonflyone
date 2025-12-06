@@ -111,10 +111,10 @@ export default function ContingencyDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{contingency.title}</H2>
-                    <Badge variant={statusColors[contingency.status] || 'default'}>
+                    <Badge variant={statusColors[contingency.status] || 'ghost'}>
                       {contingency.status.toUpperCase()}
                     </Badge>
-                    <Badge variant={severityColors[contingency.severity] || 'default'}>
+                    <Badge variant={severityColors[contingency.severity] || 'ghost'}>
                       {contingency.severity.toUpperCase()}
                     </Badge>
                   </Stack>
@@ -232,13 +232,13 @@ export default function ContingencyDetailPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Severity</Body>
-                        <Badge variant={severityColors[contingency.severity] || 'default'}>
+                        <Badge variant={severityColors[contingency.severity] || 'ghost'}>
                           {contingency.severity.toUpperCase()}
                         </Badge>
                       </Stack>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Status</Body>
-                        <Badge variant={statusColors[contingency.status] || 'default'}>
+                        <Badge variant={statusColors[contingency.status] || 'ghost'}>
                           {contingency.status.toUpperCase()}
                         </Badge>
                       </Stack>

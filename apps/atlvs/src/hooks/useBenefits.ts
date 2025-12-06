@@ -55,8 +55,8 @@ export function useBenefits(employeeId?: string) {
       const response = await fetch(`/api/benefits?${params.toString()}`);
       const data = await response.json();
       setPlans(data.plans || []);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch benefit plans');
+    } catch (err) {
+      setError(err instanceof Error ? err instanceof Error ? err.message : "An error occurred" : 'Failed to fetch benefit plans');
     } finally {
       setLoading(false);
     }
@@ -72,8 +72,8 @@ export function useBenefits(employeeId?: string) {
       const response = await fetch(`/api/benefits?${params.toString()}`);
       const data = await response.json();
       setEnrollments(data.enrollments || []);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch enrollments');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred" || 'Failed to fetch enrollments');
     } finally {
       setLoading(false);
     }
@@ -95,8 +95,8 @@ export function useBenefits(employeeId?: string) {
       
       await fetchPlans();
       return await response.json();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
     }
   };
@@ -117,8 +117,8 @@ export function useBenefits(employeeId?: string) {
       
       await fetchEnrollments();
       return await response.json();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
     }
   };
@@ -139,8 +139,8 @@ export function useBenefits(employeeId?: string) {
       
       await fetchPlans();
       return await response.json();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
     }
   };
@@ -159,8 +159,8 @@ export function useBenefits(employeeId?: string) {
       
       await fetchEnrollments();
       return await response.json();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
       throw err;
     }
   };

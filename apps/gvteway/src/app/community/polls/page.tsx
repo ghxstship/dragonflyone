@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -40,7 +40,6 @@ interface Poll {
 }
 
 export default function CommunityPollsPage() {
-  const router = useRouter();
   const [polls, setPolls] = useState<Poll[]>([]);
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState<string | null>(null);
@@ -204,7 +203,7 @@ export default function CommunityPollsPage() {
 
                       return (
                         <Stack key={option.id} gap={1}>
-                          {poll.status === 'active' && !poll.user_voted ? (
+                          {!showResults ? (
                             <Button
                               variant="outline"
                               className="w-full justify-start"

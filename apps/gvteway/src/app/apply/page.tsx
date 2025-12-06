@@ -18,7 +18,6 @@ import {
   Field,
   Select,
   ScrollReveal,
-  StaggerChildren,
 } from "@ghxstship/ui";
 import {
   ArrowRight,

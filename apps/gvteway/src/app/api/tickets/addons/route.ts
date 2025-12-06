@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // GET - Fetch available add-ons for an event
 export async function GET(request: NextRequest) {
@@ -37,16 +31,17 @@ export async function GET(request: NextRequest) {
       .order('category', { ascending: true });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Group by category
-    const grouped = data.reduce((acc: Record<string, any[]>, addon) => {
+    interface AddonData { category?: string; [key: string]: unknown }
+    const grouped = data.reduce((acc: Record<string, AddonData[]>, addon: AddonData) => {
       const category = addon.category || 'other';
       if (!acc[category]) acc[category] = [];
       acc[category].push(addon);
       return acc;
-    }, {});
+    }, {} as Record<string, AddonData[]>);
 
     return NextResponse.json({ addons: data, grouped });
   } catch (error) {
@@ -102,7 +97,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ addon: data }, { status: 201 });

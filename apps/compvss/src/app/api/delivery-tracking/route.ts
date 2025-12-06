@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('expected_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({
       deliveries: data,
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       delivery_location, notes, status: 'pending', created_by: user.id
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ delivery: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create delivery' }, { status: 500 });

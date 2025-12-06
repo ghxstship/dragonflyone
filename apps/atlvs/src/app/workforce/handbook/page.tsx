@@ -110,8 +110,8 @@ export default function HandbookPage() {
       <EnterprisePageHeader
         title="Employee Handbook & Policies"
         subtitle="Manage handbook sections and track policy acknowledgments"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -263,19 +263,19 @@ export default function HandbookPage() {
                     <ProgressBar value={complianceRate} className="h-3" />
                   </Stack>
                   <Grid cols={3} gap={4}>
-                    <Card className="p-4 border border-success-800 bg-success-900/20 text-center">
+                    <Card className="p-4 border-2 border-success-800 bg-success-900/20 text-center">
                       <Label className="font-mono text-success-400 text-h5-md">{acknowledgedCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Acknowledged
                       </Label>
                     </Card>
-                    <Card className="p-4 border border-warning-800 bg-warning-900/20 text-center">
+                    <Card className="p-4 border-2 border-warning-800 bg-warning-900/20 text-center">
                       <Label className="font-mono text-warning-400 text-h5-md">{pendingCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Pending
                       </Label>
                     </Card>
-                    <Card className="p-4 border border-error-800 bg-error-900/20 text-center">
+                    <Card className="p-4 border-2 border-error-800 bg-error-900/20 text-center">
                       <Label className="font-mono text-error-400 text-h5-md">{overdueCount}</Label>
                       <Label size="xs" className="text-ink-400">
                         Overdue
@@ -342,7 +342,7 @@ export default function HandbookPage() {
                 </Label>
                 <Label className="font-mono text-white">{selectedSection.lastUpdated}</Label>
               </Stack>
-              <Card className="p-4 border border-ink-700 bg-ink-800">
+              <Card className="p-4 border-2 border-ink-700 bg-ink-800">
                 <Stack gap={2}>
                   <Label className="text-ink-400">Policy Content Preview</Label>
                   <Body className="text-ink-300">
@@ -391,7 +391,7 @@ export default function HandbookPage() {
                   ))}
               </Select>
             </Stack>
-            <Card className="p-4 border border-ink-700 bg-ink-800">
+            <Card className="p-4 border-2 border-ink-700 bg-ink-800">
               <Stack gap={1}>
                 <Label className="text-ink-400">Recipients</Label>
                 <Label className="font-mono text-white">{pendingCount + overdueCount} employees</Label>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -50,11 +50,30 @@ const MOCK_ITEMS: LostFoundItem[] = [
 
 export default function ProductionLostFoundPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [items, setItems] = useState(MOCK_ITEMS);
+  const productionId = params?.productionId as string;
+  const [items, setItems] = useState<LostFoundItem[]>(MOCK_ITEMS);
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [newItem, setNewItem] = useState({ description: '', category: '', location: '' });
+
+  const fetchItems = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/lost-found`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.items && data.items.length > 0) {
+          setItems(data.items);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch lost and found items:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
 
   const unclaimedCount = items.filter(i => i.status === 'unclaimed').length;
   const claimedCount = items.filter(i => i.status === 'claimed').length;
@@ -139,7 +158,7 @@ export default function ProductionLostFoundPage() {
         <ModalHeader><H3>Log Lost Item</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Item description" value={newItem.description} onChange={(e) => setNewItem(prev => ({ ...prev, description: e.target.value }))} />
+            <Textarea placeholder="Item description" value={newItem.description} onChange={(e) => setNewItem(prev => ({ ...prev, description: e.target.value }))} rows={3} />
             <Grid cols={2} gap={4}>
               <Select value={newItem.category} onChange={(e) => setNewItem(prev => ({ ...prev, category: e.target.value }))}>
                 <option value="">Category...</option>

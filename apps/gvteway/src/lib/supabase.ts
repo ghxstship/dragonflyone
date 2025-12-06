@@ -1,6 +1,4 @@
 import { 
-  supabase as configSupabase, 
-  getServerSupabase,
   fromUntyped,
   type TypedSupabaseClient,
   type UntypedSupabaseClient,
@@ -51,7 +49,7 @@ export function getUntypedAdminClient(): UntypedSupabaseClient {
   return supabaseAdmin as unknown as UntypedSupabaseClient;
 }
 
-export { getServerSupabase, fromUntyped };
+export { fromUntyped };
 export type { TypedSupabaseClient, UntypedSupabaseClient };
 export * from '@ghxstship/config/auth-helpers';
 export * from '@ghxstship/config/rpc-client';

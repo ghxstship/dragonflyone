@@ -184,7 +184,7 @@ export default function LandingBuilderPage() {
                           className={`p-4 cursor-pointer transition-all ${
                             config.template === template.id
                               ? "border-2 border-white bg-ink-800"
-                              : "border border-ink-700 hover:border-ink-500"
+                              : "border-2 border-ink-700 hover:border-ink-500"
                           }`}
                           onClick={() => setConfig((prev) => ({ ...prev, template: template.id }))}
                         >
@@ -251,7 +251,7 @@ export default function LandingBuilderPage() {
                               className={`p-3 cursor-pointer transition-all ${
                                 config.fontFamily === font.id
                                   ? "border-2 border-white bg-ink-800"
-                                  : "border border-ink-700 hover:border-ink-500"
+                                  : "border-2 border-ink-700 hover:border-ink-500"
                               }`}
                               onClick={() => setConfig((prev) => ({ ...prev, fontFamily: font.id }))}
                             >
@@ -286,7 +286,7 @@ export default function LandingBuilderPage() {
                         <Card
                           key={section.id}
                           className={`p-4 ${
-                            section.enabled ? "border border-ink-700" : "border border-ink-800 opacity-50"
+                            section.enabled ? "border-2 border-ink-700" : "border-2 border-ink-800 opacity-50"
                           }`}
                         >
                           <Grid cols={4} gap={4} className="items-center">
@@ -390,7 +390,7 @@ export default function LandingBuilderPage() {
                     </Stack>
                   </Stack>
 
-                  <Card className="p-4 bg-ink-800 border border-ink-700">
+                  <Card className="p-4 bg-ink-800 border-2 border-ink-700">
                     <Stack gap={2}>
                       <Label className="text-ink-400">Search Preview</Label>
                       <Stack gap={1}>
@@ -473,7 +473,7 @@ export default function LandingBuilderPage() {
           <H3>Page Preview</H3>
         </ModalHeader>
         <ModalBody>
-          <Card className="h-96 bg-ink-800 border border-ink-700 flex items-center justify-center">
+          <Card className="h-96 bg-ink-800 border-2 border-ink-700 flex items-center justify-center">
             <Stack gap={2} className="text-center">
               <Label className="text-ink-400">Live Preview</Label>
               <Body className="text-ink-500">

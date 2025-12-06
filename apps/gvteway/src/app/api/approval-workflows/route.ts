@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Multi-stage approval workflows
 export async function GET(request: NextRequest) {
@@ -37,7 +31,7 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ workflows: data });
   } catch (error) {
@@ -64,11 +58,12 @@ export async function POST(request: NextRequest) {
         event_id, workflow_type, status: 'pending', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
+      interface StageInput { name: string; approver_id: string }
       if (stages?.length) {
         await supabase.from('approval_stages').insert(
-          stages.map((s: any, i: number) => ({
+          stages.map((s: StageInput, i: number) => ({
             workflow_id: data.id, name: s.name, order: i + 1,
             approver_id: s.approver_id, status: i === 0 ? 'pending' : 'waiting'
           }))

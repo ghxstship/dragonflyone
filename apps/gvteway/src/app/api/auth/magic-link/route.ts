@@ -13,12 +13,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const magicLinkSchema = z.object({
   email: z.string().email(),
@@ -47,7 +41,7 @@ export async function POST(request: NextRequest) {
           { status: 429 }
         );
       }
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 400 });
     }
 
     return NextResponse.json({ 

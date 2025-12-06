@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (location) query = query.ilike('location', `%${location}%`);
 
     const { data, error } = await query.order('deadline', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ opportunities: data });
   } catch (error) {
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
         location, budget_range, deadline, status: 'open', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ opportunity: data }, { status: 201 });
     }
 
@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         opportunity_id, vendor_id, proposal, rate, availability, status: 'submitted', submitted_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ application: data }, { status: 201 });
     }
 

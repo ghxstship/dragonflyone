@@ -93,7 +93,7 @@ export default function PermitDetailPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={3} className="items-center">
                     <H2>{permit.name}</H2>
-                    <Badge variant={statusColors[permit.status] || 'default'}>
+                    <Badge variant={statusColors[permit.status] || 'ghost'}>
                       {permit.status.toUpperCase()}
                     </Badge>
                     {isExpired && <Badge variant="error">EXPIRED</Badge>}
@@ -267,7 +267,7 @@ export default function PermitDetailPage() {
                     <Stack gap={3}>
                       <Stack gap={1}>
                         <Body className="text-body-sm text-grey-500">Current Status</Body>
-                        <Badge variant={statusColors[permit.status] || 'default'}>
+                        <Badge variant={statusColors[permit.status] || 'ghost'}>
                           {permit.status.toUpperCase()}
                         </Badge>
                       </Stack>

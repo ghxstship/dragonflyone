@@ -66,8 +66,8 @@ export default function NewProjectPage() {
       <EnterprisePageHeader
         title="New Production"
         subtitle="Create a new production project"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

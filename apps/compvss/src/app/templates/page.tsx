@@ -55,7 +55,6 @@ const categories = ["Contract", "Checklist", "Form", "Rider", "Report", "SOP"];
 
 export default function TemplatesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -71,25 +70,13 @@ export default function TemplatesPage() {
 
   const totalDownloads = mockTemplates.reduce((sum, t) => sum + t.downloads, 0);
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Contract": return "bg-info-900/20 border-info-800";
-      case "Checklist": return "bg-success-900/20 border-success-800";
-      case "Form": return "bg-warning-900/20 border-warning-800";
-      case "Rider": return "bg-purple-900/20 border-purple-800";
-      case "Report": return "bg-warning-900/20 border-warning-800";
-      case "SOP": return "bg-pink-900/20 border-pink-800";
-      default: return "bg-ink-900/50 border-ink-800";
-    }
-  };
-
   return (
     <CompvssAppLayout>
       <EnterprisePageHeader
         title="Template Library"
         subtitle="Contracts, checklists, forms, riders, and standard operating procedures"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Upload Template', onClick: () => setShowUploadModal(true) }}
         showFavorite
         showSettings

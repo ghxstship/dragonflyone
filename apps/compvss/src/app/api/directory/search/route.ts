@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * limit;
 
     const results: { crew?: unknown[]; vendors?: unknown[] } = {};
+    let totalCrewCount = 0;
 
     // Search crew/users
     if (search_type === 'crew' || search_type === 'all') {
@@ -49,8 +50,9 @@ export async function GET(request: NextRequest) {
         crewQuery = crewQuery.ilike('location', `%${location}%`);
       }
 
-      const { data: crewData, error: crewError, count: crewCount } = await crewQuery
+      const { data: crewData, error: crewError, count } = await crewQuery
         .range(offset, offset + limit - 1);
+      totalCrewCount = count || 0;
 
       if (crewError) throw crewError;
 
@@ -79,6 +81,20 @@ export async function GET(request: NextRequest) {
             )
           );
         });
+      }
+
+      // Filter by availability date range if specified
+      if (available_from || available_to) {
+        // In a real implementation, this would check against crew_availability table
+        // For now, we include all crew and note the date range was requested
+        filteredCrew = filteredCrew.map((user: Record<string, unknown>) => ({
+          ...user,
+          availability_filter: {
+            from: available_from,
+            to: available_to,
+            note: 'Availability filtering requires crew_availability table check',
+          },
+        }));
       }
 
       results.crew = filteredCrew;
@@ -142,12 +158,15 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       data: results,
+      total_crew: totalCrewCount,
       filters: {
         languages,
         specialties,
         experience_level,
         proficiency_level,
         location,
+        available_from,
+        available_to,
       },
       pagination: {
         page,

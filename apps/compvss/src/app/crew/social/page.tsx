@@ -84,8 +84,8 @@ export default function CrewSocialPage() {
       <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share updates, and build connections"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />

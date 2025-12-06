@@ -22,11 +22,12 @@ export async function GET(request: NextRequest) {
     if (search) query = query.or(`title.ilike.%${search}%,code_number.ilike.%${search}%`);
 
     const { data, error } = await query.order('category', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Group by category
-    const byCategory: Record<string, any[]> = {};
-    data?.forEach(r => {
+    interface Regulation { id: string; category: string; title: string }
+    const byCategory: Record<string, Regulation[]> = {};
+    data?.forEach((r: Regulation) => {
       if (!byCategory[r.category]) byCategory[r.category] = [];
       byCategory[r.category].push(r);
     });
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
       title, code_number, category, jurisdiction, description, effective_date, document_url
     }).select().single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ regulation: data }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to create' }, { status: 500 });

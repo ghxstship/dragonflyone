@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Media kit and press release distribution
 export async function GET(request: NextRequest) {
@@ -40,7 +34,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await supabase.from('press_releases').select('*')
       .order('publish_date', { ascending: false });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ press_releases: data });
   } catch (error) {
@@ -67,11 +61,11 @@ export async function POST(request: NextRequest) {
         event_id, description, contact_info, created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       if (assets?.length) {
         await supabase.from('media_kit_assets').insert(
-          assets.map((a: any) => ({ media_kit_id: data.id, type: a.type, title: a.title, url: a.url, description: a.description }))
+          assets.map((a: Record<string, unknown>) => ({ media_kit_id: data.id, type: a.type, title: a.title, url: a.url, description: a.description }))
         );
       }
 
@@ -86,7 +80,7 @@ export async function POST(request: NextRequest) {
         distribution_list: distribution_list || [], status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ press_release: data }, { status: 201 });
     }
 

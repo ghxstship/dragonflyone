@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
@@ -26,7 +25,6 @@ import { useArtists, type Artist } from "@/hooks/useArtists";
 import { Search, Music, Heart, Users, Calendar } from "lucide-react";
 
 export default function ArtistsPage() {
-  const _router = useRouter();
   const { addNotification } = useNotifications();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterGenre, setFilterGenre] = useState("all");

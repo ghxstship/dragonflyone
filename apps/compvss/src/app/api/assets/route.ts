@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
     if (category) query = query.eq('category', category);
 
     const { data, error, count } = await query;
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ assets: data, total: count, limit, offset });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase.from('assets').insert(payload).select().single();
     if (error) {
       if (error.code === '23505') return NextResponse.json({ error: 'Asset tag already exists' }, { status: 409 });
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
     return NextResponse.json({ asset: data }, { status: 201 });
   } catch (error) {

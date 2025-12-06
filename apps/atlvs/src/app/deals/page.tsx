@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download, Archive } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -17,9 +17,9 @@ import {
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
-  type ExportFormat,
+  type ListPageBulkAction,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useDeals } from '../../hooks/useDeals';
 
 interface Deal {
@@ -98,6 +98,48 @@ export default function DealsPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'deals',
+    requiredFields: ['title'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/deals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      refetch?.();
+    },
+  });
+
+  const importTemplates = getImportTemplates('deals').length > 0 
+    ? getImportTemplates('deals') 
+    : [{ id: 'default', name: 'Deal Import', mapping: { title: 'title', status: 'status', value: 'value', client: 'client', stage: 'stage' } }];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'archive', label: 'Archive', icon: <Archive className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+  ];
+
+  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+    if (actionId === 'delete') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/deals/${id}`, { method: 'DELETE' })));
+      refetch?.();
+    } else if (actionId === 'archive') {
+      await Promise.all(selectedIds.map(id =>
+        fetch(`/api/deals/${id}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: 'archived' }),
+        })
+      ));
+      refetch?.();
+    }
+  };
+
   const stats = [
     { label: 'Total Deals', value: deals.length },
     { label: 'Open', value: openDeals },
@@ -132,10 +174,15 @@ export default function DealsPage() {
         searchPlaceholder="Search deals..."
         filters={filters}
         rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={handleBulkAction}
         onRowClick={(r) => { setSelectedDeal(r); setDrawerOpen(true); }}
         createLabel="New Deal"
         onCreate={() => setCreateModalOpen(true)}
         entityType="deals"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'status', 'value', 'client', 'stage']}
         onExport={createExportHandler({
           filename: "deals",
           getData: () => deals.map(d => ({
@@ -152,12 +199,7 @@ export default function DealsPage() {
         stats={stats}
         emptyMessage="No deals yet"
         emptyAction={{ label: 'Create Deal', onClick: () => setCreateModalOpen(true) }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
-        ]}
-        activeView="list"
-        showFavorite
+showFavorite
         showSettings
       />
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="New Deal" fields={formFields} onSubmit={handleCreate} size="lg" />

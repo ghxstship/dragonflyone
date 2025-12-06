@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -11,7 +11,6 @@ import {
   Button,
   Badge,
   Grid,
-  Body,
   H3,
   Input,
   Select,
@@ -56,10 +55,29 @@ const MOCK_EXPENSES: Expense[] = [
 
 export default function ProductionExpensesPage() {
   const params = useParams();
-  const _productionId = params?.productionId as string;
-  const [expenses, setExpenses] = useState(MOCK_EXPENSES);
+  const productionId = params?.productionId as string;
+  const [expenses, setExpenses] = useState<Expense[]>(MOCK_EXPENSES);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newExpense, setNewExpense] = useState({ description: '', category: '', amount: '', vendor: '' });
+
+  const fetchExpenses = useCallback(async () => {
+    if (!productionId) return;
+    try {
+      const response = await fetch(`/api/productions/${productionId}/expenses`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.expenses && data.expenses.length > 0) {
+          setExpenses(data.expenses);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch expenses:', error);
+    }
+  }, [productionId]);
+
+  useEffect(() => {
+    fetchExpenses();
+  }, [fetchExpenses]);
 
   const totalAmount = expenses.reduce((sum, e) => sum + e.amount, 0);
   const pendingAmount = expenses.filter(e => e.status === 'pending').reduce((sum, e) => sum + e.amount, 0);

@@ -24,13 +24,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const _supabaseProxy = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as Record<string, unknown>)[prop];
-  }
-});
-
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -38,7 +31,7 @@ export async function GET(
   try {
     const supabase = getSupabaseClient();
     // Get or create chat room for event
-    let { data: chatRoom, error: roomError } = await supabase
+    const { data: initialChatRoom, error: roomError } = await supabase
       .from('event_chat_rooms')
       .select(`
         id,
@@ -53,6 +46,8 @@ export async function GET(
       `)
       .eq('event_id', params.id)
       .single();
+
+    let chatRoom = initialChatRoom;
 
     if (roomError && roomError.code === 'PGRST116') {
       // Create chat room if it doesn't exist

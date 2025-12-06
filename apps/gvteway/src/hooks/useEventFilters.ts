@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export interface Event {
   id: string;
@@ -70,7 +70,7 @@ export function useEventFilters(events: Event[]) {
     return result;
   }, [events, filters]);
 
-  const updateFilter = (key: keyof EventFilters, value: any) => {
+  const updateFilter = (key: keyof EventFilters, value: EventFilters[keyof EventFilters]) => {
     setFilters(prev => ({ ...prev, [key]: value }));
   };
 

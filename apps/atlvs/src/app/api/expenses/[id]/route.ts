@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 import { Logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
-import { z } from 'zod';
 
 // GET /api/expenses/[id] - Get single expense
 export async function GET(
@@ -95,7 +94,15 @@ export async function PUT(
       );
     }
 
-    const { user_id, ...updates } = body;
+    const { user_id: submittedUserId, ...updates } = body;
+
+    // Validate that the submitter matches the expense owner (if provided)
+    if (submittedUserId && submittedUserId !== existingExpense.user_id) {
+      return NextResponse.json(
+        { error: 'Cannot change expense ownership' },
+        { status: 403 }
+      );
+    }
 
     const { data: updatedExpense, error: updateError } = await supabase
       .from('expenses')

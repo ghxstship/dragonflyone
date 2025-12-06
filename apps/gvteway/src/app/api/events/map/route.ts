@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Haversine formula for distance calculation
 function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
@@ -105,13 +99,15 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.limit(200);
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Filter by location and transform
+    interface MapVenueInfo { name?: string; city?: string; state?: string; latitude?: number; longitude?: number }
+    interface MapTicketType { price: number }
     const events = data
       ?.map(event => {
-        const venue = event.venues as any;
+        const venue = event.venues as MapVenueInfo | null;
         if (!venue?.latitude || !venue?.longitude) return null;
 
         const distance = lat && lng
@@ -120,7 +116,8 @@ export async function GET(request: NextRequest) {
 
         if (lat && lng && distance > radius) return null;
 
-        const prices = (event.ticket_types as any[])?.map(t => t.price) || [];
+        const ticketTypes = (event.ticket_types || []) as MapTicketType[];
+        const prices = ticketTypes.map((t: MapTicketType) => t.price);
         const minPrice = prices.length > 0 ? Math.min(...prices) : 0;
 
         return {
@@ -137,14 +134,16 @@ export async function GET(request: NextRequest) {
           distance,
         };
       })
-      .filter(Boolean)
-      .sort((a: any, b: any) => a.distance - b.distance) || [];
+      .filter((e): e is NonNullable<typeof e> => Boolean(e))
+      .sort((a, b) => a.distance - b.distance) || [];
 
     // Create clusters for nearby events (simplified clustering)
-    const clusters: any[] = [];
+    interface MapEvent { id: string; latitude: number; longitude: number; distance: number; [key: string]: unknown }
+    interface EventCluster { id: string; latitude: number; longitude: number; count: number; events: MapEvent[] }
+    const clusters: EventCluster[] = [];
     const clusterRadius = 0.1; // degrees
 
-    events.forEach((event: any) => {
+    events.forEach((event: MapEvent) => {
       const existingCluster = clusters.find(c =>
         Math.abs(c.latitude - event.latitude) < clusterRadius &&
         Math.abs(c.longitude - event.longitude) < clusterRadius

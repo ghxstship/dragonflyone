@@ -1,4 +1,4 @@
-import { Badge, H3, Body, Label, ProgressBar, Card, Stack, Link, Article } from "@ghxstship/ui";
+import { Badge, H3, Body, Label, ProgressBar, Stack, Link, Article } from "@ghxstship/ui";
 
 interface ProjectCardProps {
   project: {

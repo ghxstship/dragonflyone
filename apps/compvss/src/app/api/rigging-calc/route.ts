@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       calculations:rigging_calculations(id, type, input_values, result, safety_factor)
     `).eq('project_id', projectId);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     return NextResponse.json({ plans: data });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
         status: 'draft', created_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ plan: data }, { status: 201 });
     }
 
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         plan_id, point_id, x, y, z, load_kg, hardware, notes
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ point: data }, { status: 201 });
     }
 
@@ -64,7 +64,8 @@ export async function POST(request: NextRequest) {
       const { plan_id, type, input_values } = body;
 
       // Perform calculation based on type
-      let result: any = {};
+      interface RiggingResult { vertical_force?: number; horizontal_force?: number; wll_required?: number; leg_load?: number; wll_per_leg?: number }
+      let result: RiggingResult = {};
       const safetyFactor = 5;
 
       if (type === 'point_load') {
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
         plan_id, type, input_values, result, safety_factor: safetyFactor
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ calculation: data }, { status: 201 });
     }
 

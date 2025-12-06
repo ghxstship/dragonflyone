@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
         },
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Error in analytics route:', error);
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },

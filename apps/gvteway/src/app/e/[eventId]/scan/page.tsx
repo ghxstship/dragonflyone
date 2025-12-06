@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -34,25 +34,50 @@ interface ScanResult {
 
 export default function EventScanPage() {
   const params = useParams();
-  const _eventId = params?.eventId as string;
+  const eventId = params?.eventId as string;
   const [manualCode, setManualCode] = useState('');
   const [lastScan, setLastScan] = useState<ScanResult | null>(null);
-  const [scanCount, setScanCount] = useState({ valid: 423, invalid: 12, total: 435 });
+  const [scanCount, setScanCount] = useState({ valid: 0, invalid: 0, total: 0 });
   const [isScanning, setIsScanning] = useState(false);
 
-  const handleManualScan = useCallback(() => {
+  // Fetch scan stats for this event
+  useEffect(() => {
+    if (!eventId) return;
+    const fetchScanStats = async () => {
+      try {
+        const response = await fetch(`/api/events/${eventId}/scan-stats`);
+        if (response.ok) {
+          const data = await response.json();
+          setScanCount(data.stats || { valid: 0, invalid: 0, total: 0 });
+        }
+      } catch (error) {
+        console.error('Failed to fetch scan stats:', error);
+      }
+    };
+    fetchScanStats();
+  }, [eventId]);
+
+  const handleManualScan = useCallback(async () => {
     if (!manualCode.trim()) return;
     setIsScanning(true);
     
-    // Simulate scan
-    setTimeout(() => {
-      const isValid = Math.random() > 0.2;
+    try {
+      // Validate ticket via API
+      const response = await fetch(`/api/events/${eventId}/validate-ticket`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticketCode: manualCode }),
+      });
+      
+      const data = await response.json();
+      const isValid = response.ok && data.valid;
+      
       setLastScan({
         ticketId: manualCode,
         status: isValid ? 'valid' : 'invalid',
-        name: isValid ? 'John Smith' : undefined,
-        ticketType: isValid ? 'VIP' : undefined,
-        message: isValid ? 'Ticket validated successfully' : 'Invalid ticket code',
+        name: data.name,
+        ticketType: data.ticketType,
+        message: data.message || (isValid ? 'Ticket validated successfully' : 'Invalid ticket code'),
       });
       setScanCount(prev => ({
         ...prev,
@@ -60,10 +85,17 @@ export default function EventScanPage() {
         invalid: prev.invalid + (isValid ? 0 : 1),
         total: prev.total + 1,
       }));
+    } catch (error) {
+      setLastScan({
+        ticketId: manualCode,
+        status: 'invalid',
+        message: 'Failed to validate ticket',
+      });
+    } finally {
       setIsScanning(false);
       setManualCode('');
-    }, 500);
-  }, [manualCode]);
+    }
+  }, [manualCode, eventId]);
 
   return (
     <GvtewayAppLayout>

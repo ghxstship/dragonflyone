@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Input } from "@ghxstship/ui";
-import { MessageCircle, Send, Users } from "lucide-react";
+import { Send, Users } from "lucide-react";
 import { gvtewayDemoEvents } from "../../../../data/gvteway";
 
 export default function EventChatPage() {

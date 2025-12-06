@@ -78,16 +78,6 @@ export default function POSPage() {
   const categories = ["All", ...new Set(menuItems.map(i => i.category))];
   const filteredItems = selectedCategory === "All" ? menuItems : menuItems.filter(i => i.category === selectedCategory);
 
-  // Status color helper - now using Badge variants instead
-  const _getStatusColor = (status: string) => {
-    switch (status) {
-      case "Online": return "text-success-400";
-      case "Busy": return "text-warning-400";
-      case "Offline": return "text-error-400";
-      default: return "text-ink-600";
-    }
-  };
-
   return (
     <GvtewayAppLayout>
           <Stack gap={10}>

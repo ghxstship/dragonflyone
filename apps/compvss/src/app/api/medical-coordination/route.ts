@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         reported_by: user.id, reported_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // Notify medical coordinator for severe incidents
       if (severity === 'critical' || severity === 'severe') {
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
         event_id, user_id, role, station_id, shift_start, shift_end, status: 'assigned'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ assignment: data }, { status: 201 });
     }
 

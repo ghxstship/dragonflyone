@@ -69,33 +69,21 @@ export default function RiskRegisterPage() {
 
   const filteredRisks = categoryFilter === "All" ? mockRisks : mockRisks.filter(r => r.category === categoryFilter);
 
-  const getRiskScoreColor = (score: number) => {
-    if (score >= 15) return "text-error-400 bg-error-900/20";
-    if (score >= 10) return "text-warning-400 bg-warning-900/20";
-    if (score >= 5) return "text-warning-400 bg-warning-900/20";
-    return "text-success-400 bg-success-900/20";
-  };
-
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
-      case "Closed": return "text-success-400";
-      case "Monitoring": return "text-info-400";
-      case "Mitigating": return "text-warning-400";
-      case "Identified": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Closed": return "success";
+      case "Monitoring": return "info";
+      case "Mitigating": return "warning";
+      case "Identified": return "ghost";
+      default: return "ghost";
     }
   };
-
-  const getProbabilityValue = (p: string) => p === "High" ? 3 : p === "Medium" ? 2 : 1;
-  const getImpactValue = (i: string) => i === "Critical" ? 5 : i === "High" ? 4 : i === "Medium" ? 3 : 2;
 
   return (
     <CompvssAppLayout>
       <EnterprisePageHeader
         title="Risk Register"
-        subtitle="Identify, assess, and mitigate project risks"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+        subtitle="Track and manage project risks and mitigation strategies"
         primaryAction={{ label: 'Add Risk', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -154,7 +142,7 @@ export default function RiskRegisterPage() {
                           </Stack>
                           <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>
                           <Stack gap={1}>
-                            <Badge variant="outline">{risk.status}</Badge>
+                            <Badge variant={getStatusVariant(risk.status)}>{risk.status}</Badge>
                             <Body className="text-body-sm">{risk.owner}</Body>
                           </Stack>
                           <Button variant="ghost" size="sm" onClick={() => setSelectedRisk(risk)}>Details</Button>
@@ -225,7 +213,7 @@ export default function RiskRegisterPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Status</Body>
-                  <Badge variant="outline">{selectedRisk.status}</Badge>
+                  <Badge variant={getStatusVariant(selectedRisk.status)}>{selectedRisk.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={3} gap={4}>

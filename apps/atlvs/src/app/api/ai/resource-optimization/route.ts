@@ -3,6 +3,21 @@ export const dynamic = 'force-dynamic';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
+interface EmployeeData {
+  id: string;
+  first_name: string;
+  last_name: string;
+  hourly_rate?: number;
+  skills?: string[];
+}
+
+interface AssetData {
+  id: string;
+  name: string;
+  category?: string;
+  daily_rate?: number;
+}
+
 // GET /api/ai/resource-optimization - Advanced resource optimization
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
@@ -176,12 +191,14 @@ export async function GET(request: NextRequest) {
         .select('category, amount, expense_date')
         .gte('expense_date', new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString());
 
-      // Analyze spending patterns
+      // Analyze spending patterns by category and month
       const categorySpending: Record<string, number[]> = {};
+      const monthlySpending: Record<string, number> = {};
       expenses?.forEach(e => {
-        const month = e.expense_date?.slice(0, 7);
+        const month = e.expense_date?.slice(0, 7) || 'unknown';
         if (!categorySpending[e.category]) categorySpending[e.category] = [];
         categorySpending[e.category].push(e.amount || 0);
+        monthlySpending[month] = (monthlySpending[month] || 0) + (e.amount || 0);
       });
 
       // Calculate trends and recommendations
@@ -209,6 +226,7 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({
         budget_analysis: categoryAnalysis,
+        monthly_spending: monthlySpending,
         total_budget: budgets?.reduce((sum, b) => sum + (b.planned_amount || 0), 0) || 0,
         total_spent: budgets?.reduce((sum, b) => sum + (b.actual_amount || 0), 0) || 0,
         recommendations: generateBudgetRecommendations(categoryAnalysis),
@@ -251,12 +269,14 @@ export async function GET(request: NextRequest) {
 
       // Calculate costs
       const laborCost = assignments?.reduce((sum, a) => {
-        const rate = (a.employee as any)?.hourly_rate || 0;
+        const emp = a.employee as EmployeeData | null;
+        const rate = emp?.hourly_rate || 0;
         return sum + (a.hours_allocated || 0) * rate;
       }, 0) || 0;
 
       const assetCost = assetAllocations?.reduce((sum, a) => {
-        const rate = (a.asset as any)?.daily_rate || 0;
+        const asset = a.asset as AssetData | null;
+        const rate = asset?.daily_rate || 0;
         const days = a.start_date && a.end_date
           ? (new Date(a.end_date).getTime() - new Date(a.start_date).getTime()) / (24 * 60 * 60 * 1000)
           : 0;
@@ -277,7 +297,8 @@ export async function GET(request: NextRequest) {
       // Check for skill redundancy
       const skillCount: Record<string, number> = {};
       assignments?.forEach(a => {
-        (a.employee as any)?.skills?.forEach((s: string) => {
+        const emp = a.employee as EmployeeData | null;
+        emp?.skills?.forEach((s: string) => {
           skillCount[s] = (skillCount[s] || 0) + 1;
         });
       });
@@ -303,17 +324,23 @@ export async function GET(request: NextRequest) {
           total_cost: laborCost + assetCost,
           budget_remaining: project.budget - laborCost - assetCost,
         },
-        team: assignments?.map(a => ({
-          employee_id: (a.employee as any)?.id,
-          name: `${(a.employee as any)?.first_name} ${(a.employee as any)?.last_name}`,
-          hours: a.hours_allocated,
-          cost: (a.hours_allocated || 0) * ((a.employee as any)?.hourly_rate || 0),
-        })),
-        assets: assetAllocations?.map(a => ({
-          asset_id: (a.asset as any)?.id,
-          name: (a.asset as any)?.name,
-          dates: `${a.start_date} - ${a.end_date}`,
-        })),
+        team: assignments?.map(a => {
+          const emp = a.employee as EmployeeData | null;
+          return {
+            employee_id: emp?.id,
+            name: `${emp?.first_name || ''} ${emp?.last_name || ''}`.trim(),
+            hours: a.hours_allocated,
+            cost: (a.hours_allocated || 0) * (emp?.hourly_rate || 0),
+          };
+        }),
+        assets: assetAllocations?.map(a => {
+          const asset = a.asset as AssetData | null;
+          return {
+            asset_id: asset?.id,
+            name: asset?.name,
+            dates: `${a.start_date} - ${a.end_date}`,
+          };
+        }),
         optimization_suggestions: suggestions,
       });
     }
@@ -358,7 +385,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ log });
@@ -418,7 +445,7 @@ function calculateAverageAssetUtilization(utilization: Record<string, number>): 
   return Math.round((total / values.length / 30) * 100);
 }
 
-function generateWorkforceRecommendations(underutilized: any[], overutilized: any[], skillGaps: string[]): string[] {
+function generateWorkforceRecommendations(underutilized: unknown[], overutilized: unknown[], skillGaps: string[]): string[] {
   const recommendations: string[] = [];
 
   if (underutilized.length > 0) {
@@ -436,7 +463,7 @@ function generateWorkforceRecommendations(underutilized: any[], overutilized: an
   return recommendations;
 }
 
-function generateAssetRecommendations(underutilized: any[]): string[] {
+function generateAssetRecommendations(underutilized: unknown[]): string[] {
   const recommendations: string[] = [];
 
   if (underutilized.length > 0) {
@@ -446,7 +473,7 @@ function generateAssetRecommendations(underutilized: any[]): string[] {
   return recommendations;
 }
 
-function generateBudgetRecommendations(analysis: any[]): string[] {
+function generateBudgetRecommendations(analysis: unknown[]): string[] {
   const recommendations: string[] = [];
 
   const overBudget = analysis.filter(a => parseFloat(a.budget_variance) > 10);

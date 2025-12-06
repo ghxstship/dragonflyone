@@ -122,11 +122,18 @@ export default function AssetPerformancePage() {
         })}
         stats={stats}
         emptyMessage="No performance data found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/assets/performance/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />
@@ -138,7 +145,7 @@ export default function AssetPerformancePage() {
           title={(r) => r.name}
           subtitle={(r) => `${r.category} • Health: ${r.healthScore} • Uptime: ${r.uptime}%`}
           sections={detailSections}
-          actions={[{ id: 'maintenance', label: 'Schedule Maintenance', icon: '🔧' }]}
+          actions={[{ id: 'maintenance', label: 'Schedule Maintenance', icon: <Wrench className="size-4" /> }]}
           onAction={(id, r) => { if (id === 'maintenance') router.push(`/assets/maintenance?asset=${r.id}`); setDrawerOpen(false); }}
         />
       )}

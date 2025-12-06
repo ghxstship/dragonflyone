@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 // Music streaming platform integration (Spotify, Apple Music)
 export async function GET(request: NextRequest) {
@@ -36,7 +30,7 @@ export async function GET(request: NextRequest) {
     const { data: preferences } = await supabase.from('user_music_preferences').select('*')
       .eq('user_id', user.id).single();
 
-    let recommendations: any[] = [];
+    let recommendations: unknown[] = [];
     if (preferences?.top_artists?.length > 0) {
       const { data: events } = await supabase.from('events').select('*')
         .overlaps('artist_ids', preferences.top_artists)
@@ -74,7 +68,7 @@ export async function POST(request: NextRequest) {
         connected_at: new Date().toISOString(), status: 'active'
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ connection: data }, { status: 201 });
     }
 

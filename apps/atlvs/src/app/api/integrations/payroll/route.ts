@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error && error.code !== 'PGRST116') {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ connection: data || null });
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
       const { data, error } = await query.limit(20);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ payroll_runs: data });
@@ -88,7 +88,7 @@ export async function GET(request: NextRequest) {
         .order('week_ending', { ascending: false });
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ pending_items: data });
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ connection: data }, { status: 201 });
@@ -191,7 +191,7 @@ export async function POST(request: NextRequest) {
       }
 
       // Calculate payroll
-      const employeePayroll = (timesheets || []).reduce((acc: Record<string, any>, ts) => {
+      const employeePayroll = (timesheets || []).reduce((acc: Record<string, unknown>, ts) => {
         if (!acc[ts.employee_id]) {
           acc[ts.employee_id] = { hours: 0, gross_pay: 0 };
         }
@@ -200,7 +200,8 @@ export async function POST(request: NextRequest) {
         return acc;
       }, {});
 
-      const totalAmount = Object.values(employeePayroll).reduce((sum: number, emp: any) => sum + emp.gross_pay, 0);
+      interface EmployeePayrollData { hours: number; gross_pay: number }
+      const totalAmount = Object.values(employeePayroll).reduce((sum: number, emp: EmployeePayrollData) => sum + emp.gross_pay, 0);
 
       // Create payroll run
       const { data: payrollRun, error: prError } = await supabase
@@ -239,7 +240,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       // In production, would submit to payroll provider API
@@ -260,13 +261,13 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       if (format === 'csv') {
         // Generate CSV
         const headers = ['Employee ID', 'Name', 'Hours', 'Gross Pay', 'Deductions', 'Net Pay'];
-        const rows = (payrollRun.employees || []).map((e: any) =>
+        const rows = (payrollRun.employees || []).map((e: Record<string, unknown>) =>
           [e.employee_id, e.name, e.hours, e.gross_pay, e.deductions, e.net_pay].join(',')
         );
         const csv = [headers.join(','), ...rows].join('\n');

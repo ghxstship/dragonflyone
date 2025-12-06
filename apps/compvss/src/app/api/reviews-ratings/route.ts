@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     if (entityId) query = query.eq('entity_id', entityId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate average
     const avgRating = data?.length ? data.reduce((s, r) => s + r.rating, 0) / data.length : 0;
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
         project_id, reviewer_id: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ review: data }, { status: 201 });
     }
 
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
         review_id, content, responder_id: user.id, responded_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ response: data }, { status: 201 });
     }
 

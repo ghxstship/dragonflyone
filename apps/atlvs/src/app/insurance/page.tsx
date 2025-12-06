@@ -19,8 +19,9 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 
-const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const statusColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   active: 'success',
   pending: 'warning',
   expired: 'error',
@@ -90,7 +91,7 @@ const columns: ListPageColumn<InsurancePolicy>[] = [
     accessor: 'status', 
     sortable: true,
     render: (value) => (
-      <Badge variant={statusColors[String(value)] || 'default'}>
+      <Badge variant={statusColors[String(value)] || 'ghost'}>
         {String(value).toUpperCase()}
       </Badge>
     )
@@ -169,8 +170,12 @@ export default function InsurancePage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    Logger.info("Create action triggered");
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await fetch('/api/insurance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
     setCreateModalOpen(false);
     refetch();
   };
@@ -194,7 +199,7 @@ export default function InsurancePage() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={statusColors[selectedPolicy.status] || 'default'}>
+            <Badge variant={statusColors[selectedPolicy.status] || 'ghost'}>
               {selectedPolicy.status.toUpperCase()}
             </Badge>
           </Stack>
@@ -244,12 +249,35 @@ export default function InsurancePage() {
         onRowClick={(row) => router.push(`/insurance/${row.id}`)}
         createLabel="New Policy"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="insurance"
+        onExport={createExportHandler({
+          filename: 'insurance-policies',
+          getData: () => (policies || []).map(p => ({
+            id: p.id,
+            type: p.policy_type,
+            status: p.status,
+            coverage: p.coverage_amount || 0,
+          })),
+        })}
         stats={pageStats}
         emptyMessage="No insurance policies yet"
         emptyAction={{ label: 'Add First Policy', onClick: () => setCreateModalOpen(true) }}
         quickActions={[
           { id: 'permits', label: 'Permits', icon: <FileText className="size-4" />, onClick: () => router.push('/permits') },
           { id: 'compliance', label: 'Compliance', icon: <Shield className="size-4" />, onClick: () => router.push('/compliance') },
+        ]}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/insurance/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
       />
 
@@ -261,7 +289,7 @@ export default function InsurancePage() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ status: 'pending', policy_type: 'general_liability' }}
+        record={{ status: 'pending', policy_type: 'general_liability' }}
       />
 
       <DetailDrawer

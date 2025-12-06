@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -62,7 +56,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Get user's votes if authenticated
@@ -83,15 +77,18 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    interface PollOption { id: string; text: string; votes_count?: number }
+    interface PollEventInfo { title?: string }
     const polls = data?.map(poll => {
-      const options = (poll.poll_options as any[]) || [];
-      const totalVotes = options.reduce((sum, o) => sum + (o.votes_count || 0), 0);
+      const options = (poll.poll_options || []) as PollOption[];
+      const totalVotes = options.reduce((sum: number, o: PollOption) => sum + (o.votes_count || 0), 0);
+      const event = poll.events as PollEventInfo | null;
 
       return {
         id: poll.id,
         question: poll.question,
         description: poll.description,
-        options: options.map(o => ({
+        options: options.map((o: PollOption) => ({
           id: o.id,
           text: o.text,
           votes: o.votes_count || 0,
@@ -102,7 +99,7 @@ export async function GET(request: NextRequest) {
         ends_at: poll.ends_at,
         created_at: poll.created_at,
         event_id: poll.event_id,
-        event_title: (poll.events as any)?.title,
+        event_title: event?.title,
         user_voted: userVotes[poll.id] || null,
         category: poll.category || 'general',
       };

@@ -14,12 +14,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const revenueSyncSchema = z.object({
   order_id: z.string().uuid(),
@@ -27,7 +21,7 @@ const revenueSyncSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: any) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     try {
       const supabase = getSupabaseClient();
       const payload = context.validated;
@@ -109,7 +103,7 @@ export const POST = apiRoute(
         ledger_entry: ledgerEntry,
         message: 'Revenue successfully synced to ATLVS'
       }, { status: 201 });
-    } catch (error: any) {
+    } catch (error) {
       return NextResponse.json({ error: error.message || 'Revenue sync failed' }, { status: 500 });
     }
   },

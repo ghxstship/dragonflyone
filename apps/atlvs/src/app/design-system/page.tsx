@@ -201,7 +201,7 @@ export default function DesignSystemPage() {
               <H2 className="mb-6 text-ink-50">Border Widths</H2>
               <Body className="mb-4 text-ink-400">Thick borders for bold pop art aesthetic</Body>
               <Grid cols={4} gap={6}>
-                <div className="border border-ink-50 bg-ink-900 p-4">
+                <div className="border-2 border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border (1px)</Label>
                   <Body className="text-body-sm text-ink-500">Subtle dividers</Body>
                 </div>
@@ -590,7 +590,7 @@ export default function DesignSystemPage() {
                   <ModalBody>
                     <Body className="text-ink-300">
                       Modal content with standardized spacing and typography.
-                      Modals use rounded-modal (16px) border radius.
+                      Modals use rounded-modal (16px) border-2 radius.
                     </Body>
                   </ModalBody>
                   <ModalFooter>

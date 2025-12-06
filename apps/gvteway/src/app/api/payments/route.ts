@@ -12,12 +12,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 const createPaymentIntentSchema = z.object({
   order_id: z.string().uuid(),
@@ -25,11 +19,6 @@ const createPaymentIntentSchema = z.object({
   currency: z.string().default('usd'),
   payment_method_id: z.string().optional(),
   save_payment_method: z.boolean().default(false),
-});
-
-const processPaymentSchema = z.object({
-  payment_intent_id: z.string(),
-  order_id: z.string().uuid(),
 });
 
 // GET /api/payments - Get payment history
@@ -71,7 +60,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     return NextResponse.json({ payments: data });

@@ -9,19 +9,15 @@ import {
   H3,
   Body,
   Card,
-  CardBody,
   Grid,
   Badge,
   Button,
   Stack,
   Label,
-  SectionHeader,
   Spinner,
-  StatCard,
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-import { ArrowLeft, TrendingUp, Target, AlertTriangle, Activity } from 'lucide-react';
 
 interface KPIDefinition {
   id: number;
@@ -132,8 +128,8 @@ export default function KPIDetailPage() {
       <EnterprisePageHeader
         title={kpi.name}
         subtitle={kpi.description}
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         secondaryActions={[{ id: 'back', label: 'Back to Library', onClick: () => router.push('/analytics/kpi') }]}
         showFavorite
         showSettings

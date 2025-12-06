@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         initiated_by: user.id, initiated_at: new Date().toISOString()
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       return NextResponse.json({ settlement }, { status: 201 });
     }
 

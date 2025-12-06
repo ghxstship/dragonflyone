@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,21 +37,27 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
-    const meetups = data?.map(m => ({
-      id: m.id,
-      event_id: m.event_id,
-      event_name: (m.event as any)?.title,
-      event_date: (m.event as any)?.date,
-      organizer_id: m.organizer_id,
-      organizer_name: m.organizer ? `${(m.organizer as any).first_name} ${(m.organizer as any).last_name}` : 'Unknown',
-      location: m.location,
-      time: m.time,
-      attendees: m.attendees || [],
-      status: m.status,
-    })) || [];
+    interface MeetupEventInfo { title?: string; date?: string }
+    interface MeetupOrganizerInfo { first_name?: string; last_name?: string }
+    const meetups = data?.map(m => {
+      const event = m.event as MeetupEventInfo | null;
+      const organizer = m.organizer as MeetupOrganizerInfo | null;
+      return {
+        id: m.id,
+        event_id: m.event_id,
+        event_name: event?.title,
+        event_date: event?.date,
+        organizer_id: m.organizer_id,
+        organizer_name: organizer ? `${organizer.first_name} ${organizer.last_name}` : 'Unknown',
+        location: m.location,
+        time: m.time,
+        attendees: m.attendees || [],
+        status: m.status,
+      };
+    }) || [];
 
     return NextResponse.json({ meetups });
   } catch (error) {
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
     // Notification sent via edge functions to invitees
@@ -159,7 +159,7 @@ export async function PATCH(request: NextRequest) {
         .eq('id', meetup_id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });
@@ -173,7 +173,7 @@ export async function PATCH(request: NextRequest) {
         .eq('organizer_id', user.id);
 
       if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
       }
 
       return NextResponse.json({ success: true });

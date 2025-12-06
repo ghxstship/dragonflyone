@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -56,11 +50,13 @@ export async function GET(request: NextRequest) {
     }
 
     const steps = getDeliverySteps(data.delivery_method, data.delivery_status);
+    interface OrderData { events?: { title?: string; date?: string } }
+    const orderData = data.orders as OrderData | null;
     const delivery = {
       id: data.id,
       order_id: data.order_id,
-      event_title: (data.orders as any)?.events?.title,
-      event_date: (data.orders as any)?.events?.date,
+      event_title: orderData?.events?.title,
+      event_date: orderData?.events?.date,
       delivery_method: data.delivery_method,
       delivery_status: data.delivery_status,
       tracking_number: data.tracking_number,

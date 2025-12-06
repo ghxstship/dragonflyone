@@ -167,7 +167,7 @@ export default function ExclusiveAccessPage() {
                       { benefit: "Member Discounts", description: "Percentage off ticket purchases", enabled: true },
                       { benefit: "Exclusive Content", description: "Behind-the-scenes and exclusive videos", enabled: true },
                     ].map((item, idx) => (
-                      <Card key={idx} className="p-4 border border-ink-200">
+                      <Card key={idx} className="p-4 border-2 border-ink-200">
                         <Stack direction="horizontal" className="justify-between items-start">
                           <Stack gap={1}>
                             <Label className="font-weight-bold">{item.benefit}</Label>

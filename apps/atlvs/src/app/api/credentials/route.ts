@@ -171,9 +171,9 @@ export async function GET(request: NextRequest) {
         requires_renewal: active.filter(c => c.renewal_required).length,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Credentials error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -221,11 +221,13 @@ export async function POST(request: NextRequest) {
       }
 
       // Log the reminder
+      interface CredentialEmployee { email?: string }
+      const credEmployee = credential.employee as CredentialEmployee | null;
       await supabase.from('credential_reminders').insert({
         credential_id,
         reminder_type,
         sent_at: new Date().toISOString(),
-        recipient_email: (credential.employee as any)?.email,
+        recipient_email: credEmployee?.email,
       });
 
       // Email notification triggered via edge function
@@ -249,12 +251,16 @@ export async function POST(request: NextRequest) {
         .lte('expiration_date', futureDate)
         .gte('expiration_date', new Date().toISOString());
 
-      const reminders = expiring?.map(c => ({
-        credential_id: c.id,
-        reminder_type: 'bulk_expiration',
-        sent_at: new Date().toISOString(),
-        recipient_email: (c.employee as any)?.email,
-      })) || [];
+      interface BulkEmployee { email?: string }
+      const reminders = expiring?.map(c => {
+        const bulkEmp = c.employee as BulkEmployee | null;
+        return {
+          credential_id: c.id,
+          reminder_type: 'bulk_expiration',
+          sent_at: new Date().toISOString(),
+          recipient_email: bulkEmp?.email,
+        };
+      }) || [];
 
       if (reminders.length) {
         await supabase.from('credential_reminders').insert(reminders);
@@ -308,12 +314,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Credentials error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -337,9 +343,9 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ credential });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Credentials error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -362,9 +368,9 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Credentials error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 

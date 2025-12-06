@@ -174,12 +174,13 @@ export async function GET(request: NextRequest) {
       if (error) throw error;
 
       // Group by location for clustering
-      const clusters = locations?.reduce((acc: Record<string, any[]>, loc) => {
+      interface LocationItem { id: string; latitude?: number | null; longitude?: number | null }
+      const clusters = locations?.reduce((acc: Record<string, LocationItem[]>, loc: LocationItem) => {
         const key = `${Math.round(loc.latitude! * 100) / 100},${Math.round(loc.longitude! * 100) / 100}`;
         if (!acc[key]) acc[key] = [];
         acc[key].push(loc);
         return acc;
-      }, {});
+      }, {} as Record<string, LocationItem[]>);
 
       return NextResponse.json({
         locations,
@@ -250,9 +251,9 @@ export async function GET(request: NextRequest) {
         location_distribution: locationTypes,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset tracking error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -460,12 +461,12 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
     Logger.error('Asset tracking error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -511,9 +512,9 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset tracking error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -546,8 +547,8 @@ export async function DELETE(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error: any) {
+  } catch (error) {
     Logger.error('Asset tracking error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler } from "@ghxstship/config";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 interface RFP {
   id: string;
@@ -87,6 +87,26 @@ export default function RFPPage() {
     { id: 'publish', label: 'Publish', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); fetchRFPs(); } },
   ];
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'rfp',
+    requiredFields: ['title', 'project_type'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/rfp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record),
+        });
+      }
+      fetchRFPs();
+    },
+  });
+
+  const importTemplates = getImportTemplates('rfp').length > 0 
+    ? getImportTemplates('rfp') 
+    : [{ id: 'default', name: 'RFP Import', mapping: { title: 'title', project_type: 'project_type', budget_min: 'budget_min', budget_max: 'budget_max', deadline: 'deadline' } }];
+
   const stats = [
     { label: 'Total RFPs', value: rfps.length },
     { label: 'Open', value: openCount },
@@ -128,6 +148,9 @@ export default function RFPPage() {
         createLabel="Create RFP"
         onCreate={() => router.push('/rfp/new')}
         entityType="rfps"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'project_type', 'budget_min', 'budget_max', 'deadline']}
         onExport={createExportHandler({
           filename: "rfps",
           getData: () => rfps.map(r => ({
@@ -142,11 +165,25 @@ export default function RFPPage() {
         stats={stats}
         emptyMessage="No RFPs found"
         emptyAction={{ label: 'Create RFP', onClick: () => router.push('/rfp/new') }}
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/rfps/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/rfps/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

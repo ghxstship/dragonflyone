@@ -76,23 +76,23 @@ export default function PunchListPage() {
     ? mockPunchItems 
     : mockPunchItems.filter(i => i.department === selectedDepartment);
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityVariant = (priority: string): 'error' | 'warning' | 'success' | 'ghost' => {
     switch (priority) {
-      case "Critical": return "text-error-400";
-      case "High": return "text-warning-400";
-      case "Medium": return "text-warning-400";
-      case "Low": return "text-success-400";
-      default: return "text-ink-400";
+      case "Critical": return "error";
+      case "High": return "warning";
+      case "Medium": return "warning";
+      case "Low": return "success";
+      default: return "ghost";
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
-      case "Verified": return "text-success-400";
-      case "Resolved": return "text-info-400";
-      case "In Progress": return "text-warning-400";
-      case "Open": return "text-ink-400";
-      default: return "text-ink-400";
+      case "Verified": return "success";
+      case "Resolved": return "info";
+      case "In Progress": return "warning";
+      case "Open": return "ghost";
+      default: return "ghost";
     }
   };
 
@@ -101,8 +101,8 @@ export default function PunchListPage() {
       <EnterprisePageHeader
         title="Punch List"
         subtitle="Track and resolve outstanding items before show"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         primaryAction={{ label: 'Add Item', onClick: () => setShowAddModal(true) }}
         showFavorite
         showSettings
@@ -158,8 +158,8 @@ export default function PunchListPage() {
                             <Body className="text-body-sm">{item.location}</Body>
                           </Stack>
                           <Badge variant="outline">{item.department}</Badge>
-                          <Badge variant={item.priority === "Critical" ? "solid" : "outline"}>{item.priority}</Badge>
-                          <Badge variant="outline">{item.status}</Badge>
+                          <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>
+                          <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>
                           <Body className="text-body-sm">{item.assignedTo || "Unassigned"}</Body>
                           <Stack direction="horizontal" gap={2}>
                             <Button variant="ghost" size="sm" onClick={() => setSelectedItem(item)}>Details</Button>
@@ -275,11 +275,11 @@ export default function PunchListPage() {
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Priority</Body>
-                  <Badge variant={selectedItem.priority === "Critical" ? "solid" : "outline"}>{selectedItem.priority}</Badge>
+                  <Badge variant={getPriorityVariant(selectedItem.priority)}>{selectedItem.priority}</Badge>
                 </Stack>
                 <Stack gap={1}>
                   <Body className="text-body-sm">Status</Body>
-                  <Badge variant="outline">{selectedItem.status}</Badge>
+                  <Badge variant={getStatusVariant(selectedItem.status)}>{selectedItem.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>

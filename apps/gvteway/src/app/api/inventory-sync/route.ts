@@ -11,12 +11,6 @@ function getSupabaseClient() {
 }
 
 
-// Lazy getter for supabase client - only accessed at runtime
-const supabase = new Proxy({} as ReturnType<typeof getSupabaseClient>, {
-  get(_target, prop) {
-    return (getSupabaseClient() as any)[prop];
-  }
-});
 
 export async function GET(request: NextRequest) {
   try {
@@ -27,26 +21,44 @@ export async function GET(request: NextRequest) {
     const locationId = searchParams.get('location_id');
 
     if (type === 'status') {
-      const { data: syncs, error } = await supabase
+      let syncsQuery = supabase
         .from('inventory_sync_logs')
         .select('*')
         .order('synced_at', { ascending: false })
         .limit(20);
+
+      if (locationId) {
+        syncsQuery = syncsQuery.eq('location_id', locationId);
+      }
+
+      const { data: syncs, error } = await syncsQuery;
 
       if (error) throw error;
       return NextResponse.json({ recent_syncs: syncs });
     }
 
     if (type === 'by_location') {
-      const { data: inventory, error } = await supabase
+      let inventoryQuery = supabase
         .from('inventory_locations')
         .select(`*, product:products(id, name, sku)`)
         .order('product_id');
 
+      if (locationId) {
+        inventoryQuery = inventoryQuery.eq('location_id', locationId);
+      }
+
+      const { data: inventory, error } = await inventoryQuery;
+
       if (error) throw error;
 
       // Group by location
-      const byLocation = inventory?.reduce((acc: Record<string, any[]>, item) => {
+      interface InventoryItem {
+        location_id: string;
+        product_id: string;
+        quantity: number;
+        product: { id: string; name: string; sku: string } | null;
+      }
+      const byLocation = inventory?.reduce((acc: Record<string, InventoryItem[]>, item) => {
         if (!acc[item.location_id]) acc[item.location_id] = [];
         acc[item.location_id].push(item);
         return acc;
@@ -69,8 +81,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -214,7 +226,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

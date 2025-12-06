@@ -39,7 +39,7 @@ const publicPaths = [
   '/legal',
 ];
 
-const _onboardingPath = '/onboarding';
+const onboardingPath = '/onboarding';
 
 const ROLE_ACCESS_MAP: Record<string, string[]> = {
   '/finance': ['ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'],
@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
   const isPublicPath = publicPaths.some(path => 
     path === '/' ? pathname === '/' : pathname.startsWith(path)
   );
-  const _isOnboardingPath = pathname.startsWith(_onboardingPath);
+  const isOnboardingPath = pathname.startsWith(onboardingPath);
 
   // Create Supabase client for middleware
   const supabase = createServerClient(
@@ -110,14 +110,14 @@ export async function middleware(request: NextRequest) {
   const { data: { session } } = await supabase.auth.getSession();
 
   // Redirect to signin if not authenticated and trying to access protected route
-  if (!isPublicPath && !session) {
+  if (!isPublicPath && !isOnboardingPath && !session) {
     const redirectUrl = new URL('/auth/signin', request.url);
     redirectUrl.searchParams.set('redirectTo', pathname);
     return NextResponse.redirect(redirectUrl);
   }
 
   // Redirect to dashboard if authenticated and trying to access auth pages
-  if (isPublicPath && session && !pathname.startsWith('/api')) {
+  if (isPublicPath && session && !pathname.startsWith('/api') && !isOnboardingPath) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

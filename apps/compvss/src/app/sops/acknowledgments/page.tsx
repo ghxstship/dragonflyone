@@ -4,13 +4,11 @@ export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { CheckCircle, Clock, User, FileText, Download } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useSOPAcknowledgments, useSOPs } from '../../../hooks/useSOPs';
 import {
   ListPage,
-  Badge,
-  Grid,
   Stack,
   Body,
   Select,
@@ -106,7 +104,7 @@ export default function SOPAcknowledgmentsPage() {
         entityType="sop-acknowledgments"
         onExport={createExportHandler({
           filename: "sop-acknowledgments",
-          getData: () => acknowledgments.map(a => ({
+          getData: () => (acknowledgments || []).map(a => ({
             id: a.id,
             acknowledged_at: a.acknowledged_at,
             sop_title: a.sop?.title || '',
@@ -116,7 +114,20 @@ export default function SOPAcknowledgmentsPage() {
         })}
         stats={stats}
         emptyMessage="No acknowledgments recorded yet"
-        headerContent={
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/sops/acknowledgments/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
+        header={
           <Select
             value={selectedSopId}
             onChange={(e) => {

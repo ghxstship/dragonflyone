@@ -43,7 +43,7 @@ const accessLevelLabels: Record<string, string> = {
   vip_only: 'VIP Only',
 };
 
-const accessLevelColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'default'> = {
+const accessLevelColors: Record<string, 'success' | 'warning' | 'error' | 'info' | 'ghost'> = {
   public: 'success',
   restricted: 'warning',
   staff_only: 'error',
@@ -81,7 +81,7 @@ const columns: ListPageColumn<VenueZone>[] = [
     label: 'Access', 
     accessor: 'access_level', 
     render: (value) => (
-      <Badge variant={accessLevelColors[String(value)] || 'default'}>
+      <Badge variant={accessLevelColors[String(value)] || 'ghost'}>
         {accessLevelLabels[String(value)] || String(value)}
       </Badge>
     )
@@ -91,7 +91,7 @@ const columns: ListPageColumn<VenueZone>[] = [
     label: 'Status', 
     accessor: 'is_active', 
     render: (value) => (
-      <Badge variant={value ? 'success' : 'default'}>
+      <Badge variant={value ? 'success' : 'ghost'}>
         {value ? 'ACTIVE' : 'INACTIVE'}
       </Badge>
     )
@@ -216,13 +216,13 @@ function VenueZonesPageContent() {
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Access Level</Body>
-            <Badge variant={accessLevelColors[selectedZone.access_level] || 'default'}>
+            <Badge variant={accessLevelColors[selectedZone.access_level] || 'ghost'}>
               {accessLevelLabels[selectedZone.access_level] || selectedZone.access_level}
             </Badge>
           </Stack>
           <Stack gap={1}>
             <Body className="text-body-sm text-grey-500">Status</Body>
-            <Badge variant={selectedZone.is_active ? 'success' : 'default'}>
+            <Badge variant={selectedZone.is_active ? 'success' : 'ghost'}>
               {selectedZone.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
@@ -289,6 +289,19 @@ function VenueZonesPageContent() {
             ))}
           </Select>
         }
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/venues/zones/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
       />
 
       <RecordFormModal
@@ -299,7 +312,7 @@ function VenueZonesPageContent() {
         fields={formFields}
         onSubmit={handleCreate}
         size="lg"
-        defaultValues={{ 
+        record={{ 
           is_active: true, 
           zone_type: 'other', 
           access_level: 'public',

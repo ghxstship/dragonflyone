@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CheckSquare, AlertTriangle, FileText, Clock, TrendingUp, Users } from 'lucide-react';
+import { CheckSquare, AlertTriangle, FileText, Clock, TrendingUp } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useTaskStats, useContingencyStats, useTasks, useContingencies } from '../../hooks/useTasks';
 import {
@@ -181,10 +181,10 @@ export default function SchedulePage() {
                             </Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2}>
-                            <Badge variant={priorityColors[task.priority] || 'default'}>
+                            <Badge variant={priorityColors[task.priority] || 'ghost'}>
                               {task.priority.toUpperCase()}
                             </Badge>
-                            <Badge variant={statusColors[task.status] || 'default'}>
+                            <Badge variant={statusColors[task.status] || 'ghost'}>
                               {task.status.replace('_', ' ').toUpperCase()}
                             </Badge>
                           </Stack>
@@ -228,10 +228,10 @@ export default function SchedulePage() {
                             </Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2}>
-                            <Badge variant={priorityColors[contingency.severity] || 'default'}>
+                            <Badge variant={priorityColors[contingency.severity] || 'ghost'}>
                               {contingency.severity.toUpperCase()}
                             </Badge>
-                            <Badge variant={statusColors[contingency.status] || 'default'}>
+                            <Badge variant={statusColors[contingency.status] || 'ghost'}>
                               {contingency.status.toUpperCase()}
                             </Badge>
                           </Stack>

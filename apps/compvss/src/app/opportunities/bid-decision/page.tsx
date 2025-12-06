@@ -62,19 +62,13 @@ export default function BidDecisionPage() {
     return Math.round((weightedScore / totalWeight) * 10);
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 70) return "text-success-400";
-    if (score >= 50) return "text-warning-400";
-    return "text-error-400";
-  };
-
-  const getStatusColor = (status: string) => {
+  const getStatusVariant = (status: string): 'success' | 'error' | 'warning' | 'info' | 'ghost' => {
     switch (status) {
-      case "Bid": return "text-success-400";
-      case "No Bid": return "text-error-400";
-      case "Pending Review": return "text-warning-400";
-      case "Under Evaluation": return "text-info-400";
-      default: return "text-ink-400";
+      case "Bid": return "success";
+      case "No Bid": return "error";
+      case "Pending Review": return "warning";
+      case "Under Evaluation": return "info";
+      default: return "ghost";
     }
   };
 
@@ -89,8 +83,8 @@ export default function BidDecisionPage() {
       <EnterprisePageHeader
         title="Bid/No-Bid Decisions"
         subtitle="Opportunity evaluation and decision workflow"
-        views={[{ id: 'default', label: 'Default', icon: 'grid' }]}
-        activeView="default"
+
+
         showFavorite
         showSettings
       />
@@ -139,7 +133,7 @@ export default function BidDecisionPage() {
                         </Stack>
                         <ProgressBar value={score} />
                       </Stack>
-                      <Badge variant={opp.status === "Bid" ? "solid" : "outline"}>{opp.status}</Badge>
+                      <Badge variant={getStatusVariant(opp.status)}>{opp.status}</Badge>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" onClick={() => setSelectedOpp(opp)}>Evaluate</Button>
                       </Stack>
@@ -195,7 +189,7 @@ export default function BidDecisionPage() {
                   {selectedOpp.recommendation && (
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-body-sm">Recommendation</Body>
-                      <Badge variant={selectedOpp.recommendation === "Bid" ? "solid" : "outline"}>{selectedOpp.recommendation}</Badge>
+                      <Badge variant={getStatusVariant(selectedOpp.recommendation)}>{selectedOpp.recommendation}</Badge>
                     </Stack>
                   )}
                 </Stack>

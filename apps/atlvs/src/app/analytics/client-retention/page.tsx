@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Eye, Phone } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
@@ -60,7 +59,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function ClientRetentionPage() {
-  const router = useRouter();
   const [data] = useState<ClientRetention[]>(mockData);
   const [selected, setSelected] = useState<ClientRetention | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -131,11 +129,18 @@ export default function ClientRetentionPage() {
         })}
         stats={stats}
         emptyMessage="No client retention data found"
-        views={[
-          { id: 'list', label: 'List', icon: 'list' },
-          { id: 'grid', label: 'Grid', icon: 'grid' },
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/analytics/client-retention/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
         ]}
-        activeView="list"
         showFavorite
         showSettings
       />

@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     `).eq('status', 'sent').lt('due_date', today);
 
     const { data, error } = await query.order('due_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     // Calculate days overdue and penalties
     const overdueInvoices = data?.map(inv => {

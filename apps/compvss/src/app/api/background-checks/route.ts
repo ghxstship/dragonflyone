@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     if (userId) query = query.eq('user_id', userId);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
     return NextResponse.json({ checks: data });
   } catch (error) {
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
         initiated_by: user.id
       }).select().single();
 
-      if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+      if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
       // In production, this would call external background check API
       // Simulate processing
