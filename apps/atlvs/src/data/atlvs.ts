@@ -1030,7 +1030,7 @@ export const atlvsLandingHero = {
   kicker: "FOR PRODUCTION PROFESSIONALS",
   headline: "SHIP EXPERIENCES. NOT EXCUSES.",
   description:
-    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, venues — if it has a hard open and a million moving parts, this is where you run it.",
+    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, venues — if it has a hard open and a million moving parts, this is where you run it. Up and running in minutes, not months.",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
   tagline: "Where chaos meets its match.",
@@ -1234,9 +1234,9 @@ export const atlvsFeatureGrid = [
   },
   {
     icon: "Zap",
-    title: "AUTOMATIONS",
+    title: "AUTOMATIONS & AI",
     description:
-      "Let the robots handle the boring stuff. Auto-reminders, status updates, approval workflows — you've got more important things to do.",
+      "Smart scheduling, budget forecasting, anomaly detection. Auto-reminders, status updates, approval workflows. Let the robots handle the boring stuff — and predict the problems before they happen.",
   },
   {
     icon: "Puzzle",
@@ -1245,6 +1245,42 @@ export const atlvsFeatureGrid = [
       "Plays nice with Zapier, Make, n8n, QuickBooks, and whatever else you're already using. Your stack, your rules.",
   },
 ];
+
+// Ecosystem section for landing page - THE COMPLETE STACK
+export const atlvsEcosystemSection = {
+  kicker: "THE COMPLETE STACK",
+  headline: "FROM BACK OFFICE TO GUEST EXPERIENCE",
+  description:
+    "Most tools stop at the office door. We built an ecosystem. ATLVS runs your operations. COMPVSS keeps your field crews in sync. GVTEWAY delivers the guest experience. One login. Zero handoff chaos.",
+  platforms: [
+    {
+      id: "atlvs",
+      name: "ATLVS",
+      tagline: "Mission Control",
+      description: "Projects, budgets, assets, vendors — the command center for everything that happens before, during, and after.",
+      icon: "Compass",
+      color: "primary",
+    },
+    {
+      id: "compvss",
+      name: "COMPVSS",
+      tagline: "Field Operations",
+      description: "Crew scheduling, call sheets, check-ins, time tracking — everyone in the field knows exactly what to do and when.",
+      icon: "HardHat",
+      color: "secondary",
+    },
+    {
+      id: "gvteway",
+      name: "GVTEWAY",
+      tagline: "Guest Experience",
+      description: "Ticketing, access control, mobile apps, loyalty — the guest-facing layer that turns operations into experiences.",
+      icon: "Ticket",
+      color: "accent",
+    },
+  ],
+  cta: { label: "EXPLORE THE ECOSYSTEM", href: "/ecosystem" },
+  note: "Use one, two, or all three. They work together or standalone.",
+};
 
 // COMPVSS section for landing page
 export const atlvsCompvssSection = {
@@ -1289,6 +1325,17 @@ export const atlvsSocialProof = {
     { value: "$2.1B", label: "Budgets Tracked" },
     { value: "99.9%", label: "Uptime SLA" },
   ],
+  supportCallout: {
+    headline: "REAL HUMANS. REAL FAST. 24/7.",
+    description:
+      "Support from people who've actually worked shows. Not chatbots. Not 'we'll get back to you Monday.' Questions at 2am before load-in? We're here.",
+    features: [
+      "24/7/365 live support",
+      "Average response time under 5 minutes",
+      "Production veterans on every shift",
+      "No ticket queues, no runaround",
+    ],
+  },
 };
 
 // Pricing tiers for landing page
@@ -1363,7 +1410,8 @@ export const atlvsLandingCta = {
   subheadline: "Join 2,400+ productions that traded chaos for clarity",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "SCHEDULE DEMO", href: "/demo" },
-  footnote: "No credit card required • 14-day free trial • Cancel anytime",
+  footnote: "No credit card required • 14-day free trial • Cancel anytime • Live in minutes, not months",
+  supportNote: "Questions? Real humans answer 24/7.",
 };
 
 // Footer navigation for landing page
