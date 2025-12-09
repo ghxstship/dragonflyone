@@ -1,10 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useNotifications, AuthPage, SignInForm } from "@ghxstship/ui";
+import { useNotifications, AuthPage, SignInForm, Button } from "@ghxstship/ui";
 import { useAuthContext } from "@ghxstship/config";
 import NextLink from "next/link";
-import { CreatorNavigationPublic } from "@/components/navigation";
 
 // =============================================================================
 // SIGN IN PAGE - COMPVSS Authentication
@@ -36,7 +35,16 @@ export default function SignInPage() {
   };
 
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
+    <AuthPage
+      appName="COMPVSS"
+      headerAction={
+        <NextLink href="/auth/signup" className="hidden sm:block">
+          <Button variant="outlineInk" size="sm">
+            Get Started
+          </Button>
+        </NextLink>
+      }
+    >
       <SignInForm
         appName="COMPVSS"
         onSubmit={handleSubmit}

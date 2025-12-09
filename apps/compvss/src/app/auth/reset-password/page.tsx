@@ -15,7 +15,6 @@ import {
   AuthPage,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
-import { CreatorNavigationPublic } from "@/components/navigation";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -64,7 +63,7 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <AuthPage header={<CreatorNavigationPublic />}>
+    <AuthPage appName="COMPVSS">
           <Card variant="elevated" className="p-8">
             {success ? (
               <Stack gap={6} className="text-center">
