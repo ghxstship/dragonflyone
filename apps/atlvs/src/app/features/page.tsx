@@ -194,7 +194,7 @@ export default function FeaturesPage() {
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
           <Grid cols={2} gap={8}>
             {featuresData.categories.map((category) => (
-              <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-md">
+              <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={6}>
                   <Stack direction="horizontal" gap={4} className="items-start">
                     <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">

@@ -1028,9 +1028,9 @@ export const atlvsHero = {
 // Landing page hero for marketing
 export const atlvsLandingHero = {
   kicker: "FOR PRODUCTION PROFESSIONALS",
-  headline: "PRODUCTION MANAGEMENT THAT ACTUALLY WORKS",
+  headline: "SHIP EXPERIENCES. NOT EXCUSES.",
   description:
-    "Look, we get it. You've tried the spreadsheets, the Slack channels, the 2am panic attacks. Time to upgrade to something that doesn't make you want to throw your laptop into the ocean.",
+    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, venues — if it has a hard open and a million moving parts, this is where you run it.",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
   tagline: "Where chaos meets its match.",
@@ -1103,104 +1103,146 @@ export const atlvsProblemSection = {
 // Three pillars for landing page
 export const atlvsPillarsSolution = [
   {
-    id: "project-management",
-    title: "PROJECT MANAGEMENT",
+    id: "single-source",
+    title: "A SINGLE SOURCE OF TRUTH. LITERALLY.",
     description:
-      "From 'wouldn't it be cool if...' to 'we actually pulled it off' — manage every phase with tools built by people who've lived the chaos. Gantt timelines that don't make you want to cry.",
+      "People, gear, money, documents, timelines — stop duct-taping six tools together. One platform that actually talks to itself, so you don't have to play telephone.",
     features: [
-      "Production timelines with dependencies",
-      "Milestone tracking with automated alerts",
-      "Multi-project portfolio views",
-      "Template library for repeatable productions",
+      "Unified project workspace",
+      "Real-time dashboards across all resources",
+      "Cross-functional visibility without the meetings",
+      "Search that actually finds things",
+      "Mobile access for teams in the field",
     ],
-    replaces: "Asana, Monday.com, Smartsheet",
+    replaces: "Airtable + Slack + Sheets + Dropbox + your sanity",
     screenshot: "/images/atlvs-project-dashboard.png",
   },
   {
-    id: "workflow-management",
-    title: "WORKFLOW MANAGEMENT",
+    id: "built-for-physical",
+    title: "BUILT FOR THE PHYSICAL WORLD",
     description:
-      "Artist riders, vendor coordination, approval chains — the stuff that usually falls through the cracks? We built a net. A really good net.",
+      "Software made by people who've loaded trucks at 4am. We know the difference between a Gantt chart and a load-in schedule. This isn't project management cosplay.",
     features: [
-      "Production advancing workflows",
-      "Approval chains with digital sign-off",
-      "Document management and version control",
-      "Automated status updates and notifications",
+      "Production-specific workflows out of the box",
+      "Vendor and contractor coordination",
+      "Equipment tracking from warehouse to site",
+      "Crew scheduling with availability and rates",
+      "Budget tracking that survives scope creep",
     ],
-    replaces: "DocuSign workflows, email chains, paper forms",
+    replaces: "Generic PM tools that don't get it",
     screenshot: "/images/atlvs-workflow-board.png",
   },
   {
-    id: "resource-management",
-    title: "RESOURCE MANAGEMENT",
+    id: "scales-with-you",
+    title: "FROM POPUP TO PORTFOLIO",
     description:
-      "People, equipment, budget — all visible in one place. Know who's where, what's allocated, and how much you've spent before your accountant has a heart attack.",
+      "Whether you're running one activation or fifty festivals, the system grows with you. Same clarity at 10 projects as at 100. No enterprise sales call required.",
     features: [
-      "Crew scheduling and availability",
-      "Equipment inventory and allocation",
-      "Budget tracking with real-time spend",
-      "Vendor and contractor management",
+      "Multi-project portfolio views",
+      "Template library for repeatable productions",
+      "Team permissions that make sense",
+      "Reporting that impresses stakeholders",
+      "Integrations with your existing stack",
     ],
-    replaces: "Sortly, ConnectTeam, spreadsheet budgets",
+    replaces: "The 'we'll figure it out later' approach",
     screenshot: "/images/atlvs-resource-allocation.png",
+  },
+  {
+    id: "no-nickel-diming",
+    title: "UNLIMITED. PERIOD.",
+    description:
+      "No per-seat fees. No per-project limits. No 'call us for enterprise pricing.' Invite your whole crew, every vendor, all your clients. We don't charge you for collaboration.",
+    features: [
+      "Unlimited projects and records",
+      "Unlimited team members and guests",
+      "Unlimited integrations and automations",
+      "Flat pricing that doesn't punish growth",
+      "No surprise invoices when you scale",
+    ],
+    replaces: "Per-seat pricing that kills collaboration",
+    screenshot: "/images/atlvs-team-dashboard.png",
   },
 ];
 
-// Feature grid for landing page
+// Feature grid for landing page - "EVERYTHING YOU NEED TO SHIP THE SHOW"
 export const atlvsFeatureGrid = [
   {
-    icon: "Calendar",
-    title: "PRODUCTION CALENDAR",
+    icon: "FastForward",
+    title: "ADVANCING",
     description:
-      "See everything at once. Load-in, show days, strike — no more 'wait, when was that again?'",
+      "Artist riders, venue specs, vendor coordination — advance every detail before boots hit the ground. No surprises on show day.",
+  },
+  {
+    icon: "ClipboardList",
+    title: "CALL SHEETS & RUN OF SHOW",
+    description:
+      "Generate call sheets in seconds. Build run-of-show docs that actually stay current. Push updates to crew in real-time.",
+  },
+  {
+    icon: "Calendar",
+    title: "PRODUCTION SCHEDULE",
+    description:
+      "Load-in, rehearsals, show days, strike — see everything at once. Drag, drop, done. Conflicts flagged before they become disasters.",
   },
   {
     icon: "Users",
     title: "CREW MANAGEMENT",
     description:
-      "Build your dream team, track availability, juggle multiple shows. Like a circus, but organized.",
+      "Build your dream team, track availability, manage rates. Crew confirmations, check-ins, and time tracking in one place.",
   },
   {
     icon: "Box",
-    title: "INVENTORY",
+    title: "INVENTORY & GEAR",
     description:
-      "Track every piece of gear from warehouse to site and back. No more 'who had the cables last?'",
+      "Track every piece of gear from warehouse to site and back. QR scanning, maintenance logs, and 'who had the cables last?' solved forever.",
   },
   {
     icon: "FileText",
     title: "DOCUMENT HUB",
     description:
-      "Contracts, riders, tech specs — organized, versioned, and findable. Revolutionary, we know.",
+      "Contracts, riders, tech specs, CADs — organized, versioned, and actually findable. Share with vendors without the email chaos.",
   },
   {
     icon: "DollarSign",
     title: "BUDGET & FINANCE",
     description:
-      "Real-time budget tracking so you know when you're about to blow it, not after.",
+      "Real-time budget tracking, PO management, invoice matching. Know when you're about to blow it, not after the wrap party.",
   },
   {
-    icon: "Zap",
-    title: "AUTOMATIONS",
+    icon: "MessageSquare",
+    title: "REAL-TIME COLLABORATION",
     description:
-      "Let the robots handle the boring stuff. You've got more important things to do.",
-  },
-  {
-    icon: "BarChart",
-    title: "ANALYTICS & REPORTS",
-    description:
-      "Numbers that actually mean something. Impress your stakeholders. Impress yourself.",
+      "Comments, mentions, approvals — keep everyone in sync without the Slack spaghetti. One source of truth, zero 'did you see my message?'",
   },
   {
     icon: "Shield",
     title: "COMPLIANCE & SAFETY",
     description:
-      "Union rules, safety briefings, incident reporting — stay compliant without the headache.",
+      "Union rules, safety briefings, incident reporting, certifications — stay compliant without the headache. Audit trails included.",
+  },
+  {
+    icon: "Smartphone",
+    title: "MOBILE & FIELD OPS",
+    description:
+      "Full access from the field. Check-ins, time tracking, photo uploads, issue reporting — your crew stays connected, not tethered to a desk.",
+  },
+  {
+    icon: "BarChart",
+    title: "ANALYTICS & REPORTS",
+    description:
+      "Numbers that actually mean something. Wrap reports, crew utilization, budget variance — impress your stakeholders. Impress yourself.",
+  },
+  {
+    icon: "Zap",
+    title: "AUTOMATIONS",
+    description:
+      "Let the robots handle the boring stuff. Auto-reminders, status updates, approval workflows — you've got more important things to do.",
   },
   {
     icon: "Puzzle",
     title: "INTEGRATIONS",
     description:
-      "Plays nice with Zapier, Make, n8n, and whatever else you're already using.",
+      "Plays nice with Zapier, Make, n8n, QuickBooks, and whatever else you're already using. Your stack, your rules.",
   },
 ];
 

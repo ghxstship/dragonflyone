@@ -166,7 +166,7 @@ export default function InstallationsPage() {
             {installationsData.features.map((feature) => (
               <Card
                 key={feature.title}
-                className="flex flex-col border-2 border-ink-950 bg-white p-6 shadow-md"
+                className="flex flex-col border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"
               >
                 <Stack gap={4}>
                   <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
@@ -194,7 +194,7 @@ export default function InstallationsPage() {
 
           <Grid cols={4} gap={6}>
             {installationsData.useCases.map((useCase) => (
-              <Card key={useCase.title} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
+              <Card key={useCase.title} inverted className="border-2 border-ink-800 bg-ink-900 p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={4}>
                   <H3 size="sm" className="text-white">
                     {useCase.title}

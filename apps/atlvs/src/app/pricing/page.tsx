@@ -127,11 +127,7 @@ export default function PricingPage() {
             {pricingData.plans.map((plan) => (
               <Card
                 key={plan.name}
-                className={`relative border-2 p-8 shadow-md ${
-                  plan.popular
-                    ? "border-brand-pink bg-white shadow-brand-lg"
-                    : "border-ink-950 bg-white"
-                }`}
+                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"
               >
                 {plan.popular && (
                   <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">
@@ -190,7 +186,7 @@ export default function PricingPage() {
 
           <Grid cols={2} gap={6}>
             {pricingData.faq.map((item) => (
-              <Card key={item.question} className="border-2 border-ink-950 bg-white p-6 shadow-sm">
+              <Card key={item.question} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={3}>
                   <H3 size="sm" className="text-ink-950">{item.question}</H3>
                   <Body size="sm" className="text-grey-600">{item.answer}</Body>

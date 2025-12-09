@@ -130,7 +130,7 @@ export default function Home() {
           </Stack>
           <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
             {atlvsVerticals.map((vertical) => (
-              <Article key={vertical.id} className="group border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
+              <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
                   {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
                   {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
@@ -138,7 +138,7 @@ export default function Home() {
                   {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-ink-950" />}
                 </Box>
                 <H3 className="font-display text-h5-md uppercase tracking-label text-ink-950">{vertical.title}</H3>
-                <Body className="mt-3 text-body-sm text-grey-600">{vertical.description}</Body>
+                <Body className="mt-3 flex-1 text-body-sm text-grey-600">{vertical.description}</Body>
                 <List className="mt-4 space-y-1">
                   {vertical.features.map((feature) => (
                     <ListItem key={feature} className="font-mono text-mono-xs uppercase tracking-label text-grey-500">{feature}</ListItem>
@@ -161,7 +161,7 @@ export default function Home() {
           </H1>
           <Grid cols={3} gap={6} className="mt-12 md:grid-cols-3">
             {atlvsProblemSection.problems.map((problem) => (
-              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6">
+              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
                   {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-grey-400" />}
                   {problem.icon === "silos" && <Link2 className="h-6 w-6 text-grey-400" />}
@@ -215,7 +215,7 @@ export default function Home() {
           <H1 className="text-center text-ink-950">EVERYTHING YOU NEED TO SHIP THE SHOW</H1>
           <Grid cols={3} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-3">
             {atlvsFeatureGrid.map((feature) => (
-              <Article key={feature.title} className="border-2 border-grey-200 bg-white p-6 transition-all duration-150 hover:border-ink-950 hover:shadow-subtle-sm">
+              <Article key={feature.title} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
                   {feature.icon === "Calendar" && <Calendar className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Users" && <Users className="h-5 w-5 text-ink-950" />}
@@ -303,11 +303,7 @@ export default function Home() {
             {atlvsPricing.tiers.map((tier) => (
               <Card
                 key={tier.id}
-                className={`relative flex h-full flex-col border-2 p-8 ${
-                  tier.popular
-                    ? "border-brand-pink shadow-brand-md"
-                    : "border-ink-950 shadow-md"
-                } bg-white`}
+                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"
               >
                 {tier.popular && (
                   <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-4 py-1 text-white">
