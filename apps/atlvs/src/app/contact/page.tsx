@@ -70,7 +70,7 @@ export default function ContactPage() {
       {/* Contact Options */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {contactData.options.map((option) => (
               <Card key={option.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
                 <Stack gap={4}>
@@ -107,7 +107,7 @@ export default function ContactPage() {
 
               <form>
                 <Stack gap={6}>
-                  <Grid cols={2} gap={6}>
+                  <Grid cols={2} gap={6} className="sm:grid-cols-1">
                     <Stack gap={2}>
                       <Label size="xs" className="text-ink-950">
                         FIRST NAME

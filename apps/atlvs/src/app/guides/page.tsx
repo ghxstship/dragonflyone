@@ -107,7 +107,7 @@ export default function GuidesPage() {
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <NextLink href={`/guides/${guidesData.featured.slug}`}>
             <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
-              <Stack direction="horizontal" className="items-center justify-between gap-8">
+              <Stack direction="horizontal" className="flex-col items-center justify-between gap-8 sm:flex-row">
                 <Stack gap={4}>
                   <Badge variant="outline" className="w-fit border-brand-pink text-brand-pink">
                     COMPREHENSIVE GUIDE
@@ -139,7 +139,7 @@ export default function GuidesPage() {
       {/* Guide Categories */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={2} gap={8}>
+          <Grid cols={2} gap={8} className="sm:grid-cols-1">
             {guidesData.categories.map((category) => (
               <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-md">
                 <Stack gap={6}>
@@ -179,7 +179,7 @@ export default function GuidesPage() {
             </Body>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {guidesData.popular.map((guide) => (
               <Card key={guide.slug} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
                 <Stack gap={4}>

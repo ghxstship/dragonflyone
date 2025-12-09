@@ -141,7 +141,7 @@ export default function IntegrationsPage() {
             Monitor active sync jobs and integration health.
           </Body>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-1">
             <StatCard
               value={12}
               label="ATLVS → COMPVSS"

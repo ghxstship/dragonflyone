@@ -30,10 +30,10 @@ export function CreatorNavigationPublic() {
       <header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
         <Stack
           direction="horizontal"
-          className="mx-auto max-w-6xl items-center justify-between px-6 py-6 lg:px-8"
+          className="mx-auto max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-6 lg:px-8"
         >
           {/* Logo */}
-          <Link href="/" className="font-display text-h2-md uppercase text-white">
+          <Link href="/" className="font-display text-h3-md uppercase text-white sm:text-h2-md">
             ATLVS
           </Link>
 
@@ -106,8 +106,8 @@ export function CreatorNavigationPublic() {
 
       {/* Mobile Navigation Overlay */}
       {isOpen && (
-        <Stack className="fixed inset-0 z-modal-backdrop bg-ink-950/95 p-6 animate-in fade-in md:hidden">
-          <Stack className="h-full justify-between pt-16">
+        <Stack className="fixed inset-0 z-modal-backdrop bg-ink-950/95 p-4 animate-in fade-in sm:p-6 md:hidden">
+          <Stack className="h-full justify-between pt-20">
             <Stack gap={6}>
               {atlvsLandingNavigation.map((item) => (
                 <Link

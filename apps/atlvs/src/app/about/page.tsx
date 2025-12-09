@@ -72,7 +72,7 @@ export default function AboutPage() {
       {/* Stats */}
       <FullBleedSection background="white" className="py-16">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={8}>
+          <Grid cols={4} gap={8} className="sm:grid-cols-2">
             {aboutData.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
                 <Display size="md" className="text-ink-950">
@@ -94,7 +94,7 @@ export default function AboutPage() {
             <H1 className="text-ink-950">OUR VALUES</H1>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {aboutData.values.map((value) => (
               <Card key={value.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
                 <Stack gap={4}>
@@ -121,7 +121,7 @@ export default function AboutPage() {
             <H1 className="text-white">{aboutData.team.title}</H1>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {aboutData.team.members.map((member) => (
               <Card key={member.name} inverted className="border-2 border-ink-800 bg-ink-900 p-6">
                 <Stack gap={4}>

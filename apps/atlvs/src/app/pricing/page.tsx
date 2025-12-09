@@ -123,7 +123,7 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {pricingData.plans.map((plan) => (
               <Card
                 key={plan.name}
@@ -184,7 +184,7 @@ export default function PricingPage() {
             <H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1>
           </Stack>
 
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1">
             {pricingData.faq.map((item) => (
               <Card key={item.question} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={3}>

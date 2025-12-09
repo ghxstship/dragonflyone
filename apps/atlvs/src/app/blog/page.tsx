@@ -116,7 +116,7 @@ export default function BlogPage() {
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <NextLink href={`/blog/${blogData.featured.slug}`}>
             <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
-              <Grid cols={2} gap={8} className="items-center">
+              <Grid cols={2} gap={8} className="items-center sm:grid-cols-1">
                 <Stack className="flex aspect-video items-center justify-center border-2 border-ink-950 bg-grey-100">
                   <Label size="sm" className="text-grey-400">Featured Image</Label>
                 </Stack>
@@ -169,7 +169,7 @@ export default function BlogPage() {
       {/* Posts Grid */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {blogData.posts.map((post) => (
               <NextLink key={post.slug} href={`/blog/${post.slug}`}>
                 <Card className="border-2 border-ink-950 bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">

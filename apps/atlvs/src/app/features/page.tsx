@@ -173,7 +173,7 @@ export default function FeaturesPage() {
       {/* Highlights */}
       <FullBleedSection background="white" className="py-16">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={8}>
+          <Grid cols={3} gap={8} className="sm:grid-cols-1">
             {featuresData.highlights.map((item) => (
               <Stack key={item.title} direction="horizontal" gap={4} className="items-center">
                 <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
@@ -192,7 +192,7 @@ export default function FeaturesPage() {
       {/* Feature Categories */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <Grid cols={2} gap={8}>
+          <Grid cols={2} gap={8} className="sm:grid-cols-1">
             {featuresData.categories.map((category) => (
               <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={6}>
@@ -207,7 +207,7 @@ export default function FeaturesPage() {
                       </Body>
                     </Stack>
                   </Stack>
-                  <Grid cols={2} gap={2}>
+                  <Grid cols={2} gap={2} className="sm:grid-cols-1">
                     {category.features.map((feature) => (
                       <Label key={feature} size="xs" className="text-grey-600">
                         {feature}

@@ -113,8 +113,8 @@ export default function CaseStudiesPage() {
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white shadow-brand-lg">
-            <Grid cols={2}>
-              <Stack className="flex items-center justify-center border-r-2 border-ink-950 bg-grey-100 p-12">
+            <Grid cols={2} className="sm:grid-cols-1">
+              <Stack className="flex items-center justify-center border-r-2 border-ink-950 bg-grey-100 p-12 sm:border-r-0 sm:border-b-2">
                 <Display size="lg" className="text-ink-950">{caseStudiesData.featured.company}</Display>
               </Stack>
               <Stack gap={6} className="p-12">
@@ -126,7 +126,7 @@ export default function CaseStudiesPage() {
                   {caseStudiesData.featured.excerpt}
                 </Body>
 
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-3">
                   {caseStudiesData.featured.stats.map((stat) => (
                     <Stack key={stat.label} className="text-center">
                       <Display size="md" className="text-brand-pink">{stat.value}</Display>
@@ -178,7 +178,7 @@ export default function CaseStudiesPage() {
       {/* Case Studies Grid */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {caseStudiesData.studies.map((study) => (
               <NextLink key={study.slug} href={`/case-studies/${study.slug}`}>
                 <Card className="border-2 border-ink-950 bg-white shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">

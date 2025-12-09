@@ -41,7 +41,7 @@ export default function DemoPage() {
       {/* Hero Section */}
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={2} gap={12} className="items-center">
+          <Grid cols={2} gap={12} className="items-center sm:grid-cols-1">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Play className="size-6 text-brand-pink" />
@@ -87,7 +87,7 @@ export default function DemoPage() {
       {/* Stats */}
       <FullBleedSection background="white" className="py-16">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={8}>
+          <Grid cols={3} gap={8} className="sm:grid-cols-1">
             {demoData.stats.map((stat) => (
               <Stack key={stat.label} className="items-center text-center">
                 <stat.icon className="mb-4 size-8 text-brand-pink" />
@@ -117,7 +117,7 @@ export default function DemoPage() {
 
               <form>
                 <Stack gap={6}>
-                  <Grid cols={2} gap={6}>
+                  <Grid cols={2} gap={6} className="sm:grid-cols-1">
                     <Stack gap={2}>
                       <Label size="xs" className="text-ink-950">
                         FIRST NAME

@@ -65,7 +65,7 @@ export default function Home() {
       {/* SECTION 1: HERO */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="relative min-h-screen">
         <Container className="relative mx-auto max-w-container-6xl px-6 py-16 lg:px-8 lg:py-24">
-          <Grid cols={2} gap={12} className="items-center lg:grid-cols-2">
+          <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Label className="font-mono text-mono-sm uppercase tracking-label text-grey-500">
                 {atlvsLandingHero.kicker}
@@ -128,7 +128,7 @@ export default function Home() {
             <H1 className="text-ink-950">BUILT FOR YOUR INDUSTRY</H1>
             <Body className="text-grey-600">Four verticals. One platform. Infinite possibilities.</Body>
           </Stack>
-          <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
+          <Grid cols={4} gap={6} className="mt-12">
             {atlvsVerticals.map((vertical) => (
               <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
@@ -159,7 +159,7 @@ export default function Home() {
           <H1 className="text-center text-white">
             {atlvsProblemSection.headline}
           </H1>
-          <Grid cols={3} gap={6} className="mt-12 md:grid-cols-3">
+          <Grid cols={3} gap={6} className="mt-12">
             {atlvsProblemSection.problems.map((problem) => (
               <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
@@ -213,7 +213,7 @@ export default function Home() {
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
           <H1 className="text-center text-ink-950">EVERYTHING YOU NEED TO SHIP THE SHOW</H1>
-          <Grid cols={3} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-3">
+          <Grid cols={3} gap={6} className="mt-12">
             {atlvsFeatureGrid.map((feature) => (
               <Article key={feature.title} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
@@ -244,7 +244,7 @@ export default function Home() {
             <Body className="mt-4 text-body-lg text-grey-400">{atlvsCompvssSection.subtitle}</Body>
             <Box className="my-8 h-px bg-grey-700" />
             <Body className="max-w-3xl text-body-md text-grey-300">{atlvsCompvssSection.description}</Body>
-            <Grid cols={3} gap={6} className="mt-8 md:grid-cols-3">
+            <Grid cols={3} gap={6} className="mt-8">
               {atlvsCompvssSection.features.map((feature) => (
                 <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-4">
                   <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
@@ -280,7 +280,7 @@ export default function Home() {
               — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}
             </Text>
           </Article>
-          <Grid cols={4} gap={6} className="mt-12 md:grid-cols-2 lg:grid-cols-4">
+          <Grid cols={4} gap={6} className="mt-12">
             {atlvsSocialProof.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
                 <Display className="font-display text-display-sm uppercase text-ink-950">{stat.value}</Display>

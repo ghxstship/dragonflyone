@@ -110,7 +110,7 @@ export default function CareersPage() {
             </Body>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {careersData.perks.map((perk) => (
               <Card key={perk.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
                 <Stack gap={4}>
@@ -153,16 +153,16 @@ export default function CareersPage() {
           <Stack gap={4}>
             {careersData.openings.map((job) => (
               <Card key={job.title} className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
-                <Stack direction="horizontal" className="items-start justify-between gap-6">
+                <Stack direction="horizontal" className="flex-col items-start justify-between gap-6 sm:flex-row">
                   <Stack gap={3} className="flex-1">
-                    <Stack direction="horizontal" gap={3} className="items-center">
+                    <Stack direction="horizontal" gap={3} className="flex-wrap items-center">
                       <H3 className="text-ink-950">{job.title}</H3>
                       <Badge variant="outline">{job.department}</Badge>
                     </Stack>
                     <Body size="sm" className="text-grey-600">
                       {job.description}
                     </Body>
-                    <Stack direction="horizontal" gap={4} className="text-grey-500">
+                    <Stack direction="horizontal" gap={4} className="flex-wrap text-grey-500">
                       <Stack direction="horizontal" gap={1} className="items-center">
                         <MapPin className="size-4" />
                         <Label size="xs">{job.location}</Label>
@@ -177,8 +177,8 @@ export default function CareersPage() {
                       </Stack>
                     </Stack>
                   </Stack>
-                  <NextLink href={`/careers/${job.title.toLowerCase().replace(/\s+/g, "-")}`}>
-                    <Button variant="outline" size="sm" icon={<ArrowRight />}>
+                  <NextLink href={`/careers/${job.title.toLowerCase().replace(/\s+/g, "-")}`} className="w-full sm:w-auto">
+                    <Button variant="outline" size="sm" icon={<ArrowRight />} fullWidth className="sm:w-auto">
                       Apply
                     </Button>
                   </NextLink>

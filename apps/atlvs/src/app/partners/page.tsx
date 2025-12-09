@@ -81,7 +81,7 @@ export default function PartnersPage() {
       {/* Stats */}
       <FullBleedSection background="white" className="py-16">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={8}>
+          <Grid cols={4} gap={8} className="sm:grid-cols-2">
             {partnersData.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
                 <Display size="md" className="text-ink-950">
@@ -106,7 +106,7 @@ export default function PartnersPage() {
             </Body>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {partnersData.partnerTypes.map((type) => (
               <Card key={type.title} className="border-2 border-ink-950 bg-white p-8 shadow-md">
                 <Stack gap={6}>

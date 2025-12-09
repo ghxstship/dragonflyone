@@ -89,7 +89,7 @@ export default function PressPage() {
             <H1 className="text-ink-950">IN THE NEWS</H1>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {pressData.featuredNews.map((item) => (
               <Card key={item.title} className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
                 <Stack gap={4}>
@@ -118,7 +118,7 @@ export default function PressPage() {
       {/* Press Releases */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
         <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={2} gap={12}>
+          <Grid cols={2} gap={12} className="sm:grid-cols-1">
             <Stack gap={8}>
               <H1 className="text-ink-950">PRESS RELEASES</H1>
               <Stack gap={4}>
