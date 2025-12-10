@@ -100,26 +100,41 @@ export async function GET(request: NextRequest) {
     }
 
     // Default: return all preferred vendors
-    const { data: preferred, error } = await supabase
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
+
+    const { data: preferred, error, count } = await supabase
       .from('preferred_vendors')
       .select(`
-        *,
+        id, category, priority, negotiated_discount, status, valid_from, valid_to, created_at,
         vendor:vendors(id, name, email, rating),
         contract:contracts(id, name, end_date)
-      `)
+      `, { count: 'exact' })
       .eq('status', 'active')
       .order('category', { ascending: true })
-      .order('priority', { ascending: true });
+      .order('priority', { ascending: true })
+      .range(offset, offset + limit - 1);
 
     if (error) throw error;
 
     // Get categories
     const categories = [...new Set(preferred?.map(p => p.category))];
 
+    const totalCount = count || (preferred?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (preferred?.length ?? 0) < totalCount,
+    };
+
     return NextResponse.json({
       preferred_vendors: preferred,
       categories,
-      total: preferred?.length || 0,
+      total: totalCount,
+      pagination,
     });
   } catch (error) {
     Logger.error('Preferred vendors error:', error);

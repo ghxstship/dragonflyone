@@ -15,14 +15,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type'); // 'trademark', 'copyright', 'patent', 'trade_secret', 'all'
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('intellectual_property')
       .select(`
-        *,
+        id, name, ip_type, registration_number, status, filing_date, registration_date, renewal_date, created_at,
         owner:platform_users!owner_id(id, email, first_name, last_name),
-        documents:ip_documents(*)
-      `);
+        documents:ip_documents(id, name, file_url)
+      `, { count: 'exact' });
 
     if (type && type !== 'all') {
       query = query.eq('ip_type', type);
@@ -32,7 +35,9 @@ export async function GET(request: NextRequest) {
       query = query.eq('status', status);
     }
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -46,16 +51,26 @@ export async function GET(request: NextRequest) {
       ip => ip.renewal_date && new Date(ip.renewal_date) <= thirtyDaysFromNow
     );
 
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
     return NextResponse.json({
       intellectual_property: data,
       upcoming_renewals: upcomingRenewals,
       stats: {
-        total: data.length,
+        total: totalCount,
         by_type: data.reduce((acc: Record<string, number>, ip) => {
           acc[ip.ip_type] = (acc[ip.ip_type] || 0) + 1;
           return acc;
         }, {}),
       },
+      pagination,
     });
   } catch (error) {
     return NextResponse.json(

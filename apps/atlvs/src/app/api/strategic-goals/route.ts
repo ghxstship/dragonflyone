@@ -9,13 +9,16 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('strategic_goals')
       .select(`
-        *,
+        id, name, description, category, target_date, status, progress, created_at,
         owner:platform_users(id, first_name, last_name)
-      `)
+      `, { count: 'exact' })
       .order('target_date', { ascending: true });
 
     if (category) {
@@ -26,7 +29,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('status', status);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -37,7 +40,16 @@ export async function GET(request: NextRequest) {
       owner: g.owner ? `${g.owner.first_name} ${g.owner.last_name}` : 'Unassigned',
     })) || [];
 
-    return NextResponse.json({ goals });
+    const totalCount = count || (goals?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (goals?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ goals, pagination });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },
