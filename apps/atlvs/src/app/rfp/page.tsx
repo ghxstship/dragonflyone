@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Upload, Pencil } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,22 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface RFP {
-  id: string;
-  title: string;
-  description: string;
-  project_type: string;
-  budget_min: number;
-  budget_max: number;
-  status: string;
-  deadline: string;
-  submission_deadline: string;
-  responses?: { count: number }[];
-  created_by_user?: { id: string; full_name: string; email: string };
-  created_at: string;
-  [key: string]: unknown;
-}
+import { useRFPData, type RFP } from "@/hooks/useRFP";
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -55,36 +40,23 @@ const filters: ListPageFilter[] = [
 
 export default function RFPPage() {
   const router = useRouter();
-  const [rfps, setRfps] = useState<RFP[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    rfps,
+    openCount,
+    totalResponses,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useRFPData();
+
   const [selectedRfp, setSelectedRfp] = useState<RFP | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchRFPs = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/rfp');
-      if (!response.ok) throw new Error("Failed to fetch RFPs");
-      const data = await response.json();
-      setRfps(data.rfps || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchRFPs(); }, [fetchRFPs]);
-
-  const totalBudget = rfps.reduce((sum, r) => sum + (Number(r.budget_max) || 0), 0);
-  const openCount = rfps.filter(r => r.status === "open" || r.status === "draft").length;
-  const totalResponses = rfps.reduce((sum, r) => sum + (r.responses?.[0]?.count || 0), 0);
+  const totalBudget = rfps.reduce((sum: number, r: RFP) => sum + (Number(r.budget_max) || 0), 0);
 
   const rowActions: ListPageAction<RFP>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRfp(r); setDrawerOpen(true); } },
-    { id: 'publish', label: 'Publish', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); fetchRFPs(); } },
+    { id: 'publish', label: 'Publish', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/rfp/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: 'open' }) }); refetch(); } },
   ];
 
   // Import handler for CSV/JSON files
@@ -99,7 +71,7 @@ export default function RFPPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchRFPs();
+      refetch();
     },
   });
 

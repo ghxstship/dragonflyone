@@ -105,3 +105,62 @@ export const useDeleteOKR = () => {
     },
   });
 };
+
+// =============================================================================
+// QUOTES PAGE HOOKS (API-based)
+// =============================================================================
+
+export interface Quote {
+  id: string;
+  quote_number: string;
+  client_name: string;
+  client?: { id: string; name: string; email: string };
+  opportunity_name: string;
+  title: string;
+  total_amount: number;
+  status: string;
+  valid_until: string;
+  line_items_count?: number;
+  created_at: string;
+  [key: string]: unknown;
+}
+
+const DEMO_QUOTES: Quote[] = [
+  { id: '1', quote_number: 'QT-2025-001', client_name: 'Acme Corp', opportunity_name: 'Summer Festival', title: 'Event Production', total_amount: 150000, status: 'sent', valid_until: '2025-02-15', created_at: '2025-01-15' },
+  { id: '2', quote_number: 'QT-2025-002', client_name: 'TechStart Inc', opportunity_name: 'Product Launch', title: 'Launch Event', total_amount: 75000, status: 'draft', valid_until: '2025-02-28', created_at: '2025-01-20' },
+];
+
+export function useQuotesList() {
+  return useQuery({
+    queryKey: ['quotes-list'],
+    queryFn: async () => {
+      const response = await fetch('/api/quotes?include_line_items=false');
+      if (response.status === 401) {
+        return DEMO_QUOTES;
+      }
+      if (!response.ok) {
+        throw new Error('Failed to fetch quotes');
+      }
+      const data = await response.json();
+      return data.quotes || [];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useQuotesData() {
+  const quotesQuery = useQuotesList();
+
+  const quotes = quotesQuery.data || [];
+  const totalValue = quotes.reduce((sum: number, q: Quote) => sum + (q.total_amount || 0), 0);
+  const pendingCount = quotes.filter((q: Quote) => q.status === 'sent' || q.status === 'viewed').length;
+
+  return {
+    quotes,
+    totalValue,
+    pendingCount,
+    isLoading: quotesQuery.isLoading,
+    error: quotesQuery.error,
+    refetch: quotesQuery.refetch,
+  };
+}

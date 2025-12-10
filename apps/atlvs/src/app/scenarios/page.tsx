@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, BarChart3 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -18,28 +18,7 @@ import {
   type FormFieldConfig,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates, log} from '@ghxstship/config';
-
-interface Scenario {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  scenario_type: string;
-  revenue_forecast: number;
-  cost_forecast: number;
-  probability: number;
-  impact_level: string;
-  assumptions: string[];
-  status: string;
-  created_at: string;
-}
-
-interface ScenarioSummary {
-  total: number;
-  best_case_revenue: number;
-  base_case_revenue: number;
-  worst_case_revenue: number;
-}
+import { useScenariosData, type Scenario } from "@/hooks/useScenarios";
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -113,33 +92,18 @@ const formFields: FormFieldConfig[] = [
 
 export default function ScenariosPage() {
   const router = useRouter();
-  const [scenarios, setScenarios] = useState<Scenario[]>([]);
-  const [summary, setSummary] = useState<ScenarioSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    scenarios,
+    summary,
+    isLoading: loading,
+    error,
+    createScenario,
+    refetch,
+  } = useScenariosData();
+
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
-
-  const fetchScenarios = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/scenarios');
-      if (!response.ok) throw new Error("Failed to fetch scenarios");
-      const data = await response.json();
-      setScenarios(data.scenarios || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchScenarios();
-  }, [fetchScenarios]);
 
   const rowActions: ListPageAction<Scenario>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedScenario(r); setDrawerOpen(true); } },
@@ -149,15 +113,8 @@ export default function ScenariosPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
-      const response = await fetch('/api/scenarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (response.ok) {
-        setCreateModalOpen(false);
-        fetchScenarios();
-      }
+      await createScenario(data);
+      setCreateModalOpen(false);
     } catch (err) {
       log.error('Failed to create scenario:', err instanceof Error ? err : undefined);
     }

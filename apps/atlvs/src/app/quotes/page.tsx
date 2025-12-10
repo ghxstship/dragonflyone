@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Upload } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,21 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Quote {
-  id: string;
-  quote_number: string;
-  client_name: string;
-  client?: { id: string; name: string; email: string };
-  opportunity_name: string;
-  title: string;
-  total_amount: number;
-  status: string;
-  valid_until: string;
-  line_items_count?: number;
-  created_at: string;
-  [key: string]: unknown;
-}
+import { useQuotesData, type Quote } from "@/hooks/useQuotes";
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -55,37 +41,25 @@ const filters: ListPageFilter[] = [
 
 export default function QuotesPage() {
   const router = useRouter();
-  const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    quotes,
+    totalValue,
+    pendingCount,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuotesData();
+
   const [selectedQuote, setSelectedQuote] = useState<Quote | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchQuotes = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/quotes?include_line_items=false');
-      if (!response.ok) throw new Error("Failed to fetch quotes");
-      const data = await response.json();
-      setQuotes(data.quotes || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchQuotes(); }, [fetchQuotes]);
-
-  const acceptedCount = quotes.filter(q => q.status === 'accepted').length;
-  const totalValue = quotes.reduce((sum, q) => sum + (Number(q.total_amount) || 0), 0);
+  const acceptedCount = quotes.filter((q: Quote) => q.status === 'accepted').length;
   const winRate = quotes.length > 0 ? Math.round((acceptedCount / quotes.length) * 100) : 0;
 
   const rowActions: ListPageAction<Quote>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedQuote(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/quotes/${r.id}`) },
-    { id: 'send', label: 'Send', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch('/api/quotes', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quote_id: r.id, action: 'send' }) }); fetchQuotes(); } },
+    { id: 'send', label: 'Send', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch('/api/quotes', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ quote_id: r.id, action: 'send' }) }); refetch(); } },
   ];
 
   // Import handler for CSV/JSON files
@@ -100,7 +74,7 @@ export default function QuotesPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchQuotes();
+      refetch();
     },
   });
 
