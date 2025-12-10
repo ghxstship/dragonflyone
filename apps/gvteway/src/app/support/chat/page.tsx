@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -21,64 +20,35 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Message {
-  id: string;
-  sender: 'user' | 'agent' | 'system';
-  content: string;
-  timestamp: string;
-  agent_name?: string;
-}
-
-interface Conversation {
-  id: string;
-  subject: string;
-  status: 'open' | 'waiting' | 'resolved';
-  event_id?: string;
-  event_title?: string;
-  created_at: string;
-  messages: Message[];
-}
+import { useSupportChatData, type Conversation } from '@/hooks/useSupportChat';
 
 function SupportChatContent() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
   const orderId = searchParams.get('order');
   
-  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
   const [newMessage, setNewMessage] = useState('');
   const [showNewChat, setShowNewChat] = useState(false);
   const [newSubject, setNewSubject] = useState('');
   const [newCategory, setNewCategory] = useState('general');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const fetchConversations = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/support/conversations');
-      if (response.ok) {
-        const data = await response.json();
-        setConversations(data.conversations || []);
-        
-        // Auto-select first open conversation or create new if event/order specified
-        if (data.conversations?.length > 0 && !activeConversation) {
-          const open = data.conversations.find((c: Conversation) => c.status === 'open');
-          if (open) setActiveConversation(open);
-        }
-      }
-    } catch (err) {
-      log.error('Failed to fetch conversations');
-    } finally {
-      setLoading(false);
-    }
-  }, [activeConversation]);
+  const {
+    conversations,
+    isLoading: loading,
+    refetch,
+    sendMessage,
+    isSending: sending,
+    createConversation,
+  } = useSupportChatData();
 
   useEffect(() => {
-    fetchConversations();
-  }, [fetchConversations]);
+    if (conversations.length > 0 && !activeConversation) {
+      const open = conversations.find((c: Conversation) => c.status === 'open');
+      if (open) setActiveConversation(open);
+    }
+  }, [conversations, activeConversation]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -89,53 +59,32 @@ function SupportChatContent() {
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !activeConversation) return;
 
-    setSending(true);
     try {
-      const response = await fetch(`/api/support/conversations/${activeConversation.id}/messages`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newMessage }),
-      });
-
-      if (response.ok) {
-        setNewMessage('');
-        fetchConversations();
-      }
-    } catch (err) {
-      log.error('Failed to send message');
-    } finally {
-      setSending(false);
+      await sendMessage({ conversationId: activeConversation.id, content: newMessage });
+      setNewMessage('');
+      refetch();
+    } catch {
+      // Error handled by hook
     }
   };
 
   const handleStartNewChat = async () => {
     if (!newSubject.trim()) return;
 
-    setSending(true);
     try {
-      const response = await fetch('/api/support/conversations', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subject: newSubject,
-          category: newCategory,
-          event_id: eventId,
-          order_id: orderId,
-        }),
+      const data = await createConversation({
+        subject: newSubject,
+        category: newCategory,
+        eventId: eventId || undefined,
+        orderId: orderId || undefined,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setShowNewChat(false);
-        setNewSubject('');
-        setNewCategory('general');
-        fetchConversations();
-        setActiveConversation(data.conversation);
-      }
-    } catch (err) {
-      log.error('Failed to create conversation');
-    } finally {
-      setSending(false);
+      setShowNewChat(false);
+      setNewSubject('');
+      setNewCategory('general');
+      refetch();
+      setActiveConversation(data.conversation);
+    } catch {
+      // Error handled by hook
     }
   };
 

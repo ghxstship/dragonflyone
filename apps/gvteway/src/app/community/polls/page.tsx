@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -17,83 +16,34 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface PollOption {
-  id: string;
-  text: string;
-  votes: number;
-  percentage: number;
-}
-
-interface Poll {
-  id: string;
-  question: string;
-  description?: string;
-  options: PollOption[];
-  total_votes: number;
-  status: 'active' | 'closed' | 'upcoming';
-  ends_at?: string;
-  created_at: string;
-  event_id?: string;
-  event_title?: string;
-  user_voted?: string;
-  category: string;
-}
+import { useCommunityPollsData } from '@/hooks/useCommunityPolls';
 
 export default function CommunityPollsPage() {
-  const [polls, setPolls] = useState<Poll[]>([]);
-  const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [filter, setFilter] = useState('active');
   const [category, setCategory] = useState('all');
 
-  const fetchPolls = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        status: filter,
-        ...(category !== 'all' && { category }),
-      });
-
-      const response = await fetch(`/api/community/polls?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setPolls(data.polls || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch polls');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter, category]);
-
-  useEffect(() => {
-    fetchPolls();
-  }, [fetchPolls]);
+  const {
+    polls,
+    isLoading: loading,
+    error,
+    refetch,
+    vote,
+  } = useCommunityPollsData({ status: filter, category });
 
   const handleVote = async (pollId: string, optionId: string) => {
     setVoting(pollId);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch(`/api/community/polls/${pollId}/vote`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ option_id: optionId }),
-      });
-
-      if (response.ok) {
-        setSuccess('Vote recorded!');
-        fetchPolls();
-        setTimeout(() => setSuccess(null), 3000);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to vote');
-      }
+      await vote({ pollId, optionId });
+      setSuccess('Vote recorded!');
+      refetch();
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to vote');
     } finally {
       setVoting(null);
     }
@@ -130,9 +80,9 @@ export default function CommunityPollsPage() {
               </Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

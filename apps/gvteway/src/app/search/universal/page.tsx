@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -20,17 +20,7 @@ import {
   Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface SearchResult {
-  id: string;
-  type: 'event' | 'artist' | 'venue' | 'genre';
-  title: string;
-  subtitle?: string;
-  image?: string;
-  metadata?: string;
-  tags?: string[];
-}
+import { useUniversalSearchData, type SearchResult } from '@/hooks/useUniversalSearch';
 
 function UniversalSearchContent() {
   const router = useRouter();
@@ -38,44 +28,23 @@ function UniversalSearchContent() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
     defaultTab: 'all',
     validTabs: ['all', 'event', 'artist', 'venue', 'genre'],
   });
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  const fetchResults = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim()) {
-      setResults([]);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        q: searchQuery,
-        ...(activeTab !== 'all' && { type: activeTab }),
-      });
-
-      const response = await fetch(`/api/search/universal?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setResults(data.results || []);
-      }
-    } catch (err) {
-      log.error('Search failed');
-    } finally {
-      setLoading(false);
-    }
-  }, [activeTab]);
+  const {
+    results,
+    isLoading: loading,
+  } = useUniversalSearchData(debouncedQuery, activeTab);
 
   useEffect(() => {
     const debounce = setTimeout(() => {
       if (query) {
-        fetchResults(query);
+        setDebouncedQuery(query);
         // Save to recent searches
         setRecentSearches(prev => {
           const updated = [query, ...prev.filter(s => s !== query)].slice(0, 5);
@@ -86,7 +55,7 @@ function UniversalSearchContent() {
     }, 300);
 
     return () => clearTimeout(debounce);
-  }, [query, fetchResults]);
+  }, [query]);
 
   useEffect(() => {
     const saved = localStorage.getItem('recentSearches');
