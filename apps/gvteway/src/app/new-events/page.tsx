@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   Section,
   H2,
@@ -18,51 +17,17 @@ import {
   ProjectCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  category: string;
-  price: number;
-  image?: string;
-  announced_at: string;
-  on_sale_date?: string;
-  presale_date?: string;
-}
+import { useNewEventsData } from '@/hooks/useNewEvents';
 
 export default function NewEventsPage() {
   const router = useRouter();
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
   const [timeFilter, setTimeFilter] = useState('7d');
   const [categoryFilter, setCategoryFilter] = useState('all');
 
-  const fetchNewEvents = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        new: 'true',
-        timeframe: timeFilter,
-        ...(categoryFilter !== 'all' && { category: categoryFilter }),
-      });
-      
-      const response = await fetch(`/api/events?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.events || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch new events');
-    } finally {
-      setLoading(false);
-    }
-  }, [timeFilter, categoryFilter]);
-
-  useEffect(() => {
-    fetchNewEvents();
-  }, [fetchNewEvents]);
+  const {
+    events,
+    isLoading: loading,
+  } = useNewEventsData({ timeframe: timeFilter, category: categoryFilter });
 
   const handleEventClick = (eventId: string) => {
     router.push(`/events/${eventId}`);

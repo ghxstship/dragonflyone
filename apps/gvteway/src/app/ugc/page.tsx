@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -25,52 +25,9 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface UGCPost {
-  id: string;
-  platform: 'instagram' | 'twitter' | 'tiktok' | 'facebook' | 'youtube';
-  content_type: 'image' | 'video' | 'text' | 'story' | 'reel';
-  content_url: string;
-  thumbnail_url?: string;
-  caption?: string;
-  author_name: string;
-  author_handle: string;
-  author_avatar?: string;
-  hashtags: string[];
-  event_id?: string;
-  event_name?: string;
-  likes: number;
-  comments: number;
-  shares: number;
-  is_featured: boolean;
-  created_at: string;
-}
-
-interface Hashtag {
-  tag: string;
-  post_count: number;
-  engagement: number;
-  trending: boolean;
-}
-
-interface Campaign {
-  id: string;
-  name: string;
-  hashtag: string;
-  event_id?: string;
-  event_name?: string;
-  start_date: string;
-  end_date?: string;
-  post_count: number;
-  total_engagement: number;
-  status: 'active' | 'ended' | 'scheduled';
-}
+import { useUGCData, type UGCPost } from '@/hooks/useUGC';
 
 function UGCPageContent() {
-  const [posts, setPosts] = useState<UGCPost[]>([]);
-  const [hashtags, setHashtags] = useState<Hashtag[]>([]);
-  const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-  const [loading, setLoading] = useState(true);
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
     defaultTab: 'feed',
@@ -83,46 +40,14 @@ function UGCPageContent() {
     content_type: '',
     hashtag: '',
   });
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (filter.platform) params.set('platform', filter.platform);
-      if (filter.content_type) params.set('content_type', filter.content_type);
-      if (filter.hashtag) params.set('hashtag', filter.hashtag);
-
-      const [postsRes, hashtagsRes, campaignsRes] = await Promise.all([
-        fetch(`/api/ugc/posts?${params}`),
-        fetch('/api/ugc/hashtags'),
-        fetch('/api/ugc/campaigns'),
-      ]);
-
-      if (postsRes.ok) {
-        const data = await postsRes.json();
-        setPosts(data.posts || []);
-      }
-
-      if (hashtagsRes.ok) {
-        const data = await hashtagsRes.json();
-        setHashtags(data.hashtags || []);
-      }
-
-      if (campaignsRes.ok) {
-        const data = await campaignsRes.json();
-        setCampaigns(data.campaigns || []);
-      }
-    } catch (err) {
-      setError('Failed to load content');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const {
+    posts,
+    hashtags,
+    campaigns,
+    isLoading: loading,
+    error,
+  } = useUGCData(filter.hashtag);
 
   const handleHashtagSearch = () => {
     if (searchHashtag.trim()) {

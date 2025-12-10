@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
@@ -17,112 +17,19 @@ import {
   Kicker,
   EmptyState,
 } from "@ghxstship/ui";
-
-interface Destination {
-  id: string;
-  name: string;
-  city: string;
-  state?: string;
-  country: string;
-  description: string;
-  image_url?: string;
-  venue_count: number;
-  upcoming_events: number;
-  featured_events: string[];
-  popular_genres: string[];
-  average_ticket_price: number;
-  is_trending: boolean;
-}
-
-interface DestinationSummary {
-  total_destinations: number;
-  trending_count: number;
-  total_events: number;
-  featured_count: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_DESTINATIONS: Destination[] = [
-  {
-    id: "demo-1",
-    name: "New York City",
-    city: "New York",
-    state: "NY",
-    country: "USA",
-    description: "The city that never sleeps - home to world-class venues and legendary performances",
-    venue_count: 245,
-    upcoming_events: 1234,
-    featured_events: ["Madison Square Garden Concert", "Brooklyn Steel Show"],
-    popular_genres: ["Rock", "Hip-Hop", "Jazz"],
-    average_ticket_price: 125,
-    is_trending: true,
-  },
-  {
-    id: "demo-2",
-    name: "Los Angeles",
-    city: "Los Angeles",
-    state: "CA",
-    country: "USA",
-    description: "Entertainment capital with iconic outdoor venues and year-round events",
-    venue_count: 189,
-    upcoming_events: 987,
-    featured_events: ["Hollywood Bowl Symphony", "The Forum Concert"],
-    popular_genres: ["Pop", "Electronic", "Latin"],
-    average_ticket_price: 110,
-    is_trending: true,
-  },
-];
-
-const DEMO_DESTINATION_SUMMARY: DestinationSummary = {
-  total_destinations: 85,
-  trending_count: 12,
-  total_events: 4500,
-  featured_count: 24,
-};
+import { useDestinationsData } from "@/hooks/useDestinations";
 
 export default function DestinationsPage() {
   const router = useRouter();
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [summary, setSummary] = useState<DestinationSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filterRegion, setFilterRegion] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchDestinations = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterRegion !== "all") params.append("region", filterRegion);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/destinations?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setDestinations(DEMO_DESTINATIONS);
-        setSummary(DEMO_DESTINATION_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch destinations");
-      
-      const data = await response.json();
-      setDestinations(data.destinations || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setDestinations(DEMO_DESTINATIONS);
-      setSummary(DEMO_DESTINATION_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterRegion, searchQuery]);
-
-  useEffect(() => {
-    fetchDestinations();
-  }, [fetchDestinations]);
+  const {
+    destinations,
+    summary,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useDestinationsData(searchQuery);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -140,8 +47,8 @@ export default function DestinationsPage() {
     return (
       <GvtewayEmptyLayout
         title="Error Loading Destinations"
-        description={error}
-        action={{ label: "Retry", onClick: fetchDestinations }}
+        description={error instanceof Error ? error.message : String(error)}
+        action={{ label: "Retry", onClick: () => refetch() }}
       />
     );
   }
