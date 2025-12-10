@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { Eye, Pencil, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -18,32 +18,8 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-interface PayrollEntry {
-  id: string;
-  employee_id: string;
-  employee_name: string;
-  department: string;
-  pay_period_start: string;
-  pay_period_end: string;
-  regular_hours: number;
-  overtime_hours: number;
-  gross_pay: number;
-  deductions: number;
-  net_pay: number;
-  status: string;
-  payment_date?: string;
-}
-
-interface PayrollSummary {
-  total_employees: number;
-  total_gross: number;
-  total_deductions: number;
-  total_net: number;
-  pending_count: number;
-  processed_count: number;
-}
+import { createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { usePayrollData, type PayrollEntry } from "@/hooks/usePayroll";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 
@@ -77,38 +53,27 @@ const formFields: FormFieldConfig[] = [
 export default function PayrollPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [entries, setEntries] = useState<PayrollEntry[]>([]);
-  const [summary, setSummary] = useState<PayrollSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    entries,
+    summary,
+    isLoading: loading,
+    error,
+    createEntry,
+    processPayroll,
+    refetch,
+  } = usePayrollData();
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState<PayrollEntry | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchPayroll = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/payroll');
-      if (!response.ok) throw new Error('Failed to fetch payroll data');
-      const data = await response.json();
-      setEntries(data.entries || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('An error occurred'));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchPayroll(); }, [fetchPayroll]);
-
   const handleProcessPayroll = async () => {
     try {
-      const res = await fetch('/api/payroll/process', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ period: 'current' }) });
-      if (res.ok) { addNotification({ type: 'success', title: 'Success', message: 'Payroll processed' }); fetchPayroll(); }
-      else addNotification({ type: 'error', title: 'Error', message: 'Failed to process' });
-    } catch { addNotification({ type: 'error', title: 'Error', message: 'Failed to process' }); }
+      await processPayroll('current');
+      addNotification({ type: 'success', title: 'Success', message: 'Payroll processed' });
+    } catch {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to process' });
+    }
   };
 
   const handleExport = async () => {
@@ -133,19 +98,12 @@ export default function PayrollPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
-      const res = await fetch('/api/payroll', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        addNotification({ type: 'success', title: 'Success', message: 'Payroll entry created' });
-      }
+      await createEntry(data);
+      addNotification({ type: 'success', title: 'Success', message: 'Payroll entry created' });
+      setCreateModalOpen(false);
     } catch {
       addNotification({ type: 'error', title: 'Error', message: 'Failed to create entry' });
     }
-    setCreateModalOpen(false);
-    fetchPayroll();
   };
 
   // Import handler for CSV/JSON files
@@ -154,13 +112,9 @@ export default function PayrollPage() {
     requiredFields: ['employee_id', 'regular_hours', 'pay_period_start', 'pay_period_end'],
     onImport: async (records) => {
       for (const record of records) {
-        await fetch('/api/payroll', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ organization_id: 'default-org', status: 'pending', ...record }),
-        });
+        await createEntry({ organization_id: 'default-org', status: 'pending', ...record });
       }
-      fetchPayroll();
+      refetch();
     },
   });
 
