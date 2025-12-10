@@ -70,10 +70,22 @@ export async function GET(request: NextRequest) {
     }
 
     if (type === 'comparison') {
-      const { data: vendors } = await supabase
+      const page = parseInt(searchParams.get('page') || '1', 10);
+      const limit = parseInt(searchParams.get('limit') || '50', 10);
+      const offset = (page - 1) * limit;
+
+      let vendorQuery = supabase
         .from('vendors')
-        .select('id, name, category, rating')
+        .select('id, name, category, rating', { count: 'exact' })
         .eq('status', 'active');
+
+      if (category) {
+        vendorQuery = vendorQuery.eq('category', category);
+      }
+
+      const { data: vendors, count } = await vendorQuery
+        .order('rating', { ascending: false })
+        .range(offset, offset + limit - 1);
 
       const scorecards = [];
       for (const vendor of vendors || []) {
@@ -96,22 +108,39 @@ export async function GET(request: NextRequest) {
         });
       }
 
-      if (category) {
-        const filtered = scorecards.filter(s => s.category === category);
-        return NextResponse.json({ scorecards: filtered.sort((a, b) => b.quality_score - a.quality_score) });
-      }
+      const totalCount = count || (scorecards.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + scorecards.length < totalCount,
+      };
 
-      return NextResponse.json({ scorecards: scorecards.sort((a, b) => b.quality_score - a.quality_score) });
+      return NextResponse.json({ scorecards: scorecards.sort((a, b) => b.quality_score - a.quality_score), pagination });
     }
 
-    const { data: vendors } = await supabase
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const offset = (page - 1) * limit;
+
+    const { data: vendors, count } = await supabase
       .from('vendors')
-      .select('id, name, category, rating')
+      .select('id, name, category, rating', { count: 'exact' })
       .eq('status', 'active')
       .order('rating', { ascending: false })
-      .limit(20);
+      .range(offset, offset + limit - 1);
 
-    return NextResponse.json({ top_vendors: vendors });
+    const totalCount = count || (vendors?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (vendors?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ top_vendors: vendors, pagination });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }

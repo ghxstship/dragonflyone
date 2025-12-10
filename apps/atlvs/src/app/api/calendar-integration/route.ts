@@ -58,11 +58,14 @@ export async function GET(request: NextRequest) {
     const contactId = searchParams.get('contact_id');
     const dealId = searchParams.get('deal_id');
     const projectId = searchParams.get('project_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     // Get connected calendar accounts
     const { data: accounts } = await supabase
       .from('calendar_accounts')
-      .select('*')
+      .select('id, provider, email_address, calendar_name, sync_direction, is_active, created_at')
       .eq('user_id', user.id)
       .eq('is_active', true);
 
@@ -70,12 +73,12 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('calendar_meetings')
       .select(`
-        *,
-        attendees:meeting_attendees(*),
+        id, title, description, start_time, end_time, timezone, location, is_virtual, meeting_url, status, created_at,
+        attendees:meeting_attendees(id, email, name, response_status),
         contact:contacts(id, first_name, last_name, email),
         deal:deals(id, name),
         project:projects(id, name)
-      `)
+      `, { count: 'exact' })
       .eq('user_id', user.id)
       .order('start_time', { ascending: true });
 
@@ -99,7 +102,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('project_id', projectId);
     }
 
-    const { data: meetings, error } = await query;
+    const { data: meetings, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -108,13 +111,23 @@ export async function GET(request: NextRequest) {
     // Get available time slots for scheduling
     const { data: availability } = await supabase
       .from('user_availability')
-      .select('*')
+      .select('id, day_of_week, start_time, end_time, is_available')
       .eq('user_id', user.id);
+
+    const totalCount = count || (meetings?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (meetings?.length ?? 0) < totalCount,
+    };
 
     return NextResponse.json({
       accounts: accounts || [],
       meetings: meetings || [],
       availability: availability || [],
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch calendar data' }, { status: 500 });

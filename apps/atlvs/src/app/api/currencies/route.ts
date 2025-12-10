@@ -67,10 +67,15 @@ export const GET = apiRoute(
     }
 
     // List all exchange rates
-    const { data, error } = await supabase
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '100', 10);
+    const offset = (page - 1) * limit;
+
+    const { data, error, count } = await supabase
       .from('exchange_rates')
-      .select('*')
-      .order('valid_from', { ascending: false });
+      .select('id, from_currency, to_currency, rate, source, valid_from, valid_until, created_at', { count: 'exact' })
+      .order('valid_from', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -87,7 +92,16 @@ export const GET = apiRoute(
       return acc;
     }, {} as Record<string, ExchangeRate[]>);
 
-    return NextResponse.json({ rates: grouped });
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ rates: grouped, pagination });
   },
   {
     auth: true,
