@@ -1365,7 +1365,7 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 10. ~~`gvteway/src/app/directions/page.tsx` - 4 fetches~~ ✓ DONE
 
 **Acceptance Criteria:**
-- [ ] All 146 pages migrated to use React Query hooks (46/146 done)
+- [ ] All 146 pages migrated to use React Query hooks (49/146 done)
 - [ ] Manual `fetch()` calls eliminated from page components
 - [ ] Fallback data configured for demo mode
 - [ ] Request deduplication verified

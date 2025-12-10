@@ -1071,12 +1071,12 @@ export const atlvsHero = {
 // Landing page hero for marketing
 export const atlvsLandingHero = {
   kicker: "FOR PRODUCTION PROFESSIONALS",
-  headline: "SHIP EXPERIENCES. NOT EXCUSES.",
+  headline: "WARNING: TITANS AT WORK.",
   description:
-    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, destinations — if it has a hard open and a million moving parts, this is where you run it. Up and running in minutes, not months.",
+    "Million-dollar builds. Impossible deadlines. Clients who want miracles. You don't flinch — and neither does your platform. This is where production titans operate.",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
-  tagline: "Where chaos meets its match.",
+  tagline: "Titan energy only.",
   trustedBy: ["III POINTS", "SALVAGE CITY", "PATRON", "FORMULA 1 LAS VEGAS GRAND PRIX", "FACTORY TOWN", "OKEECHOBEE", "CARNIVAL CRUISE LINE"],
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -20,62 +20,23 @@ import {
   EmptyState,
 } from '@ghxstship/ui';
 import { Heart, Bell, Calendar, X } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface FavoriteEvent {
-  id: string;
-  event_id: string;
-  title: string;
-  date: string;
-  venue: string;
-  city: string;
-  category: string;
-  price_min: number;
-  image?: string;
-  tickets_available: boolean;
-  added_at: string;
-}
+import { useFavoritesData } from '@/hooks/useFavorites';
 
 export default function FavoritesPage() {
   const router = useRouter();
-  const [favorites, setFavorites] = useState<FavoriteEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    favorites,
+    isLoading: loading,
+    removeFavorite,
+  } = useFavoritesData();
+
   const [sortBy, setSortBy] = useState('added');
   const [success, setSuccess] = useState<string | null>(null);
 
-  const fetchFavorites = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/user/favorites');
-      if (response.ok) {
-        const data = await response.json();
-        setFavorites(data.favorites || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch favorites');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchFavorites();
-  }, [fetchFavorites]);
-
   const handleRemoveFavorite = async (favoriteId: string) => {
-    try {
-      const response = await fetch(`/api/user/favorites/${favoriteId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setSuccess('Removed from favorites');
-        fetchFavorites();
-        setTimeout(() => setSuccess(null), 3000);
-      }
-    } catch (err) {
-      log.error('Failed to remove favorite');
-    }
+    await removeFavorite(favoriteId);
+    setSuccess('Removed from favorites');
+    setTimeout(() => setSuccess(null), 3000);
   };
 
   const handleEventClick = (eventId: string) => {

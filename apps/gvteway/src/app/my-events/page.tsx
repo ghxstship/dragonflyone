@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -22,85 +22,36 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { Calendar, Ticket, Clock, MapPin, Star, ChevronRight } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface UpcomingEvent {
-  id: string;
-  event_id: string;
-  title: string;
-  date: string;
-  time: string;
-  venue: string;
-  city: string;
-  image?: string;
-  ticket_count: number;
-  ticket_type: string;
-  order_id: string;
-  reminder_enabled: boolean;
-  reminder_time: string;
-  days_until: number;
-}
+import { useMyEventsData, type UpcomingEvent } from '@/hooks/useMyEvents';
 
 export default function MyEventsPage() {
   const router = useRouter();
-  const [events, setEvents] = useState<UpcomingEvent[]>([]);
-  const [pastEvents, setPastEvents] = useState<UpcomingEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    events,
+    pastEvents,
+    isLoading: loading,
+    updateReminder,
+  } = useMyEventsData();
+
   const [showReminderModal, setShowReminderModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<UpcomingEvent | null>(null);
   const [reminderTime, setReminderTime] = useState('24h');
   const [success, setSuccess] = useState<string | null>(null);
-
-  const fetchEvents = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/user/events');
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.upcoming || []);
-        setPastEvents(data.past || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch events');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
 
   const handleToggleReminder = async (event: UpcomingEvent) => {
     if (!event.reminder_enabled) {
       setSelectedEvent(event);
       setShowReminderModal(true);
     } else {
-      await updateReminder(event.id, false, '');
-    }
-  };
-
-  const updateReminder = async (eventId: string, enabled: boolean, time: string) => {
-    try {
-      const response = await fetch(`/api/user/events/${eventId}/reminder`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ enabled, reminder_time: time }),
-      });
-
-      if (response.ok) {
-        setSuccess(enabled ? 'Reminder set!' : 'Reminder removed');
-        fetchEvents();
-        setTimeout(() => setSuccess(null), 3000);
-      }
-    } catch (err) {
-      log.error('Failed to update reminder');
+      await updateReminder({ eventId: event.id, enabled: false, time: '' });
     }
   };
 
   const handleSetReminder = async () => {
     if (selectedEvent) {
-      await updateReminder(selectedEvent.id, true, reminderTime);
+      await updateReminder({ eventId: selectedEvent.id, enabled: true, time: reminderTime });
+      setSuccess('Reminder set!');
+      setTimeout(() => setSuccess(null), 3000);
       setShowReminderModal(false);
       setSelectedEvent(null);
     }
