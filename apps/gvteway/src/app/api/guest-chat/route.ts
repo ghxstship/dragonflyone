@@ -38,16 +38,20 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const conversationId = searchParams.get('conversation_id');
     const action = searchParams.get('action');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const offset = (page - 1) * limit;
 
     if (action === 'my_conversations') {
-      const { data: conversations } = await supabase
+      const { data: conversations, count } = await supabase
         .from('chat_conversations')
         .select(`
-          *,
+          id, subject, status, category, created_at, updated_at,
           last_message:chat_messages(message, created_at, sender_type)
-        `)
+        `, { count: 'exact' })
         .eq('user_id', user.id)
-        .order('updated_at', { ascending: false });
+        .order('updated_at', { ascending: false })
+        .range(offset, offset + limit - 1);
 
       // Get unread count for each conversation
       const conversationsWithUnread = await Promise.all(
@@ -66,7 +70,16 @@ export async function GET(request: NextRequest) {
         })
       );
 
-      return NextResponse.json({ conversations: conversationsWithUnread });
+      const totalCount = count || (conversationsWithUnread?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (conversationsWithUnread?.length ?? 0) < totalCount,
+      };
+
+      return NextResponse.json({ conversations: conversationsWithUnread, pagination });
     }
 
     if (action === 'faq') {

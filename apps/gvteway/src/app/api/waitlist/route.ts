@@ -31,6 +31,9 @@ export async function GET(request: NextRequest) {
     const eventId = searchParams.get('event_id');
     const email = searchParams.get('email');
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (!eventId && !email) {
       return NextResponse.json(
@@ -42,19 +45,10 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('event_waitlist')
       .select(`
-        *,
-        events (
-          id,
-          name,
-          start_date,
-          venue_id
-        ),
-        ticket_types (
-          id,
-          name,
-          price
-        )
-      `)
+        id, email, name, phone, quantity, status, priority, notes, created_at,
+        events (id, name, start_date),
+        ticket_types (id, name, price)
+      `, { count: 'exact' })
       .order('priority', { ascending: false })
       .order('created_at', { ascending: true });
 
@@ -70,7 +64,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('status', status);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
@@ -83,16 +77,26 @@ export async function GET(request: NextRequest) {
     }));
 
     // Get summary stats
+    const totalCount = count || (data?.length ?? 0);
     const summary = {
-      total: data?.length || 0,
+      total: totalCount,
       waiting: data?.filter(e => e.status === 'waiting').length || 0,
       notified: data?.filter(e => e.status === 'notified').length || 0,
       converted: data?.filter(e => e.status === 'converted').length || 0,
     };
 
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
     return NextResponse.json({
       waitlist: entriesWithPosition,
       summary,
+      pagination,
     });
   } catch (error) {
     return NextResponse.json(
