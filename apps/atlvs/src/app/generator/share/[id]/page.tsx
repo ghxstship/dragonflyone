@@ -88,7 +88,8 @@ export default function SharedBlueprintPage() {
               <Body className="text-grey-600">{error}</Body>
               <Button
                 onClick={handleReset}
-                className="border-2 border-ink-950 bg-white px-8 py-4 font-display uppercase tracking-label shadow-md"
+                variant="outline"
+                size="lg"
               >
                 Create Your Own
               </Button>
@@ -114,7 +115,8 @@ export default function SharedBlueprintPage() {
             </Text>
             <Button
               onClick={handleReset}
-              className="border-2 border-ink-950 bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label"
+              variant="outline"
+              size="sm"
             >
               Create Your Own
             </Button>

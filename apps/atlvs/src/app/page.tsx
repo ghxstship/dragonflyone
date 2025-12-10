@@ -90,18 +90,16 @@ export default function Home() {
                 {atlvsLandingHero.description}
               </Body>
               <Stack direction="horizontal" gap={4} className="flex-wrap">
-                <Link
-                  href={atlvsLandingHero.primaryCta.href}
-                  className="border-2 border-ink-950 bg-brand-pink px-6 py-3 font-display text-body-sm uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg sm:px-8 sm:py-4 sm:text-body-md"
-                >
-                  {atlvsLandingHero.primaryCta.label}
-                </Link>
-                <Link
-                  href={atlvsLandingHero.secondaryCta.href}
-                  className="border-2 border-ink-950 bg-white px-6 py-3 font-display text-body-sm uppercase tracking-label text-ink-950 shadow-subtle-md transition-all duration-150 hover:-translate-y-1 hover:shadow-subtle-lg sm:px-8 sm:py-4 sm:text-body-md"
-                >
-                  {atlvsLandingHero.secondaryCta.label}
-                </Link>
+                <NextLink href={atlvsLandingHero.primaryCta.href}>
+                  <Button variant="pop" size="lg">
+                    {atlvsLandingHero.primaryCta.label}
+                  </Button>
+                </NextLink>
+                <NextLink href={atlvsLandingHero.secondaryCta.href}>
+                  <Button variant="outline" size="lg">
+                    {atlvsLandingHero.secondaryCta.label}
+                  </Button>
+                </NextLink>
               </Stack>
             </Stack>
             <Box className="relative hidden lg:block">
@@ -138,7 +136,7 @@ export default function Home() {
       <FullBleedSection id="features" background="white" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="text-center">
-            <H1 className="text-ink-950">BUILT FOR YOUR INDUSTRY</H1>
+            <H1 className="text-ink-950">NATIVE TO YOUR WORLD.</H1>
             <Body className="text-grey-600">Four verticals. One platform. Infinite possibilities.</Body>
           </Stack>
           <Grid cols={4} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
@@ -194,7 +192,7 @@ export default function Home() {
       {/* SECTION 4: FOUR PILLARS - Solutions */}
       <FullBleedSection id="solutions" background="white" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <H1 className="text-center text-ink-950">ONE PLATFORM. FOUR PILLARS.</H1>
+          <H1 className="text-center text-ink-950">FOUR PILLARS. ONE PLATFORM.</H1>
           <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
             {atlvsPillarsSolution.map((pillar, index) => (
               <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
@@ -225,7 +223,7 @@ export default function Home() {
       {/* SECTION 5: FEATURE GRID */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <H1 className="text-center text-ink-950">EVERYTHING YOU NEED TO SHIP THE SHOW</H1>
+          <H1 className="text-center text-ink-950">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
           <Grid cols={3} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsFeatureGrid.map((feature) => (
               <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
@@ -289,9 +287,11 @@ export default function Home() {
                 <Check className="h-4 w-4 text-brand-cyan" />
                 <Text className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.note}</Text>
               </Stack>
-              <Link href={atlvsCompvssSection.cta.href} className="inline-block border-2 border-brand-cyan bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-brand-cyan transition-all duration-150 hover:bg-brand-cyan hover:text-ink-950">
-                {atlvsCompvssSection.cta.label}
-              </Link>
+              <NextLink href={atlvsCompvssSection.cta.href}>
+                <Button variant="outlineWhite" size="md">
+                  {atlvsCompvssSection.cta.label}
+                </Button>
+              </NextLink>
             </Stack>
           </Box>
         </Container>
@@ -361,17 +361,9 @@ export default function Home() {
                 </Stack>
 
                 <NextLink href={tier.cta.href} className="mt-6 w-full">
-                  {tier.popular ? (
-                    <button
-                      className="inline-flex w-full items-center justify-center gap-2 border-4 border-current bg-white px-6 py-3 font-heading text-body-sm font-weight-bold uppercase tracking-label text-black shadow-brand-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brand-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-brand-active"
-                    >
-                      {tier.cta.label}
-                    </button>
-                  ) : (
-                    <Button variant="outline" size="md" fullWidth>
-                      {tier.cta.label}
-                    </Button>
-                  )}
+                  <Button variant={tier.popular ? "pop" : "outline"} size="md" fullWidth>
+                    {tier.cta.label}
+                  </Button>
                 </NextLink>
               </Card>
             ))}
@@ -389,11 +381,13 @@ export default function Home() {
           <Display className="font-display text-display-sm uppercase text-white sm:text-display-md md:text-display-lg">{atlvsLandingCta.headline}</Display>
           <Body className="mx-auto mt-4 max-w-xl text-body-md text-grey-400 sm:mt-6 sm:text-body-lg">{atlvsLandingCta.subheadline}</Body>
           <Stack direction="horizontal" gap={3} className="mt-6 flex-wrap justify-center sm:mt-8 sm:gap-4">
-            <Link href={atlvsLandingCta.primaryCta.href} className="border-2 border-brand-pink bg-brand-pink px-6 py-3 font-display text-body-sm uppercase tracking-label text-white shadow-brand-glow transition-all duration-150 hover:-translate-y-1 hover:shadow-brand-glow-hover sm:px-8 sm:py-4 sm:text-body-md">
-              {atlvsLandingCta.primaryCta.label}
-            </Link>
+            <NextLink href={atlvsLandingCta.primaryCta.href}>
+              <Button variant="pop" size="lg" inverted>
+                {atlvsLandingCta.primaryCta.label}
+              </Button>
+            </NextLink>
             <NextLink href={atlvsLandingCta.secondaryCta.href}>
-              <Button variant="outline" size="lg" inverted>
+              <Button variant="outlineWhite" size="lg">
                 {atlvsLandingCta.secondaryCta.label}
               </Button>
             </NextLink>

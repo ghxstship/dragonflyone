@@ -87,9 +87,12 @@ export function GeneratorHero({
               <Button
                 type="submit"
                 disabled={isGenerating || !creativeSeed.trim()}
-                className="flex w-full items-center justify-center gap-3 border-2 border-ink-950 bg-brand-pink px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+                variant="pop"
+                size="lg"
+                fullWidth
+                icon={<Sparkles className="size-5" />}
+                iconPosition="left"
               >
-                <Sparkles className="size-5" />
                 Generate Blueprint
               </Button>
             </Stack>
@@ -106,7 +109,8 @@ export function GeneratorHero({
                   key={seed}
                   type="button"
                   onClick={() => onCreativeSeedChange(seed)}
-                  className="border-2 border-grey-300 bg-white px-4 py-2 font-mono text-mono-xs uppercase tracking-label text-grey-600 transition-colors hover:border-ink-950 hover:text-ink-950"
+                  variant="outline"
+                  size="sm"
                 >
                   {seed}
                 </Button>

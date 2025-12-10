@@ -138,10 +138,12 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
             {/* Primary CTA */}
             <Button
               onClick={handleExport}
-              className="flex w-full items-center justify-center gap-3 border-2 border-white bg-primary px-8 py-5 font-display text-body-md uppercase tracking-label text-white shadow-xl duration-150 hover:-translate-y-1"
+              variant="pop"
+              size="lg"
+              fullWidth
+              icon={<ArrowRight className="size-5" />}
             >
               Launch in ATLVS
-              <ArrowRight className="size-5" />
             </Button>
 
             {/* Secondary Actions */}
@@ -149,24 +151,33 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
               <Button
                 onClick={handleDownloadPDF}
                 disabled={pdfLoading}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                variant="outlineWhite"
+                size="md"
+                icon={pdfLoading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
+                iconPosition="left"
+                className="flex-1"
               >
-                {pdfLoading ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
                 {pdfLoading ? "Generating..." : "Download PDF"}
               </Button>
               <Button
                 onClick={handleShare}
                 disabled={shareStatus === "loading"}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white disabled:opacity-50"
+                variant="outlineWhite"
+                size="md"
+                icon={shareStatus === "loading" ? <Loader2 className="size-4 animate-spin" /> : shareStatus === "copied" ? <Check className="size-4" /> : <Share2 className="size-4" />}
+                iconPosition="left"
+                className="flex-1"
               >
-                {shareStatus === "loading" ? <Loader2 className="size-4 animate-spin" /> : shareStatus === "copied" ? <Check className="size-4" /> : <Share2 className="size-4" />}
                 {shareStatus === "copied" ? "Link Copied!" : shareStatus === "loading" ? "Sharing..." : "Share Blueprint"}
               </Button>
               <Button
                 onClick={handleReset}
-                className="flex flex-1 items-center justify-center gap-2 border-2 border-grey-600 bg-transparent px-6 py-3 font-mono text-mono-sm uppercase tracking-label text-grey-400 transition-colors hover:border-white hover:text-white"
+                variant="outlineWhite"
+                size="md"
+                icon={<RotateCcw className="size-4" />}
+                iconPosition="left"
+                className="flex-1"
               >
-                <RotateCcw className="size-4" />
                 Start Over
               </Button>
             </Stack>

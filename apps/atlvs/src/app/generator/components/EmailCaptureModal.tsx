@@ -90,7 +90,9 @@ export function EmailCaptureModal({
         {/* Close Button */}
         <Button
           onClick={onClose}
-          className="absolute right-4 top-4 flex size-8 items-center justify-center border-2 border-grey-300 bg-white p-0 hover:border-ink-950"
+          variant="ghost"
+          size="icon"
+          className="absolute right-4 top-4"
           aria-label="Close"
         >
           <X className="size-4" />
@@ -194,19 +196,13 @@ export function EmailCaptureModal({
               <Button
                 type="submit"
                 disabled={status === "loading"}
-                className="flex w-full items-center justify-center gap-2 border-2 border-ink-950 bg-ink-950 px-6 py-4 font-display text-body-md uppercase tracking-label text-white shadow-md hover:bg-grey-900 disabled:opacity-50"
+                variant="solid"
+                size="lg"
+                fullWidth
+                icon={status === "loading" ? <Loader2 className="size-5 animate-spin" /> : <Download className="size-5" />}
+                iconPosition="left"
               >
-                {status === "loading" ? (
-                  <>
-                    <Loader2 className="size-5 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <Download className="size-5" />
-                    Download PDF
-                  </>
-                )}
+                {status === "loading" ? "Processing..." : "Download PDF"}
               </Button>
 
               {/* Privacy Note */}

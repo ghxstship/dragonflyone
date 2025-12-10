@@ -1030,7 +1030,7 @@ export const atlvsLandingHero = {
   kicker: "FOR PRODUCTION PROFESSIONALS",
   headline: "SHIP EXPERIENCES. NOT EXCUSES.",
   description:
-    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, venues — if it has a hard open and a million moving parts, this is where you run it. Up and running in minutes, not months.",
+    "The operations platform for teams who build things that can't be late. Festivals, activations, installations, destinations — if it has a hard open and a million moving parts, this is where you run it. Up and running in minutes, not months.",
   primaryCta: { label: "START FREE TRIAL", href: "/auth/signup" },
   secondaryCta: { label: "WATCH DEMO", href: "#demo" },
   tagline: "Where chaos meets its match.",
@@ -1079,7 +1079,7 @@ export const atlvsVerticals = [
 
 // Problem section for landing page
 export const atlvsProblemSection = {
-  headline: "LET'S BE HONEST",
+  headline: "THE UGLY TRUTH...",
   tagline: "You didn't sign up for this job to become a professional spreadsheet wrangler. And yet, here we are.",
   problems: [
     {
@@ -1412,7 +1412,7 @@ export const atlvsSocialProof = {
 
 // Pricing tiers for landing page
 export const atlvsPricing = {
-  headline: "PICK YOUR ADVENTURE",
+  headline: "MAKE YOUR MOVE",
   subheadline: "Annual plans get 2 months free. Because math.",
   tiers: [
     {

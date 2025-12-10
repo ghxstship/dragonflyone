@@ -125,51 +125,62 @@ CREATE POLICY "user_quick_link_favorites_update" ON user_quick_link_favorites
 CREATE POLICY "user_quick_link_favorites_delete" ON user_quick_link_favorites 
   FOR DELETE USING (user_id = (SELECT auth.uid()));
 
--- schedule_tasks: Replace open policies with org-scoped access
-DROP POLICY IF EXISTS "schedule_tasks_select_policy" ON schedule_tasks;
-DROP POLICY IF EXISTS "schedule_tasks_insert_policy" ON schedule_tasks;
-DROP POLICY IF EXISTS "schedule_tasks_update_policy" ON schedule_tasks;
-DROP POLICY IF EXISTS "schedule_tasks_delete_policy" ON schedule_tasks;
-CREATE POLICY "schedule_tasks_select" ON schedule_tasks 
-  FOR SELECT USING (org_matches(organization_id));
-CREATE POLICY "schedule_tasks_insert" ON schedule_tasks 
-  FOR INSERT WITH CHECK (org_matches(organization_id));
-CREATE POLICY "schedule_tasks_update" ON schedule_tasks 
-  FOR UPDATE USING (org_matches(organization_id));
-CREATE POLICY "schedule_tasks_delete" ON schedule_tasks 
-  FOR DELETE USING (org_matches(organization_id));
+-- schedule_tasks: Replace open policies with org-scoped access (if table exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'schedule_tasks') THEN
+    DROP POLICY IF EXISTS "schedule_tasks_select_policy" ON schedule_tasks;
+    DROP POLICY IF EXISTS "schedule_tasks_insert_policy" ON schedule_tasks;
+    DROP POLICY IF EXISTS "schedule_tasks_update_policy" ON schedule_tasks;
+    DROP POLICY IF EXISTS "schedule_tasks_delete_policy" ON schedule_tasks;
+    CREATE POLICY "schedule_tasks_select" ON schedule_tasks FOR SELECT USING (org_matches(organization_id));
+    CREATE POLICY "schedule_tasks_insert" ON schedule_tasks FOR INSERT WITH CHECK (org_matches(organization_id));
+    CREATE POLICY "schedule_tasks_update" ON schedule_tasks FOR UPDATE USING (org_matches(organization_id));
+    CREATE POLICY "schedule_tasks_delete" ON schedule_tasks FOR DELETE USING (org_matches(organization_id));
+  END IF;
+END $$;
 
--- schedule_task_comments: Replace open policies with org-scoped access
-DROP POLICY IF EXISTS "schedule_task_comments_select_policy" ON schedule_task_comments;
-DROP POLICY IF EXISTS "schedule_task_comments_insert_policy" ON schedule_task_comments;
-CREATE POLICY "schedule_task_comments_select" ON schedule_task_comments 
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_comments.task_id AND org_matches(st.organization_id))
-  );
-CREATE POLICY "schedule_task_comments_insert" ON schedule_task_comments 
-  FOR INSERT WITH CHECK (
-    EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_comments.task_id AND org_matches(st.organization_id))
-    AND user_id = (SELECT auth.uid())
-  );
+-- schedule_task_comments: Replace open policies with org-scoped access (if table exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'schedule_task_comments') THEN
+    DROP POLICY IF EXISTS "schedule_task_comments_select_policy" ON schedule_task_comments;
+    DROP POLICY IF EXISTS "schedule_task_comments_insert_policy" ON schedule_task_comments;
+    CREATE POLICY "schedule_task_comments_select" ON schedule_task_comments 
+      FOR SELECT USING (
+        EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_comments.task_id AND org_matches(st.organization_id))
+      );
+    CREATE POLICY "schedule_task_comments_insert" ON schedule_task_comments 
+      FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_comments.task_id AND org_matches(st.organization_id))
+        AND user_id = (SELECT auth.uid())
+      );
+  END IF;
+END $$;
 
--- schedule_task_time_entries: Replace open policies with org-scoped access
-DROP POLICY IF EXISTS "schedule_task_time_entries_select_policy" ON schedule_task_time_entries;
-DROP POLICY IF EXISTS "schedule_task_time_entries_insert_policy" ON schedule_task_time_entries;
-DROP POLICY IF EXISTS "schedule_task_time_entries_update_policy" ON schedule_task_time_entries;
-DROP POLICY IF EXISTS "schedule_task_time_entries_delete_policy" ON schedule_task_time_entries;
-CREATE POLICY "schedule_task_time_entries_select" ON schedule_task_time_entries 
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_time_entries.task_id AND org_matches(st.organization_id))
-  );
-CREATE POLICY "schedule_task_time_entries_insert" ON schedule_task_time_entries 
-  FOR INSERT WITH CHECK (
-    EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_time_entries.task_id AND org_matches(st.organization_id))
-    AND user_id = (SELECT auth.uid())
-  );
-CREATE POLICY "schedule_task_time_entries_update" ON schedule_task_time_entries 
-  FOR UPDATE USING (user_id = (SELECT auth.uid()));
-CREATE POLICY "schedule_task_time_entries_delete" ON schedule_task_time_entries 
-  FOR DELETE USING (user_id = (SELECT auth.uid()));
+-- schedule_task_time_entries: Replace open policies with org-scoped access (if table exists)
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'schedule_task_time_entries') THEN
+    DROP POLICY IF EXISTS "schedule_task_time_entries_select_policy" ON schedule_task_time_entries;
+    DROP POLICY IF EXISTS "schedule_task_time_entries_insert_policy" ON schedule_task_time_entries;
+    DROP POLICY IF EXISTS "schedule_task_time_entries_update_policy" ON schedule_task_time_entries;
+    DROP POLICY IF EXISTS "schedule_task_time_entries_delete_policy" ON schedule_task_time_entries;
+    CREATE POLICY "schedule_task_time_entries_select" ON schedule_task_time_entries 
+      FOR SELECT USING (
+        EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_time_entries.task_id AND org_matches(st.organization_id))
+      );
+    CREATE POLICY "schedule_task_time_entries_insert" ON schedule_task_time_entries 
+      FOR INSERT WITH CHECK (
+        EXISTS (SELECT 1 FROM schedule_tasks st WHERE st.id = schedule_task_time_entries.task_id AND org_matches(st.organization_id))
+        AND user_id = (SELECT auth.uid())
+      );
+    CREATE POLICY "schedule_task_time_entries_update" ON schedule_task_time_entries 
+      FOR UPDATE USING (user_id = (SELECT auth.uid()));
+    CREATE POLICY "schedule_task_time_entries_delete" ON schedule_task_time_entries 
+      FOR DELETE USING (user_id = (SELECT auth.uid()));
+  END IF;
+END $$;
 
 -- certification_requirements: Require authentication
 DROP POLICY IF EXISTS "Anyone can view certification requirements" ON certification_requirements;
@@ -335,8 +346,12 @@ DROP POLICY IF EXISTS "saved_filters_select" ON saved_filters;
 DROP POLICY IF EXISTS "saved_filters_insert" ON saved_filters;
 DROP POLICY IF EXISTS "saved_filters_update" ON saved_filters;
 DROP POLICY IF EXISTS "saved_filters_delete" ON saved_filters;
+DROP POLICY IF EXISTS "Users can view their own filters" ON saved_filters;
+DROP POLICY IF EXISTS "Users can create their own filters" ON saved_filters;
+DROP POLICY IF EXISTS "Users can update their own filters" ON saved_filters;
+DROP POLICY IF EXISTS "Users can delete their own filters" ON saved_filters;
 CREATE POLICY "saved_filters_select" ON saved_filters 
-  FOR SELECT USING (user_id = (SELECT auth.uid()) OR is_shared = TRUE);
+  FOR SELECT USING (user_id = (SELECT auth.uid()) OR is_public = TRUE);
 CREATE POLICY "saved_filters_insert" ON saved_filters 
   FOR INSERT WITH CHECK (user_id = (SELECT auth.uid()));
 CREATE POLICY "saved_filters_update" ON saved_filters 
@@ -349,8 +364,12 @@ DROP POLICY IF EXISTS "saved_views_select" ON saved_views;
 DROP POLICY IF EXISTS "saved_views_insert" ON saved_views;
 DROP POLICY IF EXISTS "saved_views_update" ON saved_views;
 DROP POLICY IF EXISTS "saved_views_delete" ON saved_views;
+DROP POLICY IF EXISTS "Users can view their own views" ON saved_views;
+DROP POLICY IF EXISTS "Users can create their own views" ON saved_views;
+DROP POLICY IF EXISTS "Users can update their own views" ON saved_views;
+DROP POLICY IF EXISTS "Users can delete their own views" ON saved_views;
 CREATE POLICY "saved_views_select" ON saved_views 
-  FOR SELECT USING (user_id = (SELECT auth.uid()) OR is_shared = TRUE);
+  FOR SELECT USING (user_id = (SELECT auth.uid()) OR is_public = TRUE);
 CREATE POLICY "saved_views_insert" ON saved_views 
   FOR INSERT WITH CHECK (user_id = (SELECT auth.uid()));
 CREATE POLICY "saved_views_update" ON saved_views 
@@ -372,70 +391,92 @@ CREATE POLICY "user_favorites_insert" ON user_favorites
 CREATE POLICY "user_favorites_delete" ON user_favorites 
   FOR DELETE USING (user_id = (SELECT auth.uid()));
 
--- direct_messages (from 0101_direct_messaging.sql)
-DROP POLICY IF EXISTS "dm_conversations_select" ON dm_conversations;
-DROP POLICY IF EXISTS "dm_messages_select" ON dm_messages;
-DROP POLICY IF EXISTS "dm_messages_insert" ON dm_messages;
-DROP POLICY IF EXISTS "Users can view their conversations" ON dm_conversations;
-DROP POLICY IF EXISTS "Users can view messages in their conversations" ON dm_messages;
-DROP POLICY IF EXISTS "Users can send messages" ON dm_messages;
-CREATE POLICY "dm_conversations_select" ON dm_conversations 
-  FOR SELECT USING (
-    (SELECT auth.uid()) = ANY(participant_ids) OR 
-    EXISTS (SELECT 1 FROM dm_participants WHERE conversation_id = dm_conversations.id AND user_id = (SELECT auth.uid()))
-  );
-CREATE POLICY "dm_messages_select" ON dm_messages 
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM dm_conversations dc WHERE dc.id = dm_messages.conversation_id AND (SELECT auth.uid()) = ANY(dc.participant_ids))
-  );
-CREATE POLICY "dm_messages_insert" ON dm_messages 
-  FOR INSERT WITH CHECK (sender_id = (SELECT auth.uid()));
+-- direct_messages (from 0101_direct_messaging.sql) - if tables exist
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'dm_conversations') THEN
+    DROP POLICY IF EXISTS "dm_conversations_select" ON dm_conversations;
+    DROP POLICY IF EXISTS "Users can view their conversations" ON dm_conversations;
+    CREATE POLICY "dm_conversations_select" ON dm_conversations 
+      FOR SELECT USING (
+        (SELECT auth.uid()) = ANY(participant_ids) OR 
+        EXISTS (SELECT 1 FROM dm_participants WHERE conversation_id = dm_conversations.id AND user_id = (SELECT auth.uid()))
+      );
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'dm_messages') THEN
+    DROP POLICY IF EXISTS "dm_messages_select" ON dm_messages;
+    DROP POLICY IF EXISTS "dm_messages_insert" ON dm_messages;
+    DROP POLICY IF EXISTS "Users can view messages in their conversations" ON dm_messages;
+    DROP POLICY IF EXISTS "Users can send messages" ON dm_messages;
+    CREATE POLICY "dm_messages_select" ON dm_messages 
+      FOR SELECT USING (
+        EXISTS (SELECT 1 FROM dm_conversations dc WHERE dc.id = dm_messages.conversation_id AND (SELECT auth.uid()) = ANY(dc.participant_ids))
+      );
+    CREATE POLICY "dm_messages_insert" ON dm_messages 
+      FOR INSERT WITH CHECK (sender_id = (SELECT auth.uid()));
+  END IF;
+END $$;
 
 -- ============================================================================
--- PART 8: FIX SSO/SAML TABLES (from 0143_sso_saml_enterprise.sql)
+-- PART 8: FIX SSO/SAML TABLES (from 0143_sso_saml_enterprise.sql) - if tables exist
 -- ============================================================================
 
-DROP POLICY IF EXISTS "sso_providers_select" ON sso_providers;
-DROP POLICY IF EXISTS "sso_providers_manage" ON sso_providers;
-DROP POLICY IF EXISTS "sso_sessions_select" ON sso_sessions;
-DROP POLICY IF EXISTS "Users can view SSO providers for their org" ON sso_providers;
-DROP POLICY IF EXISTS "Admins can manage SSO providers" ON sso_providers;
-DROP POLICY IF EXISTS "Users can view their own SSO sessions" ON sso_sessions;
-
-CREATE POLICY "sso_providers_select" ON sso_providers 
-  FOR SELECT USING (org_matches(organization_id));
-CREATE POLICY "sso_providers_manage" ON sso_providers 
-  FOR ALL USING (org_matches(organization_id) AND role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'));
-CREATE POLICY "sso_sessions_select" ON sso_sessions 
-  FOR SELECT USING (user_id = (SELECT auth.uid()) OR role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'));
-
--- ============================================================================
--- PART 9: FIX COMMUNICATIONS TABLES (from 0116_communications_system.sql)
--- ============================================================================
-
-DROP POLICY IF EXISTS "communication_threads_select" ON communication_threads;
-DROP POLICY IF EXISTS "communication_messages_select" ON communication_messages;
-DROP POLICY IF EXISTS "communication_messages_insert" ON communication_messages;
-DROP POLICY IF EXISTS "Users can view threads they participate in" ON communication_threads;
-DROP POLICY IF EXISTS "Users can view messages in their threads" ON communication_messages;
-DROP POLICY IF EXISTS "Users can send messages" ON communication_messages;
-
-CREATE POLICY "communication_threads_select" ON communication_threads 
-  FOR SELECT USING (
-    org_matches(organization_id) OR 
-    EXISTS (SELECT 1 FROM communication_participants cp WHERE cp.thread_id = communication_threads.id AND cp.user_id = (SELECT auth.uid()))
-  );
-CREATE POLICY "communication_messages_select" ON communication_messages 
-  FOR SELECT USING (
-    EXISTS (SELECT 1 FROM communication_threads ct WHERE ct.id = communication_messages.thread_id AND org_matches(ct.organization_id))
-  );
-CREATE POLICY "communication_messages_insert" ON communication_messages 
-  FOR INSERT WITH CHECK (sender_id = (SELECT auth.uid()));
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'sso_providers') THEN
+    DROP POLICY IF EXISTS "sso_providers_select" ON sso_providers;
+    DROP POLICY IF EXISTS "sso_providers_manage" ON sso_providers;
+    DROP POLICY IF EXISTS "Users can view SSO providers for their org" ON sso_providers;
+    DROP POLICY IF EXISTS "Admins can manage SSO providers" ON sso_providers;
+    CREATE POLICY "sso_providers_select" ON sso_providers FOR SELECT USING (org_matches(organization_id));
+    CREATE POLICY "sso_providers_manage" ON sso_providers FOR ALL USING (org_matches(organization_id) AND role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'));
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'sso_sessions') THEN
+    DROP POLICY IF EXISTS "sso_sessions_select" ON sso_sessions;
+    DROP POLICY IF EXISTS "Users can view their own SSO sessions" ON sso_sessions;
+    CREATE POLICY "sso_sessions_select" ON sso_sessions FOR SELECT USING (user_id = (SELECT auth.uid()) OR role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'));
+  END IF;
+END $$;
 
 -- ============================================================================
--- COMMENTS
+-- PART 9: FIX COMMUNICATIONS TABLES (from 0116_communications_system.sql) - if tables exist
 -- ============================================================================
 
-COMMENT ON POLICY "search_analytics_select" ON search_analytics IS 'Authenticated users can view search analytics';
-COMMENT ON POLICY "task_templates_select" ON task_templates IS 'Users can view org templates or global templates';
-COMMENT ON POLICY "schedule_tasks_select" ON schedule_tasks IS 'Users can view tasks in their organization';
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'communication_threads') THEN
+    DROP POLICY IF EXISTS "communication_threads_select" ON communication_threads;
+    DROP POLICY IF EXISTS "Users can view threads they participate in" ON communication_threads;
+    CREATE POLICY "communication_threads_select" ON communication_threads 
+      FOR SELECT USING (
+        org_matches(organization_id) OR 
+        EXISTS (SELECT 1 FROM communication_participants cp WHERE cp.thread_id = communication_threads.id AND cp.user_id = (SELECT auth.uid()))
+      );
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'communication_messages') THEN
+    DROP POLICY IF EXISTS "communication_messages_select" ON communication_messages;
+    DROP POLICY IF EXISTS "communication_messages_insert" ON communication_messages;
+    DROP POLICY IF EXISTS "Users can view messages in their threads" ON communication_messages;
+    DROP POLICY IF EXISTS "Users can send messages" ON communication_messages;
+    CREATE POLICY "communication_messages_select" ON communication_messages 
+      FOR SELECT USING (
+        EXISTS (SELECT 1 FROM communication_threads ct WHERE ct.id = communication_messages.thread_id AND org_matches(ct.organization_id))
+      );
+    CREATE POLICY "communication_messages_insert" ON communication_messages 
+      FOR INSERT WITH CHECK (sender_id = (SELECT auth.uid()));
+  END IF;
+END $$;
+
+-- ============================================================================
+-- COMMENTS (only if tables exist)
+-- ============================================================================
+
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'search_analytics') THEN
+    COMMENT ON POLICY "search_analytics_select" ON search_analytics IS 'Authenticated users can view search analytics';
+  END IF;
+  IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'task_templates') THEN
+    COMMENT ON POLICY "task_templates_select" ON task_templates IS 'Users can view org templates or global templates';
+  END IF;
+END $$;
