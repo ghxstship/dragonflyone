@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -17,26 +16,7 @@ import {
   Section,
 } from '@ghxstship/ui';
 import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  category: string;
-  price: number;
-  image?: string;
-  trending?: boolean;
-  recommended?: boolean;
-}
-
-interface Collection {
-  id: string;
-  name: string;
-  description: string;
-  events: Event[];
-}
+import { useDiscoverData } from '@/hooks/useDiscover';
 
 const categories = [
   { id: 'concert', name: 'Concerts', icon: Music },
@@ -49,51 +29,14 @@ const categories = [
 
 export default function DiscoverPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [trendingEvents, setTrendingEvents] = useState<Event[]>([]);
-  const [recommendedEvents, setRecommendedEvents] = useState<Event[]>([]);
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [nearbyEvents, setNearbyEvents] = useState<Event[]>([]);
 
-  const fetchDiscoveryData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [trendingRes, recommendedRes, collectionsRes, nearbyRes] = await Promise.all([
-        fetch('/api/events?trending=true&limit=6'),
-        fetch('/api/events?recommended=true&limit=6'),
-        fetch('/api/collections'),
-        fetch('/api/events?nearby=true&limit=6'),
-      ]);
-
-      if (trendingRes.ok) {
-        const data = await trendingRes.json();
-        setTrendingEvents(data.events || []);
-      }
-
-      if (recommendedRes.ok) {
-        const data = await recommendedRes.json();
-        setRecommendedEvents(data.events || []);
-      }
-
-      if (collectionsRes.ok) {
-        const data = await collectionsRes.json();
-        setCollections(data.collections || []);
-      }
-
-      if (nearbyRes.ok) {
-        const data = await nearbyRes.json();
-        setNearbyEvents(data.events || []);
-      }
-    } catch (_err) {
-      log.error('Failed to fetch discovery data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDiscoveryData();
-  }, [fetchDiscoveryData]);
+  const {
+    trendingEvents,
+    recommendedEvents,
+    collections,
+    nearbyEvents,
+    isLoading: loading,
+  } = useDiscoverData();
 
   const handleCategoryClick = (categoryId: string) => {
     router.push(`/browse?category=${categoryId}`);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -18,54 +18,17 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { Activity, Ticket, Star, UserPlus, Heart, MapPin, Share2, Users, TrendingUp } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface ActivityItem {
-  id: string;
-  type: 'ticket_purchase' | 'review' | 'follow' | 'favorite' | 'check_in' | 'share';
-  user_id: string;
-  user_name: string;
-  user_avatar?: string;
-  event_id?: string;
-  event_title?: string;
-  event_image?: string;
-  artist_id?: string;
-  artist_name?: string;
-  venue_id?: string;
-  venue_name?: string;
-  content?: string;
-  created_at: string;
-}
+import { useActivityData } from '@/hooks/useActivity';
 
 export default function ActivityFeedPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [activities, setActivities] = useState<ActivityItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
 
-  const fetchActivities = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        ...(filter !== 'all' && { type: filter }),
-      });
-
-      const response = await fetch(`/api/activity/feed?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setActivities(data.activities || []);
-      }
-    } catch (err) {
-      log.error('Failed to load activity feed');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
-
-  useEffect(() => {
-    fetchActivities();
-  }, [fetchActivities]);
+  const {
+    activities,
+    isLoading: loading,
+  } = useActivityData({ type: filter });
 
   const getActivityIcon = (type: string) => {
     switch (type) {

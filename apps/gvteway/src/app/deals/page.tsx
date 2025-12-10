@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -18,54 +18,17 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import { Bell } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface Deal {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  event_venue: string;
-  event_image?: string;
-  original_price: number;
-  deal_price: number;
-  discount_percent: number;
-  deal_type: 'flash_sale' | 'last_minute' | 'early_bird' | 'group' | 'member';
-  expires_at?: string;
-  quantity_available?: number;
-  promo_code?: string;
-}
+import { useDealsData } from '@/hooks/useDeals';
 
 export default function DealsPage() {
   const router = useRouter();
-  const [deals, setDeals] = useState<Deal[]>([]);
-  const [loading, setLoading] = useState(true);
   const [dealType, setDealType] = useState('all');
   const [sortBy, setSortBy] = useState('discount');
 
-  const fetchDeals = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        ...(dealType !== 'all' && { type: dealType }),
-        sort: sortBy,
-      });
-      
-      const response = await fetch(`/api/deals?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setDeals(data.deals || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch deals');
-    } finally {
-      setLoading(false);
-    }
-  }, [dealType, sortBy]);
-
-  useEffect(() => {
-    fetchDeals();
-  }, [fetchDeals]);
+  const {
+    deals,
+    isLoading: loading,
+  } = useDealsData({ type: dealType, sort: sortBy });
 
   const handleEventClick = (eventId: string) => {
     router.push(`/events/${eventId}`);
