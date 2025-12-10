@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Container,
@@ -19,85 +19,47 @@ import {
   Alert,
   Spinner,
 } from '@ghxstship/ui';
-
-interface Ticket {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  ticket_type: string;
-  seat_info?: string;
-  status: 'active' | 'transferred' | 'used';
-  qr_code: string;
-}
+import { useTicketTransferData } from '@/hooks/useTicketTransfer';
 
 export default function TicketTransferContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const ticketId = searchParams.get('ticketId');
   
-  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<string | null>(ticketId);
   const [recipientEmail, setRecipientEmail] = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  useEffect(() => {
-    fetchUserTickets();
-  }, []);
-
-  const fetchUserTickets = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/tickets?status=active&transferable=true');
-      if (response.ok) {
-        const data = await response.json();
-        setTickets(data.tickets || []);
-      }
-    } catch (err) {
-      setError('Failed to load tickets');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const {
+    tickets,
+    isLoading: loading,
+    error,
+    transferTicket,
+    isTransferring: submitting,
+  } = useTicketTransferData();
 
   const handleTransfer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTicket || !recipientEmail) return;
 
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/tickets/transfer', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ticket_id: selectedTicket,
-          recipient_email: recipientEmail,
-          recipient_name: recipientName,
-          message,
-        }),
+      await transferTicket({
+        ticket_id: selectedTicket,
+        recipient_email: recipientEmail,
+        recipient_name: recipientName,
+        message,
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          router.push('/tickets');
-        }, 3000);
-      } else {
-        setError(data.error || 'Failed to transfer ticket');
-      }
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/tickets');
+      }, 3000);
     } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to transfer ticket');
     }
   };
 
@@ -141,9 +103,9 @@ export default function TicketTransferContent() {
           </Body>
         </Section>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

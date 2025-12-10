@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Container,
@@ -20,29 +20,7 @@ import {
   Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface TourDate {
-  id: string;
-  event_id: string;
-  date: string;
-  city: string;
-  state: string;
-  venue: string;
-  price_min: number;
-  tickets_available: number;
-  status: 'on_sale' | 'presale' | 'sold_out' | 'announced';
-}
-
-interface Tour {
-  id: string;
-  artist_id: string;
-  artist_name: string;
-  artist_image?: string;
-  tour_name: string;
-  dates: TourDate[];
-  total_dates: number;
-}
+import { useToursData } from '@/hooks/useTours';
 
 export default function ToursContent() {
   const router = useRouter();
@@ -50,43 +28,13 @@ export default function ToursContent() {
   const artistQuery = searchParams.get('artist') || '';
 
   const [searchTerm, setSearchTerm] = useState(artistQuery);
-  const [tours, setTours] = useState<Tour[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCity, setSelectedCity] = useState('');
-  const [availableCities, setAvailableCities] = useState<string[]>([]);
 
-  const fetchTours = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        ...(searchTerm && { artist: searchTerm }),
-        ...(selectedCity && { city: selectedCity }),
-      });
-
-      const response = await fetch(`/api/tours?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setTours(data.tours || []);
-
-        // Extract unique cities
-        const cities = new Set<string>();
-        data.tours?.forEach((tour: Tour) => {
-          tour.dates.forEach(date => {
-            cities.add(`${date.city}, ${date.state}`);
-          });
-        });
-        setAvailableCities(Array.from(cities).sort());
-      }
-    } catch (err) {
-      log.error('Failed to fetch tours');
-    } finally {
-      setLoading(false);
-    }
-  }, [searchTerm, selectedCity]);
-
-  useEffect(() => {
-    fetchTours();
-  }, [fetchTours]);
+  const {
+    tours,
+    availableCities,
+    isLoading: loading,
+  } = useToursData({ artist: searchTerm, city: selectedCity });
 
   const handleEventClick = (eventId: string) => {
     router.push(`/events/${eventId}`);
