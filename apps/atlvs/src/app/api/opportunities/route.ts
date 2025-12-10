@@ -34,16 +34,19 @@ export async function GET(request: NextRequest) {
     const ownerId = searchParams.get('owner_id');
     const stage = searchParams.get('stage');
     const oppType = searchParams.get('opp_type');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (type === 'pipeline' || !type) {
       // Get opportunity pipeline
       let query = supabase
         .from('opportunities')
         .select(`
-          *,
+          id, name, type, stage, value, probability, expected_close_date, source, next_step, created_at,
           contact:contacts(id, first_name, last_name, organization_id),
           owner:platform_users(id, first_name, last_name)
-        `)
+        `, { count: 'exact' })
         .not('stage', 'in', '("closed_won","closed_lost")')
         .order('expected_close_date', { ascending: true });
 
@@ -52,7 +55,7 @@ export async function GET(request: NextRequest) {
       if (stage) query = query.eq('stage', stage);
       if (oppType) query = query.eq('type', oppType);
 
-      const { data: opportunities, error } = await query;
+      const { data: opportunities, error, count } = await query.range(offset, offset + limit - 1);
 
       if (error) throw error;
 
@@ -68,17 +71,27 @@ export async function GET(request: NextRequest) {
       const totalValue = opportunities?.reduce((sum, o) => sum + o.value, 0) || 0;
       const weightedValue = opportunities?.reduce((sum, o) => sum + (o.value * o.probability / 100), 0) || 0;
 
+      const totalCount = count || (opportunities?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (opportunities?.length ?? 0) < totalCount,
+      };
+
       return NextResponse.json({
         opportunities,
         by_stage: byStage,
         summary: {
-          total_opportunities: opportunities?.length || 0,
+          total_opportunities: totalCount,
           total_value: totalValue,
           weighted_value: Math.round(weightedValue * 100) / 100,
           average_probability: opportunities?.length 
             ? Math.round(opportunities.reduce((sum, o) => sum + o.probability, 0) / opportunities.length) 
             : 0,
         },
+        pagination,
       });
     }
 

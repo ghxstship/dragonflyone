@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     if (type === 'status' && exportId) {
       const { data: exportData, error } = await supabase
         .from('data_exports')
-        .select('*')
+        .select('id, export_type, format, status, file_url, file_size, row_count, expires_at, created_at')
         .eq('id', exportId)
         .single();
 
@@ -29,18 +29,30 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ export: exportData });
     }
 
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
+
     let query = supabase
       .from('data_exports')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(50);
+      .select('id, export_type, format, status, file_url, file_size, row_count, expires_at, created_at', { count: 'exact' })
+      .order('created_at', { ascending: false });
 
     if (userId) query = query.eq('requested_by', userId);
 
-    const { data: exports, error } = await query;
+    const { data: exports, error, count } = await query.range(offset, offset + limit - 1);
     if (error) throw error;
 
-    return NextResponse.json({ exports });
+    const totalCount = count || (exports?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (exports?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ exports, pagination });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
