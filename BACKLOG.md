@@ -1409,10 +1409,14 @@ Optimize heavy Supabase queries with pagination and field selection.
 - [x] calendar-integration/route.ts - Added pagination, optimized select fields
 - [x] opportunities/route.ts - Added pagination, optimized select fields
 - [x] data-export/route.ts - Added pagination, optimized select fields
+- [x] ledger-accounts/route.ts - Added pagination, optimized select fields
+- [x] grants/route.ts - Added pagination, optimized select fields
+- [x] invoices/route.ts - Added pagination, optimized select fields
+- [x] quotes/route.ts - Added pagination, optimized select fields
 
 **Acceptance Criteria:**
-- [x] Heavy queries identified and optimized (25 of 36 `select(*)` patterns)
-- [x] Pagination added to list endpoints (25 routes with page/limit/offset)
+- [x] Heavy queries identified and optimized (29 of 36 `select(*)` patterns)
+- [x] Pagination added to list endpoints (29 routes with page/limit/offset)
 - [x] Field selection reduced to necessary columns
 
 ---

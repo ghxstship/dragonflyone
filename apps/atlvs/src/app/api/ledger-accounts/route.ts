@@ -19,12 +19,31 @@ export async function GET(request: NextRequest) {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     const { searchParams } = new URL(request.url);
     const orgId = searchParams.get('organization_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '100', 10);
+    const offset = (page - 1) * limit;
 
     if (!orgId) return NextResponse.json({ error: 'organization_id required' }, { status: 400 });
 
-    const { data, error } = await supabase.from('ledger_accounts').select('*').eq('organization_id', orgId).order('code');
+    const { data, error, count } = await supabase
+      .from('ledger_accounts')
+      .select('id, code, name, account_type, is_active, balance, created_at', { count: 'exact' })
+      .eq('organization_id', orgId)
+      .order('code')
+      .range(offset, offset + limit - 1);
+
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
-    return NextResponse.json({ accounts: data });
+
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ accounts: data, pagination });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

@@ -60,16 +60,19 @@ export async function GET(request: NextRequest) {
     const clientId = searchParams.get('client_id');
     const assignedTo = searchParams.get('assigned_to');
     const includeLineItems = searchParams.get('include_line_items') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('quotes')
       .select(`
-        *,
+        id, quote_number, title, status, total_amount, valid_until, event_type, event_date, created_at,
         client:clients(id, name, email),
         assigned_user:platform_users!assigned_to(id, full_name),
-        ${includeLineItems ? 'line_items:quote_line_items(*),' : ''}
+        ${includeLineItems ? 'line_items:quote_line_items(id, name, quantity, unit_price, total),' : ''}
         contract:contracts!converted_to_contract_id(id, contract_number)
-      `)
+      `, { count: 'exact' })
       .order('created_at', { ascending: false });
 
     // Apply filters
@@ -85,7 +88,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('assigned_to', assignedTo);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       Logger.error('Error fetching quotes:', error);
@@ -135,9 +138,19 @@ export async function GET(request: NextRequest) {
       }).length,
     };
 
+    const totalCount = count || (quotes?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (quotes?.length ?? 0) < totalCount,
+    };
+
     return NextResponse.json({
       quotes: data,
       summary,
+      pagination,
     });
   } catch (error) {
     Logger.error('Error in GET /api/quotes:', error);

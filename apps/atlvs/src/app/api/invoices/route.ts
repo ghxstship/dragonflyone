@@ -35,15 +35,18 @@ export async function GET(request: NextRequest) {
     const clientId = searchParams.get('client_id');
     const projectId = searchParams.get('project_id');
     const overdue = searchParams.get('overdue') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('invoices')
       .select(`
-        *,
+        id, invoice_number, status, issue_date, due_date, total_amount, amount_paid, amount_due, currency, created_at,
         client:clients(id, name, email),
         project:projects(id, name, project_code),
         payments:invoice_payments(id, amount, payment_date, payment_method)
-      `)
+      `, { count: 'exact' })
       .order('issue_date', { ascending: false });
 
     if (status && status !== 'all') {
@@ -61,7 +64,7 @@ export async function GET(request: NextRequest) {
         .lt('due_date', new Date().toISOString().split('T')[0]);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       Logger.error('Error fetching invoices:', error);
@@ -104,7 +107,16 @@ export async function GET(request: NextRequest) {
         .reduce((sum, i) => sum + (i.amount_due || 0), 0),
     };
 
-    return NextResponse.json({ invoices: data, summary });
+    const totalCount = count || (invoices?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (invoices?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ invoices: data, summary, pagination });
   } catch (error) {
     Logger.error('Error in GET /api/invoices:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -58,20 +58,24 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type'); // 'grants' | 'funding_sources' | 'expenditures' | 'compliance' | 'reports'
     const grantId = searchParams.get('grant_id');
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (type === 'grants') {
       let query = supabase
         .from('grants')
         .select(`
-          *,
+          id, name, grantor, grantor_type, grant_number, amount_awarded, amount_received, currency,
+          start_date, end_date, purpose, status, created_at,
           project:projects(id, name),
           expenditures:grant_expenditures(amount)
-        `)
+        `, { count: 'exact' })
         .order('end_date', { ascending: true });
 
       if (status) query = query.eq('status', status);
 
-      const { data: grants, error } = await query;
+      const { data: grants, error, count } = await query.range(offset, offset + limit - 1);
 
       if (error) throw error;
 
@@ -102,6 +106,15 @@ export async function GET(request: NextRequest) {
         closed: enriched?.filter(g => g.status === 'closed') || [],
       };
 
+      const totalCount = count || (enriched?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (enriched?.length ?? 0) < totalCount,
+      };
+
       return NextResponse.json({
         grants: enriched,
         by_status: byStatus,
@@ -110,6 +123,7 @@ export async function GET(request: NextRequest) {
           total_spent: enriched?.reduce((sum, g) => sum + g.total_spent, 0) || 0,
           total_remaining: enriched?.reduce((sum, g) => sum + g.remaining_balance, 0) || 0,
         },
+        pagination,
       });
     }
 
