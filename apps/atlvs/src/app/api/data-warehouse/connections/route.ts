@@ -28,14 +28,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const connection_type = searchParams.get('connection_type');
     const is_active = searchParams.get('is_active');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('warehouse_connections')
       .select(`
-        id, name, connection_type, connection_config, is_active,
-        last_sync_at, sync_status, sync_error, created_at, updated_at,
+        id, name, connection_type, is_active,
+        last_sync_at, sync_status, created_at,
         created_by_user:platform_users!created_by(id, email, full_name)
-      `);
+      `, { count: 'exact' });
 
     if (connection_type) {
       query = query.eq('connection_type', connection_type);
@@ -44,11 +47,22 @@ export async function GET(request: NextRequest) {
       query = query.eq('is_active', is_active === 'true');
     }
 
-    const { data, error } = await query.order('name');
+    const { data, error, count } = await query
+      .order('name')
+      .range(offset, offset + limit - 1);
 
     if (error) throw error;
 
-    return NextResponse.json({ data });
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ data, pagination });
   } catch (error) {
     Logger.error('Error fetching warehouse connections:', error);
     return NextResponse.json(

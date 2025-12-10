@@ -34,9 +34,12 @@ export async function GET(request: NextRequest) {
     const destination_connection_id = searchParams.get('destination_connection_id');
     const is_active = searchParams.get('is_active');
     const include_history = searchParams.get('include_history') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let selectQuery = `
-      *,
+      id, name, description, source_type, destination_table, schedule_cron, is_active, created_at,
       destination:warehouse_connections!destination_connection_id(id, name, connection_type),
       created_by_user:platform_users!created_by(id, email, full_name)
     `;
@@ -51,7 +54,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('etl_pipelines')
-      .select(selectQuery);
+      .select(selectQuery, { count: 'exact' });
 
     if (destination_connection_id) {
       query = query.eq('destination_connection_id', destination_connection_id);
@@ -60,11 +63,22 @@ export async function GET(request: NextRequest) {
       query = query.eq('is_active', is_active === 'true');
     }
 
-    const { data, error } = await query.order('name');
+    const { data, error, count } = await query
+      .order('name')
+      .range(offset, offset + limit - 1);
 
     if (error) throw error;
 
-    return NextResponse.json({ data });
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ data, pagination });
   } catch (error) {
     Logger.error('Error fetching ETL pipelines:', error);
     return NextResponse.json(

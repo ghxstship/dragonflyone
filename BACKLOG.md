@@ -1399,10 +1399,13 @@ Optimize heavy Supabase queries with pagination and field selection.
 - [x] technical-rehearsals/route.ts - Added pagination, optimized select fields
 - [x] waitlist/route.ts - Added pagination, optimized select fields
 - [x] guest-chat/route.ts - Added pagination, optimized select fields
+- [x] data-warehouse/pipelines/route.ts - Added pagination, optimized select fields
+- [x] data-warehouse/connections/route.ts - Added pagination, optimized select fields
+- [x] data-warehouse/exports/route.ts - Added pagination, optimized select fields
 
 **Acceptance Criteria:**
-- [x] Heavy queries identified and optimized (15 of 36 `select(*)` patterns)
-- [x] Pagination added to list endpoints (15 routes with page/limit/offset)
+- [x] Heavy queries identified and optimized (18 of 36 `select(*)` patterns)
+- [x] Pagination added to list endpoints (18 routes with page/limit/offset)
 - [x] Field selection reduced to necessary columns
 
 ---
