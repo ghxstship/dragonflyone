@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   StatCard,
@@ -20,106 +19,15 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { TrendingUp, TrendingDown, Activity, Target } from 'lucide-react';
-
-interface KPI {
-  code: string;
-  name: string;
-  category: string;
-  subcategory: string;
-  unit: string;
-  enabled: boolean;
-}
-
-interface AnalyticsSummary {
-  revenue: number;
-  expenses: number;
-  profit: number;
-  margin: number;
-  projectsInProgress: number;
-  projectsPlanning: number;
-  projectsCompleted: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_KPIS: KPI[] = [
-  { code: "REV-001", name: "Gross Revenue", category: "Financial", subcategory: "Revenue", unit: "USD", enabled: true },
-  { code: "EXP-001", name: "Operating Expenses", category: "Financial", subcategory: "Expenses", unit: "USD", enabled: true },
-  { code: "PRJ-001", name: "Active Projects", category: "Operations", subcategory: "Projects", unit: "count", enabled: true },
-  { code: "CRW-001", name: "Crew Utilization", category: "Operations", subcategory: "Crew", unit: "percent", enabled: true },
-  { code: "SAF-001", name: "Safety Incidents", category: "Safety", subcategory: "Incidents", unit: "count", enabled: true },
-];
-
-const DEMO_ANALYTICS_SUMMARY: AnalyticsSummary = {
-  revenue: 6650000,
-  expenses: 5620000,
-  profit: 1030000,
-  margin: 15.5,
-  projectsInProgress: 8,
-  projectsPlanning: 12,
-  projectsCompleted: 45,
-};
+import { useAnalyticsPageData } from '@/hooks/useAnalytics';
 
 export default function AnalyticsPage() {
-  const [kpis, setKpis] = useState<KPI[]>([]);
-  const [summary, setSummary] = useState<AnalyticsSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchAnalytics = useCallback(async () => {
-    try {
-      setLoading(true);
-      
-      // Fetch KPIs
-      const kpiResponse = await fetch('/api/kpi?enabled=true');
-      if (kpiResponse.status === 401) {
-        // Use demo data for unauthenticated users
-        setKpis(DEMO_KPIS);
-        setSummary(DEMO_ANALYTICS_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!kpiResponse.ok) {
-        throw new Error('Failed to fetch KPIs');
-      }
-      const kpiData = await kpiResponse.json();
-      setKpis(kpiData.data || []);
-
-      // Fetch summary data from projects and invoices
-      const [projectsRes, invoicesRes] = await Promise.all([
-        fetch('/api/projects'),
-        fetch('/api/invoices'),
-      ]);
-
-      const projectsData = projectsRes.ok ? await projectsRes.json() : { projects: [] };
-      const invoicesData = invoicesRes.ok ? await invoicesRes.json() : { summary: {} };
-
-      const projects = projectsData.projects || [];
-      const invoiceSummary = invoicesData.summary || {};
-
-      setSummary({
-        revenue: invoiceSummary.total_paid || 6650000,
-        expenses: 5620000, // Would come from expenses API
-        profit: (invoiceSummary.total_paid || 6650000) - 5620000,
-        margin: 15.5,
-        projectsInProgress: projects.filter((p: { status: string }) => p.status === 'active').length || 8,
-        projectsPlanning: projects.filter((p: { status: string }) => p.status === 'planning').length || 12,
-        projectsCompleted: projects.filter((p: { status: string }) => p.status === 'completed').length || 45,
-      });
-
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setKpis(DEMO_KPIS);
-      setSummary(DEMO_ANALYTICS_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAnalytics();
-  }, [fetchAnalytics]);
+  const {
+    kpis,
+    summary,
+    isLoading: loading,
+    error,
+  } = useAnalyticsPageData();
 
   const formatCurrency = (amount: number) => {
     if (amount >= 1000000) {

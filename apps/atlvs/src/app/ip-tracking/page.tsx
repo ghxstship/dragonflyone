@@ -59,6 +59,7 @@ export default function IPTrackingPage() {
     totalValue,
     isLoading: loading,
     error,
+    refetch,
   } = useIPTrackingData();
 
   const [selectedAsset, setSelectedAsset] = useState<IntellectualProperty | null>(null);
@@ -81,7 +82,7 @@ export default function IPTrackingPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchIPAssets();
+      await refetch();
     },
   });
 
@@ -124,7 +125,7 @@ export default function IPTrackingPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchIPAssets}
+        onRetry={() => refetch()}
         searchPlaceholder="Search IP assets..."
         filters={filters}
         rowActions={rowActions}
@@ -157,14 +158,14 @@ export default function IPTrackingPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchIPAssets();
+            await refetch();
           } else if (action === 'archive') {
             await fetch('/api/ip-tracking/bulk-archive', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchIPAssets();
+            await refetch();
           }
         }}
         bulkActions={[

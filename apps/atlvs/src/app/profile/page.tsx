@@ -20,48 +20,33 @@ import {
   signOut,
 } from "@ghxstship/ui";
 import { User, Bell, Shield, Building2, LogOut, Edit3 } from "lucide-react";
-import { log } from '@ghxstship/config';
+import { useProfileData } from "@/hooks/useProfile";
 
 export default function ProfilePage() {
   const router = useRouter();
+  const {
+    profile: initialProfile,
+    userRoles,
+    updateProfile,
+  } = useProfileData();
+
   const [isEditing, setIsEditing] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "Demo",
-    lastName: "User",
-    email: "demo@ghxstship.com",
-    phone: "(555) 123-4567",
-    department: "Production",
-    title: "Production Manager",
-    role: "ATLVS_ADMIN",
-  });
-  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [profile, setProfile] = useState(initialProfile);
 
+  // Sync profile state when data loads
   useEffect(() => {
-    fetch('/api/user/profile')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user) {
-          setProfile({ ...profile, ...data.user });
-          setUserRoles(data.user.platformRoles || []);
-        }
-      })
-      .catch(err => log.error('Failed to load profile:', err instanceof Error ? err : undefined));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setProfile(initialProfile);
+  }, [initialProfile]);
 
   const handleSave = async () => {
     try {
-      await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
-      });
+      await updateProfile(profile);
       setSaved(true);
       setIsEditing(false);
       setTimeout(() => setSaved(false), 3000);
-    } catch (error) {
-      log.error('Failed to save profile:', error instanceof Error ? error : undefined);
+    } catch {
+      // Error handled in hook
     }
   };
 

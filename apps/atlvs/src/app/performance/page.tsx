@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,23 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Review {
-  id: string;
-  employee_id: string;
-  reviewer_id: string;
-  employee?: { id: string; full_name: string; email: string };
-  reviewer?: { id: string; full_name: string; email: string };
-  review_period: string;
-  review_type: string;
-  status: string;
-  overall_score: number;
-  strengths: string[];
-  improvements: string[];
-  scheduled_date: string;
-  created_at: string;
-  [key: string]: unknown;
-}
+import { usePerformanceData, type Review } from "@/hooks/usePerformance";
 
 const getStatusVariant = getBadgeVariant;
 const formatStatus = (status: string) => status?.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || status;
@@ -52,31 +36,17 @@ const filters: ListPageFilter[] = [
 
 export default function PerformancePage() {
   const router = useRouter();
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    reviews,
+    completedCount,
+    avgScore,
+    inProgressCount,
+    isLoading: loading,
+    error,
+  } = usePerformanceData();
+
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchPerformance = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/performance?include_goals=true');
-      if (!response.ok) throw new Error("Failed to fetch performance data");
-      const data = await response.json();
-      setReviews(data.reviews || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchPerformance(); }, [fetchPerformance]);
-
-  const completedCount = reviews.filter(r => r.status === 'completed').length;
-  const avgScore = reviews.filter(r => r.overall_score > 0).reduce((sum, r) => sum + r.overall_score, 0) / (reviews.filter(r => r.overall_score > 0).length || 1);
 
   const rowActions: ListPageAction<Review>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedReview(r); setDrawerOpen(true); } },
@@ -87,7 +57,7 @@ export default function PerformancePage() {
     { label: 'Total Reviews', value: reviews.length },
     { label: 'Completed', value: completedCount },
     { label: 'Avg Score', value: avgScore.toFixed(1) },
-    { label: 'In Progress', value: reviews.filter(r => r.status === 'in_progress').length },
+    { label: 'In Progress', value: inProgressCount },
   ];
 
   const detailSections: DetailSection[] = selectedReview ? [

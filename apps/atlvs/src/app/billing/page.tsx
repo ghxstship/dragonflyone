@@ -230,7 +230,7 @@ export default function BillingPage() {
         rowKey="id"
         loading={loading}
         error={error}
-        onRetry={fetchInvoices}
+        onRetry={() => refetch()}
         searchPlaceholder="Search invoices..."
         filters={filters}
         rowActions={rowActions}

@@ -42,6 +42,7 @@ export default function GovernancePage() {
     completedCount,
     isLoading: loading,
     error,
+    refetch,
   } = useGovernanceData();
 
   const [selectedMeeting, setSelectedMeeting] = useState<BoardMeeting | null>(null);
@@ -124,7 +125,7 @@ export default function GovernancePage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchGovernanceData}
+        onRetry={() => refetch()}
         searchPlaceholder="Search meetings..."
         filters={filters}
         rowActions={rowActions}
@@ -160,7 +161,7 @@ export default function GovernancePage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchGovernanceData();
+            await refetch();
           }
         }}
         bulkActions={[
