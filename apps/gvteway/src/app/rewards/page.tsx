@@ -37,19 +37,11 @@ export default function RewardsPage() {
     isLoading: loading,
     error,
     refetch,
+    redeemReward,
   } = useRewardsPageData();
 
   const handleRedeem = async (rewardId: string) => {
-    await fetch('/api/rewards', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user_id: 'demo-user-123',
-        reward_id: rewardId,
-        action: 'redeem',
-      }),
-    });
-    refetch();
+    await redeemReward(rewardId);
   };
 
   const userPoints = userRewards?.points || 0;

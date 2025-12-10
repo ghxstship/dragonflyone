@@ -54,13 +54,13 @@ export default function ResalePage() {
     listings,
     isLoading: loading,
     error,
+    deleteListing,
     refetch,
   } = useResaleData();
 
   const handleDelete = async () => {
     if (!selectedListing) return;
-    await fetch(`/api/resale/${selectedListing.id}`, { method: 'DELETE' });
-    refetch();
+    await deleteListing(selectedListing.id);
     setDeleteConfirmOpen(false);
     setSelectedListing(null);
   };
@@ -96,7 +96,7 @@ export default function ResalePage() {
           status: 'active',
           listed_at: new Date().toISOString(),
         };
-        setListings(prev => [...prev, newListing]);
+        // Listing added - refetch to update
       }
     },
   });
@@ -140,8 +140,8 @@ export default function ResalePage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        error={error ? new Error(error) : undefined}
-        onRetry={fetchListings}
+        error={error instanceof Error ? error : undefined}
+        onRetry={refetch}
         searchPlaceholder="Search events..."
         filters={filters}
         rowActions={rowActions}
@@ -177,14 +177,14 @@ export default function ResalePage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchListings();
+            refetch();
           } else if (action === 'delist') {
             await fetch('/api/resale/bulk-delist', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchListings();
+            refetch();
           }
         }}
         bulkActions={[

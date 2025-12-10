@@ -70,9 +70,29 @@ export function usePurchaseResaleListing() {
   });
 }
 
+export function useDeleteResaleListing() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (listingId: string) => {
+      const response = await fetch(`/api/resale/${listingId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete listing');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: resaleKeys.all });
+    },
+  });
+}
+
 export function useResaleData() {
   const listingsQuery = useResaleListings();
   const purchaseMutation = usePurchaseResaleListing();
+  const deleteMutation = useDeleteResaleListing();
 
   return {
     listings: listingsQuery.data || [],
@@ -81,5 +101,7 @@ export function useResaleData() {
     refetch: listingsQuery.refetch,
     purchaseListing: purchaseMutation.mutateAsync,
     isPurchasing: purchaseMutation.isPending,
+    deleteListing: deleteMutation.mutateAsync,
+    isDeleting: deleteMutation.isPending,
   };
 }

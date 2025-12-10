@@ -110,6 +110,31 @@ const DEMO_USER_REWARDS: UserRewards = {
   ],
 };
 
+export function useRedeemReward() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (rewardId: string) => {
+      const response = await fetch('/api/rewards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: 'demo-user-123',
+          reward_id: rewardId,
+          action: 'redeem',
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to redeem reward');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['rewards-page'] });
+    },
+  });
+}
+
 export function useRewardsPageData() {
   const rewardsQuery = useQuery({
     queryKey: ['rewards-page'],
@@ -127,10 +152,14 @@ export function useRewardsPageData() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const redeemMutation = useRedeemReward();
+
   return {
     userRewards: rewardsQuery.data || null,
     isLoading: rewardsQuery.isLoading,
     error: rewardsQuery.error,
     refetch: rewardsQuery.refetch,
+    redeemReward: redeemMutation.mutateAsync,
+    isRedeeming: redeemMutation.isPending,
   };
 }
