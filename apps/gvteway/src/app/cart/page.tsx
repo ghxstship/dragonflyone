@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
@@ -19,60 +19,23 @@ import {
   useNotifications,
 } from "@ghxstship/ui";
 import { Trash2, Minus, Plus, Tag, CreditCard, Clock } from "lucide-react";
-import { log } from '@ghxstship/config';
-
-interface CartItem {
-  id: string;
-  event_id: string;
-  event_name: string;
-  event_date: string;
-  venue_name: string;
-  ticket_type_id: string;
-  ticket_type_name: string;
-  quantity: number;
-  unit_price: number;
-  subtotal: number;
-  fees: number;
-  total: number;
-}
-
-interface CartSummary {
-  item_count: number;
-  subtotal: number;
-  service_fees: number;
-  taxes: number;
-  total: number;
-}
+import { useCartData } from "@/hooks/useCart";
 
 export default function CartPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [items, setItems] = useState<CartItem[]>([]);
-  const [summary, setSummary] = useState<CartSummary | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    items,
+    summary,
+    isLoading: loading,
+    updateQuantity,
+    removeItem,
+    applyPromo,
+  } = useCartData();
+
   const [promoCode, setPromoCode] = useState("");
   const [promoApplied, setPromoApplied] = useState(false);
   const [discount, setDiscount] = useState(0);
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
-  const fetchCart = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/cart");
-      if (!response.ok) throw new Error("Failed to fetch cart");
-      
-      const data = await response.json();
-      setItems(data.items || []);
-      setSummary(data.summary || null);
-    } catch (err) {
-      log.error('Failed to fetch cart:', err instanceof Error ? err : undefined);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -94,14 +57,7 @@ export default function CartPage() {
   const handleUpdateQuantity = async (itemId: string, quantity: number) => {
     if (quantity < 1) return;
     try {
-      const response = await fetch(`/api/cart/${itemId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity }),
-      });
-      if (response.ok) {
-        fetchCart();
-      }
+      await updateQuantity({ itemId, quantity });
     } catch (err) {
       addNotification({ type: "error", title: "Error", message: "Failed to update quantity" });
     }
@@ -109,13 +65,8 @@ export default function CartPage() {
 
   const handleRemoveItem = async (itemId: string) => {
     try {
-      const response = await fetch(`/api/cart/${itemId}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Removed", message: "Item removed from cart" });
-        fetchCart();
-      }
+      await removeItem(itemId);
+      addNotification({ type: "success", title: "Removed", message: "Item removed from cart" });
     } catch (err) {
       addNotification({ type: "error", title: "Error", message: "Failed to remove item" });
     }
@@ -124,22 +75,12 @@ export default function CartPage() {
   const handleApplyPromo = async () => {
     if (!promoCode.trim()) return;
     try {
-      const response = await fetch("/api/cart/promo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: promoCode }),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setDiscount(data.discount || 0);
-        setPromoApplied(true);
-        addNotification({ type: "success", title: "Success", message: "Promo code applied!" });
-        fetchCart();
-      } else {
-        addNotification({ type: "error", title: "Invalid Code", message: "Promo code not valid" });
-      }
+      const data = await applyPromo(promoCode);
+      setDiscount(data.discount || 0);
+      setPromoApplied(true);
+      addNotification({ type: "success", title: "Success", message: "Promo code applied!" });
     } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to apply promo code" });
+      addNotification({ type: "error", title: "Invalid Code", message: "Promo code not valid" });
     }
   };
 

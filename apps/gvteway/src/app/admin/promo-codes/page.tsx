@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { RefreshCw, Trash2, Pause, Play } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
@@ -15,22 +15,7 @@ import {
   type FormFieldConfig,
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates, log } from '@ghxstship/config';
-
-interface PromoCode {
-  id: string;
-  code: string;
-  discount_type: 'percentage' | 'fixed';
-  discount_value: number;
-  max_uses: number | null;
-  current_uses: number;
-  valid_from: string;
-  valid_until: string;
-  event_id: string | null;
-  event_title?: string;
-  status: 'active' | 'expired' | 'disabled';
-  min_purchase?: number;
-  created_at: string;
-}
+import { usePromoCodesData, type PromoCode } from '@/hooks/usePromoCodes';
 
 const columns: ListPageColumn<PromoCode>[] = [
   { key: 'code', label: 'Code', accessor: 'code', sortable: true },
@@ -111,55 +96,31 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function PromoCodesPage() {
-  const [promoCodes, setPromoCodes] = useState<PromoCode[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    promoCodes,
+    isLoading: loading,
+    error,
+    createPromoCode,
+    updatePromoCode,
+    deletePromoCode,
+  } = usePromoCodesData();
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [promoToDelete, setPromoToDelete] = useState<PromoCode | null>(null);
 
-  const fetchPromoCodes = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch('/api/admin/promo-codes');
-      if (response.ok) {
-        const data = await response.json();
-        setPromoCodes(data.promo_codes || []);
-      } else {
-        setError(new Error('Failed to load promo codes'));
-      }
-    } catch (err) {
-      setError(new Error('Network error'));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchPromoCodes();
-  }, [fetchPromoCodes]);
-
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
-      const response = await fetch('/api/admin/promo-codes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...data,
-          discount_value: parseFloat(String(data.discount_value)),
-          max_uses: data.max_uses ? parseInt(String(data.max_uses)) : null,
-          min_purchase: data.min_purchase ? parseFloat(String(data.min_purchase)) : null,
-        }),
+      await createPromoCode({
+        code: String(data.code),
+        discount_type: data.discount_type as 'percentage' | 'fixed',
+        discount_value: parseFloat(String(data.discount_value)),
+        valid_from: String(data.valid_from),
+        valid_until: String(data.valid_until),
+        max_uses: data.max_uses ? parseInt(String(data.max_uses)) : null,
+        min_purchase: data.min_purchase ? parseFloat(String(data.min_purchase)) : null,
       });
-
-      if (response.ok) {
-        setCreateModalOpen(false);
-        fetchPromoCodes();
-      } else {
-        const result = await response.json();
-        throw new Error(result.error || 'Failed to create promo code');
-      }
+      setCreateModalOpen(false);
     } catch (err) {
       log.error('Create error', err instanceof Error ? err : undefined);
       throw err;
@@ -169,12 +130,7 @@ export default function PromoCodesPage() {
   const handleToggleStatus = async (promo: PromoCode) => {
     const newStatus = promo.status === 'active' ? 'disabled' : 'active';
     try {
-      const response = await fetch(`/api/admin/promo-codes/${promo.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (response.ok) fetchPromoCodes();
+      await updatePromoCode({ id: promo.id, status: newStatus });
     } catch (err) {
       log.error('Toggle error', err instanceof Error ? err : undefined);
     }
@@ -183,14 +139,9 @@ export default function PromoCodesPage() {
   const handleDelete = async () => {
     if (!promoToDelete) return;
     try {
-      const response = await fetch(`/api/admin/promo-codes/${promoToDelete.id}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        fetchPromoCodes();
-        setDeleteConfirmOpen(false);
-        setPromoToDelete(null);
-      }
+      await deletePromoCode(promoToDelete.id);
+      setDeleteConfirmOpen(false);
+      setPromoToDelete(null);
     } catch (err) {
       log.error('Delete error', err instanceof Error ? err : undefined);
     }
