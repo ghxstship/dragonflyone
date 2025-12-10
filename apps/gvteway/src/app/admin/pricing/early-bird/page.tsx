@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -35,7 +36,12 @@ const mockCampaigns: EarlyBirdCampaign[] = [
 
 export default function EarlyBirdPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'scheduled', 'ended', 'all'],
+  });
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<EarlyBirdCampaign | null>(null);
 
@@ -75,10 +81,10 @@ export default function EarlyBirdPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-                <Tab active={activeTab === "scheduled"} onClick={() => setActiveTab("scheduled")}>Scheduled</Tab>
-                <Tab active={activeTab === "ended"} onClick={() => setActiveTab("ended")}>Ended</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+                <Tab active={isActive('scheduled')} onClick={() => setActiveTab('scheduled')}>Scheduled</Tab>
+                <Tab active={isActive('ended')} onClick={() => setActiveTab('ended')}>Ended</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>

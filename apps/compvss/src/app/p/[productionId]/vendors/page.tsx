@@ -27,6 +27,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Vendor {
   id: string;
@@ -65,7 +66,7 @@ export default function ProductionVendorsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch vendors:', error);
+      log.error('Failed to fetch vendors:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

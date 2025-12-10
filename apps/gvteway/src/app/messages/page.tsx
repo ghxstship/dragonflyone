@@ -19,6 +19,7 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { MessageCircle, Send, Users, CheckCircle } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface Message {
   id: string;
@@ -70,7 +71,7 @@ function MessagesContent() {
         }
       }
     } catch (err) {
-      console.error('Failed to fetch conversations');
+      log.error('Failed to fetch conversations', err instanceof Error ? err : undefined);
     } finally {
       setLoading(false);
     }
@@ -86,7 +87,7 @@ function MessagesContent() {
         setMessages(data.messages || []);
       }
     } catch (err) {
-      console.error('Failed to fetch messages');
+      log.error('Failed to fetch messages', err instanceof Error ? err : undefined);
     }
   }, [activeConversation]);
 
@@ -125,7 +126,7 @@ function MessagesContent() {
         fetchConversations();
       }
     } catch (err) {
-      console.error('Failed to send message');
+      log.error('Failed to send message', err instanceof Error ? err : undefined);
     } finally {
       setSending(false);
     }

@@ -14,7 +14,7 @@ import {
   type ListPageBulkAction,
   type FormFieldConfig,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, log } from '@ghxstship/config';
 
 interface PromoCode {
   id: string;
@@ -161,7 +161,7 @@ export default function PromoCodesPage() {
         throw new Error(result.error || 'Failed to create promo code');
       }
     } catch (err) {
-      console.error('Create error:', err);
+      log.error('Create error', err instanceof Error ? err : undefined);
       throw err;
     }
   };
@@ -176,7 +176,7 @@ export default function PromoCodesPage() {
       });
       if (response.ok) fetchPromoCodes();
     } catch (err) {
-      console.error('Toggle error:', err);
+      log.error('Toggle error', err instanceof Error ? err : undefined);
     }
   };
 
@@ -192,7 +192,7 @@ export default function PromoCodesPage() {
         setPromoToDelete(null);
       }
     } catch (err) {
-      console.error('Delete error:', err);
+      log.error('Delete error', err instanceof Error ? err : undefined);
     }
   };
 
@@ -235,6 +235,42 @@ export default function PromoCodesPage() {
     { label: 'Expired', value: promoCodes.filter(p => p.status === 'expired').length },
   ];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<PromoCode, 'id'>>({
+
+    entityType: 'promo-codes',
+
+    requiredFields: ['code', 'discount_type', 'discount_value'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/promo-codes', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('promo-codes');
+
+
   return (
     <GvtewayAppLayout>
       <ListPage<PromoCode>
@@ -254,6 +290,12 @@ export default function PromoCodesPage() {
         createLabel="Create Code"
         onCreate={() => setCreateModalOpen(true)}
         entityType="promo-codes"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['code', 'discount_type', 'discount_value', 'valid_from', 'valid_until', 'max_uses', 'min_purchase']}
         onExport={createExportHandler({
           filename: 'promo-codes',
           getData: () => promoCodes.map(p => ({

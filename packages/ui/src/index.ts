@@ -157,6 +157,10 @@ export { ContentCard, FeatureCard } from "./molecules/content-card.js";
 export type { ContentCardProps, FeatureCardProps } from "./molecules/content-card.js";
 export { ContextBreadcrumb } from "./molecules/context-breadcrumb.js";
 export type { ContextBreadcrumbProps, ContextLevel, ContextItem } from "./molecules/context-breadcrumb.js";
+export { CollaborativeField, CollaborativeCursor, CollaboratorsList } from "./molecules/collaborative-field.js";
+export type { CollaborativeFieldProps, CollaborativeCursorProps, CollaboratorsListProps, CollaborationUser, FieldPresenceState } from "./molecules/collaborative-field.js";
+export { QuickAddFab } from "./molecules/quick-add-fab.js";
+export type { QuickAddFabProps, QuickAddAction } from "./molecules/quick-add-fab.js";
 
 // =============================================================================
 // ORGANISMS - Complex components
@@ -220,6 +224,16 @@ export type { ProtectedRouteProps } from "./organisms/protected-route.js";
 export { AppSidebar, MobileAppSidebar } from "./organisms/app-sidebar.js";
 export type { AppSidebarProps, MobileAppSidebarProps, SidebarNavSection, SidebarNavItem, SidebarNavSubsection } from "./organisms/app-sidebar.js";
 export { ContextSwitcher } from "./organisms/context-switcher.js";
+export { GlobalSearch } from "./organisms/global-search.js";
+export type { GlobalSearchProps, SearchFilter as GlobalSearchFilter, SearchResult, SearchFacet, SavedSearch } from "./organisms/global-search.js";
+export { AutomationBuilder } from "./organisms/automation-builder.js";
+export type { AutomationBuilderProps, AutomationWorkflow, TriggerConfig, ActionConfig, ConditionConfig, TriggerType, ActionType, ConditionOperator } from "./organisms/automation-builder.js";
+export { KeyboardShortcutsModal } from "./organisms/keyboard-shortcuts-modal.js";
+export type { KeyboardShortcutsModalProps } from "./organisms/keyboard-shortcuts-modal.js";
+export { ActivityFeed } from "./organisms/activity-feed.js";
+export type { ActivityFeedProps, ActivityItem, ActivityType, ActivityUser } from "./organisms/activity-feed.js";
+export { NotificationCenter, NotificationBell } from "./organisms/notification-center.js";
+export type { NotificationCenterProps, NotificationBellProps, Notification, NotificationType, NotificationPriority } from "./organisms/notification-center.js";
 export type { ContextSwitcherProps, ProductionContext } from "./organisms/context-switcher.js";
 export { PageHeader as EnterprisePageHeader } from "./organisms/page-header.js";
 export type { PageHeaderProps as EnterprisePageHeaderProps, BreadcrumbItem as EnterpriseBreadcrumbItem, TabItem, ViewOption } from "./organisms/page-header.js";

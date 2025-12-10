@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { log } from '@ghxstship/config';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (productionError) {
-      console.error('Error creating production:', productionError);
+      log.error('Error creating production', { error: productionError });
       return NextResponse.json(
         { error: 'Failed to create production' },
         { status: 500 }
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (eventError) {
-      console.error('Error creating event:', eventError);
+      log.error('Error creating event', { error: eventError });
       // Don't fail the whole operation, just log the error
     }
 
@@ -127,7 +128,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (workspaceError) {
-      console.error('Error creating crew workspace:', workspaceError);
+      log.error('Error creating crew workspace', { error: workspaceError });
       // Don't fail the whole operation, just log the error
     }
 
@@ -146,7 +147,7 @@ export async function POST(request: NextRequest) {
         .insert(milestones);
 
       if (milestonesError) {
-        console.error('Error creating milestones:', milestonesError);
+        log.error('Error creating milestones', { error: milestonesError });
       }
     }
 
@@ -175,7 +176,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error in from-blueprint API:', error);
+    log.error('Error in from-blueprint API', { error: error instanceof Error ? error.message : 'Unknown error' });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -209,7 +210,7 @@ export async function GET(request: NextRequest) {
     const { data: blueprints, error } = await query;
 
     if (error) {
-      console.error('Error fetching blueprints:', error);
+      log.error('Error fetching blueprints', { error });
       return NextResponse.json(
         { error: 'Failed to fetch blueprints' },
         { status: 500 }
@@ -221,7 +222,7 @@ export async function GET(request: NextRequest) {
       count: blueprints?.length || 0,
     });
   } catch (error) {
-    console.error('Error in from-blueprint GET API:', error);
+    log.error('Error in from-blueprint GET API', { error: error instanceof Error ? error.message : 'Unknown error' });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

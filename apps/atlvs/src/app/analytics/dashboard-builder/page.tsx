@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Dashboard {
   id: string;
@@ -103,6 +103,42 @@ export default function DashboardBuilderPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Dashboard, 'id'>>({
+
+    entityType: 'dashboards',
+
+    requiredFields: ['name', 'description', 'template'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/dashboards', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('dashboards');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Dashboard>
@@ -119,6 +155,12 @@ export default function DashboardBuilderPage() {
         createLabel="New Dashboard"
         onCreate={() => setCreateModalOpen(true)}
         entityType="dashboards"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'description', 'template', 'dashboards', 'widgetCount', 'isDefault', 'lastModified']}
         onExport={createExportHandler({
           filename: "dashboards",
           getData: () => data.map(d => ({

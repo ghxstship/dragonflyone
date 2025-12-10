@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -62,7 +63,12 @@ const carriers = ['All', 'XPO Logistics', 'Old Dominion', 'FedEx Freight', 'Este
 
 export default function LogisticsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('active');
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'delivered', 'all'],
+  });
   const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
   const [showNewShipmentModal, setShowNewShipmentModal] = useState(false);
   const [carrierFilter, setCarrierFilter] = useState('All');
@@ -117,9 +123,9 @@ export default function LogisticsPage() {
             <Stack direction="horizontal" gap={4}>
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === 'active'} onClick={() => setActiveTab('active')}>Active</Tab>
-                  <Tab active={activeTab === 'delivered'} onClick={() => setActiveTab('delivered')}>Delivered</Tab>
-                  <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>All</Tab>
+                  <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+                  <Tab active={isActive('delivered')} onClick={() => setActiveTab('delivered')}>Delivered</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
                 </TabsList>
               </Tabs>
               <Select value={carrierFilter} onChange={(e) => setCarrierFilter(e.target.value)} className="border-ink-700 bg-black text-white w-48">

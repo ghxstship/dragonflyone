@@ -4,6 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { log } from '@ghxstship/config';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type Density = 'compact' | 'default' | 'comfortable';
@@ -131,7 +132,7 @@ function loadSettings(): AppearanceSettings {
       return { ...DEFAULT_SETTINGS, ...parsed };
     }
   } catch (error) {
-    console.warn('Failed to load appearance settings:', error);
+    log.warn('Failed to load appearance settings', { error: error instanceof Error ? error.message : 'Unknown error' });
   }
   return DEFAULT_SETTINGS;
 }
@@ -145,12 +146,13 @@ function saveSettings(settings: AppearanceSettings): void {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   } catch (error) {
-    console.warn('Failed to save appearance settings:', error);
+    log.warn('Failed to save appearance settings', { error: error instanceof Error ? error.message : 'Unknown error' });
   }
 }
 
 export interface UseAppearanceReturn {
   settings: AppearanceSettings;
+  isInitialized: boolean;
   updateSetting: <K extends keyof AppearanceSettings>(
     key: K,
     value: AppearanceSettings[K]
@@ -164,7 +166,7 @@ export interface UseAppearanceReturn {
 
 export function useAppearance(): UseAppearanceReturn {
   const [settings, setSettings] = useState<AppearanceSettings>(DEFAULT_SETTINGS);
-  const [_isInitialized, setIsInitialized] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load settings on mount
   useEffect(() => {
@@ -258,6 +260,7 @@ export function useAppearance(): UseAppearanceReturn {
 
   return {
     settings,
+    isInitialized,
     updateSetting,
     updateSettings,
     resetToDefaults,

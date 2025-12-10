@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, H2, Body, Stack, Button, Checkbox, Label } from '@ghxstship/ui';
+import { log } from '@ghxstship/config';
 
 interface CrewMember {
   id: string;
@@ -45,7 +46,7 @@ export function CrewAssignmentModal({
       onClose();
       setSelectedCrew([]);
     } catch (error) {
-      console.error('Failed to assign crew:', error);
+      log.error('Failed to assign crew:', error instanceof Error ? error : undefined);
     } finally {
       setIsSubmitting(false);
     }

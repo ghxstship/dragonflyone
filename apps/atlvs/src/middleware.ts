@@ -22,7 +22,10 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
 }
 
 const publicPaths = [
+  // Home
   '/',
+  
+  // Auth flows
   '/auth/signin',
   '/auth/signup',
   '/auth/forgot-password',
@@ -31,12 +34,34 @@ const publicPaths = [
   '/auth/verify-email',
   '/auth/callback',
   '/api/auth',
+  
+  // Marketing & product pages
   '/verticals',
-  '/contact',
+  '/features',
+  '/pricing',
+  '/integrations',
+  '/security',
+  '/changelog',
   '/demo',
+  
+  // Resources
   '/help',
+  '/docs',
+  '/blog',
+  '/guides',
+  '/case-studies',
+  '/templates',
+  
+  // Company
   '/about',
+  '/careers',
+  '/press',
+  '/partners',
+  '/contact',
+  
+  // Legal & status
   '/legal',
+  '/status',
 ];
 
 const onboardingPath = '/onboarding';
@@ -116,8 +141,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // Redirect to dashboard if authenticated and trying to access auth pages
-  if (isPublicPath && session && !pathname.startsWith('/api') && !isOnboardingPath) {
+  // Redirect to dashboard if authenticated and trying to access auth pages (not other public pages)
+  if (pathname.startsWith('/auth/') && session && !pathname.startsWith('/auth/callback')) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

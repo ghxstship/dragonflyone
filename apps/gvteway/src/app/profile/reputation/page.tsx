@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTabState } from '@ghxstship/config/hooks';
 import { Sprout, Leaf, TreeDeciduous, Star, Sparkles, Crown } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -63,7 +64,11 @@ export default function ReputationPage() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'overview' | 'history' | 'achievements'>('overview');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'overview',
+    validTabs: ['overview', 'history', 'achievements'],
+  });
 
   const fetchReputation = useCallback(async () => {
     setLoading(true);
@@ -174,26 +179,26 @@ export default function ReputationPage() {
 
         <Stack direction="horizontal" gap={2} className="mb-8">
           <Button
-            variant={activeTab === 'overview' ? 'solid' : 'outline'}
+            variant={isActive('overview') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('overview')}
           >
             Overview
           </Button>
           <Button
-            variant={activeTab === 'history' ? 'solid' : 'outline'}
+            variant={isActive('history') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('history')}
           >
             Karma History
           </Button>
           <Button
-            variant={activeTab === 'achievements' ? 'solid' : 'outline'}
+            variant={isActive('achievements') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('achievements')}
           >
             Achievements
           </Button>
         </Stack>
 
-        {activeTab === 'overview' && (
+        {isActive('overview') && (
           <Grid cols={2} gap={6}>
             <Card className="p-6">
               <H3 className="mb-6">HOW TO EARN KARMA</H3>
@@ -265,7 +270,7 @@ export default function ReputationPage() {
           </Grid>
         )}
 
-        {activeTab === 'history' && (
+        {isActive('history') && (
           <Card className="p-6">
             <H3 className="mb-6">KARMA HISTORY</H3>
             {transactions.length > 0 ? (
@@ -296,7 +301,7 @@ export default function ReputationPage() {
           </Card>
         )}
 
-        {activeTab === 'achievements' && (
+        {isActive('achievements') && (
           <Grid cols={3} gap={4}>
             {achievements.map(achievement => (
               <Card

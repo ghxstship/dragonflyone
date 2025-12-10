@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -70,7 +71,12 @@ const mockRules: UnionRule[] = [
 
 export default function UnionCompliancePage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("locals");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'locals',
+    validTabs: ['locals', 'rules', 'agreements'],
+  });
   const [selectedLocal, setSelectedLocal] = useState<UnionLocal | null>(null);
   const [selectedRule, setSelectedRule] = useState<UnionRule | null>(null);
 
@@ -115,12 +121,12 @@ export default function UnionCompliancePage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "locals"} onClick={() => setActiveTab("locals")}>Union Locals</Tab>
-              <Tab active={activeTab === "rules"} onClick={() => setActiveTab("rules")}>Work Rules</Tab>
-              <Tab active={activeTab === "agreements"} onClick={() => setActiveTab("agreements")}>Agreements</Tab>
+              <Tab active={isActive('locals')} onClick={() => setActiveTab('locals')}>Union Locals</Tab>
+              <Tab active={isActive('rules')} onClick={() => setActiveTab('rules')}>Work Rules</Tab>
+              <Tab active={isActive('agreements')} onClick={() => setActiveTab('agreements')}>Agreements</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "locals"}>
+            <TabPanel active={isActive('locals')}>
               <Grid cols={2} gap={4}>
                 {mockLocals.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -152,7 +158,7 @@ export default function UnionCompliancePage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "rules"}>
+            <TabPanel active={isActive('rules')}>
               <Table variant="dark" className="border-2 border-ink-800">
                 <TableHeader>
                   <TableRow className="bg-ink-900">
@@ -179,7 +185,7 @@ export default function UnionCompliancePage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "agreements"}>
+            <TabPanel active={isActive('agreements')}>
               <Stack gap={4}>
                 {mockLocals.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">

@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useEmployees } from '../../hooks/useEmployees';
 
 interface Employee {
@@ -215,6 +215,42 @@ export default function EmployeesPage() {
     },
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Employee, 'id'>>({
+
+    entityType: 'employees',
+
+    requiredFields: ['first_name', 'last_name', 'email'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/employees', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('employees');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Employee>
@@ -234,6 +270,12 @@ export default function EmployeesPage() {
         createLabel="Add Employee"
         onCreate={() => setCreateModalOpen(true)}
         entityType="employees"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['first_name', 'last_name', 'email', 'phone', 'department_id', 'role', 'hire_date']}
         onExport={createExportHandler({
           filename: "employees",
           getData: () => employeeList.map(e => ({

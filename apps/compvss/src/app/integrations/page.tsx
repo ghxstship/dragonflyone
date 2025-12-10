@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CompvssAppLayout } from '../../components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   Container,
   H2,
@@ -69,7 +70,7 @@ export default function CompvssIntegrationsPage() {
       ];
       setSyncJobs(mockJobs);
     } catch (error) {
-      console.error('Failed to fetch sync jobs:', error);
+      log.error('Failed to fetch sync jobs:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

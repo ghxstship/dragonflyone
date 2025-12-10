@@ -22,6 +22,7 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { Calendar, Ticket, Clock, MapPin, Star, ChevronRight } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface UpcomingEvent {
   id: string;
@@ -60,7 +61,7 @@ export default function MyEventsPage() {
         setPastEvents(data.past || []);
       }
     } catch (err) {
-      console.error('Failed to fetch events');
+      log.error('Failed to fetch events');
     } finally {
       setLoading(false);
     }
@@ -93,7 +94,7 @@ export default function MyEventsPage() {
         setTimeout(() => setSuccess(null), 3000);
       }
     } catch (err) {
-      console.error('Failed to update reminder');
+      log.error('Failed to update reminder');
     }
   };
 

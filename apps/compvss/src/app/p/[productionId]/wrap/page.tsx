@@ -23,6 +23,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface WrapMetrics {
   totalShows: number;
@@ -67,7 +68,7 @@ export default function ProductionWrapReportPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch wrap data:', error);
+      log.error('Failed to fetch wrap data:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

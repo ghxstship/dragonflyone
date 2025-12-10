@@ -25,6 +25,7 @@ import {
   Scan,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Credential {
   id: string;
@@ -63,7 +64,7 @@ export default function EventCredentialsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch credentials:', error);
+      log.error('Failed to fetch credentials:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

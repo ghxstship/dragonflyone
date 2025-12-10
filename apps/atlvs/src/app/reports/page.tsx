@@ -20,6 +20,7 @@ import {
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { TrendingUp, DollarSign, Users, Package } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 interface Analytics {
   totalRevenue: number;
@@ -93,7 +94,7 @@ export default function ReportsPage() {
         });
       }
     } catch (error) {
-      console.error('Error fetching analytics:', error);
+      log.error('Error fetching analytics:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

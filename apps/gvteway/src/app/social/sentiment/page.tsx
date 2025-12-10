@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Button,
@@ -41,7 +42,12 @@ const mockMetrics = {
 
 export default function SentimentAnalysisPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("dashboard");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'dashboard',
+    validTabs: ['dashboard', 'alerts', 'keywords'],
+  });
   const [selectedAlert, setSelectedAlert] = useState<SentimentAlert | null>(null);
 
   const getSeverityColor = (severity: string) => {
@@ -91,12 +97,12 @@ export default function SentimentAnalysisPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "dashboard"} onClick={() => setActiveTab("dashboard")}>Dashboard</Tab>
-              <Tab active={activeTab === "alerts"} onClick={() => setActiveTab("alerts")}>Alerts</Tab>
-              <Tab active={activeTab === "keywords"} onClick={() => setActiveTab("keywords")}>Keywords</Tab>
+              <Tab active={isActive('dashboard')} onClick={() => setActiveTab('dashboard')}>Dashboard</Tab>
+              <Tab active={isActive('alerts')} onClick={() => setActiveTab('alerts')}>Alerts</Tab>
+              <Tab active={isActive('keywords')} onClick={() => setActiveTab('keywords')}>Keywords</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "dashboard"}>
+            <TabPanel active={isActive('dashboard')}>
               <Grid cols={2} gap={6}>
                 <Card inverted>
                   <Stack gap={4}>
@@ -145,7 +151,7 @@ export default function SentimentAnalysisPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "alerts"}>
+            <TabPanel active={isActive('alerts')}>
               <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
@@ -176,7 +182,7 @@ export default function SentimentAnalysisPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "keywords"}>
+            <TabPanel active={isActive('keywords')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <H3>Monitored Keywords</H3>

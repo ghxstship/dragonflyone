@@ -1,3 +1,31 @@
+// =============================================================================
+// GVTEWAY ROLE DEFINITIONS
+// Used for role-based navigation filtering
+// =============================================================================
+export const GVTEWAY_ROLES = {
+  // Core roles
+  ADMIN: 'admin',
+  OWNER: 'owner',
+  MANAGER: 'manager',
+  MEMBER: 'member',
+  VIEWER: 'viewer',
+  // Consumer roles
+  FAN: 'fan',
+  MEMBER_PREMIUM: 'member_premium',
+  VIP: 'vip',
+  // Organizer roles
+  ORGANIZER: 'organizer',
+  PROMOTER: 'promoter',
+  MARKETING: 'marketing',
+  BOX_OFFICE: 'box_office',
+  // Specialized roles
+  CREATOR: 'creator',
+  INFLUENCER: 'influencer',
+  MODERATOR: 'moderator',
+} as const;
+
+export type GvtewayRole = typeof GVTEWAY_ROLES[keyof typeof GVTEWAY_ROLES];
+
 // Consumer-facing navigation for the root experience
 export const gvtewayNavigation = [
   { label: "Events", href: "/events" },
@@ -24,6 +52,7 @@ export const gvtewayMembershipNavigation = [
 
 // Sidebar navigation for authenticated users
 // Optimized for UX: Consumer-focused journey with clear primary actions
+// Role-based filtering: items with allowedRoles are only shown to users with matching roles
 export const gvtewaySidebarNavigation = [
   {
     section: "Discover",
@@ -108,7 +137,7 @@ export const gvtewaySidebarNavigation = [
         items: [
           { label: "Photos", href: "/photos", icon: "Image" },
           { label: "User Content", href: "/ugc", icon: "Camera" },
-          { label: "Exclusive Content", href: "/content", icon: "FileText" },
+          { label: "Exclusive Content", href: "/content", icon: "FileText", allowedRoles: [GVTEWAY_ROLES.MEMBER_PREMIUM, GVTEWAY_ROLES.VIP] },
         ],
       },
     ],
@@ -125,6 +154,7 @@ export const gvtewaySidebarNavigation = [
     subsections: [
       {
         label: "Benefits",
+        allowedRoles: [GVTEWAY_ROLES.MEMBER_PREMIUM, GVTEWAY_ROLES.VIP],
         items: [
           { label: "Member Benefits", href: "/membership/benefits", icon: "Gift" },
           { label: "Gift Cards", href: "/gift-cards", icon: "CreditCard" },
@@ -222,9 +252,11 @@ export const gvtewayBottomNavigation = [
 ];
 
 // Admin navigation for event organizers
+// Role-based filtering: items with allowedRoles are only shown to users with matching roles
 export const gvtewayAdminNavigation = [
   {
     section: "Event Management",
+    allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER, GVTEWAY_ROLES.ORGANIZER, GVTEWAY_ROLES.PROMOTER],
     items: [
       { label: "Create Event", href: "/events/create", icon: "Plus" },
       { label: "Clone Event", href: "/events/clone", icon: "Copy" },
@@ -234,47 +266,51 @@ export const gvtewayAdminNavigation = [
   },
   {
     section: "Marketing",
+    allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER, GVTEWAY_ROLES.MARKETING, GVTEWAY_ROLES.PROMOTER],
     items: [
       { label: "Analytics", href: "/marketing/analytics", icon: "BarChart" },
       { label: "A/B Testing", href: "/marketing/ab-testing", icon: "Split" },
       { label: "Early Bird", href: "/marketing/early-bird", icon: "Clock" },
       { label: "Influencers", href: "/marketing/influencers", icon: "Users" },
-      { label: "Pixels", href: "/marketing/pixels", icon: "Code" },
+      { label: "Pixels", href: "/marketing/pixels", icon: "Code", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MARKETING] },
       { label: "Media Kit", href: "/marketing/media-kit", icon: "FileText" },
     ],
   },
   {
     section: "Social Management",
+    allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER, GVTEWAY_ROLES.MARKETING, GVTEWAY_ROLES.MODERATOR],
     items: [
       { label: "Social Dashboard", href: "/social", icon: "Share2" },
       { label: "Inbox", href: "/social/inbox", icon: "Inbox" },
       { label: "Sentiment", href: "/social/sentiment", icon: "TrendingUp" },
       { label: "Story Templates", href: "/social/story-templates", icon: "Image" },
       { label: "TikTok Challenges", href: "/social/tiktok-challenges", icon: "Video" },
-      { label: "Crisis Management", href: "/social/crisis-management", icon: "AlertTriangle" },
+      { label: "Crisis Management", href: "/social/crisis-management", icon: "AlertTriangle", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER] },
     ],
   },
   {
     section: "Admin Tools",
+    allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER, GVTEWAY_ROLES.BOX_OFFICE],
     items: [
-      { label: "Integrations", href: "/admin/integrations", icon: "Plug" },
-      { label: "Moderation", href: "/moderate", icon: "Shield" },
-      { label: "Admin Moderation", href: "/admin/moderation", icon: "Shield" },
+      { label: "Integrations", href: "/admin/integrations", icon: "Plug", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER] },
+      { label: "Moderation", href: "/moderate", icon: "Shield", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MODERATOR] },
+      { label: "Admin Moderation", href: "/admin/moderation", icon: "Shield", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER] },
       { label: "Promo Codes", href: "/admin/promo-codes", icon: "Tag" },
-      { label: "Anti-Scalping", href: "/admin/anti-scalping", icon: "ShieldOff" },
+      { label: "Anti-Scalping", href: "/admin/anti-scalping", icon: "ShieldOff", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER] },
       { label: "Will Call", href: "/admin/will-call", icon: "ClipboardList" },
       { label: "POS", href: "/admin/pos", icon: "Monitor" },
       { label: "Cashless", href: "/admin/pos/cashless", icon: "CreditCard" },
-      { label: "Inventory Sync", href: "/admin/inventory-sync", icon: "RefreshCw" },
+      { label: "Inventory Sync", href: "/admin/inventory-sync", icon: "RefreshCw", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER] },
       { label: "Sales Reporting", href: "/admin/sales-reporting", icon: "BarChart" },
       { label: "Content Calendar", href: "/admin/content-calendar", icon: "Calendar" },
       { label: "Contests", href: "/admin/contests", icon: "Trophy" },
-      { label: "SMS Marketing", href: "/admin/marketing/sms", icon: "MessageSquare" },
+      { label: "SMS Marketing", href: "/admin/marketing/sms", icon: "MessageSquare", allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MARKETING] },
       { label: "Early Bird Pricing", href: "/admin/pricing/early-bird", icon: "Clock" },
     ],
   },
   {
     section: "Community Admin",
+    allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.OWNER, GVTEWAY_ROLES.MANAGER, GVTEWAY_ROLES.MODERATOR],
     items: [
       { label: "Community", href: "/community", icon: "Users" },
       { label: "Challenges", href: "/community/challenges", icon: "Target" },
@@ -382,6 +418,13 @@ export const gvtewayDemoEvents: EventContext[] = [
     date: "2025-04-01",
     venue: "Multiple Venues",
   },
+];
+
+// Demo organizations for breadcrumb context
+export const gvtewayDemoOrganizations = [
+  { id: "org-001", name: "GHXSTSHIP Events", current: true },
+  { id: "org-002", name: "Live Nation", current: false },
+  { id: "org-003", name: "Eventbrite", current: false },
 ];
 
 // Landing page anchor navigation (for marketing/overview page)

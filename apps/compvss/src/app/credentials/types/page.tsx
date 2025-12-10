@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 
 const columns: ListPageColumn<CredentialType>[] = [
@@ -209,6 +209,42 @@ export default function CredentialTypesPage() {
     },
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<CredentialType, 'id'>>({
+
+    entityType: 'credential-types',
+
+    requiredFields: ['name', 'code', 'access_level'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/credential-types', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('credential-types');
+
+
   return (
     <CompvssAppLayout>
       <ListPage<CredentialType>
@@ -226,6 +262,12 @@ export default function CredentialTypesPage() {
         createLabel="New Credential Type"
         onCreate={() => setCreateModalOpen(true)}
         entityType="credential-types"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'code', 'access_level', 'color', 'max_issued', 'description', 'requires_photo']}
         onExport={createExportHandler({
           filename: "credential-types",
           getData: () => (credentialTypes || []).map(t => ({

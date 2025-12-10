@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -48,7 +49,12 @@ const mockServices: AccessibilityService[] = [
 
 export default function AccessibilityPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("services");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'services',
+    validTabs: ['services', 'requests', 'info'],
+  });
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<AccessibilityRequest | null>(null);
 
@@ -87,15 +93,15 @@ export default function AccessibilityPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "services"} onClick={() => setActiveTab("services")}>Available Services</Tab>
-                <Tab active={activeTab === "requests"} onClick={() => setActiveTab("requests")}>My Requests</Tab>
-                <Tab active={activeTab === "info"} onClick={() => setActiveTab("info")}>Venue Info</Tab>
+                <Tab active={isActive('services')} onClick={() => setActiveTab('services')}>Available Services</Tab>
+                <Tab active={isActive('requests')} onClick={() => setActiveTab('requests')}>My Requests</Tab>
+                <Tab active={isActive('info')} onClick={() => setActiveTab('info')}>Venue Info</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowRequestModal(true)}>Request Accommodation</Button>
           </Stack>
 
-          <TabPanel active={activeTab === "services"}>
+          <TabPanel active={isActive('services')}>
             <Grid cols={4} gap={4}>
               {mockServices.map((service) => (
                 <Card key={service.id} inverted interactive className="p-4">
@@ -112,7 +118,7 @@ export default function AccessibilityPage() {
             </Grid>
           </TabPanel>
 
-          <TabPanel active={activeTab === "requests"}>
+          <TabPanel active={isActive('requests')}>
             <Stack gap={4}>
               {mockRequests.map((request) => (
                 <Card key={request.id} inverted className="p-4">
@@ -136,7 +142,7 @@ export default function AccessibilityPage() {
             </Stack>
           </TabPanel>
 
-          <TabPanel active={activeTab === "info"}>
+          <TabPanel active={isActive('info')}>
             <Grid cols={2} gap={6}>
               <Card inverted className="p-6">
                 <Stack gap={4}>

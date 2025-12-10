@@ -107,6 +107,42 @@ export default function TaxesPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<TaxDocument, 'id'>>({
+
+    entityType: 'taxes',
+
+    requiredFields: ['document_type', 'entity_name', 'jurisdiction'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/taxes', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('taxes');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<TaxDocument>
@@ -125,6 +161,12 @@ export default function TaxesPage() {
         createLabel="Add Tax Document"
         onCreate={() => router.push('/taxes/new')}
         entityType="taxes"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['document_type', 'entity_name', 'jurisdiction', 'filing_deadline', 'amount_due', 'status', 'tax_year']}
         onExport={createExportHandler({
           filename: "tax-documents",
           getData: () => documents.map(d => ({

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CreditCard, Smartphone, Watch, QrCode, Wifi, RotateCcw, Power } from 'lucide-react';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
@@ -103,7 +104,11 @@ export default function CashlessPaymentPage() {
   const [terminals, setTerminals] = useState<PaymentTerminal[]>(mockTerminals);
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(mockPaymentMethods);
-  const [activeTab, setActiveTab] = useState('terminals');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'terminals',
+    validTabs: ['terminals', 'transactions', 'methods', 'settings'],
+  });
   const [selectedTerminal, setSelectedTerminal] = useState<PaymentTerminal | null>(null);
   const [filter, setFilter] = useState({ status: '', location: '' });
   const [error, setError] = useState<string | null>(null);
@@ -207,22 +212,22 @@ export default function CashlessPaymentPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === 'terminals'} onClick={() => setActiveTab('terminals')}>
+              <Tab active={isActive('terminals')} onClick={() => setActiveTab('terminals')}>
                 Terminals
               </Tab>
-              <Tab active={activeTab === 'transactions'} onClick={() => setActiveTab('transactions')}>
+              <Tab active={isActive('transactions')} onClick={() => setActiveTab('transactions')}>
                 Transactions
               </Tab>
-              <Tab active={activeTab === 'methods'} onClick={() => setActiveTab('methods')}>
+              <Tab active={isActive('methods')} onClick={() => setActiveTab('methods')}>
                 Payment Methods
               </Tab>
-              <Tab active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>
+              <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>
                 Settings
               </Tab>
             </TabsList>
           </Tabs>
 
-          {activeTab === 'terminals' && (
+          {isActive('terminals') && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={4}>
                 <Field label="" className="w-48">
@@ -321,7 +326,7 @@ export default function CashlessPaymentPage() {
             </Stack>
           )}
 
-          {activeTab === 'transactions' && (
+          {isActive('transactions') && (
             <Card inverted className="overflow-hidden">
               <Table variant="dark">
                 <TableHeader>
@@ -394,7 +399,7 @@ export default function CashlessPaymentPage() {
             </Card>
           )}
 
-          {activeTab === 'methods' && (
+          {isActive('methods') && (
             <Stack gap={4}>
               {paymentMethods.map(method => (
                 <Card key={method.id} inverted className={`p-4 ${method.enabled ? '' : 'opacity-60'}`}>
@@ -437,7 +442,7 @@ export default function CashlessPaymentPage() {
             </Stack>
           )}
 
-          {activeTab === 'settings' && (
+          {isActive('settings') && (
             <Grid cols={2} gap={6}>
               <Card inverted className="p-6">
                 <Stack gap={4}>

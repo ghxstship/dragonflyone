@@ -17,6 +17,7 @@ import { ArrowRight, Download, Share2, RotateCcw, Check, Loader2 } from "lucide-
 import type { GeneratedBlueprint } from "../types";
 import { EmailCaptureModal } from "./EmailCaptureModal";
 import { useGeneratorAnalytics } from "../hooks/useGeneratorAnalytics";
+import { log } from '@ghxstship/config';
 
 // =============================================================================
 // EXPORT CTA COMPONENT
@@ -80,7 +81,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
         trackPdfDownload(false);
       }
     } catch (error) {
-      console.error("PDF download failed:", error);
+      log.error('PDF download failed:', error instanceof Error ? error : undefined);
     } finally {
       setPdfLoading(false);
     }
@@ -105,7 +106,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
         setTimeout(() => setShareStatus("idle"), 3000);
       }
     } catch (error) {
-      console.error("Share failed:", error);
+      log.error('Share failed:', error instanceof Error ? error : undefined);
       // Fallback to simple URL
       const shareUrl = `${window.location.origin}/generator/share/${blueprint.id}`;
       await navigator.clipboard.writeText(shareUrl);

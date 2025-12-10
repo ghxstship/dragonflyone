@@ -22,6 +22,10 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
 }
 
 const publicPaths = [
+  // Home
+  '/',
+  
+  // Auth flows
   '/auth/signin',
   '/auth/signup',
   '/auth/forgot-password',
@@ -30,6 +34,12 @@ const publicPaths = [
   '/auth/verify-email',
   '/auth/callback',
   '/api/auth',
+  
+  // Support
+  '/help',
+  
+  // Legal pages
+  '/legal',
 ];
 
 const onboardingPath = '/onboarding';
@@ -66,7 +76,9 @@ export async function middleware(request: NextRequest) {
   
   const response = NextResponse.next({ request });
 
-  const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+  const isPublicPath = publicPaths.some(path => 
+    path === '/' ? pathname === '/' : pathname.startsWith(path)
+  );
   const isOnboardingPath = pathname.startsWith(onboardingPath);
 
   const supabase = createServerClient(
@@ -95,7 +107,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  if (isPublicPath && session && !pathname.startsWith('/api')) {
+  // Redirect authenticated users from auth pages to dashboard
+  if (pathname.startsWith('/auth/') && session && !pathname.startsWith('/auth/callback')) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

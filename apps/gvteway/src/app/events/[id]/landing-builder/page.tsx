@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2,
@@ -83,7 +84,11 @@ export default function LandingBuilderPage() {
   const params = useParams();
   const eventId = params.id as string;
 
-  const [activeTab, setActiveTab] = useState("design");
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'design',
+    validTabs: ['design', 'sections', 'seo', 'advanced'],
+  });
   const [config, setConfig] = useState<LandingPageConfig>({
     id: "LP-001",
     eventId,
@@ -166,13 +171,13 @@ export default function LandingBuilderPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "design"} onClick={() => setActiveTab("design")}>Design</Tab>
-              <Tab active={activeTab === "sections"} onClick={() => setActiveTab("sections")}>Sections</Tab>
-              <Tab active={activeTab === "seo"} onClick={() => setActiveTab("seo")}>SEO & Meta</Tab>
-              <Tab active={activeTab === "advanced"} onClick={() => setActiveTab("advanced")}>Advanced</Tab>
+              <Tab active={isActive('design')} onClick={() => setActiveTab('design')}>Design</Tab>
+              <Tab active={isActive('sections')} onClick={() => setActiveTab('sections')}>Sections</Tab>
+              <Tab active={isActive('seo')} onClick={() => setActiveTab('seo')}>SEO & Meta</Tab>
+              <Tab active={isActive('advanced')} onClick={() => setActiveTab('advanced')}>Advanced</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "design"}>
+            <TabPanel active={isActive('design')}>
               <Grid cols={2} gap={8}>
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={6}>
@@ -269,7 +274,7 @@ export default function LandingBuilderPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "sections"}>
+            <TabPanel active={isActive('sections')}>
               <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                 <Stack gap={6}>
                   <Stack direction="horizontal" className="justify-between items-center">
@@ -343,7 +348,7 @@ export default function LandingBuilderPage() {
               </Card>
             </TabPanel>
 
-            <TabPanel active={activeTab === "seo"}>
+            <TabPanel active={isActive('seo')}>
               <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                 <Stack gap={6}>
                   <H3>SEO & Meta Tags</H3>
@@ -404,7 +409,7 @@ export default function LandingBuilderPage() {
               </Card>
             </TabPanel>
 
-            <TabPanel active={activeTab === "advanced"}>
+            <TabPanel active={isActive('advanced')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={4}>

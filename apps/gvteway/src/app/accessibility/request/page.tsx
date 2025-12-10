@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -73,7 +74,7 @@ function AccessibilityRequestContent() {
         setRequests(data.requests || []);
       }
     } catch (err) {
-      console.error('Failed to fetch requests');
+      log.error('Failed to fetch requests');
     } finally {
       setLoading(false);
     }

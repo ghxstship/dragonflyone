@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -53,7 +54,12 @@ const mockLeaderboard: Leaderboard[] = [
 
 export default function ChallengesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'upcoming', 'completed', 'leaderboard'],
+  });
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
 
   const activeChallenges = mockChallenges.filter(c => c.status === "Active").length;
@@ -94,13 +100,13 @@ export default function ChallengesPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-              <Tab active={activeTab === "upcoming"} onClick={() => setActiveTab("upcoming")}>Upcoming</Tab>
-              <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
-              <Tab active={activeTab === "leaderboard"} onClick={() => setActiveTab("leaderboard")}>Leaderboard</Tab>
+              <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+              <Tab active={isActive('upcoming')} onClick={() => setActiveTab('upcoming')}>Upcoming</Tab>
+              <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
+              <Tab active={isActive('leaderboard')} onClick={() => setActiveTab('leaderboard')}>Leaderboard</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab !== "leaderboard"}>
+            <TabPanel active={!isActive('leaderboard')}>
               <Grid cols={2} gap={6}>
                 {filteredChallenges.map((challenge) => (
                   <Card key={challenge.id} inverted variant={challenge.userCompleted ? "elevated" : "default"} className="overflow-hidden">
@@ -166,7 +172,7 @@ export default function ChallengesPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "leaderboard"}>
+            <TabPanel active={isActive('leaderboard')}>
               <Card inverted className="p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Top Challengers</H3>

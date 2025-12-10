@@ -99,6 +99,42 @@ export default function ClientRetentionPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<ClientRetention, 'id'>>({
+
+    entityType: 'client-retention',
+
+    requiredFields: ['clientName', 'segment', 'totalRevenue'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/client-retention', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('client-retention');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<ClientRetention>
@@ -113,6 +149,12 @@ export default function ClientRetentionPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="client-retention"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['clientName', 'segment', 'totalRevenue', 'totalDeals', 'lastDealDate', 'healthScore', 'status']}
         onExport={createExportHandler({
           filename: "client-retention",
           getData: () => data.map(c => ({

@@ -15,8 +15,8 @@ describe('Permissions', () => {
       expect(Array.isArray(ROLE_PERMISSION_MATRIX.LEGEND_SUPER_ADMIN)).toBe(true);
     });
 
-    it('should have permissions for LEGEND_ORG_ADMIN', () => {
-      expect(ROLE_PERMISSION_MATRIX.LEGEND_ORG_ADMIN).toBeDefined();
+    it('should have permissions for ATLVS_ADMIN', () => {
+      expect(ROLE_PERMISSION_MATRIX.ATLVS_ADMIN).toBeDefined();
     });
 
     it('should have super_admin with full access to productions', () => {
@@ -37,13 +37,13 @@ describe('Permissions', () => {
     });
 
     it('should return not allowed for crew member on user management', () => {
-      const perms = ROLE_PERMISSION_MATRIX.LEGEND_CREW_MEMBER;
+      const perms = ROLE_PERMISSION_MATRIX.COMPVSS_CREW_MEMBER;
       const result = checkResourcePermission(perms, 'users', 'delete');
       expect(result.allowed).toBe(false);
     });
 
     it('should allow crew member to read schedules', () => {
-      const perms = ROLE_PERMISSION_MATRIX.LEGEND_CREW_MEMBER;
+      const perms = ROLE_PERMISSION_MATRIX.COMPVSS_CREW_MEMBER;
       const result = checkResourcePermission(perms, 'schedules', 'read');
       expect(result.allowed).toBe(true);
     });
@@ -64,7 +64,7 @@ describe('Permissions', () => {
 
   describe('mergeResourcePermissions', () => {
     it('should merge permissions from multiple roles', () => {
-      const merged = mergeResourcePermissions(['LEGEND_CREW_MEMBER', 'LEGEND_FINANCE_MANAGER']);
+      const merged = mergeResourcePermissions(['COMPVSS_CREW_MEMBER', 'ATLVS_FINANCE_MANAGER']);
       expect(Array.isArray(merged)).toBe(true);
       expect(merged.length).toBeGreaterThan(0);
     });
@@ -84,7 +84,7 @@ describe('Permissions', () => {
     });
 
     it('should return limited resources for crew member', () => {
-      const perms = ROLE_PERMISSION_MATRIX.LEGEND_CREW_MEMBER;
+      const perms = ROLE_PERMISSION_MATRIX.COMPVSS_CREW_MEMBER;
       const resources = getAccessibleResources(perms);
       expect(resources).toContain('schedules' as ResourceType);
     });

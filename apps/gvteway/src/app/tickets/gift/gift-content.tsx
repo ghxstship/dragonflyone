@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { log } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -67,7 +68,7 @@ export default function GiftTicketsContent() {
         setEvents(data.events || []);
       }
     } catch (err) {
-      console.error('Failed to fetch events');
+      log.error('Failed to fetch events');
     }
   }, []);
 
@@ -79,7 +80,7 @@ export default function GiftTicketsContent() {
         setTicketTypes(data.ticket_types || []);
       }
     } catch (err) {
-      console.error('Failed to fetch ticket types');
+      log.error('Failed to fetch ticket types');
     }
   }, []);
 

@@ -2,7 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -51,7 +53,11 @@ export default function GiftCardsPage() {
   const [purchasing, setPurchasing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'buy' | 'redeem' | 'my-cards'>('buy');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'buy',
+    validTabs: ['buy', 'redeem', 'my-cards'],
+  });
 
   // Purchase form state
   const [selectedAmount, setSelectedAmount] = useState(50);
@@ -75,7 +81,7 @@ export default function GiftCardsPage() {
         setMyCards(data.cards || []);
       }
     } catch (err) {
-      console.error('Failed to fetch cards');
+      log.error('Failed to fetch cards');
     } finally {
       setLoading(false);
     }
@@ -202,29 +208,29 @@ export default function GiftCardsPage() {
 
         <Stack direction="horizontal" gap={2}>
           <Button
-            variant={activeTab === 'buy' ? 'solid' : 'outlineInk'}
-            inverted={activeTab === 'buy'}
+            variant={isActive('buy') ? 'solid' : 'outlineInk'}
+            inverted={isActive('buy')}
             onClick={() => setActiveTab('buy')}
           >
             Buy Gift Card
           </Button>
           <Button
-            variant={activeTab === 'redeem' ? 'solid' : 'outlineInk'}
-            inverted={activeTab === 'redeem'}
+            variant={isActive('redeem') ? 'solid' : 'outlineInk'}
+            inverted={isActive('redeem')}
             onClick={() => setActiveTab('redeem')}
           >
             Redeem Code
           </Button>
           <Button
-            variant={activeTab === 'my-cards' ? 'solid' : 'outlineInk'}
-            inverted={activeTab === 'my-cards'}
+            variant={isActive('my-cards') ? 'solid' : 'outlineInk'}
+            inverted={isActive('my-cards')}
             onClick={() => setActiveTab('my-cards')}
           >
             My Gift Cards
           </Button>
         </Stack>
 
-        {activeTab === 'buy' && (
+        {isActive('buy') && (
           <Grid cols={2} gap={8}>
             <Stack gap={6}>
               <Card inverted className="p-6">
@@ -341,7 +347,7 @@ export default function GiftCardsPage() {
           </Grid>
         )}
 
-        {activeTab === 'redeem' && (
+        {isActive('redeem') && (
           <Card inverted variant="elevated" className="mx-auto max-w-md p-8">
             <H3 className="mb-6 text-center text-white">Redeem Gift Card</H3>
             <Stack gap={4}>
@@ -362,7 +368,7 @@ export default function GiftCardsPage() {
           </Card>
         )}
 
-        {activeTab === 'my-cards' && (
+        {isActive('my-cards') && (
           <Stack gap={4}>
             {loading ? (
               <Stack className="items-center py-spacing-12">

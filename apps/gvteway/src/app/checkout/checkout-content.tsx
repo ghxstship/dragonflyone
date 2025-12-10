@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Stack, Spinner } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 interface CartItem {
   id: string;
@@ -72,7 +73,7 @@ export default function CheckoutContent() {
         }
       }
     } catch (error) {
-      console.error('Error loading cart:', error);
+      log.error('Error loading cart:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -110,7 +111,7 @@ export default function CheckoutContent() {
         alert('Payment failed: ' + data.error);
       }
     } catch (error) {
-      console.error('Payment error:', error);
+      log.error('Payment error:', error instanceof Error ? error : undefined);
       alert('Payment processing failed');
     } finally {
       setProcessing(false);

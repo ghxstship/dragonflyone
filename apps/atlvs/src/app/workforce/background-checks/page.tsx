@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
   } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface BackgroundCheck {
   id: string;
@@ -156,6 +156,42 @@ export default function BackgroundChecksPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<BackgroundCheck, 'id'>>({
+
+    entityType: 'background-checks',
+
+    requiredFields: ['employeeName', 'department', 'checkType'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/background-checks', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('background-checks');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<BackgroundCheck>
@@ -172,6 +208,12 @@ export default function BackgroundChecksPage() {
         createLabel="Request Check"
         onCreate={() => setCreateModalOpen(true)}
         entityType="background-checks"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['employeeName', 'department', 'checkType', 'provider', 'requestDate', 'status', 'result']}
         onExport={createExportHandler({
           filename: "background-checks",
           getData: () => checks.map(c => ({

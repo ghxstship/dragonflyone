@@ -101,6 +101,42 @@ export default function RentalEquipmentPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<RentalEquipment, 'id'>>({
+
+    entityType: 'rentals',
+
+    requiredFields: ['name', 'category', 'vendor'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/rentals', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('rentals');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<RentalEquipment>
@@ -116,6 +152,12 @@ export default function RentalEquipmentPage() {
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         onCreate={() => setModalOpen(true)}
         entityType="rentals"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'category', 'vendor', 'projectName', 'rentalStart', 'rentalEnd', 'dailyRate']}
         onExport={createExportHandler({
           filename: "equipment-rentals",
           getData: () => data.map(r => ({

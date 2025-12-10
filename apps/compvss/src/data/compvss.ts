@@ -1,3 +1,29 @@
+// =============================================================================
+// COMPVSS ROLE DEFINITIONS
+// Used for role-based navigation filtering
+// =============================================================================
+export const COMPVSS_ROLES = {
+  // Core roles
+  ADMIN: 'admin',
+  OWNER: 'owner',
+  MANAGER: 'manager',
+  MEMBER: 'member',
+  VIEWER: 'viewer',
+  // Department roles
+  CREW_LEAD: 'crew_lead',
+  PRODUCTION_MANAGER: 'production_manager',
+  STAGE_MANAGER: 'stage_manager',
+  SAFETY_OFFICER: 'safety_officer',
+  LOGISTICS: 'logistics',
+  // Specialized roles
+  CREW_MEMBER: 'crew_member',
+  CONTRACTOR: 'contractor',
+  VENDOR: 'vendor',
+  CLIENT: 'client',
+} as const;
+
+export type CompvssRole = typeof COMPVSS_ROLES[keyof typeof COMPVSS_ROLES];
+
 export const compvssNavigation = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Projects", href: "/projects" },
@@ -11,10 +37,12 @@ export const compvssNavigation = [
 
 // Sidebar navigation with full route structure
 // Optimized for UX: Task-based grouping aligned with production workflow phases
+// Role-based filtering: items with allowedRoles are only shown to users with matching roles
 export const compvssSidebarNavigation = [
   {
     section: "Home",
     icon: "LayoutDashboard",
+    // Home section visible to all roles
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
       { label: "Schedule", href: "/schedule", icon: "Calendar" },
@@ -24,9 +52,10 @@ export const compvssSidebarNavigation = [
   {
     section: "Crew",
     icon: "Users",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CREW_LEAD, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "All Crew", href: "/crew", icon: "Users", primary: true },
-      { label: "Assign Crew", href: "/crew/assign", icon: "UserPlus" },
+      { label: "Assign Crew", href: "/crew/assign", icon: "UserPlus", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CREW_LEAD] },
       { label: "Availability", href: "/availability", icon: "CalendarCheck" },
       { label: "Timekeeping", href: "/timekeeping", icon: "Clock" },
       { label: "Skills Matrix", href: "/skills", icon: "Zap" },
@@ -35,6 +64,7 @@ export const compvssSidebarNavigation = [
     subsections: [
       {
         label: "Crew Admin",
+        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER],
         items: [
           { label: "Background Checks", href: "/background-checks", icon: "ShieldCheck" },
           { label: "Travel", href: "/travel", icon: "Plane" },
@@ -48,9 +78,10 @@ export const compvssSidebarNavigation = [
   {
     section: "Production",
     icon: "Clapperboard",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER, COMPVSS_ROLES.STAGE_MANAGER, COMPVSS_ROLES.CREW_LEAD],
     items: [
       { label: "Run of Show", href: "/run-of-show", icon: "ListOrdered", primary: true },
-      { label: "Stage Management", href: "/stage-management", icon: "Monitor" },
+      { label: "Stage Management", href: "/stage-management", icon: "Monitor", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.PRODUCTION_MANAGER, COMPVSS_ROLES.STAGE_MANAGER] },
       { label: "Build & Strike", href: "/build-strike", icon: "Hammer" },
       { label: "Show Call", href: "/show-call", icon: "Phone" },
       { label: "Set Times", href: "/set-times", icon: "Clock" },
@@ -79,6 +110,7 @@ export const compvssSidebarNavigation = [
   {
     section: "Resources",
     icon: "Package",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.LOGISTICS, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "Equipment", href: "/equipment", icon: "Package", primary: true },
       { label: "Venues", href: "/venues", icon: "Building" },
@@ -98,6 +130,7 @@ export const compvssSidebarNavigation = [
       },
       {
         label: "Vendors",
+        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER],
         items: [
           { label: "Compare Vendors", href: "/vendors/compare", icon: "GitCompare" },
           { label: "Subcontractors", href: "/subcontractors", icon: "Users" },
@@ -109,6 +142,7 @@ export const compvssSidebarNavigation = [
   {
     section: "Safety",
     icon: "Shield",
+    // Safety visible to all roles - critical information
     items: [
       { label: "Safety Dashboard", href: "/safety", icon: "Shield", primary: true },
       { label: "Incidents", href: "/incidents", icon: "AlertTriangle" },
@@ -118,6 +152,7 @@ export const compvssSidebarNavigation = [
     subsections: [
       {
         label: "Risk Management",
+        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.SAFETY_OFFICER],
         items: [
           { label: "Risk Register", href: "/risk-register", icon: "FileWarning" },
           { label: "Emergency Plans", href: "/emergency", icon: "Siren" },
@@ -130,24 +165,27 @@ export const compvssSidebarNavigation = [
   {
     section: "Communications",
     icon: "MessageSquare",
+    // Communications visible to all roles
     items: [
       { label: "Comms Hub", href: "/communications", icon: "MessageSquare", primary: true },
       { label: "Channels", href: "/channels", icon: "Radio" },
       { label: "Messages", href: "/messages", icon: "Mail" },
-      { label: "Stakeholder Portal", href: "/stakeholder-portal", icon: "Users" },
+      { label: "Stakeholder Portal", href: "/stakeholder-portal", icon: "Users", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CLIENT] },
     ],
   },
   {
     section: "Hospitality",
     icon: "Crown",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "VIP Management", href: "/vip-management", icon: "Crown", primary: true },
-      { label: "Settlement", href: "/settlement", icon: "DollarSign" },
+      { label: "Settlement", href: "/settlement", icon: "DollarSign", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER] },
     ],
   },
   {
     section: "Directory",
     icon: "BookOpen",
+    // Directory visible to all roles
     items: [
       { label: "Directory", href: "/directory", icon: "BookOpen", primary: true },
       { label: "Knowledge Base", href: "/knowledge", icon: "Library" },
@@ -166,6 +204,7 @@ export const compvssSidebarNavigation = [
       },
       {
         label: "Jobs & Bids",
+        allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CONTRACTOR],
         items: [
           { label: "Mobile Jobs", href: "/opportunities/mobile", icon: "Smartphone" },
           { label: "Proposals", href: "/opportunities/proposals", icon: "FileText" },
@@ -178,6 +217,7 @@ export const compvssSidebarNavigation = [
   {
     section: "Advancing",
     icon: "ArrowUpRight",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.PRODUCTION_MANAGER],
     items: [
       { label: "Advances", href: "/advancing", icon: "ArrowUpRight", primary: true },
       { label: "Catalog", href: "/advancing/catalog", icon: "Grid" },
@@ -187,9 +227,10 @@ export const compvssSidebarNavigation = [
   {
     section: "Settings",
     icon: "Settings",
+    allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER],
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
-      { label: "Integrations", href: "/integrations", icon: "Plug" },
+      { label: "Integrations", href: "/integrations", icon: "Plug", allowedRoles: [COMPVSS_ROLES.ADMIN] },
       { label: "Offline Mode", href: "/offline", icon: "WifiOff" },
       { label: "Social Amplification", href: "/social-amplification", icon: "Share2" },
     ],
@@ -387,6 +428,29 @@ export const compvssDemoProductions: ProductionContext[] = [
     endDate: "2025-09-12",
     venue: "Convention Center",
   },
+];
+
+// Demo organizations for breadcrumb context
+export const compvssDemoOrganizations = [
+  { id: "org-001", name: "GHXSTSHIP Productions", current: true },
+  { id: "org-002", name: "Live Nation Events", current: false },
+  { id: "org-003", name: "AEG Presents", current: false },
+];
+
+// Demo teams for breadcrumb context
+export const compvssDemoTeams = [
+  { id: "team-001", name: "Stage Crew", current: true },
+  { id: "team-002", name: "Audio Team", current: false },
+  { id: "team-003", name: "Lighting Team", current: false },
+  { id: "team-004", name: "Video Team", current: false },
+];
+
+// Demo workspaces for breadcrumb context
+export const compvssDemoWorkspaces = [
+  { id: "ws-001", name: "Main Stage", current: true },
+  { id: "ws-002", name: "Second Stage", current: false },
+  { id: "ws-003", name: "VIP Area", current: false },
+  { id: "ws-004", name: "Backstage", current: false },
 ];
 
 // Quick actions for command palette and shortcuts

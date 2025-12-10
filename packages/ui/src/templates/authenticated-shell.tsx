@@ -1,11 +1,11 @@
 "use client";
 
-import { forwardRef, useState, ReactNode } from "react";
+import { forwardRef, useState, useEffect, useCallback, ReactNode } from "react";
 import clsx from "clsx";
 import { AppSidebar, MobileAppSidebar } from "../organisms/app-sidebar.js";
 import type { SidebarNavSection, SidebarNavItem } from "../organisms/app-sidebar.js";
 import { Dropdown, DropdownItem } from "../molecules/dropdown.js";
-import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check, FolderKanban, Users, Briefcase } from "lucide-react";
+import { Menu, Search, Bell, Settings, ChevronDown, User, LogOut, Building2, Plus, Check, FolderKanban, Users, Briefcase, ArrowLeft } from "lucide-react";
 
 // =============================================================================
 // TYPES
@@ -55,6 +55,8 @@ export type AuthenticatedShellProps = {
   favorites?: SidebarNavItem[];
   /** Spaces/projects */
   spaces?: Array<{ id: string; name: string; color?: string; href: string }>;
+  /** Recent pages section (last 5 visited) */
+  recentPages?: SidebarNavItem[];
   /** Search component override */
   searchComponent?: ReactNode;
   /** Header actions (context switcher, etc.) - DEPRECATED: use breadcrumbContext instead */
@@ -75,6 +77,10 @@ export type AuthenticatedShellProps = {
   onWorkspaceSwitch?: (workspaceId: string) => void;
   /** Sign out callback */
   onSignOut?: () => void;
+  /** User roles for filtering navigation items */
+  userRoles?: string[];
+  /** Storage key prefix for persisting sidebar state */
+  storageKey?: string;
   /** Additional className */
   className?: string;
 };
@@ -589,6 +595,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
       quickActions,
       favorites,
       spaces,
+      recentPages,
       searchComponent,
       headerActions,
       inverted = true,
@@ -599,12 +606,62 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
       workspaces = [],
       onWorkspaceSwitch,
       onSignOut,
+      userRoles,
+      storageKey,
       className,
     },
     ref
   ) {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+    // Determine if we're in a nested context (project/event level)
+    const isInNestedContext = breadcrumbContext && breadcrumbContext.length > 1;
+    const dashboardHref = breadcrumbContext?.[0]?.href || "/dashboard";
+
+    // Keyboard shortcuts for context switching (Cmd+Shift+1-4)
+    const handleKeyboardShortcuts = useCallback((event: KeyboardEvent) => {
+      // Don't trigger shortcuts when typing in inputs
+      const target = event.target as HTMLElement;
+      if (
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+
+      // Cmd+Shift+1-4 for context switching
+      if ((event.metaKey || event.ctrlKey) && event.shiftKey) {
+        const contextTypes: BreadcrumbContextItem["type"][] = ["organization", "project", "team", "workspace"];
+        const keyNum = parseInt(event.key, 10);
+        
+        if (keyNum >= 1 && keyNum <= 4 && contextOptions && onContextSwitch) {
+          event.preventDefault();
+          const contextType = contextTypes[keyNum - 1];
+          const options = contextOptions[`${contextType}s` as keyof ContextOptions] || contextOptions[contextType === "organization" ? "organizations" : `${contextType}s` as keyof ContextOptions];
+          
+          if (options && options.length > 0) {
+            // Find the current item and switch to the next one
+            const currentIndex = options.findIndex(o => o.current);
+            const nextIndex = (currentIndex + 1) % options.length;
+            onContextSwitch(contextType, options[nextIndex].id);
+          }
+        }
+      }
+
+      // Cmd+Shift+D for back to dashboard
+      if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === 'd') {
+        event.preventDefault();
+        onNavigate?.(dashboardHref);
+      }
+    }, [contextOptions, onContextSwitch, onNavigate, dashboardHref]);
+
+    // Register keyboard shortcuts
+    useEffect(() => {
+      window.addEventListener('keydown', handleKeyboardShortcuts);
+      return () => window.removeEventListener('keydown', handleKeyboardShortcuts);
+    }, [handleKeyboardShortcuts]);
 
     // Sidebar footer with user info
     const sidebarFooter = user ? (
@@ -659,11 +716,19 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
             quickActions={quickActions}
             favorites={favorites}
             spaces={spaces}
+            recentPages={recentPages}
             footer={sidebarFooter}
             inverted={inverted}
             onNavigate={onNavigate}
             collapsed={sidebarCollapsed}
             onCollapse={setSidebarCollapsed}
+            userRoles={userRoles}
+            storageKey={storageKey}
+            contextIndicator={
+              isInNestedContext && breadcrumbContext?.[1]
+                ? { name: breadcrumbContext[1].name }
+                : undefined
+            }
           />
         </div>
 
@@ -678,12 +743,15 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
           quickActions={quickActions}
           favorites={favorites}
           spaces={spaces}
+          recentPages={recentPages}
           footer={sidebarFooter}
           inverted={inverted}
           onNavigate={(href) => {
             onNavigate?.(href);
             setMobileMenuOpen(false);
           }}
+          userRoles={userRoles}
+          storageKey={storageKey}
         />
 
         {/* Main Content Area */}
@@ -693,7 +761,7 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
             "flex items-center justify-between h-14 px-4 border-b-2 shrink-0",
             inverted ? "bg-ink-950 border-ink-800" : "bg-white border-ink-200"
           )}>
-            {/* Left: Mobile menu + Breadcrumb context (Organization > Project > Team > Workspace) */}
+            {/* Left: Mobile menu + Back to Dashboard + Breadcrumb context */}
             <div className="flex items-center gap-1">
               {/* Mobile menu button */}
               <button
@@ -710,7 +778,25 @@ export const AuthenticatedShell = forwardRef<HTMLDivElement, AuthenticatedShellP
                 <Menu size={20} />
               </button>
               
-              {/* New breadcrumb context (Organization > Project > Team > Workspace) */}
+              {/* Back to Dashboard link when in nested context */}
+              {isInNestedContext && (
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.(dashboardHref)}
+                  className={clsx(
+                    "hidden md:flex items-center gap-1 px-2 py-1 rounded text-xs font-medium transition-colors",
+                    inverted 
+                      ? "text-ink-400 hover:text-white hover:bg-ink-800" 
+                      : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+                  )}
+                  title="Back to Dashboard (Cmd+Shift+D)"
+                >
+                  <ArrowLeft size={14} />
+                  <span className="hidden lg:inline">Dashboard</span>
+                </button>
+              )}
+              
+              {/* Breadcrumb context (Organization > Project > Team > Workspace) */}
               {breadcrumbContext && breadcrumbContext.length > 0 ? (
                 <div className="hidden sm:block">
                   <HeaderBreadcrumb

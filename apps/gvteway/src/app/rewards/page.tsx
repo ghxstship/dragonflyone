@@ -16,6 +16,7 @@ import {
   Label,
 } from '@ghxstship/ui';
 import { Award, Gift, Star, TrendingUp, Ticket, Zap, Trophy } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface Reward {
   id: string;
@@ -115,7 +116,7 @@ export default function RewardsPage() {
         fetchRewards();
       }
     } catch (err) {
-      console.error('Failed to redeem reward:', err);
+      log.error('Failed to redeem reward:', err instanceof Error ? err : undefined);
     }
   };
 

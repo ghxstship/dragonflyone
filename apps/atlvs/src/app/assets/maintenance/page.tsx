@@ -135,6 +135,42 @@ export default function AssetMaintenancePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<MaintenanceRecord, 'id'>>({
+
+    entityType: 'asset-maintenance',
+
+    requiredFields: ['assetName', 'type', 'priority'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/asset-maintenance', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('asset-maintenance');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<MaintenanceRecord>
@@ -151,6 +187,12 @@ export default function AssetMaintenancePage() {
         createLabel="Schedule Maintenance"
         onCreate={() => setCreateModalOpen(true)}
         entityType="asset-maintenance"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['assetName', 'type', 'priority', 'scheduledDate', 'description', 'technician', 'category']}
         onExport={createExportHandler({
           filename: "asset-maintenance",
           getData: () => records.map(r => ({

@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import {
   PageLayout,
@@ -15,8 +15,9 @@ import {
   Spinner,
   AuthenticatedShell,
   CommandPalette,
+  MobileBottomNav,
 } from "@ghxstship/ui";
-import type { SidebarNavSection } from "@ghxstship/ui";
+import type { SidebarNavSection, SidebarNavItem } from "@ghxstship/ui";
 import {
   ConsumerNavigationPublic,
   ConsumerNavigationAuthenticated,
@@ -24,14 +25,69 @@ import {
   CreatorNavigationPublic,
   CreatorNavigationAuthenticated,
 } from "./navigation";
-import type { ContextLevel } from "@ghxstship/ui";
-import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions } from "../data/gvteway";
+import type { ContextLevel, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations, gvtewayDemoEvents } from "../data/gvteway";
 import {
   useCommandPalette,
   buildNavigationCommands,
   buildActionCommands,
+  useAuth,
+  useFavorites,
+  useKeyboardShortcuts,
 } from "@ghxstship/config/hooks";
 import { Search, Ticket, Calendar, MapPin } from "lucide-react";
+
+// =============================================================================
+// RECENT PAGES TRACKING
+// =============================================================================
+
+const RECENT_PAGES_KEY = "gvteway-recent-pages";
+const MAX_RECENT_PAGES = 5;
+
+function useRecentPages(currentPath: string) {
+  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(RECENT_PAGES_KEY);
+      if (stored) {
+        try {
+          setRecentPages(JSON.parse(stored));
+        } catch {
+          // Ignore parse errors
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
+    if (currentPath.startsWith("/auth")) return;
+
+    const findPageLabel = (path: string): string | null => {
+      for (const section of gvtewaySidebarNavigation) {
+        for (const item of section.items) {
+          if (item.href === path) return item.label;
+        }
+      }
+      const segments = path.split("/").filter(Boolean);
+      const lastSegment = segments[segments.length - 1] || "Page";
+      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
+    };
+
+    const label = findPageLabel(currentPath);
+    if (!label) return;
+
+    setRecentPages((prev) => {
+      const filtered = prev.filter((p) => p.href !== currentPath);
+      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
+      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, [currentPath]);
+
+  return recentPages;
+}
 
 // =============================================================================
 // GVTEWAY APP LAYOUT WRAPPERS
@@ -72,6 +128,72 @@ export function GvtewayAppLayout({
 }: AppLayoutProps) {
   const router = useRouter();
 
+  // Get user roles from auth context
+  const { user } = useAuth();
+  const userRoles = useMemo(() => {
+    return user?.roles || [];
+  }, [user]);
+
+  // Track recent pages
+  const recentPages = useRecentPages(currentPath);
+
+  // Manage favorites
+  const { favorites } = useFavorites({
+    storageKey: 'gvteway',
+    maxFavorites: 10,
+  });
+
+  // Handle navigation
+  const handleContextNavigation = useCallback((href: string) => {
+    router.push(href);
+  }, [router]);
+
+  // Keyboard shortcuts for top 5 navigation items (Cmd+1 through Cmd+5)
+  const topNavItems = useMemo(() => {
+    const items: { href: string; label: string }[] = [];
+    for (const section of gvtewaySidebarNavigation) {
+      for (const item of section.items) {
+        if (item.primary && items.length < 5) {
+          items.push({ href: item.href, label: item.label });
+        }
+      }
+    }
+    return items;
+  }, []);
+
+  useKeyboardShortcuts({
+    shortcuts: topNavItems.map((item, index) => ({
+      keys: `cmd+${index + 1}`,
+      action: () => router.push(item.href),
+      description: `Go to ${item.label}`,
+    })),
+    enabled: variant === 'consumer-shell' || variant === 'event-shell',
+  });
+
+  // Convert context levels to breadcrumb items
+  const contextBreadcrumbs = useMemo(() => {
+    if (contextLevels.length > 0) {
+      return contextLevels
+        .filter(level => level.current !== null)
+        .map(level => ({
+          id: level.current?.id || level.label,
+          name: level.current?.name || level.label,
+          type: "workspace" as const,
+          href: level.current?.slug ? `/${level.current.slug}` : undefined,
+        }));
+    }
+    return [];
+  }, [contextLevels]);
+
+  // Transform bottom navigation for MobileBottomNav component
+  const mobileNavItems = useMemo(() => 
+    gvtewayBottomNavigation.map((item, index) => ({
+      id: `nav-${index}`,
+      ...item,
+    })),
+    []
+  );
+
   // Build command palette navigation and action items
   const navigationCommands = useMemo(() => 
     buildNavigationCommands(gvtewaySidebarNavigation.map(s => ({ ...s, subsections: [] })) as Parameters<typeof buildNavigationCommands>[0]),
@@ -88,6 +210,20 @@ export function GvtewayAppLayout({
     []
   );
 
+  // Contextual commands based on current route
+  const contextualCommands = useMemo(() => [
+    // Event-related commands
+    { id: 'ctx-find-events', label: 'Find Events', href: '/events', contextPaths: ['/events*', '/discover*'] },
+    { id: 'ctx-buy-tickets', label: 'Buy Tickets', href: `/e/${eventId}/tickets`, contextPaths: ['/e/*'] },
+    // Venue-related commands
+    { id: 'ctx-find-venues', label: 'Find Venues', href: '/venues', contextPaths: ['/venues*'] },
+    // Account-related commands
+    { id: 'ctx-my-tickets', label: 'My Tickets', href: '/account/tickets', contextPaths: ['/account*'] },
+    { id: 'ctx-my-orders', label: 'My Orders', href: '/account/orders', contextPaths: ['/account*'] },
+    // Event context commands
+    { id: 'ctx-event-overview', label: 'Event Overview', href: `/e/${eventId}`, contextPaths: ['/e/*'] },
+  ], [eventId]);
+
   // Command palette hook
   const {
     isOpen: commandPaletteOpen,
@@ -98,6 +234,9 @@ export function GvtewayAppLayout({
   } = useCommandPalette({
     navigationItems: navigationCommands,
     actionItems: actionCommands,
+    contextualCommands,
+    currentPath: currentPath,
+    enableFrecency: true,
     onNavigate: (href) => router.push(href),
   });
 
@@ -124,28 +263,108 @@ export function GvtewayAppLayout({
     return transformNavigation(gvtewaySidebarNavigation);
   };
 
+  // Find current event if in event context
+  const currentEvent = eventId ? gvtewayDemoEvents.find(e => e.id === eventId) : undefined;
+
+  // Handle context switch at any level
+  const handleContextSwitch = (type: BreadcrumbContextItem["type"], id: string) => {
+    switch (type) {
+      case "organization":
+        router.push("/events");
+        break;
+      case "project":
+        // In GVTEWAY, "project" is an event
+        router.push(`/e/${id}`);
+        break;
+    }
+  };
+
+  // Build breadcrumb context based on current state
+  const buildBreadcrumbContext = (): BreadcrumbContextItem[] => {
+    const context: BreadcrumbContextItem[] = [];
+    
+    // Always show organization
+    const currentOrg = gvtewayDemoOrganizations.find(o => o.current);
+    if (currentOrg) {
+      context.push({
+        id: currentOrg.id,
+        name: currentOrg.name,
+        type: "organization",
+        href: "/events",
+      });
+    }
+    
+    // Show event if in event context
+    if (variant === "event-shell" && currentEvent) {
+      context.push({
+        id: currentEvent.id,
+        name: currentEvent.name,
+        type: "project",
+        href: `/e/${currentEvent.id}`,
+      });
+    }
+    
+    return context;
+  };
+
+  // Build context options for dropdowns
+  const contextOptions: ContextOptions = {
+    organizations: gvtewayDemoOrganizations,
+    projects: gvtewayDemoEvents.map(e => ({
+      id: e.id,
+      name: e.name,
+      status: e.status,
+      current: e.id === currentEvent?.id,
+    })),
+  };
+
   // Shell variants use AuthenticatedShell with sidebar
   if (variant === "consumer-shell" || variant === "event-shell") {
+    // Use context breadcrumbs if provided, otherwise build from current state
+    const finalBreadcrumbs = contextBreadcrumbs.length > 0 
+      ? contextBreadcrumbs 
+      : buildBreadcrumbContext();
+    
     return (
       <>
         <AuthenticatedShell
           navigation={getSidebarNavigation()}
           currentPath={currentPath}
           logo={<Display size="md">GVTEWAY</Display>}
-          workspaceName="GVTEWAY"
-          user={{
+          workspaceName={currentEvent?.name || "GVTEWAY"}
+          breadcrumbContext={finalBreadcrumbs}
+          contextOptions={contextOptions}
+          onContextSwitch={handleContextSwitch}
+          user={user ? {
+            name: user.name || user.full_name || "User",
+            email: user.email,
+            avatar: user.avatar,
+          } : {
             name: "Guest User",
             email: "guest@gvteway.com",
           }}
           quickActions={gvtewayQuickActions}
+          favorites={favorites}
+          recentPages={recentPages}
+          userRoles={userRoles}
+          storageKey="gvteway-sidebar"
           inverted
-          onNavigate={(href) => router.push(href)}
+          onNavigate={handleContextNavigation}
           className={className}
+          headerActions={userMenu}
         >
-          <div className="p-6">
+          <div className="p-6 pb-20 md:pb-6">
             {children}
           </div>
         </AuthenticatedShell>
+        
+        {/* Mobile Bottom Navigation */}
+        <MobileBottomNav
+          items={mobileNavItems}
+          currentPath={currentPath}
+          onNavigate={handleContextNavigation}
+          inverted
+        />
         
         {/* Command Palette - Cmd/Ctrl+K to open */}
         <CommandPalette

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -58,7 +59,12 @@ const mockAudits: VendorAudit[] = [
 
 export default function VendorAuditsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('upcoming');
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'upcoming',
+    validTabs: ['upcoming', 'completed', 'all'],
+  });
   const [selectedAudit, setSelectedAudit] = useState<VendorAudit | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
@@ -117,9 +123,9 @@ export default function VendorAuditsPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === 'upcoming'} onClick={() => setActiveTab('upcoming')}>Upcoming</Tab>
-                <Tab active={activeTab === 'completed'} onClick={() => setActiveTab('completed')}>Completed</Tab>
-                <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>All</Tab>
+                <Tab active={isActive('upcoming')} onClick={() => setActiveTab('upcoming')}>Upcoming</Tab>
+                <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
             <Button variant="outlineWhite" onClick={() => setShowScheduleModal(true)}>Schedule Audit</Button>

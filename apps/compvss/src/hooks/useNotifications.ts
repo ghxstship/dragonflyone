@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 interface Notification {
   id: string;
@@ -27,7 +28,7 @@ export function useNotifications() {
       setNotifications(data.notifications || []);
       setUnreadCount(data.unreadCount || 0);
     } catch (error) {
-      console.error('Failed to fetch notifications:', error);
+      log.error('Failed to fetch notifications:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -46,7 +47,7 @@ export function useNotifications() {
       );
       setUnreadCount(prev => Math.max(0, prev - notificationIds.length));
     } catch (error) {
-      console.error('Failed to mark notifications as read:', error);
+      log.error('Failed to mark notifications as read:', error instanceof Error ? error : undefined);
     }
   };
 

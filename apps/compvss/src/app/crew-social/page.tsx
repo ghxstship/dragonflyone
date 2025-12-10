@@ -2,6 +2,7 @@
 
 import { useState} from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { logger } from '@ghxstship/config';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -75,7 +76,12 @@ export default function CrewSocialPage() {
   const router = useRouter();
   const [crewMembers] = useState<CrewMember[]>(mockCrewMembers);
   const [photos, setPhotos] = useState<CrewPhoto[]>(mockPhotos);
-  const [activeTab, setActiveTab] = useState('roster');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'roster',
+    validTabs: ['roster', 'photos', 'connections'],
+  });
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('All');
@@ -153,19 +159,19 @@ export default function CrewSocialPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === 'roster'} onClick={() => setActiveTab('roster')}>
+                <Tab active={isActive('roster')} onClick={() => setActiveTab('roster')}>
                   Crew Roster
                 </Tab>
-                <Tab active={activeTab === 'photos'} onClick={() => setActiveTab('photos')}>
+                <Tab active={isActive('photos')} onClick={() => setActiveTab('photos')}>
                   Photos
                 </Tab>
-                <Tab active={activeTab === 'connections'} onClick={() => setActiveTab('connections')}>
+                <Tab active={isActive('connections')} onClick={() => setActiveTab('connections')}>
                   My Connections
                 </Tab>
               </TabsList>
             </Tabs>
 
-            {activeTab === 'roster' && (
+            {isActive('roster') && (
               <Stack gap={6}>
                 <Grid cols={3} gap={4}>
                   <Input
@@ -239,7 +245,7 @@ export default function CrewSocialPage() {
               </Stack>
             )}
 
-            {activeTab === 'photos' && (
+            {isActive('photos') && (
               <Stack gap={6}>
                 <Stack direction="horizontal" className="justify-between items-center">
                   <H3>Recent Photos</H3>
@@ -280,7 +286,7 @@ export default function CrewSocialPage() {
               </Stack>
             )}
 
-            {activeTab === 'connections' && (
+            {isActive('connections') && (
               <Stack gap={6}>
                 <H3>My Connections</H3>
                 <Grid cols={2} gap={6}>

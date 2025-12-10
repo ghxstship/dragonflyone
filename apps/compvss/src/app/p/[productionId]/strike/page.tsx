@@ -24,6 +24,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface StrikeTask {
   id: string;
@@ -60,7 +61,7 @@ export default function ProductionStrikePage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch strike tasks:', error);
+      log.error('Failed to fetch strike tasks:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

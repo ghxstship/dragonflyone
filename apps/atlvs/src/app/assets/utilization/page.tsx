@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface AssetUtilization {
   id: string;
@@ -95,6 +95,42 @@ export default function AssetUtilizationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<AssetUtilization, 'id'>>({
+
+    entityType: 'asset-utilization',
+
+    requiredFields: ['name', 'category', 'currentValue'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/asset-utilization', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('asset-utilization');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<AssetUtilization>
@@ -109,6 +145,12 @@ export default function AssetUtilizationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="asset-utilization"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'category', 'currentValue', 'totalRevenue', 'utilizationRate', 'projectCount', 'roi']}
         onExport={createExportHandler({
           filename: "asset-utilization",
           getData: () => data.map(a => ({

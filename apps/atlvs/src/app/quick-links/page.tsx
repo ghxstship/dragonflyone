@@ -52,6 +52,7 @@ import {
   FilePlus2,
 } from "lucide-react";
 import { useQuickLinks, useUserQuickLinkFavorites, useToggleQuickLinkFavorite, type QuickLink } from "@/hooks/useQuickLinks";
+import { log } from '@ghxstship/config';
 
 // Icon mapping
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -154,7 +155,7 @@ export default function QuickLinksPage() {
         isFavorited,
       });
     } catch (error) {
-      console.error('Failed to toggle favorite:', error);
+      log.error('Failed to toggle favorite:', error instanceof Error ? error : undefined);
     }
   };
 

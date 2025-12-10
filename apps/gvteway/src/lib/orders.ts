@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { supabaseAdmin } from "./supabase";
 import { sendEmail } from "./email";
+import { log } from '@ghxstship/config';
 
 const ticketSelectionSchema = z.object({
   ticketTypeId: z.string().min(1),
@@ -88,7 +89,7 @@ export function parseTicketSelections(metadataValue?: string | null): TicketSele
     const selections = arraySchema.parse(parsed);
     return normalizeSelections(selections);
   } catch (error) {
-    console.error("Unable to parse ticket selections metadata", error);
+    log.error('Unable to parse ticket selections metadata', error instanceof Error ? error : undefined);
     return [];
   }
 }

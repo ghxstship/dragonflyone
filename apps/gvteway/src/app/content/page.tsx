@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { Video, Music, Camera, FileText, Theater, Folder } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -54,7 +55,11 @@ export default function ExclusiveContentPage() {
   const [content, setContent] = useState<ExclusiveContent[]>([]);
   const [categories, setCategories] = useState<ContentCategory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('all');
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'video', 'audio', 'photo_gallery', 'behind_the_scenes'],
+  });
   const [selectedContent, setSelectedContent] = useState<ExclusiveContent | null>(null);
   const [filter, setFilter] = useState({
     type: '',
@@ -214,19 +219,19 @@ export default function ExclusiveContentPage() {
 
         <Tabs>
           <TabsList>
-            <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>
+            <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>
               All Content
             </Tab>
-            <Tab active={activeTab === 'video'} onClick={() => setActiveTab('video')}>
+            <Tab active={isActive('video')} onClick={() => setActiveTab('video')}>
               Videos
             </Tab>
-            <Tab active={activeTab === 'audio'} onClick={() => setActiveTab('audio')}>
+            <Tab active={isActive('audio')} onClick={() => setActiveTab('audio')}>
               Audio
             </Tab>
-            <Tab active={activeTab === 'photo_gallery'} onClick={() => setActiveTab('photo_gallery')}>
+            <Tab active={isActive('photo_gallery')} onClick={() => setActiveTab('photo_gallery')}>
               Photos
             </Tab>
-            <Tab active={activeTab === 'behind_the_scenes'} onClick={() => setActiveTab('behind_the_scenes')}>
+            <Tab active={isActive('behind_the_scenes')} onClick={() => setActiveTab('behind_the_scenes')}>
               Behind the Scenes
             </Tab>
           </TabsList>

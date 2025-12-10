@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface PortfolioProject {
   id: string;
@@ -165,6 +165,42 @@ export default function PortfolioPage() {
     }] : []),
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<PortfolioProject, 'id'>>({
+
+    entityType: 'portfolio',
+
+    requiredFields: ['portfolio', 'name', 'client'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/portfolio', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('portfolio');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<PortfolioProject>
@@ -181,6 +217,12 @@ export default function PortfolioPage() {
         createLabel="Add Project"
         onCreate={() => router.push('/portfolio/new')}
         entityType="portfolio"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['portfolio', 'name', 'client', 'category', 'location', 'date', 'services']}
         onExport={createExportHandler({
           filename: "portfolio",
           getData: () => projects.map(p => ({

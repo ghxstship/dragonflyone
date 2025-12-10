@@ -24,6 +24,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface WeatherForecast {
   date: string;
@@ -61,7 +62,7 @@ export default function ProductionWeatherPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch weather:', error);
+      log.error('Failed to fetch weather:', error instanceof Error ? error : undefined);
     } finally {
       setIsRefreshing(false);
     }

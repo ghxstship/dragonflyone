@@ -20,6 +20,7 @@ import {
   signOut,
 } from "@ghxstship/ui";
 import { User, Bell, Shield, CreditCard, LogOut, Edit3 } from "lucide-react";
+import { log } from '@ghxstship/config';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function ProfilePage() {
           setUserRoles(data.user.platformRoles || []);
         }
       })
-      .catch(err => console.error('Failed to load profile:', err));
+      .catch(err => log.error('Failed to load profile:', err instanceof Error ? err : undefined));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -61,7 +62,7 @@ export default function ProfilePage() {
       setIsEditing(false);
       setTimeout(() => setSaved(false), 3000);
     } catch (error) {
-      console.error('Failed to save profile:', error);
+      log.error('Failed to save profile:', error instanceof Error ? error : undefined);
     }
   };
 

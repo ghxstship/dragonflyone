@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -32,7 +33,12 @@ export default function FloorConfigPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
-  const [activeTab, setActiveTab] = useState("layout");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'layout',
+    validTabs: ['layout', 'sections', 'capacity'],
+  });
   const [selectedSection, setSelectedSection] = useState<FloorSection | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -69,12 +75,12 @@ export default function FloorConfigPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "layout"} onClick={() => setActiveTab("layout")}>Floor Layout</Tab>
-              <Tab active={activeTab === "sections"} onClick={() => setActiveTab("sections")}>Sections</Tab>
-              <Tab active={activeTab === "capacity"} onClick={() => setActiveTab("capacity")}>Capacity Management</Tab>
+              <Tab active={isActive('layout')} onClick={() => setActiveTab('layout')}>Floor Layout</Tab>
+              <Tab active={isActive('sections')} onClick={() => setActiveTab('sections')}>Sections</Tab>
+              <Tab active={isActive('capacity')} onClick={() => setActiveTab('capacity')}>Capacity Management</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "layout"}>
+            <TabPanel active={isActive('layout')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
@@ -112,7 +118,7 @@ export default function FloorConfigPage() {
               </Card>
             </TabPanel>
 
-            <TabPanel active={activeTab === "sections"}>
+            <TabPanel active={isActive('sections')}>
               <Stack gap={4}>
                 {mockSections.map((section) => (
                   <Card key={section.id} className="border-2 border-black p-4">
@@ -145,7 +151,7 @@ export default function FloorConfigPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "capacity"}>
+            <TabPanel active={isActive('capacity')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>

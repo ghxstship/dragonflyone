@@ -17,7 +17,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SOPTrainingRecord {
   id: string;
@@ -178,6 +178,42 @@ export default function SOPTrainingPage() {
     ? Math.round(completedRecords.reduce((sum, r) => sum + (r.score || 0), 0) / completedRecords.length)
     : 0;
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<SOPTrainingRecord, 'id'>>({
+
+    entityType: 'sop-training',
+
+    requiredFields: ['user', 'sop', 'status'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/sop-training', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('sop-training');
+
+
   return (
     <CompvssAppLayout>
       <ListPage<SOPTrainingRecord>
@@ -193,6 +229,12 @@ export default function SOPTrainingPage() {
         filters={filters}
         rowActions={rowActions}
         entityType="sop-training"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['user', 'sop', 'status', 'score', 'attempts', 'started_at', 'completed_at']}
         onExport={createExportHandler({
           filename: "sop-training",
           getData: () => trainingRecords.map(t => ({

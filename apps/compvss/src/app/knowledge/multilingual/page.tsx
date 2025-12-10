@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -70,7 +71,12 @@ const mockLanguages: LanguageSetting[] = [
 
 export default function MultilingualPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('content');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'content',
+    validTabs: ['content', 'languages', 'settings'],
+  });
   const [selectedContent, setSelectedContent] = useState<TranslatedContent | null>(null);
   const [languageFilter, setLanguageFilter] = useState('All');
   const [userLanguage, setUserLanguage] = useState('en');
@@ -118,13 +124,13 @@ export default function MultilingualPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === 'content'} onClick={() => setActiveTab('content')}>Content</Tab>
-                <Tab active={activeTab === 'languages'} onClick={() => setActiveTab('languages')}>Languages</Tab>
-                <Tab active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>Settings</Tab>
+                <Tab active={isActive('content')} onClick={() => setActiveTab('content')}>Content</Tab>
+                <Tab active={isActive('languages')} onClick={() => setActiveTab('languages')}>Languages</Tab>
+                <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
               </TabsList>
             </Tabs>
 
-            {activeTab === 'content' && (
+            {isActive('content') && (
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between">
                   <Select value={languageFilter} onChange={(e) => setLanguageFilter(e.target.value)}>
@@ -176,7 +182,7 @@ export default function MultilingualPage() {
               </Stack>
             )}
 
-            {activeTab === 'languages' && (
+            {isActive('languages') && (
               <Grid cols={2} gap={4}>
                 {mockLanguages.map((lang) => (
                   <Card key={lang.code}>
@@ -205,7 +211,7 @@ export default function MultilingualPage() {
               </Grid>
             )}
 
-            {activeTab === 'settings' && (
+            {isActive('settings') && (
               <Stack gap={4}>
                 <Card>
                   <Stack gap={4}>

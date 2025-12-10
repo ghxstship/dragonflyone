@@ -1,4 +1,5 @@
 import { env } from "./env";
+import { log } from '@ghxstship/config';
 
 type SendEmailParams = {
   to: string;
@@ -8,7 +9,7 @@ type SendEmailParams = {
 
 export async function sendEmail({ to, subject, html }: SendEmailParams) {
   if (!env.RESEND_API_KEY || !env.RESEND_FROM_EMAIL) {
-    console.warn("Resend credentials not configured; skipping email send");
+    log.warn("Resend credentials not configured; skipping email send");
     return;
   }
 
@@ -28,6 +29,6 @@ export async function sendEmail({ to, subject, html }: SendEmailParams) {
 
   if (!response.ok) {
     const message = await response.text();
-    console.error("Failed to send email", message);
+    log.error('Failed to send email', message instanceof Error ? message : undefined);
   }
 }

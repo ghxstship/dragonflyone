@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -39,7 +40,12 @@ const mockPosts: ShoppablePost[] = [
 
 export default function ShoppablePostsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'instagram', 'tiktok', 'twitter'],
+  });
   const [selectedPost, setSelectedPost] = useState<ShoppablePost | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<ShoppableProduct | null>(null);
 
@@ -76,10 +82,10 @@ export default function ShoppablePostsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-              <Tab active={activeTab === "instagram"} onClick={() => setActiveTab("instagram")}>Instagram</Tab>
-              <Tab active={activeTab === "tiktok"} onClick={() => setActiveTab("tiktok")}>TikTok</Tab>
-              <Tab active={activeTab === "twitter"} onClick={() => setActiveTab("twitter")}>Twitter</Tab>
+              <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+              <Tab active={isActive('instagram')} onClick={() => setActiveTab('instagram')}>Instagram</Tab>
+              <Tab active={isActive('tiktok')} onClick={() => setActiveTab('tiktok')}>TikTok</Tab>
+              <Tab active={isActive('twitter')} onClick={() => setActiveTab('twitter')}>Twitter</Tab>
             </TabsList>
 
             <TabPanel active={true}>

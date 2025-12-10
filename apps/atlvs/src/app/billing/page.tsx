@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Invoice {
   id: string;
@@ -170,6 +170,42 @@ export default function BillingPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Invoice, 'id'>>({
+
+    entityType: 'invoices',
+
+    requiredFields: ['client_id', 'project_id', 'total_amount'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/invoices', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('invoices');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Invoice>
@@ -188,6 +224,12 @@ export default function BillingPage() {
         createLabel="Create Invoice"
         onCreate={() => setCreateModalOpen(true)}
         entityType="invoices"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['client_id', 'project_id', 'total_amount', 'issue_date', 'due_date', 'invoices', 'invoice_number']}
         onExport={createExportHandler({
           filename: "invoices",
           getData: () => invoices.map(inv => ({

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -79,7 +80,12 @@ const mockNotes: RehearsalNote[] = [
 
 export default function TechRehearsalPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("schedule");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'schedule',
+    validTabs: ['schedule', 'notes', 'issues'],
+  });
   const [selectedSession, setSelectedSession] = useState<TechRehearsalSession | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showNoteModal, setShowNoteModal] = useState(false);
@@ -128,12 +134,12 @@ export default function TechRehearsalPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
-                <Tab active={activeTab === "notes"} onClick={() => setActiveTab("notes")}>Rehearsal Notes</Tab>
-                <Tab active={activeTab === "issues"} onClick={() => setActiveTab("issues")}>Issues</Tab>
+                <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Schedule</Tab>
+                <Tab active={isActive('notes')} onClick={() => setActiveTab('notes')}>Rehearsal Notes</Tab>
+                <Tab active={isActive('issues')} onClick={() => setActiveTab('issues')}>Issues</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "schedule"}>
+              <TabPanel active={isActive('schedule')}>
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
                     <H3>Rehearsal Schedule</H3>
@@ -174,7 +180,7 @@ export default function TechRehearsalPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "notes"}>
+              <TabPanel active={isActive('notes')}>
                 <Table variant="dark">
                   <TableHeader>
                     <TableRow>
@@ -205,7 +211,7 @@ export default function TechRehearsalPage() {
                 </Table>
               </TabPanel>
 
-              <TabPanel active={activeTab === "issues"}>
+              <TabPanel active={isActive('issues')}>
                 <Stack gap={4}>
                   <H3>Open Issues ({unresolvedIssues})</H3>
                   {mockNotes.filter(n => !n.resolved && n.type === "Issue").map((note) => (

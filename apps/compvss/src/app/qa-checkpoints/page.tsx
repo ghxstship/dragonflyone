@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -95,7 +96,12 @@ const mockCheckpoints: QACheckpoint[] = [
 
 export default function QACheckpointsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'load-in', 'setup', 'tech-rehearsal', 'show-ready'],
+  });
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<QACheckpoint | null>(null);
   const [showSignOffModal, setShowSignOffModal] = useState(false);
 
@@ -144,11 +150,11 @@ export default function QACheckpointsPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "load-in"} onClick={() => setActiveTab("load-in")}>Load-In</Tab>
-                <Tab active={activeTab === "setup"} onClick={() => setActiveTab("setup")}>Setup</Tab>
-                <Tab active={activeTab === "tech-rehearsal"} onClick={() => setActiveTab("tech-rehearsal")}>Tech Rehearsal</Tab>
-                <Tab active={activeTab === "show-ready"} onClick={() => setActiveTab("show-ready")}>Show Ready</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                <Tab active={isActive('load-in')} onClick={() => setActiveTab('load-in')}>Load-In</Tab>
+                <Tab active={isActive('setup')} onClick={() => setActiveTab('setup')}>Setup</Tab>
+                <Tab active={isActive('tech-rehearsal')} onClick={() => setActiveTab('tech-rehearsal')}>Tech Rehearsal</Tab>
+                <Tab active={isActive('show-ready')} onClick={() => setActiveTab('show-ready')}>Show Ready</Tab>
               </TabsList>
 
               <TabPanel active={true}>

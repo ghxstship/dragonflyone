@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -53,7 +54,12 @@ const departments = ["All", "Production", "Audio", "Lighting", "Video", "Stage",
 
 export default function ChannelsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'radio', 'intercom', 'chat'],
+  });
   const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [departmentFilter, setDepartmentFilter] = useState("All");
@@ -98,10 +104,10 @@ export default function ChannelsPage() {
               <Stack direction="horizontal" gap={4}>
                 <Tabs>
                   <TabsList>
-                    <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                    <Tab active={activeTab === "radio"} onClick={() => setActiveTab("radio")}>Radio</Tab>
-                    <Tab active={activeTab === "intercom"} onClick={() => setActiveTab("intercom")}>Intercom</Tab>
-                    <Tab active={activeTab === "chat"} onClick={() => setActiveTab("chat")}>Chat</Tab>
+                    <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                    <Tab active={isActive('radio')} onClick={() => setActiveTab('radio')}>Radio</Tab>
+                    <Tab active={isActive('intercom')} onClick={() => setActiveTab('intercom')}>Intercom</Tab>
+                    <Tab active={isActive('chat')} onClick={() => setActiveTab('chat')}>Chat</Tab>
                   </TabsList>
                 </Tabs>
                 <Select value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)}>

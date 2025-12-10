@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -54,7 +55,12 @@ const mockSoundchecks: SoundcheckSlot[] = [
 
 export default function SoundcheckPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("schedule");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'schedule',
+    validTabs: ['schedule', 'by-stage'],
+  });
   const [selectedSlot, setSelectedSlot] = useState<SoundcheckSlot | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [stageFilter, setStageFilter] = useState("All");
@@ -127,8 +133,8 @@ export default function SoundcheckPage() {
             <Stack direction="horizontal" className="items-center justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Schedule</Tab>
-                  <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
+                  <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Schedule</Tab>
+                  <Tab active={isActive('by-stage')} onClick={() => setActiveTab('by-stage')}>By Stage</Tab>
                 </TabsList>
               </Tabs>
               <Stack direction="horizontal" gap={4}>
@@ -141,7 +147,7 @@ export default function SoundcheckPage() {
               </Stack>
             </Stack>
 
-            <TabPanel active={activeTab === "schedule"}>
+            <TabPanel active={isActive('schedule')}>
               <Stack gap={3}>
                 {filteredSoundchecks
                   .sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart))
@@ -178,7 +184,7 @@ export default function SoundcheckPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "by-stage"}>
+            <TabPanel active={isActive('by-stage')}>
               <Grid cols={2} gap={6}>
                 {["Main Stage", "Side Stage"].map((stage) => (
                   <Card key={stage} className="p-4">

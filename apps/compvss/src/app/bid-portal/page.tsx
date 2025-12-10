@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -51,7 +52,12 @@ const mockBids: BidOpportunity[] = [
 
 export default function BidPortalPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("open");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'open',
+    validTabs: ['open', 'submitted', 'all'],
+  });
   const [selectedBid, setSelectedBid] = useState<BidOpportunity | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
@@ -86,9 +92,9 @@ export default function BidPortalPage() {
             <Card className="p-6">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "open"} onClick={() => setActiveTab("open")}>Open</Tab>
-                  <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                  <Tab active={isActive('open')} onClick={() => setActiveTab('open')}>Open</Tab>
+                  <Tab active={isActive('submitted')} onClick={() => setActiveTab('submitted')}>Submitted</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
                 </TabsList>
 
                 <TabPanel active={true}>

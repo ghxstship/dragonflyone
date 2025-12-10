@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 // =============================================================================
 // ACTION ITEMS HOOKS
@@ -148,7 +149,7 @@ export function useActionItems(filters?: ActionItemFilters) {
 
       // If both queries fail (tables don't exist), return default items
       if (tasksResult.error && meetingItemsResult.error) {
-        console.warn('Action items tables not available, using defaults');
+        log.warn('Action items tables not available, using defaults');
         return defaultActionItems.slice(0, limit);
       }
 
@@ -267,7 +268,7 @@ export function useActionItemStats() {
 
       // If both queries fail, return default stats
       if (tasksError && meetingError) {
-        console.warn('Action items stats tables not available, using defaults');
+        log.warn('Action items stats tables not available, using defaults');
         return defaultStats;
       }
 

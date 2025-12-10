@@ -114,6 +114,42 @@ export default function AssetKitsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<AssetKit, 'id'>>({
+
+    entityType: 'asset-kits',
+
+    requiredFields: ['grandMA3', 'name', 'category'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/asset-kits', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('asset-kits');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<AssetKit>
@@ -130,6 +166,12 @@ export default function AssetKitsPage() {
         createLabel="Create Kit"
         onCreate={() => setCreateModalOpen(true)}
         entityType="asset-kits"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['grandMA3', 'name', 'category', 'description', 'itemCount', 'totalValue', 'status']}
         onExport={createExportHandler({
           filename: "asset-kits",
           getData: () => data.map(kit => ({

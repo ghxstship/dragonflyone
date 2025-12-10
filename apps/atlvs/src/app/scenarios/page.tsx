@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, log} from '@ghxstship/config';
 
 interface Scenario {
   id: string;
@@ -159,7 +159,7 @@ export default function ScenariosPage() {
         fetchScenarios();
       }
     } catch (err) {
-      console.error('Failed to create scenario:', err);
+      log.error('Failed to create scenario:', err instanceof Error ? err : undefined);
     }
   };
 
@@ -189,6 +189,42 @@ export default function ScenariosPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Scenario, 'id'>>({
+
+    entityType: 'scenarios',
+
+    requiredFields: ['name', 'category', 'scenario_type'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/scenarios', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('scenarios');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Scenario>
@@ -207,6 +243,12 @@ export default function ScenariosPage() {
         createLabel="Create Scenario"
         onCreate={() => setCreateModalOpen(true)}
         entityType="scenarios"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'category', 'scenario_type', 'revenue_forecast', 'cost_forecast', 'probability', 'impact_level']}
         onExport={createExportHandler({
           filename: "scenarios",
           getData: () => scenarios.map(s => ({

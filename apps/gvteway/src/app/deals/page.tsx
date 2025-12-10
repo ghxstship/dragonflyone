@@ -18,6 +18,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import { Bell } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface Deal {
   id: string;
@@ -56,7 +57,7 @@ export default function DealsPage() {
         setDeals(data.deals || []);
       }
     } catch (err) {
-      console.error('Failed to fetch deals');
+      log.error('Failed to fetch deals');
     } finally {
       setLoading(false);
     }

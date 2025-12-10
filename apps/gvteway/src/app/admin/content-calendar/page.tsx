@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -32,7 +33,12 @@ const mockPosts: ScheduledPost[] = [
 
 export default function ContentCalendarPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("list");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'list',
+    validTabs: ['list', 'drafts'],
+  });
   const [selectedPost, setSelectedPost] = useState<ScheduledPost | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -59,8 +65,8 @@ export default function ContentCalendarPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "list"} onClick={() => setActiveTab("list")}>List</Tab>
-                  <Tab active={activeTab === "drafts"} onClick={() => setActiveTab("drafts")}>Drafts</Tab>
+                  <Tab active={isActive('list')} onClick={() => setActiveTab('list')}>List</Tab>
+                  <Tab active={isActive('drafts')} onClick={() => setActiveTab('drafts')}>Drafts</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" inverted onClick={() => setShowCreateModal(true)}>Create Post</Button>

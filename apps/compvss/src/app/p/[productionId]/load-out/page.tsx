@@ -24,6 +24,7 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface LoadOutTask {
   id: string;
@@ -60,7 +61,7 @@ export default function ProductionLoadOutPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch load-out tasks:', error);
+      log.error('Failed to fetch load-out tasks:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

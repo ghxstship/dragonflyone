@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -76,7 +77,12 @@ const mockTests: ABTest[] = [
 
 export default function ABTestingPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("running");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'running',
+    validTabs: ['running', 'completed', 'draft', 'all'],
+  });
   const [selectedTest, setSelectedTest] = useState<ABTest | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -124,10 +130,10 @@ export default function ABTestingPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "running"} onClick={() => setActiveTab("running")}>Running</Tab>
-                <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
-                <Tab active={activeTab === "draft"} onClick={() => setActiveTab("draft")}>Drafts</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('running')} onClick={() => setActiveTab('running')}>Running</Tab>
+                <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
+                <Tab active={isActive('draft')} onClick={() => setActiveTab('draft')}>Drafts</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Test</Button>

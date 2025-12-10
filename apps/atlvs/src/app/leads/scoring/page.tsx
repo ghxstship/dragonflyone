@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -91,7 +92,12 @@ export default function LeadScoringPage() {
   const router = useRouter();
   const [leads, setLeads] = useState<Lead[]>(mockLeads);
   const [rules, setRules] = useState<ScoringRule[]>(mockScoringRules);
-  const [activeTab, setActiveTab] = useState('leads');
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'leads',
+    validTabs: ['leads', 'rules', 'analytics'],
+  });
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showRuleModal, setShowRuleModal] = useState(false);
   const [filter, setFilter] = useState({ qualification: '', source: '', minScore: '' });
@@ -223,13 +229,13 @@ export default function LeadScoringPage() {
 
         <Tabs>
           <TabsList>
-            <Tab active={activeTab === 'leads'} onClick={() => setActiveTab('leads')}>
+            <Tab active={isActive('leads')} onClick={() => setActiveTab('leads')}>
               Scored Leads
             </Tab>
-            <Tab active={activeTab === 'rules'} onClick={() => setActiveTab('rules')}>
+            <Tab active={isActive('rules')} onClick={() => setActiveTab('rules')}>
               Scoring Rules
             </Tab>
-            <Tab active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')}>
+            <Tab active={isActive('analytics')} onClick={() => setActiveTab('analytics')}>
               Analytics
             </Tab>
           </TabsList>

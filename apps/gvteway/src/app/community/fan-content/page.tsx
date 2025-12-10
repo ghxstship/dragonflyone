@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -33,7 +34,12 @@ const mockContent: FanContent[] = [
 
 export default function FanContentPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("featured");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'featured',
+    validTabs: ['featured', 'photo', 'video', 'story', 'all'],
+  });
   const [selectedContent, setSelectedContent] = useState<FanContent | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
@@ -74,11 +80,11 @@ export default function FanContentPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "featured"} onClick={() => setActiveTab("featured")}>Featured</Tab>
-                <Tab active={activeTab === "photo"} onClick={() => setActiveTab("photo")}>Photos</Tab>
-                <Tab active={activeTab === "video"} onClick={() => setActiveTab("video")}>Videos</Tab>
-                <Tab active={activeTab === "story"} onClick={() => setActiveTab("story")}>Stories</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('featured')} onClick={() => setActiveTab('featured')}>Featured</Tab>
+                <Tab active={isActive('photo')} onClick={() => setActiveTab('photo')}>Photos</Tab>
+                <Tab active={isActive('video')} onClick={() => setActiveTab('video')}>Videos</Tab>
+                <Tab active={isActive('story')} onClick={() => setActiveTab('story')}>Stories</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowSubmitModal(true)}>Share Your Content</Button>

@@ -6,6 +6,12 @@ export interface User {
   id: string;
   email: string;
   full_name?: string;
+  /** Display name (alias for full_name) */
+  name?: string;
+  /** Avatar URL */
+  avatar?: string;
+  /** User roles for navigation filtering */
+  roles?: string[];
 }
 
 export interface UseAuthReturn {

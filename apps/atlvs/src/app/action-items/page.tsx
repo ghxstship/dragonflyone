@@ -27,6 +27,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { useActionItems, useActionItemStats, useCompleteActionItem } from "@/hooks/useActionItems";
+import { log } from '@ghxstship/config';
 
 export default function ActionItemsPage() {
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function ActionItemsPage() {
       await completeItem.mutateAsync({ id, source });
       refetch();
     } catch (error) {
-      console.error('Failed to complete action item:', error);
+      log.error('Failed to complete action item:', error instanceof Error ? error : undefined);
     }
   };
 

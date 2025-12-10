@@ -30,6 +30,7 @@ import {
   Eye,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Incident {
   id: string;
@@ -67,7 +68,7 @@ export default function ProductionIncidentsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch incidents:', error);
+      log.error('Failed to fetch incidents:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

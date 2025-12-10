@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Venue {
   id: string;
@@ -254,6 +254,42 @@ export default function VenuesPage() {
     },
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Venue, 'id'>>({
+
+    entityType: 'venues',
+
+    requiredFields: ['name', 'venue_type', 'status'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/venues', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('venues');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Venue>
@@ -272,6 +308,12 @@ export default function VenuesPage() {
         createLabel="Add Venue"
         onCreate={() => setCreateModalOpen(true)}
         entityType="venues"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'venue_type', 'status', 'address', 'city', 'state', 'country']}
         onExport={createExportHandler({
           filename: 'venues',
           getData: () => (venues || []).map(v => ({

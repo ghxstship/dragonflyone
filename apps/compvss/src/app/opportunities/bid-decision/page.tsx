@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -48,7 +49,12 @@ const mockOpportunities: BidOpportunity[] = [
 
 export default function BidDecisionPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("pending");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'pending',
+    validTabs: ['pending', 'bid', 'nobid', 'all'],
+  });
   const [selectedOpp, setSelectedOpp] = useState<BidOpportunity | null>(null);
 
   const pendingCount = mockOpportunities.filter(o => o.status === "Pending Review" || o.status === "Under Evaluation").length;
@@ -101,10 +107,10 @@ export default function BidDecisionPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
-                <Tab active={activeTab === "bid"} onClick={() => setActiveTab("bid")}>Bid</Tab>
-                <Tab active={activeTab === "nobid"} onClick={() => setActiveTab("nobid")}>No Bid</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending</Tab>
+                <Tab active={isActive('bid')} onClick={() => setActiveTab('bid')}>Bid</Tab>
+                <Tab active={isActive('nobid')} onClick={() => setActiveTab('nobid')}>No Bid</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
 

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -49,7 +50,12 @@ const mockPerks: ExclusivePerk[] = [
 
 export default function FanClubPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("clubs");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'clubs',
+    validTabs: ['clubs', 'perks', 'my-clubs'],
+  });
   const [selectedClub, setSelectedClub] = useState<FanClub | null>(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
 
@@ -95,12 +101,12 @@ export default function FanClubPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "clubs"} onClick={() => setActiveTab("clubs")}>Fan Clubs</Tab>
-              <Tab active={activeTab === "perks"} onClick={() => setActiveTab("perks")}>Exclusive Perks</Tab>
-              <Tab active={activeTab === "my-clubs"} onClick={() => setActiveTab("my-clubs")}>My Memberships</Tab>
+              <Tab active={isActive('clubs')} onClick={() => setActiveTab('clubs')}>Fan Clubs</Tab>
+              <Tab active={isActive('perks')} onClick={() => setActiveTab('perks')}>Exclusive Perks</Tab>
+              <Tab active={isActive('my-clubs')} onClick={() => setActiveTab('my-clubs')}>My Memberships</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "clubs"}>
+            <TabPanel active={isActive('clubs')}>
               <Grid cols={3} gap={6}>
                 {mockFanClubs.map((club) => (
                   <Card key={club.id} className="border-2 border-black overflow-hidden">
@@ -151,7 +157,7 @@ export default function FanClubPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "perks"}>
+            <TabPanel active={isActive('perks')}>
               <Stack gap={4}>
                 {mockPerks.map((perk) => (
                   <Card key={perk.id} className="border-2 border-black p-4">
@@ -178,11 +184,11 @@ export default function FanClubPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "my-clubs"}>
+            <TabPanel active={isActive('my-clubs')}>
               <Card className="border-2 border-black p-8 text-center">
                 <Stack gap={4}>
                   <Label className="text-ink-500">You are not a member of any fan clubs yet</Label>
-                  <Button variant="solid" onClick={() => setActiveTab("clubs")}>Browse Fan Clubs</Button>
+                  <Button variant="solid" onClick={() => setActiveTab('clubs')}>Browse Fan Clubs</Button>
                 </Stack>
               </Card>
             </TabPanel>

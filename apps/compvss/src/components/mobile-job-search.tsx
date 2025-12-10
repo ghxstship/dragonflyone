@@ -17,6 +17,7 @@ import {
   Spinner,
 } from '@ghxstship/ui';
 import { Search, MapPin, DollarSign, Clock, Briefcase, Filter, X, RefreshCw } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface Job {
   id: string;
@@ -99,7 +100,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
         }
       }
     } catch (error) {
-      console.error('Failed to refresh jobs:', error);
+      log.error('Failed to refresh jobs:', error instanceof Error ? error : undefined);
     } finally {
       setIsLoading(false);
     }

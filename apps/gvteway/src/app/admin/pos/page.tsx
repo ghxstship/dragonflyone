@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input,
@@ -51,7 +52,12 @@ const menuItems = [
 
 export default function POSPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("register");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'register',
+    validTabs: ['register', 'terminals', 'reports'],
+  });
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -100,12 +106,12 @@ export default function POSPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "register"} onClick={() => setActiveTab("register")}>Register</Tab>
-              <Tab active={activeTab === "terminals"} onClick={() => setActiveTab("terminals")}>Terminals</Tab>
-              <Tab active={activeTab === "reports"} onClick={() => setActiveTab("reports")}>Reports</Tab>
+              <Tab active={isActive('register')} onClick={() => setActiveTab('register')}>Register</Tab>
+              <Tab active={isActive('terminals')} onClick={() => setActiveTab('terminals')}>Terminals</Tab>
+              <Tab active={isActive('reports')} onClick={() => setActiveTab('reports')}>Reports</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "register"}>
+            <TabPanel active={isActive('register')}>
               <Grid cols={3} gap={6}>
                 <Card inverted variant="elevated" className="col-span-2 p-4">
                   <Stack gap={4}>
@@ -167,7 +173,7 @@ export default function POSPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "terminals"}>
+            <TabPanel active={isActive('terminals')}>
               <Grid cols={3} gap={4}>
                 {mockTerminals.map(terminal => (
                   <Card key={terminal.id} inverted>
@@ -201,7 +207,7 @@ export default function POSPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "reports"}>
+            <TabPanel active={isActive('reports')}>
               <Card inverted className="overflow-hidden p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Sales by Category</H3>

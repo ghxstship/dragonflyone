@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -53,7 +54,12 @@ const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Ou
 
 export default function PhotoDocumentationPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'pending'],
+  });
   const [selectedPhase, setSelectedPhase] = useState("All");
   const [selectedSet, setSelectedSet] = useState<PhotoSet | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
@@ -119,8 +125,8 @@ export default function PhotoDocumentationPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All Sets</Tab>
-                  <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending Approval</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All Sets</Tab>
+                  <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending Approval</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Photos</Button>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -100,7 +101,12 @@ const mockPlans: WeatherPlan[] = [
 
 export default function WeatherContingencyPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'triggered', 'all'],
+  });
   const [selectedPlan, setSelectedPlan] = useState<WeatherPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -164,9 +170,9 @@ export default function WeatherContingencyPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-                  <Tab active={activeTab === "triggered"} onClick={() => setActiveTab("triggered")}>Triggered</Tab>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                  <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+                  <Tab active={isActive('triggered')} onClick={() => setActiveTab('triggered')}>Triggered</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Plan</Button>

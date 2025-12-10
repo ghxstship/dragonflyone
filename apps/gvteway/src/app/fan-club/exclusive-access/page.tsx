@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -44,7 +45,12 @@ const mockTiers: FanClubTier[] = [
 
 export default function ExclusiveAccessPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("windows");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'windows',
+    validTabs: ['windows', 'tiers', 'benefits'],
+  });
   const [selectedWindow, setSelectedWindow] = useState<ExclusiveWindow | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -89,12 +95,12 @@ export default function ExclusiveAccessPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "windows"} onClick={() => setActiveTab("windows")}>Access Windows</Tab>
-              <Tab active={activeTab === "tiers"} onClick={() => setActiveTab("tiers")}>Member Tiers</Tab>
-              <Tab active={activeTab === "benefits"} onClick={() => setActiveTab("benefits")}>Benefits</Tab>
+              <Tab active={isActive('windows')} onClick={() => setActiveTab('windows')}>Access Windows</Tab>
+              <Tab active={isActive('tiers')} onClick={() => setActiveTab('tiers')}>Member Tiers</Tab>
+              <Tab active={isActive('benefits')} onClick={() => setActiveTab('benefits')}>Benefits</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "windows"}>
+            <TabPanel active={isActive('windows')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Window</Button>
@@ -126,7 +132,7 @@ export default function ExclusiveAccessPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "tiers"}>
+            <TabPanel active={isActive('tiers')}>
               <Grid cols={3} gap={4}>
                 {mockTiers.map((tier) => (
                   <Card key={tier.name} className={`border-2 ${tier.color} p-6`}>
@@ -154,7 +160,7 @@ export default function ExclusiveAccessPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "benefits"}>
+            <TabPanel active={isActive('benefits')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Member Benefits Configuration</H3>

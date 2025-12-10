@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -71,7 +72,12 @@ const mockVehiclePasses: VehiclePass[] = [
 
 export default function SiteAccessPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("access");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'access',
+    validTabs: ['access', 'vehicles', 'schedule'],
+  });
   const [showAddPassModal, setShowAddPassModal] = useState(false);
   const [selectedPass, setSelectedPass] = useState<VehiclePass | null>(null);
 
@@ -110,12 +116,12 @@ export default function SiteAccessPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "access"} onClick={() => setActiveTab("access")}>Access Points</Tab>
-                <Tab active={activeTab === "vehicles"} onClick={() => setActiveTab("vehicles")}>Vehicle Passes</Tab>
-                <Tab active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>Delivery Schedule</Tab>
+                <Tab active={isActive('access')} onClick={() => setActiveTab('access')}>Access Points</Tab>
+                <Tab active={isActive('vehicles')} onClick={() => setActiveTab('vehicles')}>Vehicle Passes</Tab>
+                <Tab active={isActive('schedule')} onClick={() => setActiveTab('schedule')}>Delivery Schedule</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "access"}>
+              <TabPanel active={isActive('access')}>
                 <Grid cols={3} gap={6}>
                   {mockAccessPoints.map((point) => (
                     <Card key={point.id} className="p-6">
@@ -142,7 +148,7 @@ export default function SiteAccessPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "vehicles"}>
+              <TabPanel active={isActive('vehicles')}>
                 <Table variant="dark">
                   <TableHeader>
                     <TableRow>
@@ -185,7 +191,7 @@ export default function SiteAccessPage() {
                 </Table>
               </TabPanel>
 
-              <TabPanel active={activeTab === "schedule"}>
+              <TabPanel active={isActive('schedule')}>
                 <Card className="p-6">
                   <Stack gap={4}>
                     <H3>Today&apos;s Deliveries</H3>

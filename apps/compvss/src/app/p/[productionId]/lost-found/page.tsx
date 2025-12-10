@@ -30,6 +30,7 @@ import {
   Phone,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface LostFoundItem {
   id: string;
@@ -67,7 +68,7 @@ export default function ProductionLostFoundPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch lost and found items:', error);
+      log.error('Failed to fetch lost and found items:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

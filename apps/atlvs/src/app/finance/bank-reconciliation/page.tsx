@@ -90,6 +90,42 @@ export default function BankReconciliationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<BankTransaction, 'id'>>({
+
+    entityType: 'bank-transactions',
+
+    requiredFields: ['date', 'description', 'bankAccount'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/bank-transactions', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('bank-transactions');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<BankTransaction>
@@ -106,6 +142,12 @@ export default function BankReconciliationPage() {
         createLabel="Import Statement"
         onCreate={() => router.push('/finance/bank-reconciliation/import')}
         entityType="bank-transactions"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['date', 'description', 'bankAccount', 'amount', 'status', 'matchedTo']}
         onExport={createExportHandler({
           filename: "bank-transactions",
           getData: () => transactions.map(t => ({

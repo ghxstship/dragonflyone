@@ -1,3 +1,29 @@
+// =============================================================================
+// ATLVS ROLE DEFINITIONS
+// Used for role-based navigation filtering
+// =============================================================================
+export const ATLVS_ROLES = {
+  // Core roles
+  ADMIN: 'admin',
+  OWNER: 'owner',
+  MANAGER: 'manager',
+  MEMBER: 'member',
+  VIEWER: 'viewer',
+  // Department roles
+  SALES: 'sales',
+  FINANCE: 'finance',
+  OPERATIONS: 'operations',
+  HR: 'hr',
+  MARKETING: 'marketing',
+  PROCUREMENT: 'procurement',
+  // Specialized roles
+  ACCOUNTANT: 'accountant',
+  PROJECT_MANAGER: 'project_manager',
+  EXECUTIVE: 'executive',
+} as const;
+
+export type AtlvsRole = typeof ATLVS_ROLES[keyof typeof ATLVS_ROLES];
+
 export const atlvsNavigation = [
   { label: "Dashboard", href: "/dashboard" },
   { label: "Projects", href: "/projects" },
@@ -11,20 +37,23 @@ export const atlvsNavigation = [
 
 // Sidebar navigation with full route structure
 // Optimized for UX: 6 primary sections, task-based grouping, progressive disclosure
+// Role-based filtering: items with allowedRoles are only shown to users with matching roles
 export const atlvsSidebarNavigation = [
   {
     section: "Home",
     icon: "LayoutDashboard",
+    // Home section visible to all roles
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
-      { label: "Portfolio", href: "/portfolio", icon: "Briefcase" },
-      { label: "OKRs & Goals", href: "/okrs", icon: "Target" },
-      { label: "Strategic Alignment", href: "/alignment", icon: "Crosshair" },
+      { label: "Portfolio", href: "/portfolio", icon: "Briefcase", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
+      { label: "OKRs & Goals", href: "/okrs", icon: "Target", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
+      { label: "Strategic Alignment", href: "/alignment", icon: "Crosshair", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE] },
     ],
   },
   {
     section: "Sales & CRM",
     icon: "Users",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES, ATLVS_ROLES.MARKETING],
     items: [
       { label: "Pipeline", href: "/pipeline", icon: "GitBranch", primary: true },
       { label: "Deals", href: "/deals", icon: "Handshake" },
@@ -32,7 +61,7 @@ export const atlvsSidebarNavigation = [
       { label: "Leads", href: "/leads/scoring", icon: "Star" },
       { label: "Quotes & Proposals", href: "/quotes", icon: "FileQuestion" },
       { label: "RFPs", href: "/rfp", icon: "FileSearch" },
-      { label: "Partnerships", href: "/partnerships", icon: "Link" },
+      { label: "Partnerships", href: "/partnerships", icon: "Link", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER] },
       { label: "Stakeholders", href: "/stakeholders", icon: "Users" },
     ],
     subsections: [
@@ -52,28 +81,31 @@ export const atlvsSidebarNavigation = [
   {
     section: "Projects",
     icon: "FolderKanban",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROJECT_MANAGER, ATLVS_ROLES.OPERATIONS],
     items: [
       { label: "All Projects", href: "/projects", icon: "FolderKanban", primary: true },
-      { label: "Contracts", href: "/contracts", icon: "FileText" },
+      { label: "Contracts", href: "/contracts", icon: "FileText", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE] },
       { label: "Scenarios", href: "/scenarios", icon: "GitCompare" },
-      { label: "Advances", href: "/advances", icon: "ArrowUpRight" },
+      { label: "Advances", href: "/advances", icon: "ArrowUpRight", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE] },
       { label: "Advancing", href: "/advancing", icon: "FastForward" },
     ],
   },
   {
     section: "Finance",
     icon: "DollarSign",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.ACCOUNTANT, ATLVS_ROLES.EXECUTIVE],
     items: [
       { label: "Overview", href: "/finance", icon: "DollarSign", primary: true },
       { label: "Invoices", href: "/invoices", icon: "FileText" },
       { label: "Billing", href: "/billing", icon: "Receipt" },
       { label: "Budgets", href: "/budgets", icon: "PieChart" },
-      { label: "Payroll", href: "/payroll", icon: "Wallet" },
-      { label: "Taxes", href: "/taxes", icon: "Calculator" },
+      { label: "Payroll", href: "/payroll", icon: "Wallet", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.HR] },
+      { label: "Taxes", href: "/taxes", icon: "Calculator", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.ACCOUNTANT] },
     ],
     subsections: [
       {
         label: "Accounting",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.FINANCE, ATLVS_ROLES.ACCOUNTANT],
         items: [
           { label: "Revenue Recognition", href: "/revenue-recognition", icon: "TrendingUp" },
           { label: "Bank Reconciliation", href: "/finance/bank-reconciliation", icon: "RefreshCw" },
@@ -87,16 +119,18 @@ export const atlvsSidebarNavigation = [
   {
     section: "Resources",
     icon: "Package",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.OPERATIONS, ATLVS_ROLES.PROCUREMENT],
     items: [
       { label: "Assets", href: "/assets", icon: "Package", primary: true },
-      { label: "Employees", href: "/employees", icon: "Users" },
+      { label: "Employees", href: "/employees", icon: "Users", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR] },
       { label: "Vendors", href: "/vendors", icon: "Building" },
       { label: "Documents", href: "/documents", icon: "FileArchive" },
-      { label: "Training", href: "/training", icon: "GraduationCap" },
+      { label: "Training", href: "/training", icon: "GraduationCap", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR] },
     ],
     subsections: [
       {
         label: "Asset Management",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.OPERATIONS],
         items: [
           { label: "Tracking", href: "/assets/tracking", icon: "MapPin" },
           { label: "Maintenance", href: "/assets/maintenance", icon: "Wrench" },
@@ -116,6 +150,7 @@ export const atlvsSidebarNavigation = [
       },
       {
         label: "Vendor Management",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROCUREMENT],
         items: [
           { label: "Vendor Contracts", href: "/vendors/contracts", icon: "FileText" },
           { label: "Rate Cards", href: "/vendors/rate-cards", icon: "DollarSign" },
@@ -123,6 +158,7 @@ export const atlvsSidebarNavigation = [
       },
       {
         label: "Procurement",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.PROCUREMENT],
         items: [
           { label: "Procurement", href: "/procurement", icon: "ShoppingCart" },
           { label: "Categories", href: "/procurement/categories", icon: "Grid" },
@@ -137,16 +173,18 @@ export const atlvsSidebarNavigation = [
   {
     section: "People",
     icon: "Users",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.HR],
     items: [
       { label: "Workforce", href: "/workforce", icon: "Users", primary: true },
       { label: "Performance", href: "/performance", icon: "TrendingUp" },
-      { label: "Compensation", href: "/workforce/compensation", icon: "DollarSign" },
-      { label: "Succession", href: "/workforce/succession", icon: "ArrowUpRight" },
+      { label: "Compensation", href: "/workforce/compensation", icon: "DollarSign", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.HR] },
+      { label: "Succession", href: "/workforce/succession", icon: "ArrowUpRight", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE] },
       { label: "Referrals", href: "/workforce/referrals", icon: "UserPlus" },
     ],
     subsections: [
       {
         label: "Compliance",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.HR],
         items: [
           { label: "Background Checks", href: "/workforce/background-checks", icon: "ShieldCheck" },
           { label: "Labor Laws", href: "/workforce/labor-laws", icon: "Scale" },
@@ -160,15 +198,17 @@ export const atlvsSidebarNavigation = [
   {
     section: "Analytics",
     icon: "BarChart3",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE],
     items: [
       { label: "Overview", href: "/analytics", icon: "BarChart3", primary: true },
       { label: "KPIs", href: "/analytics/kpi", icon: "Target" },
       { label: "Reports", href: "/reports", icon: "FileBarChart" },
-      { label: "Dashboard Builder", href: "/analytics/dashboard-builder", icon: "LayoutGrid" },
+      { label: "Dashboard Builder", href: "/analytics/dashboard-builder", icon: "LayoutGrid", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER] },
     ],
     subsections: [
       {
         label: "Advanced Analytics",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
         items: [
           { label: "Data Warehouse", href: "/analytics/data-warehouse", icon: "Database" },
           { label: "Client Retention", href: "/analytics/client-retention", icon: "UserCheck" },
@@ -178,6 +218,7 @@ export const atlvsSidebarNavigation = [
       },
       {
         label: "Risk & Compliance",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
         items: [
           { label: "Audit Trail", href: "/audit", icon: "Shield" },
           { label: "Compliance", href: "/compliance", icon: "CheckCircle" },
@@ -186,6 +227,7 @@ export const atlvsSidebarNavigation = [
       },
       {
         label: "Governance",
+        allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE],
         items: [
           { label: "Governance", href: "/governance", icon: "Landmark" },
           { label: "Subsidiaries", href: "/subsidiaries", icon: "Building2" },
@@ -197,10 +239,11 @@ export const atlvsSidebarNavigation = [
   {
     section: "Settings",
     icon: "Settings",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER],
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
       { label: "Appearance", href: "/settings/appearance", icon: "Palette" },
-      { label: "Integrations", href: "/integrations", icon: "Plug" },
+      { label: "Integrations", href: "/integrations", icon: "Plug", allowedRoles: [ATLVS_ROLES.ADMIN] },
     ],
   },
 ];

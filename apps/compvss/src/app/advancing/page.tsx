@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
@@ -21,7 +21,12 @@ import { AdvanceRequestsList } from '@/components/advancing/advance-requests-lis
 
 export default function AdvancingPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'my-requests' | 'to-fulfill' | 'all'>('my-requests');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'my-requests',
+    validTabs: ['my-requests', 'to-fulfill', 'all'],
+  });
 
   // Mock stats - in production these would come from API
   const stats = {
@@ -68,30 +73,30 @@ export default function AdvancingPage() {
             <Card className="p-6">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === 'my-requests'} onClick={() => setActiveTab('my-requests')}>
+                  <Tab active={isActive('my-requests')} onClick={() => setActiveTab('my-requests')}>
                     My Requests
                   </Tab>
-                  <Tab active={activeTab === 'to-fulfill'} onClick={() => setActiveTab('to-fulfill')}>
+                  <Tab active={isActive('to-fulfill')} onClick={() => setActiveTab('to-fulfill')}>
                     To Fulfill
                   </Tab>
-                  <Tab active={activeTab === 'all'} onClick={() => setActiveTab('all')}>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>
                     All Requests
                   </Tab>
                 </TabsList>
 
-                <TabPanel active={activeTab === 'my-requests'}>
+                <TabPanel active={isActive('my-requests')}>
                   <Stack gap={4} className="mt-6">
                     <AdvanceRequestsList />
                   </Stack>
                 </TabPanel>
 
-                <TabPanel active={activeTab === 'to-fulfill'}>
+                <TabPanel active={isActive('to-fulfill')}>
                   <Stack gap={4} className="mt-6">
                     <AdvanceRequestsList status="approved" />
                   </Stack>
                 </TabPanel>
 
-                <TabPanel active={activeTab === 'all'}>
+                <TabPanel active={isActive('all')}>
                   <Stack gap={4} className="mt-6">
                     <AdvanceRequestsList />
                   </Stack>

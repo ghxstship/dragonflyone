@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -58,7 +59,12 @@ const mockRisks: Risk[] = [
 
 export default function RiskRegisterPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'matrix', 'closed'],
+  });
   const [selectedRisk, setSelectedRisk] = useState<Risk | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
@@ -119,9 +125,9 @@ export default function RiskRegisterPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active Risks</Tab>
-                <Tab active={activeTab === "matrix"} onClick={() => setActiveTab("matrix")}>Risk Matrix</Tab>
-                <Tab active={activeTab === "closed"} onClick={() => setActiveTab("closed")}>Closed</Tab>
+                <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active Risks</Tab>
+                <Tab active={isActive('matrix')} onClick={() => setActiveTab('matrix')}>Risk Matrix</Tab>
+                <Tab active={isActive('closed')} onClick={() => setActiveTab('closed')}>Closed</Tab>
               </TabsList>
 
               <TabPanel active={activeTab === "active" || activeTab === "closed"}>
@@ -152,7 +158,7 @@ export default function RiskRegisterPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "matrix"}>
+              <TabPanel active={isActive('matrix')}>
                 <Card className="p-6">
                   <Stack gap={4}>
                     <H3>Risk Matrix</H3>

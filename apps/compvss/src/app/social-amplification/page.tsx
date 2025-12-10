@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -65,7 +66,12 @@ const mockCampaigns: AmplificationCampaign[] = [
 
 export default function SocialAmplificationPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("artists");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'artists',
+    validTabs: ['artists', 'campaigns', 'content'],
+  });
   const [selectedArtist, setSelectedArtist] = useState<ArtistProfile | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<AmplificationCampaign | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -112,15 +118,15 @@ export default function SocialAmplificationPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "artists"} onClick={() => setActiveTab("artists")}>Artists</Tab>
-                  <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
-                  <Tab active={activeTab === "content"} onClick={() => setActiveTab("content")}>Content Library</Tab>
+                  <Tab active={isActive('artists')} onClick={() => setActiveTab('artists')}>Artists</Tab>
+                  <Tab active={isActive('campaigns')} onClick={() => setActiveTab('campaigns')}>Campaigns</Tab>
+                  <Tab active={isActive('content')} onClick={() => setActiveTab('content')}>Content Library</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Campaign</Button>
             </Stack>
 
-            <TabPanel active={activeTab === "artists"}>
+            <TabPanel active={isActive('artists')}>
               <Grid cols={3} gap={4}>
                 {mockArtists.map((artist) => (
                   <Card key={artist.id} className="p-6">
@@ -162,7 +168,7 @@ export default function SocialAmplificationPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "campaigns"}>
+            <TabPanel active={isActive('campaigns')}>
               <Stack gap={4}>
                 {mockCampaigns.map((campaign) => (
                   <Card key={campaign.id} className="p-6">
@@ -191,7 +197,7 @@ export default function SocialAmplificationPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "content"}>
+            <TabPanel active={isActive('content')}>
               <Grid cols={4} gap={4}>
                 {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
                   <Card key={idx} className="cursor-pointer p-4">

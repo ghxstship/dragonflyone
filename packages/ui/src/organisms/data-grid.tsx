@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from "react";
 import clsx from "clsx";
-import { Search, ChevronUp, ChevronDown, MoreVertical } from "lucide-react";
+import { Search, ChevronUp, ChevronDown, MoreVertical, Check, X } from "lucide-react";
 
 // Types
 export interface DataGridColumn<T> {
@@ -15,6 +15,14 @@ export interface DataGridColumn<T> {
   align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
   hidden?: boolean;
+  /** Enable inline editing for this column */
+  editable?: boolean;
+  /** Editor type for inline editing */
+  editorType?: "text" | "number" | "select" | "date" | "checkbox";
+  /** Options for select editor */
+  editorOptions?: { value: string; label: string }[];
+  /** Validation function - return error message or null */
+  validate?: (value: unknown, row: T) => string | null;
 }
 
 export interface FilterGroup {
@@ -84,6 +92,11 @@ export interface DataGridProps<T> {
   striped?: boolean;
   compact?: boolean;
   className?: string;
+  // Inline Editing
+  /** Enable inline editing (requires editable columns) */
+  inlineEditing?: boolean;
+  /** Called when a cell is edited - return promise to show loading state */
+  onCellEdit?: (row: T, columnKey: string, newValue: unknown) => Promise<void>;
 }
 
 type SortDirection = "asc" | "desc" | null;
@@ -121,12 +134,18 @@ export function DataGrid<T>({
   striped = false,
   compact = false,
   className = "",
+  inlineEditing = false,
+  onCellEdit,
 }: DataGridProps<T>) {
   const [localSearch, setLocalSearch] = useState(searchValue);
   const [sortColumn, setSortColumn] = useState<string | null>(defaultSort?.column ?? null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(defaultSort?.direction ?? null);
   const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
+  const [editingCell, setEditingCell] = useState<{ rowKey: string; columnKey: string } | null>(null);
+  const [editValue, setEditValue] = useState<unknown>(null);
+  const [editError, setEditError] = useState<string | null>(null);
+  const [editLoading, setEditLoading] = useState(false);
 
   const getRowKey = useCallback((row: T): string => {
     if (typeof rowKey === "function") return rowKey(row);
@@ -201,6 +220,127 @@ export function DataGrid<T>({
     if (Array.isArray(value)) return count + value.length;
     return count + (value ? 1 : 0);
   }, 0);
+
+  // Inline editing handlers
+  const handleCellDoubleClick = useCallback((row: T, column: DataGridColumn<T>) => {
+    if (!inlineEditing || !column.editable || !onCellEdit) return;
+    const key = getRowKey(row);
+    const value = getCellValue(row, column);
+    setEditingCell({ rowKey: key, columnKey: column.key });
+    setEditValue(value);
+    setEditError(null);
+  }, [inlineEditing, onCellEdit, getRowKey, getCellValue]);
+
+  const handleEditSave = useCallback(async (row: T, column: DataGridColumn<T>) => {
+    if (!editingCell || !onCellEdit) return;
+    
+    // Validate if validator exists
+    if (column.validate) {
+      const error = column.validate(editValue, row);
+      if (error) {
+        setEditError(error);
+        return;
+      }
+    }
+    
+    setEditLoading(true);
+    try {
+      await onCellEdit(row, column.key, editValue);
+      setEditingCell(null);
+      setEditValue(null);
+      setEditError(null);
+    } catch (err) {
+      setEditError(err instanceof Error ? err.message : 'Failed to save');
+    } finally {
+      setEditLoading(false);
+    }
+  }, [editingCell, editValue, onCellEdit]);
+
+  const handleEditCancel = useCallback(() => {
+    setEditingCell(null);
+    setEditValue(null);
+    setEditError(null);
+  }, []);
+
+  const handleEditKeyDown = useCallback((e: React.KeyboardEvent, row: T, column: DataGridColumn<T>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleEditSave(row, column);
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      handleEditCancel();
+    }
+  }, [handleEditSave, handleEditCancel]);
+
+  // Render inline editor
+  const renderEditor = useCallback((row: T, column: DataGridColumn<T>, value: unknown) => {
+    const editorType = column.editorType || 'text';
+    const baseInputClass = clsx(
+      "w-full bg-surface-primary border-2 border-primary-500 rounded-button outline-none",
+      compact ? "px-spacing-2 py-spacing-1 text-body-sm" : "px-spacing-3 py-spacing-2 text-body-md"
+    );
+
+    switch (editorType) {
+      case 'select':
+        return (
+          <select
+            value={String(editValue || '')}
+            onChange={(e) => setEditValue(e.target.value)}
+            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+            className={baseInputClass}
+            autoFocus
+          >
+            {column.editorOptions?.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        );
+      case 'number':
+        return (
+          <input
+            type="number"
+            value={String(editValue || '')}
+            onChange={(e) => setEditValue(e.target.valueAsNumber || 0)}
+            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+            className={baseInputClass}
+            autoFocus
+          />
+        );
+      case 'date':
+        return (
+          <input
+            type="date"
+            value={String(editValue || '')}
+            onChange={(e) => setEditValue(e.target.value)}
+            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+            className={baseInputClass}
+            autoFocus
+          />
+        );
+      case 'checkbox':
+        return (
+          <input
+            type="checkbox"
+            checked={Boolean(editValue)}
+            onChange={(e) => setEditValue(e.target.checked)}
+            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+            className="cursor-pointer"
+            autoFocus
+          />
+        );
+      default:
+        return (
+          <input
+            type="text"
+            value={String(editValue || '')}
+            onChange={(e) => setEditValue(e.target.value)}
+            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+            className={baseInputClass}
+            autoFocus
+          />
+        );
+    }
+  }, [editValue, compact, handleEditKeyDown]);
 
   return (
     <div className={clsx("flex flex-col gap-gap-md", className)}>
@@ -360,19 +500,54 @@ export function DataGrid<T>({
                     )}
                     {visibleColumns.map((column) => {
                       const value = getCellValue(row, column);
+                      const isEditing = editingCell?.rowKey === key && editingCell?.columnKey === column.key;
                       const rendered = column.render ? column.render(value, row) : value;
+                      
                       return (
                         <td
                           key={column.key}
+                          onDoubleClick={() => handleCellDoubleClick(row, column)}
                           className={clsx(
                             "text-text-secondary",
                             compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
                             column.align === "center" && "text-center",
                             column.align === "right" && "text-right",
-                            !column.align && "text-left"
+                            !column.align && "text-left",
+                            column.editable && inlineEditing && "cursor-text hover:bg-surface-secondary"
                           )}
                         >
-                          {rendered as React.ReactNode}
+                          {isEditing ? (
+                            <div className="flex items-center gap-gap-xs" onClick={(e) => e.stopPropagation()}>
+                              <div className="flex-1">
+                                {renderEditor(row, column, value)}
+                                {editError && (
+                                  <p className="text-error-500 text-body-xs mt-spacing-1">{editError}</p>
+                                )}
+                              </div>
+                              <button
+                                onClick={() => handleEditSave(row, column)}
+                                disabled={editLoading}
+                                className="p-spacing-1 text-success-500 hover:bg-success-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                title="Save (Enter)"
+                              >
+                                {editLoading ? (
+                                  <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
+                                ) : (
+                                  <Check className="size-4" />
+                                )}
+                              </button>
+                              <button
+                                onClick={handleEditCancel}
+                                disabled={editLoading}
+                                className="p-spacing-1 text-error-500 hover:bg-error-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                title="Cancel (Escape)"
+                              >
+                                <X className="size-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            rendered as React.ReactNode
+                          )}
                         </td>
                       );
                     })}

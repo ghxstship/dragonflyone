@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Stakeholder {
   id: string;
@@ -113,6 +113,42 @@ export default function RelationshipsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Stakeholder, 'id'>>({
+
+    entityType: 'stakeholders',
+
+    requiredFields: ['name', 'company', 'role'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/stakeholders', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('stakeholders');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Stakeholder>
@@ -129,6 +165,12 @@ export default function RelationshipsPage() {
         createLabel="Add Stakeholder"
         onCreate={() => setCreateModalOpen(true)}
         entityType="stakeholders"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'company', 'role', 'influence', 'sentiment', 'stakeholders', 'decisionMaker']}
         onExport={createExportHandler({
           filename: "stakeholders",
           getData: () => stakeholders.map(s => ({

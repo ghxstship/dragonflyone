@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -65,7 +66,12 @@ const mockPosts: CrewPost[] = [
 
 export default function CrewSocialPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("feed");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'feed',
+    validTabs: ['feed', 'roster', 'photos', 'connections'],
+  });
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
 
   const onlineCount = mockCrew.filter(c => c.status === "Online").length;
@@ -102,13 +108,13 @@ export default function CrewSocialPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "feed"} onClick={() => setActiveTab("feed")}>Feed</Tab>
-                <Tab active={activeTab === "roster"} onClick={() => setActiveTab("roster")}>Roster</Tab>
-                <Tab active={activeTab === "photos"} onClick={() => setActiveTab("photos")}>Photos</Tab>
-                <Tab active={activeTab === "connections"} onClick={() => setActiveTab("connections")}>Connections</Tab>
+                <Tab active={isActive('feed')} onClick={() => setActiveTab('feed')}>Feed</Tab>
+                <Tab active={isActive('roster')} onClick={() => setActiveTab('roster')}>Roster</Tab>
+                <Tab active={isActive('photos')} onClick={() => setActiveTab('photos')}>Photos</Tab>
+                <Tab active={isActive('connections')} onClick={() => setActiveTab('connections')}>Connections</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "feed"}>
+              <TabPanel active={isActive('feed')}>
                 <Grid cols={3} gap={6}>
                   <Stack gap={4} className="col-span-2">
                     <Card className="p-4">
@@ -190,7 +196,7 @@ export default function CrewSocialPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "roster"}>
+              <TabPanel active={isActive('roster')}>
                 <Grid cols={4} gap={4}>
                   {mockCrew.map((member) => (
                     <Card key={member.id} className="cursor-pointer p-4" onClick={() => setSelectedMember(member)}>
@@ -219,7 +225,7 @@ export default function CrewSocialPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "photos"}>
+              <TabPanel active={isActive('photos')}>
                 <Grid cols={4} gap={4}>
                   {Array.from({ length: 8 }).map((_, idx) => (
                     <Card key={idx} className="flex aspect-square cursor-pointer items-center justify-center">
@@ -229,7 +235,7 @@ export default function CrewSocialPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "connections"}>
+              <TabPanel active={isActive('connections')}>
                 <Stack gap={4}>
                   {mockCrew.map((member) => (
                     <Card key={member.id} className="p-4">

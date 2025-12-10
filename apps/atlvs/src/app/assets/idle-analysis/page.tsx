@@ -8,7 +8,7 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface IdleAsset {
   id: string;
@@ -90,6 +90,42 @@ export default function IdleAnalysisPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<IdleAsset, 'id'>>({
+
+    entityType: 'idle-assets',
+
+    requiredFields: ['name', 'category', 'idleDays'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/idle-assets', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('idle-assets');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<IdleAsset>
@@ -104,6 +140,12 @@ export default function IdleAnalysisPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="idle-assets"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'category', 'idleDays', 'lastUsed', 'value', 'monthlyCarryCost', 'recommendation']}
         onExport={createExportHandler({
           filename: "idle-assets",
           getData: () => data.map(a => ({

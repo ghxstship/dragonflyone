@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -52,7 +53,12 @@ const mockSetTimes: SetTime[] = [
 
 export default function SetTimesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("timeline");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'timeline',
+    validTabs: ['timeline', 'by-stage', 'variance'],
+  });
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedSet, setSelectedSet] = useState<SetTime | null>(null);
   const [showStartModal, setShowStartModal] = useState(false);
@@ -138,12 +144,12 @@ export default function SetTimesPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "timeline"} onClick={() => setActiveTab("timeline")}>Timeline</Tab>
-                <Tab active={activeTab === "by-stage"} onClick={() => setActiveTab("by-stage")}>By Stage</Tab>
-                <Tab active={activeTab === "variance"} onClick={() => setActiveTab("variance")}>Variance Report</Tab>
+                <Tab active={isActive('timeline')} onClick={() => setActiveTab('timeline')}>Timeline</Tab>
+                <Tab active={isActive('by-stage')} onClick={() => setActiveTab('by-stage')}>By Stage</Tab>
+                <Tab active={isActive('variance')} onClick={() => setActiveTab('variance')}>Variance Report</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "timeline"}>
+              <TabPanel active={isActive('timeline')}>
                 <Stack gap={3}>
                   {mockSetTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
                     <Card key={set.id} className="p-4">
@@ -182,7 +188,7 @@ export default function SetTimesPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "by-stage"}>
+              <TabPanel active={isActive('by-stage')}>
                 <Grid cols={2} gap={6}>
                   {["Main Stage", "Side Stage"].map((stage) => (
                     <Card key={stage} className="p-4">
@@ -207,7 +213,7 @@ export default function SetTimesPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "variance"}>
+              <TabPanel active={isActive('variance')}>
                 <Card className="p-6">
                   <Stack gap={4}>
                     <H3>Schedule Variance Report</H3>

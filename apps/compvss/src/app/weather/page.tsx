@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { log } from '@ghxstship/config';
 import {
   H3,
   Body,
@@ -71,7 +72,7 @@ export default function WeatherPage() {
         setForecasts(forecastsData.forecasts || []);
       }
     } catch (err) {
-      console.error('Failed to fetch weather data:', err);
+      log.error('Failed to fetch weather data:', err instanceof Error ? err : undefined);
     } finally {
       setLoading(false);
     }

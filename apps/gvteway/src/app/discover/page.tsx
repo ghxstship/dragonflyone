@@ -17,6 +17,7 @@ import {
   Section,
 } from '@ghxstship/ui';
 import { Music, Tent, Drama, Trophy, Laugh, Moon, ArrowRight } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface Event {
   id: string;
@@ -84,7 +85,7 @@ export default function DiscoverPage() {
         setNearbyEvents(data.events || []);
       }
     } catch (_err) {
-      console.error('Failed to fetch discovery data');
+      log.error('Failed to fetch discovery data');
     } finally {
       setLoading(false);
     }

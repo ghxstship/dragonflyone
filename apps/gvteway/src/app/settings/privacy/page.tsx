@@ -22,6 +22,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface BlockedUser {
   id: string;
@@ -91,7 +92,7 @@ export default function PrivacySettingsPage() {
         if (data.settings) setSettings(data.settings);
       }
     } catch (err) {
-      console.error('Failed to fetch data');
+      log.error('Failed to fetch data');
     } finally {
       setLoading(false);
     }

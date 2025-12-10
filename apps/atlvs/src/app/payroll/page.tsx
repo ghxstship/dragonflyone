@@ -18,6 +18,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface PayrollEntry {
   id: string;
@@ -147,6 +148,25 @@ export default function PayrollPage() {
     fetchPayroll();
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<PayrollEntry, 'id'>>({ 
+    entityType: 'payroll',
+    requiredFields: ['employee_id', 'regular_hours', 'pay_period_start', 'pay_period_end'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/payroll', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ organization_id: 'default-org', status: 'pending', ...record }),
+        });
+      }
+      fetchPayroll();
+    },
+  });
+
+  // Import templates for field mapping
+  const importTemplates = getImportTemplates('payroll');
+
   const stats = [
     { label: 'Employees', value: summary?.total_employees || entries.length },
     { label: 'Gross Pay', value: formatCurrency(summary?.total_gross || 0) },
@@ -187,6 +207,10 @@ export default function PayrollPage() {
         onRowClick={(r) => { setSelectedEntry(r); setDrawerOpen(true); }}
         createLabel="Add Entry"
         onCreate={() => setCreateModalOpen(true)}
+        entityType="payroll"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['employee_id', 'employee_name', 'department', 'regular_hours', 'overtime_hours', 'pay_period_start', 'pay_period_end']}
         onExport={handleExport}
         stats={stats}
         emptyMessage="No payroll entries found"

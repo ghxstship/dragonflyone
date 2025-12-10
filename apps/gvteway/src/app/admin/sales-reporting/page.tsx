@@ -15,7 +15,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SalesData {
   id: string;
@@ -126,6 +126,42 @@ export default function SalesReportingPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<SalesData, 'id'>>({
+
+    entityType: 'sales',
+
+    requiredFields: ['Beer', 'Cocktails', 'Beer'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/sales', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('sales');
+
+
   return (
     <GvtewayAppLayout>
       <ListPage<SalesData>
@@ -140,6 +176,12 @@ export default function SalesReportingPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedPeriod(r); setDrawerOpen(true); }}
         entityType="sales"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['Beer', 'Cocktails', 'Beer', 'Wine', 'Hoodie', 'Poster', 'Cap']}
         onExport={createExportHandler({
           filename: "sales-report",
           getData: () => mockSalesData.map(s => ({

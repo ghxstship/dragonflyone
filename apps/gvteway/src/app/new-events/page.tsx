@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   Section,
   H2,
@@ -53,7 +54,7 @@ export default function NewEventsPage() {
         setEvents(data.events || []);
       }
     } catch (err) {
-      console.error('Failed to fetch new events');
+      log.error('Failed to fetch new events');
     } finally {
       setLoading(false);
     }

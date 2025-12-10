@@ -18,6 +18,7 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { Activity, Ticket, Star, UserPlus, Heart, MapPin, Share2, Users, TrendingUp } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface ActivityItem {
   id: string;
@@ -56,7 +57,7 @@ export default function ActivityFeedPage() {
         setActivities(data.activities || []);
       }
     } catch (err) {
-      console.error('Failed to load activity feed');
+      log.error('Failed to load activity feed');
     } finally {
       setLoading(false);
     }

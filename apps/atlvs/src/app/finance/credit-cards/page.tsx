@@ -88,6 +88,42 @@ export default function CreditCardsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<CreditCardTxn, 'id'>>({
+
+    entityType: 'credit-card-transactions',
+
+    requiredFields: ['date', 'merchant', 'cardHolder'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/credit-card-transactions', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('credit-card-transactions');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<CreditCardTxn>
@@ -102,6 +138,12 @@ export default function CreditCardsPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="credit-card-transactions"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['date', 'merchant', 'cardHolder', 'lastFour', 'category', 'amount', 'status']}
         onExport={createExportHandler({
           filename: "credit-card-transactions",
           getData: () => data.map(t => ({

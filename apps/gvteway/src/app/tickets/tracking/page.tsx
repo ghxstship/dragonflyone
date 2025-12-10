@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -59,7 +60,7 @@ export default function TicketTrackingPage() {
         setDeliveries(data.deliveries || []);
       }
     } catch (err) {
-      console.error('Failed to fetch deliveries');
+      log.error('Failed to fetch deliveries');
     } finally {
       setLoading(false);
     }

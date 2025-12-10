@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
   Container,
@@ -43,7 +44,12 @@ interface Opportunity {
 
 export default function OpportunitiesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'rfps' | 'jobs' | 'gigs'>('rfps');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'rfps',
+    validTabs: ['rfps', 'jobs', 'gigs'],
+  });
   const [showApplyModal, setShowApplyModal] = useState(false);
   const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
   const [applicationData, setApplicationData] = useState({ name: '', email: '', message: '' });
@@ -152,8 +158,8 @@ export default function OpportunitiesPage() {
             ].map((tab) => (
               <Button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as typeof activeTab)}
-                variant={activeTab === tab.id ? 'solid' : 'outline'}
+                onClick={() => setActiveTab(tab.id)}
+                variant={isActive(tab.id) ? 'solid' : 'outline'}
               >
                 {tab.label}
               </Button>
@@ -188,7 +194,7 @@ export default function OpportunitiesPage() {
           </Card>
 
           {/* RFPs Tab */}
-          {activeTab === 'rfps' && (
+          {isActive('rfps') && (
             <Stack gap={4}>
               {rfps.map((rfp) => (
                 <Card key={rfp.id}>
@@ -228,7 +234,7 @@ export default function OpportunitiesPage() {
           )}
 
           {/* Jobs Tab */}
-          {activeTab === 'jobs' && (
+          {isActive('jobs') && (
             <Stack gap={4}>
               {jobs.map((job) => (
                 <Card key={job.id}>
@@ -266,7 +272,7 @@ export default function OpportunitiesPage() {
           )}
 
           {/* Gigs Tab */}
-          {activeTab === 'gigs' && (
+          {isActive('gigs') && (
             <Stack gap={4}>
               {gigs.map((gig) => (
                 <Card key={gig.id}>

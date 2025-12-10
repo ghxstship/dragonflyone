@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 // =============================================================================
 // QUICK LINKS HOOKS
@@ -100,7 +101,7 @@ export function useUserQuickLinkFavorites(userId?: string) {
         .order('sort_order', { ascending: true });
 
       if (error) {
-        console.error('Error fetching favorites:', error);
+        log.error('Error fetching favorites:', error instanceof Error ? error : undefined);
         // Return default favorites on error
         return defaultQuickLinks.slice(0, 4).map((link, index) => ({
           id: `fav-${index}`,

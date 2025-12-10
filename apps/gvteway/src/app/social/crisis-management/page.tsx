@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -46,7 +47,12 @@ const mockTemplates: ResponseTemplate[] = [
 
 export default function CrisisManagementPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("incidents");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'incidents',
+    validTabs: ['incidents', 'templates', 'playbook'],
+  });
   const [selectedIncident, setSelectedIncident] = useState<CrisisIncident | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<ResponseTemplate | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -98,12 +104,12 @@ export default function CrisisManagementPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "incidents"} onClick={() => setActiveTab("incidents")}>Active Incidents</Tab>
-              <Tab active={activeTab === "templates"} onClick={() => setActiveTab("templates")}>Response Templates</Tab>
-              <Tab active={activeTab === "playbook"} onClick={() => setActiveTab("playbook")}>Crisis Playbook</Tab>
+              <Tab active={isActive('incidents')} onClick={() => setActiveTab('incidents')}>Active Incidents</Tab>
+              <Tab active={isActive('templates')} onClick={() => setActiveTab('templates')}>Response Templates</Tab>
+              <Tab active={isActive('playbook')} onClick={() => setActiveTab('playbook')}>Crisis Playbook</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "incidents"}>
+            <TabPanel active={isActive('incidents')}>
               <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
@@ -139,7 +145,7 @@ export default function CrisisManagementPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "templates"}>
+            <TabPanel active={isActive('templates')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Template</Button>
@@ -164,7 +170,7 @@ export default function CrisisManagementPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "playbook"}>
+            <TabPanel active={isActive('playbook')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>

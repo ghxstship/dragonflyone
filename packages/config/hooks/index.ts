@@ -68,3 +68,21 @@ export type {
   UseCommandPaletteReturn,
   QuickAction,
 } from './useCommandPalette';
+
+// Tab state hook (URL-synced tabs)
+export { useTabState, useLocalTabState } from './useTabState';
+export type {
+  UseTabStateOptions,
+  UseTabStateReturn,
+  UseLocalTabStateOptions,
+} from './useTabState';
+
+// Favorites and keyboard shortcuts hooks
+export { useFavorites, useKeyboardShortcuts } from './useFavorites';
+export type {
+  FavoriteItem,
+  UseFavoritesOptions,
+  UseFavoritesReturn,
+  KeyboardShortcut,
+  UseKeyboardShortcutsOptions,
+} from './useFavorites';

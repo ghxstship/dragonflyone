@@ -17,6 +17,7 @@ import {
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { log } from '@ghxstship/config';
 
 interface Event {
   id: string;
@@ -65,7 +66,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       if (error) throw error;
       setEvent(data);
     } catch (error) {
-      console.error("Error fetching event:", error);
+      log.error('Error fetching event:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

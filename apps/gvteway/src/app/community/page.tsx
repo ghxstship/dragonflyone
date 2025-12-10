@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
   H2, 
@@ -17,6 +18,7 @@ import {
   Label,
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 // Demo data for unauthenticated users
 const DEMO_FORUMS: Forum[] = [
@@ -97,7 +99,12 @@ interface CommunityEvent {
 
 export default function CommunityPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'forums' | 'groups' | 'events'>('forums');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'forums',
+    validTabs: ['forums', 'groups', 'events'],
+  });
   const [forums, setForums] = useState<Forum[]>([]);
   const [groups, setGroups] = useState<CommunityGroup[]>([]);
   const [communityEvents, setCommunityEvents] = useState<CommunityEvent[]>([]);
@@ -155,7 +162,7 @@ export default function CommunityPage() {
         setGroups(data.groups || []);
       }
     } catch (err) {
-      console.error('Failed to fetch groups:', err);
+      log.error('Failed to fetch groups:', err instanceof Error ? err : undefined);
     }
   }, []);
 
@@ -168,7 +175,7 @@ export default function CommunityPage() {
         setCommunityEvents(data.events || []);
       }
     } catch (err) {
-      console.error('Failed to fetch community events:', err);
+      log.error('Failed to fetch community events:', err instanceof Error ? err : undefined);
     }
   }, []);
 
@@ -218,9 +225,9 @@ export default function CommunityPage() {
             ].map((tab) => (
               <Button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'forums' | 'groups' | 'events')}
-                variant={activeTab === tab.id ? "solid" : "ghost"}
-                inverted={activeTab === tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                variant={isActive(tab.id) ? "solid" : "ghost"}
+                inverted={isActive(tab.id)}
                 className="rounded-none border-b-2 border-transparent px-6 pb-4"
               >
                 {tab.label}
@@ -250,7 +257,7 @@ export default function CommunityPage() {
           </Card>
 
         {/* Forums Tab */}
-        {activeTab === 'forums' && (
+        {isActive('forums') && (
           <Stack gap={4}>
             {filteredForums.map((forum) => (
               <Card key={forum.id} inverted interactive>
@@ -294,7 +301,7 @@ export default function CommunityPage() {
         )}
 
         {/* Groups Tab */}
-        {activeTab === 'groups' && (
+        {isActive('groups') && (
           <Grid cols={2} gap={4}>
             {groups.map((group) => (
               <Card key={group.id} inverted interactive>
@@ -329,7 +336,7 @@ export default function CommunityPage() {
         )}
 
         {/* Events Tab */}
-        {activeTab === 'events' && (
+        {isActive('events') && (
           <Stack gap={4}>
             {communityEvents.length > 0 ? (
               communityEvents.map((event) => (

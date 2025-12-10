@@ -16,7 +16,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
   } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Referral {
   id: string;
@@ -131,6 +131,42 @@ export default function ReferralProgramPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Referral, 'id'>>({
+
+    entityType: 'referrals',
+
+    requiredFields: ['candidateName', 'email', 'phone'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/referrals', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('referrals');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Referral>
@@ -147,6 +183,12 @@ export default function ReferralProgramPage() {
         createLabel="Submit Referral"
         onCreate={() => setCreateModalOpen(true)}
         entityType="referrals"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['candidateName', 'email', 'phone', 'position', 'relationship', 'referrals', 'referredBy']}
         onExport={createExportHandler({
           filename: "referrals",
           getData: () => referrals.map(r => ({

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -63,7 +64,12 @@ const mockPunchItems: PunchItem[] = [
 
 export default function PunchListPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("open");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'open',
+    validTabs: ['open', 'resolved', 'all'],
+  });
   const [selectedDepartment, setSelectedDepartment] = useState("All");
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PunchItem | null>(null);
@@ -137,9 +143,9 @@ export default function PunchListPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "open"} onClick={() => setActiveTab("open")}>Open ({openItems.length})</Tab>
-                <Tab active={activeTab === "resolved"} onClick={() => setActiveTab("resolved")}>Resolved</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All Items</Tab>
+                <Tab active={isActive('open')} onClick={() => setActiveTab('open')}>Open ({openItems.length})</Tab>
+                <Tab active={isActive('resolved')} onClick={() => setActiveTab('resolved')}>Resolved</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All Items</Tab>
               </TabsList>
 
               <TabPanel active={activeTab === "open" || activeTab === "all"}>
@@ -172,7 +178,7 @@ export default function PunchListPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "resolved"}>
+              <TabPanel active={isActive('resolved')}>
                 <Table variant="dark">
                   <TableHeader>
                     <TableRow>

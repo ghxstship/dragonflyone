@@ -61,10 +61,18 @@ const publicPaths = [
   '/community/guidelines',
   '/fan-clubs', // Browsing fan clubs
   
+  // Membership & experiences (public landing pages)
+  '/membership',
+  '/experiences',
+  '/community',
+  
   // Support & accessibility (must be public)
   '/help',
   '/support/chat',
   '/accessibility',
+  
+  // Legal pages
+  '/legal',
   
   // Development
   '/design-system',

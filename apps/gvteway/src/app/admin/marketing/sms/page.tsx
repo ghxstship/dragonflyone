@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
@@ -43,7 +44,12 @@ const audienceSegments = [
 
 export default function SMSMarketingPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("campaigns");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'campaigns',
+    validTabs: ['campaigns', 'audiences', 'templates'],
+  });
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<SMSCampaign | null>(null);
   const [messageText, setMessageText] = useState("");
@@ -86,12 +92,12 @@ export default function SMSMarketingPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
-              <Tab active={activeTab === "audiences"} onClick={() => setActiveTab("audiences")}>Audiences</Tab>
-              <Tab active={activeTab === "templates"} onClick={() => setActiveTab("templates")}>Templates</Tab>
+              <Tab active={isActive('campaigns')} onClick={() => setActiveTab('campaigns')}>Campaigns</Tab>
+              <Tab active={isActive('audiences')} onClick={() => setActiveTab('audiences')}>Audiences</Tab>
+              <Tab active={isActive('templates')} onClick={() => setActiveTab('templates')}>Templates</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "campaigns"}>
+            <TabPanel active={isActive('campaigns')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between">
                   <Input type="search" placeholder="Search campaigns..." className="w-64" inverted />
@@ -149,7 +155,7 @@ export default function SMSMarketingPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "audiences"}>
+            <TabPanel active={isActive('audiences')}>
               <Grid cols={3} gap={4}>
                 {audienceSegments.map((segment) => (
                   <Card key={segment.id} inverted>
@@ -171,7 +177,7 @@ export default function SMSMarketingPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "templates"}>
+            <TabPanel active={isActive('templates')}>
               <Grid cols={2} gap={4}>
                 {[
                   { name: "Event Reminder", message: "Don't forget! [EVENT] is tomorrow. Gates open at [TIME]. See you there!" },

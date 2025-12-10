@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -79,7 +80,12 @@ const categories = ['All', 'General', 'Compliance', 'Safety', 'Benefits', 'Opera
 
 export default function HandbookPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('handbook');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'handbook',
+    validTabs: ['handbook', 'acknowledgments', 'compliance'],
+  });
   const [selectedSection, setSelectedSection] = useState<HandbookSection | null>(null);
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [showSendReminderModal, setShowSendReminderModal] = useState(false);
@@ -130,19 +136,19 @@ export default function HandbookPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === 'handbook'} onClick={() => setActiveTab('handbook')}>
+              <Tab active={isActive('handbook')} onClick={() => setActiveTab('handbook')}>
                 Handbook
               </Tab>
-              <Tab active={activeTab === 'acknowledgments'} onClick={() => setActiveTab('acknowledgments')}>
+              <Tab active={isActive('acknowledgments')} onClick={() => setActiveTab('acknowledgments')}>
                 Acknowledgments
               </Tab>
-              <Tab active={activeTab === 'compliance'} onClick={() => setActiveTab('compliance')}>
+              <Tab active={isActive('compliance')} onClick={() => setActiveTab('compliance')}>
                 Compliance Report
               </Tab>
             </TabsList>
           </Tabs>
 
-          {activeTab === 'handbook' && (
+          {isActive('handbook') && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
                 <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-ink-700 bg-black text-white w-48">
@@ -190,7 +196,7 @@ export default function HandbookPage() {
             </Stack>
           )}
 
-          {activeTab === 'acknowledgments' && (
+          {isActive('acknowledgments') && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-end">
                 <Button variant="outlineWhite" onClick={() => setShowSendReminderModal(true)}>
@@ -250,7 +256,7 @@ export default function HandbookPage() {
             </Stack>
           )}
 
-          {activeTab === 'compliance' && (
+          {isActive('compliance') && (
             <Stack gap={6}>
               <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                 <Stack gap={4}>

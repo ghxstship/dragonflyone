@@ -125,6 +125,42 @@ export default function CommissionsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<CommissionRecord, 'id'>>({
+
+    entityType: 'commissions',
+
+    requiredFields: ['salesRep', 'dealName', 'client'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/commissions', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('commissions');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<CommissionRecord>
@@ -141,6 +177,12 @@ export default function CommissionsPage() {
         createLabel="Add Commission"
         onCreate={() => setCreateModalOpen(true)}
         entityType="commissions"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['salesRep', 'dealName', 'client', 'dealValue', 'commissionRate', 'commissions', 'commissionAmount']}
         onExport={createExportHandler({
           filename: "commissions",
           getData: () => records.map(c => ({

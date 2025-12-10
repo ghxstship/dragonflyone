@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Sponsor {
   id: string;
@@ -275,6 +275,42 @@ export default function SponsorsPage() {
     },
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Sponsor, 'id'>>({
+
+    entityType: 'sponsors',
+
+    requiredFields: ['company_name', 'sponsor_tier_id', 'status'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/sponsors', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('sponsors');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Sponsor>
@@ -293,6 +329,12 @@ export default function SponsorsPage() {
         createLabel="Add Sponsor"
         onCreate={() => setCreateModalOpen(true)}
         entityType="sponsors"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['company_name', 'sponsor_tier_id', 'status', 'contact_name', 'contact_email', 'contact_phone', 'contract_value']}
         onExport={createExportHandler({
           filename: 'sponsors',
           getData: () => (sponsors || []).map(s => ({

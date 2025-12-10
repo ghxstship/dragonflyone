@@ -108,6 +108,42 @@ export default function BudgetsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Budget, 'id'>>({
+
+    entityType: 'budgets',
+
+    requiredFields: ['name', 'category', 'budgeted'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/budgets', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('budgets');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Budget>
@@ -124,6 +160,12 @@ export default function BudgetsPage() {
         createLabel="New Budget"
         onCreate={() => setCreateModalOpen(true)}
         entityType="budgets"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'category', 'budgeted', 'period', 'budgets', 'actual', 'variance']}
         onExport={createExportHandler({
           filename: "budgets",
           getData: () => budgets.map(b => ({

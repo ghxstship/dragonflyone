@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTabState } from "@ghxstship/config/hooks";
 import {
   // Atoms
   Badge, Button, Checkbox, Input, Radio, Select, Spinner, Switch, Textarea,
@@ -64,7 +65,12 @@ const COMPONENT_COUNTS = {
 export default function DesignSystemPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("overview");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'overview',
+    validTabs: ['overview', 'colors', 'typography', 'components', 'patterns'],
+  });
 
   const totalComponents = Object.values(COMPONENT_COUNTS).reduce((a, b) => a + b, 0);
 
@@ -97,19 +103,19 @@ export default function DesignSystemPage() {
           <Container>
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>
+                <Tab active={isActive('overview')} onClick={() => setActiveTab('overview')}>
                   Overview
                 </Tab>
-                <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>
+                <Tab active={isActive('colors')} onClick={() => setActiveTab('colors')}>
                   Colors
                 </Tab>
-                <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>
+                <Tab active={isActive('typography')} onClick={() => setActiveTab('typography')}>
                   Typography
                 </Tab>
-                <Tab active={activeTab === "components"} onClick={() => setActiveTab("components")}>
+                <Tab active={isActive('components')} onClick={() => setActiveTab('components')}>
                   Components
                 </Tab>
-                <Tab active={activeTab === "patterns"} onClick={() => setActiveTab("patterns")}>
+                <Tab active={isActive('patterns')} onClick={() => setActiveTab('patterns')}>
                   Patterns
                 </Tab>
               </TabsList>
@@ -119,7 +125,7 @@ export default function DesignSystemPage() {
 
         <Container>
           {/* Overview Tab */}
-          {activeTab === "overview" && (
+          {isActive('overview') && (
             <Section>
               {/* Stats */}
               <Grid cols={6} gap={4} className="mb-12">
@@ -222,7 +228,7 @@ export default function DesignSystemPage() {
           )}
 
           {/* Colors Tab */}
-          {activeTab === "colors" && (
+          {isActive('colors') && (
             <Section>
               {/* Ink Palette */}
               <H2 className="mb-6 text-ink-50">Ink Palette</H2>
@@ -281,7 +287,7 @@ export default function DesignSystemPage() {
           )}
 
           {/* Typography Tab */}
-          {activeTab === "typography" && (
+          {isActive('typography') && (
             <Section>
               {/* Font Families */}
               <H2 className="mb-6 text-ink-50">Font Families</H2>
@@ -393,7 +399,7 @@ export default function DesignSystemPage() {
           )}
 
           {/* Components Tab */}
-          {activeTab === "components" && (
+          {isActive('components') && (
             <Section>
               {/* Buttons */}
               <H2 className="mb-6 text-ink-50">Buttons</H2>
@@ -633,7 +639,7 @@ export default function DesignSystemPage() {
           )}
 
           {/* Patterns Tab */}
-          {activeTab === "patterns" && (
+          {isActive('patterns') && (
             <Section>
               <H2 className="mb-6 text-ink-50">Background Patterns</H2>
               <Body className="mb-6 text-ink-400">

@@ -7,7 +7,7 @@ import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface StateLaborLaw {
   id: string;
@@ -87,6 +87,42 @@ export default function LaborLawsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<StateLaborLaw, 'id'>>({
+
+    entityType: 'labor-laws',
+
+    requiredFields: ['state', 'category', 'requirement'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/labor-laws', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('labor-laws');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<StateLaborLaw>
@@ -101,6 +137,12 @@ export default function LaborLawsPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="labor-laws"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['state', 'category', 'requirement', 'description', 'lastUpdated', 'status']}
         onExport={createExportHandler({
           filename: "labor-laws",
           getData: () => data.map(l => ({

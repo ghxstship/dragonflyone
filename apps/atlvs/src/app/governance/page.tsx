@@ -108,6 +108,42 @@ export default function GovernancePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<BoardMeeting, 'id'>>({
+
+    entityType: 'governance',
+
+    requiredFields: ['title', 'meeting_type', 'scheduled_date'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/governance', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('governance');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<BoardMeeting>
@@ -126,6 +162,12 @@ export default function GovernancePage() {
         createLabel="Schedule Meeting"
         onCreate={() => router.push('/governance/meetings/new')}
         entityType="governance"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['title', 'meeting_type', 'scheduled_date', 'location', 'attendees', 'status']}
         onExport={createExportHandler({
           filename: "board-meetings",
           getData: () => meetings.map(m => ({

@@ -23,6 +23,7 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface KPIDefinition {
   id: number;
@@ -68,7 +69,7 @@ export default function KPILibraryPage() {
         setKpis(data.data);
       }
     } catch (error) {
-      console.error('Error loading KPIs:', error);
+      log.error('Error loading KPIs:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -82,7 +83,7 @@ export default function KPILibraryPage() {
         setReports(data.data);
       }
     } catch (error) {
-      console.error('Error loading reports:', error);
+      log.error('Error loading reports:', error instanceof Error ? error : undefined);
     }
   };
 

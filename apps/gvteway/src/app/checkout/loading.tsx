@@ -1,0 +1,26 @@
+import { GvtewayAppLayout } from "@/components/app-layout";
+import { Stack, Grid, Container, Skeleton } from "@ghxstship/ui";
+
+export default function CheckoutLoading() {
+  return (
+    <GvtewayAppLayout>
+      <Container className="py-8">
+        <Stack gap={8}>
+          <Stack gap={4}>
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-10 w-48" />
+            <Skeleton className="h-5 w-80" />
+          </Stack>
+
+          <Grid cols={2} gap={6}>
+            <Stack gap={4}>
+              <Skeleton className="h-64 rounded-card" />
+              <Skeleton className="h-48 rounded-card" />
+            </Stack>
+            <Skeleton className="h-96 rounded-card" />
+          </Grid>
+        </Stack>
+      </Container>
+    </GvtewayAppLayout>
+  );
+}

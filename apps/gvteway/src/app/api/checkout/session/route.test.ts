@@ -67,6 +67,16 @@ vi.mock('@/lib/env', () => ({
   },
 }));
 
+// Mock Logger
+vi.mock('@ghxstship/config', () => ({
+  Logger: {
+    error: vi.fn(),
+    warn: vi.fn(),
+    info: vi.fn(),
+    debug: vi.fn(),
+  },
+}));
+
 describe('Checkout Session API', () => {
   beforeEach(() => {
     vi.clearAllMocks();

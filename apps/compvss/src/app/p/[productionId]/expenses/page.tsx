@@ -34,6 +34,7 @@ import {
   Download,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Expense {
   id: string;
@@ -71,7 +72,7 @@ export default function ProductionExpensesPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch expenses:', error);
+      log.error('Failed to fetch expenses:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

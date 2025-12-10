@@ -24,6 +24,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Permit {
   id: string;
@@ -59,7 +60,7 @@ export default function ProductionPermitsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch permits:', error);
+      log.error('Failed to fetch permits:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

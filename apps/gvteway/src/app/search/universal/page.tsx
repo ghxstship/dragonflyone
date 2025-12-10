@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -19,6 +20,7 @@ import {
   Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface SearchResult {
   id: string;
@@ -36,7 +38,11 @@ function UniversalSearchContent() {
   const initialQuery = searchParams.get('q') || '';
 
   const [query, setQuery] = useState(initialQuery);
-  const [activeTab, setActiveTab] = useState('all');
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'event', 'artist', 'venue', 'genre'],
+  });
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
@@ -60,7 +66,7 @@ function UniversalSearchContent() {
         setResults(data.results || []);
       }
     } catch (err) {
-      console.error('Search failed');
+      log.error('Search failed');
     } finally {
       setLoading(false);
     }
@@ -179,31 +185,31 @@ function UniversalSearchContent() {
           <Stack gap={6}>
             <Stack direction="horizontal" gap={2} className="border-b border-ink-200 pb-4">
               <Button
-                variant={activeTab === 'all' ? 'solid' : 'ghost'}
+                variant={isActive('all') ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('all')}
               >
                 All ({resultCounts.all})
               </Button>
               <Button
-                variant={activeTab === 'event' ? 'solid' : 'ghost'}
+                variant={isActive('event') ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('event')}
               >
                 Events ({resultCounts.event})
               </Button>
               <Button
-                variant={activeTab === 'artist' ? 'solid' : 'ghost'}
+                variant={isActive('artist') ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('artist')}
               >
                 Artists ({resultCounts.artist})
               </Button>
               <Button
-                variant={activeTab === 'venue' ? 'solid' : 'ghost'}
+                variant={isActive('venue') ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('venue')}
               >
                 Venues ({resultCounts.venue})
               </Button>
               <Button
-                variant={activeTab === 'genre' ? 'solid' : 'ghost'}
+                variant={isActive('genre') ? 'solid' : 'ghost'}
                 onClick={() => setActiveTab('genre')}
               >
                 Genres ({resultCounts.genre})

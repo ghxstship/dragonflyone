@@ -29,6 +29,7 @@ import {
   User,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface WillCallTicket {
   id: string;
@@ -67,7 +68,7 @@ export default function EventWillCallPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch will call tickets:', error);
+      log.error('Failed to fetch will call tickets:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

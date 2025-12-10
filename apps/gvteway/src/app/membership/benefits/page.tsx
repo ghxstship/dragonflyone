@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -70,7 +71,12 @@ const availableBenefits = [
 
 export default function MemberBenefitsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("tiers");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'tiers',
+    validTabs: ['tiers', 'benefits', 'analytics'],
+  });
   const [selectedTier, setSelectedTier] = useState<MembershipTier | null>(null);
   const [showAddBenefitModal, setShowAddBenefitModal] = useState(false);
 
@@ -110,12 +116,12 @@ export default function MemberBenefitsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "tiers"} onClick={() => setActiveTab("tiers")}>Membership Tiers</Tab>
-              <Tab active={activeTab === "benefits"} onClick={() => setActiveTab("benefits")}>Benefit Library</Tab>
-              <Tab active={activeTab === "analytics"} onClick={() => setActiveTab("analytics")}>Analytics</Tab>
+              <Tab active={isActive('tiers')} onClick={() => setActiveTab('tiers')}>Membership Tiers</Tab>
+              <Tab active={isActive('benefits')} onClick={() => setActiveTab('benefits')}>Benefit Library</Tab>
+              <Tab active={isActive('analytics')} onClick={() => setActiveTab('analytics')}>Analytics</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "tiers"}>
+            <TabPanel active={isActive('tiers')}>
               <Grid cols={3} gap={6}>
                 {mockTiers.map((tier) => (
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
@@ -155,7 +161,7 @@ export default function MemberBenefitsPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "benefits"}>
+            <TabPanel active={isActive('benefits')}>
               <Stack gap={6}>
                 {availableBenefits.map((category) => (
                   <Card key={category.type} className="border-2 border-ink-200 p-4">
@@ -177,7 +183,7 @@ export default function MemberBenefitsPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "analytics"}>
+            <TabPanel active={isActive('analytics')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -45,7 +46,12 @@ const mockFields: TranslationField[] = [
 export default function EventLanguagesPage() {
   const router = useRouter();
   const params = useParams();
-  const [activeTab, setActiveTab] = useState("overview");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'overview',
+    validTabs: ['overview', 'content', 'settings'],
+  });
   const [selectedTranslation, setSelectedTranslation] = useState<Translation | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -95,15 +101,15 @@ export default function EventLanguagesPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>Overview</Tab>
-                <Tab active={activeTab === "content"} onClick={() => setActiveTab("content")}>Content</Tab>
-                <Tab active={activeTab === "settings"} onClick={() => setActiveTab("settings")}>Settings</Tab>
+                <Tab active={isActive('overview')} onClick={() => setActiveTab('overview')}>Overview</Tab>
+                <Tab active={isActive('content')} onClick={() => setActiveTab('content')}>Content</Tab>
+                <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Language</Button>
           </Stack>
 
-          <TabPanel active={activeTab === "overview"}>
+          <TabPanel active={isActive('overview')}>
             <Grid cols={2} gap={4}>
               {mockTranslations.map((translation) => (
                 <Card key={translation.id} className="border-2 border-black p-6">
@@ -141,7 +147,7 @@ export default function EventLanguagesPage() {
             </Grid>
           </TabPanel>
 
-          <TabPanel active={activeTab === "content"}>
+          <TabPanel active={isActive('content')}>
             <Stack gap={4}>
               <Select className="border-2 border-black w-48">
                 <option value="es">Spanish (es)</option>
@@ -177,7 +183,7 @@ export default function EventLanguagesPage() {
             </Stack>
           </TabPanel>
 
-          <TabPanel active={activeTab === "settings"}>
+          <TabPanel active={isActive('settings')}>
             <Card className="border-2 border-black p-6">
               <Stack gap={6}>
                 <H3>Language Settings</H3>

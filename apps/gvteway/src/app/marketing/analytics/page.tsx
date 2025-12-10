@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
@@ -49,7 +50,12 @@ const mockAttribution: AttributionSource[] = [
 
 export default function MarketingAnalyticsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("overview");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'overview',
+    validTabs: ['overview', 'campaigns', 'attribution', 'funnel'],
+  });
   const [dateRange, setDateRange] = useState("30d");
 
   const totalSpend = mockCampaigns.reduce((s, c) => s + c.spend, 0);
@@ -86,13 +92,13 @@ export default function MarketingAnalyticsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>Overview</Tab>
-              <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
-              <Tab active={activeTab === "attribution"} onClick={() => setActiveTab("attribution")}>Attribution</Tab>
-              <Tab active={activeTab === "funnel"} onClick={() => setActiveTab("funnel")}>Funnel</Tab>
+              <Tab active={isActive('overview')} onClick={() => setActiveTab('overview')}>Overview</Tab>
+              <Tab active={isActive('campaigns')} onClick={() => setActiveTab('campaigns')}>Campaigns</Tab>
+              <Tab active={isActive('attribution')} onClick={() => setActiveTab('attribution')}>Attribution</Tab>
+              <Tab active={isActive('funnel')} onClick={() => setActiveTab('funnel')}>Funnel</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "overview"}>
+            <TabPanel active={isActive('overview')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
@@ -141,7 +147,7 @@ export default function MarketingAnalyticsPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "campaigns"}>
+            <TabPanel active={isActive('campaigns')}>
               <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
@@ -174,7 +180,7 @@ export default function MarketingAnalyticsPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "attribution"}>
+            <TabPanel active={isActive('attribution')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
@@ -225,7 +231,7 @@ export default function MarketingAnalyticsPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "funnel"}>
+            <TabPanel active={isActive('funnel')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Conversion Funnel</H3>

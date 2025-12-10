@@ -6,6 +6,7 @@ import { ArrowLeft, UserPlus, Camera, Search } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useCredentialTypes, useIssueCredential } from '../../../hooks/useCredentials';
 import { useContacts } from '../../../hooks/useContacts';
+import { log } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -65,7 +66,7 @@ export default function IssueCredentialPage() {
       });
       router.push('/credentials');
     } catch (error) {
-      console.error('Failed to issue credential:', error);
+      log.error('Failed to issue credential:', error instanceof Error ? error : undefined);
     } finally {
       setIsSubmitting(false);
     }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -90,7 +90,12 @@ export default function RelationshipsPage() {
   const [contacts, setContacts] = useState<Contact[]>(mockContacts);
   const [relationships, setRelationships] = useState<Relationship[]>(mockRelationships);
   const [stakeholderMap, setStakeholderMap] = useState<StakeholderMap>(mockStakeholderMap);
-  const [activeTab, setActiveTab] = useState('map');
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'map',
+    validTabs: ['map', 'org', 'relationships'],
+  });
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -229,13 +234,13 @@ export default function RelationshipsPage() {
 
         <Tabs>
           <TabsList>
-            <Tab active={activeTab === 'map'} onClick={() => setActiveTab('map')}>
+            <Tab active={isActive('map')} onClick={() => setActiveTab('map')}>
               Stakeholder Map
             </Tab>
-            <Tab active={activeTab === 'org'} onClick={() => setActiveTab('org')}>
+            <Tab active={isActive('org')} onClick={() => setActiveTab('org')}>
               Org Chart
             </Tab>
-            <Tab active={activeTab === 'relationships'} onClick={() => setActiveTab('relationships')}>
+            <Tab active={isActive('relationships')} onClick={() => setActiveTab('relationships')}>
               All Relationships
             </Tab>
           </TabsList>

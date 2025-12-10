@@ -88,6 +88,42 @@ export default function CalibrationCertificationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<CalibrationRecord, 'id'>>({
+
+    entityType: 'calibration',
+
+    requiredFields: ['assetName', 'category', 'calibrationType'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/calibration', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('calibration');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<CalibrationRecord>
@@ -102,6 +138,12 @@ export default function CalibrationCertificationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="calibration"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['assetName', 'category', 'calibrationType', 'lastCalibration', 'nextDue', 'frequency', 'status']}
         onExport={createExportHandler({
           filename: "calibration-records",
           getData: () => data.map(c => ({

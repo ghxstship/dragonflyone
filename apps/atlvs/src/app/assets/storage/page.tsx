@@ -89,6 +89,42 @@ export default function StorageOptimizationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<StorageLocation, 'id'>>({
+
+    entityType: 'storage',
+
+    requiredFields: ['name', 'type', 'category'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/storage', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('storage');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<StorageLocation>
@@ -103,6 +139,12 @@ export default function StorageOptimizationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="storage"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'type', 'category', 'utilization', 'capacity', 'climate', 'status']}
         onExport={createExportHandler({
           filename: "storage-locations",
           getData: () => data.map(l => ({

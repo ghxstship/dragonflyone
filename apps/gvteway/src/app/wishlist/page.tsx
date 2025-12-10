@@ -16,6 +16,7 @@ import {
   Label,
 } from '@ghxstship/ui';
 import { Heart, Trash2, ShoppingCart, Calendar, MapPin, Share2 } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 // Demo data for unauthenticated users
 const DEMO_WISHLIST: WishlistItem[] = [
@@ -107,7 +108,7 @@ export default function WishlistPage() {
         setWishlist((prev) => prev.filter((item) => item.id !== itemId));
       }
     } catch (err) {
-      console.error('Failed to remove item:', err);
+      log.error('Failed to remove item:', err instanceof Error ? err : undefined);
     }
   };
 

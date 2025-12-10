@@ -148,7 +148,7 @@ export function useOfflineCache<T>(key: string, maxAge: number = 3600000) {
       store.put(cacheEntry);
       setCachedData(data);
     } catch (error) {
-      console.error('[Cache] Failed to save:', error);
+      logger.error('[Cache] Failed to save', error instanceof Error ? error : undefined);
     }
   }, [key]);
 
@@ -161,7 +161,7 @@ export function useOfflineCache<T>(key: string, maxAge: number = 3600000) {
       store.delete(key);
       setCachedData(null);
     } catch (error) {
-      console.error('[Cache] Failed to clear:', error);
+      logger.error('[Cache] Failed to clear', error instanceof Error ? error : undefined);
     }
   }, [key]);
 
@@ -217,7 +217,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
         await (registration as ServiceWorkerRegistration & { sync: { register: (tag: string) => Promise<void> } }).sync.register(`sync-${storeName}`);
       }
     } catch (error) {
-      console.error('[Queue] Failed to add:', error);
+      logger.error('[Queue] Failed to add', error instanceof Error ? error : undefined);
       throw error;
     }
   }, [storeName]);
@@ -235,7 +235,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
         request.onerror = () => reject(request.error);
       });
     } catch (error) {
-      console.error('[Queue] Failed to get pending:', error);
+      logger.error('[Queue] Failed to get pending', error instanceof Error ? error : undefined);
       return [];
     }
   }, [storeName]);
@@ -249,7 +249,7 @@ export function useOfflineQueue(storeName: 'crew-updates' | 'timesheet-entries')
       store.clear();
       setPendingCount(0);
     } catch (error) {
-      console.error('[Queue] Failed to clear:', error);
+      logger.error('[Queue] Failed to clear', error instanceof Error ? error : undefined);
     }
   }, [storeName]);
 

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -69,7 +70,7 @@ function SupportChatContent() {
         }
       }
     } catch (err) {
-      console.error('Failed to fetch conversations');
+      log.error('Failed to fetch conversations');
     } finally {
       setLoading(false);
     }
@@ -101,7 +102,7 @@ function SupportChatContent() {
         fetchConversations();
       }
     } catch (err) {
-      console.error('Failed to send message');
+      log.error('Failed to send message');
     } finally {
       setSending(false);
     }
@@ -132,7 +133,7 @@ function SupportChatContent() {
         setActiveConversation(data.conversation);
       }
     } catch (err) {
-      console.error('Failed to create conversation');
+      log.error('Failed to create conversation');
     } finally {
       setSending(false);
     }

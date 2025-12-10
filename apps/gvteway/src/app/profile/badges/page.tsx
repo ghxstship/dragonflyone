@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -58,7 +59,11 @@ export default function BadgesPage() {
   const [currentPoints, setCurrentPoints] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'earned' | 'available' | 'tiers'>('earned');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'earned',
+    validTabs: ['earned', 'available', 'tiers'],
+  });
 
   const fetchBadges = useCallback(async () => {
     setLoading(true);
@@ -149,26 +154,26 @@ export default function BadgesPage() {
 
         <Stack direction="horizontal" gap={2} className="mb-8">
           <Button
-            variant={activeTab === 'earned' ? 'solid' : 'outline'}
+            variant={isActive('earned') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('earned')}
           >
             Earned ({earnedBadges.length})
           </Button>
           <Button
-            variant={activeTab === 'available' ? 'solid' : 'outline'}
+            variant={isActive('available') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('available')}
           >
             Available ({availableBadges.filter(b => !b.is_earned).length})
           </Button>
           <Button
-            variant={activeTab === 'tiers' ? 'solid' : 'outline'}
+            variant={isActive('tiers') ? 'solid' : 'outline'}
             onClick={() => setActiveTab('tiers')}
           >
             Fan Tiers
           </Button>
         </Stack>
 
-        {activeTab === 'earned' && (
+        {isActive('earned') && (
           <Grid cols={4} gap={4}>
             {earnedBadges.length > 0 ? (
               earnedBadges.map(badge => (
@@ -211,7 +216,7 @@ export default function BadgesPage() {
           </Grid>
         )}
 
-        {activeTab === 'available' && (
+        {isActive('available') && (
           <Grid cols={3} gap={4}>
             {availableBadges.filter(b => !b.is_earned).map(badge => (
               <Card key={badge.id} className="p-4">
@@ -241,7 +246,7 @@ export default function BadgesPage() {
           </Grid>
         )}
 
-        {activeTab === 'tiers' && (
+        {isActive('tiers') && (
           <Stack gap={4}>
             {fanTiers.map((tier, index) => {
               const isUnlocked = currentPoints >= tier.points_required;

@@ -29,6 +29,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface RefundRequest {
   id: string;
@@ -66,7 +67,7 @@ export default function EventRefundsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch refunds:', error);
+      log.error('Failed to fetch refunds', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -92,7 +93,7 @@ export default function EventRefundsPage() {
         setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'approved' as const } : r));
       }
     } catch (error) {
-      console.error('Failed to approve refund:', error);
+      log.error('Failed to approve refund', error instanceof Error ? error : undefined);
     }
   };
 
@@ -103,7 +104,7 @@ export default function EventRefundsPage() {
         setRefunds(prev => prev.map(r => r.id === id ? { ...r, status: 'rejected' as const } : r));
       }
     } catch (error) {
-      console.error('Failed to reject refund:', error);
+      log.error('Failed to reject refund', error instanceof Error ? error : undefined);
     }
   };
 

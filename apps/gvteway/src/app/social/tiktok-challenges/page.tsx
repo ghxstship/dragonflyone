@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -33,7 +34,12 @@ const mockChallenges: TikTokChallenge[] = [
 
 export default function TikTokChallengesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'active', 'scheduled', 'completed'],
+  });
   const [selectedChallenge, setSelectedChallenge] = useState<TikTokChallenge | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -78,10 +84,10 @@ export default function TikTokChallengesPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-                <Tab active={activeTab === "scheduled"} onClick={() => setActiveTab("scheduled")}>Scheduled</Tab>
-                <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+                <Tab active={isActive('scheduled')} onClick={() => setActiveTab('scheduled')}>Scheduled</Tab>
+                <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Challenge</Button>

@@ -14,7 +14,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface RFIDWristband {
   id: string;
@@ -99,6 +99,42 @@ export default function RFIDPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<RFIDWristband, 'id'>>({
+
+    entityType: 'rfid-wristbands',
+
+    requiredFields: ['wristbandId', 'guestName', 'email'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/rfid-wristbands', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('rfid-wristbands');
+
+
   return (
     <>
       <ListPage<RFIDWristband>
@@ -115,6 +151,12 @@ export default function RFIDPage() {
         createLabel="Scan Wristband"
         onCreate={() => router.push(`/events/${params.id}/rfid/scan`)}
         entityType="rfid-wristbands"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['wristbandId', 'guestName', 'email', 'ticketType', 'balance', 'transactions', 'status']}
         onExport={createExportHandler({
           filename: "rfid-wristbands",
           getData: () => wristbands.map(w => ({

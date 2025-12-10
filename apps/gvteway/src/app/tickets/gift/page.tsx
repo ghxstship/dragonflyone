@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -65,7 +66,7 @@ function GiftTicketsContent() {
         setEvents(data.events || []);
       }
     } catch (err) {
-      console.error('Failed to fetch events');
+      log.error('Failed to fetch events');
     }
   }, []);
 
@@ -77,7 +78,7 @@ function GiftTicketsContent() {
         setTicketTypes(data.ticket_types || []);
       }
     } catch (err) {
-      console.error('Failed to fetch ticket types');
+      log.error('Failed to fetch ticket types');
     }
   }, []);
 

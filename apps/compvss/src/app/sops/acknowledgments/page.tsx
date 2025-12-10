@@ -15,7 +15,7 @@ import {
   type ListPageColumn,
   type ListPageFilter,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SOPAcknowledgment {
   id: string;
@@ -88,6 +88,42 @@ export default function SOPAcknowledgmentsPage() {
     }).length || 0 },
   ];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<SOPAcknowledgment, 'id'>>({
+
+    entityType: 'sop-acknowledgments',
+
+    requiredFields: ['user', 'sop', 'acknowledged_at'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/sop-acknowledgments', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('sop-acknowledgments');
+
+
   return (
     <CompvssAppLayout>
       <ListPage<SOPAcknowledgment>
@@ -102,6 +138,12 @@ export default function SOPAcknowledgmentsPage() {
         searchPlaceholder="Search by user or SOP..."
         filters={filters}
         entityType="sop-acknowledgments"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['user', 'sop', 'acknowledged_at', 'sop_id']}
         onExport={createExportHandler({
           filename: "sop-acknowledgments",
           getData: () => (acknowledgments || []).map(a => ({

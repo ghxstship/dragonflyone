@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -66,7 +67,12 @@ const mockProcedures: EmergencyProcedure[] = [
 
 export default function EmergencyPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("contacts");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'contacts',
+    validTabs: ['contacts', 'procedures', 'assembly'],
+  });
   const [selectedProcedure, setSelectedProcedure] = useState<EmergencyProcedure | null>(null);
   const [showCallModal, setShowCallModal] = useState(false);
   const [selectedContact, setSelectedContact] = useState<EmergencyContact | null>(null);
@@ -119,12 +125,12 @@ export default function EmergencyPage() {
             <Card className="p-6">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "contacts"} onClick={() => setActiveTab("contacts")}>Contact Tree</Tab>
-                  <Tab active={activeTab === "procedures"} onClick={() => setActiveTab("procedures")}>All Procedures</Tab>
-                  <Tab active={activeTab === "assembly"} onClick={() => setActiveTab("assembly")}>Assembly Points</Tab>
+                  <Tab active={isActive('contacts')} onClick={() => setActiveTab('contacts')}>Contact Tree</Tab>
+                  <Tab active={isActive('procedures')} onClick={() => setActiveTab('procedures')}>All Procedures</Tab>
+                  <Tab active={isActive('assembly')} onClick={() => setActiveTab('assembly')}>Assembly Points</Tab>
                 </TabsList>
 
-                <TabPanel active={activeTab === "contacts"}>
+                <TabPanel active={isActive('contacts')}>
                   <Stack gap={4} className="mt-6">
                     {["Production", "Medical", "Security", "Fire", "Police", "Venue"].map((category) => (
                       <Card key={category} className="p-4">
@@ -157,7 +163,7 @@ export default function EmergencyPage() {
                   </Stack>
                 </TabPanel>
 
-                <TabPanel active={activeTab === "procedures"}>
+                <TabPanel active={isActive('procedures')}>
                   <Grid cols={2} gap={4} className="mt-6">
                     {mockProcedures.map((procedure) => (
                       <Card key={procedure.id} className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedure)}>
@@ -176,7 +182,7 @@ export default function EmergencyPage() {
                   </Grid>
                 </TabPanel>
 
-                <TabPanel active={activeTab === "assembly"}>
+                <TabPanel active={isActive('assembly')}>
                   <Card className="mt-6 p-6">
                     <Stack gap={4}>
                       <H3>Emergency Assembly Points</H3>

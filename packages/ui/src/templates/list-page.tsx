@@ -175,6 +175,14 @@ export interface ListPageColumn<T> {
   align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
   hidden?: boolean;
+  /** Enable inline editing for this column */
+  editable?: boolean;
+  /** Editor type for inline editing */
+  editorType?: "text" | "number" | "select" | "date" | "checkbox";
+  /** Options for select editor */
+  editorOptions?: { value: string; label: string }[];
+  /** Validation function - return error message or null */
+  validate?: (value: unknown, row: T) => string | null;
 }
 
 export interface ListPageFilter {
@@ -302,6 +310,10 @@ export interface ListPageProps<T> {
   columnVisibility?: boolean;
   /** Quick action buttons displayed in header */
   quickActions?: Array<{ id: string; label: string; icon?: React.ReactNode; onClick: () => void }>;
+  /** Enable inline editing (double-click to edit cells marked as editable) */
+  inlineEditing?: boolean;
+  /** Called when a cell is edited inline */
+  onCellEdit?: (row: T, columnKey: string, newValue: unknown) => Promise<void>;
 }
 
 export function ListPage<T>({
@@ -339,6 +351,9 @@ export function ListPage<T>({
   compact = false,
   columnVisibility = false,
   quickActions = [],
+  // Inline editing props
+  inlineEditing = false,
+  onCellEdit,
   // View toggle props
   views = [],
   activeView = "list",
@@ -486,6 +501,10 @@ export function ListPage<T>({
     align: col.align,
     render: col.render,
     hidden: col.hidden,
+    editable: col.editable,
+    editorType: col.editorType,
+    editorOptions: col.editorOptions,
+    validate: col.validate,
   })), [columns]);
 
   // Convert ListPage bulk actions to DataGrid format
@@ -954,6 +973,8 @@ export function ListPage<T>({
             striped={striped}
             compact={compact}
             columnVisibility={columnVisibility}
+            inlineEditing={inlineEditing}
+            onCellEdit={onCellEdit}
           />
         )}
         

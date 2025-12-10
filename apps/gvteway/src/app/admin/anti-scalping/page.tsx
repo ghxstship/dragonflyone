@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   H2,
@@ -97,7 +98,11 @@ export default function AntiScalpingPage() {
   const [alerts, setAlerts] = useState<ScalpingAlert[]>(mockAlerts);
   const [rules, setRules] = useState<ProtectionRule[]>(mockRules);
   const [blocked, setBlocked] = useState<BlockedEntity[]>(mockBlocked);
-  const [activeTab, setActiveTab] = useState('alerts');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'alerts',
+    validTabs: ['alerts', 'rules', 'blocked', 'analytics'],
+  });
   const [selectedAlert, setSelectedAlert] = useState<ScalpingAlert | null>(null);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [filter, setFilter] = useState({ severity: '', status: '' });
@@ -236,22 +241,22 @@ export default function AntiScalpingPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === 'alerts'} onClick={() => setActiveTab('alerts')}>
+              <Tab active={isActive('alerts')} onClick={() => setActiveTab('alerts')}>
                 Alerts ({alerts.filter(a => a.status === 'pending').length})
               </Tab>
-              <Tab active={activeTab === 'rules'} onClick={() => setActiveTab('rules')}>
+              <Tab active={isActive('rules')} onClick={() => setActiveTab('rules')}>
                 Protection Rules
               </Tab>
-              <Tab active={activeTab === 'blocked'} onClick={() => setActiveTab('blocked')}>
+              <Tab active={isActive('blocked')} onClick={() => setActiveTab('blocked')}>
                 Blocked List
               </Tab>
-              <Tab active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')}>
+              <Tab active={isActive('analytics')} onClick={() => setActiveTab('analytics')}>
                 Analytics
               </Tab>
             </TabsList>
           </Tabs>
 
-          {activeTab === 'alerts' && (
+          {isActive('alerts') && (
             <Stack gap={6}>
               <Stack direction="horizontal" gap={4}>
                 <Field label="" className="w-48">
@@ -322,7 +327,7 @@ export default function AntiScalpingPage() {
             </Stack>
           )}
 
-          {activeTab === 'rules' && (
+          {isActive('rules') && (
             <Stack gap={4}>
               {rules.map(rule => (
                 <Card key={rule.id} inverted variant={rule.enabled ? 'elevated' : 'default'}>
@@ -360,7 +365,7 @@ export default function AntiScalpingPage() {
             </Stack>
           )}
 
-          {activeTab === 'blocked' && (
+          {isActive('blocked') && (
             <Stack gap={4}>
               <Card inverted className="overflow-hidden">
                 <Table variant="dark">
@@ -401,7 +406,7 @@ export default function AntiScalpingPage() {
             </Stack>
           )}
 
-          {activeTab === 'analytics' && (
+          {isActive('analytics') && (
             <Grid cols={2} gap={6}>
               <Card inverted className="p-6">
                 <Stack gap={4}>

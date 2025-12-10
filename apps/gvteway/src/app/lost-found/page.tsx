@@ -23,6 +23,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface LostFoundItem {
   id: string;
@@ -82,7 +83,7 @@ export default function LostFoundPage() {
         setItems(data.items || []);
       }
     } catch (err) {
-      console.error('Failed to fetch items');
+      log.error('Failed to fetch items');
     } finally {
       setLoading(false);
     }

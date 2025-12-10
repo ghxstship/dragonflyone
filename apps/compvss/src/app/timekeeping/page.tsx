@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
 import { useTimekeeping, useApproveTimeEntry } from "../../hooks/useTimekeeping";
+import { log } from '@ghxstship/config';
 import {
   StatCard,
   Input,
@@ -47,7 +48,7 @@ export default function TimekeepingPage() {
     try {
       await approveEntry.mutateAsync(id);
     } catch (error) {
-      console.error('Failed to approve time entry:', error);
+      log.error('Failed to approve time entry:', error instanceof Error ? error : undefined);
     }
   };
 

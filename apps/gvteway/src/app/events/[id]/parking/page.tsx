@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -51,7 +52,12 @@ export default function ParkingTransportPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
-  const [activeTab, setActiveTab] = useState("parking");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'parking',
+    validTabs: ['parking', 'transport', 'map'],
+  });
   const [selectedParking, setSelectedParking] = useState<ParkingOption | null>(null);
   const [showReserveModal, setShowReserveModal] = useState(false);
 
@@ -97,12 +103,12 @@ export default function ParkingTransportPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "parking"} onClick={() => setActiveTab("parking")}>Parking</Tab>
-              <Tab active={activeTab === "transport"} onClick={() => setActiveTab("transport")}>Transportation</Tab>
-              <Tab active={activeTab === "map"} onClick={() => setActiveTab("map")}>Map</Tab>
+              <Tab active={isActive('parking')} onClick={() => setActiveTab('parking')}>Parking</Tab>
+              <Tab active={isActive('transport')} onClick={() => setActiveTab('transport')}>Transportation</Tab>
+              <Tab active={isActive('map')} onClick={() => setActiveTab('map')}>Map</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "parking"}>
+            <TabPanel active={isActive('parking')}>
               <Grid cols={2} gap={4}>
                 {mockParking.map((option) => (
                   <Card key={option.id} className="border-2 border-black overflow-hidden">
@@ -151,7 +157,7 @@ export default function ParkingTransportPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "transport"}>
+            <TabPanel active={isActive('transport')}>
               <Stack gap={4}>
                 {mockTransport.map((option) => (
                   <Card key={option.id} className="border-2 border-black p-6">
@@ -194,7 +200,7 @@ export default function ParkingTransportPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "map"}>
+            <TabPanel active={isActive('map')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <H3>Venue Area Map</H3>

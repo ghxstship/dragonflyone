@@ -18,7 +18,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Document {
   id: string;
@@ -123,6 +123,42 @@ export default function DocumentsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Document, 'id'>>({
+
+    entityType: 'documents',
+
+    requiredFields: ['name', 'type', 'folder'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/documents', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('documents');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Document>
@@ -139,6 +175,12 @@ export default function DocumentsPage() {
         createLabel="Upload Document"
         onCreate={() => setCreateModalOpen(true)}
         entityType="documents"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'type', 'folder', 'file', 'documents', 'version', 'size']}
         onExport={createExportHandler({
           filename: "documents",
           getData: () => documents.map(d => ({

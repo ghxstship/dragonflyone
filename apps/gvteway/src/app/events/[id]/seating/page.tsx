@@ -16,6 +16,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import { useSeating } from '@/hooks/useSeating';
+import { log } from '@ghxstship/config';
 
 interface Seat {
   id: string;
@@ -50,7 +51,7 @@ export default function SeatingPage() {
         setEvent(data.event);
       }
     } catch (err) {
-      console.error('Failed to fetch event details');
+      log.error('Failed to fetch event details');
     }
   };
 

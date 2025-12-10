@@ -95,6 +95,42 @@ export default function AssetTrackingPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<AssetLocation, 'id'>>({
+
+    entityType: 'asset-tracking',
+
+    requiredFields: ['assetName', 'category', 'trackingType'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/asset-tracking', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('asset-tracking');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<AssetLocation>
@@ -109,6 +145,12 @@ export default function AssetTrackingPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="asset-tracking"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['assetName', 'category', 'trackingType', 'locationName', 'lastSeen', 'status', 'batteryLevel']}
         onExport={createExportHandler({
           filename: "asset-tracking",
           getData: () => data.map(a => ({

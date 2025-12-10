@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -61,7 +62,12 @@ const mockAccessZones = [
 
 export default function VIPManagementPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("guests");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'guests',
+    validTabs: ['guests', 'zones'],
+  });
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<VIPGuest | null>(null);
@@ -107,11 +113,11 @@ export default function VIPManagementPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "guests"} onClick={() => setActiveTab("guests")}>Guest List</Tab>
-                <Tab active={activeTab === "zones"} onClick={() => setActiveTab("zones")}>Access Zones</Tab>
+                <Tab active={isActive('guests')} onClick={() => setActiveTab('guests')}>Guest List</Tab>
+                <Tab active={isActive('zones')} onClick={() => setActiveTab('zones')}>Access Zones</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "guests"}>
+              <TabPanel active={isActive('guests')}>
                 <Table variant="dark">
                   <TableHeader>
                     <TableRow>
@@ -147,7 +153,7 @@ export default function VIPManagementPage() {
                 </Table>
               </TabPanel>
 
-              <TabPanel active={activeTab === "zones"}>
+              <TabPanel active={isActive('zones')}>
                 <Grid cols={2} gap={6}>
                   {mockAccessZones.map((zone) => (
                     <Card key={zone.id}>

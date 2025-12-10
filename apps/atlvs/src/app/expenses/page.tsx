@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Expense {
   id: string;
@@ -201,6 +201,25 @@ export default function ExpensesPage() {
     }
   };
 
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Expense, 'id' | 'category' | 'submitter'>>({
+    entityType: 'expenses',
+    requiredFields: ['description', 'amount', 'expense_date'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/expenses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ organization_id: 'default-org', status: 'draft', ...record }),
+        });
+      }
+      refetch();
+    },
+  });
+
+  // Import templates for field mapping
+  const importTemplates = getImportTemplates('expenses');
+
   const pageStats = [
     { label: 'Total Expenses', value: stats?.total || 0 },
     { label: 'Total Amount', value: `$${(stats?.totalAmount || 0).toLocaleString()}` },
@@ -262,6 +281,9 @@ export default function ExpensesPage() {
         createLabel="New Expense"
         onCreate={() => setCreateModalOpen(true)}
         entityType="expenses"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['description', 'vendor_name', 'amount', 'currency', 'expense_date', 'category_id', 'notes']}
         onExport={createExportHandler({
           filename: 'expenses',
           getData: () => expenses.map(e => ({

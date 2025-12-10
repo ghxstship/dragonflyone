@@ -98,6 +98,42 @@ export default function DamageReportsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<DamageReport, 'id'>>({
+
+    entityType: 'damage-reports',
+
+    requiredFields: ['assetName', 'category', 'description'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/damage-reports', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('damage-reports');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<DamageReport>
@@ -112,6 +148,12 @@ export default function DamageReportsPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="damage-reports"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['assetName', 'category', 'description', 'severity', 'status', 'estimatedCost', 'reportedDate']}
         onExport={createExportHandler({
           filename: "damage-reports",
           getData: () => data.map(d => ({

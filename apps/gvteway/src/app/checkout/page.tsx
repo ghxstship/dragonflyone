@@ -18,6 +18,7 @@ import {
 } from '@ghxstship/ui';
 import { CreditCard, Lock, Check, ShoppingCart, MapPin, ChevronRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
 
 interface CartItem {
   id: string;
@@ -85,7 +86,7 @@ function CheckoutContent() {
         }
       }
     } catch (error) {
-      console.error('Error loading cart:', error);
+      log.error('Error loading cart:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -123,7 +124,7 @@ function CheckoutContent() {
         alert('Payment failed: ' + data.error);
       }
     } catch (error) {
-      console.error('Payment error:', error);
+      log.error('Payment error:', error instanceof Error ? error : undefined);
       alert('Payment processing failed');
     } finally {
       setProcessing(false);

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -33,7 +34,12 @@ const mockGroups: GroupOrder[] = [
 
 export default function GroupTicketsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("orders");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'orders',
+    validTabs: ['orders', 'discounts', 'settings'],
+  });
   const [selectedGroup, setSelectedGroup] = useState<GroupOrder | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -73,12 +79,12 @@ export default function GroupTicketsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "orders"} onClick={() => setActiveTab("orders")}>Group Orders</Tab>
-              <Tab active={activeTab === "discounts"} onClick={() => setActiveTab("discounts")}>Discount Tiers</Tab>
-              <Tab active={activeTab === "settings"} onClick={() => setActiveTab("settings")}>Settings</Tab>
+              <Tab active={isActive('orders')} onClick={() => setActiveTab('orders')}>Group Orders</Tab>
+              <Tab active={isActive('discounts')} onClick={() => setActiveTab('discounts')}>Discount Tiers</Tab>
+              <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "orders"}>
+            <TabPanel active={isActive('orders')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between">
                   <Input type="search" placeholder="Search groups..." className="border-2 border-black w-64" />
@@ -135,7 +141,7 @@ export default function GroupTicketsPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "discounts"}>
+            <TabPanel active={isActive('discounts')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Group Discount Tiers</H3>
@@ -170,7 +176,7 @@ export default function GroupTicketsPage() {
               </Card>
             </TabPanel>
 
-            <TabPanel active={activeTab === "settings"}>
+            <TabPanel active={isActive('settings')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Group Order Settings</H3>

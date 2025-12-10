@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -45,7 +46,12 @@ const mockCrew: CrewMember[] = [
 
 export default function ShowCallPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'present', 'missing', 'pending'],
+  });
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -134,10 +140,10 @@ export default function ShowCallPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All ({mockCrew.length})</Tab>
-                <Tab active={activeTab === "present"} onClick={() => setActiveTab("present")}>Present ({checkedInCount})</Tab>
-                <Tab active={activeTab === "missing"} onClick={() => setActiveTab("missing")}>Missing ({lateCount + noShowCount})</Tab>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({notDueCount})</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All ({mockCrew.length})</Tab>
+                <Tab active={isActive('present')} onClick={() => setActiveTab('present')}>Present ({checkedInCount})</Tab>
+                <Tab active={isActive('missing')} onClick={() => setActiveTab('missing')}>Missing ({lateCount + noShowCount})</Tab>
+                <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending ({notDueCount})</Tab>
               </TabsList>
 
               <TabPanel active={true}>

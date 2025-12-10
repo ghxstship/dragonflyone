@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-
+import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -71,7 +71,11 @@ export default function UGCPage() {
   const [hashtags, setHashtags] = useState<Hashtag[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('feed');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'feed',
+    validTabs: ['feed', 'hashtags', 'campaigns', 'featured'],
+  });
   const [selectedPost, setSelectedPost] = useState<UGCPost | null>(null);
   const [searchHashtag, setSearchHashtag] = useState('');
   const [filter, setFilter] = useState({
@@ -233,22 +237,22 @@ export default function UGCPage() {
 
         <Tabs>
           <TabsList>
-            <Tab active={activeTab === 'feed'} onClick={() => setActiveTab('feed')}>
+            <Tab active={isActive('feed')} onClick={() => setActiveTab('feed')}>
               Content Feed
             </Tab>
-            <Tab active={activeTab === 'hashtags'} onClick={() => setActiveTab('hashtags')}>
+            <Tab active={isActive('hashtags')} onClick={() => setActiveTab('hashtags')}>
               Trending Hashtags
             </Tab>
-            <Tab active={activeTab === 'campaigns'} onClick={() => setActiveTab('campaigns')}>
+            <Tab active={isActive('campaigns')} onClick={() => setActiveTab('campaigns')}>
               Campaigns
             </Tab>
-            <Tab active={activeTab === 'featured'} onClick={() => setActiveTab('featured')}>
+            <Tab active={isActive('featured')} onClick={() => setActiveTab('featured')}>
               Featured
             </Tab>
           </TabsList>
         </Tabs>
 
-        {activeTab === 'feed' && (
+        {isActive('feed') && (
           <Stack gap={6} className="mt-6">
             <Stack direction="horizontal" gap={4} className="flex-wrap">
               <Field label="" className="w-40">
@@ -347,7 +351,7 @@ export default function UGCPage() {
           </Stack>
         )}
 
-        {activeTab === 'hashtags' && (
+        {isActive('hashtags') && (
           <Grid cols={3} gap={6} className="mt-6">
             {hashtags.length > 0 ? (
               hashtags.map(hashtag => (
@@ -387,7 +391,7 @@ export default function UGCPage() {
           </Grid>
         )}
 
-        {activeTab === 'campaigns' && (
+        {isActive('campaigns') && (
           <Stack gap={6} className="mt-6">
             {campaigns.length > 0 ? (
               campaigns.map(campaign => (
@@ -444,7 +448,7 @@ export default function UGCPage() {
           </Stack>
         )}
 
-        {activeTab === 'featured' && (
+        {isActive('featured') && (
           <Grid cols={3} gap={6} className="mt-6">
             {featuredPosts.length > 0 ? (
               featuredPosts.map(post => (

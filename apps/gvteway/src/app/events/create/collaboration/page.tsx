@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -56,7 +57,12 @@ const permissionOptions = [
 
 export default function EventCollaborationPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("team");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'team',
+    validTabs: ['team', 'activity', 'permissions'],
+  });
   const [selectedCollaborator, setSelectedCollaborator] = useState<Collaborator | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
 
@@ -103,15 +109,15 @@ export default function EventCollaborationPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "team"} onClick={() => setActiveTab("team")}>Team</Tab>
-                <Tab active={activeTab === "activity"} onClick={() => setActiveTab("activity")}>Activity</Tab>
-                <Tab active={activeTab === "permissions"} onClick={() => setActiveTab("permissions")}>Permissions</Tab>
+                <Tab active={isActive('team')} onClick={() => setActiveTab('team')}>Team</Tab>
+                <Tab active={isActive('activity')} onClick={() => setActiveTab('activity')}>Activity</Tab>
+                <Tab active={isActive('permissions')} onClick={() => setActiveTab('permissions')}>Permissions</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowInviteModal(true)}>Invite Collaborator</Button>
           </Stack>
 
-          <TabPanel active={activeTab === "team"}>
+          <TabPanel active={isActive('team')}>
             <Grid cols={2} gap={4}>
               {mockCollaborators.map((collaborator) => (
                 <Card key={collaborator.id} className="border-2 border-black p-6">
@@ -148,7 +154,7 @@ export default function EventCollaborationPage() {
             </Grid>
           </TabPanel>
 
-          <TabPanel active={activeTab === "activity"}>
+          <TabPanel active={isActive('activity')}>
             <Table variant="dark" className="border-2 border-black">
               <TableHeader>
                 <TableRow className="bg-black text-white">
@@ -171,7 +177,7 @@ export default function EventCollaborationPage() {
             </Table>
           </TabPanel>
 
-          <TabPanel active={activeTab === "permissions"}>
+          <TabPanel active={isActive('permissions')}>
             <Card className="border-2 border-black p-6">
               <Stack gap={4}>
                 <H3>Permission Levels</H3>

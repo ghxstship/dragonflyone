@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -119,7 +120,12 @@ const mockSettlements: Settlement[] = [
 
 export default function SettlementPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("pending");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'pending',
+    validTabs: ['pending', 'finalized', 'all'],
+  });
   const [selectedSettlement, setSelectedSettlement] = useState<Settlement | null>(null);
   const [showAdjustmentModal, setShowAdjustmentModal] = useState(false);
 
@@ -160,9 +166,9 @@ export default function SettlementPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending ({pendingCount})</Tab>
-                <Tab active={activeTab === "finalized"} onClick={() => setActiveTab("finalized")}>Finalized</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending ({pendingCount})</Tab>
+                <Tab active={isActive('finalized')} onClick={() => setActiveTab('finalized')}>Finalized</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
 
               <TabPanel active={true}>

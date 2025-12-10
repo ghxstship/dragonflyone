@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
@@ -34,7 +35,12 @@ const mockMessages: SocialMessage[] = [
 
 export default function SocialInboxPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'new', 'inprogress', 'escalated'],
+  });
   const [selectedMessage, setSelectedMessage] = useState<SocialMessage | null>(null);
   const [platformFilter, setPlatformFilter] = useState("All");
 
@@ -97,10 +103,10 @@ export default function SocialInboxPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "new"} onClick={() => setActiveTab("new")}>New</Tab>
-                <Tab active={activeTab === "inprogress"} onClick={() => setActiveTab("inprogress")}>In Progress</Tab>
-                <Tab active={activeTab === "escalated"} onClick={() => setActiveTab("escalated")}>Escalated</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                <Tab active={isActive('new')} onClick={() => setActiveTab('new')}>New</Tab>
+                <Tab active={isActive('inprogress')} onClick={() => setActiveTab('inprogress')}>In Progress</Tab>
+                <Tab active={isActive('escalated')} onClick={() => setActiveTab('escalated')}>Escalated</Tab>
               </TabsList>
             </Tabs>
             <Select value={platformFilter} onChange={(e) => setPlatformFilter(e.target.value)} className="border-2 border-black">

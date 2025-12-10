@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -72,7 +73,12 @@ const mockPackages: OfflinePackage[] = [
 
 export default function OfflineAccessPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('content');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'content',
+    validTabs: ['content', 'packages', 'settings'],
+  });
   const [selectedPackage, setSelectedPackage] = useState<OfflinePackage | null>(null);
   const [syncing, setSyncing] = useState(false);
 
@@ -119,9 +125,9 @@ export default function OfflineAccessPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === 'content'} onClick={() => setActiveTab('content')}>My Content</Tab>
-                  <Tab active={activeTab === 'packages'} onClick={() => setActiveTab('packages')}>Packages</Tab>
-                  <Tab active={activeTab === 'settings'} onClick={() => setActiveTab('settings')}>Settings</Tab>
+                  <Tab active={isActive('content')} onClick={() => setActiveTab('content')}>My Content</Tab>
+                  <Tab active={isActive('packages')} onClick={() => setActiveTab('packages')}>Packages</Tab>
+                  <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="outline" onClick={() => setSyncing(true)}>
@@ -129,7 +135,7 @@ export default function OfflineAccessPage() {
               </Button>
             </Stack>
 
-            {activeTab === 'content' && (
+            {isActive('content') && (
               <Table variant="dark">
                 <TableHeader>
                   <TableRow>
@@ -163,7 +169,7 @@ export default function OfflineAccessPage() {
               </Table>
             )}
 
-            {activeTab === 'packages' && (
+            {isActive('packages') && (
               <Grid cols={2} gap={4}>
                 {mockPackages.map((pkg) => (
                   <Card key={pkg.id}>
@@ -195,7 +201,7 @@ export default function OfflineAccessPage() {
               </Grid>
             )}
 
-            {activeTab === 'settings' && (
+            {isActive('settings') && (
               <Stack gap={4}>
                 <Card>
                   <Stack gap={4}>

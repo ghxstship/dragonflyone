@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
   H2,
@@ -84,7 +85,11 @@ export default function BundlesPage() {
   const router = useRouter();
   const [bundles, setBundles] = useState<Bundle[]>(mockBundles);
   const [crossSells, setCrossSells] = useState<CrossSellRecommendation[]>(mockCrossSells);
-  const [activeTab, setActiveTab] = useState('bundles');
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'bundles',
+    validTabs: ['bundles', 'crosssells', 'analytics'],
+  });
   const [selectedBundle, setSelectedBundle] = useState<Bundle | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -153,19 +158,19 @@ export default function BundlesPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === 'bundles'} onClick={() => setActiveTab('bundles')}>
+              <Tab active={isActive('bundles')} onClick={() => setActiveTab('bundles')}>
                 Product Bundles
               </Tab>
-              <Tab active={activeTab === 'crosssells'} onClick={() => setActiveTab('crosssells')}>
+              <Tab active={isActive('crosssells')} onClick={() => setActiveTab('crosssells')}>
                 Cross-Sell Rules
               </Tab>
-              <Tab active={activeTab === 'analytics'} onClick={() => setActiveTab('analytics')}>
+              <Tab active={isActive('analytics')} onClick={() => setActiveTab('analytics')}>
                 Analytics
               </Tab>
             </TabsList>
           </Tabs>
 
-          {activeTab === 'bundles' && (
+          {isActive('bundles') && (
             <Grid cols={2} gap={6}>
               {bundles.map(bundle => (
                 <Card key={bundle.id} className={`border-2 p-6 ${bundle.is_active ? 'border-black' : 'border-ink-200 opacity-60'}`}>
@@ -239,7 +244,7 @@ export default function BundlesPage() {
             </Grid>
           )}
 
-          {activeTab === 'crosssells' && (
+          {isActive('crosssells') && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-center">
                 <H3>Cross-Sell Recommendations</H3>
@@ -289,7 +294,7 @@ export default function BundlesPage() {
             </Stack>
           )}
 
-          {activeTab === 'analytics' && (
+          {isActive('analytics') && (
             <Grid cols={2} gap={6}>
               <Card className="p-6 border-2 border-black">
                 <Stack gap={4}>

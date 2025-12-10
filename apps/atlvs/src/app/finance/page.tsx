@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Transaction {
   id: string;
@@ -116,6 +116,42 @@ export default function FinancePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Transaction, 'id'>>({
+
+    entityType: 'transactions',
+
+    requiredFields: ['transactions', 'type', 'entity'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/transactions', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('transactions');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Transaction>
@@ -134,6 +170,12 @@ export default function FinancePage() {
         createLabel="Add Transaction"
         onCreate={() => router.push('/finance/new')}
         entityType="transactions"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['transactions', 'type', 'entity', 'amount', 'status', 'date']}
         onExport={createExportHandler({
           filename: "transactions",
           getData: () => transactions.map(t => ({

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -45,7 +46,12 @@ const mockReleases: PressRelease[] = [
 
 export default function MediaKitPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("assets");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'assets',
+    validTabs: ['assets', 'releases', 'contacts'],
+  });
   const [selectedAsset, setSelectedAsset] = useState<MediaAsset | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showReleaseModal, setShowReleaseModal] = useState(false);
@@ -92,12 +98,12 @@ export default function MediaKitPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "assets"} onClick={() => setActiveTab("assets")}>Media Assets</Tab>
-              <Tab active={activeTab === "releases"} onClick={() => setActiveTab("releases")}>Press Releases</Tab>
-              <Tab active={activeTab === "contacts"} onClick={() => setActiveTab("contacts")}>Press Contacts</Tab>
+              <Tab active={isActive('assets')} onClick={() => setActiveTab('assets')}>Media Assets</Tab>
+              <Tab active={isActive('releases')} onClick={() => setActiveTab('releases')}>Press Releases</Tab>
+              <Tab active={isActive('contacts')} onClick={() => setActiveTab('contacts')}>Press Contacts</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "assets"}>
+            <TabPanel active={isActive('assets')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between">
                   <Select className="border-2 border-black">
@@ -133,7 +139,7 @@ export default function MediaKitPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "releases"}>
+            <TabPanel active={isActive('releases')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowReleaseModal(true)}>Create Release</Button>
@@ -161,7 +167,7 @@ export default function MediaKitPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "contacts"}>
+            <TabPanel active={isActive('contacts')}>
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Press Contact Information</H3>

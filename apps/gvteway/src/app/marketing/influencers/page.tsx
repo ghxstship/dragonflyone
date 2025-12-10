@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -31,7 +32,12 @@ const mockInfluencers: Influencer[] = [
 
 export default function InfluencersPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'active', 'pending', 'completed'],
+  });
   const [selectedInfluencer, setSelectedInfluencer] = useState<Influencer | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -76,10 +82,10 @@ export default function InfluencersPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active</Tab>
-                <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>Pending</Tab>
-                <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active</Tab>
+                <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending</Tab>
+                <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
               </TabsList>
             </Tabs>
             <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Influencer</Button>

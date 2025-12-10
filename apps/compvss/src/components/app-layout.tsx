@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -15,8 +15,8 @@ import {
   Spinner,
   AuthenticatedShell,
   Link,
-  ContextSwitcher,
   CommandPalette,
+  MobileBottomNav,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
@@ -26,15 +26,80 @@ import {
   compvssProductionNavigation,
   compvssQuickActions,
   compvssDemoProductions,
-  type ProductionContext,
+  compvssDemoOrganizations,
+  compvssDemoTeams,
+  compvssDemoWorkspaces,
+  compvssBottomNavigation,
 } from "../data/compvss";
-import type { ContextLevel, SidebarNavSection } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, SidebarNavItem, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
   useCommandPalette,
   buildNavigationCommands,
   buildActionCommands,
+  useAuth,
+  useFavorites,
+  useKeyboardShortcuts,
 } from "@ghxstship/config/hooks";
 import { Search, Users, Calendar, Wrench } from "lucide-react";
+
+// =============================================================================
+// RECENT PAGES TRACKING
+// =============================================================================
+
+const RECENT_PAGES_KEY = "compvss-recent-pages";
+const MAX_RECENT_PAGES = 5;
+
+function useRecentPages(currentPath: string) {
+  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(RECENT_PAGES_KEY);
+      if (stored) {
+        try {
+          setRecentPages(JSON.parse(stored));
+        } catch {
+          // Ignore parse errors
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
+    if (currentPath.startsWith("/auth")) return;
+
+    const findPageLabel = (path: string): string | null => {
+      for (const section of compvssSidebarNavigation) {
+        for (const item of section.items) {
+          if (item.href === path) return item.label;
+        }
+        if (section.subsections) {
+          for (const sub of section.subsections) {
+            for (const item of sub.items) {
+              if (item.href === path) return item.label;
+            }
+          }
+        }
+      }
+      const segments = path.split("/").filter(Boolean);
+      const lastSegment = segments[segments.length - 1] || "Page";
+      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
+    };
+
+    const label = findPageLabel(currentPath);
+    if (!label) return;
+
+    setRecentPages((prev) => {
+      const filtered = prev.filter((p) => p.href !== currentPath);
+      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
+      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, [currentPath]);
+
+  return recentPages;
+}
 
 // =============================================================================
 // COMPVSS APP LAYOUT WRAPPERS
@@ -66,8 +131,8 @@ interface AppLayoutProps {
 export function CompvssAppLayout({
   children,
   variant = "authenticated",
-  contextLevels: _contextLevels = [],
-  userMenu: _userMenu,
+  contextLevels = [],
+  userMenu,
   showFooter,
   background = "white",
   className,
@@ -75,6 +140,76 @@ export function CompvssAppLayout({
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
+
+  // Get user roles from auth context
+  const { user } = useAuth();
+  const userRoles = useMemo(() => {
+    return user?.roles || [];
+  }, [user]);
+
+  // Track recent pages
+  const recentPages = useRecentPages(pathname);
+
+  // Manage favorites
+  const { favorites } = useFavorites({
+    storageKey: 'compvss',
+    maxFavorites: 10,
+  });
+
+  // Handle navigation
+  const handleContextNavigation = useCallback((href: string) => {
+    router.push(href);
+  }, [router]);
+
+  // Keyboard shortcuts for top 5 navigation items (Cmd+1 through Cmd+5)
+  const topNavItems = useMemo(() => {
+    const items: { href: string; label: string }[] = [];
+    for (const section of compvssSidebarNavigation) {
+      for (const item of section.items) {
+        if (item.primary && items.length < 5) {
+          items.push({ href: item.href, label: item.label });
+        }
+      }
+    }
+    return items;
+  }, []);
+
+  useKeyboardShortcuts({
+    shortcuts: topNavItems.map((item, index) => ({
+      keys: `cmd+${index + 1}`,
+      action: () => router.push(item.href),
+      description: `Go to ${item.label}`,
+    })),
+    enabled: variant === 'authenticated',
+  });
+
+  // Convert context levels to breadcrumb items
+  const contextBreadcrumbs = useMemo(() => {
+    if (contextLevels.length > 0) {
+      return contextLevels
+        .filter(level => level.current !== null)
+        .map(level => ({
+          id: level.current?.id || level.label,
+          name: level.current?.name || level.label,
+          type: "workspace" as const,
+          href: level.current?.slug ? `/${level.current.slug}` : undefined,
+        }));
+    }
+    return [];
+  }, [contextLevels]);
+
+  // Transform bottom navigation for MobileBottomNav component
+  const mobileNavItems = useMemo(() => 
+    compvssBottomNavigation.map((item, index) => ({
+      id: `nav-${index}`,
+      ...item,
+    })),
+    []
+  );
+
+  // Determine if we're in production context (moved up for contextual commands)
+  const productionId = params?.productionId as string | undefined;
+  const isProductionContext = Boolean(productionId);
 
   // Build command palette navigation and action items
   const navigationCommands = useMemo(() => 
@@ -92,6 +227,21 @@ export function CompvssAppLayout({
     []
   );
 
+  // Contextual commands based on current route
+  const contextualCommands = useMemo(() => [
+    // Crew-related commands
+    { id: 'ctx-assign-crew', label: 'Assign Crew', href: '/crew/assign', contextPaths: ['/crew*', '/p/*/crew*'] },
+    { id: 'ctx-new-crew', label: 'Add Crew Member', href: '/crew/new', contextPaths: ['/crew*'] },
+    // Schedule-related commands
+    { id: 'ctx-new-schedule', label: 'Create Schedule', href: '/schedule/new', contextPaths: ['/schedule*', '/run-of-show*'] },
+    // Advancing-related commands
+    { id: 'ctx-new-advance', label: 'New Advance Request', href: '/advancing/new', contextPaths: ['/advancing*'] },
+    // Safety-related commands
+    { id: 'ctx-report-incident', label: 'Report Incident', href: '/incidents/new', contextPaths: ['/safety*', '/incidents*'] },
+    // Production-related commands
+    { id: 'ctx-production-overview', label: 'Production Overview', href: `/p/${productionId}/overview`, contextPaths: ['/p/*'] },
+  ], [productionId]);
+
   // Command palette hook
   const {
     isOpen: commandPaletteOpen,
@@ -102,12 +252,11 @@ export function CompvssAppLayout({
   } = useCommandPalette({
     navigationItems: navigationCommands,
     actionItems: actionCommands,
+    contextualCommands,
+    currentPath: pathname,
+    enableFrecency: true,
     onNavigate: (href) => router.push(href),
   });
-
-  // Determine if we're in production context
-  const productionId = params?.productionId as string | undefined;
-  const isProductionContext = Boolean(productionId);
   
   // Find current production
   const currentProduction = isProductionContext
@@ -142,25 +291,96 @@ export function CompvssAppLayout({
     }));
   };
 
-  // Handle production selection
-  const handleSelectProduction = (production: ProductionContext) => {
-    router.push(`/p/${production.id}/overview`);
+  // Handle context switch at any level (matching ATLVS pattern)
+  const handleContextSwitch = (type: BreadcrumbContextItem["type"], id: string) => {
+    switch (type) {
+      case "organization":
+        router.push("/dashboard");
+        break;
+      case "project":
+        router.push(`/p/${id}/overview`);
+        break;
+      case "team":
+        router.push(isProductionContext ? `/p/${productionId}/team/${id}` : `/teams/${id}`);
+        break;
+      case "workspace":
+        router.push(isProductionContext ? `/p/${productionId}/workspace/${id}` : `/workspaces/${id}`);
+        break;
+    }
   };
 
-  // Handle exit production
-  const handleExitProduction = () => {
-    router.push("/dashboard");
+  // Build breadcrumb context based on current state (matching ATLVS pattern)
+  const buildBreadcrumbContext = (): BreadcrumbContextItem[] => {
+    const context: BreadcrumbContextItem[] = [];
+    
+    // Always show organization
+    const currentOrg = compvssDemoOrganizations.find(o => o.current);
+    if (currentOrg) {
+      context.push({
+        id: currentOrg.id,
+        name: currentOrg.name,
+        type: "organization",
+        href: "/dashboard",
+      });
+    }
+    
+    // Show project if in production context
+    if (isProductionContext && currentProduction) {
+      context.push({
+        id: currentProduction.id,
+        name: currentProduction.name,
+        type: "project",
+        href: `/p/${currentProduction.id}/overview`,
+      });
+      
+      // Show team (default to first team)
+      const currentTeam = compvssDemoTeams.find(t => t.current);
+      if (currentTeam) {
+        context.push({
+          id: currentTeam.id,
+          name: currentTeam.name,
+          type: "team",
+          href: `/p/${currentProduction.id}/team/${currentTeam.id}`,
+        });
+      }
+      
+      // Show workspace (default to first workspace)
+      const currentWorkspace = compvssDemoWorkspaces.find(w => w.current);
+      if (currentWorkspace) {
+        context.push({
+          id: currentWorkspace.id,
+          name: currentWorkspace.name,
+          type: "workspace",
+          href: `/p/${currentProduction.id}/workspace/${currentWorkspace.id}`,
+        });
+      }
+    }
+    
+    return context;
   };
 
-  // Handle create production
-  const handleCreateProduction = () => {
-    router.push("/projects/new");
+  // Build context options for dropdowns
+  const contextOptions: ContextOptions = {
+    organizations: compvssDemoOrganizations,
+    projects: compvssDemoProductions.map(p => ({
+      id: p.id,
+      name: p.name,
+      status: p.status,
+      current: p.id === currentProduction?.id,
+    })),
+    teams: compvssDemoTeams,
+    workspaces: compvssDemoWorkspaces,
   };
 
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {
     // COMPVSS uses light theme by default (production crews prefer light mode)
     const inverted = background === "black";
+    
+    // Use context breadcrumbs if provided, otherwise build from current state
+    const finalBreadcrumbs = contextBreadcrumbs.length > 0 
+      ? contextBreadcrumbs 
+      : buildBreadcrumbContext();
     
     return (
       <>
@@ -173,31 +393,40 @@ export function CompvssAppLayout({
             </Link>
           }
           workspaceName={currentProduction?.name || "PRODUCTION"}
-          user={{
+          breadcrumbContext={finalBreadcrumbs}
+          contextOptions={contextOptions}
+          onContextSwitch={handleContextSwitch}
+          user={user ? {
+            name: user.name || user.full_name || "User",
+            email: user.email,
+            avatar: user.avatar,
+          } : {
             name: "Crew Lead",
             email: "crew@ghxstship.com",
           }}
           quickActions={compvssQuickActions.slice(0, 3)}
+          favorites={favorites}
+          recentPages={recentPages}
+          userRoles={userRoles}
+          storageKey="compvss-sidebar"
           inverted={inverted}
-          onNavigate={(href: string) => router.push(href)}
+          onNavigate={handleContextNavigation}
           settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
           className={className}
-          headerActions={
-            <ContextSwitcher
-              contextLevel={isProductionContext ? "production" : "platform"}
-              currentProduction={currentProduction}
-              productions={compvssDemoProductions}
-              onSelectProduction={handleSelectProduction}
-              onExitProduction={handleExitProduction}
-              onCreateProduction={handleCreateProduction}
-              inverted={inverted}
-            />
-          }
+          headerActions={userMenu}
         >
-          <div className="p-6 lg:p-8">
+          <div className="p-6 lg:p-8 pb-20 md:pb-8">
             {children}
           </div>
         </AuthenticatedShell>
+        
+        {/* Mobile Bottom Navigation */}
+        <MobileBottomNav
+          items={mobileNavItems}
+          currentPath={pathname}
+          onNavigate={handleContextNavigation}
+          inverted={inverted}
+        />
         
         {/* Command Palette - Cmd/Ctrl+K to open */}
         <CommandPalette

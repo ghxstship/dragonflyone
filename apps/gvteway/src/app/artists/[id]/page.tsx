@@ -18,6 +18,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface Artist {
   id: string;
@@ -80,7 +81,7 @@ export default function ArtistPage() {
         setIsFollowing(data.following);
       }
     } catch (err) {
-      console.error('Failed to fetch artist');
+      log.error('Failed to fetch artist');
     } finally {
       setLoading(false);
     }
@@ -107,7 +108,7 @@ export default function ArtistPage() {
         }
       }
     } catch (err) {
-      console.error('Failed to update follow status');
+      log.error('Failed to update follow status');
     } finally {
       setFollowLoading(false);
     }

@@ -132,6 +132,8 @@ export type SidebarNavItem = {
   icon?: string;
   badge?: string | number;
   primary?: boolean;
+  /** Roles allowed to see this item (empty = all roles) */
+  allowedRoles?: string[];
 };
 
 export type SidebarNavSubsection = {
@@ -144,6 +146,8 @@ export type SidebarNavSection = {
   icon?: string;
   items: SidebarNavItem[];
   subsections?: SidebarNavSubsection[];
+  /** Roles allowed to see this section (empty = all roles) */
+  allowedRoles?: string[];
 };
 
 export type AppSidebarProps = HTMLAttributes<HTMLElement> & {
@@ -165,6 +169,8 @@ export type AppSidebarProps = HTMLAttributes<HTMLElement> & {
   favorites?: SidebarNavItem[];
   /** Spaces/projects section (ClickUp-style) */
   spaces?: Array<{ id: string; name: string; color?: string; href: string }>;
+  /** Recent pages section (last 5 visited) */
+  recentPages?: SidebarNavItem[];
   /** Dark mode (inverted colors) */
   inverted?: boolean;
   /** Navigation callback */
@@ -173,6 +179,12 @@ export type AppSidebarProps = HTMLAttributes<HTMLElement> & {
   collapsed?: boolean;
   /** Collapse callback */
   onCollapse?: (collapsed: boolean) => void;
+  /** User roles for filtering navigation items */
+  userRoles?: string[];
+  /** Storage key prefix for persisting state */
+  storageKey?: string;
+  /** Context indicator for collapsed state (shows current project/workspace) */
+  contextIndicator?: { name: string; color?: string };
 };
 
 // =============================================================================
@@ -340,10 +352,14 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
       quickActions,
       favorites,
       spaces,
+      recentPages,
       inverted = true,
       onNavigate,
       collapsed: controlledCollapsed,
       onCollapse,
+      userRoles = [],
+      storageKey = "ghxstship-sidebar",
+      contextIndicator,
       className,
       ...props
     },
@@ -357,9 +373,75 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
     const collapsed = controlledCollapsed ?? internalCollapsed;
     const setCollapsed = onCollapse ?? setInternalCollapsed;
 
+    // Load collapsed state from localStorage on mount
+    useEffect(() => {
+      if (typeof window !== "undefined" && controlledCollapsed === undefined) {
+        const stored = localStorage.getItem(`${storageKey}-collapsed`);
+        if (stored !== null) {
+          setInternalCollapsed(stored === "true");
+        }
+      }
+    }, [storageKey, controlledCollapsed]);
+
+    // Load expanded sections from localStorage on mount
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem(`${storageKey}-expanded`);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed)) {
+              setExpandedSections(new Set(parsed));
+            }
+          } catch {
+            // Ignore parse errors
+          }
+        }
+      }
+    }, [storageKey]);
+
+    // Persist collapsed state to localStorage
+    useEffect(() => {
+      if (typeof window !== "undefined" && controlledCollapsed === undefined) {
+        localStorage.setItem(`${storageKey}-collapsed`, String(internalCollapsed));
+      }
+    }, [internalCollapsed, storageKey, controlledCollapsed]);
+
+    // Persist expanded sections to localStorage
+    useEffect(() => {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`${storageKey}-expanded`, JSON.stringify([...expandedSections]));
+      }
+    }, [expandedSections, storageKey]);
+
+    // Filter sections and items based on user roles
+    const filterByRoles = useCallback((items: SidebarNavItem[]): SidebarNavItem[] => {
+      if (userRoles.length === 0) return items;
+      return items.filter(item => {
+        if (!item.allowedRoles || item.allowedRoles.length === 0) return true;
+        return item.allowedRoles.some(role => userRoles.includes(role));
+      });
+    }, [userRoles]);
+
+    const filteredSections = sections
+      .filter(section => {
+        if (!section.allowedRoles || section.allowedRoles.length === 0) return true;
+        if (userRoles.length === 0) return true;
+        return section.allowedRoles.some(role => userRoles.includes(role));
+      })
+      .map(section => ({
+        ...section,
+        items: filterByRoles(section.items),
+        subsections: section.subsections?.map(sub => ({
+          ...sub,
+          items: filterByRoles(sub.items),
+        })).filter(sub => sub.items.length > 0),
+      }))
+      .filter(section => section.items.length > 0 || (section.subsections && section.subsections.length > 0));
+
     // Auto-expand section containing current path
     useEffect(() => {
-      sections.forEach((section) => {
+      filteredSections.forEach((section) => {
         const hasActiveItem = section.items.some(
           (item) => currentPath === item.href || currentPath.startsWith(item.href + "/")
         );
@@ -372,7 +454,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           setExpandedSections((prev) => new Set([...prev, section.section]));
         }
       });
-    }, [currentPath, sections]);
+    }, [currentPath, filteredSections]);
 
     const toggleSection = useCallback((sectionName: string) => {
       setExpandedSections((prev) => {
@@ -470,6 +552,7 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
             className={clsx(
               "w-full flex items-center gap-2 px-3 py-1.5 text-[11px] uppercase tracking-wider font-semibold transition-colors rounded",
               collapsed && "justify-center px-2",
+              isHovered && (inverted ? "bg-ink-800/30" : "bg-ink-100/30"),
               inverted
                 ? "text-ink-500 hover:text-ink-300 hover:bg-ink-800/50"
                 : "text-ink-400 hover:text-ink-600 hover:bg-ink-100/50"
@@ -550,6 +633,29 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
         >
           {workspaceSelector || logo}
         </div>
+
+        {/* Context Indicator (collapsed state) - shows current project/workspace */}
+        {collapsed && contextIndicator && (
+          <div
+            className={clsx(
+              "flex items-center justify-center py-2 border-b-2 flex-shrink-0",
+              inverted ? "border-ink-800" : "border-ink-200"
+            )}
+            title={contextIndicator.name}
+          >
+            <div
+              className={clsx(
+                "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold border-2",
+                inverted ? "border-ink-700" : "border-ink-300"
+              )}
+              style={{ backgroundColor: contextIndicator.color || (inverted ? "#4f46e5" : "#6366f1") }}
+            >
+              <span className="text-white">
+                {contextIndicator.name.charAt(0).toUpperCase()}
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Search */}
         {search && !collapsed && (
@@ -640,9 +746,21 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           </div>
         )}
 
+        {/* Recent Pages Section */}
+        {recentPages && recentPages.length > 0 && !collapsed && (
+          <div className={clsx("px-2 py-2 border-b-2 flex-shrink-0", inverted ? "border-ink-800" : "border-ink-200")}>
+            <div className={clsx("px-1 py-1 text-[11px] uppercase tracking-wider font-semibold", inverted ? "text-ink-500" : "text-ink-400")}>
+              Recent
+            </div>
+            <div className="space-y-0.5">
+              {recentPages.slice(0, 5).map((item) => renderNavItem(item))}
+            </div>
+          </div>
+        )}
+
         {/* Main Navigation */}
         <nav className="flex-1 overflow-y-auto py-2 px-2 scrollbar-thin">
-          {sections.map(renderSection)}
+          {filteredSections.map(renderSection)}
         </nav>
 
         {/* Collapse Toggle */}

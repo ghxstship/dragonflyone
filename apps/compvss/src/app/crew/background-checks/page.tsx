@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -56,7 +57,12 @@ const mockChecks: BackgroundCheck[] = [
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'pending', 'expiring', 'expired'],
+  });
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [showInitiateModal, setShowInitiateModal] = useState(false);
 
@@ -99,10 +105,10 @@ export default function BackgroundChecksPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                  <Tab active={activeTab === "pending"} onClick={() => setActiveTab("pending")}>In Progress</Tab>
-                  <Tab active={activeTab === "expiring"} onClick={() => setActiveTab("expiring")}>Expiring</Tab>
-                  <Tab active={activeTab === "expired"} onClick={() => setActiveTab("expired")}>Expired</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                  <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>In Progress</Tab>
+                  <Tab active={isActive('expiring')} onClick={() => setActiveTab('expiring')}>Expiring</Tab>
+                  <Tab active={isActive('expired')} onClick={() => setActiveTab('expired')}>Expired</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" onClick={() => setShowInitiateModal(true)}>Initiate Check</Button>

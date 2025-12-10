@@ -20,6 +20,7 @@ import {
   Spinner,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface TourDate {
   id: string;
@@ -77,7 +78,7 @@ export default function ToursContent() {
         setAvailableCities(Array.from(cities).sort());
       }
     } catch (err) {
-      console.error('Failed to fetch tours');
+      log.error('Failed to fetch tours');
     } finally {
       setLoading(false);
     }

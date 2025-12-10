@@ -29,6 +29,7 @@ import {
   Download,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface SettlementItem {
   id: string;
@@ -66,7 +67,7 @@ export default function ProductionSettlementPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch settlements:', error);
+      log.error('Failed to fetch settlements:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

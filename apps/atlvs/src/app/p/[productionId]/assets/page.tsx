@@ -25,6 +25,7 @@ import {
   QrCode,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface Asset {
   id: string;
@@ -62,7 +63,7 @@ export default function ProductionAssetsPage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch assets:', error);
+      log.error('Failed to fetch assets:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

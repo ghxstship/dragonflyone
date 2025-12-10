@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -21,7 +22,12 @@ import { FulfillmentManager } from '@/components/advancing/fulfillment-manager';
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { data: request } = useAdvancingRequest(params.id);
-  const [activeTab, setActiveTab] = useState<'details' | 'fulfill'>('details');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'details',
+    validTabs: ['details', 'fulfill'],
+  });
 
   const canFulfill = request && ['approved', 'in_progress'].includes(request.status);
 
@@ -47,15 +53,15 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
             {canFulfill ? (
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === 'details'} onClick={() => setActiveTab('details')}>Details</Tab>
-                  <Tab active={activeTab === 'fulfill'} onClick={() => setActiveTab('fulfill')}>Fulfill Items</Tab>
+                  <Tab active={isActive('details')} onClick={() => setActiveTab('details')}>Details</Tab>
+                  <Tab active={isActive('fulfill')} onClick={() => setActiveTab('fulfill')}>Fulfill Items</Tab>
                 </TabsList>
 
-                <TabPanel active={activeTab === 'details'}>
+                <TabPanel active={isActive('details')}>
                   <AdvanceRequestDetail requestId={params.id} onUpdate={() => router.refresh()} />
                 </TabPanel>
 
-                <TabPanel active={activeTab === 'fulfill'}>
+                <TabPanel active={isActive('fulfill')}>
                   <FulfillmentManager requestId={params.id} onSuccess={() => router.refresh()} />
                 </TabPanel>
               </Tabs>

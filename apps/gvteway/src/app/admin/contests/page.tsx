@@ -17,7 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Contest {
   id: string;
@@ -146,6 +146,42 @@ export default function ContestsPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Contest, 'id'>>({
+
+    entityType: 'contests',
+
+    requiredFields: ['name', 'type', 'eventId'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/contests', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('contests');
+
+
   return (
     <GvtewayAppLayout>
       <ListPage<Contest>
@@ -162,6 +198,12 @@ export default function ContestsPage() {
         createLabel="Create Contest"
         onCreate={() => setCreateModalOpen(true)}
         entityType="contests"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'type', 'eventId', 'prize', 'prizeValue', 'startDate', 'endDate']}
         onExport={createExportHandler({
           filename: 'contests',
           getData: () => contests.map(c => ({

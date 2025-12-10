@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -70,7 +71,12 @@ const mockStrategies: SourcingStrategy[] = [
 
 export default function CategoryManagementPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('categories');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'categories',
+    validTabs: ['categories', 'strategies', 'matrix'],
+  });
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedStrategy, setSelectedStrategy] = useState<SourcingStrategy | null>(null);
   const [strategyFilter, setStrategyFilter] = useState('All');
@@ -121,13 +127,13 @@ export default function CategoryManagementPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === 'categories'} onClick={() => setActiveTab('categories')}>Categories</Tab>
-              <Tab active={activeTab === 'strategies'} onClick={() => setActiveTab('strategies')}>Sourcing Strategies</Tab>
-              <Tab active={activeTab === 'matrix'} onClick={() => setActiveTab('matrix')}>Kraljic Matrix</Tab>
+              <Tab active={isActive('categories')} onClick={() => setActiveTab('categories')}>Categories</Tab>
+              <Tab active={isActive('strategies')} onClick={() => setActiveTab('strategies')}>Sourcing Strategies</Tab>
+              <Tab active={isActive('matrix')} onClick={() => setActiveTab('matrix')}>Kraljic Matrix</Tab>
             </TabsList>
           </Tabs>
 
-          {activeTab === 'categories' && (
+          {isActive('categories') && (
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between">
                 <Select value={strategyFilter} onChange={(e) => setStrategyFilter(e.target.value)} className="border-ink-700 bg-black text-white w-48">
@@ -174,7 +180,7 @@ export default function CategoryManagementPage() {
             </Stack>
           )}
 
-          {activeTab === 'strategies' && (
+          {isActive('strategies') && (
             <Stack gap={4}>
               {mockStrategies.map((strategy) => (
                 <Card key={strategy.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -211,7 +217,7 @@ export default function CategoryManagementPage() {
             </Stack>
           )}
 
-          {activeTab === 'matrix' && (
+          {isActive('matrix') && (
             <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
               <Stack gap={4}>
                 <H3>Kraljic Portfolio Matrix</H3>

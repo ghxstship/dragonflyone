@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -62,7 +63,7 @@ export default function CommunityPollsPage() {
         setPolls(data.polls || []);
       }
     } catch (err) {
-      console.error('Failed to fetch polls');
+      log.error('Failed to fetch polls');
     } finally {
       setLoading(false);
     }

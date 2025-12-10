@@ -20,6 +20,7 @@ import {
   EmptyState,
 } from '@ghxstship/ui';
 import { Heart, Bell, Calendar, X } from 'lucide-react';
+import { log } from '@ghxstship/config';
 
 interface FavoriteEvent {
   id: string;
@@ -51,7 +52,7 @@ export default function FavoritesPage() {
         setFavorites(data.favorites || []);
       }
     } catch (err) {
-      console.error('Failed to fetch favorites');
+      log.error('Failed to fetch favorites');
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,7 @@ export default function FavoritesPage() {
         setTimeout(() => setSuccess(null), 3000);
       }
     } catch (err) {
-      console.error('Failed to remove favorite');
+      log.error('Failed to remove favorite');
     }
   };
 

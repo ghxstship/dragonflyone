@@ -26,6 +26,7 @@ import {
   Download,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface SettlementData {
   grossRevenue: number;
@@ -75,7 +76,7 @@ export default function EventSettlementPage() {
         setSettlement(data.settlement || defaultSettlement);
       }
     } catch (error) {
-      console.error('Failed to fetch settlement:', error);
+      log.error('Failed to fetch settlement:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }

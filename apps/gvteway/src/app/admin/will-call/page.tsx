@@ -17,7 +17,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface WillCallTicket {
   id: string;
@@ -130,6 +130,42 @@ export default function WillCallPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<WillCallTicket, 'id'>>({
+
+    entityType: 'will-call',
+
+    requiredFields: ['customerName', 'email', 'phone'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/will-call', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('will-call');
+
+
   return (
     <GvtewayAppLayout>
       <ListPage<WillCallTicket>
@@ -146,6 +182,12 @@ export default function WillCallPage() {
         createLabel="Add Will Call"
         onCreate={() => setCreateModalOpen(true)}
         entityType="will-call"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['customerName', 'email', 'phone', 'ticketType', 'quantity', 'orderNumber', 'tickets']}
         onExport={createExportHandler({
           filename: "will-call",
           getData: () => tickets.map(t => ({

@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -47,7 +48,11 @@ function EventCloneContent() {
   const searchParams = useSearchParams();
   const templateId = searchParams.get('template_id');
   const eventId = searchParams.get('event_id');
-  const [activeTab, setActiveTab] = useState(eventId ? "recent" : "templates");
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: eventId ? 'recent' : 'templates',
+    validTabs: ['templates', 'clone', 'blank'],
+  });
   const [selectedTemplate, setSelectedTemplate] = useState<EventTemplate | null>(
     templateId ? mockTemplates.find(t => t.id === templateId) || null : null
   );
@@ -87,12 +92,12 @@ function EventCloneContent() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "templates"} onClick={() => setActiveTab("templates")}>Templates</Tab>
-              <Tab active={activeTab === "clone"} onClick={() => setActiveTab("clone")}>Clone Event</Tab>
-              <Tab active={activeTab === "blank"} onClick={() => setActiveTab("blank")}>Start Blank</Tab>
+              <Tab active={isActive('templates')} onClick={() => setActiveTab('templates')}>Templates</Tab>
+              <Tab active={isActive('clone')} onClick={() => setActiveTab('clone')}>Clone Event</Tab>
+              <Tab active={isActive('blank')} onClick={() => setActiveTab('blank')}>Start Blank</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "templates"}>
+            <TabPanel active={isActive('templates')}>
               <Grid cols={3} gap={4}>
                 {mockTemplates.map((template) => (
                   <Card key={template.id} className="border-2 border-black p-6 cursor-pointer hover:bg-ink-50" onClick={() => setSelectedTemplate(template)}>
@@ -122,7 +127,7 @@ function EventCloneContent() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "clone"}>
+            <TabPanel active={isActive('clone')}>
               <Stack gap={4}>
                 <Input type="search" placeholder="Search past events..." className="border-2 border-black" />
                 {mockRecentEvents.map((event) => (
@@ -144,7 +149,7 @@ function EventCloneContent() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "blank"}>
+            <TabPanel active={isActive('blank')}>
               <Card className="border-2 border-black p-8">
                 <Stack gap={6}>
                   <H3>Start from Scratch</H3>

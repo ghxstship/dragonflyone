@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -55,7 +56,12 @@ const mockProposals: Proposal[] = [
 
 export default function ProposalsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'draft', 'inreview', 'submitted', 'won'],
+  });
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -102,11 +108,11 @@ export default function ProposalsPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                  <Tab active={activeTab === "draft"} onClick={() => setActiveTab("draft")}>Draft</Tab>
-                  <Tab active={activeTab === "inreview"} onClick={() => setActiveTab("inreview")}>In Review</Tab>
-                  <Tab active={activeTab === "submitted"} onClick={() => setActiveTab("submitted")}>Submitted</Tab>
-                  <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                  <Tab active={isActive('draft')} onClick={() => setActiveTab('draft')}>Draft</Tab>
+                  <Tab active={isActive('inreview')} onClick={() => setActiveTab('inreview')}>In Review</Tab>
+                  <Tab active={isActive('submitted')} onClick={() => setActiveTab('submitted')}>Submitted</Tab>
+                  <Tab active={isActive('won')} onClick={() => setActiveTab('won')}>Won</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Proposal</Button>

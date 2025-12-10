@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -153,7 +154,11 @@ const mockSpecs: AssetSpec[] = [
 
 export default function AssetSpecificationsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("library");
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'library',
+    validTabs: ['library', 'documents'],
+  });
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSpec, setSelectedSpec] = useState<AssetSpec | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -207,11 +212,11 @@ export default function AssetSpecificationsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "library"} onClick={() => setActiveTab("library")}>Spec Library</Tab>
-              <Tab active={activeTab === "documents"} onClick={() => setActiveTab("documents")}>All Documents</Tab>
+              <Tab active={isActive('library')} onClick={() => setActiveTab('library')}>Spec Library</Tab>
+              <Tab active={isActive('documents')} onClick={() => setActiveTab('documents')}>All Documents</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "library"}>
+            <TabPanel active={isActive('library')}>
               <Grid cols={2} gap={6}>
                 {filteredSpecs.map((spec) => (
                   <Card key={spec.id} className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
@@ -243,7 +248,7 @@ export default function AssetSpecificationsPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "documents"}>
+            <TabPanel active={isActive('documents')}>
               <Table variant="dark" className="border-2 border-ink-800">
                 <TableHeader>
                   <TableRow className="bg-ink-900">

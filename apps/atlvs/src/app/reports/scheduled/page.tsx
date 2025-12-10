@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -60,7 +61,12 @@ const frequencies = ["Daily", "Weekly", "Monthly", "Quarterly"];
 
 export default function ScheduledReportsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'issues', 'all'],
+  });
   const [selectedReport, setSelectedReport] = useState<ScheduledReport | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
@@ -109,9 +115,9 @@ export default function ScheduledReportsPage() {
           <Stack direction="horizontal" className="justify-between">
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active ({activeReports})</Tab>
-                <Tab active={activeTab === "issues"} onClick={() => setActiveTab("issues")}>Issues</Tab>
-                <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
+                <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active ({activeReports})</Tab>
+                <Tab active={isActive('issues')} onClick={() => setActiveTab('issues')}>Issues</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
               </TabsList>
             </Tabs>
             <Button variant="outlineWhite" onClick={() => setShowCreateModal(true)}>Create Schedule</Button>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useTabState } from "@ghxstship/config/hooks";
 import {
   Stack,
   Container,
@@ -41,9 +41,6 @@ interface BlueprintPreviewProps {
   blueprint: GeneratedBlueprint;
 }
 
-const TABS = ["concept", "sensory", "spatial", "journey", "documents"] as const;
-type TabValue = (typeof TABS)[number];
-
 const SENSE_ICONS = {
   sight: Eye,
   sound: Ear,
@@ -53,7 +50,11 @@ const SENSE_ICONS = {
 };
 
 export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
-  const [activeTab, setActiveTab] = useState<TabValue>("concept");
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'concept',
+    validTabs: ['concept', 'sensory', 'spatial', 'journey', 'documents'],
+  });
 
   return (
     <FullBleedSection background="white" className="py-16">
@@ -86,25 +87,25 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
         {/* Tabbed Content */}
         <Tabs variant="pop">
           <TabsList variant="pop" className="mb-8 flex justify-center">
-            <Tab active={activeTab === "concept"} onClick={() => setActiveTab("concept")} variant="pop">
+            <Tab active={isActive('concept')} onClick={() => setActiveTab('concept')} variant="pop">
               Concept
             </Tab>
-            <Tab active={activeTab === "sensory"} onClick={() => setActiveTab("sensory")} variant="pop">
+            <Tab active={isActive('sensory')} onClick={() => setActiveTab('sensory')} variant="pop">
               5 Senses
             </Tab>
-            <Tab active={activeTab === "spatial"} onClick={() => setActiveTab("spatial")} variant="pop">
+            <Tab active={isActive('spatial')} onClick={() => setActiveTab('spatial')} variant="pop">
               XYZ Spatial
             </Tab>
-            <Tab active={activeTab === "journey"} onClick={() => setActiveTab("journey")} variant="pop">
+            <Tab active={isActive('journey')} onClick={() => setActiveTab('journey')} variant="pop">
               Guest Journey
             </Tab>
-            <Tab active={activeTab === "documents"} onClick={() => setActiveTab("documents")} variant="pop">
+            <Tab active={isActive('documents')} onClick={() => setActiveTab('documents')} variant="pop">
               Documents
             </Tab>
           </TabsList>
 
           {/* Concept Tab */}
-          <TabPanel active={activeTab === "concept"}>
+          <TabPanel active={isActive('concept')}>
             <Grid cols={2} gap={8}>
               <Card className="border-2 border-ink-950 p-8 shadow-md">
                 <H3 className="mb-4 font-display text-h4-md uppercase text-ink-950">
@@ -136,7 +137,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           </TabPanel>
 
           {/* Sensory Tab */}
-          <TabPanel active={activeTab === "sensory"}>
+          <TabPanel active={isActive('sensory')}>
             <Grid cols={3} gap={4} className="md:grid-cols-3 lg:grid-cols-3">
               {(Object.keys(blueprint.sensoryDesign) as Array<keyof typeof blueprint.sensoryDesign>).map((sense) => {
                 const Icon = SENSE_ICONS[sense];
@@ -166,7 +167,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           </TabPanel>
 
           {/* Spatial Tab */}
-          <TabPanel active={activeTab === "spatial"}>
+          <TabPanel active={isActive('spatial')}>
             <Grid cols={3} gap={8} className="mb-8">
               {/* X-Axis */}
               <Card className="border-2 border-ink-950 p-6 shadow-md">
@@ -283,7 +284,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           </TabPanel>
 
           {/* Journey Tab */}
-          <TabPanel active={activeTab === "journey"}>
+          <TabPanel active={isActive('journey')}>
             <Stack gap={4}>
               {Object.entries(blueprint.guestJourney).map(([key, phase], index) => (
                 <Card key={key} className="border-2 border-ink-950 p-6 shadow-md">
@@ -332,7 +333,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
           </TabPanel>
 
           {/* Documents Tab */}
-          <TabPanel active={activeTab === "documents"}>
+          <TabPanel active={isActive('documents')}>
             <Grid cols={2} gap={8}>
               <Card className="border-2 border-ink-950 p-6 shadow-md">
                 <Box className="mb-4 flex items-center gap-3">

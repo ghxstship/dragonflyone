@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode, useMemo, useState, useEffect, useCallback } from "react";
 import { usePathname, useRouter, useParams } from "next/navigation";
 import {
   PageLayout,
@@ -16,8 +16,9 @@ import {
   AuthenticatedShell,
   Link,
   CommandPalette,
+  MobileBottomNav,
 } from "@ghxstship/ui";
-import type { ContextLevel, SidebarNavSection, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
+import type { ContextLevel, SidebarNavSection, SidebarNavItem, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
 } from "./navigation";
@@ -29,13 +30,85 @@ import {
   atlvsDemoTeams,
   atlvsDemoWorkspaces,
   atlvsDemoOrganizations,
+  atlvsBottomNavigation,
 } from "../data/atlvs";
 import {
   useCommandPalette,
   buildNavigationCommands,
   buildActionCommands,
+  useAuth,
+  useFavorites,
+  useKeyboardShortcuts,
 } from "@ghxstship/config/hooks";
 import { Plus, Search, FileText, Users } from "lucide-react";
+
+// =============================================================================
+// RECENT PAGES TRACKING
+// =============================================================================
+
+const RECENT_PAGES_KEY = "atlvs-recent-pages";
+const MAX_RECENT_PAGES = 5;
+
+function useRecentPages(currentPath: string) {
+  const [recentPages, setRecentPages] = useState<SidebarNavItem[]>([]);
+
+  // Load recent pages from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(RECENT_PAGES_KEY);
+      if (stored) {
+        try {
+          setRecentPages(JSON.parse(stored));
+        } catch {
+          // Ignore parse errors
+        }
+      }
+    }
+  }, []);
+
+  // Track page visits
+  useEffect(() => {
+    if (typeof window === "undefined" || !currentPath || currentPath === "/") return;
+    
+    // Don't track auth pages
+    if (currentPath.startsWith("/auth")) return;
+
+    // Get page title from navigation data
+    const findPageLabel = (path: string): string | null => {
+      for (const section of atlvsSidebarNavigation) {
+        for (const item of section.items) {
+          if (item.href === path) return item.label;
+        }
+        if (section.subsections) {
+          for (const sub of section.subsections) {
+            for (const item of sub.items) {
+              if (item.href === path) return item.label;
+            }
+          }
+        }
+      }
+      // Generate label from path if not found
+      const segments = path.split("/").filter(Boolean);
+      const lastSegment = segments[segments.length - 1] || "Page";
+      return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1).replace(/-/g, " ");
+    };
+
+    const label = findPageLabel(currentPath);
+    if (!label) return;
+
+    setRecentPages((prev) => {
+      // Remove if already exists
+      const filtered = prev.filter((p) => p.href !== currentPath);
+      // Add to front
+      const updated = [{ label, href: currentPath, icon: "Clock" }, ...filtered].slice(0, MAX_RECENT_PAGES);
+      // Persist
+      localStorage.setItem(RECENT_PAGES_KEY, JSON.stringify(updated));
+      return updated;
+    });
+  }, [currentPath]);
+
+  return recentPages;
+}
 
 // =============================================================================
 // ATLVS APP LAYOUT WRAPPERS
@@ -69,8 +142,8 @@ interface AppLayoutProps {
 export function AtlvsAppLayout({
   children,
   variant = "authenticated",
-  contextLevels: _contextLevels = [],
-  userMenu: _userMenu,
+  contextLevels = [],
+  userMenu,
   showFooter,
   background = "black",
   className,
@@ -79,6 +152,69 @@ export function AtlvsAppLayout({
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
+
+  // Get user roles from auth context
+  const { user } = useAuth();
+  const userRoles = useMemo(() => {
+    // In production, this would come from the user's profile/roles
+    // For now, return empty array which shows all navigation items
+    return user?.roles || [];
+  }, [user]);
+
+  // Track recent pages
+  const recentPages = useRecentPages(pathname);
+
+  // Manage favorites
+  const { favorites } = useFavorites({
+    storageKey: 'atlvs',
+    maxFavorites: 10,
+  });
+
+  // Handle navigation with context levels and user menu
+  const handleContextNavigation = useCallback((href: string) => {
+    router.push(href);
+  }, [router]);
+
+  // Keyboard shortcuts for top 5 navigation items (Cmd+1 through Cmd+5)
+  const topNavItems = useMemo(() => {
+    const items: { href: string; label: string }[] = [];
+    for (const section of atlvsSidebarNavigation) {
+      for (const item of section.items) {
+        if (item.primary && items.length < 5) {
+          items.push({ href: item.href, label: item.label });
+        }
+      }
+    }
+    return items;
+  }, []);
+
+  useKeyboardShortcuts({
+    shortcuts: topNavItems.map((item, index) => ({
+      keys: `cmd+${index + 1}`,
+      action: () => router.push(item.href),
+      description: `Go to ${item.label}`,
+    })),
+    enabled: variant === 'authenticated',
+  });
+
+  // Use context levels for breadcrumb if provided (convert ContextLevel to BreadcrumbContextItem)
+  const contextBreadcrumbs = useMemo(() => {
+    if (contextLevels.length > 0) {
+      return contextLevels
+        .filter(level => level.current !== null)
+        .map(level => ({
+          id: level.current?.id || level.label,
+          name: level.current?.name || level.label,
+          type: "workspace" as const,
+          href: level.current?.slug ? `/${level.current.slug}` : undefined,
+        }));
+    }
+    return [];
+  }, [contextLevels]);
+
+  // Determine if we're in production context (moved up for contextual commands)
+  const productionId = params?.productionId as string | undefined;
+  const isProductionContext = Boolean(productionId);
 
   // Build command palette navigation and action items
   const navigationCommands = useMemo(() => 
@@ -97,6 +233,22 @@ export function AtlvsAppLayout({
     []
   );
 
+  // Contextual commands based on current route
+  const contextualCommands = useMemo(() => [
+    // Deal-related commands
+    { id: 'ctx-new-deal', label: 'Create New Deal', href: '/deals/new', contextPaths: ['/deals*', '/pipeline*'] },
+    { id: 'ctx-export-deals', label: 'Export Deals', href: '/deals/export', contextPaths: ['/deals*'] },
+    // Contact-related commands
+    { id: 'ctx-new-contact', label: 'Add New Contact', href: '/contacts/new', contextPaths: ['/contacts*'] },
+    { id: 'ctx-import-contacts', label: 'Import Contacts', href: '/contacts/import', contextPaths: ['/contacts*'] },
+    // Invoice-related commands
+    { id: 'ctx-new-invoice', label: 'Create Invoice', href: '/invoices/new', contextPaths: ['/invoices*', '/finance*'] },
+    // Project-related commands
+    { id: 'ctx-new-project', label: 'Create Project', href: '/projects/new', contextPaths: ['/projects*'] },
+    // Production-related commands
+    { id: 'ctx-production-overview', label: 'Production Overview', href: `/p/${productionId}/overview`, contextPaths: ['/p/*'] },
+  ], [productionId]);
+
   // Command palette hook
   const {
     isOpen: commandPaletteOpen,
@@ -107,13 +259,21 @@ export function AtlvsAppLayout({
   } = useCommandPalette({
     navigationItems: navigationCommands,
     actionItems: actionCommands,
+    contextualCommands,
+    currentPath: pathname,
+    enableFrecency: true,
     onNavigate: (href) => router.push(href),
   });
 
-  // Determine if we're in production context
-  const productionId = params?.productionId as string | undefined;
-  const isProductionContext = Boolean(productionId);
-  
+  // Transform bottom navigation for MobileBottomNav component
+  const mobileNavItems = useMemo(() => 
+    atlvsBottomNavigation.map((item, index) => ({
+      id: `nav-${index}`,
+      ...item,
+    })),
+    []
+  );
+
   // Find current production
   const currentProduction = isProductionContext
     ? atlvsDemoProductions.find((p) => p.id === productionId)
@@ -246,6 +406,11 @@ export function AtlvsAppLayout({
 
   // For authenticated pages, use the new sidebar shell
   if (variant === "authenticated") {
+    // Merge context breadcrumbs if provided via props
+    const finalBreadcrumbs = contextBreadcrumbs.length > 0 
+      ? contextBreadcrumbs 
+      : buildBreadcrumbContext();
+
     return (
       <>
         <AuthenticatedShell
@@ -256,25 +421,42 @@ export function AtlvsAppLayout({
               ATLVS
             </Link>
           }
-          breadcrumbContext={buildBreadcrumbContext()}
+          breadcrumbContext={finalBreadcrumbs}
           contextOptions={contextOptions}
           onContextSwitch={handleContextSwitch}
-          user={{
+          user={user ? {
+            name: user.name || "User",
+            email: user.email,
+            avatar: user.avatar,
+          } : {
             name: "Demo User",
             email: "demo@ghxstship.com",
           }}
           quickActions={atlvsQuickActions.slice(0, 3)}
+          favorites={favorites}
+          recentPages={recentPages}
+          userRoles={userRoles}
+          storageKey="atlvs-sidebar"
           inverted={background === "black"}
-          onNavigate={(href: string) => router.push(href)}
+          onNavigate={handleContextNavigation}
           settingsPath={isProductionContext ? `/p/${productionId}/settings` : "/settings"}
           notifications={demoNotifications}
           onSignOut={handleSignOut}
           className={className}
+          headerActions={userMenu}
         >
-          <div className="p-6 lg:p-8">
+          <div className="p-6 lg:p-8 pb-20 md:pb-8">
             {children}
           </div>
         </AuthenticatedShell>
+        
+        {/* Mobile Bottom Navigation */}
+        <MobileBottomNav
+          items={mobileNavItems}
+          currentPath={pathname}
+          onNavigate={handleContextNavigation}
+          inverted={background === "black"}
+        />
         
         {/* Command Palette - Cmd/Ctrl+K to open */}
         <CommandPalette

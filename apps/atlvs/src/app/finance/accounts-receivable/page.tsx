@@ -106,6 +106,42 @@ export default function AccountsReceivablePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Invoice, 'id'>>({
+
+    entityType: 'invoices',
+
+    requiredFields: ['invoiceNumber', 'client', 'project'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/invoices', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('invoices');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Invoice>
@@ -122,6 +158,12 @@ export default function AccountsReceivablePage() {
         createLabel="Create Invoice"
         onCreate={() => router.push('/finance/accounts-receivable/new')}
         entityType="invoices"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['invoiceNumber', 'client', 'project', 'amount', 'dueDate', 'status', 'balance']}
         onExport={createExportHandler({
           filename: "accounts-receivable",
           getData: () => invoices.map(inv => ({

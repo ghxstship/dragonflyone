@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useRevenueRecognition } from '@/hooks/useRevenueRecognition';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -54,7 +55,7 @@ export default function RevenueRecognitionPage() {
       await processRecognition(scheduleId);
       await refresh();
     } catch (err) {
-      console.error('Failed to process recognition:', err);
+      log.error('Failed to process recognition:', err instanceof Error ? err : undefined);
     } finally {
       setProcessing(false);
     }
@@ -71,7 +72,7 @@ export default function RevenueRecognitionPage() {
       setShowCreateForm(false);
       await refresh();
     } catch (err) {
-      console.error('Failed to create rule:', err);
+      log.error('Failed to create rule:', err instanceof Error ? err : undefined);
     }
   };
 

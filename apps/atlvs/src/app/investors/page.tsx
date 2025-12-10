@@ -19,7 +19,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Investor {
   id: string;
@@ -259,6 +259,42 @@ export default function InvestorsPage() {
     },
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Investor, 'id'>>({
+
+    entityType: 'investors',
+
+    requiredFields: ['name', 'investor_type', 'round_id'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/investors', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('investors');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Investor>
@@ -277,6 +313,12 @@ export default function InvestorsPage() {
         createLabel="Add Investor"
         onCreate={() => setCreateModalOpen(true)}
         entityType="investors"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'investor_type', 'round_id', 'contact_name', 'contact_email', 'contact_phone', 'investment_amount']}
         onExport={createExportHandler({
           filename: 'investors',
           getData: () => (investors || []).map(i => ({

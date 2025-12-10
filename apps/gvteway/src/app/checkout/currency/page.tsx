@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -44,7 +45,12 @@ const mockPrices: LocalizedPrice[] = [
 
 export default function CurrencyPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("currencies");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'currencies',
+    validTabs: ['currencies', 'pricing', 'settings'],
+  });
   const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -69,12 +75,12 @@ export default function CurrencyPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "currencies"} onClick={() => setActiveTab("currencies")}>Currencies</Tab>
-              <Tab active={activeTab === "pricing"} onClick={() => setActiveTab("pricing")}>Localized Pricing</Tab>
-              <Tab active={activeTab === "settings"} onClick={() => setActiveTab("settings")}>Settings</Tab>
+              <Tab active={isActive('currencies')} onClick={() => setActiveTab('currencies')}>Currencies</Tab>
+              <Tab active={isActive('pricing')} onClick={() => setActiveTab('pricing')}>Localized Pricing</Tab>
+              <Tab active={isActive('settings')} onClick={() => setActiveTab('settings')}>Settings</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "currencies"}>
+            <TabPanel active={isActive('currencies')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" inverted onClick={() => setShowAddModal(true)}>Add Currency</Button>
@@ -115,7 +121,7 @@ export default function CurrencyPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "pricing"}>
+            <TabPanel active={isActive('pricing')}>
               <Stack gap={4}>
                 {mockPrices.map((price, idx) => (
                   <Card key={idx} inverted className="p-6">
@@ -153,7 +159,7 @@ export default function CurrencyPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "settings"}>
+            <TabPanel active={isActive('settings')}>
               <Card inverted className="p-6">
                 <Stack gap={6}>
                   <H3 className="text-white">Currency Settings</H3>

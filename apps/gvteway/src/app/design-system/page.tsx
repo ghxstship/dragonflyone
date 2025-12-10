@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   Badge, Button, Checkbox, Input, Radio, Select, Spinner, Switch, Textarea,
@@ -51,7 +52,12 @@ const COMPONENT_COUNTS = {
 export default function DesignSystemPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [_currentPage, _setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("overview");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'overview',
+    validTabs: ['overview', 'colors', 'typography', 'components'],
+  });
   const totalComponents = Object.values(COMPONENT_COUNTS).reduce((a, b) => a + b, 0);
 
   return (
@@ -81,17 +87,17 @@ export default function DesignSystemPage() {
           <Container>
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "overview"} onClick={() => setActiveTab("overview")}>Overview</Tab>
-                <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>Colors</Tab>
-                <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>Typography</Tab>
-                <Tab active={activeTab === "components"} onClick={() => setActiveTab("components")}>Components</Tab>
+                <Tab active={isActive('overview')} onClick={() => setActiveTab('overview')}>Overview</Tab>
+                <Tab active={isActive('colors')} onClick={() => setActiveTab('colors')}>Colors</Tab>
+                <Tab active={isActive('typography')} onClick={() => setActiveTab('typography')}>Typography</Tab>
+                <Tab active={isActive('components')} onClick={() => setActiveTab('components')}>Components</Tab>
               </TabsList>
             </Tabs>
           </Container>
         </div>
 
         <Container>
-          {activeTab === "overview" && (
+          {isActive('overview') && (
             <Section>
               <Grid cols={6} gap={4} className="mb-12">
                 <StatCard label="Atoms" value={String(COMPONENT_COUNTS.atoms)} />
@@ -136,7 +142,7 @@ export default function DesignSystemPage() {
             </Section>
           )}
 
-          {activeTab === "colors" && (
+          {isActive('colors') && (
             <Section>
               <H2 className="mb-6 text-ink-50">Ink Palette</H2>
               <Grid cols={6} gap={4} className="mb-12">
@@ -168,7 +174,7 @@ export default function DesignSystemPage() {
             </Section>
           )}
 
-          {activeTab === "typography" && (
+          {isActive('typography') && (
             <Section>
               <H2 className="mb-6 text-ink-50">Font Families</H2>
               <Grid cols={2} gap={6} className="mb-12">
@@ -202,7 +208,7 @@ export default function DesignSystemPage() {
             </Section>
           )}
 
-          {activeTab === "components" && (
+          {isActive('components') && (
             <Section>
               <H2 className="mb-6 text-ink-50">Buttons</H2>
               <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">

@@ -28,6 +28,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import NextLink from "next/link";
+import { log } from '@ghxstship/config';
 
 // =============================================================================
 // MEMBERSHIP APPLICATION PAGE
@@ -143,7 +144,7 @@ export default function ApplyPage() {
         router.push("/apply/confirmation");
       }
     } catch (error) {
-      console.error("Application submission failed:", error);
+      log.error('Application submission failed:', error instanceof Error ? error : undefined);
     } finally {
       setIsSubmitting(false);
     }

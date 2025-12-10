@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   Container,
   H2,
@@ -73,7 +74,7 @@ export default function KPIDetailPage() {
         setKpi(data.data);
       }
     } catch (error) {
-      console.error('Error loading KPI:', error);
+      log.error('Error loading KPI:', error instanceof Error ? error : undefined);
     } finally {
       setLoading(false);
     }
@@ -87,7 +88,7 @@ export default function KPIDetailPage() {
         setTrendData(data.data);
       }
     } catch (error) {
-      console.error('Error loading trend data:', error);
+      log.error('Error loading trend data:', error instanceof Error ? error : undefined);
     }
   };
 

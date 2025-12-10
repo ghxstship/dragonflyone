@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTabState } from '@ghxstship/config/hooks';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -51,7 +52,12 @@ const mockJobs: JobOpportunity[] = [
 
 export default function MobileJobSearchPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState('search');
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'search',
+    validTabs: ['search', 'saved', 'applied'],
+  });
   const [selectedJob, setSelectedJob] = useState<JobOpportunity | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [locationFilter, setLocationFilter] = useState('All');
@@ -103,13 +109,13 @@ export default function MobileJobSearchPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === 'search'} onClick={() => setActiveTab('search')}>Search</Tab>
-                <Tab active={activeTab === 'saved'} onClick={() => setActiveTab('saved')}>Saved ({savedJobs.length})</Tab>
-                <Tab active={activeTab === 'applied'} onClick={() => setActiveTab('applied')}>Applied ({appliedJobs.length})</Tab>
+                <Tab active={isActive('search')} onClick={() => setActiveTab('search')}>Search</Tab>
+                <Tab active={isActive('saved')} onClick={() => setActiveTab('saved')}>Saved ({savedJobs.length})</Tab>
+                <Tab active={isActive('applied')} onClick={() => setActiveTab('applied')}>Applied ({appliedJobs.length})</Tab>
               </TabsList>
             </Tabs>
 
-            {activeTab === 'search' && (
+            {isActive('search') && (
               <Stack gap={4}>
                 <Input
                   type="search"
@@ -172,7 +178,7 @@ export default function MobileJobSearchPage() {
               </Stack>
             )}
 
-            {activeTab === 'saved' && (
+            {isActive('saved') && (
               <Stack gap={3}>
                 {savedJobs.length === 0 ? (
                   <Card>
@@ -200,7 +206,7 @@ export default function MobileJobSearchPage() {
               </Stack>
             )}
 
-            {activeTab === 'applied' && (
+            {isActive('applied') && (
               <Stack gap={3}>
                 {appliedJobs.length === 0 ? (
                   <Card>

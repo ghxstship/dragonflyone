@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -48,7 +49,12 @@ export default function PhotoBoothPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
-  const [activeTab, setActiveTab] = useState("booths");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'booths',
+    validTabs: ['booths', 'gallery', 'recent'],
+  });
   const [selectedBooth, setSelectedBooth] = useState<PhotoBooth | null>(null);
 
   const totalPhotos = mockBooths.reduce((sum, b) => sum + b.photosTaken, 0);
@@ -84,12 +90,12 @@ export default function PhotoBoothPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "booths"} onClick={() => setActiveTab("booths")}>Booths</Tab>
-              <Tab active={activeTab === "gallery"} onClick={() => setActiveTab("gallery")}>Gallery</Tab>
-              <Tab active={activeTab === "recent"} onClick={() => setActiveTab("recent")}>Recent Sessions</Tab>
+              <Tab active={isActive('booths')} onClick={() => setActiveTab('booths')}>Booths</Tab>
+              <Tab active={isActive('gallery')} onClick={() => setActiveTab('gallery')}>Gallery</Tab>
+              <Tab active={isActive('recent')} onClick={() => setActiveTab('recent')}>Recent Sessions</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "booths"}>
+            <TabPanel active={isActive('booths')}>
               <Grid cols={2} gap={4}>
                 {mockBooths.map((booth) => (
                   <Card key={booth.id} className="border-2 border-black overflow-hidden">
@@ -118,7 +124,7 @@ export default function PhotoBoothPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "gallery"}>
+            <TabPanel active={isActive('gallery')}>
               <Stack gap={4}>
                 <Grid cols={4} gap={4}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
@@ -134,7 +140,7 @@ export default function PhotoBoothPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "recent"}>
+            <TabPanel active={isActive('recent')}>
               <Stack gap={3}>
                 {mockSessions.map((session) => (
                   <Card key={session.id} className="border-2 border-black p-4">

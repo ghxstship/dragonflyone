@@ -7,7 +7,7 @@ import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
-import { createExportHandler } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface UnionRule {
   id: string;
@@ -84,6 +84,42 @@ export default function UnionRulesPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<UnionRule, 'id'>>({
+
+    entityType: 'union-rules',
+
+    requiredFields: ['union', 'category', 'rule'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/union-rules', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('union-rules');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<UnionRule>
@@ -98,6 +134,12 @@ export default function UnionRulesPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="union-rules"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['union', 'category', 'rule', 'description', 'penalty', 'status']}
         onExport={createExportHandler({
           filename: "union-rules",
           getData: () => data.map(r => ({

@@ -106,6 +106,42 @@ export default function PerformancePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Review, 'id'>>({
+
+    entityType: 'performance-reviews',
+
+    requiredFields: ['employee', 'reviewer', 'review_period'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/performance-reviews', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('performance-reviews');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Review>
@@ -124,6 +160,12 @@ export default function PerformancePage() {
         createLabel="Schedule Review"
         onCreate={() => router.push('/performance/reviews/new')}
         entityType="performance-reviews"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['employee', 'reviewer', 'review_period', 'review_type', 'overall_score', 'status']}
         onExport={createExportHandler({
           filename: "performance-reviews",
           getData: () => reviews.map(r => ({

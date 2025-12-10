@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -122,7 +123,12 @@ const mockSelections: VendorSelection[] = [
 
 export default function VendorSelectionPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("active");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'active',
+    validTabs: ['active', 'completed'],
+  });
   const [selectedSelection, setSelectedSelection] = useState<VendorSelection | null>(null);
   const [showApprovalModal, setShowApprovalModal] = useState(false);
 
@@ -172,11 +178,11 @@ export default function VendorSelectionPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "active"} onClick={() => setActiveTab("active")}>Active Selections</Tab>
-              <Tab active={activeTab === "completed"} onClick={() => setActiveTab("completed")}>Completed</Tab>
+              <Tab active={isActive('active')} onClick={() => setActiveTab('active')}>Active Selections</Tab>
+              <Tab active={isActive('completed')} onClick={() => setActiveTab('completed')}>Completed</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "active"}>
+            <TabPanel active={isActive('active')}>
               <Stack gap={4}>
                 {mockSelections.map((selection) => (
                   <Card key={selection.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -252,7 +258,7 @@ export default function VendorSelectionPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "completed"}>
+            <TabPanel active={isActive('completed')}>
               <Card className="border-2 border-ink-800 bg-ink-900/50 p-8 text-center">
                 <Label className="text-ink-400">No completed selections to display</Label>
               </Card>

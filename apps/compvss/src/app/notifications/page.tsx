@@ -15,6 +15,7 @@ import {
   Label,
 } from "@ghxstship/ui";
 import { Bell, CheckCircle, Mail, Users, Calendar, Settings } from "lucide-react";
+import { log } from '@ghxstship/config';
 
 // Demo data for unauthenticated users
 const DEMO_NOTIFICATIONS: Notification[] = [
@@ -105,7 +106,7 @@ export default function NotificationsPage() {
         fetchNotifications();
       }
     } catch (err) {
-      console.error("Failed to update notification:", err);
+      log.error('Failed to update notification:', err instanceof Error ? err : undefined);
     }
   };
 
@@ -118,7 +119,7 @@ export default function NotificationsPage() {
         fetchNotifications();
       }
     } catch (err) {
-      console.error("Failed to mark all as read:", err);
+      log.error('Failed to mark all as read:', err instanceof Error ? err : undefined);
     }
   };
 

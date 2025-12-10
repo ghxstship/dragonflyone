@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -47,7 +48,12 @@ const mockEvents: ConversionEvent[] = [
 
 export default function PixelsPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("pixels");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'pixels',
+    validTabs: ['pixels', 'events', 'audiences'],
+  });
   const [selectedPixel, setSelectedPixel] = useState<TrackingPixel | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -98,12 +104,12 @@ export default function PixelsPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "pixels"} onClick={() => setActiveTab("pixels")}>Pixels</Tab>
-              <Tab active={activeTab === "events"} onClick={() => setActiveTab("events")}>Events</Tab>
-              <Tab active={activeTab === "audiences"} onClick={() => setActiveTab("audiences")}>Audiences</Tab>
+              <Tab active={isActive('pixels')} onClick={() => setActiveTab('pixels')}>Pixels</Tab>
+              <Tab active={isActive('events')} onClick={() => setActiveTab('events')}>Events</Tab>
+              <Tab active={isActive('audiences')} onClick={() => setActiveTab('audiences')}>Audiences</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "pixels"}>
+            <TabPanel active={isActive('pixels')}>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Pixel</Button>
@@ -148,7 +154,7 @@ export default function PixelsPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "events"}>
+            <TabPanel active={isActive('events')}>
               <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
@@ -175,7 +181,7 @@ export default function PixelsPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "audiences"}>
+            <TabPanel active={isActive('audiences')}>
               <Stack gap={4}>
                 {[
                   { name: "All Website Visitors", size: 45230, retention: "180 days" },

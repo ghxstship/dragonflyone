@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -54,7 +55,12 @@ const mockRecords: WinLossRecord[] = [
 
 export default function WinLossPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("all");
+  
+  // URL-synced tab state for deep-linking support
+  const { activeTab, setActiveTab, isActive } = useTabState({
+    defaultTab: 'all',
+    validTabs: ['all', 'won', 'lost'],
+  });
   const [selectedRecord, setSelectedRecord] = useState<WinLossRecord | null>(null);
   const [showAnalysisModal, setShowAnalysisModal] = useState(false);
 
@@ -148,9 +154,9 @@ export default function WinLossPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "all"} onClick={() => setActiveTab("all")}>All</Tab>
-                  <Tab active={activeTab === "won"} onClick={() => setActiveTab("won")}>Won</Tab>
-                  <Tab active={activeTab === "lost"} onClick={() => setActiveTab("lost")}>Lost</Tab>
+                  <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All</Tab>
+                  <Tab active={isActive('won')} onClick={() => setActiveTab('won')}>Won</Tab>
+                  <Tab active={isActive('lost')} onClick={() => setActiveTab('lost')}>Lost</Tab>
                 </TabsList>
               </Tabs>
               <Button variant="outline" onClick={() => setShowAnalysisModal(true)}>View Analysis</Button>

@@ -81,6 +81,42 @@ export default function EmailIntegrationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<EmailThread, 'id'>>({
+
+    entityType: 'emails',
+
+    requiredFields: ['emails', 'from', 'subject'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/emails', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('emails');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<EmailThread>
@@ -95,6 +131,12 @@ export default function EmailIntegrationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="emails"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['emails', 'from', 'subject', 'date', 'linkedContact', 'linkedDeal', 'status']}
         onExport={createExportHandler({
           filename: "emails",
           getData: () => data.map(e => ({

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -63,7 +64,12 @@ const mockUpdates: Update[] = [
 
 export default function StakeholderPortalPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("updates");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'updates',
+    validTabs: ['updates', 'stakeholders', 'documents'],
+  });
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
 
@@ -114,9 +120,9 @@ export default function StakeholderPortalPage() {
             <Stack direction="horizontal" className="justify-between">
               <Tabs>
                 <TabsList>
-                  <Tab active={activeTab === "updates"} onClick={() => setActiveTab("updates")}>Updates</Tab>
-                  <Tab active={activeTab === "stakeholders"} onClick={() => setActiveTab("stakeholders")}>Stakeholders</Tab>
-                  <Tab active={activeTab === "documents"} onClick={() => setActiveTab("documents")}>Documents</Tab>
+                  <Tab active={isActive('updates')} onClick={() => setActiveTab('updates')}>Updates</Tab>
+                  <Tab active={isActive('stakeholders')} onClick={() => setActiveTab('stakeholders')}>Stakeholders</Tab>
+                  <Tab active={isActive('documents')} onClick={() => setActiveTab('documents')}>Documents</Tab>
                 </TabsList>
               </Tabs>
               <Stack direction="horizontal" gap={2}>
@@ -125,7 +131,7 @@ export default function StakeholderPortalPage() {
               </Stack>
             </Stack>
 
-            <TabPanel active={activeTab === "updates"}>
+            <TabPanel active={isActive('updates')}>
               <Stack gap={4}>
                 {mockUpdates.map((update) => (
                   <Card key={update.id}>
@@ -151,7 +157,7 @@ export default function StakeholderPortalPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "stakeholders"}>
+            <TabPanel active={isActive('stakeholders')}>
               <Grid cols={2} gap={4}>
                 {mockStakeholders.map((stakeholder) => (
                   <Card key={stakeholder.id}>
@@ -177,7 +183,7 @@ export default function StakeholderPortalPage() {
               </Grid>
             </TabPanel>
 
-            <TabPanel active={activeTab === "documents"}>
+            <TabPanel active={isActive('documents')}>
               <Stack gap={4}>
                 {["Production Schedule", "Budget Summary", "Site Plans", "Contact List", "Safety Protocols"].map((doc, idx) => (
                   <Card key={idx}>

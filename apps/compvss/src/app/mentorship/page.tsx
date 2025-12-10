@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -68,7 +69,12 @@ const mockPrograms: MentorshipProgram[] = [
 
 export default function MentorshipPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("mentors");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'mentors',
+    validTabs: ['mentors', 'programs', 'resources'],
+  });
   const [selectedMentor, setSelectedMentor] = useState<Mentor | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<MentorshipProgram | null>(null);
   const [showRequestModal, setShowRequestModal] = useState(false);
@@ -108,12 +114,12 @@ export default function MentorshipPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "mentors"} onClick={() => setActiveTab("mentors")}>Find a Mentor</Tab>
-                <Tab active={activeTab === "programs"} onClick={() => setActiveTab("programs")}>Programs</Tab>
-                <Tab active={activeTab === "resources"} onClick={() => setActiveTab("resources")}>Resources</Tab>
+                <Tab active={isActive('mentors')} onClick={() => setActiveTab('mentors')}>Find a Mentor</Tab>
+                <Tab active={isActive('programs')} onClick={() => setActiveTab('programs')}>Programs</Tab>
+                <Tab active={isActive('resources')} onClick={() => setActiveTab('resources')}>Resources</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "mentors"}>
+              <TabPanel active={isActive('mentors')}>
                 <Grid cols={2} gap={4}>
                   {mockMentors.map((mentor) => (
                     <Card key={mentor.id} className="p-6">
@@ -157,7 +163,7 @@ export default function MentorshipPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "programs"}>
+              <TabPanel active={isActive('programs')}>
                 <Stack gap={4}>
                   {mockPrograms.map((program) => (
                     <Card key={program.id} className="p-6">
@@ -182,7 +188,7 @@ export default function MentorshipPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "resources"}>
+              <TabPanel active={isActive('resources')}>
                 <Grid cols={3} gap={4}>
                   {[
                     { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "📚" },

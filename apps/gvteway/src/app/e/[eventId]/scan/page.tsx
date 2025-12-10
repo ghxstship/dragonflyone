@@ -23,6 +23,7 @@ import {
   Keyboard,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface ScanResult {
   ticketId: string;
@@ -51,7 +52,7 @@ export default function EventScanPage() {
           setScanCount(data.stats || { valid: 0, invalid: 0, total: 0 });
         }
       } catch (error) {
-        console.error('Failed to fetch scan stats:', error);
+        log.error('Failed to fetch scan stats:', error instanceof Error ? error : undefined);
       }
     };
     fetchScanStats();

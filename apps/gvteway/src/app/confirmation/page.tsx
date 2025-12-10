@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -58,7 +59,7 @@ function ConfirmationContent() {
       const data = await response.json();
       setOrder(data.order);
     } catch (err) {
-      console.error("Failed to fetch order:", err);
+      log.error('Failed to fetch order:', err instanceof Error ? err : undefined);
     } finally {
       setLoading(false);
     }

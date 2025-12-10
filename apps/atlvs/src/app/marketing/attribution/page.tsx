@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -73,7 +74,12 @@ const mockCampaigns: Campaign[] = [
 
 export default function MarketingAttributionPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("sources");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'sources',
+    validTabs: ['sources', 'campaigns', 'funnel'],
+  });
   const [selectedSource, setSelectedSource] = useState<MarketingSource | null>(null);
 
   const totalLeads = mockSources.reduce((s, src) => s + src.leads, 0);
@@ -106,12 +112,12 @@ export default function MarketingAttributionPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "sources"} onClick={() => setActiveTab("sources")}>Sources</Tab>
-              <Tab active={activeTab === "campaigns"} onClick={() => setActiveTab("campaigns")}>Campaigns</Tab>
-              <Tab active={activeTab === "funnel"} onClick={() => setActiveTab("funnel")}>Funnel</Tab>
+              <Tab active={isActive('sources')} onClick={() => setActiveTab('sources')}>Sources</Tab>
+              <Tab active={isActive('campaigns')} onClick={() => setActiveTab('campaigns')}>Campaigns</Tab>
+              <Tab active={isActive('funnel')} onClick={() => setActiveTab('funnel')}>Funnel</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "sources"}>
+            <TabPanel active={isActive('sources')}>
               <Table variant="dark" className="border-2 border-ink-800">
                 <TableHeader>
                   <TableRow className="bg-ink-900">
@@ -142,7 +148,7 @@ export default function MarketingAttributionPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "campaigns"}>
+            <TabPanel active={isActive('campaigns')}>
               <Stack gap={4}>
                 {mockCampaigns.map((campaign) => (
                   <Card key={campaign.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
@@ -174,7 +180,7 @@ export default function MarketingAttributionPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "funnel"}>
+            <TabPanel active={isActive('funnel')}>
               <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                 <Stack gap={6}>
                   <H3>Conversion Funnel</H3>

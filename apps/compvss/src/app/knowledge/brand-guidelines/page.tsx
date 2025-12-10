@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -66,7 +67,12 @@ const categories = ["All", "Logo Usage", "Color", "Typography", "Photography", "
 
 export default function BrandGuidelinesPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("assets");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'assets',
+    validTabs: ['assets', 'guidelines', 'colors', 'typography'],
+  });
   const [selectedAsset, setSelectedAsset] = useState<BrandAsset | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
 
@@ -107,13 +113,13 @@ export default function BrandGuidelinesPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={activeTab === "assets"} onClick={() => setActiveTab("assets")}>Assets</Tab>
-                <Tab active={activeTab === "guidelines"} onClick={() => setActiveTab("guidelines")}>Guidelines</Tab>
-                <Tab active={activeTab === "colors"} onClick={() => setActiveTab("colors")}>Colors</Tab>
-                <Tab active={activeTab === "typography"} onClick={() => setActiveTab("typography")}>Typography</Tab>
+                <Tab active={isActive('assets')} onClick={() => setActiveTab('assets')}>Assets</Tab>
+                <Tab active={isActive('guidelines')} onClick={() => setActiveTab('guidelines')}>Guidelines</Tab>
+                <Tab active={isActive('colors')} onClick={() => setActiveTab('colors')}>Colors</Tab>
+                <Tab active={isActive('typography')} onClick={() => setActiveTab('typography')}>Typography</Tab>
               </TabsList>
 
-              <TabPanel active={activeTab === "assets"}>
+              <TabPanel active={isActive('assets')}>
                 <Grid cols={4} gap={4}>
                   {mockAssets.map((asset) => (
                     <Card key={asset.id} className="p-4">
@@ -133,7 +139,7 @@ export default function BrandGuidelinesPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "guidelines"}>
+              <TabPanel active={isActive('guidelines')}>
                 <Stack gap={4}>
                   <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="w-48">
                     {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -152,7 +158,7 @@ export default function BrandGuidelinesPage() {
                 </Stack>
               </TabPanel>
 
-              <TabPanel active={activeTab === "colors"}>
+              <TabPanel active={isActive('colors')}>
                 <Grid cols={3} gap={4}>
                   <Card className="overflow-hidden">
                     <Card className="h-32 bg-black" />
@@ -181,7 +187,7 @@ export default function BrandGuidelinesPage() {
                 </Grid>
               </TabPanel>
 
-              <TabPanel active={activeTab === "typography"}>
+              <TabPanel active={isActive('typography')}>
                 <Stack gap={6}>
                   <Card className="p-6">
                     <Stack gap={4}>

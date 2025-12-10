@@ -19,6 +19,7 @@ import {
   useNotifications,
 } from "@ghxstship/ui";
 import { Trash2, Minus, Plus, Tag, CreditCard, Clock } from "lucide-react";
+import { log } from '@ghxstship/config';
 
 interface CartItem {
   id: string;
@@ -67,7 +68,7 @@ export default function CartPage() {
       setItems(data.items || []);
       setSummary(data.summary || null);
     } catch (err) {
-      console.error("Failed to fetch cart:", err);
+      log.error('Failed to fetch cart:', err instanceof Error ? err : undefined);
     } finally {
       setLoading(false);
     }

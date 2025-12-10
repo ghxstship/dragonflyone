@@ -105,6 +105,42 @@ export default function AssetOptimizationPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<OptimizationRecommendation, 'id'>>({
+
+    entityType: 'optimization',
+
+    requiredFields: ['asset_name', 'category', 'type'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/optimization', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('optimization');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<OptimizationRecommendation>
@@ -119,6 +155,12 @@ export default function AssetOptimizationPage() {
         rowActions={rowActions}
         onRowClick={(r) => { setSelected(r); setDrawerOpen(true); }}
         entityType="optimization"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['asset_name', 'category', 'type', 'current_utilization', 'priority', 'potential_savings', 'status']}
         onExport={createExportHandler({
           filename: "optimization-recommendations",
           getData: () => data.map(r => ({

@@ -1,30 +1,44 @@
 
-
 > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > next lint --max-warnings 9999
 
 
-[36m./src/app/api/enterprise/data-residency/route.ts[39m
-[33m201[39m:[33m17[39m  [33m[1mWarning[22m[39m: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  [90m[1mno-restricted-syntax[22m[39m
+./src/app/api/enterprise/data-residency/route.ts
+201:17  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
 
-[36m./src/app/settings/appearance/page.tsx[39m
-[33m243[39m:[33m52[39m  [33m[1mWarning[22m[39m: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  [90m[1mno-restricted-syntax[22m[39m
+./src/app/insurance/page.tsx
+78:13  Warning: 'handleImport' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+94:13  Warning: 'importTemplates' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
-[36m./src/hooks/__tests__/useProjects.test.ts[39m
-[33m68[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m71[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m90[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m93[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m108[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m111[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m130[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m133[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m145[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m163[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m166[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m192[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m195[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m214[39m:[33m10[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
-[33m217[39m:[33m35[39m  [33m[1mWarning[22m[39m: Unexpected any. Specify a different type.  [90m[1m@typescript-eslint/no-explicit-any[22m[39m
+./src/app/payroll/page.tsx
+21:10  Warning: 'createExportHandler' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 
-[36minfo[39m  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+./src/app/permits/page.tsx
+79:13  Warning: 'handleImport' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+95:13  Warning: 'importTemplates' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
+
+./src/app/settings/appearance/page.tsx
+243:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+
+./src/hooks/__tests__/useAppearance.test.ts
+26:8  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+226:8  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
+
+./src/hooks/__tests__/useProjects.test.ts
+68:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+71:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+90:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+93:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+108:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+111:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+130:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+133:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+145:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+163:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+166:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+192:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+195:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+214:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+217:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules

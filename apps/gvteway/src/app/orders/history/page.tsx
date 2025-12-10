@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -71,7 +72,7 @@ export default function OrderHistoryPage() {
         setOrders(data.orders || []);
       }
     } catch (err) {
-      console.error('Failed to fetch orders');
+      log.error('Failed to fetch orders');
     } finally {
       setLoading(false);
     }
@@ -126,7 +127,7 @@ export default function OrderHistoryPage() {
         fetchOrders();
       }
     } catch (err) {
-      console.error('Failed to request refund');
+      log.error('Failed to request refund');
     }
   };
 

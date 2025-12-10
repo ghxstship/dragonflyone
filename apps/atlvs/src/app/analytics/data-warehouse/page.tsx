@@ -109,6 +109,42 @@ export default function DataWarehousePage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<DataSource, 'id'>>({
+
+    entityType: 'data-sources',
+
+    requiredFields: ['name', 'type', 'syncFrequency'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/data-sources', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('data-sources');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<DataSource>
@@ -125,6 +161,12 @@ export default function DataWarehousePage() {
         createLabel="Add Data Source"
         onCreate={() => setCreateModalOpen(true)}
         entityType="data-sources"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['name', 'type', 'syncFrequency', 'connectionString', 'recordCount', 'lastSync', 'status']}
         onExport={createExportHandler({
           filename: "data-sources",
           getData: () => data.map(d => ({

@@ -18,6 +18,7 @@ import {
   Display,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { log } from '@ghxstship/config';
 
 interface Venue {
   id: string;
@@ -77,7 +78,7 @@ export default function VenuePage() {
         setIsFollowing(data.following);
       }
     } catch (err) {
-      console.error('Failed to fetch venue');
+      log.error('Failed to fetch venue');
     } finally {
       setLoading(false);
     }
@@ -98,7 +99,7 @@ export default function VenuePage() {
         setIsFollowing(!isFollowing);
       }
     } catch (err) {
-      console.error('Failed to update follow status');
+      log.error('Failed to update follow status');
     } finally {
       setFollowLoading(false);
     }

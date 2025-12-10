@@ -16,7 +16,7 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Risk {
   id: string;
@@ -90,6 +90,42 @@ export default function RisksPage() {
     )},
   ] : [];
 
+  // Import handler for CSV/JSON files
+
+  const handleImport = createImportHandler<Omit<Risk, 'id'>>({
+
+    entityType: 'risks',
+
+    requiredFields: ['risks', 'title', 'category'],
+
+    onImport: async (records) => {
+
+      for (const record of records) {
+
+        await fetch('/api/risks', {
+
+          method: 'POST',
+
+          headers: { 'Content-Type': 'application/json' },
+
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+
+        });
+
+      }
+
+      refetch();
+
+    },
+
+  });
+
+
+  // Import templates for field mapping
+
+  const importTemplates = getImportTemplates('risks');
+
+
   return (
     <AtlvsAppLayout>
       <ListPage<Risk>
@@ -108,6 +144,12 @@ export default function RisksPage() {
         createLabel="Report New Risk"
         onCreate={() => router.push('/risks/new')}
         entityType="risks"
+
+        onImport={handleImport}
+
+        importTemplates={importTemplates}
+
+        importSampleFields={['risks', 'title', 'category', 'severity', 'status', 'owner']}
         onExport={createExportHandler({
           filename: "risks",
           getData: () => (risks || []).map(r => ({

@@ -23,6 +23,7 @@ import {
   Plus,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { log } from '@ghxstship/config';
 
 interface InsurancePolicy {
   id: string;
@@ -59,7 +60,7 @@ export default function ProductionInsurancePage() {
         }
       }
     } catch (error) {
-      console.error('Failed to fetch insurance policies:', error);
+      log.error('Failed to fetch insurance policies:', error instanceof Error ? error : undefined);
     }
   }, [productionId]);
 

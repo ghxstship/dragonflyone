@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -50,7 +51,12 @@ const mockRules: ProtectionRule[] = [
 
 export default function AntiScalpingPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("flagged");
+  
+  // URL-synced tab state for deep-linking support
+  const { setActiveTab, isActive } = useTabState({
+    defaultTab: 'flagged',
+    validTabs: ['flagged', 'rules', 'analytics'],
+  });
   const [selectedTransaction, setSelectedTransaction] = useState<FlaggedTransaction | null>(null);
 
   const blockedCount = mockFlagged.filter(f => f.status === "Blocked").length;
@@ -95,12 +101,12 @@ export default function AntiScalpingPage() {
 
           <Tabs>
             <TabsList>
-              <Tab active={activeTab === "flagged"} onClick={() => setActiveTab("flagged")}>Flagged Transactions</Tab>
-              <Tab active={activeTab === "rules"} onClick={() => setActiveTab("rules")}>Protection Rules</Tab>
-              <Tab active={activeTab === "analytics"} onClick={() => setActiveTab("analytics")}>Analytics</Tab>
+              <Tab active={isActive('flagged')} onClick={() => setActiveTab('flagged')}>Flagged Transactions</Tab>
+              <Tab active={isActive('rules')} onClick={() => setActiveTab('rules')}>Protection Rules</Tab>
+              <Tab active={isActive('analytics')} onClick={() => setActiveTab('analytics')}>Analytics</Tab>
             </TabsList>
 
-            <TabPanel active={activeTab === "flagged"}>
+            <TabPanel active={isActive('flagged')}>
               <Table variant="dark" className="border-2 border-black">
                 <TableHeader>
                   <TableRow className="bg-black text-white">
@@ -135,7 +141,7 @@ export default function AntiScalpingPage() {
               </Table>
             </TabPanel>
 
-            <TabPanel active={activeTab === "rules"}>
+            <TabPanel active={isActive('rules')}>
               <Stack gap={4}>
                 {mockRules.map((rule) => (
                   <Card key={rule.id} className={`border-2 p-4 ${rule.enabled ? "border-black" : "border-ink-200"}`}>
@@ -165,7 +171,7 @@ export default function AntiScalpingPage() {
               </Stack>
             </TabPanel>
 
-            <TabPanel active={activeTab === "analytics"}>
+            <TabPanel active={isActive('analytics')}>
               <Grid cols={2} gap={6}>
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>

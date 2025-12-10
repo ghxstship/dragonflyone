@@ -20,3 +20,11 @@ export { useFormState } from "./useFormState.js";
 export type { UseFormStateOptions, UseFormStateReturn, ValidationRule as FormValidationRule, FieldConfig } from "./useFormState.js";
 export { useBulkActions } from "./useBulkActions.js";
 export type { UseBulkActionsOptions, UseBulkActionsReturn, BulkActionConfig, BulkActionResult } from "./useBulkActions.js";
+
+// Collaboration hooks
+export { useFieldPresence } from "./useFieldPresence.js";
+export type { UseFieldPresenceOptions, UseFieldPresenceReturn, PresenceState } from "./useFieldPresence.js";
+
+// Keyboard shortcuts
+export { useKeyboardShortcuts, formatShortcut, defaultShortcuts } from "./useKeyboardShortcuts.js";
+export type { KeyboardShortcut, ShortcutCategory, UseKeyboardShortcutsOptions, UseKeyboardShortcutsReturn } from "./useKeyboardShortcuts.js";
