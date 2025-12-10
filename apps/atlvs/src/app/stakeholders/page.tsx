@@ -110,7 +110,8 @@ export default function StakeholdersPage() {
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'delete') {
-      setStakeholders(prev => prev.filter(s => !selectedIds.includes(s.id)));
+      await Promise.all(selectedIds.map(id => fetch(`/api/stakeholders/${id}`, { method: 'DELETE' })));
+      await refetch();
     } else if (actionId === 'email') {
       const emails = stakeholders.filter(s => selectedIds.includes(s.id)).map(s => s.email).join(',');
       window.location.href = `mailto:${emails}`;
@@ -149,7 +150,7 @@ export default function StakeholdersPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchData}
+        onRetry={() => refetch()}
         searchPlaceholder="Search stakeholders..."
         filters={filters}
         rowActions={rowActions}

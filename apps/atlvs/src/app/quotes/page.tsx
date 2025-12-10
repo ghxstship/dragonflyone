@@ -114,7 +114,7 @@ export default function QuotesPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchQuotes}
+        onRetry={() => refetch()}
         searchPlaceholder="Search quotes..."
         filters={filters}
         rowActions={rowActions}
@@ -147,14 +147,14 @@ export default function QuotesPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchQuotes();
+            await refetch();
           } else if (action === 'send') {
             await fetch('/api/quotes/bulk-send', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchQuotes();
+            await refetch();
           }
         }}
         bulkActions={[

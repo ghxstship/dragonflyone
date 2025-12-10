@@ -45,6 +45,7 @@ export default function TaxesPage() {
     totalPaid,
     isLoading: loading,
     error,
+    refetch,
   } = useTaxesData(2024);
 
   const [selectedDoc, setSelectedDoc] = useState<TaxDocument | null>(null);
@@ -125,7 +126,7 @@ export default function TaxesPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchTaxDocuments}
+        onRetry={() => refetch()}
         searchPlaceholder="Search tax documents..."
         filters={filters}
         rowActions={rowActions}
@@ -161,7 +162,7 @@ export default function TaxesPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchTaxDocuments();
+            await refetch();
           }
         }}
         bulkActions={[

@@ -192,7 +192,7 @@ export default function ScenariosPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchScenarios}
+        onRetry={() => refetch()}
         searchPlaceholder="Search scenarios..."
         filters={filters}
         rowActions={rowActions}
@@ -228,7 +228,7 @@ export default function ScenariosPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchScenarios();
+            await refetch();
           }
         }}
         bulkActions={[

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -24,52 +23,17 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface Permit {
-  id: string;
-  type: string;
-  issuingAuthority: string;
-  permitNumber: string;
-  issueDate: string;
-  expiryDate: string;
-  status: 'approved' | 'pending' | 'expired' | 'rejected';
-  notes?: string;
-}
-
-const MOCK_PERMITS: Permit[] = [
-  { id: '1', type: 'Special Event Permit', issuingAuthority: 'City of Los Angeles', permitNumber: 'SEP-2024-4521', issueDate: '2024-10-15', expiryDate: '2024-12-31', status: 'approved' },
-  { id: '2', type: 'Fire Safety Permit', issuingAuthority: 'LA Fire Department', permitNumber: 'FSP-2024-892', issueDate: '2024-10-20', expiryDate: '2024-12-31', status: 'approved' },
-  { id: '3', type: 'Noise Variance', issuingAuthority: 'City of Los Angeles', permitNumber: 'NV-2024-156', issueDate: '2024-10-25', expiryDate: '2024-12-31', status: 'pending', notes: 'Awaiting final approval' },
-  { id: '4', type: 'Temporary Structure', issuingAuthority: 'Building & Safety', permitNumber: 'TS-2024-3341', issueDate: '2024-11-01', expiryDate: '2024-12-31', status: 'approved' },
-];
+import { useProductionPermitsData } from '@/hooks/useProductionPermits';
 
 export default function ProductionPermitsPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [permits, setPermits] = useState<Permit[]>(MOCK_PERMITS);
 
-  const fetchPermits = useCallback(async () => {
-    if (!productionId) return;
-    try {
-      const response = await fetch(`/api/productions/${productionId}/permits`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.permits && data.permits.length > 0) {
-          setPermits(data.permits);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch permits:', error instanceof Error ? error : undefined);
-    }
-  }, [productionId]);
-
-  useEffect(() => {
-    fetchPermits();
-  }, [fetchPermits]);
-
-  const approvedCount = permits.filter(p => p.status === 'approved').length;
-  const pendingCount = permits.filter(p => p.status === 'pending').length;
+  const {
+    permits,
+    approvedCount,
+    pendingCount,
+  } = useProductionPermitsData(productionId);
 
   return (
     <AtlvsAppLayout>

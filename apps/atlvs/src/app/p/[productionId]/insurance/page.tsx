@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -23,54 +22,18 @@ import {
   Plus,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface InsurancePolicy {
-  id: string;
-  type: string;
-  provider: string;
-  policyNumber: string;
-  coverage: number;
-  premium: number;
-  startDate: string;
-  endDate: string;
-  status: 'active' | 'pending' | 'expired';
-}
-
-const MOCK_POLICIES: InsurancePolicy[] = [
-  { id: '1', type: 'General Liability', provider: 'EventGuard Insurance', policyNumber: 'GL-2024-001', coverage: 2000000, premium: 8500, startDate: '2024-11-01', endDate: '2024-12-31', status: 'active' },
-  { id: '2', type: 'Workers Compensation', provider: 'SafeWork Inc', policyNumber: 'WC-2024-045', coverage: 1000000, premium: 4200, startDate: '2024-11-01', endDate: '2024-12-31', status: 'active' },
-  { id: '3', type: 'Equipment Coverage', provider: 'TechProtect', policyNumber: 'EQ-2024-112', coverage: 500000, premium: 2800, startDate: '2024-11-01', endDate: '2024-12-31', status: 'active' },
-  { id: '4', type: 'Event Cancellation', provider: 'EventGuard Insurance', policyNumber: 'EC-2024-089', coverage: 1500000, premium: 12000, startDate: '2024-11-01', endDate: '2024-12-31', status: 'pending' },
-];
+import { useProductionInsuranceData } from '@/hooks/useProductionInsurance';
 
 export default function ProductionInsurancePage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [policies, setPolicies] = useState<InsurancePolicy[]>(MOCK_POLICIES);
 
-  const fetchPolicies = useCallback(async () => {
-    if (!productionId) return;
-    try {
-      const response = await fetch(`/api/productions/${productionId}/insurance`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.policies && data.policies.length > 0) {
-          setPolicies(data.policies);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch insurance policies:', error instanceof Error ? error : undefined);
-    }
-  }, [productionId]);
-
-  useEffect(() => {
-    fetchPolicies();
-  }, [fetchPolicies]);
-
-  const totalCoverage = policies.reduce((sum, p) => sum + p.coverage, 0);
-  const totalPremium = policies.reduce((sum, p) => sum + p.premium, 0);
-  const activeCount = policies.filter(p => p.status === 'active').length;
+  const {
+    policies,
+    totalCoverage,
+    totalPremium,
+    activeCount,
+  } = useProductionInsuranceData(productionId);
 
   return (
     <AtlvsAppLayout>

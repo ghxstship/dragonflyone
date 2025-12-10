@@ -49,6 +49,7 @@ export default function SubsidiariesPage() {
     totalEmployees,
     isLoading: loading,
     error,
+    refetch,
   } = useSubsidiariesData();
 
   const [selectedEntity, setSelectedEntity] = useState<Subsidiary | null>(null);
@@ -116,7 +117,7 @@ export default function SubsidiariesPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchSubsidiaries}
+        onRetry={() => refetch()}
         searchPlaceholder="Search entities..."
         filters={filters}
         rowActions={rowActions}
@@ -149,7 +150,7 @@ export default function SubsidiariesPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchSubsidiaries();
+            await refetch();
           }
         }}
         bulkActions={[

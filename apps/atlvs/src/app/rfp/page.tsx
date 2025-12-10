@@ -112,7 +112,7 @@ export default function RFPPage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchRFPs}
+        onRetry={() => refetch()}
         searchPlaceholder="Search RFPs..."
         filters={filters}
         rowActions={rowActions}

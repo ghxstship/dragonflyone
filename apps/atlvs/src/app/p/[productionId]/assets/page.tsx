@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -25,57 +25,21 @@ import {
   QrCode,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface Asset {
-  id: string;
-  name: string;
-  category: string;
-  serialNumber: string;
-  value: number;
-  status: 'available' | 'in-use' | 'maintenance' | 'retired';
-  location: string;
-  assignedTo?: string;
-}
-
-const MOCK_ASSETS: Asset[] = [
-  { id: 'A-001', name: 'LED Wall Panel Set (20)', category: 'Video', serialNumber: 'LED-2024-001', value: 45000, status: 'in-use', location: 'Main Stage', assignedTo: 'Video Team' },
-  { id: 'A-002', name: 'Moving Head Fixtures (24)', category: 'Lighting', serialNumber: 'MH-2024-012', value: 72000, status: 'in-use', location: 'Main Stage', assignedTo: 'Lighting Team' },
-  { id: 'A-003', name: 'Line Array System', category: 'Audio', serialNumber: 'LA-2024-005', value: 125000, status: 'in-use', location: 'FOH', assignedTo: 'Audio Team' },
-  { id: 'A-004', name: 'Stage Deck (100 sections)', category: 'Staging', serialNumber: 'SD-2024-008', value: 35000, status: 'available', location: 'Warehouse' },
-  { id: 'A-005', name: 'Truss System', category: 'Rigging', serialNumber: 'TR-2024-003', value: 28000, status: 'maintenance', location: 'Shop' },
-];
+import { useProductionAssetsData, type Asset } from '@/hooks/useProductionAssets';
 
 export default function ProductionAssetsPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [assets, setAssets] = useState<Asset[]>(MOCK_ASSETS);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const fetchAssets = useCallback(async () => {
-    if (!productionId) return;
-    try {
-      const response = await fetch(`/api/productions/${productionId}/assets`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.assets && data.assets.length > 0) {
-          setAssets(data.assets);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch assets:', error instanceof Error ? error : undefined);
-    }
-  }, [productionId]);
+  const {
+    assets,
+    totalValue,
+    inUseCount,
+    maintenanceCount,
+  } = useProductionAssetsData(productionId);
 
-  useEffect(() => {
-    fetchAssets();
-  }, [fetchAssets]);
-
-  const totalValue = assets.reduce((sum, a) => sum + a.value, 0);
-  const inUseCount = assets.filter(a => a.status === 'in-use').length;
-  const maintenanceCount = assets.filter(a => a.status === 'maintenance').length;
-
-  const filteredAssets = assets.filter(a =>
+  const filteredAssets = assets.filter((a: Asset) =>
     a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     a.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
