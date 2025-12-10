@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -18,99 +18,45 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface SurveyQuestion {
-  id: string;
-  type: 'rating' | 'text' | 'multiple_choice' | 'checkbox' | 'scale';
-  question: string;
-  required: boolean;
-  options?: string[];
-  min_label?: string;
-  max_label?: string;
-}
-
-interface Survey {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  event_image?: string;
-  title: string;
-  description?: string;
-  questions: SurveyQuestion[];
-  expires_at?: string;
-}
-
-// Survey answers can be: rating (number), text (string), multiple_choice (string), checkbox (string[]), scale (number)
-type SurveyAnswer = string | number | string[];
+import { useSurveyDetailData, type SurveyQuestion, type SurveyAnswer } from '@/hooks/useSurveyDetail';
 
 export default function SurveyPage() {
   const router = useRouter();
   const params = useParams();
   const surveyId = params.id as string;
 
-  const [survey, setSurvey] = useState<Survey | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [answers, setAnswers] = useState<Record<string, SurveyAnswer>>({});
   const [currentStep, setCurrentStep] = useState(0);
 
-  const fetchSurvey = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/surveys/${surveyId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setSurvey(data.survey);
-      } else {
-        setError('Survey not found');
-      }
-    } catch (err) {
-      setError('Failed to load survey');
-    } finally {
-      setLoading(false);
-    }
-  }, [surveyId]);
-
-  useEffect(() => {
-    fetchSurvey();
-  }, [fetchSurvey]);
+  const {
+    survey,
+    isLoading: loading,
+    error,
+    submitSurvey,
+    isSubmitting: submitting,
+  } = useSurveyDetailData(surveyId);
 
   const handleSubmit = async () => {
     if (!survey) return;
 
-    // Validate required questions
     const unanswered = survey.questions.filter(
-      q => q.required && !answers[q.id]
+      (q: SurveyQuestion) => q.required && !answers[q.id]
     );
 
     if (unanswered.length > 0) {
-      setError(`Please answer all required questions`);
+      setLocalError('Please answer all required questions');
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch(`/api/surveys/${surveyId}/responses`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers }),
-      });
-
-      if (response.ok) {
-        setSuccess(true);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit survey');
-      }
+      await submitSurvey(answers);
+      setSuccess(true);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to submit survey');
     }
   };
 
@@ -271,9 +217,9 @@ export default function SurveyPage() {
               )}
             </Stack>
 
-        {error && (
+        {(localError || error) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {localError || (error instanceof Error ? error.message : String(error))}
           </Alert>
         )}
 

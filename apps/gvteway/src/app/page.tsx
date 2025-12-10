@@ -36,6 +36,9 @@ import {
   Package,
   UserPlus,
   Gift,
+  Clock,
+  DollarSign,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
 import NextLink from "next/link";
@@ -59,6 +62,9 @@ const iconMap: Record<string, LucideIcon> = {
   Package,
   UserPlus,
   Gift,
+  Clock,
+  DollarSign,
+  FileText,
 };
 
 // Map data with icon components

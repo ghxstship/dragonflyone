@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import {
@@ -18,91 +17,24 @@ import {
   Display,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface Venue {
-  id: string;
-  name: string;
-  description: string;
-  address: string;
-  city: string;
-  state: string;
-  capacity: number;
-  image?: string;
-  amenities?: string[];
-  accessibility_info?: string;
-  parking_info?: string;
-  public_transit?: string;
-}
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  image?: string;
-  price?: number;
-}
+import { useVenueDetailData } from '@/hooks/useVenueDetail';
 
 export default function VenuePage() {
   const params = useParams();
   const router = useRouter();
   const venueId = params.id as string;
 
-  const [venue, setVenue] = useState<Venue | null>(null);
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [followLoading, setFollowLoading] = useState(false);
-
-  const fetchVenue = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [venueRes, eventsRes, followRes] = await Promise.all([
-        fetch(`/api/venues/${venueId}`),
-        fetch(`/api/venues/${venueId}/events`),
-        fetch(`/api/venues/${venueId}/follow/status`),
-      ]);
-
-      if (venueRes.ok) {
-        const data = await venueRes.json();
-        setVenue(data.venue);
-      }
-
-      if (eventsRes.ok) {
-        const data = await eventsRes.json();
-        setEvents(data.events || []);
-      }
-
-      if (followRes.ok) {
-        const data = await followRes.json();
-        setIsFollowing(data.following);
-      }
-    } catch (err) {
-      log.error('Failed to fetch venue');
-    } finally {
-      setLoading(false);
-    }
-  }, [venueId]);
-
-  useEffect(() => {
-    fetchVenue();
-  }, [fetchVenue]);
+  const {
+    venue,
+    events,
+    isFollowing,
+    isLoading: loading,
+    toggleFollow,
+    isToggling: followLoading,
+  } = useVenueDetailData(venueId);
 
   const handleFollow = async () => {
-    setFollowLoading(true);
-    try {
-      const response = await fetch(`/api/venues/${venueId}/follow`, {
-        method: isFollowing ? 'DELETE' : 'POST',
-      });
-
-      if (response.ok) {
-        setIsFollowing(!isFollowing);
-      }
-    } catch (err) {
-      log.error('Failed to update follow status');
-    } finally {
-      setFollowLoading(false);
-    }
+    await toggleFollow(!isFollowing);
   };
 
   if (loading) {
@@ -114,7 +46,7 @@ export default function VenuePage() {
       <GvtewayEmptyLayout
         title="Venue Not Found"
         description="The venue you're looking for doesn't exist or has been removed."
-        action={{ label: "Browse Venues", href: "/venues" }}
+        action={<Button onClick={() => router.push('/venues')}>Browse Venues</Button>}
       />
     );
   }
@@ -176,7 +108,7 @@ export default function VenuePage() {
               <H2 className="mb-6">UPCOMING EVENTS</H2>
               {events.length > 0 ? (
                 <Grid cols={2} gap={6}>
-                  {events.map(event => (
+                  {events.map((event: { id: string; title: string; date: string; image?: string }) => (
                     <ProjectCard
                       key={event.id}
                       title={event.title}
@@ -199,7 +131,7 @@ export default function VenuePage() {
               <Card className="p-6">
                 <H3 className="mb-4">AMENITIES</H3>
                 <Stack gap={2}>
-                  {venue.amenities.map((amenity, index) => (
+                  {venue.amenities.map((amenity: string, index: number) => (
                     <Body key={index} className="text-ink-600">• {amenity}</Body>
                   ))}
                 </Stack>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import Image from 'next/image';
@@ -21,107 +21,43 @@ import {
   StatCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Artist {
-  id: string;
-  name: string;
-  image_url?: string;
-  bio?: string;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  compare_at_price?: number;
-  images: string[];
-  category: string;
-  variants: ProductVariant[];
-  inventory_count: number;
-  is_limited_edition: boolean;
-  is_preorder: boolean;
-  release_date?: string;
-  tags: string[];
-}
-
-interface ProductVariant {
-  id: string;
-  name: string;
-  options: { size?: string; color?: string };
-  price: number;
-  inventory_count: number;
-  sku: string;
-}
+import { useMerchDetailData, type Product, type ProductVariant } from '@/hooks/useMerchDetail';
 
 export default function ArtistMerchPage() {
   const params = useParams();
   const router = useRouter();
   const artistId = params.artistId as string;
 
-  const [artist, setArtist] = useState<Artist | null>(null);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [filter, setFilter] = useState({ category: '', sort: 'newest' });
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [artistRes, productsRes] = await Promise.all([
-        fetch(`/api/artists/${artistId}`),
-        fetch(`/api/merch/catalog?artist_id=${artistId}`),
-      ]);
-
-      if (artistRes.ok) {
-        const data = await artistRes.json();
-        setArtist(data.artist);
-      }
-
-      if (productsRes.ok) {
-        const data = await productsRes.json();
-        setProducts(data.products || []);
-      }
-    } catch (err) {
-      setError('Failed to load merchandise');
-    } finally {
-      setLoading(false);
-    }
-  }, [artistId]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const {
+    artist,
+    products,
+    isLoading: loading,
+    error,
+    addToCart,
+  } = useMerchDetailData(artistId);
 
   const handleAddToCart = async () => {
     if (!selectedProduct) return;
 
     try {
-      const response = await fetch('/api/cart', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          product_id: selectedProduct.id,
-          variant_id: selectedVariant?.id,
-          quantity,
-        }),
+      await addToCart({
+        product_id: selectedProduct.id,
+        variant_id: selectedVariant?.id || '',
+        quantity,
       });
-
-      if (response.ok) {
-        setSuccess('Added to cart!');
-        setSelectedProduct(null);
-        setSelectedVariant(null);
-        setQuantity(1);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to add to cart');
-      }
+      setSuccess('Added to cart!');
+      setSelectedProduct(null);
+      setSelectedVariant(null);
+      setQuantity(1);
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to add to cart');
     }
   };
 
@@ -137,15 +73,15 @@ export default function ArtistMerchPage() {
   };
 
   const filteredProducts = products
-    .filter(p => !filter.category || p.category === filter.category)
-    .sort((a, b) => {
+    .filter((p: Product) => !filter.category || p.category === filter.category)
+    .sort((a: Product, b: Product) => {
       if (filter.sort === 'price_low') return a.price - b.price;
       if (filter.sort === 'price_high') return b.price - a.price;
       if (filter.sort === 'name') return a.name.localeCompare(b.name);
       return 0; // newest - default order from API
     });
 
-  const categories = [...new Set(products.map(p => p.category))];
+  const categories = Array.from(new Set(products.map((p) => p.category))) as string[];
 
   if (loading) {
     return <GvtewayLoadingLayout />;
@@ -186,9 +122,9 @@ export default function ArtistMerchPage() {
             </Stack>
           </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
+        {(localError || error) && (
+          <Alert variant="error" className="mb-6" onClose={() => setLocalError(null)}>
+            {localError || (error instanceof Error ? error.message : String(error))}
           </Alert>
         )}
 
@@ -228,7 +164,7 @@ export default function ArtistMerchPage() {
               onChange={(e) => setFilter({ ...filter, category: e.target.value })}
             >
               <option value="">All Categories</option>
-              {categories.map(cat => (
+              {categories.map((cat: string) => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
             </Select>
@@ -248,7 +184,7 @@ export default function ArtistMerchPage() {
 
         <Grid cols={4} gap={6}>
           {filteredProducts.length > 0 ? (
-            filteredProducts.map(product => (
+            filteredProducts.map((product: Product) => (
               <Card
                 key={product.id}
                 className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow"
