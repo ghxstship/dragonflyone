@@ -52,9 +52,6 @@ export default function SafetyPage() {
     }
   };
 
-  const activeIncidents = incidents.filter(i => i.status !== 'resolved').length;
-  const resolvedIncidents = incidents.filter(i => i.status === 'resolved').length;
-
   if (loading) {
     return (
       <CompvssAppLayout>

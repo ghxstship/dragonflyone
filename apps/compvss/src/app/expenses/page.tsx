@@ -146,7 +146,7 @@ export default function ExpensesPage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        onRetry={fetchExpenses}
+        onRetry={() => refetch()}
         searchPlaceholder="Search expenses..."
         filters={filters}
         rowActions={rowActions}
@@ -160,7 +160,7 @@ export default function ExpensesPage() {
                 body: JSON.stringify({ status: 'approved' }),
               })
             ));
-            fetchExpenses();
+            await refetch();
           } else if (id === 'export') {
             const selected = expenses.filter(e => ids.includes(e.id));
             const csv = [

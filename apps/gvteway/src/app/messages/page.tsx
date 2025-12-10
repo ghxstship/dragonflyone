@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, Suspense } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -19,87 +19,38 @@ import {
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { MessageCircle, Send, Users, CheckCircle } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface Message {
-  id: string;
-  sender_id: string;
-  sender_name: string;
-  sender_avatar?: string;
-  content: string;
-  created_at: string;
-  read: boolean;
-}
-
-interface Conversation {
-  id: string;
-  participant_id: string;
-  participant_name: string;
-  participant_avatar?: string;
-  participant_verified: boolean;
-  last_message?: string;
-  last_message_at?: string;
-  unread_count: number;
-}
+import { useMessagesData, type Conversation } from '@/hooks/useMessages';
 
 function MessagesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const conversationId = searchParams.get('conversation');
 
-  const [conversations, setConversations] = useState<Conversation[]>([]);
   const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const fetchConversations = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/messages/conversations');
-      if (response.ok) {
-        const data = await response.json();
-        setConversations(data.conversations || []);
+  const {
+    conversations,
+    messages,
+    isLoading: loading,
+    sendMessage,
+    isSending: sending,
+    refetchMessages,
+    refetchConversations,
+  } = useMessagesData(activeConversation?.id);
 
-        if (conversationId) {
-          const conv = data.conversations?.find((c: Conversation) => c.id === conversationId);
-          if (conv) setActiveConversation(conv);
-        } else if (data.conversations?.length > 0 && !activeConversation) {
-          setActiveConversation(data.conversations[0]);
-        }
-      }
-    } catch (err) {
-      log.error('Failed to fetch conversations', err instanceof Error ? err : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [conversationId, activeConversation]);
-
-  const fetchMessages = useCallback(async () => {
-    if (!activeConversation) return;
-
-    try {
-      const response = await fetch(`/api/messages/conversations/${activeConversation.id}`);
-      if (response.ok) {
-        const data = await response.json();
-        setMessages(data.messages || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch messages', err instanceof Error ? err : undefined);
-    }
-  }, [activeConversation]);
-
+  // Set active conversation from URL or first conversation
   useEffect(() => {
-    fetchConversations();
-  }, [fetchConversations]);
-
-  useEffect(() => {
-    if (activeConversation) {
-      fetchMessages();
+    if (conversations.length > 0 && !activeConversation) {
+      if (conversationId) {
+        const conv = conversations.find((c: Conversation) => c.id === conversationId);
+        if (conv) setActiveConversation(conv);
+      } else {
+        setActiveConversation(conversations[0]);
+      }
     }
-  }, [activeConversation, fetchMessages]);
+  }, [conversations, conversationId, activeConversation]);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -111,25 +62,10 @@ function MessagesContent() {
     e.preventDefault();
     if (!newMessage.trim() || !activeConversation) return;
 
-    setSending(true);
-
-    try {
-      const response = await fetch(`/api/messages/conversations/${activeConversation.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newMessage }),
-      });
-
-      if (response.ok) {
-        setNewMessage('');
-        fetchMessages();
-        fetchConversations();
-      }
-    } catch (err) {
-      log.error('Failed to send message', err instanceof Error ? err : undefined);
-    } finally {
-      setSending(false);
-    }
+    await sendMessage({ conversationId: activeConversation.id, content: newMessage });
+    setNewMessage('');
+    refetchMessages();
+    refetchConversations();
   };
 
   const formatTime = (dateString: string) => {
