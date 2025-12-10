@@ -1061,9 +1061,9 @@ Replace all 559 `as any` type casts across 339 files with proper TypeScript type
 | **Source** | Full Repo Audit - December 5, 2025 |
 
 **Description:**  
-Test coverage has been significantly improved with 86 test files covering 1433 tests for hooks and utilities.
+Test coverage has been significantly improved with 90 test files covering 1479 tests for hooks and utilities.
 
-**Current Test Files (86 total):**
+**Current Test Files (90 total):**
 - `apps/atlvs/src/hooks/__tests__/useProjects.test.ts`
 - `apps/atlvs/src/hooks/__tests__/useSearch.test.ts` - **NEW** (14 tests)
 - `apps/atlvs/src/hooks/__tests__/useBatchOperations.test.ts` - **NEW** (12 tests)
@@ -1072,12 +1072,14 @@ Test coverage has been significantly improved with 86 test files covering 1433 t
 - `apps/atlvs/src/hooks/__tests__/useRisks.test.ts` - **NEW** (13 tests)
 - `apps/atlvs/src/hooks/__tests__/useMetrics.test.ts` - **NEW** (14 tests)
 - `apps/atlvs/src/hooks/__tests__/useTasks.test.ts` - **NEW** (17 tests)
+- `apps/atlvs/src/hooks/__tests__/useVendors.test.ts` - **NEW** (10 tests)
 - `apps/compvss/src/hooks/__tests__/useBatchCrewAssignment.test.ts` - **NEW** (10 tests)
 - `apps/compvss/src/hooks/__tests__/useWeather.test.ts` - **NEW** (7 tests)
 - `apps/compvss/src/hooks/__tests__/useSkills.test.ts` - **NEW** (11 tests)
 - `apps/compvss/src/hooks/__tests__/useIncidents.test.ts` - **NEW** (13 tests)
 - `apps/compvss/src/hooks/__tests__/useSchedule.test.ts` - **NEW** (13 tests)
 - `apps/compvss/src/hooks/__tests__/useEquipment.test.ts` - **NEW** (13 tests)
+- `apps/compvss/src/hooks/__tests__/useLogistics.test.ts` - **NEW** (13 tests)
 - `apps/gvteway/src/app/api/checkout/session/route.test.ts`
 - `apps/gvteway/src/hooks/__tests__/useEventFilters.test.ts` - **NEW** (20 tests)
 - `apps/gvteway/src/hooks/__tests__/useBatchTickets.test.ts` - **NEW** (11 tests)
@@ -1085,6 +1087,8 @@ Test coverage has been significantly improved with 86 test files covering 1433 t
 - `apps/gvteway/src/hooks/__tests__/useMembership.test.ts` - **NEW** (11 tests)
 - `apps/gvteway/src/hooks/__tests__/useReferrals.test.ts` - **NEW** (8 tests)
 - `apps/gvteway/src/hooks/__tests__/useSeating.test.ts` - **NEW** (10 tests)
+- `apps/gvteway/src/hooks/__tests__/useOrders.test.ts` - **NEW** (13 tests)
+- `apps/gvteway/src/hooks/__tests__/useReviews.test.ts` - **NEW** (10 tests)
 - `packages/config/__tests__/api-helpers.test.ts` - **NEW** (26 tests)
 - `packages/config/__tests__/api-versioning.test.ts`
 - `packages/config/__tests__/logger.test.ts` - **NEW** (20 tests)
@@ -1231,6 +1235,10 @@ Test coverage has been significantly improved with 86 test files covering 1433 t
 - [x] `useSchedule` - 13 tests covering schedule phases, status, filters
 - [x] `useTasks` - 17 tests covering schedule tasks, contingencies, categories
 - [x] `useEquipment` - 13 tests covering equipment types, status, condition
+- [x] `useVendors` - 10 tests covering vendor status, categories, metrics
+- [x] `useLogistics` - 13 tests covering shipment status, tracking, filters
+- [x] `useOrders` - 13 tests covering order status, payments, history
+- [x] `useReviews` - 10 tests covering review ratings, status, verification
 
 **Acceptance Criteria:**
 - [ ] All hooks have corresponding test files (13/81 complete)
@@ -1356,7 +1364,7 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | In Progress |
 | **Priority** | P2 |
 | **Effort** | M (3-5 days) |
 | **App** | All |
@@ -1375,10 +1383,14 @@ Optimize heavy Supabase queries with pagination and field selection.
 .range(0, 49)
 ```
 
+**Progress:**
+- [x] vendors/route.ts - Added pagination (page, limit params), field selection, count
+- [x] purchase-orders/route.ts - Added pagination, optimized select fields
+
 **Acceptance Criteria:**
-- [ ] Heavy queries identified and optimized
-- [ ] Pagination added to list endpoints
-- [ ] Field selection reduced to necessary columns
+- [x] Heavy queries identified and optimized (2 of 36 `select(*)` patterns)
+- [x] Pagination added to list endpoints (2 routes with page/limit/offset)
+- [x] Field selection reduced to necessary columns (vendors, purchase-orders)
 
 ---
 

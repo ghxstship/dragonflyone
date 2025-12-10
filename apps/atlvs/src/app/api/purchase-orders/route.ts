@@ -38,15 +38,19 @@ export async function GET(request: NextRequest) {
     const vendorId = searchParams.get('vendor_id');
     const projectId = searchParams.get('project_id');
     const includeLineItems = searchParams.get('include_line_items') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     const selectQuery = includeLineItems
-      ? `*, vendor:vendors(id, name, email, phone), project:projects(id, name, project_code), requested_by_user:platform_users!requested_by(id, full_name), approved_by_user:platform_users!approved_by(id, full_name), line_items:purchase_order_line_items(*)`
-      : `*, vendor:vendors(id, name, email, phone), project:projects(id, name, project_code), requested_by_user:platform_users!requested_by(id, full_name), approved_by_user:platform_users!approved_by(id, full_name)`;
+      ? `id, po_number, status, category, priority, total_amount, created_at, vendor:vendors(id, name), project:projects(id, name), line_items:purchase_order_line_items(id, item_name, quantity, unit_price)`
+      : `id, po_number, status, category, priority, total_amount, created_at, vendor:vendors(id, name), project:projects(id, name)`;
 
     let query = supabase
       .from('purchase_orders')
-      .select(selectQuery)
-      .order('created_at', { ascending: false });
+      .select(selectQuery, { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (status && status !== 'all') {
       query = query.eq('status', status);
@@ -61,7 +65,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('project_id', projectId);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query;
 
     if (error) {
       Logger.error('Error fetching purchase orders:', error);
@@ -79,10 +83,11 @@ export async function GET(request: NextRequest) {
       [key: string]: unknown;
     }
     const purchaseOrders = (data || []) as unknown as PurchaseOrderRecord[];
+    const totalCount = count || purchaseOrders.length;
 
     // Calculate summary statistics
     const summary = {
-      total: purchaseOrders.length,
+      total: totalCount,
       by_status: {
         draft: purchaseOrders.filter(po => po.status === 'draft').length,
         pending_approval: purchaseOrders.filter(po => po.status === 'pending_approval').length,
@@ -100,9 +105,18 @@ export async function GET(request: NextRequest) {
         .reduce((sum, po) => sum + Number(po.total_amount || 0), 0),
     };
 
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + purchaseOrders.length < totalCount,
+    };
+
     return NextResponse.json({
       purchase_orders: data,
       summary,
+      pagination,
     });
   } catch (error) {
     Logger.error('Error in GET /api/purchase-orders:', error);

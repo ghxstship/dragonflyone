@@ -140,7 +140,7 @@ export default function FinancePage() {
 
       }
 
-      refetch();
+      fetchTransactions();
 
     },
 

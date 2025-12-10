@@ -36,15 +36,19 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     const search = searchParams.get('search');
     const preferred = searchParams.get('preferred') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('vendors')
       .select(`
-        *,
+        id, name, category, contact_name, email, phone, status, preferred, city, state,
         purchase_orders:purchase_orders(count),
         total_spend:purchase_orders(total_amount)
-      `)
-      .order('name', { ascending: true });
+      `, { count: 'exact' })
+      .order('name', { ascending: true })
+      .range(offset, offset + limit - 1);
 
     if (category && category !== 'all') {
       query = query.eq('category', category);
@@ -59,7 +63,7 @@ export async function GET(request: NextRequest) {
       query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,contact_name.ilike.%${search}%`);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query;
 
     if (error) {
       Logger.error('Error fetching vendors:', error);
@@ -77,9 +81,10 @@ export async function GET(request: NextRequest) {
       [key: string]: unknown;
     }
     const vendors = (data || []) as unknown as VendorRecord[];
+    const totalCount = count || vendors.length;
 
     const summary = {
-      total: vendors.length,
+      total: totalCount,
       by_status: {
         active: vendors.filter(v => v.status === 'active').length,
         pending: vendors.filter(v => v.status === 'pending').length,
@@ -93,7 +98,15 @@ export async function GET(request: NextRequest) {
       preferred_count: vendors.filter(v => v.preferred).length,
     };
 
-    return NextResponse.json({ vendors: data, summary });
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + vendors.length < totalCount,
+    };
+
+    return NextResponse.json({ vendors: data, summary, pagination });
   } catch (error) {
     Logger.error('Error in GET /api/vendors:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
