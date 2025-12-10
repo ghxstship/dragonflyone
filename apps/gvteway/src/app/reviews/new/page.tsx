@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -21,24 +21,14 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  image?: string;
-}
+import { useNewReviewData } from '@/hooks/useNewReview';
 
 function NewReviewContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('event');
 
-  const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   // Review form state
@@ -50,6 +40,14 @@ function NewReviewContent() {
   const [content, setContent] = useState('');
   const [wouldRecommend, setWouldRecommend] = useState<boolean | null>(null);
   const [highlights, setHighlights] = useState<string[]>([]);
+
+  const {
+    event,
+    isLoading: loading,
+    error,
+    submitReview,
+    isSubmitting: submitting,
+  } = useNewReviewData(eventId);
 
   const highlightOptions = [
     'Great Performance',
@@ -64,68 +62,34 @@ function NewReviewContent() {
     'Worth the Price',
   ];
 
-  const fetchEvent = useCallback(async () => {
-    if (!eventId) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/events/${eventId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setEvent(data.event);
-      }
-    } catch (err) {
-      setError('Failed to load event');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchEvent();
-  }, [fetchEvent]);
-
   const handleSubmit = async () => {
     if (overallRating === 0) {
-      setError('Please provide an overall rating');
+      setLocalError('Please provide an overall rating');
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
+    if (!eventId) return;
+
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event_id: eventId,
-          overall_rating: overallRating,
-          venue_rating: venueRating || null,
-          value_rating: valueRating || null,
-          atmosphere_rating: atmosphereRating || null,
-          title,
-          content,
-          would_recommend: wouldRecommend,
-          highlights,
-        }),
+      await submitReview({
+        event_id: eventId,
+        overall_rating: overallRating,
+        venue_rating: venueRating || undefined,
+        value_rating: valueRating || undefined,
+        atmosphere_rating: atmosphereRating || undefined,
+        title,
+        content,
+        would_recommend: wouldRecommend || undefined,
+        highlights,
       });
-
-      if (response.ok) {
-        setSuccess(true);
-        setTimeout(() => {
-          router.push(`/events/${eventId}`);
-        }, 2000);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit review');
-      }
+      setSuccess(true);
+      setTimeout(() => {
+        router.push(`/events/${eventId}`);
+      }, 2000);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to submit review');
     }
   };
 
@@ -199,9 +163,9 @@ function NewReviewContent() {
               <Body className="text-on-dark-muted">Share your experience</Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

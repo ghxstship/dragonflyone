@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -19,78 +18,33 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface DeliveryStep {
-  status: 'completed' | 'current' | 'pending';
-  title: string;
-  description: string;
-  timestamp?: string;
-}
-
-interface TicketDelivery {
-  id: string;
-  order_id: string;
-  event_title: string;
-  event_date: string;
-  delivery_method: 'email' | 'mobile' | 'physical' | 'will_call';
-  delivery_status: 'processing' | 'sent' | 'delivered' | 'ready';
-  tracking_number?: string;
-  carrier?: string;
-  estimated_delivery?: string;
-  delivered_at?: string;
-  recipient_email?: string;
-  recipient_name?: string;
-  steps: DeliveryStep[];
-}
+import { useTicketTrackingData, type TicketDelivery } from '@/hooks/useTicketTracking';
 
 export default function TicketTrackingPage() {
   const router = useRouter();
-  const [deliveries, setDeliveries] = useState<TicketDelivery[]>([]);
-  const [loading, setLoading] = useState(true);
   const [trackingCode, setTrackingCode] = useState('');
   const [searchResult, setSearchResult] = useState<TicketDelivery | null>(null);
-  const [searchError, setSearchError] = useState<string | null>(null);
+  const [localSearchError, setLocalSearchError] = useState<string | null>(null);
 
-  const fetchDeliveries = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/tickets/deliveries');
-      if (response.ok) {
-        const data = await response.json();
-        setDeliveries(data.deliveries || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch deliveries');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDeliveries();
-  }, [fetchDeliveries]);
+  const {
+    deliveries,
+    isLoading: loading,
+    error,
+    searchTracking,
+  } = useTicketTrackingData();
 
   const handleTrackingSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSearchError(null);
+    setLocalSearchError(null);
     setSearchResult(null);
 
     if (!trackingCode.trim()) return;
 
     try {
-      const response = await fetch(`/api/tickets/track?code=${encodeURIComponent(trackingCode)}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.delivery) {
-          setSearchResult(data.delivery);
-        } else {
-          setSearchError('No delivery found with that tracking code');
-        }
-      } else {
-        setSearchError('Invalid tracking code');
-      }
+      const result = await searchTracking(trackingCode);
+      setSearchResult(result);
     } catch (err) {
-      setSearchError('Failed to search');
+      setLocalSearchError(err instanceof Error ? err.message : 'Failed to search');
     }
   };
 
@@ -191,9 +145,9 @@ export default function TicketTrackingPage() {
             </Button>
           </Stack>
 
-          {searchError && (
+          {(error || localSearchError) && (
             <Alert variant="error" className="mt-4">
-              {searchError}
+              {error instanceof Error ? error.message : localSearchError || String(error)}
             </Alert>
           )}
 

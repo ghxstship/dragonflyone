@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -19,31 +18,14 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-}
-
-interface TicketType {
-  id: string;
-  name: string;
-  price: number;
-  available: number;
-}
+import { useGiftTicketsData } from '@/hooks/useGiftTickets';
 
 function GiftTicketsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('eventId');
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -58,74 +40,40 @@ function GiftTicketsContent() {
     wrap_style: 'classic',
   });
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      const response = await fetch('/api/events?status=published&limit=50');
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.events || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch events');
-    }
-  }, []);
-
-  const fetchTicketTypes = useCallback(async (eventId: string) => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/ticket-types`);
-      if (response.ok) {
-        const data = await response.json();
-        setTicketTypes(data.ticket_types || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch ticket types');
-    }
-  }, []);
+  const {
+    events,
+    ticketTypes,
+    isLoading: loading,
+    error,
+    sendGiftTickets,
+    isSending: submitting,
+  } = useGiftTicketsData(formData.event_id || null);
 
   useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      await fetchEvents();
-      if (eventId) {
-        await fetchTicketTypes(eventId);
-      }
-      setLoading(false);
-    };
-    loadData();
-  }, [eventId, fetchEvents, fetchTicketTypes]);
-
-  useEffect(() => {
-    if (formData.event_id) {
-      fetchTicketTypes(formData.event_id);
+    if (eventId && !formData.event_id) {
+      setFormData(prev => ({ ...prev, event_id: eventId }));
     }
-  }, [formData.event_id, fetchTicketTypes]);
+  }, [eventId, formData.event_id]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/tickets/gift', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          quantity: parseInt(formData.quantity),
-        }),
+      await sendGiftTickets({
+        event_id: formData.event_id,
+        ticket_type_id: formData.ticket_type_id,
+        quantity: parseInt(formData.quantity),
+        recipient_email: formData.recipient_email,
+        recipient_name: formData.recipient_name,
+        sender_name: formData.sender_name,
+        message: formData.message,
+        delivery_date: formData.delivery_date,
+        wrap_style: formData.wrap_style,
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-      } else {
-        setError(data.error || 'Failed to send gift');
-      }
+      setSuccess(true);
     } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to send gift');
     }
   };
 
@@ -176,9 +124,9 @@ function GiftTicketsContent() {
               <Body className="text-on-dark-muted">Send tickets as a gift to someone special</Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 
