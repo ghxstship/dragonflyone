@@ -34,6 +34,7 @@ export default function OrderHistoryPage() {
   const {
     orders,
     isLoading: loading,
+    requestRefund,
   } = useOrderHistoryData({ status: statusFilter, period: dateFilter });
 
   const filteredOrders = orders.filter(order => {
@@ -74,14 +75,9 @@ export default function OrderHistoryPage() {
     if (!confirm('Are you sure you want to request a refund for this order?')) return;
     
     try {
-      const response = await fetch(`/api/orders/${orderId}/refund`, {
-        method: 'POST',
-      });
-      if (response.ok) {
-        fetchOrders();
-      }
-    } catch (err) {
-      log.error('Failed to request refund');
+      await requestRefund(orderId);
+    } catch {
+      // Error handled by React Query
     }
   };
 

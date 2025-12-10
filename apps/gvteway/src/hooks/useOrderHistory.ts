@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface OrderItem {
   id: string;
@@ -52,13 +52,33 @@ export function useOrderHistoryList(params?: { status?: string; period?: string 
   });
 }
 
+export function useRequestRefund() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (orderId: string) => {
+      const response = await fetch(`/api/orders/${orderId}/refund`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to request refund');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orderHistoryKeys.all });
+    },
+  });
+}
+
 export function useOrderHistoryData(params?: { status?: string; period?: string }) {
   const ordersQuery = useOrderHistoryList(params);
+  const refundMutation = useRequestRefund();
 
   return {
     orders: ordersQuery.data || [],
     isLoading: ordersQuery.isLoading,
     error: ordersQuery.error,
     refetch: ordersQuery.refetch,
+    requestRefund: refundMutation.mutateAsync,
+    isRefunding: refundMutation.isPending,
   };
 }
