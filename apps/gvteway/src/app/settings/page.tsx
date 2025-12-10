@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout } from '@/components/app-layout';
 import {
@@ -17,6 +17,7 @@ import {
   useNotifications,
 } from '@ghxstship/ui';
 import { Bell, Globe, Save, X } from 'lucide-react';
+import { useSettingsData, type UserSettings } from '@/hooks/useSettings';
 
 /**
  * Settings Page - Bold Contemporary Pop Art Adventure
@@ -25,22 +26,28 @@ import { Bell, Globe, Save, X } from 'lucide-react';
 export default function SettingsPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [settings, setSettings] = useState({
-    emailNotifications: true,
-    smsNotifications: false,
-    marketingEmails: true,
-    language: 'en',
-    timezone: 'America/New_York',
-    currency: 'USD',
-  });
+  const [localSettings, setLocalSettings] = useState<UserSettings | null>(null);
+
+  const {
+    settings: fetchedSettings,
+    saveSettings,
+  } = useSettingsData();
+
+  const settings = localSettings || fetchedSettings;
+
+  useEffect(() => {
+    if (fetchedSettings && !localSettings) {
+      setLocalSettings(fetchedSettings);
+    }
+  }, [fetchedSettings, localSettings]);
+
+  const setSettings = (newSettings: UserSettings) => {
+    setLocalSettings(newSettings);
+  };
 
   const handleSave = async () => {
     try {
-      await fetch('/api/user/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
-      });
+      await saveSettings(settings);
       addNotification({ type: 'success', title: 'Saved', message: 'Settings updated successfully' });
     } catch {
       addNotification({ type: 'error', title: 'Error', message: 'Failed to save settings' });

@@ -16,6 +16,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
+import { useDiscoverQuizData } from '@/hooks/useDiscoverQuiz';
 
 interface QuizQuestion {
   id: string;
@@ -118,9 +119,13 @@ export default function DiscoveryQuizPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
-  const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<QuizResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  const {
+    submitQuiz: submitQuizMutation,
+    isSubmitting: loading,
+  } = useDiscoverQuizData();
 
   const currentQuestion = QUIZ_QUESTIONS[currentStep];
   const isLastQuestion = currentStep === QUIZ_QUESTIONS.length - 1;
@@ -161,26 +166,13 @@ export default function DiscoveryQuizPage() {
   };
 
   const submitQuiz = async () => {
-    setLoading(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/discover/quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setResults(data.results);
-      } else {
-        setError('Failed to get recommendations');
-      }
+      const result = await submitQuizMutation(answers);
+      setResults(result);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setLoading(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to get recommendations');
     }
   };
 
@@ -305,9 +297,9 @@ export default function DiscoveryQuizPage() {
               <Body className="text-on-dark-muted">Answer a few questions to find your perfect events</Body>
             </Stack>
 
-        {error && (
+        {localError && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {localError}
           </Alert>
         )}
 

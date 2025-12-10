@@ -28,7 +28,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import NextLink from "next/link";
-import { log } from '@ghxstship/config';
+import { useMembershipApplyData } from "@/hooks/useMembershipApply";
 
 // =============================================================================
 // MEMBERSHIP APPLICATION PAGE
@@ -95,7 +95,6 @@ const experienceInterests = [
 export default function ApplyPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     // Step 1: Personal Info
     firstName: "",
@@ -114,7 +113,13 @@ export default function ApplyPage() {
     bio: "",
     instagram: "",
     linkedin: "",
+    referralCode: "",
   });
+
+  const {
+    submitApplication,
+    isSubmitting,
+  } = useMembershipApplyData();
 
   const totalSteps = 4;
 
@@ -132,21 +137,11 @@ export default function ApplyPage() {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
     try {
-      const response = await fetch("/api/membership/apply", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      
-      if (response.ok) {
-        router.push("/apply/confirmation");
-      }
-    } catch (error) {
-      log.error('Application submission failed:', error instanceof Error ? error : undefined);
-    } finally {
-      setIsSubmitting(false);
+      await submitApplication(formData);
+      router.push("/apply/confirmation");
+    } catch {
+      // Error handled by hook
     }
   };
 
