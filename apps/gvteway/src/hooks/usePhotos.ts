@@ -99,10 +99,28 @@ export function useUploadPhoto() {
   });
 }
 
+export function useLikePhoto() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (photoId: string) => {
+      const response = await fetch(`/api/photos/${photoId}/like`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to like photo');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: photosKeys.all });
+    },
+  });
+}
+
 export function usePhotosData() {
   const galleriesQuery = usePhotoGalleries();
   const feedQuery = usePhotoFeed();
   const uploadMutation = useUploadPhoto();
+  const likeMutation = useLikePhoto();
 
   return {
     galleries: galleriesQuery.data || [],
@@ -115,5 +133,6 @@ export function usePhotosData() {
     },
     uploadPhoto: uploadMutation.mutateAsync,
     isUploading: uploadMutation.isPending,
+    likePhoto: likeMutation.mutateAsync,
   };
 }

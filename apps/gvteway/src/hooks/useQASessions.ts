@@ -97,9 +97,27 @@ export function useAskQuestion() {
   });
 }
 
+export function useUpvoteQuestion() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (questionId: string) => {
+      const response = await fetch(`/api/qa-sessions/questions/${questionId}/upvote`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to upvote');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: qaSessionsKeys.all });
+    },
+  });
+}
+
 export function useQASessionsData(filter?: string) {
   const sessionsQuery = useQASessionsList(filter);
   const askMutation = useAskQuestion();
+  const upvoteMutation = useUpvoteQuestion();
 
   return {
     sessions: sessionsQuery.data || [],
@@ -108,5 +126,6 @@ export function useQASessionsData(filter?: string) {
     refetch: sessionsQuery.refetch,
     askQuestion: askMutation.mutateAsync,
     isAsking: askMutation.isPending,
+    upvoteQuestion: upvoteMutation.mutateAsync,
   };
 }

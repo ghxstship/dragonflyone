@@ -37,6 +37,7 @@ export default function QASessionsPage() {
     isLoading: loading,
     error,
     askQuestion,
+    upvoteQuestion,
   } = useQASessionsData(filter);
 
   const { data: questions = [], refetch: refetchQuestions } = useSessionQuestions(selectedSession?.id || '');
@@ -57,7 +58,7 @@ export default function QASessionsPage() {
 
   const handleUpvote = async (questionId: string) => {
     try {
-      await fetch(`/api/qa-sessions/questions/${questionId}/upvote`, { method: 'POST' });
+      await upvoteQuestion(questionId);
       refetchQuestions();
     } catch {
       setLocalError('Failed to upvote');

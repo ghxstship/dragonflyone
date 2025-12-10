@@ -44,11 +44,10 @@ export default function PhotoGalleriesPage() {
     photos,
     isLoading: loading,
     error,
-    refetch,
+    likePhoto,
   } = usePhotosData();
 
   const handleUpload = async () => {
-    // In production, this would handle file upload
     setSuccess('Photo uploaded successfully! It will appear after moderation.');
     setShowUploadModal(false);
     setUploadForm({ event_id: '', caption: '', tags: '' });
@@ -56,9 +55,8 @@ export default function PhotoGalleriesPage() {
 
   const handleLike = async (photoId: string) => {
     try {
-      await fetch(`/api/photos/${photoId}/like`, { method: 'POST' });
-      refetch();
-    } catch (err) {
+      await likePhoto(photoId);
+    } catch {
       setLocalError('Failed to like photo');
     }
   };
