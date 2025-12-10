@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -24,28 +24,7 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface WatchParty {
-  id: string;
-  title: string;
-  description: string;
-  host_id: string;
-  host_name: string;
-  host_avatar?: string;
-  event_id?: string;
-  event_name?: string;
-  content_type: 'livestream' | 'recording' | 'premiere' | 'rewatch';
-  content_url?: string;
-  thumbnail_url?: string;
-  scheduled_at: string;
-  duration_minutes: number;
-  status: 'upcoming' | 'live' | 'ended';
-  attendees_count: number;
-  max_attendees?: number;
-  is_private: boolean;
-  chat_enabled: boolean;
-  video_enabled: boolean;
-}
+import { useWatchPartiesData, type WatchParty } from '@/hooks/useWatchParties';
 
 interface ChatMessage {
   id: string;
@@ -56,15 +35,13 @@ interface ChatMessage {
 }
 
 export default function WatchPartiesPage() {
-  const [parties, setParties] = useState<WatchParty[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedParty, setSelectedParty] = useState<WatchParty | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'live'>('all');
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   const [createForm, setCreateForm] = useState({
@@ -79,60 +56,36 @@ export default function WatchPartiesPage() {
     video_enabled: false,
   });
 
-  const fetchParties = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (filter !== 'all') params.set('status', filter);
-
-      const response = await fetch(`/api/watch-parties?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        setParties(data.parties || []);
-      }
-    } catch (err) {
-      setError('Failed to load watch parties');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
-
-  useEffect(() => {
-    fetchParties();
-  }, [fetchParties]);
+  const {
+    parties,
+    isLoading: loading,
+    error,
+    refetch,
+    createParty,
+  } = useWatchPartiesData(filter);
 
   const handleCreate = async () => {
     try {
-      const response = await fetch('/api/watch-parties', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...createForm,
-          max_attendees: createForm.max_attendees ? parseInt(createForm.max_attendees) : null,
-        }),
+      await createParty({
+        ...createForm,
+        max_attendees: createForm.max_attendees ? parseInt(createForm.max_attendees) : undefined,
+      } as Partial<WatchParty>);
+      setSuccess('Watch party created!');
+      setShowCreateModal(false);
+      setCreateForm({
+        title: '',
+        description: '',
+        content_type: 'livestream',
+        scheduled_at: '',
+        duration_minutes: 120,
+        max_attendees: '',
+        is_private: false,
+        chat_enabled: true,
+        video_enabled: false,
       });
-
-      if (response.ok) {
-        setSuccess('Watch party created!');
-        setShowCreateModal(false);
-        setCreateForm({
-          title: '',
-          description: '',
-          content_type: 'livestream',
-          scheduled_at: '',
-          duration_minutes: 120,
-          max_attendees: '',
-          is_private: false,
-          chat_enabled: true,
-          video_enabled: false,
-        });
-        fetchParties();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to create watch party');
-      }
+      refetch();
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to create watch party');
     }
   };
 
@@ -228,9 +181,9 @@ export default function WatchPartiesPage() {
               </Button>
             </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
+        {(error || localError) && (
+          <Alert variant="error" className="mb-6" onClose={() => setLocalError(null)}>
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

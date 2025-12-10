@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -21,119 +21,46 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface QASession {
-  id: string;
-  artist_id: string;
-  artist_name: string;
-  artist_image?: string;
-  title: string;
-  description: string;
-  scheduled_at: string;
-  duration_minutes: number;
-  status: 'upcoming' | 'live' | 'ended' | 'archived';
-  questions_count: number;
-  attendees_count: number;
-  is_member_only: boolean;
-}
-
-interface Question {
-  id: string;
-  session_id: string;
-  user_id: string;
-  user_name: string;
-  content: string;
-  upvotes: number;
-  is_answered: boolean;
-  answer?: string;
-  answered_at?: string;
-  created_at: string;
-}
+import { useQASessionsData, useSessionQuestions, type QASession } from '@/hooks/useQASessions';
 
 export default function QASessionsPage() {
   const router = useRouter();
-  const [sessions, setSessions] = useState<QASession[]>([]);
   const [selectedSession, setSelectedSession] = useState<QASession | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showAskModal, setShowAskModal] = useState(false);
   const [newQuestion, setNewQuestion] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'live' | 'archived'>('all');
 
-  const fetchSessions = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (filter !== 'all') params.set('status', filter);
+  const {
+    sessions,
+    isLoading: loading,
+    error,
+    askQuestion,
+  } = useQASessionsData(filter);
 
-      const response = await fetch(`/api/qa-sessions?${params}`);
-      if (response.ok) {
-        const data = await response.json();
-        setSessions(data.sessions || []);
-      }
-    } catch (err) {
-      setError('Failed to load Q&A sessions');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
-
-  const fetchQuestions = useCallback(async (sessionId: string) => {
-    try {
-      const response = await fetch(`/api/qa-sessions/${sessionId}/questions`);
-      if (response.ok) {
-        const data = await response.json();
-        setQuestions(data.questions || []);
-      }
-    } catch (err) {
-      setError('Failed to load questions');
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSessions();
-  }, [fetchSessions]);
-
-  useEffect(() => {
-    if (selectedSession) {
-      fetchQuestions(selectedSession.id);
-    }
-  }, [selectedSession, fetchQuestions]);
+  const { data: questions = [], refetch: refetchQuestions } = useSessionQuestions(selectedSession?.id || '');
 
   const handleAskQuestion = async () => {
     if (!selectedSession || !newQuestion.trim()) return;
 
     try {
-      const response = await fetch(`/api/qa-sessions/${selectedSession.id}/questions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newQuestion }),
-      });
-
-      if (response.ok) {
-        setSuccess('Question submitted!');
-        setShowAskModal(false);
-        setNewQuestion('');
-        fetchQuestions(selectedSession.id);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit question');
-      }
+      await askQuestion({ sessionId: selectedSession.id, content: newQuestion });
+      setSuccess('Question submitted!');
+      setShowAskModal(false);
+      setNewQuestion('');
+      refetchQuestions();
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to submit question');
     }
   };
 
   const handleUpvote = async (questionId: string) => {
     try {
       await fetch(`/api/qa-sessions/questions/${questionId}/upvote`, { method: 'POST' });
-      setQuestions(questions.map(q =>
-        q.id === questionId ? { ...q, upvotes: q.upvotes + 1 } : q
-      ));
-    } catch (err) {
-      setError('Failed to upvote');
+      refetchQuestions();
+    } catch {
+      setLocalError('Failed to upvote');
     }
   };
 
@@ -174,9 +101,9 @@ export default function QASessionsPage() {
               </Body>
             </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
+        {(error || localError) && (
+          <Alert variant="error" className="mb-6" onClose={() => setLocalError(null)}>
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -22,33 +22,13 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface SavedSearch {
-  id: string;
-  name: string;
-  query: string;
-  filters: {
-    category?: string;
-    location?: string;
-    priceMin?: number;
-    priceMax?: number;
-    dateFrom?: string;
-    dateTo?: string;
-  };
-  alerts_enabled: boolean;
-  alert_frequency: 'instant' | 'daily' | 'weekly';
-  last_run?: string;
-  new_results_count: number;
-  created_at: string;
-}
+import { useSavedSearchesData, type SavedSearch } from '@/hooks/useSavedSearches';
 
 export default function SavedSearchesPage() {
   const router = useRouter();
-  const [searches, setSearches] = useState<SavedSearch[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingSearch, setEditingSearch] = useState<SavedSearch | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
@@ -64,77 +44,48 @@ export default function SavedSearchesPage() {
     alert_frequency: 'daily' as 'instant' | 'daily' | 'weekly',
   });
 
-  const fetchSearches = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/saved-searches');
-      if (response.ok) {
-        const data = await response.json();
-        setSearches(data.searches || []);
-      }
-    } catch (err) {
-      setError('Failed to load saved searches');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSearches();
-  }, [fetchSearches]);
+  const {
+    searches,
+    isLoading: loading,
+    error,
+    refetch,
+    createSearch,
+    deleteSearch,
+    toggleAlerts,
+  } = useSavedSearchesData();
 
   const handleCreate = async () => {
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/saved-searches', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          query: formData.query,
-          filters: {
-            category: formData.category !== 'all' ? formData.category : undefined,
-            location: formData.location || undefined,
-            priceMin: formData.priceMin ? parseFloat(formData.priceMin) : undefined,
-            priceMax: formData.priceMax ? parseFloat(formData.priceMax) : undefined,
-            dateFrom: formData.dateFrom || undefined,
-            dateTo: formData.dateTo || undefined,
-          },
-          alerts_enabled: formData.alerts_enabled,
-          alert_frequency: formData.alert_frequency,
-        }),
+      await createSearch({
+        name: formData.name,
+        query: formData.query,
+        filters: {
+          category: formData.category !== 'all' ? formData.category : undefined,
+          location: formData.location || undefined,
+          priceMin: formData.priceMin ? parseFloat(formData.priceMin) : undefined,
+          priceMax: formData.priceMax ? parseFloat(formData.priceMax) : undefined,
+          dateFrom: formData.dateFrom || undefined,
+          dateTo: formData.dateTo || undefined,
+        },
+        alerts_enabled: formData.alerts_enabled,
+        alert_frequency: formData.alert_frequency,
       });
-
-      if (response.ok) {
-        setSuccess('Search saved successfully');
-        setShowCreateModal(false);
-        resetForm();
-        fetchSearches();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to save search');
-      }
+      setSuccess('Search saved successfully');
+      setShowCreateModal(false);
+      resetForm();
+      refetch();
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to save search');
     }
   };
 
   const handleToggleAlerts = async (search: SavedSearch) => {
     try {
-      const response = await fetch(`/api/saved-searches/${search.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          alerts_enabled: !search.alerts_enabled,
-        }),
-      });
-
-      if (response.ok) {
-        fetchSearches();
-      }
-    } catch (err) {
-      setError('Failed to update alerts');
+      await toggleAlerts({ searchId: search.id, enabled: !search.alerts_enabled });
+    } catch {
+      setLocalError('Failed to update alerts');
     }
   };
 
@@ -142,16 +93,10 @@ export default function SavedSearchesPage() {
     if (!confirm('Are you sure you want to delete this saved search?')) return;
 
     try {
-      const response = await fetch(`/api/saved-searches/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setSuccess('Search deleted');
-        fetchSearches();
-      }
-    } catch (err) {
-      setError('Failed to delete search');
+      await deleteSearch(id);
+      setSuccess('Search deleted');
+    } catch {
+      setLocalError('Failed to delete search');
     }
   };
 
@@ -202,9 +147,9 @@ export default function SavedSearchesPage() {
               </Button>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error ? (error instanceof Error ? error.message : String(error)) : localError}
           </Alert>
         )}
 
@@ -216,7 +161,7 @@ export default function SavedSearchesPage() {
 
         {searches.length > 0 ? (
           <Stack gap={4}>
-            {searches.map(search => (
+            {searches.map((search: SavedSearch) => (
               <Card key={search.id} inverted interactive>
                 <Stack direction="horizontal" className="items-start justify-between">
                   <Stack gap={3} className="flex-1">
