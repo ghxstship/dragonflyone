@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { log } from '@ghxstship/config';
 import {
   Container,
   Section,
@@ -21,31 +20,14 @@ import {
   Alert,
   Spinner,
 } from '@ghxstship/ui';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-}
-
-interface TicketType {
-  id: string;
-  name: string;
-  price: number;
-  available: number;
-}
+import { useGiftTicketsData } from '@/hooks/useGiftTickets';
 
 export default function GiftTicketsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventId = searchParams.get('eventId');
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [ticketTypes, setTicketTypes] = useState<TicketType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -60,74 +42,33 @@ export default function GiftTicketsContent() {
     wrap_style: 'classic',
   });
 
-  const fetchEvents = useCallback(async () => {
-    try {
-      const response = await fetch('/api/events?status=published&limit=50');
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.events || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch events');
-    }
-  }, []);
-
-  const fetchTicketTypes = useCallback(async (eventId: string) => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/ticket-types`);
-      if (response.ok) {
-        const data = await response.json();
-        setTicketTypes(data.ticket_types || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch ticket types');
-    }
-  }, []);
-
-  useEffect(() => {
-    const loadData = async () => {
-      setLoading(true);
-      await fetchEvents();
-      if (eventId) {
-        await fetchTicketTypes(eventId);
-      }
-      setLoading(false);
-    };
-    loadData();
-  }, [eventId, fetchEvents, fetchTicketTypes]);
+  const {
+    events,
+    ticketTypes,
+    isLoading: loading,
+    sendGift,
+    isSending: submitting,
+    setSelectedEventId,
+  } = useGiftTicketsData(formData.event_id || null);
 
   useEffect(() => {
     if (formData.event_id) {
-      fetchTicketTypes(formData.event_id);
+      setSelectedEventId(formData.event_id);
     }
-  }, [formData.event_id, fetchTicketTypes]);
+  }, [formData.event_id, setSelectedEventId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/tickets/gift', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          quantity: parseInt(formData.quantity),
-        }),
+      await sendGift({
+        ...formData,
+        quantity: parseInt(formData.quantity),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(true);
-      } else {
-        setError(data.error || 'Failed to send gift');
-      }
+      setSuccess(true);
     } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to send gift');
     }
   };
 
@@ -184,9 +125,9 @@ export default function GiftTicketsContent() {
           </Body>
         </Section>
 
-        {error && (
+        {localError && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {localError}
           </Alert>
         )}
 

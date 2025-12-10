@@ -103,10 +103,30 @@ export function useJoinGroup() {
   });
 }
 
+export function useLeaveGroup() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (groupId: string) => {
+      const response = await fetch(`/api/groups/${groupId}/leave`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to leave group');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: groupsKeys.all });
+    },
+  });
+}
+
 export function useGroupsData(filters?: { category?: string; search?: string }) {
   const groupsQuery = useGroupsList(filters);
   const summaryQuery = useGroupsSummary();
   const joinMutation = useJoinGroup();
+  const leaveMutation = useLeaveGroup();
 
   return {
     groups: groupsQuery.data || [],
@@ -118,5 +138,6 @@ export function useGroupsData(filters?: { category?: string; search?: string }) 
       summaryQuery.refetch();
     },
     joinGroup: joinMutation.mutateAsync,
+    leaveGroup: leaveMutation.mutateAsync,
   };
 }

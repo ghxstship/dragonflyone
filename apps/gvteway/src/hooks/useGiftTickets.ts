@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface GiftEvent {
@@ -79,9 +80,10 @@ export function useSendGiftTickets() {
   });
 }
 
-export function useGiftTicketsData(eventId: string | null) {
+export function useGiftTicketsData(initialEventId: string | null) {
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(initialEventId);
   const eventsQuery = useGiftEvents();
-  const ticketTypesQuery = useTicketTypes(eventId);
+  const ticketTypesQuery = useTicketTypes(selectedEventId);
   const sendMutation = useSendGiftTickets();
 
   return {
@@ -90,7 +92,8 @@ export function useGiftTicketsData(eventId: string | null) {
     isLoading: eventsQuery.isLoading,
     isLoadingTickets: ticketTypesQuery.isLoading,
     error: eventsQuery.error,
-    sendGiftTickets: sendMutation.mutateAsync,
+    sendGift: sendMutation.mutateAsync,
     isSending: sendMutation.isPending,
+    setSelectedEventId,
   };
 }

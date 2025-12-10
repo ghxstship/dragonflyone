@@ -33,6 +33,7 @@ export default function GroupsPage() {
     isLoading: loading,
     error,
     joinGroup,
+    leaveGroup,
     refetch,
   } = useGroupsData({ category: filterCategory, search: searchQuery });
 
@@ -42,9 +43,8 @@ export default function GroupsPage() {
   };
 
   const handleLeaveGroup = async (groupId: string) => {
-    await fetch(`/api/groups/${groupId}/leave`, { method: "POST" });
+    await leaveGroup(groupId);
     addNotification({ type: "success", title: "Left", message: "You've left the group" });
-    refetch();
   };
 
   if (loading) {
