@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Check, X, Trash2, Download } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -22,36 +22,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Expense {
-  id: string;
-  expense_number: string;
-  project_id: string;
-  project_name: string;
-  crew_member_id: string;
-  crew_member_name: string;
-  category: string;
-  description: string;
-  amount: number;
-  currency: string;
-  receipt_url?: string;
-  expense_date: string;
-  submitted_date: string;
-  status: string;
-  approved_by?: string;
-  approved_date?: string;
-  notes?: string;
-}
-
-interface ExpenseSummary {
-  total_expenses: number;
-  pending_count: number;
-  approved_count: number;
-  rejected_count: number;
-  total_amount: number;
-  pending_amount: number;
-  approved_amount: number;
-}
+import { useExpensesData, type Expense } from "@/hooks/useExpenses";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount);
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
@@ -81,40 +52,30 @@ const formFields: FormFieldConfig[] = [
 export default function ExpensesPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [summary, setSummary] = useState<ExpenseSummary | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    expenses,
+    summary,
+    isLoading: loading,
+    createExpense,
+    updateStatus,
+    refetch,
+  } = useExpensesData();
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(null);
 
-  const fetchExpenses = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/expenses');
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      setExpenses(data.expenses || []);
-      setSummary(data.summary || null);
-    } catch { /* mock data fallback */ }
-    finally { setLoading(false); }
-  }, []);
-
-  useEffect(() => { fetchExpenses(); }, [fetchExpenses]);
-
   const rowActions: ListPageAction<Expense>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedExpense(r); setDrawerOpen(true); } },
     { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: async (r) => {
-      await fetch(`/api/expenses/${r.id}/approve`, { method: 'POST' });
+      await updateStatus({ id: r.id, status: 'approved' });
       addNotification({ type: 'success', title: 'Success', message: 'Expense approved' });
-      fetchExpenses();
     }},
     { id: 'reject', label: 'Reject', icon: <X className="size-4" />, variant: 'danger', onClick: async (r) => {
-      await fetch(`/api/expenses/${r.id}/reject`, { method: 'POST' });
+      await updateStatus({ id: r.id, status: 'rejected' });
       addNotification({ type: 'success', title: 'Success', message: 'Expense rejected' });
-      fetchExpenses();
     }},
     { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setExpenseToDelete(r); setDeleteConfirmOpen(true); } },
   ];
@@ -125,18 +86,14 @@ export default function ExpensesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await fetch('/api/expenses', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
+    await createExpense(data);
     setCreateModalOpen(false);
-    fetchExpenses();
   };
 
   const handleDelete = async () => {
     if (expenseToDelete) {
-      setExpenses(prev => prev.filter(e => e.id !== expenseToDelete.id));
+      await fetch(`/api/expenses/${expenseToDelete.id}`, { method: 'DELETE' });
+      refetch();
       setDeleteConfirmOpen(false);
       setExpenseToDelete(null);
     }
@@ -148,13 +105,8 @@ export default function ExpensesPage() {
     requiredFields: ['expense_number', 'amount', 'category'],
     onImport: async (records) => {
       for (const record of records) {
-        await fetch('/api/expenses', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record),
-        });
+        await createExpense(record);
       }
-      fetchExpenses();
     },
   });
 
