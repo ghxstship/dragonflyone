@@ -196,6 +196,26 @@ export function useUpdateSponsorTier() {
   });
 }
 
+// Delete sponsor tier
+export function useDeleteSponsorTier() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from('sponsor_tiers')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      return id;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sponsor_tiers'] });
+    },
+  });
+}
+
 // Create sponsor
 export function useCreateSponsor() {
   const queryClient = useQueryClient();

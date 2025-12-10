@@ -17,7 +17,7 @@ import {
   type DetailSection,
   type FormFieldConfig,
   } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useContacts } from '@/hooks/useContacts';
 
 interface Partnership {

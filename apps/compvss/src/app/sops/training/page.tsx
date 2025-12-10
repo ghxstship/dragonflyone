@@ -17,7 +17,7 @@ import {
   type ListPageFilter,
   type ListPageAction,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface SOPTrainingRecord {
   id: string;

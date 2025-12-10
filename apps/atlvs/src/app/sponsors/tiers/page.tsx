@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Users } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-import { useSponsorTiers, useCreateSponsorTier, useUpdateSponsorTier, useSponsors } from '../../../hooks/useSponsors';
+import { useSponsorTiers, useCreateSponsorTier, useUpdateSponsorTier, useDeleteSponsorTier, useSponsors } from '../../../hooks/useSponsors';
 import {
   ListPage,
   Badge,
@@ -93,6 +93,7 @@ export default function SponsorTiersPage() {
   const { data: sponsors } = useSponsors();
   const createMutation = useCreateSponsorTier();
   const updateMutation = useUpdateSponsorTier();
+  const deleteMutation = useDeleteSponsorTier();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -156,7 +157,10 @@ export default function SponsorTiersPage() {
   };
 
   const handleDelete = async () => {
-    // TODO: Implement delete mutation
+    if (tierToDelete) {
+      await deleteMutation.mutateAsync(tierToDelete.id);
+      refetch();
+    }
     setDeleteDialogOpen(false);
     setTierToDelete(null);
   };

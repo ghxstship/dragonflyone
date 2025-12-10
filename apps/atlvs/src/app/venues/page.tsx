@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, MapPin, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
-import { useVenues, useVenueStats, useDeleteVenue } from '../../hooks/useVenues';
+import { useVenues, useVenueStats, useDeleteVenue, useCreateVenue } from '../../hooks/useVenues';
 import {
   ListPage,
   Badge,
@@ -20,7 +20,7 @@ import {
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 interface Venue {
   id: string;
@@ -129,6 +129,7 @@ export default function VenuesPage() {
   const { data: venues, isLoading, error, refetch } = useVenues();
   const { data: stats } = useVenueStats();
   const deleteMutation = useDeleteVenue();
+  const createMutation = useCreateVenue();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedVenue, setSelectedVenue] = useState<Venue | null>(null);
@@ -187,8 +188,8 @@ export default function VenuesPage() {
     },
   ];
 
-  const handleCreate = async (_data: Record<string, unknown>) => {
-    // TODO: Implement create mutation
+  const handleCreate = async (data: Record<string, unknown>) => {
+    await createMutation.mutateAsync(data as unknown as Parameters<typeof createMutation.mutateAsync>[0]);
     setCreateModalOpen(false);
     refetch();
   };

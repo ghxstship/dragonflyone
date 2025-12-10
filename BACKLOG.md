@@ -1061,25 +1061,30 @@ Replace all 559 `as any` type casts across 339 files with proper TypeScript type
 | **Source** | Full Repo Audit - December 5, 2025 |
 
 **Description:**  
-Test coverage has been significantly improved with 81 test files covering 1366 tests for hooks and utilities.
+Test coverage has been significantly improved with 86 test files covering 1433 tests for hooks and utilities.
 
-**Current Test Files (81 total):**
+**Current Test Files (86 total):**
 - `apps/atlvs/src/hooks/__tests__/useProjects.test.ts`
 - `apps/atlvs/src/hooks/__tests__/useSearch.test.ts` - **NEW** (14 tests)
 - `apps/atlvs/src/hooks/__tests__/useBatchOperations.test.ts` - **NEW** (12 tests)
 - `apps/atlvs/src/hooks/__tests__/useQuickLinks.test.ts` - **NEW** (12 tests)
 - `apps/atlvs/src/hooks/__tests__/useAppearance.test.ts` - **NEW** (18 tests)
 - `apps/atlvs/src/hooks/__tests__/useRisks.test.ts` - **NEW** (13 tests)
+- `apps/atlvs/src/hooks/__tests__/useMetrics.test.ts` - **NEW** (14 tests)
+- `apps/atlvs/src/hooks/__tests__/useTasks.test.ts` - **NEW** (17 tests)
 - `apps/compvss/src/hooks/__tests__/useBatchCrewAssignment.test.ts` - **NEW** (10 tests)
 - `apps/compvss/src/hooks/__tests__/useWeather.test.ts` - **NEW** (7 tests)
 - `apps/compvss/src/hooks/__tests__/useSkills.test.ts` - **NEW** (11 tests)
 - `apps/compvss/src/hooks/__tests__/useIncidents.test.ts` - **NEW** (13 tests)
+- `apps/compvss/src/hooks/__tests__/useSchedule.test.ts` - **NEW** (13 tests)
+- `apps/compvss/src/hooks/__tests__/useEquipment.test.ts` - **NEW** (13 tests)
 - `apps/gvteway/src/app/api/checkout/session/route.test.ts`
 - `apps/gvteway/src/hooks/__tests__/useEventFilters.test.ts` - **NEW** (20 tests)
 - `apps/gvteway/src/hooks/__tests__/useBatchTickets.test.ts` - **NEW** (11 tests)
 - `apps/gvteway/src/hooks/__tests__/useRewards.test.ts` - **NEW** (9 tests)
 - `apps/gvteway/src/hooks/__tests__/useMembership.test.ts` - **NEW** (11 tests)
 - `apps/gvteway/src/hooks/__tests__/useReferrals.test.ts` - **NEW** (8 tests)
+- `apps/gvteway/src/hooks/__tests__/useSeating.test.ts` - **NEW** (10 tests)
 - `packages/config/__tests__/api-helpers.test.ts` - **NEW** (26 tests)
 - `packages/config/__tests__/api-versioning.test.ts`
 - `packages/config/__tests__/logger.test.ts` - **NEW** (20 tests)
@@ -1221,6 +1226,11 @@ Test coverage has been significantly improved with 81 test files covering 1366 t
 - [x] `useSkills` - 11 tests covering crew skills, proficiency levels, certifications
 - [x] `useIncidents` - 13 tests covering incident types, severity, status
 - [x] `useRisks` - 13 tests covering risk categories, severity, probability
+- [x] `useMetrics` - 14 tests covering production metrics, KPIs, categories
+- [x] `useSeating` - 10 tests covering seat status, sections, layouts
+- [x] `useSchedule` - 13 tests covering schedule phases, status, filters
+- [x] `useTasks` - 17 tests covering schedule tasks, contingencies, categories
+- [x] `useEquipment` - 13 tests covering equipment types, status, condition
 
 **Acceptance Criteria:**
 - [ ] All hooks have corresponding test files (13/81 complete)
