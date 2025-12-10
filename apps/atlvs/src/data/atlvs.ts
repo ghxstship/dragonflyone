@@ -1209,9 +1209,10 @@ export const atlvsPillarsSolution = [
 
 // Feature grid for landing page - "THE TOOLKIT WITHOUT MISSING TOOLS"
 // Ordered by experience lifecycle: Planning → Pre-Production → Production → Execution → Post-Production → Platform
+// 30 tools total - 10 rows of 3
 export const atlvsFeatureGrid = [
   // ═══════════════════════════════════════════════════════════════════════════
-  // PLANNING & STRATEGY - Where deals begin
+  // PLANNING & STRATEGY - Where deals begin (Row 1)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "Target",
@@ -1232,7 +1233,7 @@ export const atlvsFeatureGrid = [
       "Templates for every deal type. Version control, approval workflows, and audit trails. Never lose a signed contract again.",
   },
   // ═══════════════════════════════════════════════════════════════════════════
-  // PRE-PRODUCTION - Getting ready to ship
+  // PRE-PRODUCTION - Getting ready to ship (Rows 2-3)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "FastForward",
@@ -1264,8 +1265,14 @@ export const atlvsFeatureGrid = [
     description:
       "RFPs, bids, POs, and vendor scorecards. Compare quotes, track deliveries, and never chase a vendor for an invoice again.",
   },
+  {
+    icon: "Route",
+    title: "LOGISTICS & ROUTING",
+    description:
+      "Tour routing, truck manifests, load plans, and shipping schedules. Get gear from A to B without the 3am panic calls.",
+  },
   // ═══════════════════════════════════════════════════════════════════════════
-  // PRODUCTION - Building the show
+  // PRODUCTION - Building the show (Rows 4-5)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "ClipboardList",
@@ -1297,8 +1304,14 @@ export const atlvsFeatureGrid = [
     description:
       "Green rooms, catering, transportation, per diems — keep your artists happy. Rider tracking and hospitality logs that actually work.",
   },
+  {
+    icon: "Clock",
+    title: "TIME & LABOR",
+    description:
+      "Clock in, clock out, overtime alerts, union breaks. Payroll-ready timesheets without the spreadsheet gymnastics.",
+  },
   // ═══════════════════════════════════════════════════════════════════════════
-  // EXECUTION - Show day and beyond
+  // EXECUTION - Show day and beyond (Rows 6-7)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "Smartphone",
@@ -1324,8 +1337,20 @@ export const atlvsFeatureGrid = [
     description:
       "Broadcast updates, emergency alerts, channel management. When things go sideways, everyone knows instantly. No more radio silence.",
   },
+  {
+    icon: "AlertTriangle",
+    title: "INCIDENT MANAGEMENT",
+    description:
+      "Log issues, assign owners, track resolution. From minor hiccups to major crises — nothing falls through the cracks.",
+  },
+  {
+    icon: "IdCard",
+    title: "CREDENTIALS & ACCESS",
+    description:
+      "Badges, wristbands, zone access, guest lists. Know who's where and who's allowed. Security without the clipboard chaos.",
+  },
   // ═══════════════════════════════════════════════════════════════════════════
-  // POST-PRODUCTION - Wrap it up
+  // POST-PRODUCTION - Wrap it up (Row 8)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "BarChart",
@@ -1346,7 +1371,7 @@ export const atlvsFeatureGrid = [
       "What worked? What didn't? Capture lessons learned, track KPIs across shows, and get smarter with every production.",
   },
   // ═══════════════════════════════════════════════════════════════════════════
-  // PLATFORM CAPABILITIES - The engine room (always last row)
+  // PLATFORM CAPABILITIES - The engine room (Rows 9-10)
   // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "GitBranch",
@@ -1371,6 +1396,18 @@ export const atlvsFeatureGrid = [
     title: "INTEGRATIONS",
     description:
       "Plays nice with Zapier, Make, n8n, QuickBooks, and whatever else you're already using. Your stack, your rules.",
+  },
+  {
+    icon: "Lock",
+    title: "PERMISSIONS & ROLES",
+    description:
+      "Granular access control for every team, vendor, and client. See what you need, nothing you don't. Enterprise-grade security without the enterprise headache.",
+  },
+  {
+    icon: "Globe",
+    title: "WHITE-LABEL & PORTALS",
+    description:
+      "Client portals, vendor dashboards, branded experiences. Your platform, your brand. Give stakeholders exactly what they need — nothing more.",
   },
 ];
 

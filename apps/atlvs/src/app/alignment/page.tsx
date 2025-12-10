@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   Container,
@@ -24,97 +24,31 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { Target, CheckCircle, AlertTriangle, BarChart3 } from 'lucide-react';
-
-interface StrategicGoal {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  target_date: string;
-  status: 'on_track' | 'at_risk' | 'behind' | 'completed';
-  progress: number;
-  owner: string;
-}
-
-interface Project {
-  id: string;
-  name: string;
-  status: string;
-  budget: number;
-  aligned_goals: string[];
-  alignment_score: number;
-}
-
-interface AlignmentMetric {
-  goal_id: string;
-  goal_name: string;
-  aligned_projects: number;
-  total_budget_aligned: number;
-  average_progress: number;
-}
+import { useAlignmentData, type Project } from '@/hooks/useAlignment';
 
 export default function StrategicAlignmentPage() {
-  const [goals, setGoals] = useState<StrategicGoal[]>([]);
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [metrics, setMetrics] = useState<AlignmentMetric[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    goals,
+    projects,
+    metrics,
+    isLoading,
+    alignProject,
+    isAligningProject,
+  } = useAlignmentData();
+
   const [showAlignModal, setShowAlignModal] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [goalsRes, projectsRes, metricsRes] = await Promise.all([
-        fetch('/api/strategic-goals'),
-        fetch('/api/projects?include_alignment=true'),
-        fetch('/api/alignment/metrics'),
-      ]);
-
-      if (goalsRes.ok) {
-        const data = await goalsRes.json();
-        setGoals(data.goals || []);
-      }
-
-      if (projectsRes.ok) {
-        const data = await projectsRes.json();
-        setProjects(data.projects || []);
-      }
-
-      if (metricsRes.ok) {
-        const data = await metricsRes.json();
-        setMetrics(data.metrics || []);
-      }
-    } catch (err) {
-      setError('Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const handleAlignProject = async (projectId: string, goalIds: string[]) => {
     try {
-      const response = await fetch('/api/alignment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ project_id: projectId, goal_ids: goalIds }),
-      });
-
-      if (response.ok) {
-        setSuccess('Project alignment updated');
-        setShowAlignModal(false);
-        fetchData();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to update alignment');
-      }
+      await alignProject({ project_id: projectId, goal_ids: goalIds });
+      setSuccess('Project alignment updated');
+      setShowAlignModal(false);
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Network error');
+      setError(err instanceof Error ? err.message : 'Failed to update alignment');
     }
   };
 
