@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -19,27 +19,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface ChatMessage {
-  id: string;
-  user_id: string;
-  user_name: string;
-  user_avatar?: string;
-  content: string;
-  created_at: string;
-  is_pinned?: boolean;
-  is_moderator?: boolean;
-}
-
-interface EventChatRoom {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  status: 'active' | 'archived' | 'closed';
-  participant_count: number;
-  rules?: string[];
-}
+import { useEventChatData, type ChatMessage } from '@/hooks/useEventChat';
 
 export default function EventChatPage() {
   const router = useRouter();
@@ -47,38 +27,18 @@ export default function EventChatPage() {
   const eventId = params.id as string;
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const [chatRoom, setChatRoom] = useState<EventChatRoom | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [sending, setSending] = useState(false);
   const [newMessage, setNewMessage] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [showRules, setShowRules] = useState(false);
 
-  const fetchChatRoom = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/chat`);
-      if (response.ok) {
-        const data = await response.json();
-        setChatRoom(data.chat_room);
-        setMessages(data.messages || []);
-      } else {
-        setError('Chat room not available');
-      }
-    } catch (err) {
-      setError('Failed to load chat');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchChatRoom();
-    // Poll for new messages every 5 seconds
-    const interval = setInterval(fetchChatRoom, 5000);
-    return () => clearInterval(interval);
-  }, [fetchChatRoom]);
+  const {
+    chatRoom,
+    messages,
+    isLoading: loading,
+    error,
+    sendMessage,
+    isSending: sending,
+  } = useEventChatData(eventId);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -89,27 +49,13 @@ export default function EventChatPage() {
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !chatRoom) return;
 
-    setSending(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch(`/api/events/${eventId}/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newMessage }),
-      });
-
-      if (response.ok) {
-        setNewMessage('');
-        fetchChatRoom();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to send message');
-      }
+      await sendMessage(newMessage);
+      setNewMessage('');
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSending(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to send message');
     }
   };
 
