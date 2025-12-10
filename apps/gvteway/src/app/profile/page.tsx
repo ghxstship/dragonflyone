@@ -20,49 +20,40 @@ import {
   signOut,
 } from "@ghxstship/ui";
 import { User, Bell, Shield, CreditCard, LogOut, Edit3 } from "lucide-react";
-import { log } from '@ghxstship/config';
+import { useProfileData, type UserProfile } from "@/hooks/useProfile";
 
 export default function ProfilePage() {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: "Alex",
-    lastName: "Johnson",
-    email: "alex.johnson@example.com",
-    phone: "(305) 555-0123",
-    city: "Miami",
-    state: "FL",
-    role: "GVTEWAY_MEMBER",
-    membershipTier: "PLUS",
-  });
-  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [localProfile, setLocalProfile] = useState<UserProfile | null>(null);
+
+  const {
+    profile: fetchedProfile,
+    platformRoles: userRoles,
+    saveProfile,
+  } = useProfileData();
+
+  const profile = localProfile || fetchedProfile;
 
   useEffect(() => {
-    fetch('/api/user/profile')
-      .then(res => res.json())
-      .then(data => {
-        if (data.user) {
-          setProfile({ ...profile, ...data.user });
-          setUserRoles(data.user.platformRoles || []);
-        }
-      })
-      .catch(err => log.error('Failed to load profile:', err instanceof Error ? err : undefined));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (fetchedProfile && !localProfile) {
+      setLocalProfile(fetchedProfile);
+    }
+  }, [fetchedProfile, localProfile]);
+
+  const setProfile = (newProfile: UserProfile) => {
+    setLocalProfile(newProfile);
+  };
 
   const handleSave = async () => {
     try {
-      await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
-      });
+      await saveProfile(profile);
       setSaved(true);
       setIsEditing(false);
       setTimeout(() => setSaved(false), 3000);
-    } catch (error) {
-      log.error('Failed to save profile:', error instanceof Error ? error : undefined);
+    } catch {
+      // Error handled by hook
     }
   };
 
