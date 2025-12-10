@@ -33,6 +33,7 @@ export default function FriendsPage() {
     isLoading: loading,
     error,
     createMeetup,
+    shareLocation,
   } = useFriendsData();
 
   const [showMeetupModal, setShowMeetupModal] = useState(false);
@@ -67,18 +68,11 @@ export default function FriendsPage() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         try {
-          const response = await fetch('/api/friends/location', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            }),
+          await shareLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           });
-
-          if (response.ok) {
-            setSuccess('Location shared with friends');
-          }
+          setSuccess('Location shared with friends');
         } catch (err) {
           setError('Failed to share location');
         }

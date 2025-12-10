@@ -103,10 +103,32 @@ export function useCreateMeetup() {
   });
 }
 
+export function useShareLocation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (location: { lat: number; lng: number }) => {
+      const response = await fetch('/api/friends/location', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(location),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to share location');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: friendsKeys.all });
+    },
+  });
+}
+
 export function useFriendsData() {
   const friendsQuery = useFriendsList();
   const meetupsQuery = useMeetupsList();
   const createMeetupMutation = useCreateMeetup();
+  const shareLocationMutation = useShareLocation();
 
   return {
     friends: friendsQuery.data || [],
@@ -118,5 +140,6 @@ export function useFriendsData() {
       meetupsQuery.refetch();
     },
     createMeetup: createMeetupMutation.mutateAsync,
+    shareLocation: shareLocationMutation.mutateAsync,
   };
 }

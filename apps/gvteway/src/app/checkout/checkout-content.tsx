@@ -1,30 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Stack, Spinner } from '@ghxstship/ui';
+import { Container, Section, Display, H2, H3, Body, Button, Input, Card, Grid, Stack, Spinner, Alert } from '@ghxstship/ui';
 import { CreditCard, Lock, Check } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
-import { log } from '@ghxstship/config';
-
-interface CartItem {
-  id: string;
-  event_title: string;
-  ticket_type_name: string;
-  price: number;
-  qty: number;
-  ticket_type_id: string;
-  event_id: string;
-}
+import { useCheckoutData } from '@/hooks/useCheckout';
 
 export default function CheckoutContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const _router = useRouter();
+  const eventId = searchParams.get('event') || undefined;
+  const ticketId = searchParams.get('ticket') || undefined;
+  const qty = parseInt(searchParams.get('qty') || '1');
+
   const [step, setStep] = useState<'cart' | 'payment' | 'confirm'>('cart');
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [processing, setProcessing] = useState(false);
   const [orderId, setOrderId] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     cardName: '',
     cardNumber: '',
@@ -36,85 +27,39 @@ export default function CheckoutContent() {
     zip: '',
   });
 
-  useEffect(() => {
-    loadCartItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function loadCartItems() {
-    try {
-      const eventId = searchParams.get('event');
-      const ticketId = searchParams.get('ticket');
-      const qty = parseInt(searchParams.get('qty') || '1');
-
-      if (eventId && ticketId) {
-        const { data: event, error: eventError } = await supabase
-          .from('events')
-          .select('id, title')
-          .eq('id', eventId)
-          .single();
-
-        const { data: ticket, error: ticketError } = await supabase
-          .from('ticket_types')
-          .select('id, name, price')
-          .eq('id', ticketId)
-          .single();
-
-        if (!eventError && !ticketError && event && ticket) {
-          setCartItems([{
-            id: ticketId,
-            event_title: event.title,
-            ticket_type_name: ticket.name,
-            price: ticket.price,
-            qty,
-            ticket_type_id: ticket.id,
-            event_id: event.id,
-          }]);
-        }
-      }
-    } catch (error) {
-      log.error('Error loading cart:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const {
+    cartItems,
+    isLoading: loading,
+    processOrder,
+    isProcessing: processing,
+  } = useCheckoutData(eventId, ticketId, qty);
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
   const fees = subtotal * 0.12;
   const total = subtotal + fees;
 
   async function handlePayment() {
-    setProcessing(true);
+    setLocalError(null);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        router.push('/auth/signin?redirect=/checkout');
-        return;
-      }
-
-      const response = await fetch('/api/checkout/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: cartItems,
-          userId: user.id,
-          paymentMethod: formData,
-        }),
+      const result = await processOrder({
+        items: cartItems,
+        payment: {
+          cardName: formData.cardName,
+          cardNumber: formData.cardNumber,
+          expiry: formData.expiry,
+          cvv: formData.cvv,
+        },
+        billing: {
+          street: formData.street,
+          city: formData.city,
+          state: formData.state,
+          zip: formData.zip,
+        },
       });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setOrderId(data.orderId);
-        setStep('confirm');
-      } else {
-        alert('Payment failed: ' + data.error);
-      }
-    } catch (error) {
-      log.error('Payment error:', error instanceof Error ? error : undefined);
-      alert('Payment processing failed');
-    } finally {
-      setProcessing(false);
+      setOrderId(result.orderId);
+      setStep('confirm');
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : 'Payment processing failed');
     }
   }
 
@@ -131,6 +76,12 @@ export default function CheckoutContent() {
       <Container>
         <Stack gap={8} className="max-w-4xl mx-auto">
           <Display>CHECKOUT</Display>
+
+          {localError && (
+            <Alert variant="error" className="mb-4">
+              {localError}
+            </Alert>
+          )}
 
           {/* Progress Steps */}
           <Stack gap={2} direction="horizontal" className="justify-between">
