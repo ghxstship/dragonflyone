@@ -59,21 +59,26 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type'); // 'policies' | 'coverage' | 'claims' | 'expiring' | 'verification'
     const policyId = searchParams.get('policy_id');
     const assetId = searchParams.get('asset_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (type === 'policies') {
       // Get all insurance policies
-      const { data: policies, error } = await supabase
+      const { data: policies, error, count } = await supabase
         .from('insurance_policies')
         .select(`
-          *,
+          id, policy_number, provider, policy_type, coverage_amount, deductible,
+          premium_amount, effective_date, expiration_date, status,
           covered_assets:asset_insurance_coverage(
             asset_id,
             coverage_amount,
             asset:assets(id, name, asset_tag, category)
           ),
           claims:insurance_claims(id, status, claim_amount)
-        `)
-        .order('expiration_date', { ascending: true });
+        `, { count: 'exact' })
+        .order('expiration_date', { ascending: true })
+        .range(offset, offset + limit - 1);
 
       if (error) throw error;
 
@@ -105,7 +110,16 @@ export async function GET(request: NextRequest) {
         };
       });
 
-      return NextResponse.json({ policies: enrichedPolicies });
+      const totalCount = count || (enrichedPolicies?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (enrichedPolicies?.length ?? 0) < totalCount,
+      };
+
+      return NextResponse.json({ policies: enrichedPolicies, pagination });
     }
 
     if (type === 'coverage') {

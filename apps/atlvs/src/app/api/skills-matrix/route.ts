@@ -14,15 +14,19 @@ export async function GET(request: NextRequest) {
     const employeeId = searchParams.get('employee_id');
     const skill = searchParams.get('skill');
     const department = searchParams.get('department');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '100', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase.from('employee_skills').select(`
-      *, employee:employees(id, first_name, last_name, department, department_id)
-    `);
+      id, skill_name, proficiency_level, certified, certification_date,
+      employee:employees(id, first_name, last_name, department, department_id)
+    `, { count: 'exact' });
 
     if (employeeId) query = query.eq('employee_id', employeeId);
     if (skill) query = query.eq('skill_name', skill);
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     // Filter by department if specified (done in memory since it's a nested field)
     let filteredData = data;
@@ -53,6 +57,15 @@ export async function GET(request: NextRequest) {
       return daysUntil > 0 && daysUntil <= 90;
     }) || [];
 
+    const totalCount = count || (filteredData?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (filteredData?.length ?? 0) < totalCount,
+    };
+
     return NextResponse.json({
       skills: filteredData,
       matrix,
@@ -60,6 +73,7 @@ export async function GET(request: NextRequest) {
       certifications: certs,
       expiring_soon: expiringSoon,
       department_filter: department,
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch skills' }, { status: 500 });
