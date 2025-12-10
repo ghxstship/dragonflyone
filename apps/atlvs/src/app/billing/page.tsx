@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Mail, Trash2 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -20,6 +20,7 @@ import {
   type DetailSection,
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { useInvoicesData } from "@/hooks/useInvoices";
 
 interface Invoice {
   id: string;
@@ -34,6 +35,7 @@ interface Invoice {
   status: string;
 }
 
+// Summary calculated from invoice data
 interface InvoiceSummary {
   total: number;
   by_status: Record<string, number>;
@@ -41,6 +43,28 @@ interface InvoiceSummary {
   total_paid: number;
   total_outstanding: number;
   overdue_amount: number;
+}
+
+// Calculate summary from invoices
+function calculateSummary(invoices: Invoice[]): InvoiceSummary {
+  const byStatus: Record<string, number> = {};
+  let totalPaid = 0;
+  let totalOutstanding = 0;
+
+  invoices.forEach(inv => {
+    byStatus[inv.status] = (byStatus[inv.status] || 0) + 1;
+    totalPaid += inv.amount_paid || 0;
+    totalOutstanding += inv.amount_due || 0;
+  });
+
+  return {
+    total: invoices.length,
+    by_status: byStatus,
+    total_invoiced: invoices.reduce((sum, inv) => sum + (inv.total_amount || 0), 0),
+    total_paid: totalPaid,
+    total_outstanding: totalOutstanding,
+    overdue_amount: invoices.filter(i => i.status === 'overdue').reduce((sum, inv) => sum + (inv.amount_due || 0), 0),
+  };
 }
 
 const formatCurrency = (amount: number) => {
@@ -84,40 +108,30 @@ const formFields: FormFieldConfig[] = [
 export default function BillingPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [summary, setSummary] = useState<InvoiceSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    invoices: invoiceData,
+    isLoading: loading,
+    error,
+    createInvoice,
+    sendInvoice,
+    deleteInvoice,
+  } = useInvoicesData();
+
+  // Cast to local Invoice type for compatibility
+  const invoices = invoiceData as unknown as Invoice[];
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [invoiceToDelete, setInvoiceToDelete] = useState<Invoice | null>(null);
 
-  const fetchInvoices = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/invoices');
-      if (!response.ok) throw new Error('Failed to fetch invoices');
-      const data = await response.json();
-      setInvoices(data.invoices || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('An error occurred'));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchInvoices(); }, [fetchInvoices]);
-
   const rowActions: ListPageAction<Invoice>[] = [
     { id: 'view', label: 'View', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedInvoice(r); setDrawerOpen(true); } },
     { id: 'send', label: 'Send', icon: <Mail className="size-4" />, onClick: async (r) => {
       try {
-        const res = await fetch(`/api/invoices/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'send' }) });
-        if (res.ok) { addNotification({ type: 'success', title: 'Success', message: 'Invoice sent' }); fetchInvoices(); }
+        await sendInvoice(r.id);
+        addNotification({ type: 'success', title: 'Success', message: 'Invoice sent' });
       } catch { addNotification({ type: 'error', title: 'Error', message: 'Failed to send' }); }
     }},
     { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setInvoiceToDelete(r); setDeleteConfirmOpen(true); } },
@@ -125,34 +139,33 @@ export default function BillingPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
-      const res = await fetch('/api/invoices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) {
-        addNotification({ type: 'success', title: 'Success', message: 'Invoice created' });
-      }
+      await createInvoice(data);
+      addNotification({ type: 'success', title: 'Success', message: 'Invoice created' });
+      setCreateModalOpen(false);
     } catch {
       addNotification({ type: 'error', title: 'Error', message: 'Failed to create invoice' });
     }
-    setCreateModalOpen(false);
-    fetchInvoices();
   };
 
   const handleDelete = async () => {
     if (invoiceToDelete) {
-      setInvoices(prev => prev.filter(i => i.id !== invoiceToDelete.id));
-      setDeleteConfirmOpen(false);
-      setInvoiceToDelete(null);
+      try {
+        await deleteInvoice(invoiceToDelete.id);
+        setDeleteConfirmOpen(false);
+        setInvoiceToDelete(null);
+      } catch {
+        addNotification({ type: 'error', title: 'Error', message: 'Failed to delete invoice' });
+      }
     }
   };
 
+  const summary = calculateSummary(invoices);
+
   const stats = [
-    { label: 'Total Invoices', value: summary?.total || invoices.length },
-    { label: 'Outstanding', value: formatCurrency(summary?.total_outstanding || 0) },
-    { label: 'Overdue', value: summary?.by_status?.overdue || 0 },
-    { label: 'Total Paid', value: formatCurrency(summary?.total_paid || 0) },
+    { label: 'Total Invoices', value: summary.total },
+    { label: 'Outstanding', value: formatCurrency(summary.total_outstanding) },
+    { label: 'Overdue', value: summary.by_status.overdue || 0 },
+    { label: 'Total Paid', value: formatCurrency(summary.total_paid) },
   ];
 
   const detailSections: DetailSection[] = selectedInvoice ? [
