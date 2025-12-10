@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -17,61 +17,26 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface PriceAlert {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  event_venue: string;
-  target_price: number;
-  current_price: number;
-  ticket_type?: string;
-  is_active: boolean;
-  triggered: boolean;
-  triggered_at?: string;
-  created_at: string;
-}
+import { usePriceAlertsData, type PriceAlert } from '@/hooks/usePriceAlerts';
 
 export default function PriceAlertsPage() {
   const router = useRouter();
-  const [alerts, setAlerts] = useState<PriceAlert[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const fetchAlerts = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/price-alerts');
-      if (response.ok) {
-        const data = await response.json();
-        setAlerts(data.alerts || []);
-      }
-    } catch (err) {
-      setError('Failed to load price alerts');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAlerts();
-  }, [fetchAlerts]);
+  const {
+    alerts,
+    isLoading: loading,
+    error,
+    toggleAlert,
+    deleteAlert,
+  } = usePriceAlertsData();
 
   const handleToggleAlert = async (alert: PriceAlert) => {
     try {
-      const response = await fetch(`/api/price-alerts/${alert.id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ is_active: !alert.is_active }),
-      });
-
-      if (response.ok) {
-        fetchAlerts();
-      }
+      await toggleAlert({ alertId: alert.id, isActive: !alert.is_active });
     } catch (err) {
-      setError('Failed to update alert');
+      setLocalError('Failed to update alert');
     }
   };
 
@@ -79,16 +44,10 @@ export default function PriceAlertsPage() {
     if (!confirm('Are you sure you want to delete this price alert?')) return;
 
     try {
-      const response = await fetch(`/api/price-alerts/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setSuccess('Alert deleted');
-        fetchAlerts();
-      }
+      await deleteAlert(id);
+      setSuccess('Alert deleted');
     } catch (err) {
-      setError('Failed to delete alert');
+      setLocalError('Failed to delete alert');
     }
   };
 
@@ -119,9 +78,9 @@ export default function PriceAlertsPage() {
               </Button>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

@@ -21,37 +21,30 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface NearbyEvent {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  city: string;
-  distance: number;
-  category: string;
-  price: number;
-  image?: string;
-}
+import { useNearbyData } from '@/hooks/useNearby';
 
 export default function NearbyEventsPage() {
   const router = useRouter();
-  const [events, setEvents] = useState<NearbyEvent[]>([]);
-  const [loading, setLoading] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [radius, setRadius] = useState('25');
   const [location, setLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationName, setLocationName] = useState('');
   const [manualLocation, setManualLocation] = useState('');
   const [category, setCategory] = useState('all');
 
+  const {
+    events,
+    isLoading: loading,
+    error,
+  } = useNearbyData({ lat: location?.lat, lng: location?.lng, radius, category });
+
   const getCurrentLocation = useCallback(() => {
     setLocationLoading(true);
-    setError(null);
+    setLocalError(null);
 
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported by your browser');
+      setLocalError('Geolocation is not supported by your browser');
       setLocationLoading(false);
       return;
     }
@@ -70,7 +63,7 @@ export default function NearbyEventsPage() {
             const data = await response.json();
             setLocationName(data.location || 'Your Location');
           }
-        } catch (err) {
+        } catch {
           setLocationName('Your Location');
         }
 
@@ -82,7 +75,7 @@ export default function NearbyEventsPage() {
           : err.code === 2
           ? 'Location unavailable. Please try again or enter your location manually.'
           : 'Unable to get your location. Please enter it manually.';
-        setError(errorMessage);
+        setLocalError(errorMessage);
         setLocationLoading(false);
       }
     );
@@ -98,49 +91,19 @@ export default function NearbyEventsPage() {
           setLocation({ lat: data.lat, lng: data.lng });
           setLocationName(data.location || locationQuery);
         } else {
-          setError('Location not found. Please try a different search.');
+          setLocalError('Location not found. Please try a different search.');
         }
       }
-    } catch (err) {
-      setError('Failed to search location');
+    } catch {
+      setLocalError('Failed to search location');
     } finally {
       setLocationLoading(false);
     }
   }, []);
 
-  const fetchNearbyEvents = useCallback(async () => {
-    if (!location) return;
-
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        lat: location.lat.toString(),
-        lng: location.lng.toString(),
-        radius,
-        ...(category !== 'all' && { category }),
-      });
-
-      const response = await fetch(`/api/events/nearby?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.events || []);
-      }
-    } catch (err) {
-      setError('Failed to fetch nearby events');
-    } finally {
-      setLoading(false);
-    }
-  }, [location, radius, category]);
-
   useEffect(() => {
     getCurrentLocation();
   }, [getCurrentLocation]);
-
-  useEffect(() => {
-    if (location) {
-      fetchNearbyEvents();
-    }
-  }, [location, fetchNearbyEvents]);
 
   const handleManualSearch = () => {
     if (manualLocation.trim()) {
@@ -171,9 +134,9 @@ export default function NearbyEventsPage() {
               )}
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 
