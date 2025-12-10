@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -22,19 +21,7 @@ import {
   Spinner,
   Kicker,
 } from '@ghxstship/ui';
-
-interface GiftCard {
-  id: string;
-  code: string;
-  initial_balance: number;
-  current_balance: number;
-  status: 'active' | 'redeemed' | 'expired';
-  expires_at?: string;
-  purchased_at: string;
-  recipient_email?: string;
-  recipient_name?: string;
-  message?: string;
-}
+import { useGiftCardsData } from '@/hooks/useGiftCards';
 
 const GIFT_CARD_AMOUNTS = [25, 50, 75, 100, 150, 200, 250, 500];
 
@@ -48,10 +35,7 @@ const GIFT_CARD_DESIGNS = [
 
 function GiftCardsPageContent() {
   const router = useRouter();
-  const [myCards, setMyCards] = useState<GiftCard[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [purchasing, setPurchasing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -70,104 +54,66 @@ function GiftCardsPageContent() {
 
   // Redeem form state
   const [redeemCode, setRedeemCode] = useState('');
-  const [redeeming, setRedeeming] = useState(false);
 
-  const fetchMyCards = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/gift-cards/my-cards');
-      if (response.ok) {
-        const data = await response.json();
-        setMyCards(data.cards || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch cards');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchMyCards();
-  }, [fetchMyCards]);
+  const {
+    myCards,
+    isLoading: loading,
+    error,
+    refetch,
+    purchaseGiftCard,
+    isPurchasing: purchasing,
+    redeemGiftCard,
+    isRedeeming: redeeming,
+  } = useGiftCardsData();
 
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPurchasing(true);
-    setError(null);
+    setLocalError(null);
 
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
 
     if (amount < 10 || amount > 1000) {
-      setError('Amount must be between $10 and $1,000');
-      setPurchasing(false);
+      setLocalError('Amount must be between $10 and $1,000');
       return;
     }
 
     try {
-      const response = await fetch('/api/gift-cards/purchase', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount,
-          design: selectedDesign,
-          recipient_email: recipientEmail,
-          recipient_name: recipientName,
-          message,
-          delivery_date: deliveryDate || null,
-        }),
+      const data = await purchaseGiftCard({
+        amount,
+        design: selectedDesign,
+        recipientEmail,
+        recipientName,
+        message,
+        deliveryDate: deliveryDate || undefined,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess('Gift card purchased successfully!');
-        setRecipientEmail('');
-        setRecipientName('');
-        setMessage('');
-        setCustomAmount('');
-        fetchMyCards();
-        // Navigate to the gift card details page after a short delay
-        if (data.gift_card?.id) {
-          setTimeout(() => {
-            router.push(`/gift-cards/${data.gift_card.id}`);
-          }, 1500);
-        }
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to purchase gift card');
+      setSuccess('Gift card purchased successfully!');
+      setRecipientEmail('');
+      setRecipientName('');
+      setMessage('');
+      setCustomAmount('');
+      refetch();
+      // Navigate to the gift card details page after a short delay
+      if (data.gift_card?.id) {
+        setTimeout(() => {
+          router.push(`/gift-cards/${data.gift_card.id}`);
+        }, 1500);
       }
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setPurchasing(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to purchase gift card');
     }
   };
 
   const handleRedeem = async (e: React.FormEvent) => {
     e.preventDefault();
-    setRedeeming(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/gift-cards/redeem', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: redeemCode }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSuccess(`Gift card redeemed! $${data.balance} added to your account.`);
-        setRedeemCode('');
-        fetchMyCards();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Invalid gift card code');
-      }
+      const data = await redeemGiftCard(redeemCode);
+      setSuccess(`Gift card redeemed! $${data.balance} added to your account.`);
+      setRedeemCode('');
+      refetch();
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setRedeeming(false);
+      setLocalError(err instanceof Error ? err.message : 'Invalid gift card code');
     }
   };
 
@@ -194,9 +140,9 @@ function GiftCardsPageContent() {
               <Body className="text-on-dark-muted">Give the gift of experiences</Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-spacing-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

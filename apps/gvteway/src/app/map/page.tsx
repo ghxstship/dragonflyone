@@ -19,37 +19,14 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface MapEvent {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  city: string;
-  latitude: number;
-  longitude: number;
-  category: string;
-  price_min: number;
-  image?: string;
-}
-
-interface MapCluster {
-  id: string;
-  latitude: number;
-  longitude: number;
-  count: number;
-  events: MapEvent[];
-}
+import { useMapEventsData, type MapEvent, type MapCluster } from '@/hooks/useMapEvents';
 
 function MapViewContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [events, setEvents] = useState<MapEvent[]>([]);
-  const [clusters, setClusters] = useState<MapCluster[]>([]);
-  const [loading, setLoading] = useState(true);
   const [locationLoading, setLocationLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<MapEvent | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
 
@@ -62,10 +39,17 @@ function MapViewContent() {
   const [mapCenter, setMapCenter] = useState({ lat: 25.7617, lng: -80.1918 }); // Miami default
   const [mapZoom, setMapZoom] = useState(10);
 
+  const {
+    events,
+    clusters,
+    isLoading: loading,
+    error,
+  } = useMapEventsData({ lat: userLocation?.lat, lng: userLocation?.lng, radius, category, dateRange });
+
   const getCurrentLocation = useCallback(() => {
     setLocationLoading(true);
     if (!navigator.geolocation) {
-      setError('Geolocation is not supported');
+      setLocalError('Geolocation is not supported');
       setLocationLoading(false);
       return;
     }
@@ -78,41 +62,15 @@ function MapViewContent() {
         setLocationLoading(false);
       },
       () => {
-        setError('Unable to get your location');
+        setLocalError('Unable to get your location');
         setLocationLoading(false);
       }
     );
   }, []);
 
-  const fetchEvents = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        ...(category !== 'all' && { category }),
-        ...(dateRange !== 'all' && { date_range: dateRange }),
-        ...(userLocation && { lat: userLocation.lat.toString(), lng: userLocation.lng.toString(), radius }),
-      });
-
-      const response = await fetch(`/api/events/map?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setEvents(data.events || []);
-        setClusters(data.clusters || []);
-      }
-    } catch (err) {
-      setError('Failed to load events');
-    } finally {
-      setLoading(false);
-    }
-  }, [category, dateRange, userLocation, radius]);
-
   useEffect(() => {
     getCurrentLocation();
   }, [getCurrentLocation]);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
 
   const handleEventClick = (event: MapEvent) => {
     setSelectedEvent(event);
@@ -247,9 +205,9 @@ function MapViewContent() {
               </Button>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

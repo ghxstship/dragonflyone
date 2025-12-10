@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import { Sprout, Leaf, TreeDeciduous, Star, Sparkles, Crown } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -16,37 +16,7 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface ReputationStats {
-  total_karma: number;
-  level: number;
-  level_name: string;
-  next_level_karma: number;
-  rank_percentile: number;
-  helpful_votes: number;
-  reviews_count: number;
-  answers_count: number;
-  events_attended: number;
-}
-
-interface KarmaTransaction {
-  id: string;
-  amount: number;
-  type: string;
-  description: string;
-  created_at: string;
-}
-
-interface Achievement {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  karma_reward: number;
-  earned_at?: string;
-  progress?: number;
-  total?: number;
-}
+import { useReputationData } from '@/hooks/useReputation';
 
 const KARMA_LEVELS = [
   { level: 1, name: 'Newcomer', min: 0, icon: <Sprout className="size-4" /> },
@@ -59,37 +29,19 @@ const KARMA_LEVELS = [
 ];
 
 function ReputationPageContent() {
-  const [stats, setStats] = useState<ReputationStats | null>(null);
-  const [transactions, setTransactions] = useState<KarmaTransaction[]>([]);
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
     defaultTab: 'overview',
     validTabs: ['overview', 'history', 'achievements'],
   });
 
-  const fetchReputation = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/user/reputation');
-      if (response.ok) {
-        const data = await response.json();
-        setStats(data.stats);
-        setTransactions(data.transactions || []);
-        setAchievements(data.achievements || []);
-      }
-    } catch (err) {
-      setError('Failed to load reputation data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchReputation();
-  }, [fetchReputation]);
+  const {
+    stats,
+    transactions,
+    achievements,
+    isLoading: loading,
+    error,
+  } = useReputationData();
 
   const getCurrentLevel = (karma: number) => {
     for (let i = KARMA_LEVELS.length - 1; i >= 0; i--) {
