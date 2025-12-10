@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -22,42 +22,15 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Photo {
-  id: string;
-  url: string;
-  thumbnail_url: string;
-  event_id: string;
-  event_name: string;
-  uploaded_by: string;
-  uploaded_by_name: string;
-  caption?: string;
-  tags: string[];
-  likes: number;
-  is_featured: boolean;
-  created_at: string;
-}
-
-interface PhotoGallery {
-  id: string;
-  event_id: string;
-  event_name: string;
-  event_date: string;
-  cover_photo?: string;
-  photo_count: number;
-  status: 'collecting' | 'published' | 'archived';
-}
+import { usePhotosData, type Photo, type PhotoGallery } from '@/hooks/usePhotos';
 
 export default function PhotoGalleriesPage() {
   const router = useRouter();
-  const [galleries, setGalleries] = useState<PhotoGallery[]>([]);
-  const [photos, setPhotos] = useState<Photo[]>([]);
-  const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'galleries' | 'feed'>('galleries');
   const [selectedGallery, setSelectedGallery] = useState<PhotoGallery | null>(null);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   const [uploadForm, setUploadForm] = useState({
@@ -66,33 +39,13 @@ export default function PhotoGalleriesPage() {
     tags: '',
   });
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [galleriesRes, photosRes] = await Promise.all([
-        fetch('/api/photos/galleries'),
-        fetch('/api/photos/feed'),
-      ]);
-
-      if (galleriesRes.ok) {
-        const data = await galleriesRes.json();
-        setGalleries(data.galleries || []);
-      }
-
-      if (photosRes.ok) {
-        const data = await photosRes.json();
-        setPhotos(data.photos || []);
-      }
-    } catch (err) {
-      setError('Failed to load photos');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const {
+    galleries,
+    photos,
+    isLoading: loading,
+    error,
+    refetch,
+  } = usePhotosData();
 
   const handleUpload = async () => {
     // In production, this would handle file upload
@@ -104,11 +57,9 @@ export default function PhotoGalleriesPage() {
   const handleLike = async (photoId: string) => {
     try {
       await fetch(`/api/photos/${photoId}/like`, { method: 'POST' });
-      setPhotos(photos.map(p => 
-        p.id === photoId ? { ...p, likes: p.likes + 1 } : p
-      ));
+      refetch();
     } catch (err) {
-      setError('Failed to like photo');
+      setLocalError('Failed to like photo');
     }
   };
 
@@ -144,9 +95,9 @@ export default function PhotoGalleriesPage() {
               </Button>
             </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
+        {(error || localError) && (
+          <Alert variant="error" className="mb-6" onClose={() => setLocalError(null)}>
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

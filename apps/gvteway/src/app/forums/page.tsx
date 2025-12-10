@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
@@ -22,25 +22,9 @@ import {
   Card,
   Input,
   Field,
-  useNotifications,
   Kicker,
 } from "@ghxstship/ui";
-
-interface ForumThread {
-  id: string;
-  title: string;
-  category: string;
-  author_id: string;
-  author_name: string;
-  author_avatar?: string;
-  reply_count: number;
-  view_count: number;
-  last_reply_at: string;
-  last_reply_by?: string;
-  is_pinned: boolean;
-  is_locked: boolean;
-  created_at: string;
-}
+import { useForumsData } from "@/hooks/useForums";
 
 interface ForumCategory {
   id: string;
@@ -50,44 +34,6 @@ interface ForumCategory {
   post_count: number;
 }
 
-interface ForumSummary {
-  total_threads: number;
-  total_posts: number;
-  active_users: number;
-  new_today: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_THREADS: ForumThread[] = [
-  {
-    id: "demo-1",
-    title: "Best festivals to attend this summer?",
-    category: "general",
-    author_id: "user-001",
-    author_name: "MusicFan23",
-    reply_count: 45,
-    view_count: 1234,
-    last_reply_at: new Date(Date.now() - 3600000).toISOString(),
-    last_reply_by: "FestivalLover",
-    is_pinned: true,
-    is_locked: false,
-    created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-  },
-  {
-    id: "demo-2",
-    title: "Tips for first-time concert goers",
-    category: "general",
-    author_id: "user-002",
-    author_name: "ConcertPro",
-    reply_count: 28,
-    view_count: 890,
-    last_reply_at: new Date(Date.now() - 7200000).toISOString(),
-    is_pinned: false,
-    is_locked: false,
-    created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-  },
-];
-
 const DEMO_CATEGORIES: ForumCategory[] = [
   { id: "general", name: "General Discussion", description: "Talk about anything music related", thread_count: 234, post_count: 1890 },
   { id: "events", name: "Event Talk", description: "Discuss upcoming and past events", thread_count: 156, post_count: 1234 },
@@ -95,61 +41,18 @@ const DEMO_CATEGORIES: ForumCategory[] = [
   { id: "tickets", name: "Tickets & Sales", description: "Buy, sell, and trade tickets", thread_count: 67, post_count: 345 },
 ];
 
-const DEMO_FORUM_SUMMARY: ForumSummary = {
-  total_threads: 546,
-  total_posts: 4036,
-  active_users: 234,
-  new_today: 12,
-};
-
 export default function ForumsPage() {
   const router = useRouter();
-  const { addNotification: _addNotification } = useNotifications();
-  const [threads, setThreads] = useState<ForumThread[]>([]);
-  const [categories, setCategories] = useState<ForumCategory[]>([]);
-  const [summary, setSummary] = useState<ForumSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const categories = DEMO_CATEGORIES;
 
-  const fetchForums = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterCategory !== "all") params.append("category", filterCategory);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/forums?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setThreads(DEMO_THREADS);
-        setCategories(DEMO_CATEGORIES);
-        setSummary(DEMO_FORUM_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch forums");
-      
-      const data = await response.json();
-      setThreads(data.threads || []);
-      setCategories(data.categories || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setThreads(DEMO_THREADS);
-      setCategories(DEMO_CATEGORIES);
-      setSummary(DEMO_FORUM_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterCategory, searchQuery]);
-
-  useEffect(() => {
-    fetchForums();
-  }, [fetchForums]);
+  const {
+    threads,
+    summary,
+    isLoading: loading,
+    error,
+  } = useForumsData({ category: filterCategory, search: searchQuery });
 
   const formatTimeAgo = (dateString: string) => {
     const date = new Date(dateString);

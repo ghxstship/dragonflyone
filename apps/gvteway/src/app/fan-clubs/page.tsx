@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
@@ -18,116 +18,19 @@ import {
   Field,
   Kicker,
 } from "@ghxstship/ui";
-
-interface FanClub {
-  id: string;
-  name: string;
-  artist_id: string;
-  artist_name: string;
-  artist_image?: string;
-  description: string;
-  member_count: number;
-  tier: string;
-  benefits: string[];
-  monthly_price?: number;
-  annual_price?: number;
-  is_member: boolean;
-  membership_tier?: string;
-  exclusive_events: number;
-  presale_access: boolean;
-}
-
-interface FanClubSummary {
-  total_clubs: number;
-  my_memberships: number;
-  exclusive_events: number;
-  presales_available: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_FAN_CLUBS: FanClub[] = [
-  {
-    id: "demo-1",
-    name: "Official Fan Club",
-    artist_id: "artist-001",
-    artist_name: "The Midnight",
-    description: "Get exclusive access to presales, meet & greets, and behind-the-scenes content",
-    member_count: 12500,
-    tier: "standard",
-    benefits: ["Presale Access", "Exclusive Merch", "Monthly Newsletter", "Members-Only Events"],
-    monthly_price: 9.99,
-    annual_price: 99,
-    is_member: false,
-    exclusive_events: 8,
-    presale_access: true,
-  },
-  {
-    id: "demo-2",
-    name: "VIP Fan Club",
-    artist_id: "artist-002",
-    artist_name: "Aurora Rising",
-    description: "The ultimate fan experience with premium perks and exclusive content",
-    member_count: 8200,
-    tier: "premium",
-    benefits: ["VIP Presale Access", "Meet & Greet Priority", "Signed Merch", "Virtual Hangouts"],
-    monthly_price: 19.99,
-    annual_price: 199,
-    is_member: false,
-    exclusive_events: 12,
-    presale_access: true,
-  },
-];
-
-const DEMO_FAN_CLUB_SUMMARY: FanClubSummary = {
-  total_clubs: 45,
-  my_memberships: 0,
-  exclusive_events: 24,
-  presales_available: 8,
-};
+import { useFanClubsData } from "@/hooks/useFanClubs";
 
 export default function FanClubsPage() {
   const router = useRouter();
-  const [clubs, setClubs] = useState<FanClub[]>([]);
-  const [summary, setSummary] = useState<FanClubSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filterGenre, setFilterGenre] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchFanClubs = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterGenre !== "all") params.append("genre", filterGenre);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/fan-clubs?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setClubs(DEMO_FAN_CLUBS);
-        setSummary(DEMO_FAN_CLUB_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch fan clubs");
-      
-      const data = await response.json();
-      setClubs(data.clubs || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setClubs(DEMO_FAN_CLUBS);
-      setSummary(DEMO_FAN_CLUB_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterGenre, searchQuery]);
-
-  useEffect(() => {
-    fetchFanClubs();
-  }, [fetchFanClubs]);
+  const {
+    clubs,
+    summary,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useFanClubsData({ search: searchQuery });
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -150,8 +53,8 @@ export default function FanClubsPage() {
       <GvtewayAppLayout>
         <EmptyState
           title="Error Loading Fan Clubs"
-          description={error}
-          action={{ label: "Retry", onClick: fetchFanClubs }}
+          description={error instanceof Error ? error.message : String(error)}
+          action={{ label: "Retry", onClick: () => refetch() }}
           inverted
         />
       </GvtewayAppLayout>
