@@ -147,7 +147,12 @@ export default function DocumentsPage() {
 
       }
 
-      refetch();
+      // Refresh the documents list after import
+      const response = await fetch('/api/documents');
+      if (response.ok) {
+        const data = await response.json();
+        setDocuments(data);
+      }
 
     },
 

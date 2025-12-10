@@ -6,10 +6,6 @@
 ./src/app/api/enterprise/data-residency/route.ts
 201:17  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
 
-./src/app/insurance/page.tsx
-78:13  Warning: 'handleImport' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-94:13  Warning: 'importTemplates' is assigned a value but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
-
 ./src/app/payroll/page.tsx
 21:10  Warning: 'createExportHandler' is defined but never used. Allowed unused vars must match /^_/u.  @typescript-eslint/no-unused-vars
 

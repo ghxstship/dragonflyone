@@ -74,25 +74,6 @@ const columns: ListPageColumn<InsurancePolicy>[] = [
       const now = new Date();
       const isExpired = date < now;
       const isExpiringSoon = date > now && date < new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-      // Import handler for CSV/JSON files
-      const handleImport = createImportHandler<Omit<InsurancePolicy, 'id'>>({
-        entityType: 'insurance',
-        requiredFields: ['policy_name', 'policy_type', 'status'],
-        onImport: async (records) => {
-          for (const record of records) {
-            await fetch('/api/insurance', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ organization_id: 'default-org', ...record }),
-            });
-          }
-          refetch();
-        },
-      });
-
-      // Import templates for field mapping
-      const importTemplates = getImportTemplates('insurance');
-
       return (
         <Stack direction="horizontal" gap={2} className="items-center">
           {isExpired && <AlertTriangle className="size-4 text-error" />}
@@ -198,6 +179,25 @@ export default function InsurancePage() {
     setCreateModalOpen(false);
     refetch();
   };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<InsurancePolicy, 'id'>>({
+    entityType: 'insurance',
+    requiredFields: ['policy_name', 'policy_type', 'status'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/insurance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+        });
+      }
+      refetch();
+    },
+  });
+
+  // Import templates for field mapping
+  const importTemplates = getImportTemplates('insurance');
 
   const pageStats = [
     { label: 'Total Policies', value: stats?.total || 0 },
