@@ -1053,7 +1053,7 @@ export const atlvsVerticals = [
     icon: "Zap",
     title: "ACTIVATIONS",
     description: "Brand experiences that make people forget they're being marketed to. The good kind of manipulation.",
-    features: ["Brand experiences", "Pop-ups", "Roadshows", "Launches"],
+    features: ["Brand Experiences", "Trade Shows", "Product Launches", "Pop-ups"],
     workflows: ["Brand asset management", "Footprint planning", "Activation calendars"],
     href: "/verticals/activations",
   },
@@ -1062,7 +1062,7 @@ export const atlvsVerticals = [
     icon: "Palette",
     title: "INSTALLATIONS",
     description: "Immersive environments that make people question reality. In a good way. Mostly.",
-    features: ["Art", "Immersive", "Exhibitions", "Themed environments"],
+    features: ["Art Installations", "Immersive Experiences", "Themed Environments", "Retail & Hospitality Spaces"],
     workflows: ["Build schedules", "Technical specs", "Maintenance workflows"],
     href: "/verticals/installations",
   },
@@ -1071,7 +1071,7 @@ export const atlvsVerticals = [
     icon: "MapPin",
     title: "DESTINATIONS",
     description: "Venues and properties where extraordinary things happen. Your passport to the places that matter.",
-    features: ["Venues", "Retreats", "Resorts", "Experience properties"],
+    features: ["Entertainment & Sporting Venues", "Hotels & Resorts", "Cultural & Historical Landmarks", "Educational Institutions"],
     workflows: ["Property operations", "Booking management", "Guest experience flows"],
     href: "/verticals/destinations",
   },
@@ -1079,7 +1079,7 @@ export const atlvsVerticals = [
 
 // Problem section for landing page
 export const atlvsProblemSection = {
-  headline: "THE UGLY TRUTH...",
+  headline: "THE UNSPOKEN TRUTH...",
   tagline: "You didn't sign up for this job to become a professional spreadsheet wrangler. And yet, here we are.",
   problems: [
     {
