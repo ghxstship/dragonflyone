@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -19,37 +19,14 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface WaitlistEntry {
-  id: string;
-  email: string;
-  name: string;
-  ticket_type: string;
-  quantity: number;
-  position: number;
-  status: 'waiting' | 'notified' | 'converted' | 'expired';
-  created_at: string;
-  notified_at?: string;
-}
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  status: string;
-}
+import { useEventWaitlistData } from '@/hooks/useEventWaitlist';
 
 export default function WaitlistPage() {
   const params = useParams();
   const router = useRouter();
   const eventId = params.id as string;
 
-  const [event, setEvent] = useState<Event | null>(null);
-  const [waitlist, setWaitlist] = useState<WaitlistEntry[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: '',
@@ -58,64 +35,30 @@ export default function WaitlistPage() {
     quantity: '1',
   });
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [eventRes, waitlistRes] = await Promise.all([
-        fetch(`/api/events/${eventId}`),
-        fetch(`/api/events/${eventId}/waitlist`),
-      ]);
-
-      if (eventRes.ok) {
-        const eventData = await eventRes.json();
-        setEvent(eventData.event);
-      }
-
-      if (waitlistRes.ok) {
-        const waitlistData = await waitlistRes.json();
-        setWaitlist(waitlistData.waitlist || []);
-      }
-    } catch (err) {
-      setError('Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const {
+    event,
+    waitlist,
+    isLoading: loading,
+    error,
+    joinWaitlist,
+    isJoining: submitting,
+  } = useEventWaitlistData(eventId);
 
   const handleJoinWaitlist = async () => {
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
     setSuccess(null);
 
     try {
-      const response = await fetch(`/api/events/${eventId}/waitlist`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          name: formData.name,
-          ticket_type: formData.ticket_type,
-          quantity: parseInt(formData.quantity),
-        }),
+      const data = await joinWaitlist({
+        email: formData.email,
+        name: formData.name,
+        ticket_type: formData.ticket_type,
+        quantity: parseInt(formData.quantity),
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess(`You have been added to the waitlist at position #${data.position}`);
-        setFormData({ email: '', name: '', ticket_type: 'GA', quantity: '1' });
-        fetchData();
-      } else {
-        setError(data.error || 'Failed to join waitlist');
-      }
+      setSuccess(`You have been added to the waitlist at position #${data.position}`);
+      setFormData({ email: '', name: '', ticket_type: 'GA', quantity: '1' });
     } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to join waitlist');
     }
   };
 

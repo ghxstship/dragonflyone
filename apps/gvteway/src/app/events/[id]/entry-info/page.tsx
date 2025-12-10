@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -16,66 +15,18 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface EntryInfo {
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  event_time: string;
-  venue_name: string;
-  venue_address: string;
-  venue_city: string;
-  doors_open: string;
-  show_starts: string;
-  entry_gates: { name: string; location: string; recommended_for?: string }[];
-  prohibited_items: string[];
-  allowed_items: string[];
-  bag_policy: string;
-  age_restriction?: string;
-  dress_code?: string;
-  parking_info: {
-    available: boolean;
-    lots: { name: string; address: string; price?: string }[];
-    tips?: string;
-  };
-  transit_info: {
-    subway?: string;
-    bus?: string;
-    rideshare_dropoff?: string;
-  };
-  tips: string[];
-  faq: { question: string; answer: string }[];
-}
+import { useEventEntryInfoData } from '@/hooks/useEventEntryInfo';
 
 export default function EntryInfoPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
 
-  const [info, setInfo] = useState<EntryInfo | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchInfo = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/entry-info`);
-      if (response.ok) {
-        const data = await response.json();
-        setInfo(data.info);
-      } else {
-        setError('Entry information not available');
-      }
-    } catch (err) {
-      setError('Failed to load entry information');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchInfo();
-  }, [fetchInfo]);
+  const {
+    info,
+    isLoading: loading,
+    error,
+  } = useEventEntryInfoData(eventId);
 
   if (loading) {
     return <GvtewayLoadingLayout text="Loading entry information..." />;

@@ -39,6 +39,7 @@ const publicPaths = [
   '/verticals',
   '/features',
   '/pricing',
+  '/generator',
   '/integrations',
   '/security',
   '/changelog',
