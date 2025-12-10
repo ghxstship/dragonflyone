@@ -22,18 +22,22 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     const year = searchParams.get('year');
     const employeeId = searchParams.get('employee_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     // If employee_id is provided, get payroll items for that employee
     if (employeeId) {
-      const { data: employeePayroll, error: empError } = await supabase
+      const { data: employeePayroll, error: empError, count } = await supabase
         .from('payroll_items')
         .select(`
-          *,
+          id, gross_pay, net_pay, status, created_at,
           payroll_run:payroll_runs(id, pay_period_start, pay_period_end, pay_date, status),
           employee:employees(id, first_name, last_name, employee_number)
-        `)
+        `, { count: 'exact' })
         .eq('employee_id', employeeId)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .range(offset, offset + limit - 1);
 
       if (empError) {
         Logger.error('Error fetching employee payroll:', empError);
@@ -43,20 +47,29 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      return NextResponse.json({ entries: employeePayroll });
+      const totalCount = count || (employeePayroll?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (employeePayroll?.length ?? 0) < totalCount,
+      };
+
+      return NextResponse.json({ entries: employeePayroll, pagination });
     }
 
     let query = supabase
       .from('payroll_runs')
       .select(`
-        *,
+        id, pay_period_start, pay_period_end, pay_date, status, total_gross, total_net,
         created_by_user:platform_users!created_by(id, full_name),
         approved_by_user:platform_users!approved_by(id, full_name),
         payroll_items:payroll_items(
           id, employee_id, gross_pay, net_pay, status,
           employee:employees(id, first_name, last_name, employee_number)
         )
-      `)
+      `, { count: 'exact' })
       .order('pay_date', { ascending: false });
 
     if (status && status !== 'all') {
@@ -66,7 +79,7 @@ export async function GET(request: NextRequest) {
       query = query.gte('pay_period_start', `${year}-01-01`).lte('pay_period_end', `${year}-12-31`);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       Logger.error('Error fetching payroll runs:', error);
@@ -108,7 +121,16 @@ export async function GET(request: NextRequest) {
         .reduce((sum, r) => sum + (r.total_taxes || 0), 0),
     };
 
-    return NextResponse.json({ payroll_runs: data, summary });
+    const totalCount = count || payrollRuns.length;
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + payrollRuns.length < totalCount,
+    };
+
+    return NextResponse.json({ payroll_runs: data, summary, pagination });
   } catch (error) {
     Logger.error('Error in GET /api/payroll:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

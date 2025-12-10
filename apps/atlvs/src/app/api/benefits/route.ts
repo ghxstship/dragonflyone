@@ -49,20 +49,18 @@ export const GET = apiRoute(
     const type = searchParams.get('type'); // 'plans' or 'enrollments'
     const employee_id = searchParams.get('employee_id');
     const active_only = searchParams.get('active') === 'true';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (type === 'enrollments') {
       let query = supabase
         .from('benefit_enrollments')
         .select(`
-          *,
-          benefit_plans (*),
-          employees (
-            id,
-            first_name,
-            last_name,
-            email
-          )
-        `)
+          id, coverage_type, start_date, end_date, status, created_at,
+          benefit_plans (id, name, type, provider),
+          employees (id, first_name, last_name, email)
+        `, { count: 'exact' })
         .order('created_at', { ascending: false });
 
       if (employee_id) {
@@ -73,13 +71,22 @@ export const GET = apiRoute(
         query = query.eq('status', 'active');
       }
 
-      const { data, error } = await query;
+      const { data, error, count } = await query.range(offset, offset + limit - 1);
 
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
 
-      return NextResponse.json({ enrollments: data });
+      const totalCount = count || (data?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (data?.length ?? 0) < totalCount,
+      };
+
+      return NextResponse.json({ enrollments: data, pagination });
     }
 
     // Default: list benefit plans
