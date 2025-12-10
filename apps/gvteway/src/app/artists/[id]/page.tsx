@@ -1,7 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { useNotifications } from '@ghxstship/ui';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -18,99 +16,27 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface Artist {
-  id: string;
-  name: string;
-  bio: string;
-  image?: string;
-  genre?: string;
-  followers_count: number;
-  verified: boolean;
-  social_links?: {
-    spotify?: string;
-    instagram?: string;
-    twitter?: string;
-    website?: string;
-  };
-}
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  image?: string;
-  price?: number;
-}
+import { useArtistDetailData } from '@/hooks/useArtistDetail';
 
 export default function ArtistPage() {
   const params = useParams();
   const router = useRouter();
   const artistId = params.id as string;
 
-  const { addNotification } = useNotifications();
-  const [artist, setArtist] = useState<Artist | null>(null);
-  const [events, setEvents] = useState<Event[]>([]);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [followLoading, setFollowLoading] = useState(false);
-
-  const fetchArtist = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [artistRes, eventsRes, followRes] = await Promise.all([
-        fetch(`/api/artists/${artistId}`),
-        fetch(`/api/artists/${artistId}/events`),
-        fetch(`/api/artists/${artistId}/follow/status`),
-      ]);
-
-      if (artistRes.ok) {
-        const data = await artistRes.json();
-        setArtist(data.artist);
-      }
-
-      if (eventsRes.ok) {
-        const data = await eventsRes.json();
-        setEvents(data.events || []);
-      }
-
-      if (followRes.ok) {
-        const data = await followRes.json();
-        setIsFollowing(data.following);
-      }
-    } catch (err) {
-      log.error('Failed to fetch artist');
-    } finally {
-      setLoading(false);
-    }
-  }, [artistId]);
-
-  useEffect(() => {
-    fetchArtist();
-  }, [fetchArtist]);
+  const {
+    artist,
+    events,
+    isFollowing,
+    isLoading: loading,
+    toggleFollow,
+    isTogglingFollow: followLoading,
+  } = useArtistDetailData(artistId);
 
   const handleFollow = async () => {
-    setFollowLoading(true);
     try {
-      const response = await fetch(`/api/artists/${artistId}/follow`, {
-        method: isFollowing ? 'DELETE' : 'POST',
-      });
-
-      if (response.ok) {
-        setIsFollowing(!isFollowing);
-        if (artist) {
-          setArtist({
-            ...artist,
-            followers_count: artist.followers_count + (isFollowing ? -1 : 1),
-          });
-        }
-      }
+      await toggleFollow(isFollowing);
     } catch (err) {
-      log.error('Failed to update follow status');
-    } finally {
-      setFollowLoading(false);
+      // Error handled in hook
     }
   };
 

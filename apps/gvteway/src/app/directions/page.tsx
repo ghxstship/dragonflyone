@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -18,100 +18,26 @@ import {
   StatCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Venue {
-  id: string;
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  lat: number;
-  lng: number;
-}
-
-interface ParkingLot {
-  id: string;
-  name: string;
-  type: 'garage' | 'lot' | 'street' | 'valet';
-  distance: string;
-  price: string;
-  spaces_available: number;
-  total_spaces: number;
-  address: string;
-  lat: number;
-  lng: number;
-  amenities: string[];
-}
-
-interface TransportOption {
-  id: string;
-  type: 'rideshare' | 'transit' | 'shuttle' | 'bike';
-  name: string;
-  description: string;
-  estimated_time: string;
-  estimated_cost?: string;
-  pickup_location?: string;
-}
-
-interface DirectionsStep {
-  instruction: string;
-  distance: string;
-  duration: string;
-}
+import { useDirectionsData, type ParkingLot, type DirectionsStep } from '@/hooks/useDirections';
 
 function DirectionsContent() {
   const searchParams = useSearchParams();
-  const eventId = searchParams.get('event_id');
-  const venueId = searchParams.get('venue_id');
+  const eventId = searchParams.get('event_id') || undefined;
+  const venueId = searchParams.get('venue_id') || undefined;
 
-  const [venue, setVenue] = useState<Venue | null>(null);
-  const [parkingLots, setParkingLots] = useState<ParkingLot[]>([]);
-  const [transportOptions, setTransportOptions] = useState<TransportOption[]>([]);
+  const {
+    venue,
+    parkingLots,
+    transportOptions,
+    isLoading: loading,
+    getRoute,
+  } = useDirectionsData(eventId, venueId);
+
   const [directions, setDirections] = useState<DirectionsStep[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedParking, setSelectedParking] = useState<ParkingLot | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [travelMode, setTravelMode] = useState<'driving' | 'walking' | 'transit'>('driving');
   const [error, setError] = useState<string | null>(null);
-
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (eventId) params.set('event_id', eventId);
-      if (venueId) params.set('venue_id', venueId);
-
-      const [venueRes, parkingRes, transportRes] = await Promise.all([
-        fetch(`/api/directions/venue?${params}`),
-        fetch(`/api/directions/parking?${params}`),
-        fetch(`/api/directions/transport?${params}`),
-      ]);
-
-      if (venueRes.ok) {
-        const data = await venueRes.json();
-        setVenue(data.venue);
-      }
-
-      if (parkingRes.ok) {
-        const data = await parkingRes.json();
-        setParkingLots(data.parking || []);
-      }
-
-      if (transportRes.ok) {
-        const data = await transportRes.json();
-        setTransportOptions(data.options || []);
-      }
-    } catch (err) {
-      setError('Failed to load directions data');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId, venueId]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
 
   const getUserLocation = () => {
     if (!navigator.geolocation) {
@@ -137,20 +63,12 @@ function DirectionsContent() {
     if (!venue) return;
 
     try {
-      const response = await fetch('/api/directions/route', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          origin: { lat, lng },
-          destination: { lat: venue.lat, lng: venue.lng },
-          mode: travelMode,
-        }),
+      const steps = await getRoute({
+        origin: { lat, lng },
+        destination: { lat: venue.lat, lng: venue.lng },
+        mode: travelMode,
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        setDirections(data.steps || []);
-      }
+      setDirections(steps);
     } catch (err) {
       setError('Failed to get directions');
     }
