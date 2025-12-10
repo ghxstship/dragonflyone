@@ -51,6 +51,7 @@ export default function WillCallPage() {
     tickets,
     refetch,
     releaseTicket,
+    createTicket,
   } = useWillCallData();
 
   const readyCount = tickets.filter(t => t.status === "Ready").length;
@@ -63,8 +64,7 @@ export default function WillCallPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newTicket: WillCallTicket = {
-      id: `WC-${String(tickets.length + 1).padStart(3, '0')}`,
+    await createTicket({
       orderNumber: String(data.orderNumber || ''),
       customerName: String(data.customerName || ''),
       email: String(data.email || ''),
@@ -74,8 +74,7 @@ export default function WillCallPage() {
       quantity: Number(data.quantity) || 1,
       status: 'Pending',
       idRequired: Boolean(data.idRequired),
-    };
-    setTickets(prev => [...prev, newTicket]);
+    });
     setCreateModalOpen(false);
   };
 

@@ -74,9 +74,47 @@ export function useCreateWatchParty() {
   });
 }
 
+export function useJoinWatchParty() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (partyId: string) => {
+      const response = await fetch(`/api/watch-parties/${partyId}/join`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to join watch party');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: watchPartiesKeys.all });
+    },
+  });
+}
+
+export function useSendChatMessage() {
+  return useMutation({
+    mutationFn: async ({ partyId, content }: { partyId: string; content: string }) => {
+      const response = await fetch(`/api/watch-parties/${partyId}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send message');
+      }
+      return response.json();
+    },
+  });
+}
+
 export function useWatchPartiesData(filter?: string) {
   const partiesQuery = useWatchPartiesList(filter);
   const createMutation = useCreateWatchParty();
+  const joinMutation = useJoinWatchParty();
+  const chatMutation = useSendChatMessage();
 
   return {
     parties: partiesQuery.data || [],
@@ -85,5 +123,9 @@ export function useWatchPartiesData(filter?: string) {
     refetch: partiesQuery.refetch,
     createParty: createMutation.mutateAsync,
     isCreating: createMutation.isPending,
+    joinParty: joinMutation.mutateAsync,
+    isJoining: joinMutation.isPending,
+    sendMessage: chatMutation.mutateAsync,
+    isSending: chatMutation.isPending,
   };
 }

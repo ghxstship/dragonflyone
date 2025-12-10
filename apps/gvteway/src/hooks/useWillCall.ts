@@ -59,9 +59,29 @@ export function useReleaseTicket() {
   });
 }
 
+export function useCreateWillCallTicket() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (ticket: Omit<WillCallTicket, 'id'>) => {
+      const response = await fetch('/api/admin/will-call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(ticket),
+      });
+      if (!response.ok) throw new Error('Failed to create ticket');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: willCallKeys.all });
+    },
+  });
+}
+
 export function useWillCallData() {
   const ticketsQuery = useWillCallTickets();
   const releaseMutation = useReleaseTicket();
+  const createMutation = useCreateWillCallTicket();
 
   return {
     tickets: ticketsQuery.data || [],
@@ -70,5 +90,7 @@ export function useWillCallData() {
     refetch: ticketsQuery.refetch,
     releaseTicket: releaseMutation.mutateAsync,
     isReleasing: releaseMutation.isPending,
+    createTicket: createMutation.mutateAsync,
+    isCreating: createMutation.isPending,
   };
 }

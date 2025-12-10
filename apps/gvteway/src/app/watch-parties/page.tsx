@@ -62,6 +62,8 @@ export default function WatchPartiesPage() {
     error,
     refetch,
     createParty,
+    joinParty,
+    sendMessage,
   } = useWatchPartiesData(filter);
 
   const handleCreate = async () => {
@@ -91,19 +93,10 @@ export default function WatchPartiesPage() {
 
   const handleJoin = async (partyId: string) => {
     try {
-      const response = await fetch(`/api/watch-parties/${partyId}/join`, {
-        method: 'POST',
-      });
-
-      if (response.ok) {
-        setSuccess('Joined watch party!');
-        fetchParties();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to join');
-      }
+      await joinParty(partyId);
+      setSuccess('Joined watch party!');
     } catch (err) {
-      setError('Network error');
+      setLocalError(err instanceof Error ? err.message : 'Failed to join');
     }
   };
 
@@ -111,20 +104,11 @@ export default function WatchPartiesPage() {
     if (!selectedParty || !newMessage.trim()) return;
 
     try {
-      const response = await fetch(`/api/watch-parties/${selectedParty.id}/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: newMessage }),
-      });
-
-      if (response.ok) {
-        setNewMessage('');
-        // In production, this would use real-time subscriptions
-        const data = await response.json();
-        setChatMessages([...chatMessages, data.message]);
-      }
+      const data = await sendMessage({ partyId: selectedParty.id, content: newMessage });
+      setNewMessage('');
+      setChatMessages([...chatMessages, data.message]);
     } catch (err) {
-      setError('Failed to send message');
+      setLocalError(err instanceof Error ? err.message : 'Failed to send message');
     }
   };
 
