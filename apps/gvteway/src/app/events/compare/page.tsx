@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useMemo, Suspense } from 'react';
+import { useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -17,59 +17,18 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  time: string;
-  venue: string;
-  city: string;
-  category: string;
-  price_min: number;
-  price_max: number;
-  capacity: number;
-  tickets_available: number;
-  image?: string;
-  description?: string;
-  amenities?: string[];
-  age_restriction?: string;
-  parking_available?: boolean;
-  accessibility?: boolean;
-}
+import { useCompareEventsData } from '@/hooks/useCompareEvents';
 
 function CompareEventsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const eventIds = useMemo(() => searchParams.get('ids')?.split(',') || [], [searchParams]);
 
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchEvents = useCallback(async () => {
-    if (eventIds.length === 0) {
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const eventPromises = eventIds.map(id =>
-        fetch(`/api/events/${id}`).then(res => res.json())
-      );
-      const results = await Promise.all(eventPromises);
-      setEvents(results.map(r => r.event).filter(Boolean));
-    } catch (err) {
-      setError('Failed to load events');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventIds]);
-
-  useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents]);
+  const {
+    events,
+    isLoading: loading,
+    error,
+  } = useCompareEventsData(eventIds);
 
   const handleRemoveEvent = (eventId: string) => {
     const newIds = eventIds.filter(id => id !== eventId);

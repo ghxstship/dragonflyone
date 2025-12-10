@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -15,61 +14,17 @@ import {
   Card,
   Kicker,
 } from "@ghxstship/ui";
-
-interface OrderDetails {
-  id: string;
-  order_number: string;
-  status: string;
-  created_at: string;
-  items: OrderItem[];
-  subtotal: number;
-  fees: number;
-  taxes: number;
-  discount: number;
-  total: number;
-  payment_method: string;
-  billing_email: string;
-}
-
-interface OrderItem {
-  id: string;
-  event_name: string;
-  event_date: string;
-  venue_name: string;
-  ticket_type: string;
-  quantity: number;
-  unit_price: number;
-  total: number;
-}
+import { useConfirmationData } from "@/hooks/useConfirmation";
 
 function ConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
   
-  const [order, setOrder] = useState<OrderDetails | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchOrder = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/orders/${orderId}`);
-      if (!response.ok) throw new Error("Failed to fetch order");
-      
-      const data = await response.json();
-      setOrder(data.order);
-    } catch (err) {
-      log.error('Failed to fetch order:', err instanceof Error ? err : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [orderId]);
-
-  useEffect(() => {
-    if (orderId) {
-      fetchOrder();
-    }
-  }, [orderId, fetchOrder]);
+  const {
+    order,
+    isLoading: loading,
+  } = useConfirmationData(orderId);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {

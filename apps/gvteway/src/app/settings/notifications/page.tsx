@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -16,109 +16,47 @@ import {
   Alert,
 } from '@ghxstship/ui';
 import { Bell, Mail, Smartphone, MessageSquare} from 'lucide-react';
-
-interface NotificationPreferences {
-  email_enabled: boolean;
-  push_enabled: boolean;
-  sms_enabled: boolean;
-  categories: {
-    order_updates: boolean;
-    event_reminders: boolean;
-    price_alerts: boolean;
-    saved_search_alerts: boolean;
-    artist_announcements: boolean;
-    venue_announcements: boolean;
-    promotions: boolean;
-    community_updates: boolean;
-    account_security: boolean;
-  };
-  reminder_timing: string;
-  digest_frequency: string;
-  quiet_hours_enabled: boolean;
-  quiet_hours_start: string;
-  quiet_hours_end: string;
-}
-
-const defaultPreferences: NotificationPreferences = {
-  email_enabled: true,
-  push_enabled: true,
-  sms_enabled: false,
-  categories: {
-    order_updates: true,
-    event_reminders: true,
-    price_alerts: true,
-    saved_search_alerts: true,
-    artist_announcements: true,
-    venue_announcements: true,
-    promotions: false,
-    community_updates: true,
-    account_security: true,
-  },
-  reminder_timing: '24h',
-  digest_frequency: 'daily',
-  quiet_hours_enabled: false,
-  quiet_hours_start: '22:00',
-  quiet_hours_end: '08:00',
-};
+import { useNotificationSettingsData, type NotificationPreferences } from '@/hooks/useNotificationSettings';
 
 export default function NotificationSettingsPage() {
-  const [preferences, setPreferences] = useState<NotificationPreferences>(defaultPreferences);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localPreferences, setLocalPreferences] = useState<NotificationPreferences | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const fetchPreferences = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/user/notification-preferences');
-      if (response.ok) {
-        const data = await response.json();
-        setPreferences({ ...defaultPreferences, ...data.preferences });
-      }
-    } catch (err) {
-      setError('Failed to load preferences');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const {
+    preferences: fetchedPreferences,
+    isLoading: loading,
+    error,
+    savePreferences,
+    isSaving: saving,
+  } = useNotificationSettingsData();
 
-  useEffect(() => {
-    fetchPreferences();
-  }, [fetchPreferences]);
+  const preferences = localPreferences || fetchedPreferences;
 
   const handleSave = async () => {
-    setSaving(true);
-    setError(null);
+    setLocalError(null);
     setSuccess(null);
 
     try {
-      const response = await fetch('/api/user/notification-preferences', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(preferences),
-      });
-
-      if (response.ok) {
-        setSuccess('Preferences saved successfully');
-      } else {
-        setError('Failed to save preferences');
-      }
+      await savePreferences(preferences);
+      setSuccess('Preferences saved successfully');
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSaving(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to save preferences');
     }
   };
 
   const updateCategory = (key: keyof NotificationPreferences['categories'], value: boolean) => {
-    setPreferences(prev => ({
-      ...prev,
+    setLocalPreferences(prev => ({
+      ...(prev || preferences),
       categories: {
-        ...prev.categories,
+        ...(prev || preferences).categories,
         [key]: value,
       },
     }));
+  };
+
+  const setPreferences = (newPrefs: NotificationPreferences) => {
+    setLocalPreferences(newPrefs);
   };
 
   if (loading) {
@@ -135,8 +73,8 @@ export default function NotificationSettingsPage() {
               <Body className="text-on-dark-muted">Control how and when you receive notifications</Body>
             </Stack>
 
-            {error && (
-              <Alert variant="error">{error}</Alert>
+            {(error || localError) && (
+              <Alert variant="error">{error instanceof Error ? error.message : localError || String(error)}</Alert>
             )}
 
             {success && (
