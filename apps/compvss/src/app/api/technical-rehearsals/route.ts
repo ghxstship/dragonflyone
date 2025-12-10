@@ -19,23 +19,35 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
     const type = searchParams.get('type');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('technical_rehearsals')
       .select(`
-        *,
+        id, type, scheduled_start, scheduled_end, status, notes, created_at,
         event:events(id, name, start_date),
         created_by_user:platform_users(id, first_name, last_name)
-      `)
+      `, { count: 'exact' })
       .order('scheduled_start', { ascending: true });
 
     if (eventId) query = query.eq('event_id', eventId);
     if (type) query = query.eq('type', type);
 
-    const { data: rehearsals, error } = await query;
+    const { data: rehearsals, error, count } = await query.range(offset, offset + limit - 1);
     if (error) throw error;
 
-    return NextResponse.json({ rehearsals });
+    const totalCount = count || (rehearsals?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (rehearsals?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ rehearsals, pagination });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }

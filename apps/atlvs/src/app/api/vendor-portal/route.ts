@@ -13,23 +13,48 @@ export async function GET(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '20', 10);
+    const offset = (page - 1) * limit;
+
     // Get vendor linked to user
     const { data: vendor } = await supabase.from('vendors').select('id')
       .eq('portal_user_id', user.id).single();
 
     if (!vendor) return NextResponse.json({ error: 'Vendor not found' }, { status: 404 });
 
-    // Get POs
-    const { data: purchaseOrders } = await supabase.from('purchase_orders').select('*')
-      .eq('vendor_id', vendor.id).order('created_at', { ascending: false });
+    // Get POs with pagination
+    const { data: purchaseOrders, count: poCount } = await supabase
+      .from('purchase_orders')
+      .select('id, po_number, status, total_amount, created_at', { count: 'exact' })
+      .eq('vendor_id', vendor.id)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-    // Get invoices
-    const { data: invoices } = await supabase.from('vendor_invoices').select('*')
-      .eq('vendor_id', vendor.id).order('submitted_at', { ascending: false });
+    // Get invoices with pagination
+    const { data: invoices, count: invCount } = await supabase
+      .from('vendor_invoices')
+      .select('id, invoice_number, amount, status, submitted_at, due_date', { count: 'exact' })
+      .eq('vendor_id', vendor.id)
+      .order('submitted_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-    // Get payments
-    const { data: payments } = await supabase.from('vendor_payments').select('*')
-      .eq('vendor_id', vendor.id).order('payment_date', { ascending: false });
+    // Get payments with pagination
+    const { data: payments, count: payCount } = await supabase
+      .from('vendor_payments')
+      .select('id, amount, payment_date, payment_method, status', { count: 'exact' })
+      .eq('vendor_id', vendor.id)
+      .order('payment_date', { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    const pagination = {
+      page,
+      limit,
+      purchase_orders_total: poCount || 0,
+      invoices_total: invCount || 0,
+      payments_total: payCount || 0,
+    };
 
     return NextResponse.json({
       purchase_orders: purchaseOrders,
@@ -39,7 +64,8 @@ export async function GET(request: NextRequest) {
         open_pos: purchaseOrders?.filter(po => po.status === 'open').length || 0,
         pending_invoices: invoices?.filter(i => i.status === 'pending').length || 0,
         total_outstanding: invoices?.filter(i => i.status !== 'paid').reduce((s, i) => s + i.amount, 0) || 0
-      }
+      },
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });

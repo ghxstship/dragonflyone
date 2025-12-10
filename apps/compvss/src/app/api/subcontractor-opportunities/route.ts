@@ -14,18 +14,34 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category');
     const location = searchParams.get('location');
     const status = searchParams.get('status') || 'open';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase.from('subcontractor_opportunities').select(`
-      *, project:projects(id, name), applications:subcontractor_applications(id, status)
-    `).eq('status', status);
+      id, title, category, description, location, budget_range, deadline, status, created_at,
+      project:projects(id, name),
+      applications:subcontractor_applications(id, status)
+    `, { count: 'exact' }).eq('status', status);
 
     if (category) query = query.eq('category', category);
     if (location) query = query.ilike('location', `%${location}%`);
 
-    const { data, error } = await query.order('deadline', { ascending: true });
+    const { data, error, count } = await query
+      .order('deadline', { ascending: true })
+      .range(offset, offset + limit - 1);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    return NextResponse.json({ opportunities: data });
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ opportunities: data, pagination });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
   }
