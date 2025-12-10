@@ -38,6 +38,10 @@ import {
   Shield,
   Puzzle,
   Check,
+  FastForward,
+  ClipboardList,
+  MessageSquare,
+  Smartphone,
 } from "lucide-react";
 import {
   atlvsLandingHero,
@@ -64,7 +68,7 @@ export default function Home() {
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* SECTION 1: HERO */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="relative min-h-screen">
-        <Container className="relative mx-auto max-w-container-6xl px-6 py-16 lg:px-8 lg:py-24">
+        <Container className="relative mx-auto max-w-container-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Label className="font-mono text-mono-sm uppercase tracking-label text-grey-500">
@@ -79,13 +83,13 @@ export default function Home() {
               <Stack direction="horizontal" gap={4} className="flex-wrap">
                 <Link
                   href={atlvsLandingHero.primaryCta.href}
-                  className="border-2 border-ink-950 bg-brand-pink px-8 py-4 font-display text-body-md uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg"
+                  className="border-2 border-ink-950 bg-brand-pink px-6 py-3 font-display text-body-sm uppercase tracking-label text-white shadow-md transition-all duration-150 hover:-translate-y-1 hover:shadow-lg sm:px-8 sm:py-4 sm:text-body-md"
                 >
                   {atlvsLandingHero.primaryCta.label}
                 </Link>
                 <Link
                   href={atlvsLandingHero.secondaryCta.href}
-                  className="border-2 border-ink-950 bg-white px-8 py-4 font-display text-body-md uppercase tracking-label text-ink-950 shadow-subtle-md transition-all duration-150 hover:-translate-y-1 hover:shadow-subtle-lg"
+                  className="border-2 border-ink-950 bg-white px-6 py-3 font-display text-body-sm uppercase tracking-label text-ink-950 shadow-subtle-md transition-all duration-150 hover:-translate-y-1 hover:shadow-subtle-lg sm:px-8 sm:py-4 sm:text-body-md"
                 >
                   {atlvsLandingHero.secondaryCta.label}
                 </Link>
@@ -106,11 +110,11 @@ export default function Home() {
               </Card>
             </Box>
           </Grid>
-          <Box className="mt-16 border-t-2 border-grey-200 pt-8">
-            <Label className="mb-6 block text-center font-mono text-mono-xs uppercase tracking-label text-grey-400">
+          <Box className="mt-12 border-t-2 border-grey-200 pt-6 sm:mt-16 sm:pt-8">
+            <Label className="mb-4 block text-center font-mono text-mono-xs uppercase tracking-label text-grey-400 sm:mb-6">
               Trusted by industry leaders
             </Label>
-            <Stack direction="horizontal" gap={8} className="flex-wrap items-center justify-center">
+            <Stack direction="horizontal" gap={4} className="flex-wrap items-center justify-center sm:gap-8">
               {atlvsLandingHero.trustedBy.map((company) => (
                 <Text key={company} className="font-display text-h5-md uppercase tracking-label text-grey-300">
                   {company}
@@ -122,15 +126,15 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 2: FOUR VERTICALS - Features */}
-      <FullBleedSection id="features" background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection id="features" background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="text-center">
             <H1 className="text-ink-950">BUILT FOR YOUR INDUSTRY</H1>
             <Body className="text-grey-600">Four verticals. One platform. Infinite possibilities.</Body>
           </Stack>
-          <Grid cols={4} gap={6} className="mt-12">
+          <Grid cols={4} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsVerticals.map((vertical) => (
-              <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
+              <Article key={vertical.id} className="group flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
                   {vertical.icon === "Tent" && <Tent className="h-6 w-6 text-ink-950" />}
                   {vertical.icon === "Zap" && <Zap className="h-6 w-6 text-ink-950" />}
@@ -154,14 +158,14 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 3: THE PROBLEM */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-white">
             {atlvsProblemSection.headline}
           </H1>
-          <Grid cols={3} gap={6} className="mt-12">
+          <Grid cols={3} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsProblemSection.problems.map((problem) => (
-              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
+              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
                   {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-grey-400" />}
                   {problem.icon === "silos" && <Link2 className="h-6 w-6 text-grey-400" />}
@@ -178,13 +182,13 @@ export default function Home() {
         </Container>
       </FullBleedSection>
 
-      {/* SECTION 4: THREE PILLARS - Solutions */}
-      <FullBleedSection id="solutions" background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <H1 className="text-center text-ink-950">ONE PLATFORM. THREE PILLARS.</H1>
-          <Stack gap={16} className="mt-12">
+      {/* SECTION 4: FOUR PILLARS - Solutions */}
+      <FullBleedSection id="solutions" background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+          <H1 className="text-center text-ink-950">ONE PLATFORM. FOUR PILLARS.</H1>
+          <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
             {atlvsPillarsSolution.map((pillar, index) => (
-              <Article key={pillar.id} className={`grid gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+              <Article key={pillar.id} className={`grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-2 ${index % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
                 <Card className={`border-2 aspect-video border-ink-950 bg-grey-100 shadow-brand-lg ${index % 2 === 1 ? "lg:order-2" : ""}`}>
                   <Box className="flex h-full items-center justify-center">
                     <Text className="font-mono text-mono-sm uppercase tracking-label text-grey-400">{pillar.title} Screenshot</Text>
@@ -210,21 +214,25 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 5: FEATURE GRID */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-ink-950">EVERYTHING YOU NEED TO SHIP THE SHOW</H1>
-          <Grid cols={3} gap={6} className="mt-12">
+          <Grid cols={3} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsFeatureGrid.map((feature) => (
-              <Article key={feature.title} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
+              <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
                 <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
+                  {feature.icon === "FastForward" && <FastForward className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "ClipboardList" && <ClipboardList className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Calendar" && <Calendar className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Users" && <Users className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Box" && <Package className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "FileText" && <FileText className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "DollarSign" && <DollarSign className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Zap" && <Zap className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "BarChart" && <BarChart3 className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "MessageSquare" && <MessageSquare className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Shield" && <Shield className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Smartphone" && <Smartphone className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "BarChart" && <BarChart3 className="h-5 w-5 text-ink-950" />}
+                  {feature.icon === "Zap" && <Zap className="h-5 w-5 text-ink-950" />}
                   {feature.icon === "Puzzle" && <Puzzle className="h-5 w-5 text-ink-950" />}
                 </Box>
                 <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950">{feature.title}</H3>
@@ -236,17 +244,17 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 6: COMPVSS */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <Box className="border-2 border-grey-700 bg-ink-900 p-8 lg:p-12">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+          <Box className="border-2 border-grey-700 bg-ink-900 p-4 sm:p-8 lg:p-12">
             <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
             <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
-            <Body className="mt-4 text-body-lg text-grey-400">{atlvsCompvssSection.subtitle}</Body>
-            <Box className="my-8 h-px bg-grey-700" />
-            <Body className="max-w-3xl text-body-md text-grey-300">{atlvsCompvssSection.description}</Body>
-            <Grid cols={3} gap={6} className="mt-8">
+            <Body className="mt-4 text-body-md text-grey-400 sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>
+            <Box className="my-6 h-px bg-grey-700 sm:my-8" />
+            <Body className="max-w-3xl text-body-sm text-grey-300 sm:text-body-md">{atlvsCompvssSection.description}</Body>
+            <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
               {atlvsCompvssSection.features.map((feature) => (
-                <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-4">
+                <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-3 sm:p-4">
                   <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
                     {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
                     {feature.icon === "Building" && <Building className="h-5 w-5 text-brand-cyan" />}
@@ -271,16 +279,16 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 7: SOCIAL PROOF - About */}
-      <FullBleedSection id="about" background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection id="about" background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
-          <Article className="border-2 mx-auto mt-12 max-w-4xl border-ink-950 bg-white p-8 shadow-brand-lg lg:p-12">
-            <Body className="text-center text-body-lg text-grey-700 italic">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
-            <Text className="mt-6 block text-center font-mono text-mono-sm uppercase tracking-label text-grey-500">
+          <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-brand-lg sm:mt-12 sm:p-8 lg:p-12">
+            <Body className="text-center text-body-md text-grey-700 italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
+            <Text className="mt-4 block text-center font-mono text-mono-xs uppercase tracking-label text-grey-500 sm:mt-6 sm:text-mono-sm">
               — {atlvsSocialProof.testimonial.author}, {atlvsSocialProof.testimonial.company}
             </Text>
           </Article>
-          <Grid cols={4} gap={6} className="mt-12">
+          <Grid cols={4} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsSocialProof.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
                 <Display className="font-display text-display-sm uppercase text-ink-950">{stat.value}</Display>
@@ -292,18 +300,18 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 8: PRICING */}
-      <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
+      <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={4} className="mb-8 text-center sm:mb-16">
             <H1 className="text-ink-950">{atlvsPricing.headline}</H1>
             <Body className="text-grey-600">{atlvsPricing.subheadline}</Body>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={4} className="sm:gap-6">
             {atlvsPricing.tiers.map((tier) => (
               <Card
                 key={tier.id}
-                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"
+                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-8"
               >
                 {tier.popular && (
                   <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-4 py-1 text-white">
@@ -357,12 +365,12 @@ export default function Home() {
       </FullBleedSection>
 
       {/* SECTION 9: FINAL CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
-          <Display className="font-display text-display-md uppercase text-white md:text-display-lg">{atlvsLandingCta.headline}</Display>
-          <Body className="mx-auto mt-6 max-w-xl text-body-lg text-grey-400">{atlvsLandingCta.subheadline}</Body>
-          <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">
-            <Link href={atlvsLandingCta.primaryCta.href} className="border-2 border-brand-pink bg-brand-pink px-8 py-4 font-display text-body-md uppercase tracking-label text-white shadow-brand-glow transition-all duration-150 hover:-translate-y-1 hover:shadow-brand-glow-hover">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
+          <Display className="font-display text-display-sm uppercase text-white sm:text-display-md md:text-display-lg">{atlvsLandingCta.headline}</Display>
+          <Body className="mx-auto mt-4 max-w-xl text-body-md text-grey-400 sm:mt-6 sm:text-body-lg">{atlvsLandingCta.subheadline}</Body>
+          <Stack direction="horizontal" gap={3} className="mt-6 flex-wrap justify-center sm:mt-8 sm:gap-4">
+            <Link href={atlvsLandingCta.primaryCta.href} className="border-2 border-brand-pink bg-brand-pink px-6 py-3 font-display text-body-sm uppercase tracking-label text-white shadow-brand-glow transition-all duration-150 hover:-translate-y-1 hover:shadow-brand-glow-hover sm:px-8 sm:py-4 sm:text-body-md">
               {atlvsLandingCta.primaryCta.label}
             </Link>
             <NextLink href={atlvsLandingCta.secondaryCta.href}>

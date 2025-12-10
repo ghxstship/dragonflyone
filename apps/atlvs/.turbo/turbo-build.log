@@ -8,6 +8,7 @@
 
    Creating an optimized production build ...
    Using tsconfig file: tsconfig.build.json
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Collecting page data ...
@@ -394,7 +395,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /crm/email-integration                         2.12 kB         517 kB
 ├ ○ /crm/lead-scoring                              2.57 kB         517 kB
 ├ ○ /crm/relationships                             1.84 kB         517 kB
-├ ○ /crm/tasks                                     2.79 kB         517 kB
+├ ○ /crm/tasks                                     2.79 kB         518 kB
 ├ ○ /dashboard                                     6.56 kB         521 kB
 ├ ○ /deals                                         2.15 kB         517 kB
 ├ ƒ /demo                                          136 B           515 kB
@@ -405,7 +406,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /expenses                                      2.48 kB         517 kB
 ├ ƒ /expenses/[id]                                 2.19 kB         517 kB
 ├ ○ /expenses/categories                           2.02 kB         517 kB
-├ ○ /expenses/reports                              1.78 kB         516 kB
+├ ○ /expenses/reports                              1.78 kB         517 kB
 ├ ƒ /features                                      136 B           515 kB
 ├ ○ /finance                                       1.89 kB         517 kB
 ├ ○ /finance/accounts-receivable                   2.22 kB         517 kB
@@ -429,7 +430,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /investors                                     2.33 kB         517 kB
 ├ ƒ /investors/[id]                                2.05 kB         517 kB
 ├ ○ /investors/documents                           2.07 kB         517 kB
-├ ○ /investors/reports                             1.79 kB         516 kB
+├ ○ /investors/reports                             1.79 kB         517 kB
 ├ ○ /investors/rounds                              2.31 kB         517 kB
 ├ ○ /invoices                                      2.92 kB         518 kB
 ├ ○ /ip-tracking                                   2.39 kB         517 kB
@@ -512,7 +513,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /procurement/emergency                         2.56 kB         517 kB
 ├ ○ /procurement/logistics                         2.47 kB         517 kB
 ├ ○ /procurement/vendor-audits                     2.34 kB         517 kB
-├ ○ /procurement/vendor-selection                  2.82 kB         517 kB
+├ ○ /procurement/vendor-selection                  2.82 kB         518 kB
 ├ ○ /productions                                   1.1 kB          516 kB
 ├ ○ /productions/new                               2.74 kB         517 kB
 ├ ○ /profile                                       1.75 kB         516 kB
@@ -526,11 +527,11 @@ Route (app)                                        Size     First Load JS
 ├ ○ /rfp                                           2.28 kB         517 kB
 ├ ○ /risks                                         2.02 kB         517 kB
 ├ ○ /scenarios                                     2.38 kB         517 kB
-├ ○ /schedule                                      1.82 kB         516 kB
+├ ○ /schedule                                      1.82 kB         517 kB
 ├ ○ /schedule/contingencies                        2.42 kB         517 kB
 ├ ƒ /schedule/contingencies/[id]                   2.01 kB         517 kB
 ├ ○ /schedule/tasks                                2.33 kB         517 kB
-├ ƒ /schedule/tasks/[id]                           1.8 kB          516 kB
+├ ƒ /schedule/tasks/[id]                           1.8 kB          517 kB
 ├ ○ /schedule/templates                            2.65 kB         517 kB
 ├ ƒ /security                                      136 B           515 kB
 ├ ○ /settings                                      1.66 kB         516 kB
@@ -539,7 +540,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /sponsors/[id]                                 2.67 kB         517 kB
 ├ ○ /sponsors/deck                                 2 kB            517 kB
 ├ ○ /sponsors/fulfillment                          2.09 kB         517 kB
-├ ○ /sponsors/reports                              1.81 kB         516 kB
+├ ○ /sponsors/reports                              1.81 kB         517 kB
 ├ ○ /sponsors/tiers                                2.13 kB         517 kB
 ├ ○ /stakeholders                                  2.4 kB          517 kB
 ├ ƒ /status                                        136 B           515 kB
@@ -569,7 +570,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /workforce/union-compliance                    2.35 kB         517 kB
 └ ○ /workforce/union-rules                         2.1 kB          517 kB
 + First Load JS shared by all                      515 kB
-  ├ chunks/commons-afde7ca6a60c44e3.js             119 kB
+  ├ chunks/commons-2a3ec7c7b7a67418.js             119 kB
   ├ chunks/lib-88e04261b020b765.js                 394 kB
   └ other shared chunks (total)                    1.99 kB
 

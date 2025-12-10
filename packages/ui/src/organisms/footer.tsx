@@ -23,7 +23,7 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
       <footer
         ref={ref}
         className={clsx(
-          "border-t-4 py-12",
+          "border-t-4 py-8 sm:py-12",
           inverted
             ? "bg-black text-white border-white"
             : "bg-white text-black border-black",
@@ -31,9 +31,9 @@ export const Footer = forwardRef<HTMLElement, FooterProps>(
         )}
         {...props}
       >
-        <div className="container mx-auto px-4 max-w-7xl">
-          {logo ? <div className="mb-8">{logo}</div> : null}
-          {children ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">{children}</div> : null}
+        <div className="container mx-auto px-4 max-w-7xl sm:px-6 lg:px-8">
+          {logo ? <div className="mb-6 sm:mb-8">{logo}</div> : null}
+          {children ? <div className="grid grid-cols-2 gap-6 mb-6 sm:gap-8 sm:mb-8 md:grid-cols-4">{children}</div> : null}
           {copyright ? (
             <div className={clsx("pt-8 border-t-2", inverted ? "border-grey-800" : "border-grey-200")}>
               <p className={clsx(
@@ -56,9 +56,9 @@ export type FooterColumnProps = HTMLAttributes<HTMLDivElement> & {
 export const FooterColumn = forwardRef<HTMLDivElement, FooterColumnProps>(
   function FooterColumn({ title, inverted = true, className, children, ...props }, ref) {
     return (
-      <div ref={ref} className={clsx("flex flex-col gap-4", className)} {...props}>
+      <div ref={ref} className={clsx("flex flex-col gap-2 sm:gap-4", className)} {...props}>
         <h3 className={clsx(
-          "font-heading text-sm uppercase tracking-wider font-bold",
+          "font-heading text-xs uppercase tracking-wider font-bold sm:text-sm",
           inverted ? "text-white" : "text-black"
         )}>{title}</h3>
         {children}
@@ -79,7 +79,7 @@ export const FooterLink = forwardRef<HTMLAnchorElement, FooterLinkProps>(
         ref={ref}
         href={href}
         className={clsx(
-          "font-body text-sm transition-all duration-100",
+          "font-body text-xs transition-all duration-100 sm:text-sm",
           "hover:-translate-x-0.5",
           inverted
             ? "text-grey-400 hover:text-white"
