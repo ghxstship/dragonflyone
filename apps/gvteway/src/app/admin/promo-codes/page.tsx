@@ -103,6 +103,7 @@ export default function PromoCodesPage() {
     createPromoCode,
     updatePromoCode,
     deletePromoCode,
+    refetch,
   } = usePromoCodesData();
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -171,11 +172,11 @@ export default function PromoCodesPage() {
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'disable') {
-      setPromoCodes(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, status: 'disabled' as const } : p));
+      await Promise.all(selectedIds.map(id => updatePromoCode({ id, status: 'disabled' })));
     } else if (actionId === 'enable') {
-      setPromoCodes(prev => prev.map(p => selectedIds.includes(p.id) ? { ...p, status: 'active' as const } : p));
+      await Promise.all(selectedIds.map(id => updatePromoCode({ id, status: 'active' })));
     } else if (actionId === 'delete') {
-      setPromoCodes(prev => prev.filter(p => !selectedIds.includes(p.id)));
+      await Promise.all(selectedIds.map(id => deletePromoCode(id)));
     }
   };
 
@@ -210,7 +211,7 @@ export default function PromoCodesPage() {
 
       }
 
-      refetch();
+      await refetch();
 
     },
 
@@ -232,7 +233,7 @@ export default function PromoCodesPage() {
         rowKey="id"
         loading={loading}
         error={error}
-        onRetry={fetchPromoCodes}
+        onRetry={() => refetch()}
         searchPlaceholder="Search promo codes..."
         filters={filters}
         rowActions={rowActions}

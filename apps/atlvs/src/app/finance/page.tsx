@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
-import { supabase } from "@/lib/supabase";
 import {
   ListPage,
   Badge,
@@ -17,14 +16,9 @@ import {
   type DetailSection,
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { useLedgerData, type LedgerTransaction } from "@/hooks/useFinance";
 
-interface Transaction {
-  id: string;
-  type: string;
-  entity: string;
-  amount: number;
-  status: string;
-  date: string;
+interface Transaction extends LedgerTransaction {
   [key: string]: unknown;
 }
 
@@ -50,47 +44,20 @@ const filters: ListPageFilter[] = [
 
 export default function FinancePage() {
   const router = useRouter();
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    transactions: ledgerTransactions,
+    totalRevenue,
+    totalExpenses,
+    netProfit,
+    isLoading: loading,
+    error,
+  } = useLedgerData();
+
+  // Cast to Transaction type for compatibility with ListPage
+  const transactions = ledgerTransactions as Transaction[];
+
   const [selectedTxn, setSelectedTxn] = useState<Transaction | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchTransactions = useCallback(async () => {
-    try {
-      setLoading(true);
-      const { data: ledger, error: fetchError } = await supabase
-        .from('ledger_entries')
-        .select(`id, amount, side, entry_date, memo, ledger_accounts(name, account_type)`)
-        .order('entry_date', { ascending: false })
-        .limit(50);
-
-      if (fetchError) throw fetchError;
-
-      interface LedgerEntry { id: string; side: string; memo?: string; ledger_accounts?: { name?: string }; amount: string | number; entry_date: string }
-      const formatted = ledger?.map((entry: LedgerEntry) => ({
-        id: entry.id.substring(0, 8).toUpperCase(),
-        type: entry.side === 'credit' ? 'Invoice' : 'Expense',
-        entity: entry.memo || entry.ledger_accounts?.name || 'N/A',
-        amount: entry.side === 'credit' ? parseFloat(String(entry.amount)) : -parseFloat(String(entry.amount)),
-        status: entry.side === 'credit' ? 'Paid' : 'Approved',
-        date: entry.entry_date,
-      })) || [];
-
-      setTransactions(formatted);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchTransactions(); }, [fetchTransactions]);
-
-  const totalRevenue = transactions.filter(t => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
-  const totalExpenses = Math.abs(transactions.filter(t => t.amount < 0).reduce((sum, t) => sum + t.amount, 0));
-  const netProfit = totalRevenue - totalExpenses;
 
   const rowActions: ListPageAction<Transaction>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },

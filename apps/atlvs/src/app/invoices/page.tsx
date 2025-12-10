@@ -101,6 +101,7 @@ export default function InvoicesPage() {
     sendInvoice,
     deleteInvoice,
     sendReminder,
+    refetch,
   } = useInvoicesData();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);

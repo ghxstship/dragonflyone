@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { AtlvsAppLayout, AtlvsLoadingLayout } from "@/components/app-layout";
 import {
   H2,
@@ -15,111 +15,32 @@ import {
   Label,
 } from "@ghxstship/ui";
 import { Bell, CheckCircle, Mail, Briefcase, DollarSign, Settings } from "lucide-react";
-import { log } from '@ghxstship/config';
-
-// Demo data for unauthenticated users
-const DEMO_NOTIFICATIONS: Notification[] = [
-  {
-    id: "demo-1",
-    type: "project_update",
-    title: "Project Budget Updated",
-    message: "Summer Festival 2024 budget has been approved. Review the updated allocations.",
-    read: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "demo-2",
-    type: "finance",
-    title: "Invoice Approved",
-    message: "Invoice #INV-2024-0456 for $12,500 has been approved for payment.",
-    read: false,
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-  },
-  {
-    id: "demo-3",
-    type: "system",
-    title: "Report Ready",
-    message: "Your Q4 financial report is ready for download.",
-    read: true,
-    created_at: new Date(Date.now() - 172800000).toISOString(),
-  },
-];
-
-interface Notification {
-  id: string;
-  type: string;
-  title: string;
-  message: string;
-  read: boolean;
-  created_at: string;
-  user_id?: string;
-}
+import { useNotificationsData } from "@/hooks/useNotifications";
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [filterType, setFilterType] = useState("all");
-
-  const fetchNotifications = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterType !== "all") {
-        params.append("type", filterType);
-      }
-
-      const response = await fetch(`/api/notifications?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setNotifications(DEMO_NOTIFICATIONS);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error("Failed to fetch notifications");
-      }
-      const data = await response.json();
-      setNotifications(data.notifications || []);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setNotifications(DEMO_NOTIFICATIONS);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterType]);
-
-  useEffect(() => {
-    fetchNotifications();
-  }, [fetchNotifications]);
+  
+  const {
+    notifications,
+    isLoading: loading,
+    error,
+    markRead,
+    markAllRead,
+  } = useNotificationsData(filterType);
 
   const handleMarkRead = async (notificationId: string, currentRead: boolean) => {
     try {
-      const response = await fetch(`/api/notifications/${notificationId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ read: !currentRead }),
-      });
-      if (response.ok) {
-        fetchNotifications();
-      }
+      await markRead({ notificationId, read: !currentRead });
     } catch (err) {
-      log.error('Failed to update notification:', err instanceof Error ? err : undefined);
+      // Error handled in hook
     }
   };
 
   const handleMarkAllRead = async () => {
     try {
-      const response = await fetch("/api/notifications/mark-all-read", {
-        method: "POST",
-      });
-      if (response.ok) {
-        fetchNotifications();
-      }
+      await markAllRead();
     } catch (err) {
-      log.error('Failed to mark all as read:', err instanceof Error ? err : undefined);
+      // Error handled in hook
     }
   };
 
@@ -147,8 +68,7 @@ export default function NotificationsPage() {
       <AtlvsAppLayout>
             <EmptyState
               title="Error Loading Notifications"
-              description={error}
-              action={{ label: "Retry", onClick: fetchNotifications }}
+              description={error instanceof Error ? error.message : 'An error occurred'}
               inverted
             />
       </AtlvsAppLayout>
