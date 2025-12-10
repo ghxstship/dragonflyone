@@ -6,41 +6,34 @@ import {
   H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard,
   Kicker,
 } from '@ghxstship/ui';
+import { useIntegrationsData, type SyncResult } from '@/hooks/useIntegrations';
 
 export default function GvtewayIntegrationsPage() {
   const [eventCode, setEventCode] = useState('');
   const [projectCode, setProjectCode] = useState('');
   const [ticketsSold, setTicketsSold] = useState('');
   const [revenue, setRevenue] = useState('');
-  const [loading, setLoading] = useState(false);
-  interface SyncResult { success: boolean; message?: string; data?: Record<string, unknown> }
   const [result, setResult] = useState<SyncResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  const {
+    syncRevenue,
+    isSyncing: loading,
+  } = useIntegrationsData();
 
   const handleRevenueSync = async () => {
-    setLoading(true);
-    setError(null);
+    setLocalError(null);
     setResult(null);
 
     try {
-      const response = await fetch('/api/integrations/ticket-revenue', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orgSlug: 'ghxstship',
-          projectCode,
-          eventCode,
-          ticketCount: parseInt(ticketsSold),
-          grossAmount: parseFloat(revenue),
-          currency: 'USD',
-        }),
+      const data = await syncRevenue({
+        orgSlug: 'ghxstship',
+        projectCode,
+        eventCode,
+        ticketCount: parseInt(ticketsSold),
+        grossAmount: parseFloat(revenue),
+        currency: 'USD',
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to sync revenue');
-      }
 
       setResult(data);
       // Reset form
@@ -49,9 +42,7 @@ export default function GvtewayIntegrationsPage() {
       setTicketsSold('');
       setRevenue('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
-    } finally {
-      setLoading(false);
+      setLocalError(err instanceof Error ? err.message : 'Unknown error');
     }
   };
 
@@ -140,9 +131,9 @@ export default function GvtewayIntegrationsPage() {
                   </Button>
                 </Stack>
 
-                {error && (
+                {localError && (
                   <Alert variant="error">
-                    {error}
+                    {localError}
                   </Alert>
                 )}
 

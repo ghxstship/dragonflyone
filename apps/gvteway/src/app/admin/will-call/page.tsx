@@ -18,30 +18,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-interface WillCallTicket {
-  id: string;
-  orderNumber: string;
-  customerName: string;
-  email: string;
-  phone?: string;
-  eventName: string;
-  ticketType: string;
-  quantity: number;
-  status: "Pending" | "Ready" | "Picked Up" | "No Show";
-  notes?: string;
-  idRequired: boolean;
-  pickedUpAt?: string;
-  pickedUpBy?: string;
-}
-
-const mockTickets: WillCallTicket[] = [
-  { id: "WC-001", orderNumber: "ORD-2024-1234", customerName: "John Smith", email: "john@email.com", phone: "+1 555-0101", eventName: "Summer Fest 2024", ticketType: "VIP", quantity: 2, status: "Ready", idRequired: true },
-  { id: "WC-002", orderNumber: "ORD-2024-1235", customerName: "Sarah Johnson", email: "sarah@email.com", eventName: "Summer Fest 2024", ticketType: "GA", quantity: 4, status: "Ready", idRequired: true, notes: "Guest may send alternate pickup" },
-  { id: "WC-003", orderNumber: "ORD-2024-1236", customerName: "Mike Davis", email: "mike@email.com", phone: "+1 555-0103", eventName: "Summer Fest 2024", ticketType: "VIP", quantity: 1, status: "Picked Up", idRequired: true, pickedUpAt: "2024-11-24 18:30", pickedUpBy: "Mike Davis" },
-  { id: "WC-004", orderNumber: "ORD-2024-1237", customerName: "Emily Chen", email: "emily@email.com", eventName: "Summer Fest 2024", ticketType: "GA", quantity: 2, status: "Pending", idRequired: true },
-  { id: "WC-005", orderNumber: "ORD-2024-1238", customerName: "Chris Wilson", email: "chris@email.com", phone: "+1 555-0105", eventName: "Summer Fest 2024", ticketType: "Meet & Greet", quantity: 2, status: "Ready", idRequired: true },
-];
+import { useWillCallData, type WillCallTicket } from '@/hooks/useWillCall';
 
 const columns: ListPageColumn<WillCallTicket>[] = [
   { key: 'orderNumber', label: 'Order', accessor: 'orderNumber', sortable: true },
@@ -64,12 +41,17 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function WillCallPage() {
-  const [tickets, setTickets] = useState<WillCallTicket[]>(mockTickets);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState<WillCallTicket | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [releaseConfirmOpen, setReleaseConfirmOpen] = useState(false);
   const [ticketToRelease, setTicketToRelease] = useState<WillCallTicket | null>(null);
+
+  const {
+    tickets,
+    refetch,
+    releaseTicket,
+  } = useWillCallData();
 
   const readyCount = tickets.filter(t => t.status === "Ready").length;
   const pickedUpCount = tickets.filter(t => t.status === "Picked Up").length;
@@ -99,7 +81,8 @@ export default function WillCallPage() {
 
   const handleRelease = async () => {
     if (ticketToRelease) {
-      setTickets(prev => prev.map(t => t.id === ticketToRelease.id ? { ...t, status: 'Picked Up' as const, pickedUpAt: new Date().toISOString() } : t));
+      await releaseTicket(ticketToRelease.id);
+      refetch();
       setReleaseConfirmOpen(false);
       setTicketToRelease(null);
     }
