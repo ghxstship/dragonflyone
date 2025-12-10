@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sunrise, Sun, Moon, Popcorn, UtensilsCrossed } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -27,127 +27,21 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-interface MealService {
-  id: string;
-  project_id: string;
-  project_name: string;
-  service_date: string;
-  meal_type: string;
-  headcount: number;
-  vendor_id?: string;
-  vendor_name?: string;
-  location: string;
-  dietary_notes?: string;
-  cost_per_head: number;
-  total_cost: number;
-  status: string;
-}
-
-interface DietaryRequirement {
-  type: string;
-  count: number;
-}
-
-interface CateringSummary {
-  total_services: number;
-  upcoming_meals: number;
-  total_headcount: number;
-  total_cost: number;
-  average_cost_per_head: number;
-  dietary_requirements: DietaryRequirement[];
-}
-
-// Demo data for unauthenticated users
-const DEMO_SERVICES: MealService[] = [
-  {
-    id: "demo-1",
-    project_id: "proj-001",
-    project_name: "Summer Festival 2024",
-    service_date: new Date().toISOString(),
-    meal_type: "breakfast",
-    headcount: 45,
-    vendor_id: "vendor-001",
-    vendor_name: "Gourmet Catering Co",
-    location: "Backstage Area A",
-    dietary_notes: "12 vegetarian, 5 vegan, 3 gluten-free",
-    cost_per_head: 18,
-    total_cost: 810,
-    status: "confirmed",
-  },
-  {
-    id: "demo-2",
-    project_id: "proj-001",
-    project_name: "Summer Festival 2024",
-    service_date: new Date().toISOString(),
-    meal_type: "lunch",
-    headcount: 52,
-    vendor_id: "vendor-001",
-    vendor_name: "Gourmet Catering Co",
-    location: "Crew Tent",
-    cost_per_head: 22,
-    total_cost: 1144,
-    status: "confirmed",
-  },
-];
-
-const DEMO_CATERING_SUMMARY: CateringSummary = {
-  total_services: 24,
-  upcoming_meals: 6,
-  total_headcount: 312,
-  total_cost: 8450,
-  average_cost_per_head: 27,
-  dietary_requirements: [
-    { type: "Vegetarian", count: 12 },
-    { type: "Vegan", count: 5 },
-    { type: "Gluten-Free", count: 8 },
-  ],
-};
+import { useCateringData } from "@/hooks/useCatering";
 
 export default function CateringPage() {
   const router = useRouter();
   const { addNotification: _addNotification } = useNotifications();
-  const [services, setServices] = useState<MealService[]>([]);
-  const [summary, setSummary] = useState<CateringSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [filterProject, setFilterProject] = useState("all");
   const [filterMealType, setFilterMealType] = useState("all");
 
-  const fetchCateringData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterProject !== "all") params.append("project_id", filterProject);
-      if (filterMealType !== "all") params.append("meal_type", filterMealType);
-
-      const response = await fetch(`/api/catering?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setServices(DEMO_SERVICES);
-        setSummary(DEMO_CATERING_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch catering data");
-      
-      const data = await response.json();
-      setServices(data.services || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setServices(DEMO_SERVICES);
-      setSummary(DEMO_CATERING_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterProject, filterMealType]);
-
-  useEffect(() => {
-    fetchCateringData();
-  }, [fetchCateringData]);
+  const {
+    services,
+    summary,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useCateringData({ projectId: filterProject, mealType: filterMealType });
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -232,7 +126,7 @@ export default function CateringPage() {
             <EmptyState
               title="Error Loading Catering Data"
               description={error}
-              action={{ label: "Retry", onClick: fetchCateringData }}
+              action={{ label: "Retry", onClick: () => refetch() }}
             />
           </Container>
         </MainContent>

@@ -48,14 +48,18 @@ const DEMO_SUMMARY: CateringSummary = {
 
 export const cateringKeys = {
   all: ['catering'] as const,
-  list: () => [...cateringKeys.all, 'list'] as const,
+  list: (filters?: { projectId?: string; mealType?: string }) => [...cateringKeys.all, 'list', filters] as const,
 };
 
-export function useCateringServices() {
+export function useCateringServices(filters?: { projectId?: string; mealType?: string }) {
   return useQuery({
-    queryKey: cateringKeys.list(),
+    queryKey: cateringKeys.list(filters),
     queryFn: async () => {
-      const response = await fetch('/api/catering');
+      const params = new URLSearchParams();
+      if (filters?.projectId && filters.projectId !== 'all') params.append('project_id', filters.projectId);
+      if (filters?.mealType && filters.mealType !== 'all') params.append('meal_type', filters.mealType);
+      
+      const response = await fetch(`/api/catering?${params.toString()}`);
       if (response.status === 401) {
         return { services: DEMO_SERVICES, summary: DEMO_SUMMARY };
       }
@@ -72,8 +76,8 @@ export function useCateringServices() {
   });
 }
 
-export function useCateringData() {
-  const cateringQuery = useCateringServices();
+export function useCateringData(filters?: { projectId?: string; mealType?: string }) {
+  const cateringQuery = useCateringServices(filters);
 
   const data = cateringQuery.data || { services: [], summary: DEMO_SUMMARY };
 
