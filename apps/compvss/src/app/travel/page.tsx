@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -19,28 +19,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface TravelBooking {
-  id: string;
-  booking_reference: string;
-  crew_member_id: string;
-  crew_member_name: string;
-  project_id: string;
-  project_name: string;
-  travel_type: string;
-  departure_date: string;
-  return_date?: string;
-  origin: string;
-  destination: string;
-  carrier?: string;
-  flight_number?: string;
-  hotel_name?: string;
-  confirmation_number?: string;
-  cost: number;
-  status: string;
-  notes?: string;
-  [key: string]: unknown;
-}
+import { useTravelData, type TravelBooking } from "@/hooks/useTravel";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
 
@@ -64,32 +43,18 @@ const filters: ListPageFilter[] = [
 
 export default function TravelPage() {
   const router = useRouter();
-  const [bookings, setBookings] = useState<TravelBooking[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    bookings,
+    totalCost,
+    confirmedCount,
+    pendingCount,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useTravelData();
+
   const [selectedBooking, setSelectedBooking] = useState<TravelBooking | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchTravelData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/travel");
-      if (!response.ok) throw new Error("Failed to fetch travel data");
-      const data = await response.json();
-      setBookings(data.bookings || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchTravelData(); }, [fetchTravelData]);
-
-  const confirmedCount = bookings.filter(b => b.status === 'confirmed').length;
-  const pendingCount = bookings.filter(b => b.status === 'pending').length;
-  const totalCost = bookings.reduce((sum, b) => sum + b.cost, 0);
 
   const rowActions: ListPageAction<TravelBooking>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedBooking(r); setDrawerOpen(true); } },
@@ -108,7 +73,7 @@ export default function TravelPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchTravelData();
+      refetch();
     },
   });
 
@@ -160,8 +125,8 @@ primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new')
           columns={columns}
           rowKey="id"
           loading={loading}
-          error={error ? new Error(error) : undefined}
-          onRetry={fetchTravelData}
+          error={error instanceof Error ? error : error ? new Error(String(error)) : undefined}
+          onRetry={() => refetch()}
           searchPlaceholder="Search bookings..."
           filters={filters}
           rowActions={rowActions}
@@ -199,14 +164,14 @@ primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new')
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ids }),
               });
-              fetchTravelData();
+              refetch();
             } else if (action === 'cancel') {
               await fetch('/api/travel/bulk-cancel', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ids }),
               });
-              fetchTravelData();
+              refetch();
             }
           }}
           bulkActions={[

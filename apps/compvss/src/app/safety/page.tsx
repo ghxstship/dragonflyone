@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -20,79 +19,20 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { AlertTriangle, FileText, Shield } from 'lucide-react';
-
-// Demo data for unauthenticated users
-const DEMO_INCIDENTS: Incident[] = [
-  {
-    id: "demo-1",
-    type: "near_miss",
-    description: "Loose cable near stage left entrance",
-    location: "Stage Left",
-    reported_by: "John Smith",
-    date: new Date().toISOString(),
-    status: "investigating",
-    severity: "medium",
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "demo-2",
-    type: "minor_injury",
-    description: "Minor cut while handling equipment",
-    location: "Loading Dock",
-    reported_by: "Jane Doe",
-    date: new Date(Date.now() - 86400000).toISOString(),
-    status: "resolved",
-    severity: "low",
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-  },
-];
-
-interface Incident {
-  id: string;
-  type: string;
-  description: string;
-  location: string;
-  reported_by: string;
-  date: string;
-  status: string;
-  severity: string;
-  created_at: string;
-}
+import { useSafetyPageData } from '@/hooks/useSafety';
 
 export default function SafetyPage() {
   const router = useRouter();
-  const [incidents, setIncidents] = useState<Incident[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    incidents,
+    openCount,
+    resolvedCount,
+    isLoading: loading,
+    error,
+  } = useSafetyPageData();
 
-  const fetchIncidents = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/safety/incidents');
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setIncidents(DEMO_INCIDENTS);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error('Failed to fetch incidents');
-      }
-      const data = await response.json();
-      setIncidents(data.incidents || []);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setIncidents(DEMO_INCIDENTS);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchIncidents();
-  }, [fetchIncidents]);
+  const activeIncidents = openCount;
+  const resolvedIncidents = resolvedCount;
 
   // Certifications fetched from API
   const certifications = [
@@ -134,8 +74,8 @@ export default function SafetyPage() {
           <Container>
             <EmptyState
               title="Error Loading Safety Data"
-              description={error}
-              action={{ label: "Retry", onClick: fetchIncidents }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => window.location.reload() }}
             />
           </Container>
         </MainContent>

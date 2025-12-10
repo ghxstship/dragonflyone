@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   H3,
@@ -18,105 +17,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 import { getBadgeVariant } from "@ghxstship/config";
-
-interface ScheduleItem {
-  id: string;
-  title: string;
-  type: string;
-  start_time: string;
-  end_time: string;
-  status: string;
-  priority: string;
-  crew_roles_required?: string[];
-  assignments?: Array<{
-    id: string;
-    crew_member?: { id: string; full_name: string; role: string };
-    status: string;
-  }>;
-}
-
-interface ScheduleSummary {
-  total: number;
-  by_type: Record<string, number>;
-  by_status: {
-    scheduled: number;
-    in_progress: number;
-    completed: number;
-    cancelled: number;
-  };
-}
-
-// Demo data for unauthenticated users
-const DEMO_SCHEDULE: ScheduleItem[] = [
-  {
-    id: "demo-1",
-    title: "Load-In: Audio Equipment",
-    type: "load_in",
-    start_time: new Date().toISOString(),
-    end_time: new Date(Date.now() + 4 * 3600000).toISOString(),
-    status: "in_progress",
-    priority: "high",
-    crew_roles_required: ["Audio Tech", "Stagehand"],
-    assignments: [
-      { id: "a1", crew_member: { id: "c1", full_name: "John Smith", role: "Audio Tech" }, status: "confirmed" },
-      { id: "a2", crew_member: { id: "c2", full_name: "Jane Doe", role: "Stagehand" }, status: "confirmed" },
-    ],
-  },
-  {
-    id: "demo-2",
-    title: "Lighting Setup",
-    type: "setup",
-    start_time: new Date(Date.now() + 5 * 3600000).toISOString(),
-    end_time: new Date(Date.now() + 9 * 3600000).toISOString(),
-    status: "scheduled",
-    priority: "medium",
-    crew_roles_required: ["Lighting Tech"],
-  },
-];
-
-const DEMO_SCHEDULE_SUMMARY: ScheduleSummary = {
-  total: 12,
-  by_type: { load_in: 3, setup: 4, rehearsal: 2, show: 2, strike: 1 },
-  by_status: { scheduled: 5, in_progress: 2, completed: 4, cancelled: 1 },
-};
+import { useSchedulePageData, type ScheduleItem } from "@/hooks/useSchedule";
 
 export default function SchedulePage() {
-  const [schedule, setSchedule] = useState<ScheduleItem[]>([]);
-  const [summary, setSummary] = useState<ScheduleSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchSchedule = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/schedule');
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setSchedule(DEMO_SCHEDULE);
-        setSummary(DEMO_SCHEDULE_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error('Failed to fetch schedule');
-      }
-      const data = await response.json();
-      setSchedule(data.schedule || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setSchedule(DEMO_SCHEDULE);
-      setSummary(DEMO_SCHEDULE_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSchedule();
-  }, [fetchSchedule]);
+  const {
+    items: schedule,
+    summary,
+    isLoading: loading,
+    error,
+  } = useSchedulePageData();
 
   const formatTime = (dateString: string) => {
     return new Date(dateString).toLocaleTimeString('en-US', {
@@ -152,8 +61,8 @@ export default function SchedulePage() {
           <Container>
             <EmptyState
               title="Error Loading Schedule"
-              description={error}
-              action={{ label: "Retry", onClick: fetchSchedule }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => window.location.reload() }}
             />
           </Container>
         </MainContent>
