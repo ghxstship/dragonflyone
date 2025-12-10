@@ -29,17 +29,20 @@ export async function GET(request: NextRequest) {
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
     const payPeriod = searchParams.get('pay_period');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('timesheets')
       .select(`
-        *,
-        employee:employees(id, first_name, last_name, employee_number, department_id, pay_rate),
-        project:projects(id, name, project_code),
-        department:departments(id, name),
-        approved_by_user:platform_users!approved_by(id, full_name)
-      `)
-      .order('work_date', { ascending: false });
+        id, work_date, clock_in, clock_out, status, regular_hours, overtime_hours, total_hours,
+        employee:employees(id, first_name, last_name, employee_number),
+        project:projects(id, name),
+        department:departments(id, name)
+      `, { count: 'exact' })
+      .order('work_date', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (status && status !== 'all') {
       query = query.eq('status', status);
@@ -63,7 +66,7 @@ export async function GET(request: NextRequest) {
       query = query.eq('pay_period', payPeriod);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query;
 
     if (error) {
       Logger.error('Error fetching timesheets:', error);
@@ -82,9 +85,10 @@ export async function GET(request: NextRequest) {
       [key: string]: unknown;
     }
     const timesheets = (data || []) as unknown as TimesheetRecord[];
+    const totalCount = count || timesheets.length;
 
     const summary = {
-      total_entries: timesheets.length,
+      total_entries: totalCount,
       by_status: {
         draft: timesheets.filter(t => t.status === 'draft').length,
         submitted: timesheets.filter(t => t.status === 'submitted').length,
@@ -96,7 +100,15 @@ export async function GET(request: NextRequest) {
       total_hours: timesheets.reduce((sum, t) => sum + (t.total_hours || 0), 0),
     };
 
-    return NextResponse.json({ timesheets: data, summary });
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + timesheets.length < totalCount,
+    };
+
+    return NextResponse.json({ timesheets: data, summary, pagination });
   } catch (error) {
     Logger.error('Error in GET /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

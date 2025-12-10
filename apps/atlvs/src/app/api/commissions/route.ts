@@ -13,27 +13,45 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const employeeId = searchParams.get('employee_id');
     const period = searchParams.get('period'); // YYYY-MM
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase.from('commissions').select(`
-      *, employee:employees(id, first_name, last_name), deal:deals(id, name, value)
-    `);
+      id, amount, status, commission_type, period_start, period_end, created_at,
+      employee:employees(id, first_name, last_name),
+      deal:deals(id, name, value)
+    `, { count: 'exact' });
 
     if (employeeId) query = query.eq('employee_id', employeeId);
     if (period) query = query.gte('period_start', `${period}-01`).lte('period_end', `${period}-31`);
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    const totalCommissions = data?.reduce((sum, c) => sum + (c.amount || 0), 0) || 0;
+    const commissions = data || [];
+    const totalCount = count || commissions.length;
+    const totalCommissions = commissions.reduce((sum, c) => sum + (c.amount || 0), 0);
+
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + commissions.length < totalCount,
+    };
 
     return NextResponse.json({
       commissions: data,
       total: totalCommissions,
       by_status: {
-        pending: data?.filter(c => c.status === 'pending').reduce((s, c) => s + c.amount, 0) || 0,
-        approved: data?.filter(c => c.status === 'approved').reduce((s, c) => s + c.amount, 0) || 0,
-        paid: data?.filter(c => c.status === 'paid').reduce((s, c) => s + c.amount, 0) || 0
-      }
+        pending: commissions.filter(c => c.status === 'pending').reduce((s, c) => s + c.amount, 0),
+        approved: commissions.filter(c => c.status === 'approved').reduce((s, c) => s + c.amount, 0),
+        paid: commissions.filter(c => c.status === 'paid').reduce((s, c) => s + c.amount, 0)
+      },
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch commissions' }, { status: 500 });
