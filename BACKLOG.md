@@ -15,7 +15,7 @@
 |--------|-------|
 | P0 (Critical) | 0 (All completed) |
 | P1 (High) | 0 (All completed - Test Coverage is test-related) |
-| P2 (Medium) | 3 (SWR Migration, API Optimization In Progress, Mock Data Cleanup - all XL effort) |
+| P2 (Medium) | 2 (SWR Migration, Mock Data Cleanup - both XL effort) |
 | P3 (Low) | 2 (PWA Mobile Apps - XL effort) |
 | Completed (Last 30 Days) | 89 |
 | Total Pages | 581 |
