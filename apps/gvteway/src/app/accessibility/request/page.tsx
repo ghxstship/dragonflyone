@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -22,17 +21,7 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-
-interface AccessibilityRequest {
-  id: string;
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  request_type: string;
-  status: 'pending' | 'approved' | 'denied' | 'completed';
-  notes?: string;
-  created_at: string;
-}
+import { useAccessibilityRequestsData, type AccessibilityRequest } from '@/hooks/useAccessibilityRequests';
 
 const SERVICE_TYPES = [
   { id: 'wheelchair', label: 'Wheelchair Accessible Seating', description: 'Reserved accessible seating area' },
@@ -52,10 +41,7 @@ function AccessibilityRequestContent() {
   const eventId = searchParams.get('event');
   const orderId = searchParams.get('order');
 
-  const [requests, setRequests] = useState<AccessibilityRequest[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   // Form state
@@ -65,62 +51,37 @@ function AccessibilityRequestContent() {
   const [emergencyContact, setEmergencyContact] = useState('');
   const [savePreferences, setSavePreferences] = useState(true);
 
-  const fetchRequests = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/accessibility/requests');
-      if (response.ok) {
-        const data = await response.json();
-        setRequests(data.requests || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch requests');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchRequests();
-  }, [fetchRequests]);
+  const {
+    requests,
+    isLoading: loading,
+    error,
+    submitRequest,
+    isSubmitting: submitting,
+  } = useAccessibilityRequestsData();
 
   const handleSubmit = async () => {
     if (selectedServices.length === 0) {
-      setError('Please select at least one service');
+      setLocalError('Please select at least one service');
       return;
     }
 
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/accessibility/requests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          event_id: eventId,
-          order_id: orderId,
-          services: selectedServices,
-          notes: additionalNotes,
-          contact_phone: contactPhone,
-          emergency_contact: emergencyContact,
-          save_preferences: savePreferences,
-        }),
+      await submitRequest({
+        event_id: eventId || undefined,
+        order_id: orderId || undefined,
+        services: selectedServices,
+        notes: additionalNotes,
+        contact_phone: contactPhone,
+        emergency_contact: emergencyContact,
+        save_preferences: savePreferences,
       });
-
-      if (response.ok) {
-        setSuccess('Your accessibility request has been submitted. We will contact you within 24 hours.');
-        setSelectedServices([]);
-        setAdditionalNotes('');
-        fetchRequests();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit request');
-      }
+      setSuccess('Your accessibility request has been submitted. We will contact you within 24 hours.');
+      setSelectedServices([]);
+      setAdditionalNotes('');
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to submit request');
     }
   };
 
