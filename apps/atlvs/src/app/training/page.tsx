@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, FileEdit, Pencil } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,24 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface TrainingProgram {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  duration_hours: number;
-  instructor_name: string;
-  instructor?: { id: string; full_name: string; email: string };
-  capacity: number;
-  enrolled_count: number;
-  start_date: string;
-  end_date: string;
-  status: string;
-  is_virtual: boolean;
-  created_at: string;
-  [key: string]: unknown;
-}
+import { useTrainingData, type TrainingProgram } from "@/hooks/useTraining";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -54,33 +37,18 @@ const filters: ListPageFilter[] = [
 
 export default function TrainingPage() {
   const router = useRouter();
-  const [programs, setPrograms] = useState<TrainingProgram[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    programs,
+    activeCount,
+    totalEnrolled,
+    totalCapacity,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useTrainingData();
+
   const [selectedProgram, setSelectedProgram] = useState<TrainingProgram | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchTraining = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/training');
-      if (!response.ok) throw new Error("Failed to fetch training programs");
-      const data = await response.json();
-      setPrograms(data.programs || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchTraining();
-  }, [fetchTraining]);
-
-  const activeCount = programs.filter(p => p.status === 'active').length;
-  const totalEnrolled = programs.reduce((sum, p) => sum + (p.enrolled_count || 0), 0);
 
   const rowActions: ListPageAction<TrainingProgram>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedProgram(r); setDrawerOpen(true); } },
@@ -99,7 +67,7 @@ export default function TrainingPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchTraining();
+      refetch();
     },
   });
 
@@ -110,8 +78,8 @@ export default function TrainingPage() {
   const stats = [
     { label: 'Total Programs', value: programs.length },
     { label: 'Active', value: activeCount },
-    { label: 'Total Enrolled', value: totalEnrolled },
-    { label: 'Virtual', value: programs.filter(p => p.is_virtual).length },
+    { label: 'Enrolled', value: `${totalEnrolled}/${totalCapacity}` },
+    { label: 'Virtual', value: programs.filter((p: TrainingProgram) => p.is_virtual).length },
   ];
 
   const detailSections: DetailSection[] = selectedProgram ? [
@@ -141,8 +109,8 @@ export default function TrainingPage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        error={error ? new Error(error) : undefined}
-        onRetry={fetchTraining}
+        error={error instanceof Error ? error : error ? new Error(String(error)) : undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search programs..."
         filters={filters}
         rowActions={rowActions}
@@ -178,14 +146,14 @@ export default function TrainingPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchTraining();
+            refetch();
           } else if (action === 'archive') {
             await fetch('/api/training/bulk-archive', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchTraining();
+            refetch();
           }
         }}
         bulkActions={[

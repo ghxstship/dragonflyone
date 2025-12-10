@@ -84,7 +84,7 @@ export default function QuotesPage() {
 
   const stats = [
     { label: 'Total Quotes', value: quotes.length },
-    { label: 'Accepted', value: acceptedCount },
+    { label: 'Pending', value: pendingCount },
     { label: 'Pipeline Value', value: formatCurrency(totalValue) },
     { label: 'Win Rate', value: `${winRate}%` },
   ];
