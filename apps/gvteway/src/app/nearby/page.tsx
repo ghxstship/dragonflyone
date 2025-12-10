@@ -37,7 +37,15 @@ export default function NearbyEventsPage() {
     events,
     isLoading: loading,
     error,
+    locationName: resolvedLocationName,
   } = useNearbyData({ lat: location?.lat, lng: location?.lng, radius, category });
+
+  // Update location name when geocode resolves
+  useEffect(() => {
+    if (resolvedLocationName && location) {
+      setLocationName(resolvedLocationName);
+    }
+  }, [resolvedLocationName, location]);
 
   const getCurrentLocation = useCallback(() => {
     setLocationLoading(true);
@@ -50,23 +58,9 @@ export default function NearbyEventsPage() {
     }
 
     navigator.geolocation.getCurrentPosition(
-      async (position) => {
+      (position) => {
         const { latitude, longitude } = position.coords;
         setLocation({ lat: latitude, lng: longitude });
-
-        // Reverse geocode to get location name
-        try {
-          const response = await fetch(
-            `/api/geocode/reverse?lat=${latitude}&lng=${longitude}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            setLocationName(data.location || 'Your Location');
-          }
-        } catch {
-          setLocationName('Your Location');
-        }
-
         setLocationLoading(false);
       },
       (err) => {

@@ -47,13 +47,12 @@ function ExclusiveContentPageContent() {
     categories,
     isLoading: loading,
     error,
-    refetch,
+    likeContent,
   } = useContentData(filter);
 
   const handleLike = async (contentId: string) => {
     try {
-      await fetch(`/api/content/${contentId}/like`, { method: 'POST' });
-      refetch();
+      await likeContent(contentId);
     } catch {
       setLocalError('Failed to like content');
     }

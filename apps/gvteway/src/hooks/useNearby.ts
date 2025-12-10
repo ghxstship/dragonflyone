@@ -51,13 +51,29 @@ export function useNearbyEvents(params: { lat?: number; lng?: number; radius?: s
   });
 }
 
+export function useReverseGeocode(lat?: number, lng?: number) {
+  return useQuery({
+    queryKey: ['geocode', 'reverse', lat, lng],
+    queryFn: async () => {
+      if (!lat || !lng) return null;
+      const response = await fetch(`/api/geocode/reverse?lat=${lat}&lng=${lng}`);
+      if (!response.ok) return { location: 'Your Location' };
+      return response.json();
+    },
+    enabled: !!lat && !!lng,
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
 export function useNearbyData(params: { lat?: number; lng?: number; radius?: string; category?: string }) {
   const eventsQuery = useNearbyEvents(params);
+  const geocodeQuery = useReverseGeocode(params.lat, params.lng);
 
   return {
     events: eventsQuery.data || [],
     isLoading: eventsQuery.isLoading,
     error: eventsQuery.error,
     refetch: eventsQuery.refetch,
+    locationName: geocodeQuery.data?.location || 'Your Location',
   };
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface ExclusiveContent {
   id: string;
@@ -71,9 +71,27 @@ export function useContentCategories() {
   });
 }
 
+export function useLikeContent() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (contentId: string) => {
+      const response = await fetch(`/api/content/${contentId}/like`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to like content');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: contentKeys.all });
+    },
+  });
+}
+
 export function useContentData(filter?: { type?: string; event_id?: string; access_level?: string }) {
   const contentQuery = useContentList(filter);
   const categoriesQuery = useContentCategories();
+  const likeMutation = useLikeContent();
 
   return {
     content: contentQuery.data || [],
@@ -84,5 +102,6 @@ export function useContentData(filter?: { type?: string; event_id?: string; acce
       contentQuery.refetch();
       categoriesQuery.refetch();
     },
+    likeContent: likeMutation.mutateAsync,
   };
 }
