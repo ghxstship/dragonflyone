@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -94,9 +94,9 @@ export default function LeadScoringPage() {
   const [rules, setRules] = useState<ScoringRule[]>(mockScoringRules);
   
   // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
+  const { activeTab, setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'leads-scoring-tab',
     defaultTab: 'leads',
-    validTabs: ['leads', 'rules', 'analytics'],
   });
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showRuleModal, setShowRuleModal] = useState(false);

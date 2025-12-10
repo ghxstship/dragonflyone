@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -61,9 +61,9 @@ export default function VendorAuditsPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
+  const { activeTab, setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'vendor-audits-tab',
     defaultTab: 'upcoming',
-    validTabs: ['upcoming', 'completed', 'all'],
   });
   const [selectedAudit, setSelectedAudit] = useState<VendorAudit | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -73,9 +73,9 @@ export default function CategoryManagementPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'procurement-categories-tab',
     defaultTab: 'categories',
-    validTabs: ['categories', 'strategies', 'matrix'],
   });
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedStrategy, setSelectedStrategy] = useState<SourcingStrategy | null>(null);

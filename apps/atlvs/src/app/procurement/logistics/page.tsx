@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -65,9 +65,9 @@ export default function LogisticsPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
+  const { activeTab, setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'procurement-logistics-tab',
     defaultTab: 'active',
-    validTabs: ['active', 'delivered', 'all'],
   });
   const [selectedShipment, setSelectedShipment] = useState<Shipment | null>(null);
   const [showNewShipmentModal, setShowNewShipmentModal] = useState(false);

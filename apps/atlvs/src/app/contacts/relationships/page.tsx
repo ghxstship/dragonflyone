@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,

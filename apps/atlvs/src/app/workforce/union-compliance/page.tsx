@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
+import { useLocalTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -73,9 +73,9 @@ export default function UnionCompliancePage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'union-compliance-tab',
     defaultTab: 'locals',
-    validTabs: ['locals', 'rules', 'agreements'],
   });
   const [selectedLocal, setSelectedLocal] = useState<UnionLocal | null>(null);
   const [selectedRule, setSelectedRule] = useState<UnionRule | null>(null);

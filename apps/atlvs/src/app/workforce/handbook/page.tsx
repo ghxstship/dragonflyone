@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useTabState } from '@ghxstship/config/hooks';
+import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -82,9 +82,9 @@ export default function HandbookPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'workforce-handbook-tab',
     defaultTab: 'handbook',
-    validTabs: ['handbook', 'acknowledgments', 'compliance'],
   });
   const [selectedSection, setSelectedSection] = useState<HandbookSection | null>(null);
   const [categoryFilter, setCategoryFilter] = useState('All');

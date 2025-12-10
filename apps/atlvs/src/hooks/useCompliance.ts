@@ -309,3 +309,124 @@ export function useInsuranceStats(productionId?: string) {
     },
   });
 }
+
+// =============================================================================
+// COMPLIANCE PAGE HOOKS (API-based)
+// =============================================================================
+
+export interface ComplianceItem {
+  id: string;
+  title: string;
+  compliance_type: string;
+  category?: string;
+  provider_name?: string;
+  status: string;
+  effective_date: string;
+  expiration_date?: string;
+  coverage_amount?: number;
+  annual_cost?: number;
+}
+
+export interface ComplianceSummary {
+  total: number;
+  active: number;
+  expired: number;
+  expiringSoon: number;
+}
+
+const DEMO_COMPLIANCE: { items: ComplianceItem[]; summary: ComplianceSummary } = {
+  items: [
+    { id: '1', title: 'General Liability Insurance', compliance_type: 'insurance', provider_name: 'Acme Insurance', status: 'active', effective_date: '2025-01-01', expiration_date: '2026-01-01', coverage_amount: 1000000 },
+    { id: '2', title: 'Business License', compliance_type: 'license', provider_name: 'City of LA', status: 'active', effective_date: '2025-01-01', expiration_date: '2025-12-31' },
+  ],
+  summary: { total: 2, active: 2, expired: 0, expiringSoon: 0 },
+};
+
+export function useComplianceItems() {
+  return useQuery({
+    queryKey: ['compliance-items'],
+    queryFn: async () => {
+      const response = await fetch('/api/compliance');
+      if (response.status === 401) {
+        return DEMO_COMPLIANCE;
+      }
+      if (!response.ok) {
+        throw new Error('Failed to fetch compliance');
+      }
+      const data = await response.json();
+      return {
+        items: data.items || [],
+        summary: data.summary || { total: 0, active: 0, expired: 0, expiringSoon: 0 },
+      };
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useCreateComplianceItem() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Record<string, unknown>) => {
+      const response = await fetch('/api/compliance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) throw new Error('Failed to create');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['compliance-items'] });
+    },
+  });
+}
+
+export function useDeleteComplianceItem() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/compliance/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Failed to delete');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['compliance-items'] });
+    },
+  });
+}
+
+export function useGenerateComplianceReport() {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch('/api/compliance/report', { method: 'POST' });
+      if (!response.ok) throw new Error('Failed to generate report');
+      return response.json();
+    },
+  });
+}
+
+export function useComplianceData() {
+  const complianceQuery = useComplianceItems();
+  const createMutation = useCreateComplianceItem();
+  const deleteMutation = useDeleteComplianceItem();
+  const reportMutation = useGenerateComplianceReport();
+
+  const data = complianceQuery.data || DEMO_COMPLIANCE;
+  const complianceRate = data.summary.total > 0 
+    ? Math.round((data.summary.active / data.summary.total) * 100) 
+    : 0;
+
+  return {
+    items: data.items,
+    summary: data.summary,
+    complianceRate,
+    isLoading: complianceQuery.isLoading,
+    error: complianceQuery.error,
+    createItem: createMutation.mutateAsync,
+    isCreating: createMutation.isPending,
+    deleteItem: deleteMutation.mutateAsync,
+    isDeleting: deleteMutation.isPending,
+    generateReport: reportMutation.mutateAsync,
+    isGeneratingReport: reportMutation.isPending,
+    refetch: complianceQuery.refetch,
+  };
+}

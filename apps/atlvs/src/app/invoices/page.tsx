@@ -188,7 +188,7 @@ export default function InvoicesPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchInvoices();
+      await refetch();
       addNotification({ type: 'success', title: 'Import Complete', message: `${records.length} invoices imported` });
     },
   });
@@ -237,7 +237,7 @@ export default function InvoicesPage() {
         rowKey="id"
         loading={loading}
         error={error}
-        onRetry={fetchInvoices}
+        onRetry={() => refetch()}
         searchPlaceholder="Search invoices..."
         filters={filters}
         rowActions={rowActions}

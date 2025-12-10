@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -20,26 +20,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface ComplianceItem {
-  id: string;
-  title: string;
-  compliance_type: string;
-  category?: string;
-  provider_name?: string;
-  status: string;
-  effective_date: string;
-  expiration_date?: string;
-  coverage_amount?: number;
-  annual_cost?: number;
-}
-
-interface ComplianceSummary {
-  total: number;
-  active: number;
-  expired: number;
-  expiringSoon: number;
-}
+import { useComplianceData, type ComplianceItem } from "@/hooks/useCompliance";
 
 const columns: ListPageColumn<ComplianceItem>[] = [
   { key: 'title', label: 'Title', accessor: 'title', sortable: true },
@@ -67,30 +48,22 @@ const formFields: FormFieldConfig[] = [
 export default function CompliancePage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [items, setItems] = useState<ComplianceItem[]>([]);
-  const [summary, setSummary] = useState<ComplianceSummary | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    items,
+    summary,
+    complianceRate,
+    isLoading: loading,
+    createItem,
+    deleteItem,
+    generateReport,
+    refetch,
+  } = useComplianceData();
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ComplianceItem | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<ComplianceItem | null>(null);
-
-  const fetchCompliance = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/compliance');
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      setItems(data.items || []);
-      setSummary(data.summary || null);
-    } catch { /* fallback */ }
-    finally { setLoading(false); }
-  }, []);
-
-  useEffect(() => { fetchCompliance(); }, [fetchCompliance]);
-
-  const complianceRate = summary ? Math.round((summary.active / Math.max(summary.total, 1)) * 100) : 0;
 
   const rowActions: ListPageAction<ComplianceItem>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedItem(r); setDrawerOpen(true); } },
@@ -99,30 +72,30 @@ export default function CompliancePage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await fetch('/api/compliance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    setCreateModalOpen(false);
-    fetchCompliance();
+    try {
+      await createItem(data);
+      setCreateModalOpen(false);
+    } catch {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to create item' });
+    }
   };
 
   const handleDelete = async () => {
     if (itemToDelete) {
-      await fetch(`/api/compliance/${itemToDelete.id}`, { method: 'DELETE' });
-      setDeleteConfirmOpen(false);
-      setItemToDelete(null);
-      fetchCompliance();
+      try {
+        await deleteItem(itemToDelete.id);
+        setDeleteConfirmOpen(false);
+        setItemToDelete(null);
+      } catch {
+        addNotification({ type: 'error', title: 'Error', message: 'Failed to delete item' });
+      }
     }
   };
 
   const handleGenerateReport = async () => {
     try {
-      const response = await fetch('/api/compliance/report', { method: 'POST' });
-      if (response.ok) {
-        addNotification({ type: 'success', title: 'Success', message: 'Report generated' });
-      }
+      await generateReport();
+      addNotification({ type: 'success', title: 'Success', message: 'Report generated' });
     } catch {
       addNotification({ type: 'error', title: 'Error', message: 'Failed to generate report' });
     }
@@ -134,13 +107,9 @@ export default function CompliancePage() {
     requiredFields: ['title', 'compliance_type'],
     onImport: async (records) => {
       for (const record of records) {
-        await fetch('/api/compliance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record),
-        });
+        await createItem(record);
       }
-      fetchCompliance();
+      refetch();
     },
   });
 
@@ -179,7 +148,7 @@ export default function CompliancePage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        onRetry={fetchCompliance}
+        onRetry={refetch}
         searchPlaceholder="Search compliance items..."
         filters={filters}
         rowActions={rowActions}
@@ -200,14 +169,14 @@ export default function CompliancePage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchCompliance();
+            refetch();
           } else if (action === 'renew') {
             await fetch('/api/compliance/bulk-renew', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchCompliance();
+            refetch();
           }
         }}
         bulkActions={[

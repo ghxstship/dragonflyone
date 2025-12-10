@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTabState } from "@ghxstship/config/hooks";
+import { useLocalTabState } from "@ghxstship/config/hooks";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -125,9 +125,9 @@ export default function VendorSelectionPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'vendor-selection-tab',
     defaultTab: 'active',
-    validTabs: ['active', 'completed'],
   });
   const [selectedSelection, setSelectedSelection] = useState<VendorSelection | null>(null);
   const [showApprovalModal, setShowApprovalModal] = useState(false);

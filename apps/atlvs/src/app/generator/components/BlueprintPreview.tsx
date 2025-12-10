@@ -1,6 +1,6 @@
 "use client";
 
-import { useTabState } from "@ghxstship/config/hooks";
+import { useLocalTabState } from "@ghxstship/config/hooks";
 import {
   Stack,
   Container,

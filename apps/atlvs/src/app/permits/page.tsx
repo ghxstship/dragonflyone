@@ -75,25 +75,6 @@ const columns: ListPageColumn<Permit>[] = [
       const now = new Date();
       const isExpired = date < now;
       const isExpiringSoon = date > now && date < new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-      // Import handler for CSV/JSON files
-      const handleImport = createImportHandler<Omit<Permit, 'id'>>({
-        entityType: 'permits',
-        requiredFields: ['name', 'permit_type', 'status'],
-        onImport: async (records) => {
-          for (const record of records) {
-            await fetch('/api/permits', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ organization_id: 'default-org', ...record }),
-            });
-          }
-          refetch();
-        },
-      });
-
-      // Import templates for field mapping
-      const importTemplates = getImportTemplates('permits');
-
       return (
         <Stack direction="horizontal" gap={2} className="items-center">
           {isExpired && <AlertTriangle className="size-4 text-error" />}
@@ -198,6 +179,25 @@ export default function PermitsPage() {
     setCreateModalOpen(false);
     refetch();
   };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Omit<Permit, 'id'>>({
+    entityType: 'permits',
+    requiredFields: ['name', 'permit_type', 'status'],
+    onImport: async (records) => {
+      for (const record of records) {
+        await fetch('/api/permits', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ organization_id: 'default-org', ...record }),
+        });
+      }
+      await refetch();
+    },
+  });
+
+  // Import templates for field mapping
+  const importTemplates = getImportTemplates('permits');
 
   const pageStats = [
     { label: 'Total Permits', value: stats?.total || 0 },
