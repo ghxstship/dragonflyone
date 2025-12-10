@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
@@ -19,134 +19,32 @@ import {
   Kicker,
   EmptyState,
 } from "@ghxstship/ui";
-
-interface Group {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  member_count: number;
-  event_count: number;
-  image_url?: string;
-  is_private: boolean;
-  is_member: boolean;
-  created_at: string;
-  admin_name: string;
-}
-
-interface GroupSummary {
-  total_groups: number;
-  my_groups: number;
-  trending_count: number;
-  new_this_week: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_GROUPS: Group[] = [
-  {
-    id: "demo-1",
-    name: "Festival Fans United",
-    description: "Connect with fellow festival enthusiasts and share experiences",
-    category: "festivals",
-    member_count: 3500,
-    event_count: 12,
-    is_private: false,
-    is_member: false,
-    created_at: new Date().toISOString(),
-    admin_name: "FestivalLover",
-  },
-  {
-    id: "demo-2",
-    name: "Local Music Scene",
-    description: "Discover and support local artists and venues in your area",
-    category: "music",
-    member_count: 1200,
-    event_count: 8,
-    is_private: false,
-    is_member: false,
-    created_at: new Date().toISOString(),
-    admin_name: "MusicScout",
-  },
-];
-
-const DEMO_GROUP_SUMMARY: GroupSummary = {
-  total_groups: 156,
-  my_groups: 0,
-  trending_count: 12,
-  new_this_week: 8,
-};
+import { useGroupsData } from "@/hooks/useGroups";
 
 export default function GroupsPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [groups, setGroups] = useState<Group[]>([]);
-  const [summary, setSummary] = useState<GroupSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchGroups = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterCategory !== "all") params.append("category", filterCategory);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/groups?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setGroups(DEMO_GROUPS);
-        setSummary(DEMO_GROUP_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch groups");
-      
-      const data = await response.json();
-      setGroups(data.groups || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setGroups(DEMO_GROUPS);
-      setSummary(DEMO_GROUP_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterCategory, searchQuery]);
-
-  useEffect(() => {
-    fetchGroups();
-  }, [fetchGroups]);
+  const {
+    groups,
+    summary,
+    isLoading: loading,
+    error,
+    joinGroup,
+    refetch,
+  } = useGroupsData({ category: filterCategory, search: searchQuery });
 
   const handleJoinGroup = async (groupId: string) => {
-    try {
-      const response = await fetch(`/api/groups/${groupId}/join`, {
-        method: "POST",
-      });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Joined!", message: "You've joined the group" });
-        fetchGroups();
-      }
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to join group" });
-    }
+    await joinGroup(groupId);
+    addNotification({ type: "success", title: "Joined!", message: "You've joined the group" });
   };
 
   const handleLeaveGroup = async (groupId: string) => {
-    try {
-      const response = await fetch(`/api/groups/${groupId}/leave`, {
-        method: "POST",
-      });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Left", message: "You've left the group" });
-        fetchGroups();
-      }
-    } catch (err) {
-      addNotification({ type: "error", title: "Error", message: "Failed to leave group" });
-    }
+    await fetch(`/api/groups/${groupId}/leave`, { method: "POST" });
+    addNotification({ type: "success", title: "Left", message: "You've left the group" });
+    refetch();
   };
 
   if (loading) {
@@ -157,8 +55,8 @@ export default function GroupsPage() {
     return (
       <GvtewayEmptyLayout
         title="Error Loading Groups"
-        description={error}
-        action={{ label: "Retry", onClick: fetchGroups }}
+        description={error instanceof Error ? error.message : String(error)}
+        action={{ label: "Retry", onClick: () => refetch() }}
       />
     );
   }

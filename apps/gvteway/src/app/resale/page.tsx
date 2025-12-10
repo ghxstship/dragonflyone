@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, ShoppingCart, X } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -17,27 +17,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface ResaleListing {
-  id: string;
-  ticket_id: string;
-  event_id: string;
-  event_name: string;
-  event_date: string;
-  venue_name: string;
-  ticket_type: string;
-  section?: string;
-  row?: string;
-  seat?: string;
-  original_price: number;
-  asking_price: number;
-  seller_id: string;
-  seller_name: string;
-  status: string;
-  listed_at: string;
-  expires_at?: string;
-  [key: string]: unknown;
-}
+import { useResaleData, type ResaleListing } from "@/hooks/useResale";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
 
@@ -66,33 +46,21 @@ const filters: ListPageFilter[] = [
 
 export default function ResalePage() {
   const router = useRouter();
-  const [listings, setListings] = useState<ResaleListing[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [selectedListing, setSelectedListing] = useState<ResaleListing | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  const fetchListings = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/resale');
-      if (!response.ok) throw new Error("Failed to fetch listings");
-      const data = await response.json();
-      setListings(data.listings || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchListings(); }, [fetchListings]);
+  const {
+    listings,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useResaleData();
 
   const handleDelete = async () => {
     if (!selectedListing) return;
-    setListings(listings.filter(l => l.id !== selectedListing.id));
+    await fetch(`/api/resale/${selectedListing.id}`, { method: 'DELETE' });
+    refetch();
     setDeleteConfirmOpen(false);
     setSelectedListing(null);
   };
