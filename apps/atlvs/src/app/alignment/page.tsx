@@ -68,7 +68,7 @@ export default function StrategicAlignmentPage() {
     return <Badge className="bg-error-500 text-white">{score}%</Badge>;
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <AtlvsAppLayout>
         <MainContent padding="lg">
@@ -335,8 +335,9 @@ export default function StrategicAlignmentPage() {
                   <Button
                     variant="solid"
                     onClick={() => handleAlignProject(selectedProject.id, selectedProject.aligned_goals || [])}
+                    disabled={isAligningProject}
                   >
-                    Save Alignment
+                    {isAligningProject ? 'Saving...' : 'Save Alignment'}
                   </Button>
                   <Button
                     variant="outline"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Mail, DollarSign, ClipboardList, Trash2, Download, Bell } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -21,22 +21,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Invoice {
-  id: string;
-  invoice_number: string;
-  client_id: string;
-  client_name: string;
-  project_id?: string;
-  project_name?: string;
-  total_amount: number;
-  amount_paid: number;
-  amount_due: number;
-  issue_date: string;
-  due_date: string;
-  status: string;
-  notes?: string;
-}
+import { useInvoicesData, type Invoice } from "@/hooks/useInvoices";
 
 const formatCurrency = (amount: number) => 
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
@@ -108,9 +93,15 @@ const formFields: FormFieldConfig[] = [
 export default function InvoicesPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const {
+    invoices,
+    isLoading: loading,
+    error,
+    createInvoice,
+    sendInvoice,
+    deleteInvoice,
+    sendReminder,
+  } = useInvoicesData();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
@@ -118,32 +109,10 @@ export default function InvoicesPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [invoiceToDelete, setInvoiceToDelete] = useState<Invoice | null>(null);
 
-  const fetchInvoices = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/invoices');
-      if (!response.ok) throw new Error("Failed to fetch invoices");
-      const data = await response.json();
-      setInvoices(data.invoices || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error("An error occurred"));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchInvoices();
-  }, [fetchInvoices]);
-
   const handleSendInvoice = async (invoice: Invoice) => {
     try {
-      const response = await fetch(`/api/invoices/${invoice.id}/send`, { method: "POST" });
-      if (response.ok) {
-        addNotification({ type: "success", title: "Success", message: "Invoice sent successfully" });
-        fetchInvoices();
-      }
+      await sendInvoice(invoice.id);
+      addNotification({ type: "success", title: "Success", message: "Invoice sent successfully" });
     } catch (err) {
       addNotification({ type: "error", title: "Error", message: "Failed to send invoice" });
     }
@@ -152,10 +121,9 @@ export default function InvoicesPage() {
   const handleDelete = async () => {
     if (!invoiceToDelete) return;
     try {
-      await fetch(`/api/invoices/${invoiceToDelete.id}`, { method: "DELETE" });
+      await deleteInvoice(invoiceToDelete.id);
       setDeleteConfirmOpen(false);
       setInvoiceToDelete(null);
-      fetchInvoices();
     } catch (err) {
       addNotification({ type: "error", title: "Error", message: "Failed to delete invoice" });
     }
@@ -178,23 +146,18 @@ export default function InvoicesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const response = await fetch('/api/invoices', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (response.ok) {
+    try {
+      await createInvoice(data);
       setCreateModalOpen(false);
-      fetchInvoices();
       addNotification({ type: "success", title: "Success", message: "Invoice created" });
+    } catch (err) {
+      addNotification({ type: "error", title: "Error", message: "Failed to create invoice" });
     }
   };
 
   const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
     if (actionId === 'remind') {
-      await Promise.all(selectedIds.map(id =>
-        fetch(`/api/invoices/${id}/remind`, { method: 'POST' })
-      ));
+      await Promise.all(selectedIds.map(id => sendReminder(id)));
       addNotification({ type: 'info', title: 'Sending', message: 'Payment reminders being sent' });
     } else if (actionId === 'export') {
       const selected = invoices.filter(inv => selectedIds.includes(inv.id));
