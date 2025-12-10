@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, BarChart3 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,25 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Subsidiary {
-  id: string;
-  name: string;
-  legal_name: string;
-  entity_type: string;
-  jurisdiction: string;
-  incorporation_date: string;
-  tax_id: string;
-  parent_entity_id?: string;
-  ownership_percentage: number;
-  status: string;
-  registered_agent?: string;
-  primary_contact?: string;
-  address?: string;
-  annual_revenue?: number;
-  employee_count?: number;
-  [key: string]: unknown;
-}
+import { useSubsidiariesData, type Subsidiary } from "@/hooks/useSubsidiaries";
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -61,32 +43,18 @@ const filters: ListPageFilter[] = [
 
 export default function SubsidiariesPage() {
   const router = useRouter();
-  const [subsidiaries, setSubsidiaries] = useState<Subsidiary[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    subsidiaries,
+    totalRevenue,
+    totalEmployees,
+    isLoading: loading,
+    error,
+  } = useSubsidiariesData();
+
   const [selectedEntity, setSelectedEntity] = useState<Subsidiary | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchSubsidiaries = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/subsidiaries");
-      if (!response.ok) throw new Error("Failed to fetch subsidiaries");
-      const data = await response.json();
-      setSubsidiaries(data.subsidiaries || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchSubsidiaries(); }, [fetchSubsidiaries]);
-
-  const activeCount = subsidiaries.filter(s => s.status === 'active').length;
-  const totalRevenue = subsidiaries.reduce((sum, s) => sum + (s.annual_revenue || 0), 0);
-  const jurisdictions = new Set(subsidiaries.map(s => s.jurisdiction)).size;
+  const activeCount = subsidiaries.filter((s: Subsidiary) => s.status === 'active').length;
 
   const rowActions: ListPageAction<Subsidiary>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedEntity(r); setDrawerOpen(true); } },
@@ -105,7 +73,6 @@ export default function SubsidiariesPage() {
           body: JSON.stringify(record),
         });
       }
-      fetchSubsidiaries();
     },
   });
 
@@ -117,7 +84,7 @@ export default function SubsidiariesPage() {
     { label: 'Total Entities', value: subsidiaries.length },
     { label: 'Active', value: activeCount },
     { label: 'Combined Revenue', value: formatCurrency(totalRevenue) },
-    { label: 'Jurisdictions', value: jurisdictions },
+    { label: 'Total Employees', value: totalEmployees },
   ];
 
   const detailSections: DetailSection[] = selectedEntity ? [

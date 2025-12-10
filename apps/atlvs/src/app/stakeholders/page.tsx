@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Key, Mail, Download, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
@@ -19,19 +19,7 @@ import {
   type ListPageBulkAction,
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-interface Stakeholder {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  organization: string;
-  permission_level: 'view' | 'comment' | 'edit' | 'admin';
-  projects: string[];
-  last_activity: string;
-  status: 'active' | 'invited' | 'inactive';
-  [key: string]: unknown;
-}
+import { useStakeholdersData, type Stakeholder } from '@/hooks/useStakeholders';
 
 const getPermissionVariant = (level: string): 'solid' | 'outline' | 'ghost' => {
   switch (level) {
@@ -69,51 +57,29 @@ const formFields: FormFieldConfig[] = [
 
 export default function StakeholdersPage() {
   const router = useRouter();
-  const [stakeholders, setStakeholders] = useState<Stakeholder[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    stakeholders,
+    activeCount,
+    isLoading: loading,
+    error,
+    createStakeholder,
+    refetch,
+  } = useStakeholdersData();
+
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/stakeholders');
-      if (response.ok) {
-        const data = await response.json();
-        setStakeholders(data.stakeholders || []);
-      }
-      setError(null);
-    } catch (err) {
-      setError('Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newStakeholder: Stakeholder = {
-      id: `STK-${Date.now()}`,
-      name: String(data.name || ''),
-      email: String(data.email || ''),
-      role: String(data.role || ''),
-      organization: String(data.organization || ''),
-      permission_level: (data.permission_level as Stakeholder['permission_level']) || 'view',
-      projects: [],
-      last_activity: new Date().toISOString(),
-      status: 'invited',
-    };
-    setStakeholders([...stakeholders, newStakeholder]);
-    setCreateModalOpen(false);
+    try {
+      await createStakeholder(data);
+      setCreateModalOpen(false);
+    } catch {
+      // Error handled in hook
+    }
   };
 
-  const activeCount = stakeholders.filter(s => s.status === 'active').length;
-  const invitedCount = stakeholders.filter(s => s.status === 'invited').length;
+  const invitedCount = stakeholders.filter((s: Stakeholder) => s.status === 'invited').length;
 
   const rowActions: ListPageAction<Stakeholder>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedStakeholder(r); setDrawerOpen(true); } },
@@ -126,19 +92,9 @@ export default function StakeholdersPage() {
     requiredFields: ['name', 'email'],
     onImport: async (records) => {
       for (const record of records) {
-        const newStakeholder: Stakeholder = {
-          id: `STK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          name: String(record.name || ''),
-          email: String(record.email || ''),
-          role: String(record.role || ''),
-          organization: String(record.organization || ''),
-          permission_level: (record.permission_level as Stakeholder['permission_level']) || 'view',
-          projects: [],
-          last_activity: new Date().toISOString(),
-          status: 'invited',
-        };
-        setStakeholders(prev => [...prev, newStakeholder]);
+        await createStakeholder(record);
       }
+      refetch();
     },
   });
 

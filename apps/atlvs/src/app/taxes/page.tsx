@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Upload, BarChart3 } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,21 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface TaxDocument {
-  id: string;
-  document_type: string;
-  tax_year: number;
-  entity_name: string;
-  jurisdiction: string;
-  filing_deadline: string;
-  status: string;
-  amount_due?: number;
-  amount_paid?: number;
-  filed_date?: string;
-  confirmation_number?: string;
-  [key: string]: unknown;
-}
+import { useTaxesData, type TaxDocument } from "@/hooks/useTaxes";
 
 const formatCurrency = (amount: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0 }).format(amount);
 const formatDate = (dateString: string) => new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
@@ -52,42 +38,28 @@ const filters: ListPageFilter[] = [
 
 export default function TaxesPage() {
   const router = useRouter();
-  const [documents, setDocuments] = useState<TaxDocument[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    documents,
+    pendingCount,
+    totalLiability,
+    totalPaid,
+    isLoading: loading,
+    error,
+  } = useTaxesData(2024);
+
   const [selectedDoc, setSelectedDoc] = useState<TaxDocument | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const fetchTaxDocuments = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/taxes?year=2024');
-      if (!response.ok) throw new Error("Failed to fetch tax documents");
-      const data = await response.json();
-      setDocuments(data.documents || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchTaxDocuments(); }, [fetchTaxDocuments]);
-
-  const pendingCount = documents.filter(d => d.status === 'pending').length;
-  const totalLiability = documents.reduce((sum, d) => sum + (d.amount_due || 0), 0);
-
   const rowActions: ListPageAction<TaxDocument>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
-    { id: 'file', label: 'File', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/taxes/${r.id}/file`, { method: 'POST' }); fetchTaxDocuments(); } },
+    { id: 'file', label: 'File', icon: <Upload className="size-4" />, onClick: async (r) => { await fetch(`/api/taxes/${r.id}/file`, { method: 'POST' }); } },
   ];
 
   const stats = [
     { label: 'Total Documents', value: documents.length },
     { label: 'Pending Filings', value: pendingCount },
     { label: 'Total Liability', value: formatCurrency(totalLiability) },
-    { label: 'Filed', value: documents.filter(d => d.status === 'filed').length },
+    { label: 'Total Paid', value: formatCurrency(totalPaid) },
   ];
 
   const detailSections: DetailSection[] = selectedDoc ? [
