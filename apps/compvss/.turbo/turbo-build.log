@@ -8,7 +8,6 @@
     · missingSuspenseWithCSRBailout
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -18,17 +17,6 @@
    Generating static pages (30/121) 
    Generating static pages (60/121) 
    Generating static pages (90/121) 
- ⚠ Entire page "/sops/acknowledgments" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:675567)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:686548)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/acknowledgments/page.js:1:3313)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
-    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
  ⚠ Entire page "/sops/training" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:675567)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:686548)
@@ -44,6 +32,17 @@
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:675567)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:686548)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/credentials/zones/page.js:1:4311)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+    at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+ ⚠ Entire page "/sops/acknowledgments" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:675567)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8340.js:41:686548)
+    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/acknowledgments/page.js:1:3313)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nN (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.33_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_vtf2zzk644cseo4nffd5phstmq/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -293,12 +292,12 @@ Route (app)                                             Size     First Load JS
 ├ ƒ /api/win-loss-tracking                              0 B                0 B
 ├ ○ /artist-portal                                      5.1 kB          438 kB
 ├ ○ /artists                                            4.33 kB         475 kB
-├ ○ /auth/forgot-password                               4.19 kB         369 kB
-├ ○ /auth/magic-link                                    4.25 kB         369 kB
-├ ○ /auth/reset-password                                4.22 kB         369 kB
-├ ○ /auth/signin                                        1.38 kB         474 kB
-├ ○ /auth/signup                                        4.02 kB         369 kB
-├ ○ /auth/verify-email                                  3.88 kB         368 kB
+├ ○ /auth/forgot-password                               3.81 kB         365 kB
+├ ○ /auth/magic-link                                    3.86 kB         365 kB
+├ ○ /auth/reset-password                                3.92 kB         365 kB
+├ ○ /auth/signin                                        1.14 kB         471 kB
+├ ○ /auth/signup                                        3.75 kB         365 kB
+├ ○ /auth/verify-email                                  3.58 kB         365 kB
 ├ ○ /availability                                       3.81 kB         475 kB
 ├ ○ /background-checks                                  4.16 kB         475 kB
 ├ ○ /backup-plans                                       3.37 kB         429 kB

@@ -8,29 +8,7 @@
 
    Creating an optimized production build ...
    Using tsconfig file: tsconfig.build.json
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
- ⚠ Compiled with warnings
-
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
+ ✓ Compiled successfully
    Skipping validation of types
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
@@ -415,7 +393,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /crm/calendar                                  2.56 kB         517 kB
 ├ ○ /crm/email-integration                         2.12 kB         517 kB
 ├ ○ /crm/lead-scoring                              2.57 kB         517 kB
-├ ○ /crm/relationships                             1.84 kB         516 kB
+├ ○ /crm/relationships                             1.84 kB         517 kB
 ├ ○ /crm/tasks                                     2.79 kB         517 kB
 ├ ○ /dashboard                                     6.56 kB         521 kB
 ├ ○ /deals                                         2.15 kB         517 kB
@@ -447,7 +425,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /help/tutorials                                136 B           515 kB
 ├ ○ /insurance                                     2.46 kB         517 kB
 ├ ƒ /insurance/[id]                                1.96 kB         517 kB
-├ ○ /integrations                                  1.61 kB         516 kB
+├ ○ /integrations                                  1.62 kB         516 kB
 ├ ○ /investors                                     2.33 kB         517 kB
 ├ ƒ /investors/[id]                                2.05 kB         517 kB
 ├ ○ /investors/documents                           2.07 kB         517 kB
@@ -463,8 +441,8 @@ Route (app)                                        Size     First Load JS
 ├ ○ /marketing/attribution                         2.25 kB         517 kB
 ├ ○ /metrics                                       1.92 kB         517 kB
 ├ ○ /metrics/kpis                                  1.61 kB         516 kB
-├ ○ /metrics/reports                               1.82 kB         516 kB
-├ ○ /notifications                                 1.85 kB         516 kB
+├ ○ /metrics/reports                               1.82 kB         517 kB
+├ ○ /notifications                                 1.85 kB         517 kB
 ├ ○ /okrs                                          2.39 kB         517 kB
 ├ ○ /onboarding                                    3.37 kB         518 kB
 ├ ○ /organization                                  964 B           516 kB
@@ -591,7 +569,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /workforce/union-compliance                    2.35 kB         517 kB
 └ ○ /workforce/union-rules                         2.1 kB          517 kB
 + First Load JS shared by all                      515 kB
-  ├ chunks/commons-8b5b01ab6a142d8d.js             119 kB
+  ├ chunks/commons-afde7ca6a60c44e3.js             119 kB
   ├ chunks/lib-88e04261b020b765.js                 394 kB
   └ other shared chunks (total)                    1.99 kB
 

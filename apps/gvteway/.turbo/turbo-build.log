@@ -8,7 +8,6 @@
     · cpus
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -415,7 +414,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/friends                      2.65 kB         429 kB
 ├ ƒ /events/[id]/landing-builder              4.65 kB         431 kB
 ├ ƒ /events/[id]/languages                    3.69 kB         430 kB
-├ ƒ /events/[id]/parking                      3.98 kB         430 kB
+├ ƒ /events/[id]/parking                      3.98 kB         431 kB
 ├ ƒ /events/[id]/photo-booth                  3.24 kB         430 kB
 ├ ƒ /events/[id]/program                      1.88 kB         435 kB
 ├ ƒ /events/[id]/rfid                         2.86 kB         454 kB
@@ -444,7 +443,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /marketing/ab-testing                     3.58 kB         430 kB
 ├ ○ /marketing/analytics                      3.49 kB         430 kB
 ├ ○ /marketing/early-bird                     3.56 kB         430 kB
-├ ○ /marketing/influencers                    2.98 kB         429 kB
+├ ○ /marketing/influencers                    2.98 kB         430 kB
 ├ ○ /marketing/media-kit                      3.66 kB         430 kB
 ├ ○ /marketing/pixels                         3.67 kB         430 kB
 ├ ○ /match                                    2.63 kB         435 kB

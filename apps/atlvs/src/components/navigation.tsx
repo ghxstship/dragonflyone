@@ -77,6 +77,7 @@ export function CreatorNavigationPublic() {
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
+              inverted
               className="md:hidden"
               aria-label={isOpen ? "Close navigation" : "Open navigation"}
               aria-expanded={isOpen}
