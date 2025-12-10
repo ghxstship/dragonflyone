@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
@@ -22,54 +21,23 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-interface Project {
-  id: string;
-  name: string;
-  client_name?: string;
-  client?: { name: string };
-  status: string;
-  budget: number;
-  actual_cost?: number;
-  health?: string;
-  project_manager?: { full_name: string };
-  start_date: string;
-  end_date: string;
-  progress?: number;
-  description?: string;
-  venue?: string;
-  expected_attendees?: number;
-}
+import { useProjectDetailData } from "@/hooks/useProjectDetail";
 
 export default function ProjectDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [project, setProject] = useState<Project | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    project,
+    isLoading: loading,
+    error,
+    isNotFound,
+    generateReport,
+  } = useProjectDetailData(params.id);
 
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const response = await fetch(`/api/projects/${params.id}`);
-        if (!response.ok) {
-          if (response.status === 404) {
-            notFound();
-          } else {
-            throw new Error("Failed to fetch project");
-          }
-          return;
-        }
-        const data = await response.json();
-        setProject(data.project || data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchProject();
-  }, [params.id]);
+  // Handle 404
+  if (isNotFound) {
+    notFound();
+  }
 
   const handleUpdateStatus = async () => {
     router.push(`/projects/${params.id}/edit`);
@@ -81,19 +49,14 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
   const handleGenerateReport = async () => {
     try {
-      const response = await fetch(`/api/projects/${params.id}/report`, { method: "POST" });
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `project-${params.id}-report.pdf`;
-        a.click();
-        addNotification({ type: "success", title: "Success", message: "Report generated" });
-      } else {
-        addNotification({ type: "error", title: "Error", message: "Failed to generate report" });
-      }
-    } catch (err) {
+      const blob = await generateReport();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `project-${params.id}-report.pdf`;
+      a.click();
+      addNotification({ type: "success", title: "Success", message: "Report generated" });
+    } catch {
       addNotification({ type: "error", title: "Error", message: "Failed to generate report" });
     }
   };

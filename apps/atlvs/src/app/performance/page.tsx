@@ -43,6 +43,7 @@ export default function PerformancePage() {
     inProgressCount,
     isLoading: loading,
     error,
+    refetch,
   } = usePerformanceData();
 
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
@@ -122,7 +123,7 @@ export default function PerformancePage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchPerformance}
+        onRetry={() => refetch()}
         searchPlaceholder="Search reviews..."
         filters={filters}
         rowActions={rowActions}
@@ -158,7 +159,7 @@ export default function PerformancePage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchPerformance();
+            await refetch();
           }
         }}
         bulkActions={[

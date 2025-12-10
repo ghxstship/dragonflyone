@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
@@ -23,69 +23,18 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-interface KPIDefinition {
-  id: number;
-  code: string;
-  name: string;
-  description: string;
-  category: string;
-  subcategory: string;
-  unit: string;
-  targetDirection: string;
-  updateFrequency: string;
-  targetValue?: number;
-  warningThreshold?: number;
-  criticalThreshold?: number;
-}
-
-interface KPIReport {
-  id: string;
-  name: string;
-  description: string;
-  kpi_codes: string[];
-  category: string;
-}
+import { useKPILibraryData } from '@/hooks/useAnalytics';
 
 export default function KPILibraryPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
-  const [kpis, setKpis] = useState<KPIDefinition[]>([]);
-  const [reports, setReports] = useState<KPIReport[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    loadKPIs();
-    loadReports();
-  }, []);
-
-  const loadKPIs = async () => {
-    try {
-      const response = await fetch('/api/kpi?enabled=true');
-      const data = await response.json();
-      if (data.success) {
-        setKpis(data.data);
-      }
-    } catch (error) {
-      log.error('Error loading KPIs:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadReports = async () => {
-    try {
-      const response = await fetch('/api/kpi/reports?global=true');
-      const data = await response.json();
-      if (data.success) {
-        setReports(data.data);
-      }
-    } catch (error) {
-      log.error('Error loading reports:', error instanceof Error ? error : undefined);
-    }
-  };
+  
+  const {
+    kpis,
+    reports,
+    isLoading: loading,
+  } = useKPILibraryData();
 
   const categories = [
     { value: 'ALL', label: 'All Categories' },

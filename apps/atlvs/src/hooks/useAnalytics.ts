@@ -163,3 +163,83 @@ export function useAnalyticsPageData() {
     refetch: analyticsQuery.refetch,
   };
 }
+
+// =============================================================================
+// KPI LIBRARY HOOKS
+// =============================================================================
+
+export interface KPIDefinition {
+  id: number;
+  code: string;
+  name: string;
+  description: string;
+  category: string;
+  subcategory: string;
+  unit: string;
+  targetDirection: string;
+  updateFrequency: string;
+  targetValue?: number;
+  warningThreshold?: number;
+  criticalThreshold?: number;
+}
+
+export interface KPIReport {
+  id: string;
+  name: string;
+  description: string;
+  kpi_codes: string[];
+  category: string;
+}
+
+const DEMO_KPI_DEFINITIONS: KPIDefinition[] = [
+  { id: 1, code: 'REV-001', name: 'Gross Revenue', description: 'Total revenue before expenses', category: 'FINANCIAL_PERFORMANCE', subcategory: 'Revenue', unit: 'USD', targetDirection: 'higher', updateFrequency: 'daily' },
+  { id: 2, code: 'ATT-001', name: 'Total Attendance', description: 'Number of attendees', category: 'TICKET_ATTENDANCE', subcategory: 'Attendance', unit: 'count', targetDirection: 'higher', updateFrequency: 'daily' },
+];
+
+const DEMO_KPI_REPORTS: KPIReport[] = [
+  { id: '1', name: 'Executive Summary', description: 'High-level KPIs for leadership', kpi_codes: ['REV-001', 'ATT-001'], category: 'FINANCIAL_PERFORMANCE' },
+];
+
+export function useKPIDefinitions() {
+  return useQuery({
+    queryKey: ['kpi-definitions'],
+    queryFn: async () => {
+      const response = await fetch('/api/kpi?enabled=true');
+      if (response.status === 401) {
+        return DEMO_KPI_DEFINITIONS;
+      }
+      const data = await response.json();
+      return data.success ? data.data : DEMO_KPI_DEFINITIONS;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useKPIReports() {
+  return useQuery({
+    queryKey: ['kpi-reports'],
+    queryFn: async () => {
+      const response = await fetch('/api/kpi/reports?global=true');
+      if (response.status === 401) {
+        return DEMO_KPI_REPORTS;
+      }
+      const data = await response.json();
+      return data.success ? data.data : DEMO_KPI_REPORTS;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useKPILibraryData() {
+  const kpisQuery = useKPIDefinitions();
+  const reportsQuery = useKPIReports();
+
+  return {
+    kpis: kpisQuery.data || [],
+    reports: reportsQuery.data || [],
+    isLoading: kpisQuery.isLoading || reportsQuery.isLoading,
+    error: kpisQuery.error || reportsQuery.error,
+    refetchKPIs: kpisQuery.refetch,
+    refetchReports: reportsQuery.refetch,
+  };
+}
