@@ -26,6 +26,7 @@ import {
   MapPin,
   HardHat,
   Building,
+  Building2,
   Handshake,
   BarChart3,
   Link2,
@@ -42,6 +43,14 @@ import {
   ClipboardList,
   MessageSquare,
   Smartphone,
+  Mic2,
+  Briefcase,
+  Camera,
+  BadgeDollarSign,
+  GraduationCap,
+  Heart,
+  Megaphone,
+  Link as LinkIcon,
 } from "lucide-react";
 import {
   atlvsLandingHero,
@@ -257,8 +266,18 @@ export default function Home() {
                 <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-3 sm:p-4">
                   <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
                     {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Users" && <Users className="h-5 w-5 text-brand-cyan" />}
                     {feature.icon === "Building" && <Building className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Mic2" && <Mic2 className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Briefcase" && <Briefcase className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Camera" && <Camera className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "BadgeDollarSign" && <BadgeDollarSign className="h-5 w-5 text-brand-cyan" />}
                     {feature.icon === "Handshake" && <Handshake className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Building2" && <Building2 className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "GraduationCap" && <GraduationCap className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Heart" && <Heart className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Megaphone" && <Megaphone className="h-5 w-5 text-brand-cyan" />}
+                    {feature.icon === "Link" && <LinkIcon className="h-5 w-5 text-brand-cyan" />}
                   </Box>
                   <H3 className="font-display text-h6-md uppercase tracking-label text-white">{feature.title}</H3>
                   <Body className="mt-2 text-body-sm text-grey-400">{feature.description}</Body>
