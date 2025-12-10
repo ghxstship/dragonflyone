@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   H2,
@@ -14,6 +14,7 @@ import {
   ScrollReveal,
   AuthPage,
   IconBox,
+  Spinner,
 } from "@ghxstship/ui";
 import { KeyRound, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
@@ -24,7 +25,7 @@ import { useAuthData } from "@/hooks/useAuth";
 // Bold Contemporary Pop Art Adventure Design System
 // =============================================================================
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token') || '';
@@ -152,5 +153,21 @@ export default function ResetPasswordPage() {
             </Card>
           </ScrollReveal>
     </AuthPage>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <AuthPage appName="GVTEWAY" background="black">
+        <Card inverted className="border-2 border-white/20 bg-black p-6 shadow-md sm:p-8">
+          <Stack gap={6} className="items-center justify-center py-8">
+            <Spinner size="lg" />
+          </Stack>
+        </Card>
+      </AuthPage>
+    }>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
