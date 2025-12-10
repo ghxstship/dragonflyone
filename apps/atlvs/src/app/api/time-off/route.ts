@@ -24,14 +24,17 @@ export async function GET(request: NextRequest) {
     const requestType = searchParams.get('request_type');
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('time_off_requests')
       .select(`
-        *,
+        id, request_type, start_date, end_date, hours_requested, status, reason, created_at,
         employee:employees(id, first_name, last_name, employee_number, department_id),
         approved_by_user:platform_users!approved_by(id, full_name)
-      `)
+      `, { count: 'exact' })
       .order('start_date', { ascending: false });
 
     if (status && status !== 'all') {
@@ -50,7 +53,7 @@ export async function GET(request: NextRequest) {
       query = query.lte('end_date', endDate);
     }
 
-    const { data, error } = await query;
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       Logger.error('Error fetching time off requests:', error);
@@ -86,7 +89,16 @@ export async function GET(request: NextRequest) {
         .reduce((sum, r) => sum + r.hours_requested, 0),
     };
 
-    return NextResponse.json({ requests: data, summary });
+    const totalCount = count || (requests?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (requests?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ requests: data, summary, pagination });
   } catch (error) {
     Logger.error('Error in GET /api/time-off:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

@@ -42,21 +42,25 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type'); // 'assets' | 'depreciation' | 'schedule' | 'register' | 'disposed'
     const category = searchParams.get('category');
     const assetId = searchParams.get('asset_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     if (type === 'assets') {
       let query = supabase
         .from('fixed_assets')
         .select(`
-          *,
+          id, name, asset_number, category, acquisition_date, acquisition_cost, useful_life_years,
+          salvage_value, depreciation_method, location, serial_number, status, created_at,
           department:departments(id, name),
           vendor:vendors(id, name)
-        `)
+        `, { count: 'exact' })
         .eq('status', 'active')
         .order('acquisition_date', { ascending: false });
 
       if (category) query = query.eq('category', category);
 
-      const { data: assets, error } = await query;
+      const { data: assets, error, count } = await query.range(offset, offset + limit - 1);
 
       if (error) throw error;
 
@@ -81,6 +85,15 @@ export async function GET(request: NextRequest) {
         return acc;
       }, {});
 
+      const totalCount = count || (enrichedAssets?.length ?? 0);
+      const pagination = {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit),
+        hasMore: offset + (enrichedAssets?.length ?? 0) < totalCount,
+      };
+
       return NextResponse.json({
         assets: enrichedAssets,
         by_category: byCategory,
@@ -89,6 +102,7 @@ export async function GET(request: NextRequest) {
           total_book_value: enrichedAssets?.reduce((sum, a) => sum + a.current_book_value, 0) || 0,
           total_accumulated_depreciation: enrichedAssets?.reduce((sum, a) => sum + a.accumulated_depreciation, 0) || 0,
         },
+        pagination,
       });
     }
 

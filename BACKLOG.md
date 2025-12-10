@@ -1416,10 +1416,14 @@ Optimize heavy Supabase queries with pagination and field selection.
 - [x] strategic-goals/route.ts - Added pagination, optimized select fields
 - [x] preferred-vendors/route.ts - Added pagination, optimized select fields
 - [x] ip-tracking/route.ts - Added pagination, optimized select fields
+- [x] workers-comp/route.ts - Added pagination, optimized select fields
+- [x] fixed-assets/route.ts - Added pagination, optimized select fields
+- [x] time-off/route.ts - Added pagination, optimized select fields
+- [x] platform-users/route.ts - Added pagination, optimized select fields
 
 **Acceptance Criteria:**
-- [x] Heavy queries identified and optimized (32 of 36 `select(*)` patterns)
-- [x] Pagination added to list endpoints (32 routes with page/limit/offset)
+- [x] Heavy queries identified and optimized (36 of 36 `select(*)` patterns)
+- [x] Pagination added to list endpoints (36 routes with page/limit/offset)
 - [x] Field selection reduced to necessary columns
 
 ---
