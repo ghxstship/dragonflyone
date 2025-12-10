@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -48,7 +48,7 @@ const mockAttribution: AttributionSource[] = [
   { source: "Referral", conversions: 78, revenue: 11700, percentage: 6 },
 ];
 
-export default function MarketingAnalyticsPage() {
+function MarketingAnalyticsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -264,5 +264,13 @@ export default function MarketingAnalyticsPage() {
           <Button variant="outlineInk" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function MarketingAnalyticsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <MarketingAnalyticsPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -45,7 +45,7 @@ const mockSessions: PhotoBoothSession[] = [
   { id: "SES-004", boothId: "PB-001", boothName: "Main Entrance", timestamp: "2024-11-24T20:08:00Z", photoCount: 3, shared: true, sharedTo: ["Instagram", "Facebook"], email: "sarah@email.com", printed: true },
 ];
 
-export default function PhotoBoothPage() {
+function PhotoBoothPageContent() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
@@ -221,5 +221,13 @@ export default function PhotoBoothPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function PhotoBoothPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <PhotoBoothPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -46,7 +46,7 @@ const mockEvents: ConversionEvent[] = [
   { id: "EVT-005", name: "Lead Capture", type: "Lead", count: 890, value: 0, lastTriggered: "15 min ago" },
 ];
 
-export default function PixelsPage() {
+function PixelsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -284,5 +284,13 @@ export default function PixelsPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function PixelsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <PixelsPageContent />
+    </Suspense>
   );
 }

@@ -1343,11 +1343,12 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 **Progress:**
 - [x] `gvteway/src/app/settings/privacy/page.tsx` - Created usePrivacySettings hook (7 fetches → 0)
 - [x] `atlvs/src/app/onboarding/page.tsx` - Created useOnboarding hook (5 fetches → 0)
+- [x] `compvss/src/app/onboarding/page.tsx` - Created useOnboarding hook (5 fetches → 0)
 
 **Pages with Most Manual Fetches (Top 10):**
 1. ~~`gvteway/src/app/settings/privacy/page.tsx` - 7 fetches~~ ✓ DONE
 2. ~~`atlvs/src/app/onboarding/page.tsx` - 5 fetches~~ ✓ DONE
-3. `compvss/src/app/onboarding/page.tsx` - 5 fetches
+3. ~~`compvss/src/app/onboarding/page.tsx` - 5 fetches~~ ✓ DONE
 4. `gvteway/src/app/match/page.tsx` - 5 fetches
 5. `atlvs/src/app/alignment/page.tsx` - 4 fetches
 6. `atlvs/src/app/invoices/page.tsx` - 4 fetches
@@ -1357,7 +1358,7 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 10. `gvteway/src/app/directions/page.tsx` - 4 fetches
 
 **Acceptance Criteria:**
-- [ ] All 146 pages migrated to use React Query hooks (2/146 done)
+- [ ] All 146 pages migrated to use React Query hooks (3/146 done)
 - [ ] Manual `fetch()` calls eliminated from page components
 - [ ] Fallback data configured for demo mode
 - [ ] Request deduplication verified

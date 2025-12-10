@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -30,7 +30,7 @@ const mockInfluencers: Influencer[] = [
   { id: "INF-004", name: "DJ Reviews", handle: "@djreviews", platform: "YouTube", followers: 450000, engagement: 3.9, niche: "EDM", status: "Completed", campaigns: 2, revenue: 8500 },
 ];
 
-export default function InfluencersPage() {
+function InfluencersPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -182,5 +182,13 @@ export default function InfluencersPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function InfluencersPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <InfluencersPageContent />
+    </Suspense>
   );
 }

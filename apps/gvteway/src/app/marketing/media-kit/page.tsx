@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -44,7 +44,7 @@ const mockReleases: PressRelease[] = [
   { id: "PR-003", title: "New Year Gala VIP Experience Details", event: "New Year Gala", date: "2024-11-25", status: "Draft", downloads: 0 },
 ];
 
-export default function MediaKitPage() {
+function MediaKitPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -304,5 +304,13 @@ export default function MediaKitPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function MediaKitPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <MediaKitPageContent />
+    </Suspense>
   );
 }

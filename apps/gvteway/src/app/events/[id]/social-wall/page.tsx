@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -33,7 +33,7 @@ const mockPosts: SocialPost[] = [
   { id: "TW-004", platform: "Twitter", author: "Chris P", handle: "@chrisp", content: "The production quality is insane! Those lights! 💡", timestamp: "15 min ago", likes: 34, retweets: 5, hashtags: ["SummerFest2024", "Production"], approved: true },
 ];
 
-export default function SocialWallPage() {
+function SocialWallPageContent() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
@@ -198,5 +198,13 @@ export default function SocialWallPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function SocialWallPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <SocialWallPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -32,7 +32,7 @@ const mockCampaigns: EarlyBirdCampaign[] = [
   { id: "EB-004", eventName: "New Year Gala", tierName: "Early Bird", originalPrice: 250, discountedPrice: 175, discountPercent: 30, startDate: "2024-10-01", endDate: "2024-11-15", ticketsAllocated: 300, ticketsSold: 300, status: "Ended" },
 ];
 
-export default function EarlyBirdPage() {
+function EarlyBirdPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -248,5 +248,13 @@ export default function EarlyBirdPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function EarlyBirdPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <EarlyBirdPageContent />
+    </Suspense>
   );
 }

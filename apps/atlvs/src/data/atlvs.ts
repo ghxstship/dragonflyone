@@ -1384,11 +1384,6 @@ export const atlvsCompvssSection = {
       description: "Learning the ropes without tripping over them. Guided access, real experience.",
     },
     {
-      icon: "Heart",
-      title: "VOLUNTEERS",
-      description: "The backbone of every show. Shifts they can actually find.",
-    },
-    {
       icon: "Megaphone",
       title: "BRAND AMBASSADORS",
       description: "Your street team, amplified. Track the hustle, reward the results.",

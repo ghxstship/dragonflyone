@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -55,7 +55,7 @@ const permissionOptions = [
   "Manage Marketing",
 ];
 
-export default function EventCollaborationPage() {
+function EventCollaborationPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -275,5 +275,13 @@ export default function EventCollaborationPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function EventCollaborationPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <EventCollaborationPageContent />
+    </Suspense>
   );
 }

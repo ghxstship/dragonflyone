@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -43,7 +43,7 @@ const mockFields: TranslationField[] = [
   { field: "Safety Guidelines", original: "Please review our safety guidelines before attending.", status: "Review" },
 ];
 
-export default function EventLanguagesPage() {
+function EventLanguagesPageContent() {
   const router = useRouter();
   const params = useParams();
   
@@ -280,5 +280,13 @@ export default function EventLanguagesPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function EventLanguagesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <EventLanguagesPageContent />
+    </Suspense>
   );
 }
