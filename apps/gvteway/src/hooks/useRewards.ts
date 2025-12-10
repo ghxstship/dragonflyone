@@ -80,3 +80,57 @@ export const useEarnPoints = () => {
     },
   });
 };
+
+// =============================================================================
+// REWARDS PAGE HOOKS (API-based with demo fallback)
+// =============================================================================
+
+export interface UserRewards {
+  user_id: string;
+  points: number;
+  tier: string;
+  lifetime_points: number;
+  rewards: { id: string; name: string; points: number; type: string; available: boolean }[];
+  activities: { action: string; points: number; date: string }[];
+}
+
+const DEMO_USER_REWARDS: UserRewards = {
+  user_id: 'demo-user',
+  points: 1250,
+  tier: 'Silver',
+  lifetime_points: 3500,
+  rewards: [
+    { id: 'r1', name: 'Free Ticket Upgrade', points: 500, type: 'upgrade', available: true },
+    { id: 'r2', name: 'VIP Lounge Access', points: 1000, type: 'access', available: true },
+    { id: 'r3', name: 'Meet & Greet Pass', points: 2500, type: 'experience', available: false },
+  ],
+  activities: [
+    { action: 'Ticket Purchase', points: 100, date: new Date().toISOString() },
+    { action: 'Social Share', points: 25, date: new Date(Date.now() - 86400000).toISOString() },
+  ],
+};
+
+export function useRewardsPageData() {
+  const rewardsQuery = useQuery({
+    queryKey: ['rewards-page'],
+    queryFn: async () => {
+      const response = await fetch('/api/rewards?user_id=demo-user-123');
+      if (response.status === 401) {
+        return DEMO_USER_REWARDS;
+      }
+      if (!response.ok) {
+        throw new Error('Failed to fetch rewards');
+      }
+      const data = await response.json();
+      return data.rewards || DEMO_USER_REWARDS;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  return {
+    userRewards: rewardsQuery.data || null,
+    isLoading: rewardsQuery.isLoading,
+    error: rewardsQuery.error,
+    refetch: rewardsQuery.refetch,
+  };
+}
