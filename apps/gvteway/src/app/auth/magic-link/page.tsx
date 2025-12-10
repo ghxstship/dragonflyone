@@ -17,6 +17,7 @@ import {
 } from "@ghxstship/ui";
 import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import NextLink from "next/link";
+import { useAuthData } from "@/hooks/useAuth";
 
 // =============================================================================
 // MAGIC LINK PAGE - Passwordless Authentication
@@ -25,28 +26,20 @@ import NextLink from "next/link";
 
 export default function MagicLinkPage() {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  const { sendMagicLink, isSendingMagicLink: loading } = useAuthData();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("/api/auth/magic-link", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) throw new Error("Failed to send magic link");
+      await sendMagicLink(email);
       setSubmitted(true);
     } catch (err) {
-      setError("Failed to send magic link. Please try again.");
-    } finally {
-      setLoading(false);
+      setError(err instanceof Error ? err.message : "Failed to send magic link. Please try again.");
     }
   };
 

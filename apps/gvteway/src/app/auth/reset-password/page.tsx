@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   H2,
   Body,
@@ -17,6 +17,7 @@ import {
 } from "@ghxstship/ui";
 import { KeyRound, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
+import { useAuthData } from "@/hooks/useAuth";
 
 // =============================================================================
 // RESET PASSWORD PAGE - Set New Password
@@ -25,47 +26,35 @@ import NextLink from "next/link";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token') || '';
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
+  const { resetPassword, isResetting: loading } = useAuthData();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
-      setLoading(false);
       return;
     }
 
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
-      setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch("/api/auth/password/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Failed to reset password");
-      }
-
+      await resetPassword({ token, password });
       setSuccess(true);
       setTimeout(() => router.push("/auth/signin"), 3000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to reset password. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -24,6 +24,7 @@ import {
 } from "@ghxstship/ui";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
+import { useAuthData } from "@/hooks/useAuth";
 
 // =============================================================================
 // SIGN UP PAGE - Member Registration
@@ -42,7 +43,12 @@ export default function SignUpPage() {
     agreeToTerms: false,
   });
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const {
+    signUp,
+    isSigningUp: loading,
+    oauthSignIn,
+  } = useAuthData();
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,39 +69,22 @@ export default function SignUpPage() {
       return;
     }
 
-    setLoading(true);
-
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-        }),
+      await signUp({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
       router.push("/auth/verify-email?email=" + encodeURIComponent(formData.email));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleOAuthSignUp = async (provider: "google" | "apple") => {
-    setLoading(true);
     try {
-      const response = await fetch(`/api/auth/oauth/${provider}`, { method: "POST" });
-      const data = await response.json();
+      const data = await oauthSignIn(provider);
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -104,11 +93,9 @@ export default function SignUpPage() {
           title: "Coming Soon",
           message: `${provider} sign-up will be available once OAuth is configured`,
         });
-        setLoading(false);
       }
-    } catch (err) {
+    } catch {
       setError("OAuth sign-up failed. Please try again.");
-      setLoading(false);
     }
   };
 

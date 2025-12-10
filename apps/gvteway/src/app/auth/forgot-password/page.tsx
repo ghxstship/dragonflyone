@@ -16,6 +16,7 @@ import {
 } from "@ghxstship/ui";
 import { Mail, ArrowLeft, ArrowRight } from "lucide-react";
 import NextLink from "next/link";
+import { useAuthData } from "@/hooks/useAuth";
 
 // =============================================================================
 // FORGOT PASSWORD PAGE - Password Reset Request
@@ -24,28 +25,20 @@ import NextLink from "next/link";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
 
+  const { forgotPassword, isSendingReset: loading } = useAuthData();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     try {
-      const response = await fetch("/api/auth/password/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (!response.ok) throw new Error("Failed to send reset email");
+      await forgotPassword(email);
       setSubmitted(true);
     } catch (err) {
-      setError("Failed to send reset email. Please try again.");
-    } finally {
-      setLoading(false);
+      setError(err instanceof Error ? err.message : "Failed to send reset email. Please try again.");
     }
   };
 
