@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -24,46 +24,25 @@ import {
   EmptyState,
 } from '@ghxstship/ui';
 import { MapPin, Calendar, Users, Clock } from 'lucide-react';
-
-interface Friend {
-  id: string;
-  user_id: string;
-  name: string;
-  avatar_url?: string;
-  status: 'online' | 'offline' | 'at_event';
-  current_event_id?: string;
-  current_event_name?: string;
-  last_seen?: string;
-  location?: {
-    lat: number;
-    lng: number;
-    section?: string;
-  };
-}
-
-interface Meetup {
-  id: string;
-  event_id: string;
-  event_name: string;
-  event_date: string;
-  organizer_id: string;
-  organizer_name: string;
-  location: string;
-  time: string;
-  attendees: string[];
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-}
+import { useFriendsData, type Friend } from '@/hooks/useFriends';
 
 export default function FriendsPage() {
-  const [friends, setFriends] = useState<Friend[]>([]);
-  const [meetups, setMeetups] = useState<Meetup[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    friends,
+    meetups,
+    isLoading: loading,
+    error,
+    createMeetup,
+  } = useFriendsData();
+
   const [showMeetupModal, setShowMeetupModal] = useState(false);
   const [showFindModal, setShowFindModal] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const setError = (msg: string) => setLocalError(msg);
 
   const [meetupForm, setMeetupForm] = useState({
     event_id: '',
@@ -72,54 +51,11 @@ export default function FriendsPage() {
     invitees: [] as string[],
   });
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [friendsRes, meetupsRes] = await Promise.all([
-        fetch('/api/friends'),
-        fetch('/api/friends/meetups'),
-      ]);
-
-      if (friendsRes.ok) {
-        const data = await friendsRes.json();
-        setFriends(data.friends || []);
-      }
-
-      if (meetupsRes.ok) {
-        const data = await meetupsRes.json();
-        setMeetups(data.meetups || []);
-      }
-    } catch (err) {
-      setError('Failed to load data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
   const handleCreateMeetup = async () => {
-    try {
-      const response = await fetch('/api/friends/meetups', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(meetupForm),
-      });
-
-      if (response.ok) {
-        setSuccess('Meetup created! Invitations sent.');
-        setShowMeetupModal(false);
-        setMeetupForm({ event_id: '', location: '', time: '', invitees: [] });
-        fetchData();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to create meetup');
-      }
-    } catch (err) {
-      setError('Network error');
-    }
+    await createMeetup(meetupForm);
+    setSuccess('Meetup created! Invitations sent.');
+    setShowMeetupModal(false);
+    setMeetupForm({ event_id: '', location: '', time: '', invitees: [] });
   };
 
   const handleShareLocation = async () => {
@@ -278,7 +214,7 @@ export default function FriendsPage() {
 
             {/* Success/Error Alerts */}
             {success && <Alert variant="success">{success}</Alert>}
-            {error && <Alert variant="error">{error}</Alert>}
+            {(error || localError) && <Alert variant="error">{error instanceof Error ? error.message : localError || String(error)}</Alert>}
 
             <Grid cols={2} gap={8}>
               {/* All Friends */}
