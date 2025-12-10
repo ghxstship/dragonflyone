@@ -51,6 +51,7 @@ export default function FinancePage() {
     netProfit,
     isLoading: loading,
     error,
+    refetch,
   } = useLedgerData();
 
   // Cast to Transaction type for compatibility with ListPage
@@ -107,7 +108,7 @@ export default function FinancePage() {
 
       }
 
-      fetchTransactions();
+      await refetch();
 
     },
 
@@ -129,7 +130,7 @@ export default function FinancePage() {
         rowKey="id"
         loading={loading}
         error={error ? new Error(error) : undefined}
-        onRetry={fetchTransactions}
+        onRetry={() => refetch()}
         searchPlaceholder="Search transactions..."
         filters={filters}
         rowActions={rowActions}

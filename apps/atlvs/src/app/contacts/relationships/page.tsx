@@ -92,9 +92,9 @@ export default function RelationshipsPage() {
   const [stakeholderMap, setStakeholderMap] = useState<StakeholderMap>(mockStakeholderMap);
   
   // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
+  const { activeTab, setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'contacts-relationships-tab',
     defaultTab: 'map',
-    validTabs: ['map', 'org', 'relationships'],
   });
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);

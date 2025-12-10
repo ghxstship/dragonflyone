@@ -155,9 +155,9 @@ const mockSpecs: AssetSpec[] = [
 export default function AssetSpecificationsPage() {
   const router = useRouter();
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'assets-specifications-tab',
     defaultTab: 'library',
-    validTabs: ['library', 'documents'],
   });
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedSpec, setSelectedSpec] = useState<AssetSpec | null>(null);

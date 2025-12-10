@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Calendar } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,24 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface IntellectualProperty {
-  id: string;
-  title: string;
-  ip_type: string;
-  registration_number?: string;
-  filing_date?: string;
-  registration_date?: string;
-  expiration_date?: string;
-  jurisdiction: string;
-  status: string;
-  owner_entity: string;
-  description?: string;
-  classes?: string[];
-  renewal_date?: string;
-  estimated_value?: number;
-  [key: string]: unknown;
-}
+import { useIPTrackingData, type IntellectualProperty } from "@/hooks/useIPTracking";
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -70,31 +53,16 @@ const filters: ListPageFilter[] = [
 
 export default function IPTrackingPage() {
   const router = useRouter();
-  const [assets, setAssets] = useState<IntellectualProperty[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    assets,
+    pendingCount,
+    totalValue,
+    isLoading: loading,
+    error,
+  } = useIPTrackingData();
+
   const [selectedAsset, setSelectedAsset] = useState<IntellectualProperty | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchIPAssets = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/intellectual-property');
-      if (!response.ok) throw new Error("Failed to fetch IP assets");
-      const data = await response.json();
-      setAssets(data.assets || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { fetchIPAssets(); }, [fetchIPAssets]);
-
-  const pendingCount = assets.filter(a => a.status === 'pending' || a.status === 'filed').length;
-  const totalValue = assets.reduce((sum, a) => sum + (a.estimated_value || 0), 0);
 
   const rowActions: ListPageAction<IntellectualProperty>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },

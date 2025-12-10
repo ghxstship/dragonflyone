@@ -154,7 +154,7 @@ export default function PayrollPage() {
         rowKey="id"
         loading={loading}
         error={error}
-        onRetry={fetchPayroll}
+        onRetry={() => refetch()}
         searchPlaceholder="Search employees..."
         filters={filters}
         rowActions={rowActions}
@@ -176,14 +176,14 @@ export default function PayrollPage() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchPayroll();
+            await refetch();
           } else if (action === 'approve') {
             await fetch('/api/payroll/bulk-approve', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ ids }),
             });
-            fetchPayroll();
+            await refetch();
           }
         }}
         bulkActions={[

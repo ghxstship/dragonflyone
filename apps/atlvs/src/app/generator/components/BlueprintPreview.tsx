@@ -51,9 +51,9 @@ const SENSE_ICONS = {
 
 export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'blueprint-preview-tab',
     defaultTab: 'concept',
-    validTabs: ['concept', 'sensory', 'spatial', 'journey', 'documents'],
   });
 
   return (

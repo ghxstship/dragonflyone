@@ -63,9 +63,9 @@ export default function ScheduledReportsPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
-  const { activeTab, setActiveTab, isActive } = useTabState({
+  const { activeTab, setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'reports-scheduled-tab',
     defaultTab: 'active',
-    validTabs: ['active', 'issues', 'all'],
   });
   const [selectedReport, setSelectedReport] = useState<ScheduledReport | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);

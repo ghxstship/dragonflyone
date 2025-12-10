@@ -67,9 +67,9 @@ export default function DesignSystemPage() {
   const [currentPage, setCurrentPage] = useState(1);
   
   // URL-synced tab state for deep-linking support
-  const { setActiveTab, isActive } = useTabState({
+  const { setActiveTab, isActive } = useLocalTabState({
+    storageKey: 'design-system-tab',
     defaultTab: 'overview',
-    validTabs: ['overview', 'colors', 'typography', 'components', 'patterns'],
   });
 
   const totalComponents = Object.values(COMPONENT_COUNTS).reduce((a, b) => a + b, 0);

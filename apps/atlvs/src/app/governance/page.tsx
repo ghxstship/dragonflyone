@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, FileText, Pencil } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -16,20 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface BoardMeeting {
-  id: string;
-  title: string;
-  meeting_type: string;
-  scheduled_date: string;
-  location: string;
-  status: string;
-  attendees: string[];
-  agenda_items: string[];
-  minutes_url?: string;
-  resolutions?: string[];
-  [key: string]: unknown;
-}
+import { useGovernanceData, type BoardMeeting } from "@/hooks/useGovernance";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -49,33 +36,16 @@ const filters: ListPageFilter[] = [
 
 export default function GovernancePage() {
   const router = useRouter();
-  const [meetings, setMeetings] = useState<BoardMeeting[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    meetings,
+    scheduledCount,
+    completedCount,
+    isLoading: loading,
+    error,
+  } = useGovernanceData();
+
   const [selectedMeeting, setSelectedMeeting] = useState<BoardMeeting | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchGovernanceData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch("/api/governance");
-      if (!response.ok) throw new Error("Failed to fetch governance data");
-      const data = await response.json();
-      setMeetings(data.meetings || []);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchGovernanceData();
-  }, [fetchGovernanceData]);
-
-  const scheduledCount = meetings.filter(m => m.status === 'scheduled').length;
-  const completedCount = meetings.filter(m => m.status === 'completed').length;
 
   const rowActions: ListPageAction<BoardMeeting>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedMeeting(r); setDrawerOpen(true); } },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { Eye } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
@@ -14,28 +14,8 @@ import {
   type ListPageAction,
   type DetailSection,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface AuditLog {
-  id: string;
-  timestamp: string;
-  user_id?: string;
-  user_email?: string;
-  user?: { id: string; email: string; full_name: string };
-  action: string;
-  resource_type: string;
-  resource_id: string;
-  details?: string;
-  ip_address?: string;
-  created_at: string;
-}
-
-interface AuditSummary {
-  total: number;
-  today: number;
-  active_users: number;
-  failed_attempts: number;
-}
+import { createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { useAuditData, type AuditLog } from "@/hooks/useAudit";
 
 const columns: ListPageColumn<AuditLog>[] = [
   { key: 'timestamp', label: 'Timestamp', accessor: (r) => r.timestamp || new Date(r.created_at).toLocaleString(), sortable: true },
@@ -51,25 +31,16 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AuditPage() {
-  const [logs, setLogs] = useState<AuditLog[]>([]);
-  const [summary, setSummary] = useState<AuditSummary | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    logs,
+    summary,
+    isLoading: loading,
+    createLog,
+    refetch,
+  } = useAuditData();
+
   const [selectedLog, setSelectedLog] = useState<AuditLog | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const fetchAuditLogs = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/kpi/audit-logs');
-      if (!response.ok) throw new Error('Failed to fetch');
-      const data = await response.json();
-      setLogs(data.logs || []);
-      setSummary(data.summary || null);
-    } catch { /* fallback */ }
-    finally { setLoading(false); }
-  }, []);
-
-  useEffect(() => { fetchAuditLogs(); }, [fetchAuditLogs]);
 
   const rowActions: ListPageAction<AuditLog>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedLog(r); setDrawerOpen(true); } },
@@ -81,13 +52,9 @@ export default function AuditPage() {
     requiredFields: ['action', 'resource_type'],
     onImport: async (records) => {
       for (const record of records) {
-        await fetch('/api/audit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record),
-        });
+        await createLog(record);
       }
-      fetchAuditLogs();
+      refetch();
     },
   });
 
@@ -124,7 +91,7 @@ export default function AuditPage() {
         columns={columns}
         rowKey="id"
         loading={loading}
-        onRetry={fetchAuditLogs}
+        onRetry={() => refetch()}
         searchPlaceholder="Search logs..."
         filters={filters}
         rowActions={rowActions}

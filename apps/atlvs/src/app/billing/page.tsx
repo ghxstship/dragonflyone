@@ -115,6 +115,7 @@ export default function BillingPage() {
     createInvoice,
     sendInvoice,
     deleteInvoice,
+    refetch,
   } = useInvoicesData();
 
   // Cast to local Invoice type for compatibility
