@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -30,7 +30,7 @@ const mockTactics: UrgencyTactic[] = [
   { id: "UT-004", eventName: "Tech Conference 2025", type: "Last Chance", message: "Final tickets available!", status: "Active", threshold: 20, currentValue: 12, conversions: 45 },
 ];
 
-export default function UrgencyTacticsPage() {
+function UrgencyTacticsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -276,5 +276,13 @@ export default function UrgencyTacticsPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function UrgencyTacticsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <UrgencyTacticsPageContent />
+    </Suspense>
   );
 }

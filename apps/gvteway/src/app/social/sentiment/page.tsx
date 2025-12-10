@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -40,7 +40,7 @@ const mockMetrics = {
   trending: ["#SummerFest2024", "lineup", "tickets", "VIP"],
 };
 
-export default function SentimentAnalysisPage() {
+function SentimentAnalysisPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -237,5 +237,13 @@ export default function SentimentAnalysisPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function SentimentAnalysisPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <SentimentAnalysisPageContent />
+    </Suspense>
   );
 }

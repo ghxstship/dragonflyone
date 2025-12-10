@@ -1207,8 +1207,33 @@ export const atlvsPillarsSolution = [
   },
 ];
 
-// Feature grid for landing page - "EVERYTHING YOU NEED TO SHIP THE SHOW"
+// Feature grid for landing page - "THE TOOLKIT WITHOUT MISSING TOOLS"
+// Ordered by experience lifecycle: Planning → Pre-Production → Production → Execution → Post-Production → Platform
 export const atlvsFeatureGrid = [
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLANNING & STRATEGY - Where deals begin
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    icon: "Target",
+    title: "CRM & PIPELINE",
+    description:
+      "Track every lead, deal, and relationship. Pipeline stages built for live events — not SaaS sales. Know who's hot, who's cold, and who's about to close.",
+  },
+  {
+    icon: "FileSignature",
+    title: "PROPOSALS & ESTIMATES",
+    description:
+      "Generate branded proposals in minutes, not hours. Line-item estimates, package options, and e-signatures. Win more deals, faster.",
+  },
+  {
+    icon: "Handshake",
+    title: "CONTRACTS & AGREEMENTS",
+    description:
+      "Templates for every deal type. Version control, approval workflows, and audit trails. Never lose a signed contract again.",
+  },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRE-PRODUCTION - Getting ready to ship
+  // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "FastForward",
     title: "ADVANCING",
@@ -1216,16 +1241,37 @@ export const atlvsFeatureGrid = [
       "Artist riders, venue specs, vendor coordination — advance every detail before boots hit the ground. No surprises on show day.",
   },
   {
-    icon: "ClipboardList",
-    title: "CALL SHEETS & RUN OF SHOW",
+    icon: "DollarSign",
+    title: "BUDGET & FINANCE",
     description:
-      "Generate call sheets in seconds. Build run-of-show docs that actually stay current. Push updates to crew in real-time.",
+      "Real-time budget tracking, PO management, invoice matching. Know when you're about to blow it, not after the wrap party.",
   },
   {
     icon: "Calendar",
     title: "PRODUCTION SCHEDULE",
     description:
       "Load-in, rehearsals, show days, strike — see everything at once. Drag, drop, done. Conflicts flagged before they become disasters.",
+  },
+  {
+    icon: "Building2",
+    title: "VENUE MANAGEMENT",
+    description:
+      "Capacity, layouts, rigging points, power specs — every venue detail in one place. Site surveys, CADs, and contact sheets ready when you need them.",
+  },
+  {
+    icon: "Truck",
+    title: "VENDOR & PROCUREMENT",
+    description:
+      "RFPs, bids, POs, and vendor scorecards. Compare quotes, track deliveries, and never chase a vendor for an invoice again.",
+  },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRODUCTION - Building the show
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    icon: "ClipboardList",
+    title: "CALL SHEETS & RUN OF SHOW",
+    description:
+      "Generate call sheets in seconds. Build run-of-show docs that actually stay current. Push updates to crew in real-time.",
   },
   {
     icon: "Users",
@@ -1246,10 +1292,19 @@ export const atlvsFeatureGrid = [
       "Contracts, riders, tech specs, CADs — organized, versioned, and actually findable. Share with vendors without the email chaos.",
   },
   {
-    icon: "DollarSign",
-    title: "BUDGET & FINANCE",
+    icon: "Mic2",
+    title: "TALENT & HOSPITALITY",
     description:
-      "Real-time budget tracking, PO management, invoice matching. Know when you're about to blow it, not after the wrap party.",
+      "Green rooms, catering, transportation, per diems — keep your artists happy. Rider tracking and hospitality logs that actually work.",
+  },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EXECUTION - Show day and beyond
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    icon: "Smartphone",
+    title: "MOBILE & FIELD OPS",
+    description:
+      "Full access from the field. Check-ins, time tracking, photo uploads, issue reporting — your crew stays connected, not tethered to a desk.",
   },
   {
     icon: "MessageSquare",
@@ -1264,11 +1319,14 @@ export const atlvsFeatureGrid = [
       "Union rules, safety briefings, incident reporting, certifications — stay compliant without the headache. Audit trails included.",
   },
   {
-    icon: "Smartphone",
-    title: "MOBILE & FIELD OPS",
+    icon: "Radio",
+    title: "COMMUNICATIONS HUB",
     description:
-      "Full access from the field. Check-ins, time tracking, photo uploads, issue reporting — your crew stays connected, not tethered to a desk.",
+      "Broadcast updates, emergency alerts, channel management. When things go sideways, everyone knows instantly. No more radio silence.",
   },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // POST-PRODUCTION - Wrap it up
+  // ═══════════════════════════════════════════════════════════════════════════
   {
     icon: "BarChart",
     title: "ANALYTICS & REPORTS",
@@ -1276,10 +1334,37 @@ export const atlvsFeatureGrid = [
       "Numbers that actually mean something. Wrap reports, crew utilization, budget variance — impress your stakeholders. Impress yourself.",
   },
   {
-    icon: "Zap",
-    title: "AUTOMATIONS & AI",
+    icon: "Receipt",
+    title: "SETTLEMENT & RECONCILIATION",
     description:
-      "Smart scheduling, budget forecasting, anomaly detection. Auto-reminders, status updates, approval workflows. Let the robots handle the boring stuff — and predict the problems before they happen.",
+      "Close out shows with confidence. Artist settlements, vendor reconciliation, and final budgets — all the numbers, all in one place.",
+  },
+  {
+    icon: "TrendingUp",
+    title: "POST-MORTEM & INSIGHTS",
+    description:
+      "What worked? What didn't? Capture lessons learned, track KPIs across shows, and get smarter with every production.",
+  },
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PLATFORM CAPABILITIES - The engine room (always last row)
+  // ═══════════════════════════════════════════════════════════════════════════
+  {
+    icon: "GitBranch",
+    title: "WORKFLOWS",
+    description:
+      "Build custom workflows for any process. Approvals, handoffs, escalations — design the way your team actually works, not how software thinks you should.",
+  },
+  {
+    icon: "Zap",
+    title: "AUTOMATIONS",
+    description:
+      "Auto-reminders, status updates, approval routing, notifications. Set it and forget it. Let the robots handle the boring stuff.",
+  },
+  {
+    icon: "Sparkles",
+    title: "AI & INTELLIGENCE",
+    description:
+      "Smart scheduling, budget forecasting, anomaly detection, predictive insights. AI that actually understands production — not just buzzwords.",
   },
   {
     icon: "Puzzle",

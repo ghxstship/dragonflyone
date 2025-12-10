@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -49,7 +49,7 @@ const mockRules: ProtectionRule[] = [
   { id: "RULE-008", name: "Official Resale Only", description: "Block third-party resale platforms", enabled: true },
 ];
 
-export default function AntiScalpingPage() {
+function AntiScalpingPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -239,5 +239,13 @@ export default function AntiScalpingPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function AntiScalpingPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <AntiScalpingPageContent />
+    </Suspense>
   );
 }

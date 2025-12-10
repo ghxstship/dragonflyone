@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -38,7 +38,7 @@ const mockPosts: ShoppablePost[] = [
   { id: "SP-004", imageUrl: "/post4.jpg", caption: "Rocking this limited edition piece!", creator: "@collector", platform: "Twitter", products: [{ id: "P-006", name: "Limited Vinyl", price: 55, image: "/vinyl.jpg", inStock: true }], likes: 567, createdAt: "2024-11-21" },
 ];
 
-export default function ShoppablePostsPage() {
+function ShoppablePostsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -214,5 +214,13 @@ export default function ShoppablePostsPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function ShoppablePostsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <ShoppablePostsPageContent />
+    </Suspense>
   );
 }

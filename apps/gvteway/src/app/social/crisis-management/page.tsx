@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -45,7 +45,7 @@ const mockTemplates: ResponseTemplate[] = [
   { id: "RT-004", name: "Safety Incident Response", category: "Safety", content: "The safety of our guests is our top priority. We are working with local authorities to address [INCIDENT]. Updates will be provided as information becomes available.", usageCount: 12 },
 ];
 
-export default function CrisisManagementPage() {
+function CrisisManagementPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -295,5 +295,13 @@ export default function CrisisManagementPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function CrisisManagementPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <CrisisManagementPageContent />
+    </Suspense>
   );
 }

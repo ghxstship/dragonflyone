@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -66,7 +66,7 @@ interface Campaign {
   status: 'active' | 'ended' | 'scheduled';
 }
 
-export default function UGCPage() {
+function UGCPageContent() {
   const [posts, setPosts] = useState<UGCPost[]>([]);
   const [hashtags, setHashtags] = useState<Hashtag[]>([]);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -569,5 +569,13 @@ export default function UGCPage() {
         </Modal>
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function UGCPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <UGCPageContent />
+    </Suspense>
   );
 }

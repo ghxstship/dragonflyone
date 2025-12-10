@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -33,7 +33,7 @@ const mockMessages: SocialMessage[] = [
   { id: "SM-005", platform: "TikTok", type: "Comment", author: "festivalfan99", authorHandle: "@festivalfan99", content: "The sound quality was terrible at stage 2. Couldnt hear anything!", timestamp: "3 hrs ago", status: "Escalated", sentiment: "Negative", priority: "High" },
 ];
 
-export default function SocialInboxPage() {
+function SocialInboxPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -193,5 +193,13 @@ export default function SocialInboxPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function SocialInboxPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <SocialInboxPageContent />
+    </Suspense>
   );
 }

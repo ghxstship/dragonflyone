@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
@@ -81,7 +81,7 @@ const mockCrossSells: CrossSellRecommendation[] = [
   { id: 'CS-004', trigger_product_id: 'MRC-001', trigger_product_name: 'Tour T-Shirt', recommended_product_id: 'MRC-002', recommended_product_name: 'Tour Hoodie', recommended_product_price: 85, discount_percent: 5, conversion_rate: 28.1, is_active: true },
 ];
 
-export default function BundlesPage() {
+function BundlesPageContent() {
   const router = useRouter();
   const [bundles, setBundles] = useState<Bundle[]>(mockBundles);
   const [crossSells, setCrossSells] = useState<CrossSellRecommendation[]>(mockCrossSells);
@@ -457,5 +457,13 @@ export default function BundlesPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function BundlesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <BundlesPageContent />
+    </Suspense>
   );
 }

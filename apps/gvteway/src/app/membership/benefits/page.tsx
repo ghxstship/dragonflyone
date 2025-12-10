@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -69,7 +69,7 @@ const availableBenefits = [
   { type: "Merchandise", options: ["Free Shipping", "Member-Only Items", "Annual Gift Box", "Birthday Gift", "Welcome Kit"] },
 ];
 
-export default function MemberBenefitsPage() {
+function MemberBenefitsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -290,5 +290,13 @@ export default function MemberBenefitsPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function MemberBenefitsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <MemberBenefitsPageContent />
+    </Suspense>
   );
 }

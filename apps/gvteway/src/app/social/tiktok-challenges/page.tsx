@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -32,7 +32,7 @@ const mockChallenges: TikTokChallenge[] = [
   { id: "TTC-004", name: "Throwback Memories", hashtag: "#FestMemories", eventName: "Fall Concert", status: "Completed", startDate: "2024-10-01", endDate: "2024-10-15", participants: 5600, views: 980000, engagement: 7.1 },
 ];
 
-export default function TikTokChallengesPage() {
+function TikTokChallengesPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -186,5 +186,13 @@ export default function TikTokChallengesPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function TikTokChallengesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <TikTokChallengesPageContent />
+    </Suspense>
   );
 }

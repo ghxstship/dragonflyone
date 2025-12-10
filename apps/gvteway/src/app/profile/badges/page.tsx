@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -51,7 +51,7 @@ interface FanTier {
   is_current: boolean;
 }
 
-export default function BadgesPage() {
+function BadgesPageContent() {
   const router = useRouter();
   const [earnedBadges, setEarnedBadges] = useState<UserBadge[]>([]);
   const [availableBadges, setAvailableBadges] = useState<AvailableBadge[]>([]);
@@ -311,5 +311,13 @@ export default function BadgesPage() {
         )}
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function BadgesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <BadgesPageContent />
+    </Suspense>
   );
 }

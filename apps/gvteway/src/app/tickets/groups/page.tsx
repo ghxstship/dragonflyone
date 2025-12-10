@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -32,7 +32,7 @@ const mockGroups: GroupOrder[] = [
   { id: "GRP-004", organizerName: "Emily Chen", organizerEmail: "emily@school.edu", eventName: "Summer Music Festival 2025", groupSize: 100, ticketType: "General Admission", totalAmount: 12000, discount: 20, status: "Completed", createdDate: "2024-11-10", attendeesRegistered: 100 },
 ];
 
-export default function GroupTicketsPage() {
+function GroupTicketsPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -290,5 +290,13 @@ export default function GroupTicketsPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function GroupTicketsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <GroupTicketsPageContent />
+    </Suspense>
   );
 }

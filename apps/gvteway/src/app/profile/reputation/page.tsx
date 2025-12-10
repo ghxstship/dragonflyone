@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import { Sprout, Leaf, TreeDeciduous, Star, Sparkles, Crown } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -58,7 +58,7 @@ const KARMA_LEVELS = [
   { level: 7, name: 'Legend', min: 50000, icon: <Crown className="size-4 text-warning-500" /> },
 ];
 
-export default function ReputationPage() {
+function ReputationPageContent() {
   const [stats, setStats] = useState<ReputationStats | null>(null);
   const [transactions, setTransactions] = useState<KarmaTransaction[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
@@ -345,5 +345,13 @@ export default function ReputationPage() {
         )}
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function ReputationPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <ReputationPageContent />
+    </Suspense>
   );
 }

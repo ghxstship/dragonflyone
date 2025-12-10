@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -19,99 +19,41 @@ import {
   StatCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface UserMatch {
-  id: string;
-  name: string;
-  avatar_url?: string;
-  bio?: string;
-  location?: string;
-  interests: string[];
-  favorite_genres: string[];
-  events_attended: number;
-  mutual_friends: number;
-  match_score: number;
-  is_following: boolean;
-}
-
-interface Interest {
-  id: string;
-  name: string;
-  category: string;
-  icon: string;
-}
-
-interface RecommendedEvent {
-  id: string;
-  title: string;
-  date: string;
-  venue_name: string;
-  image_url?: string;
-  match_reason: string;
-  match_score: number;
-}
+import { useMatchData, type UserMatch, type Interest } from '@/hooks/useMatch';
 
 export default function MatchPage() {
   const router = useRouter();
-  const [matches, setMatches] = useState<UserMatch[]>([]);
-  const [interests, setInterests] = useState<Interest[]>([]);
-  const [userInterests, setUserInterests] = useState<string[]>([]);
-  const [recommendedEvents, setRecommendedEvents] = useState<RecommendedEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    matches,
+    interests,
+    userInterests,
+    recommendedEvents,
+    isLoading,
+    updateInterests,
+    followUser,
+  } = useMatchData();
+
   const [showInterestsModal, setShowInterestsModal] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<UserMatch | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [localUserInterests, setLocalUserInterests] = useState<string[]>(userInterests);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [matchesRes, interestsRes, eventsRes] = await Promise.all([
-        fetch('/api/match/users'),
-        fetch('/api/match/interests'),
-        fetch('/api/match/events'),
-      ]);
-
-      if (matchesRes.ok) {
-        const data = await matchesRes.json();
-        setMatches(data.matches || []);
-      }
-
-      if (interestsRes.ok) {
-        const data = await interestsRes.json();
-        setInterests(data.interests || []);
-        setUserInterests(data.user_interests || []);
-      }
-
-      if (eventsRes.ok) {
-        const data = await eventsRes.json();
-        setRecommendedEvents(data.events || []);
-      }
-    } catch (err) {
-      setError('Failed to load matches');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
+  // Sync local interests with fetched interests
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    setLocalUserInterests(userInterests);
+  }, [userInterests]);
 
   const handleToggleInterest = async (interestId: string) => {
-    const isSelected = userInterests.includes(interestId);
+    const isSelected = localUserInterests.includes(interestId);
     const newInterests = isSelected
-      ? userInterests.filter(i => i !== interestId)
-      : [...userInterests, interestId];
+      ? localUserInterests.filter(i => i !== interestId)
+      : [...localUserInterests, interestId];
 
-    setUserInterests(newInterests);
+    setLocalUserInterests(newInterests);
 
     try {
-      await fetch('/api/match/interests', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ interests: newInterests }),
-      });
+      await updateInterests(newInterests);
     } catch (err) {
       setError('Failed to update interests');
     }
@@ -119,18 +61,9 @@ export default function MatchPage() {
 
   const handleFollow = async (userId: string) => {
     try {
-      const response = await fetch(`/api/follows`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId }),
-      });
-
-      if (response.ok) {
-        setMatches(matches.map(m =>
-          m.id === userId ? { ...m, is_following: true } : m
-        ));
-        setSuccess('Now following!');
-      }
+      await followUser(userId);
+      setSuccess('Now following!');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
       setError('Failed to follow');
     }
@@ -150,7 +83,7 @@ export default function MatchPage() {
     return acc;
   }, {} as Record<string, Interest[]>);
 
-  if (loading) {
+  if (isLoading) {
     return <GvtewayLoadingLayout />;
   }
 
