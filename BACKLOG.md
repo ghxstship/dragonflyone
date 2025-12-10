@@ -1388,11 +1388,13 @@ Optimize heavy Supabase queries with pagination and field selection.
 - [x] purchase-orders/route.ts - Added pagination, optimized select fields
 - [x] timesheets/route.ts - Added pagination, optimized select fields
 - [x] commissions/route.ts - Added pagination, optimized select fields
+- [x] retainers/route.ts - Added pagination, optimized select fields
+- [x] organizations/route.ts - Added pagination, optimized select fields
 
 **Acceptance Criteria:**
-- [x] Heavy queries identified and optimized (4 of 36 `select(*)` patterns)
-- [x] Pagination added to list endpoints (4 routes with page/limit/offset)
-- [x] Field selection reduced to necessary columns (vendors, purchase-orders, timesheets, commissions)
+- [x] Heavy queries identified and optimized (6 of 36 `select(*)` patterns)
+- [x] Pagination added to list endpoints (6 routes with page/limit/offset)
+- [x] Field selection reduced to necessary columns
 
 ---
 

@@ -13,23 +13,41 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const clientId = searchParams.get('client_id');
     const status = searchParams.get('status');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase.from('retainers').select(`
-      *, client:contacts(id, name, email), project:projects(id, name)
-    `);
+      id, type, amount, balance, status, start_date, end_date, created_at,
+      client:contacts(id, name, email),
+      project:projects(id, name)
+    `, { count: 'exact' });
 
     if (clientId) query = query.eq('client_id', clientId);
     if (status) query = query.eq('status', status);
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
 
-    const totalRetained = data?.filter(r => r.status === 'active').reduce((s, r) => s + r.amount, 0) || 0;
-    const totalDeposits = data?.filter(r => r.type === 'deposit').reduce((s, r) => s + r.amount, 0) || 0;
+    const retainers = data || [];
+    const totalCount = count || retainers.length;
+    const totalRetained = retainers.filter(r => r.status === 'active').reduce((s, r) => s + r.amount, 0);
+    const totalDeposits = retainers.filter(r => r.type === 'deposit').reduce((s, r) => s + r.amount, 0);
+
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + retainers.length < totalCount,
+    };
 
     return NextResponse.json({
       retainers: data,
-      summary: { total_retained: totalRetained, total_deposits: totalDeposits }
+      summary: { total_retained: totalRetained, total_deposits: totalDeposits },
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch retainers' }, { status: 500 });

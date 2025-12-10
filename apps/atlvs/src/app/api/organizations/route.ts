@@ -13,12 +13,32 @@ const createOrgSchema = z.object({
   timezone: z.string().default('UTC'),
 });
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    const { data, error } = await supabase.from('organizations').select('*').order('name');
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
+
+    const { data, error, count } = await supabase
+      .from('organizations')
+      .select('id, slug, name, timezone, created_at', { count: 'exact' })
+      .order('name')
+      .range(offset, offset + limit - 1);
+
     if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
-    return NextResponse.json({ organizations: data });
+
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ organizations: data, pagination });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
