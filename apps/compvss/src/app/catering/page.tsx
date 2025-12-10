@@ -27,7 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { useCateringData } from "@/hooks/useCatering";
+import { useCateringData, type MealService } from "@/hooks/useCatering";
 
 export default function CateringPage() {
   const router = useRouter();
@@ -125,7 +125,7 @@ export default function CateringPage() {
           <Container>
             <EmptyState
               title="Error Loading Catering Data"
-              description={error}
+              description={error instanceof Error ? error.message : String(error)}
               action={{ label: "Retry", onClick: () => refetch() }}
             />
           </Container>
@@ -280,7 +280,7 @@ export default function CateringPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {services.map((service) => (
+                  {services.map((service: MealService) => (
                     <TableRow key={service.id}>
                       <TableCell>
                         <Stack gap={1} direction="horizontal" className="items-center">
