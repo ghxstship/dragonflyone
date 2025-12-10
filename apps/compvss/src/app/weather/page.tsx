@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
-import { log } from '@ghxstship/config';
 import {
   H3,
   Body,
@@ -25,62 +24,16 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-interface WeatherAlert {
-  id: string;
-  event: string;
-  location: string;
-  alertType: string;
-  severity: string;
-  issued: string;
-  validUntil: string;
-  impactedEvents: number;
-}
-
-interface Forecast {
-  project: string;
-  date: string;
-  high: number;
-  low: number;
-  condition: string;
-  precipitation: number;
-  wind: number;
-}
+import { useWeatherPageData, type WeatherAlert, type Forecast } from "@/hooks/useWeather";
 
 export default function WeatherPage() {
   const router = useRouter();
   const [filterSeverity, setFilterSeverity] = useState("all");
-  const [weatherAlerts, setWeatherAlerts] = useState<WeatherAlert[]>([]);
-  const [forecasts, setForecasts] = useState<Forecast[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchWeatherData = useCallback(async () => {
-    try {
-      setLoading(true);
-      const [alertsRes, forecastsRes] = await Promise.all([
-        fetch('/api/weather/alerts'),
-        fetch('/api/weather/forecasts'),
-      ]);
-      
-      if (alertsRes.ok) {
-        const alertsData = await alertsRes.json();
-        setWeatherAlerts(alertsData.alerts || []);
-      }
-      
-      if (forecastsRes.ok) {
-        const forecastsData = await forecastsRes.json();
-        setForecasts(forecastsData.forecasts || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch weather data:', err instanceof Error ? err : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchWeatherData();
-  }, [fetchWeatherData]);
+  const {
+    alerts: weatherAlerts,
+    forecasts,
+    isLoading: loading,
+  } = useWeatherPageData();
 
   const filteredAlerts = weatherAlerts.filter((alert: WeatherAlert) =>
     filterSeverity === "all" || alert.severity.toLowerCase() === filterSeverity

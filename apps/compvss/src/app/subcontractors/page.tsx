@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
@@ -27,124 +27,28 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-interface Subcontractor {
-  id: string;
-  company_name: string;
-  contact_name: string;
-  email: string;
-  phone: string;
-  specialty: string;
-  location: string;
-  rating: number;
-  total_projects: number;
-  active_projects: number;
-  insurance_status: string;
-  insurance_expiry?: string;
-  contract_status: string;
-  hourly_rate?: number;
-  day_rate?: number;
-  notes?: string;
-}
-
-interface SubcontractorSummary {
-  total_subcontractors: number;
-  active_engagements: number;
-  pending_contracts: number;
-  expiring_insurance: number;
-  total_spend_ytd: number;
-  average_rating: number;
-}
-
-// Demo data for unauthenticated users
-const DEMO_SUBCONTRACTORS: Subcontractor[] = [
-  {
-    id: "demo-1",
-    company_name: "SoundWave Audio",
-    contact_name: "Mike Johnson",
-    email: "mike@soundwave.com",
-    phone: "(555) 123-4567",
-    specialty: "Audio",
-    location: "Los Angeles, CA",
-    rating: 4.8,
-    total_projects: 24,
-    active_projects: 3,
-    insurance_status: "valid",
-    insurance_expiry: new Date(Date.now() + 180 * 86400000).toISOString(),
-    contract_status: "active",
-    hourly_rate: 75,
-    day_rate: 600,
-  },
-  {
-    id: "demo-2",
-    company_name: "Bright Lights Co",
-    contact_name: "Sarah Chen",
-    email: "sarah@brightlights.com",
-    phone: "(555) 987-6543",
-    specialty: "Lighting",
-    location: "New York, NY",
-    rating: 4.5,
-    total_projects: 18,
-    active_projects: 2,
-    insurance_status: "valid",
-    contract_status: "active",
-    day_rate: 550,
-  },
-];
-
-const DEMO_SUBCONTRACTOR_SUMMARY: SubcontractorSummary = {
-  total_subcontractors: 36,
-  active_engagements: 12,
-  pending_contracts: 4,
-  expiring_insurance: 2,
-  total_spend_ytd: 485000,
-  average_rating: 4.6,
-};
+import { useSubcontractorsData, type Subcontractor } from "@/hooks/useSubcontractors";
 
 export default function SubcontractorsPage() {
   const router = useRouter();
   const { addNotification: _addNotification } = useNotifications();
-  const [subcontractors, setSubcontractors] = useState<Subcontractor[]>([]);
-  const [summary, setSummary] = useState<SubcontractorSummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    subcontractors,
+    summary,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useSubcontractorsData();
+
   const [filterSpecialty, setFilterSpecialty] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchSubcontractors = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterSpecialty !== "all") params.append("specialty", filterSpecialty);
-      if (searchQuery) params.append("search", searchQuery);
-
-      const response = await fetch(`/api/subcontractors?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setSubcontractors(DEMO_SUBCONTRACTORS);
-        setSummary(DEMO_SUBCONTRACTOR_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch subcontractors");
-      
-      const data = await response.json();
-      setSubcontractors(data.subcontractors || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setSubcontractors(DEMO_SUBCONTRACTORS);
-      setSummary(DEMO_SUBCONTRACTOR_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterSpecialty, searchQuery]);
-
-  useEffect(() => {
-    fetchSubcontractors();
-  }, [fetchSubcontractors]);
+  // Filter subcontractors locally
+  const filteredSubcontractors = subcontractors.filter((s: Subcontractor) => {
+    if (filterSpecialty !== 'all' && s.specialty !== filterSpecialty) return false;
+    if (searchQuery && !s.company_name.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
+  });
 
   const formatCurrency = (amount: number) => {
     if (amount >= 1000000) {
@@ -197,8 +101,8 @@ export default function SubcontractorsPage() {
           <Container>
             <EmptyState
               title="Error Loading Subcontractors"
-              description={error}
-              action={{ label: "Retry", onClick: fetchSubcontractors }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => refetch() }}
             />
           </Container>
         </MainContent>
@@ -313,7 +217,7 @@ export default function SubcontractorsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {subcontractors.map((sub) => (
+                  {filteredSubcontractors.map((sub: Subcontractor) => (
                     <TableRow key={sub.id}>
                       <TableCell>
                         <Stack gap={1}>

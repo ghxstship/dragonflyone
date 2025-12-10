@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
@@ -26,132 +26,28 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-// Demo data for unauthenticated users
-const DEMO_SURVEYS: SiteSurvey[] = [
-  {
-    id: "demo-1",
-    survey_number: "SS-2024-001",
-    project_id: "proj-001",
-    project_name: "Summer Festival 2024",
-    venue_id: "venue-001",
-    venue_name: "Central Park Amphitheater",
-    venue_address: "123 Park Ave, New York, NY",
-    survey_date: new Date().toISOString(),
-    surveyor_id: "user-001",
-    surveyor_name: "John Smith",
-    survey_type: "initial",
-    status: "completed",
-    findings_count: 5,
-    photos_count: 24,
-    documents_count: 3,
-    power_assessment: "Good",
-    rigging_assessment: "Adequate",
-    load_in_assessment: "Good",
-  },
-  {
-    id: "demo-2",
-    survey_number: "SS-2024-002",
-    project_id: "proj-002",
-    project_name: "Corporate Gala",
-    venue_id: "venue-002",
-    venue_name: "Grand Ballroom",
-    venue_address: "456 Main St, Los Angeles, CA",
-    survey_date: new Date(Date.now() + 604800000).toISOString(),
-    surveyor_id: "user-002",
-    surveyor_name: "Jane Doe",
-    survey_type: "technical",
-    status: "scheduled",
-    findings_count: 0,
-    photos_count: 0,
-    documents_count: 1,
-  },
-];
-
-const DEMO_SUMMARY: SurveySummary = {
-  total_surveys: 12,
-  pending_surveys: 3,
-  completed_surveys: 9,
-  venues_surveyed: 8,
-  issues_identified: 15,
-  photos_captured: 156,
-};
-
-interface SiteSurvey {
-  id: string;
-  survey_number: string;
-  project_id: string;
-  project_name: string;
-  venue_id: string;
-  venue_name: string;
-  venue_address: string;
-  survey_date: string;
-  surveyor_id: string;
-  surveyor_name: string;
-  survey_type: string;
-  status: string;
-  findings_count: number;
-  photos_count: number;
-  documents_count: number;
-  power_assessment?: string;
-  rigging_assessment?: string;
-  load_in_assessment?: string;
-  notes?: string;
-}
-
-interface SurveySummary {
-  total_surveys: number;
-  pending_surveys: number;
-  completed_surveys: number;
-  venues_surveyed: number;
-  issues_identified: number;
-  photos_captured: number;
-}
+import { useSiteSurveysData, type SiteSurvey } from "@/hooks/useSiteSurveys";
 
 export default function SiteSurveysPage() {
   const router = useRouter();
   const { addNotification: _addNotification } = useNotifications();
-  const [surveys, setSurveys] = useState<SiteSurvey[]>([]);
-  const [summary, setSummary] = useState<SurveySummary | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    surveys,
+    summary,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useSiteSurveysData();
+
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterType, setFilterType] = useState("all");
 
-  const fetchSurveys = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterStatus !== "all") params.append("status", filterStatus);
-      if (filterType !== "all") params.append("type", filterType);
-
-      const response = await fetch(`/api/site-surveys?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setSurveys(DEMO_SURVEYS);
-        setSummary(DEMO_SUMMARY);
-        setError(null);
-        return;
-      }
-      if (!response.ok) throw new Error("Failed to fetch site surveys");
-      
-      const data = await response.json();
-      setSurveys(data.surveys || []);
-      setSummary(data.summary || null);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setSurveys(DEMO_SURVEYS);
-      setSummary(DEMO_SUMMARY);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterStatus, filterType]);
-
-  useEffect(() => {
-    fetchSurveys();
-  }, [fetchSurveys]);
+  // Filter surveys locally
+  const filteredSurveys = surveys.filter((s: SiteSurvey) => {
+    if (filterStatus !== 'all' && s.status !== filterStatus) return false;
+    if (filterType !== 'all' && s.survey_type !== filterType) return false;
+    return true;
+  });
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -212,8 +108,8 @@ export default function SiteSurveysPage() {
           <Container>
             <EmptyState
               title="Error Loading Site Surveys"
-              description={error}
-              action={{ label: "Retry", onClick: fetchSurveys }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => refetch() }}
             />
           </Container>
         </MainContent>
@@ -332,7 +228,7 @@ export default function SiteSurveysPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {surveys.map((survey) => (
+                  {filteredSurveys.map((survey: SiteSurvey) => (
                     <TableRow key={survey.id}>
                       <TableCell>
                         <Body className="font-mono">{survey.survey_number}</Body>
