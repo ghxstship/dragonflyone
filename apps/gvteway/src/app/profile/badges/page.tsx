@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -17,86 +17,32 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-
-interface UserBadge {
-  id: string;
-  badge_id: string;
-  name: string;
-  description: string;
-  icon: string;
-  tier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond';
-  earned_at: string;
-  is_featured: boolean;
-}
-
-interface AvailableBadge {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  tier: string;
-  requirement: string;
-  progress: number;
-  total: number;
-  is_earned: boolean;
-}
-
-interface FanTier {
-  id: string;
-  name: string;
-  level: number;
-  icon: string;
-  perks: string[];
-  points_required: number;
-  is_current: boolean;
-}
+import { useBadgesData } from '@/hooks/useBadges';
 
 function BadgesPageContent() {
   const router = useRouter();
-  const [earnedBadges, setEarnedBadges] = useState<UserBadge[]>([]);
-  const [availableBadges, setAvailableBadges] = useState<AvailableBadge[]>([]);
-  const [fanTiers, setFanTiers] = useState<FanTier[]>([]);
-  const [currentPoints, setCurrentPoints] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
     defaultTab: 'earned',
     validTabs: ['earned', 'available', 'tiers'],
   });
 
-  const fetchBadges = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/user/badges');
-      if (response.ok) {
-        const data = await response.json();
-        setEarnedBadges(data.earned_badges || []);
-        setAvailableBadges(data.available_badges || []);
-        setFanTiers(data.fan_tiers || []);
-        setCurrentPoints(data.current_points || 0);
-      }
-    } catch (err) {
-      setError('Failed to load badges');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchBadges();
-  }, [fetchBadges]);
+  const {
+    earnedBadges,
+    availableBadges,
+    fanTiers,
+    currentPoints,
+    isLoading: loading,
+    error,
+    featureBadge,
+  } = useBadgesData();
 
   const handleFeatureBadge = async (badgeId: string, featured: boolean) => {
     try {
-      await fetch(`/api/user/badges/${badgeId}/feature`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ featured }),
-      });
-      fetchBadges();
-    } catch (err) {
-      setError('Failed to update badge');
+      await featureBadge({ badgeId, featured });
+    } catch {
+      setLocalError('Failed to update badge');
     }
   };
 
@@ -127,9 +73,9 @@ function BadgesPageContent() {
               </Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

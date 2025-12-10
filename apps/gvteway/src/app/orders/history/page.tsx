@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   H2,
   H3,
@@ -20,67 +19,22 @@ import {
   Pagination,
   Kicker,
 } from '@ghxstship/ui';
-
-interface OrderItem {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-  type: 'ticket' | 'merchandise' | 'addon';
-}
-
-interface Order {
-  id: string;
-  order_number: string;
-  event_title: string;
-  event_date: string;
-  event_venue: string;
-  event_image?: string;
-  items: OrderItem[];
-  subtotal: number;
-  fees: number;
-  tax: number;
-  total: number;
-  status: 'completed' | 'pending' | 'cancelled' | 'refunded';
-  payment_method: string;
-  created_at: string;
-}
+import { useOrderHistoryData } from '@/hooks/useOrderHistory';
 
 const ITEMS_PER_PAGE = 10;
 
 export default function OrderHistoryPage() {
   const router = useRouter();
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [dateFilter, setDateFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
-  const fetchOrders = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams({
-        ...(statusFilter !== 'all' && { status: statusFilter }),
-        ...(dateFilter !== 'all' && { period: dateFilter }),
-      });
-
-      const response = await fetch(`/api/orders/history?${params.toString()}`);
-      if (response.ok) {
-        const data = await response.json();
-        setOrders(data.orders || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch orders');
-    } finally {
-      setLoading(false);
-    }
-  }, [statusFilter, dateFilter]);
-
-  useEffect(() => {
-    fetchOrders();
-  }, [fetchOrders]);
+  const {
+    orders,
+    isLoading: loading,
+  } = useOrderHistoryData({ status: statusFilter, period: dateFilter });
 
   const filteredOrders = orders.filter(order => {
     if (!searchTerm) return true;

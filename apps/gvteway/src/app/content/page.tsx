@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
@@ -25,36 +25,10 @@ import {
   StatCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface ExclusiveContent {
-  id: string;
-  title: string;
-  description: string;
-  type: 'video' | 'audio' | 'photo_gallery' | 'document' | 'behind_the_scenes';
-  event_id: string;
-  event_name: string;
-  thumbnail_url?: string;
-  duration?: string;
-  file_count?: number;
-  access_level: 'all' | 'attendees' | 'vip' | 'members';
-  release_date: string;
-  views: number;
-  likes: number;
-  is_new: boolean;
-}
-
-interface ContentCategory {
-  id: string;
-  name: string;
-  icon: string;
-  count: number;
-}
+import { useContentData, type ExclusiveContent } from '@/hooks/useContent';
 
 function ExclusiveContentPageContent() {
   const router = useRouter();
-  const [content, setContent] = useState<ExclusiveContent[]>([]);
-  const [categories, setCategories] = useState<ContentCategory[]>([]);
-  const [loading, setLoading] = useState(true);
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
     defaultTab: 'all',
@@ -66,49 +40,22 @@ function ExclusiveContentPageContent() {
     event_id: '',
     access_level: '',
   });
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      if (filter.type) params.set('type', filter.type);
-      if (filter.event_id) params.set('event_id', filter.event_id);
-      if (filter.access_level) params.set('access_level', filter.access_level);
-
-      const [contentRes, categoriesRes] = await Promise.all([
-        fetch(`/api/content/exclusive?${params}`),
-        fetch('/api/content/categories'),
-      ]);
-
-      if (contentRes.ok) {
-        const data = await contentRes.json();
-        setContent(data.content || []);
-      }
-
-      if (categoriesRes.ok) {
-        const data = await categoriesRes.json();
-        setCategories(data.categories || []);
-      }
-    } catch (err) {
-      setError('Failed to load content');
-    } finally {
-      setLoading(false);
-    }
-  }, [filter]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const {
+    content,
+    categories,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useContentData(filter);
 
   const handleLike = async (contentId: string) => {
     try {
       await fetch(`/api/content/${contentId}/like`, { method: 'POST' });
-      setContent(content.map(c =>
-        c.id === contentId ? { ...c, likes: c.likes + 1 } : c
-      ));
-    } catch (err) {
-      setError('Failed to like content');
+      refetch();
+    } catch {
+      setLocalError('Failed to like content');
     }
   };
 
@@ -159,9 +106,9 @@ function ExclusiveContentPageContent() {
               <Body className="text-on-dark-muted">Recordings, highlights, and behind-the-scenes from your events</Body>
             </Stack>
 
-        {error && (
-          <Alert variant="error" className="mb-6" onClose={() => setError(null)}>
-            {error}
+        {(error || localError) && (
+          <Alert variant="error" className="mb-6" onClose={() => setLocalError(null)}>
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 
