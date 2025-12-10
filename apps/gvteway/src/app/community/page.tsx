@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
@@ -97,7 +97,7 @@ interface CommunityEvent {
   attendees_count: number;
 }
 
-export default function CommunityPage() {
+function CommunityPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -392,5 +392,13 @@ export default function CommunityPage() {
         )}
       </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function CommunityPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <CommunityPageContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -57,7 +57,7 @@ const mockRequests: AccessibilityRequest[] = [
   { id: "REQ-002", type: "Wheelchair Seating", status: "Approved", requestDate: "2024-11-18" },
 ];
 
-export default function AccessibilityPage() {
+function AccessibilityPageContent() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
@@ -281,5 +281,13 @@ export default function AccessibilityPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function AccessibilityPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <AccessibilityPageContent />
+    </Suspense>
   );
 }

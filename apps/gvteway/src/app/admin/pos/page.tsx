@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -50,7 +50,7 @@ const menuItems = [
   { id: "M-008", name: "Poster", price: 25, category: "Merch" },
 ];
 
-export default function POSPage() {
+function POSPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -288,5 +288,13 @@ export default function POSPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function POSPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <POSPageContent />
+    </Suspense>
   );
 }

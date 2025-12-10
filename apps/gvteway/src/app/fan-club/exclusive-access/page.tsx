@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -43,7 +43,7 @@ const mockTiers: FanClubTier[] = [
   { name: "Silver", members: 4520, benefits: ["12-hour early access", "Member discounts", "Newsletter"], accessWindow: "12 hours", color: "bg-ink-100 border-ink-400" },
 ];
 
-export default function ExclusiveAccessPage() {
+function ExclusiveAccessPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -269,5 +269,13 @@ export default function ExclusiveAccessPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function ExclusiveAccessPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <ExclusiveAccessPageContent />
+    </Suspense>
   );
 }

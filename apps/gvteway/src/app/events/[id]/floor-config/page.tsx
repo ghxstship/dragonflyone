@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -29,7 +29,7 @@ const mockSections: FloorSection[] = [
   { id: "SEC-005", name: "GA Seated", type: "GA Seated", capacity: 1000, sold: 780, price: 85, status: "Available", color: "#8B5CF6" },
 ];
 
-export default function FloorConfigPage() {
+function FloorConfigPageContent() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
@@ -253,5 +253,13 @@ export default function FloorConfigPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function FloorConfigPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <FloorConfigPageContent />
+    </Suspense>
   );
 }

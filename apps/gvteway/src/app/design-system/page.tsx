@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
@@ -49,7 +49,7 @@ const COMPONENT_COUNTS = {
   atoms: 29, molecules: 37, organisms: 28, templates: 11, foundations: 12, hooks: 15,
 };
 
-export default function DesignSystemPage() {
+function DesignSystemPageContent() {
   const [modalOpen, setModalOpen] = useState(false);
   const [_currentPage, _setCurrentPage] = useState(1);
   
@@ -314,5 +314,13 @@ export default function DesignSystemPage() {
         </div>
       </MainContent>
     </GvtewayAppLayout>
+  );
+}
+
+export default function DesignSystemPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <DesignSystemPageContent />
+    </Suspense>
   );
 }

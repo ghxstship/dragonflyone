@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { CreditCard, Smartphone, Watch, QrCode, Wifi, RotateCcw, Power } from 'lucide-react';
@@ -99,7 +99,7 @@ const mockPaymentMethods: PaymentMethod[] = [
   { id: 'PM-005', name: 'RFID Wristband', type: 'wristband', icon: 'watch', enabled: true, fee_percent: 1.5, processing_time: '< 1 sec' },
 ];
 
-export default function CashlessPaymentPage() {
+function CashlessPaymentPageContent() {
   const router = useRouter();
   const [terminals, setTerminals] = useState<PaymentTerminal[]>(mockTerminals);
   const [transactions, setTransactions] = useState<Transaction[]>(mockTransactions);
@@ -541,5 +541,13 @@ export default function CashlessPaymentPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function CashlessPaymentPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <CashlessPaymentPageContent />
+    </Suspense>
   );
 }

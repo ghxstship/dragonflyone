@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
@@ -93,7 +93,7 @@ const mockBlocked: BlockedEntity[] = [
   { id: 'BLK-003', type: 'email', value: 'scalper@email.com', reason: 'Confirmed scalping activity', blocked_at: '2024-11-20T09:00:00Z' },
 ];
 
-export default function AntiScalpingPage() {
+function AntiScalpingPageContent() {
   const router = useRouter();
   const [alerts, setAlerts] = useState<ScalpingAlert[]>(mockAlerts);
   const [rules, setRules] = useState<ProtectionRule[]>(mockRules);
@@ -542,5 +542,13 @@ export default function AntiScalpingPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function AntiScalpingPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <AntiScalpingPageContent />
+    </Suspense>
   );
 }

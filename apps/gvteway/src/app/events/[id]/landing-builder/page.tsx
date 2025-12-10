@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -79,7 +79,7 @@ const fontOptions = [
   { id: "space", name: "Space Grotesk", preview: "Tech Forward" },
 ];
 
-export default function LandingBuilderPage() {
+function LandingBuilderPageContent() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
@@ -586,5 +586,13 @@ export default function LandingBuilderPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function LandingBuilderPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <LandingBuilderPageContent />
+    </Suspense>
   );
 }

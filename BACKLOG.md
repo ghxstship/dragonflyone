@@ -1325,7 +1325,7 @@ const fetchData = useCallback(async () => {
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | In Progress |
 | **Priority** | P2 |
 | **Effort** | XL (2+ weeks) |
 | **App** | All |
@@ -1340,9 +1340,13 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 - 146 pages still use manual `fetch('/api/...')` patterns
 - No SWR usage (not installed)
 
+**Progress:**
+- [x] `gvteway/src/app/settings/privacy/page.tsx` - Created usePrivacySettings hook (7 fetches → 0)
+- [x] `atlvs/src/app/onboarding/page.tsx` - Created useOnboarding hook (5 fetches → 0)
+
 **Pages with Most Manual Fetches (Top 10):**
-1. `gvteway/src/app/settings/privacy/page.tsx` - 7 fetches
-2. `atlvs/src/app/onboarding/page.tsx` - 5 fetches
+1. ~~`gvteway/src/app/settings/privacy/page.tsx` - 7 fetches~~ ✓ DONE
+2. ~~`atlvs/src/app/onboarding/page.tsx` - 5 fetches~~ ✓ DONE
 3. `compvss/src/app/onboarding/page.tsx` - 5 fetches
 4. `gvteway/src/app/match/page.tsx` - 5 fetches
 5. `atlvs/src/app/alignment/page.tsx` - 4 fetches
@@ -1353,7 +1357,7 @@ Replace manual fetch patterns in 146 page files with React Query hooks for autom
 10. `gvteway/src/app/directions/page.tsx` - 4 fetches
 
 **Acceptance Criteria:**
-- [ ] All 146 pages migrated to use React Query hooks
+- [ ] All 146 pages migrated to use React Query hooks (2/146 done)
 - [ ] Manual `fetch()` calls eliminated from page components
 - [ ] Fallback data configured for demo mode
 - [ ] Request deduplication verified

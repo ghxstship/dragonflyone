@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -22,43 +22,32 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface BlockedUser {
-  id: string;
-  user_id: string;
-  user_name: string;
-  user_avatar?: string;
-  blocked_at: string;
-}
-
-interface Report {
-  id: string;
-  reported_user_name: string;
-  reason: string;
-  status: 'pending' | 'reviewed' | 'resolved';
-  created_at: string;
-}
+import { usePrivacyData, type PrivacySettings } from '@/hooks/usePrivacySettings';
 
 export default function PrivacySettingsPage() {
   const router = useRouter();
-  const [blockedUsers, setBlockedUsers] = useState<BlockedUser[]>([]);
-  const [reports, setReports] = useState<Report[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    blockedUsers,
+    reports,
+    settings: fetchedSettings,
+    isLoading,
+    updateSettings,
+    isUpdatingSettings,
+    blockUser,
+    isBlockingUser,
+    unblockUser,
+    isUnblockingUser,
+    reportUser,
+    isReportingUser,
+  } = usePrivacyData();
+
   const [showReportModal, setShowReportModal] = useState(false);
   const [showBlockModal, setShowBlockModal] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Privacy settings
-  const [settings, setSettings] = useState({
-    profile_visibility: 'public',
-    show_activity: true,
-    allow_messages: 'everyone',
-    show_events_attended: true,
-    show_reviews: true,
-  });
+  // Local settings state for form editing
+  const [settings, setSettings] = useState<PrivacySettings>(fetchedSettings);
 
   // Report form
   const [reportUserId, setReportUserId] = useState('');
@@ -68,141 +57,64 @@ export default function PrivacySettingsPage() {
   // Block form
   const [blockUserId, setBlockUserId] = useState('');
 
-  const fetchData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const [blockedRes, reportsRes, settingsRes] = await Promise.all([
-        fetch('/api/user/blocked'),
-        fetch('/api/user/reports'),
-        fetch('/api/user/privacy-settings'),
-      ]);
-
-      if (blockedRes.ok) {
-        const data = await blockedRes.json();
-        setBlockedUsers(data.blocked || []);
-      }
-
-      if (reportsRes.ok) {
-        const data = await reportsRes.json();
-        setReports(data.reports || []);
-      }
-
-      if (settingsRes.ok) {
-        const data = await settingsRes.json();
-        if (data.settings) setSettings(data.settings);
-      }
-    } catch (err) {
-      log.error('Failed to fetch data');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
+  // Sync local settings with fetched settings
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    setSettings(fetchedSettings);
+  }, [fetchedSettings]);
 
   const handleSaveSettings = async () => {
-    setSubmitting(true);
     setError(null);
-
     try {
-      const response = await fetch('/api/user/privacy-settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings),
-      });
-
-      if (response.ok) {
-        setSuccess('Privacy settings saved');
-        setTimeout(() => setSuccess(null), 3000);
-      } else {
-        setError('Failed to save settings');
-      }
+      await updateSettings(settings);
+      setSuccess('Privacy settings saved');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setError(err instanceof Error ? err.message : 'Failed to save settings');
     }
   };
 
   const handleUnblock = async (userId: string) => {
+    setError(null);
     try {
-      const response = await fetch(`/api/user/blocked/${userId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setSuccess('User unblocked');
-        fetchData();
-        setTimeout(() => setSuccess(null), 3000);
-      }
+      await unblockUser(userId);
+      setSuccess('User unblocked');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Failed to unblock user');
+      setError(err instanceof Error ? err.message : 'Failed to unblock user');
     }
   };
 
   const handleBlock = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     setError(null);
-
     try {
-      const response = await fetch('/api/user/blocked', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: blockUserId }),
-      });
-
-      if (response.ok) {
-        setSuccess('User blocked');
-        setShowBlockModal(false);
-        setBlockUserId('');
-        fetchData();
-        setTimeout(() => setSuccess(null), 3000);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to block user');
-      }
+      await blockUser(blockUserId);
+      setSuccess('User blocked');
+      setShowBlockModal(false);
+      setBlockUserId('');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setError(err instanceof Error ? err.message : 'Failed to block user');
     }
   };
 
   const handleReport = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     setError(null);
-
     try {
-      const response = await fetch('/api/user/reports', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          reported_user_id: reportUserId,
-          reason: reportReason,
-          details: reportDetails,
-        }),
+      await reportUser({
+        reported_user_id: reportUserId,
+        reason: reportReason,
+        details: reportDetails,
       });
-
-      if (response.ok) {
-        setSuccess('Report submitted. We will review it shortly.');
-        setShowReportModal(false);
-        setReportUserId('');
-        setReportReason('');
-        setReportDetails('');
-        fetchData();
-        setTimeout(() => setSuccess(null), 3000);
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit report');
-      }
+      setSuccess('Report submitted. We will review it shortly.');
+      setShowReportModal(false);
+      setReportUserId('');
+      setReportReason('');
+      setReportDetails('');
+      setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setError(err instanceof Error ? err.message : 'Failed to submit report');
     }
   };
 
@@ -219,7 +131,7 @@ export default function PrivacySettingsPage() {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return <GvtewayLoadingLayout text="Loading privacy settings..." />;
   }
 
@@ -305,8 +217,8 @@ export default function PrivacySettingsPage() {
                   />
                 </Stack>
 
-                <Button variant="solid" onClick={handleSaveSettings} disabled={submitting}>
-                  {submitting ? 'Saving...' : 'Save Settings'}
+                <Button variant="solid" onClick={handleSaveSettings} disabled={isUpdatingSettings}>
+                  {isUpdatingSettings ? 'Saving...' : 'Save Settings'}
                 </Button>
               </Stack>
             </Card>
@@ -352,8 +264,9 @@ export default function PrivacySettingsPage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleUnblock(blocked.user_id)}
+                        disabled={isUnblockingUser}
                       >
-                        Unblock
+                        {isUnblockingUser ? 'Unblocking...' : 'Unblock'}
                       </Button>
                     </Stack>
                   ))}
@@ -428,8 +341,8 @@ export default function PrivacySettingsPage() {
                 />
               </Field>
               <Stack direction="horizontal" gap={4}>
-                <Button variant="solid" disabled={submitting} onClick={handleBlock}>
-                  {submitting ? 'Blocking...' : 'Block User'}
+                <Button variant="solid" disabled={isBlockingUser} onClick={handleBlock}>
+                  {isBlockingUser ? 'Blocking...' : 'Block User'}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => setShowBlockModal(false)}>
                   Cancel
@@ -481,8 +394,8 @@ export default function PrivacySettingsPage() {
               </Field>
 
               <Stack direction="horizontal" gap={4}>
-                <Button variant="solid" disabled={submitting} onClick={handleReport}>
-                  {submitting ? 'Submitting...' : 'Submit Report'}
+                <Button variant="solid" disabled={isReportingUser} onClick={handleReport}>
+                  {isReportingUser ? 'Submitting...' : 'Submit Report'}
                 </Button>
                 <Button type="button" variant="outline" onClick={() => setShowReportModal(false)}>
                   Cancel

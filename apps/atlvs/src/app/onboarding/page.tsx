@@ -27,6 +27,7 @@ import {
   Grid,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { useOnboarding } from "@/hooks/useOnboarding";
 
 // =============================================================================
 // ONBOARDING PAGE - ATLVS User Setup Wizard
@@ -55,8 +56,15 @@ const ATLVS_ROLES = [
 export default function OnboardingPage() {
   const router = useRouter();
   const { user: _user } = useAuthContext();
+  const {
+    saveProfile: saveProfileMutation,
+    saveOrganization: saveOrganizationMutation,
+    saveRole: saveRoleMutation,
+    savePreferences: savePreferencesMutation,
+    isLoading,
+  } = useOnboarding();
+  
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("profile");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [profile, setProfile] = useState({ firstName: "", lastName: "", phone: "", bio: "" });
@@ -72,22 +80,17 @@ export default function OnboardingPage() {
   const currentStepIndex = STEPS.findIndex((s) => s.id === currentStep);
 
   const handleNext = async () => {
-    setLoading(true);
     setError("");
 
     try {
-      const token = localStorage.getItem("ghxstship_access_token");
-      const headers: HeadersInit = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-
       if (currentStep === "profile") {
-        await fetch("/api/onboarding/profile", { method: "POST", headers, body: JSON.stringify(profile) });
+        await saveProfileMutation(profile);
       } else if (currentStep === "organization") {
-        await fetch("/api/onboarding/organization", { method: "POST", headers, body: JSON.stringify(organization) });
+        await saveOrganizationMutation(organization);
       } else if (currentStep === "role") {
-        await fetch("/api/onboarding/role", { method: "POST", headers, body: JSON.stringify({ role: selectedRole }) });
+        await saveRoleMutation({ role: selectedRole });
       } else if (currentStep === "preferences") {
-        await fetch("/api/onboarding/preferences", { method: "POST", headers, body: JSON.stringify(preferences) });
+        await savePreferencesMutation(preferences);
       }
 
       const nextIndex = currentStepIndex + 1;
@@ -95,25 +98,15 @@ export default function OnboardingPage() {
         setCurrentStep(STEPS[nextIndex].id);
       }
     } catch (err) {
-      setError("Failed to save. Please try again.");
-    } finally {
-      setLoading(false);
+      setError("Failed to save. Please try again.");;
     }
   };
 
   const handleComplete = async () => {
-    setLoading(true);
     try {
-      const token = localStorage.getItem("ghxstship_access_token");
-      const headers: HeadersInit = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-
-      await fetch("/api/onboarding/complete", { method: "POST", headers });
       router.push("/dashboard");
     } catch (err) {
       setError("Failed to complete onboarding. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -319,16 +312,16 @@ export default function OnboardingPage() {
                   {currentStep !== "complete" && currentStep === "profile" && <Box className="hidden sm:block" />}
 
                   {currentStep === "complete" ? (
-                    <Button type="button" variant="solid" size="lg" fullWidth onClick={handleComplete} disabled={loading} icon={<ArrowRight className="size-4" />} iconPosition="right">
-                      {loading ? "Starting..." : "Go to Dashboard"}
+                    <Button type="button" variant="solid" size="lg" fullWidth onClick={handleComplete} disabled={isLoading} icon={<ArrowRight className="size-4" />} iconPosition="right">
+                      {isLoading ? "Starting..." : "Go to Dashboard"}
                     </Button>
                   ) : (
                     <Stack direction="horizontal" gap={3} className="order-1 w-full justify-end sm:order-2 sm:w-auto">
                       {currentStep !== "profile" && (
                         <Button type="button" variant="ghost" size="sm" onClick={handleSkip}>Skip</Button>
                       )}
-                      <Button type="button" variant="solid" onClick={handleNext} disabled={loading} icon={<ArrowRight className="size-4" />} iconPosition="right" className="flex-1 sm:flex-none">
-                        {loading ? "Saving..." : "Continue"}
+                      <Button type="button" variant="solid" onClick={handleNext} disabled={isLoading} icon={<ArrowRight className="size-4" />} iconPosition="right" className="flex-1 sm:flex-none">
+                        {isLoading ? "Saving..." : "Continue"}
                       </Button>
                     </Stack>
                   )}

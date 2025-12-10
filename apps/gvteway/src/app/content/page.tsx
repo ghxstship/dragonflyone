@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
@@ -50,7 +50,7 @@ interface ContentCategory {
   count: number;
 }
 
-export default function ExclusiveContentPage() {
+function ExclusiveContentPageContent() {
   const router = useRouter();
   const [content, setContent] = useState<ExclusiveContent[]>([]);
   const [categories, setCategories] = useState<ContentCategory[]>([]);
@@ -380,5 +380,13 @@ export default function ExclusiveContentPage() {
         </Modal>
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function ExclusiveContentPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <ExclusiveContentPageContent />
+    </Suspense>
   );
 }

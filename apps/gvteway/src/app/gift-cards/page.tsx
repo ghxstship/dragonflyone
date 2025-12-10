@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout } from '@/components/app-layout';
@@ -46,7 +46,7 @@ const GIFT_CARD_DESIGNS = [
   { id: 'theater', name: 'Theater Night', color: 'bg-error-800' },
 ];
 
-export default function GiftCardsPage() {
+function GiftCardsPageContent() {
   const router = useRouter();
   const [myCards, setMyCards] = useState<GiftCard[]>([]);
   const [loading, setLoading] = useState(true);
@@ -421,5 +421,13 @@ export default function GiftCardsPage() {
         )}
           </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function GiftCardsPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <GiftCardsPageContent />
+    </Suspense>
   );
 }

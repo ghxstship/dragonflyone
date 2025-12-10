@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -43,7 +43,7 @@ const mockPrices: LocalizedPrice[] = [
   { eventName: "New Year Gala", basePrice: 250, baseCurrency: "USD", localizedPrices: [{ currency: "EUR", price: 230 }, { currency: "GBP", price: 198 }, { currency: "CAD", price: 340 }] },
 ];
 
-export default function CurrencyPage() {
+function CurrencyPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -272,5 +272,13 @@ export default function CurrencyPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function CurrencyPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <CurrencyPageContent />
+    </Suspense>
   );
 }

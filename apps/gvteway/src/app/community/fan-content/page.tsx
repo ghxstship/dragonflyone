@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -32,7 +32,7 @@ const mockContent: FanContent[] = [
   { id: "FC-005", type: "Review", title: "Best Night Ever", creator: "Jordan K.", eventName: "Summer Fest 2024", createdAt: "2024-11-25", likes: 89, comments: 12, featured: false, status: "Pending", tags: ["review", "amazing"] },
 ];
 
-export default function FanContentPage() {
+function FanContentPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -180,5 +180,13 @@ export default function FanContentPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function FanContentPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <FanContentPageContent />
+    </Suspense>
   );
 }

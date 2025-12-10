@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
@@ -52,7 +52,7 @@ const mockLeaderboard: Leaderboard[] = [
   { rank: 5, userName: "VenueHopper", points: 11500, completedChallenges: 9 },
 ];
 
-export default function ChallengesPage() {
+function ChallengesPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -261,5 +261,13 @@ export default function ChallengesPage() {
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>
+  );
+}
+
+export default function ChallengesPage() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+      <ChallengesPageContent />
+    </Suspense>
   );
 }
