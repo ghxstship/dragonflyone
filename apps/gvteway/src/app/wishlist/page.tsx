@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -16,100 +15,22 @@ import {
   Label,
 } from '@ghxstship/ui';
 import { Heart, Trash2, ShoppingCart, Calendar, MapPin, Share2 } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-// Demo data for unauthenticated users
-const DEMO_WISHLIST: WishlistItem[] = [
-  {
-    id: "demo-1",
-    user_id: "demo-user",
-    event_id: "event-001",
-    event_name: "Summer Music Festival 2024",
-    date: new Date(Date.now() + 30 * 86400000).toISOString(),
-    location: "Central Park, New York",
-    price: 149,
-    available: true,
-    tickets_left: 250,
-    notify_price_drop: true,
-    added_at: new Date().toISOString(),
-  },
-  {
-    id: "demo-2",
-    user_id: "demo-user",
-    event_id: "event-002",
-    event_name: "Jazz Night Under the Stars",
-    date: new Date(Date.now() + 45 * 86400000).toISOString(),
-    location: "Hollywood Bowl, Los Angeles",
-    price: 85,
-    available: true,
-    tickets_left: 45,
-    notify_price_drop: true,
-    added_at: new Date(Date.now() - 86400000).toISOString(),
-  },
-];
-
-interface WishlistItem {
-  id: string;
-  user_id: string;
-  event_id: string;
-  event_name: string;
-  date: string;
-  location: string;
-  price: number;
-  available: boolean;
-  tickets_left: number;
-  notify_price_drop: boolean;
-  added_at: string;
-}
+import { useWishlistData } from '@/hooks/useWishlist';
 
 export default function WishlistPage() {
   const router = useRouter();
-  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
   const userId = 'demo-user-123';
 
-  const fetchWishlist = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch(`/api/wishlist?user_id=${userId}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setWishlist(DEMO_WISHLIST);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error('Failed to fetch wishlist');
-      }
-      const data = await response.json();
-      setWishlist(data.wishlist || []);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setWishlist(DEMO_WISHLIST);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [userId]);
-
-  useEffect(() => {
-    fetchWishlist();
-  }, [fetchWishlist]);
+  const {
+    wishlist,
+    isLoading: loading,
+    error,
+    refetch,
+    removeItem,
+  } = useWishlistData(userId);
 
   const handleRemoveItem = async (itemId: string) => {
-    try {
-      const response = await fetch(`/api/wishlist?id=${itemId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setWishlist((prev) => prev.filter((item) => item.id !== itemId));
-      }
-    } catch (err) {
-      log.error('Failed to remove item:', err instanceof Error ? err : undefined);
-    }
+    await removeItem(itemId);
   };
 
   if (loading) {
@@ -121,8 +42,8 @@ export default function WishlistPage() {
       <GvtewayAppLayout>
             <EmptyState
               title="Error Loading Wishlist"
-              description={error}
-              action={{ label: "Retry", onClick: fetchWishlist }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => refetch() }}
               inverted
             />
       </GvtewayAppLayout>

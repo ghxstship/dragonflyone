@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -23,23 +23,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-import { log } from '@ghxstship/config';
-
-interface LostFoundItem {
-  id: string;
-  type: 'lost' | 'found';
-  category: string;
-  description: string;
-  event_id?: string;
-  event_title?: string;
-  venue_name?: string;
-  location_details?: string;
-  date_lost_found: string;
-  status: 'open' | 'matched' | 'claimed' | 'closed';
-  photos?: string[];
-  contact_email?: string;
-  created_at: string;
-}
+import { useLostFoundData } from '@/hooks/useLostFound';
 
 const ITEM_CATEGORIES = [
   'Phone/Electronics',
@@ -55,12 +39,9 @@ const ITEM_CATEGORIES = [
 
 export default function LostFoundPage() {
   const router = useRouter();
-  const [items, setItems] = useState<LostFoundItem[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportType, setReportType] = useState<'lost' | 'found'>('lost');
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [filter, setFilter] = useState('all');
 
@@ -74,59 +55,36 @@ export default function LostFoundPage() {
     contact_email: '',
   });
 
-  const fetchItems = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/lost-found');
-      if (response.ok) {
-        const data = await response.json();
-        setItems(data.items || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch items');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchItems();
-  }, [fetchItems]);
+  const {
+    items,
+    isLoading: loading,
+    error,
+    refetch,
+    reportItem,
+    isSubmitting: submitting,
+  } = useLostFoundData();
 
   const handleSubmit = async () => {
-    setSubmitting(true);
-    setError(null);
+    setLocalError(null);
 
     try {
-      const response = await fetch('/api/lost-found', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          type: reportType,
-        }),
+      await reportItem({
+        ...formData,
+        type: reportType,
       });
-
-      if (response.ok) {
-        setSuccess(`Your ${reportType} item report has been submitted. We'll notify you if there's a match.`);
-        setShowReportModal(false);
-        setFormData({
-          category: '',
-          description: '',
-          event_id: '',
-          location_details: '',
-          date_lost_found: new Date().toISOString().split('T')[0],
-          contact_email: '',
-        });
-        fetchItems();
-      } else {
-        const data = await response.json();
-        setError(data.error || 'Failed to submit report');
-      }
+      setSuccess(`Your ${reportType} item report has been submitted. We'll notify you if there's a match.`);
+      setShowReportModal(false);
+      setFormData({
+        category: '',
+        description: '',
+        event_id: '',
+        location_details: '',
+        date_lost_found: new Date().toISOString().split('T')[0],
+        contact_email: '',
+      });
+      refetch();
     } catch (err) {
-      setError('Network error');
-    } finally {
-      setSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'Failed to submit report');
     }
   };
 
@@ -186,9 +144,9 @@ export default function LostFoundPage() {
             </Stack>
         </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : localError || String(error)}
           </Alert>
         )}
 

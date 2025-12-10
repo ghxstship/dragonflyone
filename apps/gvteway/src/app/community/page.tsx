@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
@@ -18,84 +18,7 @@ import {
   Label,
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
-import { log } from '@ghxstship/config';
-
-// Demo data for unauthenticated users
-const DEMO_FORUMS: Forum[] = [
-  {
-    id: "demo-1",
-    title: "Festival Tips & Tricks",
-    posts: 1234,
-    members: 5678,
-    lastActive: "2 hours ago",
-    trending: true,
-    category: "General",
-  },
-  {
-    id: "demo-2",
-    title: "Artist Discussions",
-    posts: 890,
-    members: 3456,
-    lastActive: "5 hours ago",
-    trending: false,
-    category: "Music",
-  },
-];
-
-const DEMO_GROUPS: CommunityGroup[] = [
-  {
-    id: "demo-1",
-    name: "EDM Lovers",
-    members_count: 2500,
-    privacy: "public",
-    description: "A community for electronic dance music enthusiasts",
-  },
-  {
-    id: "demo-2",
-    name: "Festival Photographers",
-    members_count: 890,
-    privacy: "public",
-    description: "Share your best festival shots and photography tips",
-  },
-];
-
-const DEMO_COMMUNITY_EVENTS: CommunityEvent[] = [
-  {
-    id: "demo-1",
-    title: "Pre-Festival Meetup",
-    description: "Meet fellow fans before the big day!",
-    location: "Downtown Coffee House",
-    event_date: new Date(Date.now() + 7 * 86400000).toISOString(),
-    attendees_count: 45,
-  },
-];
-
-interface Forum {
-  id: string;
-  title: string;
-  posts: number;
-  members: number;
-  lastActive: string;
-  trending: boolean;
-  category?: string;
-}
-
-interface CommunityGroup {
-  id: string;
-  name: string;
-  members_count: number;
-  privacy: 'public' | 'private';
-  description?: string;
-}
-
-interface CommunityEvent {
-  id: string;
-  title: string;
-  description?: string;
-  location?: string;
-  event_date: string;
-  attendees_count: number;
-}
+import { useCommunityData, type Forum } from '@/hooks/useCommunity';
 
 function CommunityPageContent() {
   const router = useRouter();
@@ -105,12 +28,16 @@ function CommunityPageContent() {
     defaultTab: 'forums',
     validTabs: ['forums', 'groups', 'events'],
   });
-  const [forums, setForums] = useState<Forum[]>([]);
-  const [groups, setGroups] = useState<CommunityGroup[]>([]);
-  const [communityEvents, setCommunityEvents] = useState<CommunityEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const {
+    forums,
+    groups,
+    communityEvents,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useCommunityData();
 
   const handleJoinForum = (forumId: string) => {
     router.push(`/community/forums/${forumId}`);
@@ -124,68 +51,7 @@ function CommunityPageContent() {
     router.push(`/community/events/${eventId}`);
   };
 
-  const fetchForums = useCallback(async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/community/forums');
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setForums(DEMO_FORUMS);
-        setGroups(DEMO_GROUPS);
-        setCommunityEvents(DEMO_COMMUNITY_EVENTS);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error('Failed to fetch forums');
-      }
-      const data = await response.json();
-      setForums(data.forums || []);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setForums(DEMO_FORUMS);
-      setGroups(DEMO_GROUPS);
-      setCommunityEvents(DEMO_COMMUNITY_EVENTS);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const fetchGroups = useCallback(async () => {
-    try {
-      const response = await fetch('/api/community/groups');
-      if (response.status === 401) return; // Already handled in fetchForums
-      if (response.ok) {
-        const data = await response.json();
-        setGroups(data.groups || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch groups:', err instanceof Error ? err : undefined);
-    }
-  }, []);
-
-  const fetchCommunityEvents = useCallback(async () => {
-    try {
-      const response = await fetch('/api/community/events');
-      if (response.status === 401) return; // Already handled in fetchForums
-      if (response.ok) {
-        const data = await response.json();
-        setCommunityEvents(data.events || []);
-      }
-    } catch (err) {
-      log.error('Failed to fetch community events:', err instanceof Error ? err : undefined);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchForums();
-    fetchGroups();
-    fetchCommunityEvents();
-  }, [fetchForums, fetchGroups, fetchCommunityEvents]);
-
-  const filteredForums = forums.filter(forum =>
+  const filteredForums = forums.filter((forum: Forum) =>
     forum.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -197,8 +63,8 @@ function CommunityPageContent() {
     return (
       <GvtewayEmptyLayout
         title="Error Loading Community"
-        description={error}
-        action={<Button variant="solid" onClick={fetchForums}>Retry</Button>}
+        description={error instanceof Error ? error.message : String(error)}
+        action={<Button variant="solid" onClick={() => refetch()}>Retry</Button>}
         variant="consumer-auth"
       />
     );
