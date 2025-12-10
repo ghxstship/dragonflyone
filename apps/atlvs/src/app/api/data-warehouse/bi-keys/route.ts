@@ -29,15 +29,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const tool_type = searchParams.get('tool_type');
     const is_active = searchParams.get('is_active');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
     let query = supabase
       .from('bi_api_keys')
       .select(`
         id, name, key_prefix, tool_type, permissions, rate_limit_per_minute,
-        allowed_tables, allowed_ip_ranges, expires_at, last_used_at, usage_count,
-        is_active, created_at,
+        expires_at, last_used_at, usage_count, is_active, created_at,
         created_by_user:platform_users!created_by(id, email, full_name)
-      `);
+      `, { count: 'exact' });
 
     if (tool_type) {
       query = query.eq('tool_type', tool_type);
@@ -46,11 +48,22 @@ export async function GET(request: NextRequest) {
       query = query.eq('is_active', is_active === 'true');
     }
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+    const { data, error, count } = await query
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) throw error;
 
-    return NextResponse.json({ data });
+    const totalCount = count || (data?.length ?? 0);
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + (data?.length ?? 0) < totalCount,
+    };
+
+    return NextResponse.json({ data, pagination });
   } catch (error) {
     Logger.error('Error fetching BI API keys:', error);
     return NextResponse.json(

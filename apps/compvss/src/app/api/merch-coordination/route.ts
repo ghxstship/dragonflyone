@@ -12,18 +12,40 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
-    const { data: booths } = await supabase.from('merch_booths').select(`
-      *, staff:merch_staff(id, name, shift_start, shift_end)
-    `).eq('event_id', eventId);
+    const { data: booths, count: boothCount } = await supabase
+      .from('merch_booths')
+      .select(`
+        id, location, booth_number, status, created_at,
+        staff:merch_staff(id, name, shift_start, shift_end)
+      `, { count: 'exact' })
+      .eq('event_id', eventId)
+      .range(offset, offset + limit - 1);
 
-    const { data: inventory } = await supabase.from('merch_inventory').select('*')
-      .eq('event_id', eventId);
+    const { data: inventory, count: invCount } = await supabase
+      .from('merch_inventory')
+      .select('id, product_id, quantity, price', { count: 'exact' })
+      .eq('event_id', eventId)
+      .range(offset, offset + limit - 1);
 
-    const { data: sales } = await supabase.from('merch_sales').select('*')
-      .eq('event_id', eventId);
+    const { data: sales, count: salesCount } = await supabase
+      .from('merch_sales')
+      .select('id, amount, payment_method, sold_at', { count: 'exact' })
+      .eq('event_id', eventId)
+      .range(offset, offset + limit - 1);
 
     const totalSales = sales?.reduce((s, sale) => s + sale.amount, 0) || 0;
+
+    const pagination = {
+      page,
+      limit,
+      booths_total: boothCount || 0,
+      inventory_total: invCount || 0,
+      sales_total: salesCount || 0,
+    };
 
     return NextResponse.json({
       booths,
@@ -31,7 +53,8 @@ export async function GET(request: NextRequest) {
       sales_summary: {
         total_sales: totalSales,
         transactions: sales?.length || 0
-      }
+      },
+      pagination,
     });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
