@@ -153,3 +153,55 @@ export const useDeleteCrewCertification = () => {
   });
 };
 
+// =============================================================================
+// SAFETY PAGE HOOKS (API-based with demo fallback)
+// =============================================================================
+
+export interface SafetyIncidentSimple {
+  id: string;
+  type: string;
+  description: string;
+  location: string;
+  reported_by: string;
+  date: string;
+  status: string;
+  severity: string;
+  created_at: string;
+}
+
+const DEMO_INCIDENTS: SafetyIncidentSimple[] = [
+  { id: 'demo-1', type: 'near_miss', description: 'Loose cable near stage left entrance', location: 'Stage Left', reported_by: 'John Smith', date: new Date().toISOString(), status: 'investigating', severity: 'medium', created_at: new Date().toISOString() },
+  { id: 'demo-2', type: 'minor_injury', description: 'Minor cut while handling equipment', location: 'Loading Dock', reported_by: 'Jane Doe', date: new Date(Date.now() - 86400000).toISOString(), status: 'resolved', severity: 'low', created_at: new Date(Date.now() - 86400000).toISOString() },
+];
+
+export function useSafetyPageData() {
+  const incidentsQuery = useQuery({
+    queryKey: ['safety-page-incidents'],
+    queryFn: async () => {
+      const response = await fetch('/api/safety/incidents');
+      if (response.status === 401) {
+        return DEMO_INCIDENTS;
+      }
+      if (!response.ok) {
+        throw new Error('Failed to fetch incidents');
+      }
+      const data = await response.json();
+      return data.incidents || [];
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const incidents = incidentsQuery.data || [];
+  const openCount = incidents.filter((i: SafetyIncidentSimple) => i.status !== 'resolved' && i.status !== 'closed').length;
+  const resolvedCount = incidents.filter((i: SafetyIncidentSimple) => i.status === 'resolved' || i.status === 'closed').length;
+
+  return {
+    incidents,
+    openCount,
+    resolvedCount,
+    isLoading: incidentsQuery.isLoading,
+    error: incidentsQuery.error,
+    refetch: incidentsQuery.refetch,
+  };
+}
+
