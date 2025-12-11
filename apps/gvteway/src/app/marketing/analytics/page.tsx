@@ -10,43 +10,15 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-interface CampaignMetric {
-  id: string;
-  name: string;
-  channel: string;
-  impressions: number;
-  clicks: number;
-  conversions: number;
-  spend: number;
-  revenue: number;
-  roas: number;
-  ctr: number;
-  cpc: number;
-}
+import {
+  DEMO_CAMPAIGN_METRICS,
+  DEMO_ATTRIBUTION_SOURCES,
+  type DemoCampaignMetric as CampaignMetric,
+  type DemoAttributionSource as AttributionSource,
+} from "@/lib/demo-data";
 
-interface AttributionSource {
-  source: string;
-  conversions: number;
-  revenue: number;
-  percentage: number;
-}
-
-const mockCampaigns: CampaignMetric[] = [
-  { id: "CMP-001", name: "Summer Fest Launch", channel: "Facebook", impressions: 245000, clicks: 8420, conversions: 312, spend: 4500, revenue: 46800, roas: 10.4, ctr: 3.44, cpc: 0.53 },
-  { id: "CMP-002", name: "Early Bird Promo", channel: "Google Ads", impressions: 189000, clicks: 6230, conversions: 245, spend: 3800, revenue: 36750, roas: 9.67, ctr: 3.30, cpc: 0.61 },
-  { id: "CMP-003", name: "Email Blast", channel: "Email", impressions: 45000, clicks: 4520, conversions: 189, spend: 250, revenue: 28350, roas: 113.4, ctr: 10.04, cpc: 0.06 },
-  { id: "CMP-004", name: "TikTok Awareness", channel: "TikTok", impressions: 520000, clicks: 12400, conversions: 156, spend: 2800, revenue: 23400, roas: 8.36, ctr: 2.38, cpc: 0.23 },
-  { id: "CMP-005", name: "Retargeting", channel: "Facebook", impressions: 78000, clicks: 3420, conversions: 198, spend: 1200, revenue: 29700, roas: 24.75, ctr: 4.38, cpc: 0.35 },
-];
-
-const mockAttribution: AttributionSource[] = [
-  { source: "Paid Social", conversions: 510, revenue: 76500, percentage: 35 },
-  { source: "Paid Search", conversions: 245, revenue: 36750, percentage: 20 },
-  { source: "Email", conversions: 189, revenue: 28350, percentage: 15 },
-  { source: "Organic Search", conversions: 156, revenue: 23400, percentage: 13 },
-  { source: "Direct", conversions: 134, revenue: 20100, percentage: 11 },
-  { source: "Referral", conversions: 78, revenue: 11700, percentage: 6 },
-];
+const mockCampaigns = DEMO_CAMPAIGN_METRICS;
+const mockAttribution = DEMO_ATTRIBUTION_SOURCES;
 
 function MarketingAnalyticsPageContent() {
   const router = useRouter();

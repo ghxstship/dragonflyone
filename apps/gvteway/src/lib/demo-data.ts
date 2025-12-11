@@ -661,3 +661,130 @@ export const DEMO_PERMISSION_OPTIONS = [
   'Edit Artist Info',
   'Manage Marketing',
 ];
+
+// =============================================================================
+// FAN CLUB - EXCLUSIVE ACCESS (for fan-club/exclusive-access/page.tsx)
+// =============================================================================
+
+export interface DemoExclusiveWindow {
+  id: string;
+  eventName: string;
+  windowName: string;
+  tier: 'Platinum' | 'Gold' | 'Silver' | 'All Members';
+  startDate: string;
+  endDate: string;
+  ticketsAllocated: number;
+  ticketsClaimed: number;
+  status: 'Upcoming' | 'Active' | 'Ended';
+  [key: string]: unknown;
+}
+
+export interface DemoFanClubTier {
+  name: string;
+  members: number;
+  benefits: string[];
+  accessWindow: string;
+  color: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_EXCLUSIVE_WINDOWS: DemoExclusiveWindow[] = [
+  { id: 'EW-001', eventName: 'Summer Music Festival 2025', windowName: 'Platinum Presale', tier: 'Platinum', startDate: '2024-12-01 10:00', endDate: '2024-12-02 10:00', ticketsAllocated: 200, ticketsClaimed: 0, status: 'Upcoming' },
+  { id: 'EW-002', eventName: 'Summer Music Festival 2025', windowName: 'Gold Presale', tier: 'Gold', startDate: '2024-12-02 10:00', endDate: '2024-12-03 10:00', ticketsAllocated: 500, ticketsClaimed: 0, status: 'Upcoming' },
+  { id: 'EW-003', eventName: 'Summer Music Festival 2025', windowName: 'Member Presale', tier: 'All Members', startDate: '2024-12-03 10:00', endDate: '2024-12-05 10:00', ticketsAllocated: 1000, ticketsClaimed: 0, status: 'Upcoming' },
+  { id: 'EW-004', eventName: 'New Year Gala', windowName: 'VIP Access', tier: 'Platinum', startDate: '2024-11-15 10:00', endDate: '2024-11-16 10:00', ticketsAllocated: 100, ticketsClaimed: 87, status: 'Ended' },
+];
+
+export const DEMO_FAN_CLUB_TIERS: DemoFanClubTier[] = [
+  { name: 'Platinum', members: 245, benefits: ['48-hour early access', 'Meet & greet priority', 'Exclusive merch', 'VIP lounge access'], accessWindow: '48 hours', color: 'bg-purple-100 border-purple-500' },
+  { name: 'Gold', members: 1250, benefits: ['24-hour early access', 'Priority entry', 'Member discounts', 'Exclusive content'], accessWindow: '24 hours', color: 'bg-warning-100 border-warning-500' },
+  { name: 'Silver', members: 4520, benefits: ['12-hour early access', 'Member discounts', 'Newsletter'], accessWindow: '12 hours', color: 'bg-ink-100 border-ink-400' },
+];
+
+// =============================================================================
+// FAN CLUB - MAIN (for fan-club/page.tsx)
+// =============================================================================
+
+export interface DemoFanClub {
+  id: string;
+  name: string;
+  artistId?: string;
+  artistName?: string;
+  memberCount: number;
+  tier: 'Free' | 'Premium' | 'VIP';
+  monthlyPrice?: number;
+  benefits: string[];
+  exclusiveContent: number;
+  upcomingPerks: number;
+  [key: string]: unknown;
+}
+
+export interface DemoExclusivePerk {
+  id: string;
+  title: string;
+  type: 'Presale' | 'Content' | 'Merch' | 'Meet & Greet' | 'Discount';
+  description: string;
+  availableDate: string;
+  claimedCount: number;
+  totalAvailable?: number;
+  tier: 'Free' | 'Premium' | 'VIP';
+  [key: string]: unknown;
+}
+
+export const DEMO_FAN_CLUBS: DemoFanClub[] = [
+  { id: 'FC-001', name: 'Midnight Collective Fans', artistName: 'The Midnight Collective', memberCount: 12500, tier: 'Premium', monthlyPrice: 9.99, benefits: ['48hr Presale', 'Exclusive Content', 'Member Discord', '10% Merch Discount'], exclusiveContent: 45, upcomingPerks: 3 },
+  { id: 'FC-002', name: 'Aurora Keys Inner Circle', artistName: 'Aurora Keys', memberCount: 8200, tier: 'VIP', monthlyPrice: 19.99, benefits: ['72hr Presale', 'Meet & Greet Lottery', 'Signed Merch', 'Live Q&As', '20% Discount'], exclusiveContent: 78, upcomingPerks: 5 },
+  { id: 'FC-003', name: 'Summer Fest Superfans', memberCount: 25000, tier: 'Free', benefits: ['Newsletter', 'Early Announcements', 'Community Access'], exclusiveContent: 12, upcomingPerks: 2 },
+];
+
+export const DEMO_EXCLUSIVE_PERKS: DemoExclusivePerk[] = [
+  { id: 'PERK-001', title: 'Summer Fest 2024 Presale', type: 'Presale', description: 'Get tickets 48 hours before general public', availableDate: '2024-11-20', claimedCount: 3450, totalAvailable: 5000, tier: 'Premium' },
+  { id: 'PERK-002', title: 'Behind the Scenes Documentary', type: 'Content', description: 'Exclusive 30-minute documentary from the last tour', availableDate: '2024-11-15', claimedCount: 8900, tier: 'Premium' },
+  { id: 'PERK-003', title: 'Limited Edition Poster', type: 'Merch', description: 'Signed limited edition tour poster', availableDate: '2024-11-25', claimedCount: 150, totalAvailable: 500, tier: 'VIP' },
+  { id: 'PERK-004', title: 'Virtual Meet & Greet', type: 'Meet & Greet', description: '15-minute video call with the artist', availableDate: '2024-12-01', claimedCount: 20, totalAvailable: 50, tier: 'VIP' },
+  { id: 'PERK-005', title: 'Holiday Merch Discount', type: 'Discount', description: '30% off all merchandise', availableDate: '2024-12-15', claimedCount: 0, tier: 'Free' },
+];
+
+// =============================================================================
+// MARKETING - ANALYTICS (for marketing/analytics/page.tsx)
+// =============================================================================
+
+export interface DemoCampaignMetric {
+  id: string;
+  name: string;
+  channel: string;
+  impressions: number;
+  clicks: number;
+  conversions: number;
+  spend: number;
+  revenue: number;
+  roas: number;
+  ctr: number;
+  cpc: number;
+  [key: string]: unknown;
+}
+
+export interface DemoAttributionSource {
+  source: string;
+  conversions: number;
+  revenue: number;
+  percentage: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_CAMPAIGN_METRICS: DemoCampaignMetric[] = [
+  { id: 'CMP-001', name: 'Summer Fest Launch', channel: 'Facebook', impressions: 245000, clicks: 8420, conversions: 312, spend: 4500, revenue: 46800, roas: 10.4, ctr: 3.44, cpc: 0.53 },
+  { id: 'CMP-002', name: 'Early Bird Promo', channel: 'Google Ads', impressions: 189000, clicks: 6230, conversions: 245, spend: 3800, revenue: 36750, roas: 9.67, ctr: 3.30, cpc: 0.61 },
+  { id: 'CMP-003', name: 'Email Blast', channel: 'Email', impressions: 45000, clicks: 4520, conversions: 189, spend: 250, revenue: 28350, roas: 113.4, ctr: 10.04, cpc: 0.06 },
+  { id: 'CMP-004', name: 'TikTok Awareness', channel: 'TikTok', impressions: 520000, clicks: 12400, conversions: 156, spend: 2800, revenue: 23400, roas: 8.36, ctr: 2.38, cpc: 0.23 },
+  { id: 'CMP-005', name: 'Retargeting', channel: 'Facebook', impressions: 78000, clicks: 3420, conversions: 198, spend: 1200, revenue: 29700, roas: 24.75, ctr: 4.38, cpc: 0.35 },
+];
+
+export const DEMO_ATTRIBUTION_SOURCES: DemoAttributionSource[] = [
+  { source: 'Paid Social', conversions: 510, revenue: 76500, percentage: 35 },
+  { source: 'Paid Search', conversions: 245, revenue: 36750, percentage: 20 },
+  { source: 'Email', conversions: 189, revenue: 28350, percentage: 15 },
+  { source: 'Organic Search', conversions: 156, revenue: 23400, percentage: 13 },
+  { source: 'Direct', conversions: 134, revenue: 20100, percentage: 11 },
+  { source: 'Referral', conversions: 78, revenue: 11700, percentage: 6 },
+];

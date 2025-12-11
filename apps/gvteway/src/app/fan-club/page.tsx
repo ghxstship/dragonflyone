@@ -10,43 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, Kicker,
 } from "@ghxstship/ui";
 
-interface FanClub {
-  id: string;
-  name: string;
-  artistId?: string;
-  artistName?: string;
-  memberCount: number;
-  tier: "Free" | "Premium" | "VIP";
-  monthlyPrice?: number;
-  benefits: string[];
-  exclusiveContent: number;
-  upcomingPerks: number;
-}
+import {
+  DEMO_FAN_CLUBS,
+  DEMO_EXCLUSIVE_PERKS,
+  type DemoFanClub as FanClub,
+  type DemoExclusivePerk as ExclusivePerk,
+} from "@/lib/demo-data";
 
-interface ExclusivePerk {
-  id: string;
-  title: string;
-  type: "Presale" | "Content" | "Merch" | "Meet & Greet" | "Discount";
-  description: string;
-  availableDate: string;
-  claimedCount: number;
-  totalAvailable?: number;
-  tier: "Free" | "Premium" | "VIP";
-}
-
-const mockFanClubs: FanClub[] = [
-  { id: "FC-001", name: "Midnight Collective Fans", artistName: "The Midnight Collective", memberCount: 12500, tier: "Premium", monthlyPrice: 9.99, benefits: ["48hr Presale", "Exclusive Content", "Member Discord", "10% Merch Discount"], exclusiveContent: 45, upcomingPerks: 3 },
-  { id: "FC-002", name: "Aurora Keys Inner Circle", artistName: "Aurora Keys", memberCount: 8200, tier: "VIP", monthlyPrice: 19.99, benefits: ["72hr Presale", "Meet & Greet Lottery", "Signed Merch", "Live Q&As", "20% Discount"], exclusiveContent: 78, upcomingPerks: 5 },
-  { id: "FC-003", name: "Summer Fest Superfans", memberCount: 25000, tier: "Free", benefits: ["Newsletter", "Early Announcements", "Community Access"], exclusiveContent: 12, upcomingPerks: 2 },
-];
-
-const mockPerks: ExclusivePerk[] = [
-  { id: "PERK-001", title: "Summer Fest 2024 Presale", type: "Presale", description: "Get tickets 48 hours before general public", availableDate: "2024-11-20", claimedCount: 3450, totalAvailable: 5000, tier: "Premium" },
-  { id: "PERK-002", title: "Behind the Scenes Documentary", type: "Content", description: "Exclusive 30-minute documentary from the last tour", availableDate: "2024-11-15", claimedCount: 8900, tier: "Premium" },
-  { id: "PERK-003", title: "Limited Edition Poster", type: "Merch", description: "Signed limited edition tour poster", availableDate: "2024-11-25", claimedCount: 150, totalAvailable: 500, tier: "VIP" },
-  { id: "PERK-004", title: "Virtual Meet & Greet", type: "Meet & Greet", description: "15-minute video call with the artist", availableDate: "2024-12-01", claimedCount: 20, totalAvailable: 50, tier: "VIP" },
-  { id: "PERK-005", title: "Holiday Merch Discount", type: "Discount", description: "30% off all merchandise", availableDate: "2024-12-15", claimedCount: 0, tier: "Free" },
-];
+const mockFanClubs = DEMO_FAN_CLUBS;
+const mockPerks = DEMO_EXCLUSIVE_PERKS;
 
 function FanClubPageContent() {
   const router = useRouter();

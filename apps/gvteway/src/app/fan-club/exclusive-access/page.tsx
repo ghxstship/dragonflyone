@@ -10,38 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface ExclusiveWindow {
-  id: string;
-  eventName: string;
-  windowName: string;
-  tier: "Platinum" | "Gold" | "Silver" | "All Members";
-  startDate: string;
-  endDate: string;
-  ticketsAllocated: number;
-  ticketsClaimed: number;
-  status: "Upcoming" | "Active" | "Ended";
-}
+import {
+  DEMO_EXCLUSIVE_WINDOWS,
+  DEMO_FAN_CLUB_TIERS,
+  type DemoExclusiveWindow as ExclusiveWindow,
+  type DemoFanClubTier as FanClubTier,
+} from "@/lib/demo-data";
 
-interface FanClubTier {
-  name: string;
-  members: number;
-  benefits: string[];
-  accessWindow: string;
-  color: string;
-}
-
-const mockWindows: ExclusiveWindow[] = [
-  { id: "EW-001", eventName: "Summer Music Festival 2025", windowName: "Platinum Presale", tier: "Platinum", startDate: "2024-12-01 10:00", endDate: "2024-12-02 10:00", ticketsAllocated: 200, ticketsClaimed: 0, status: "Upcoming" },
-  { id: "EW-002", eventName: "Summer Music Festival 2025", windowName: "Gold Presale", tier: "Gold", startDate: "2024-12-02 10:00", endDate: "2024-12-03 10:00", ticketsAllocated: 500, ticketsClaimed: 0, status: "Upcoming" },
-  { id: "EW-003", eventName: "Summer Music Festival 2025", windowName: "Member Presale", tier: "All Members", startDate: "2024-12-03 10:00", endDate: "2024-12-05 10:00", ticketsAllocated: 1000, ticketsClaimed: 0, status: "Upcoming" },
-  { id: "EW-004", eventName: "New Year Gala", windowName: "VIP Access", tier: "Platinum", startDate: "2024-11-15 10:00", endDate: "2024-11-16 10:00", ticketsAllocated: 100, ticketsClaimed: 87, status: "Ended" },
-];
-
-const mockTiers: FanClubTier[] = [
-  { name: "Platinum", members: 245, benefits: ["48-hour early access", "Meet & greet priority", "Exclusive merch", "VIP lounge access"], accessWindow: "48 hours", color: "bg-purple-100 border-purple-500" },
-  { name: "Gold", members: 1250, benefits: ["24-hour early access", "Priority entry", "Member discounts", "Exclusive content"], accessWindow: "24 hours", color: "bg-warning-100 border-warning-500" },
-  { name: "Silver", members: 4520, benefits: ["12-hour early access", "Member discounts", "Newsletter"], accessWindow: "12 hours", color: "bg-ink-100 border-ink-400" },
-];
+const mockWindows = DEMO_EXCLUSIVE_WINDOWS;
+const mockTiers = DEMO_FAN_CLUB_TIERS;
 
 function ExclusiveAccessPageContent() {
   const router = useRouter();
