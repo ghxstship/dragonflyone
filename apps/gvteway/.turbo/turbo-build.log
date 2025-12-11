@@ -8,7 +8,6 @@
     · cpus
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -25,14 +24,14 @@
 Route (app)                                   Size     First Load JS
 ┌ ƒ /                                         8.54 kB         460 kB
 ├ ○ /_not-found                               143 B          87.7 kB
-├ ○ /accessibility                            4.21 kB         449 kB
+├ ○ /accessibility                            5.9 kB          451 kB
 ├ ○ /accessibility/request                    5.33 kB         450 kB
-├ ○ /account                                  5.53 kB         457 kB
-├ ○ /account/orders                           3.02 kB         448 kB
+├ ○ /account                                  7.2 kB          459 kB
+├ ○ /account/orders                           4.72 kB         449 kB
 ├ ○ /account/profile                          2.82 kB         448 kB
-├ ○ /account/tickets                          2.63 kB         447 kB
+├ ○ /account/tickets                          5.05 kB         450 kB
 ├ ○ /activity                                 3.23 kB         454 kB
-├ ○ /admin/anti-scalping                      5.04 kB         450 kB
+├ ○ /admin/anti-scalping                      6.81 kB         451 kB
 ├ ○ /admin/content-calendar                   2.89 kB         448 kB
 ├ ○ /admin/contests                           4.21 kB         492 kB
 ├ ○ /admin/integrations                       4.54 kB         449 kB
@@ -40,7 +39,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /admin/marketing/sms                      4.02 kB         449 kB
 ├ ○ /admin/moderation                         3.17 kB         448 kB
 ├ ○ /admin/pos                                3.63 kB         448 kB
-├ ○ /admin/pos/cashless                       5.4 kB          450 kB
+├ ○ /admin/pos/cashless                       7.27 kB         452 kB
 ├ ○ /admin/pricing/early-bird                 3.66 kB         448 kB
 ├ ○ /admin/promo-codes                        5.97 kB         493 kB
 ├ ○ /admin/sales-reporting                    3.72 kB         491 kB

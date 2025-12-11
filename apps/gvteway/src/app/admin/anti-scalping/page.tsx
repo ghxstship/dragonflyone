@@ -36,62 +36,18 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 
-interface ScalpingAlert {
-  id: string;
-  type: 'bulk_purchase' | 'rapid_checkout' | 'suspicious_pattern' | 'bot_detected' | 'resale_listing';
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  event_id: string;
-  event_name: string;
-  details: string;
-  ip_address?: string;
-  user_id?: string;
-  user_email?: string;
-  ticket_count: number;
-  status: 'pending' | 'investigating' | 'blocked' | 'cleared';
-  created_at: string;
-}
+import {
+  DEMO_SCALPING_ALERTS,
+  DEMO_PROTECTION_RULES,
+  DEMO_BLOCKED_ENTITIES,
+  type DemoScalpingAlert as ScalpingAlert,
+  type DemoProtectionRule as ProtectionRule,
+  type DemoBlockedEntity as BlockedEntity,
+} from '@/lib/demo-data';
 
-interface ProtectionRule {
-  id: string;
-  name: string;
-  type: 'purchase_limit' | 'velocity_check' | 'captcha' | 'verification' | 'ip_block' | 'device_fingerprint';
-  enabled: boolean;
-  threshold?: number;
-  action: 'warn' | 'block' | 'require_verification' | 'flag_review';
-  description: string;
-}
-
-interface BlockedEntity {
-  id: string;
-  type: 'ip' | 'email' | 'device' | 'payment_method';
-  value: string;
-  reason: string;
-  blocked_at: string;
-  expires_at?: string;
-}
-
-const mockAlerts: ScalpingAlert[] = [
-  { id: 'ALT-001', type: 'bulk_purchase', severity: 'high', event_id: 'EVT-001', event_name: 'Summer Fest 2024', details: 'Attempted purchase of 50 tickets in single transaction', ip_address: '192.168.1.100', user_email: 'suspicious@email.com', ticket_count: 50, status: 'blocked', created_at: '2024-11-24T14:30:00Z' },
-  { id: 'ALT-002', type: 'bot_detected', severity: 'critical', event_id: 'EVT-001', event_name: 'Summer Fest 2024', details: 'Automated checkout behavior detected', ip_address: '10.0.0.55', ticket_count: 20, status: 'blocked', created_at: '2024-11-24T14:25:00Z' },
-  { id: 'ALT-003', type: 'rapid_checkout', severity: 'medium', event_id: 'EVT-002', event_name: 'Fall Concert', details: 'Multiple purchases from same IP within 2 minutes', ip_address: '172.16.0.88', user_email: 'buyer@email.com', ticket_count: 12, status: 'investigating', created_at: '2024-11-24T13:45:00Z' },
-  { id: 'ALT-004', type: 'resale_listing', severity: 'high', event_id: 'EVT-001', event_name: 'Summer Fest 2024', details: 'Tickets listed on secondary market above face value', user_email: 'reseller@email.com', ticket_count: 8, status: 'pending', created_at: '2024-11-24T12:00:00Z' },
-  { id: 'ALT-005', type: 'suspicious_pattern', severity: 'low', event_id: 'EVT-003', event_name: 'Winter Gala', details: 'Multiple accounts created from same device', ticket_count: 6, status: 'cleared', created_at: '2024-11-24T10:30:00Z' },
-];
-
-const mockRules: ProtectionRule[] = [
-  { id: 'RULE-001', name: 'Purchase Limit', type: 'purchase_limit', enabled: true, threshold: 8, action: 'block', description: 'Maximum tickets per transaction' },
-  { id: 'RULE-002', name: 'Velocity Check', type: 'velocity_check', enabled: true, threshold: 3, action: 'require_verification', description: 'Max purchases per hour from same IP' },
-  { id: 'RULE-003', name: 'CAPTCHA Challenge', type: 'captcha', enabled: true, action: 'require_verification', description: 'Require CAPTCHA for suspicious behavior' },
-  { id: 'RULE-004', name: 'ID Verification', type: 'verification', enabled: false, action: 'require_verification', description: 'Require ID verification for high-value purchases' },
-  { id: 'RULE-005', name: 'Device Fingerprinting', type: 'device_fingerprint', enabled: true, action: 'flag_review', description: 'Track and flag multiple accounts per device' },
-  { id: 'RULE-006', name: 'Known Bot IPs', type: 'ip_block', enabled: true, action: 'block', description: 'Block known bot and proxy IP addresses' },
-];
-
-const mockBlocked: BlockedEntity[] = [
-  { id: 'BLK-001', type: 'ip', value: '192.168.1.100', reason: 'Bulk purchase attempt', blocked_at: '2024-11-24T14:30:00Z' },
-  { id: 'BLK-002', type: 'ip', value: '10.0.0.55', reason: 'Bot activity detected', blocked_at: '2024-11-24T14:25:00Z' },
-  { id: 'BLK-003', type: 'email', value: 'scalper@email.com', reason: 'Confirmed scalping activity', blocked_at: '2024-11-20T09:00:00Z' },
-];
+const mockAlerts = DEMO_SCALPING_ALERTS;
+const mockRules = DEMO_PROTECTION_RULES;
+const mockBlocked = DEMO_BLOCKED_ENTITIES;
 
 function AntiScalpingPageContent() {
   const router = useRouter();

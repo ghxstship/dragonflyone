@@ -21,24 +21,12 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
 
-interface UserTicket {
-  id: string;
-  eventName: string;
-  eventDate: string;
-  venue: string;
-  ticketType: string;
-  section?: string;
-  row?: string;
-  seat?: string;
-  status: 'active' | 'used' | 'transferred';
-}
+import {
+  DEMO_USER_TICKETS,
+  type DemoUserTicket as UserTicket,
+} from '../../../lib/demo-data';
 
-const MOCK_TICKETS: UserTicket[] = [
-  { id: 'TKT-001', eventName: 'Summer Music Festival 2024', eventDate: 'Nov 20, 2024 - 7:00 PM', venue: 'Outdoor Amphitheater', ticketType: 'VIP', section: 'VIP-A', row: '1', seat: '5', status: 'active' },
-  { id: 'TKT-002', eventName: 'Summer Music Festival 2024', eventDate: 'Nov 20, 2024 - 7:00 PM', venue: 'Outdoor Amphitheater', ticketType: 'VIP', section: 'VIP-A', row: '1', seat: '6', status: 'active' },
-  { id: 'TKT-003', eventName: 'New Years Eve Concert', eventDate: 'Dec 31, 2024 - 9:00 PM', venue: 'City Arena', ticketType: 'GA', status: 'active' },
-  { id: 'TKT-004', eventName: 'Fall Festival', eventDate: 'Oct 15, 2024 - 6:00 PM', venue: 'Downtown Park', ticketType: 'GA', status: 'used' },
-];
+const MOCK_TICKETS = DEMO_USER_TICKETS;
 
 export default function AccountTicketsPage() {
   const [tickets] = useState(MOCK_TICKETS);

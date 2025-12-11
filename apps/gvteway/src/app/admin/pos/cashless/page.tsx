@@ -36,68 +36,18 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 
-interface PaymentTerminal {
-  id: string;
-  name: string;
-  location: string;
-  type: 'fixed' | 'mobile' | 'kiosk';
-  status: 'online' | 'offline' | 'processing' | 'error';
-  supported_methods: string[];
-  last_transaction?: string;
-  transactions_today: number;
-  revenue_today: number;
-  battery_level?: number;
-}
+import {
+  DEMO_PAYMENT_TERMINALS,
+  DEMO_POS_TRANSACTIONS,
+  DEMO_PAYMENT_METHODS,
+  type DemoPaymentTerminal as PaymentTerminal,
+  type DemoTransaction as Transaction,
+  type DemoPaymentMethod as PaymentMethod,
+} from '@/lib/demo-data';
 
-interface Transaction {
-  id: string;
-  terminal_id: string;
-  terminal_name: string;
-  amount: number;
-  tip_amount?: number;
-  payment_method: 'tap' | 'chip' | 'swipe' | 'nfc' | 'qr' | 'wristband';
-  card_type?: string;
-  card_last_four?: string;
-  status: 'completed' | 'pending' | 'failed' | 'refunded';
-  timestamp: string;
-  order_id?: string;
-}
-
-interface PaymentMethod {
-  id: string;
-  name: string;
-  type: 'contactless' | 'chip' | 'swipe' | 'mobile' | 'wristband';
-  icon: string;
-  enabled: boolean;
-  fee_percent: number;
-  processing_time: string;
-}
-
-const mockTerminals: PaymentTerminal[] = [
-  { id: 'TRM-001', name: 'Main Bar Terminal 1', location: 'Main Bar', type: 'fixed', status: 'online', supported_methods: ['tap', 'chip', 'swipe', 'nfc'], last_transaction: '2024-11-24T14:30:00Z', transactions_today: 245, revenue_today: 4850.50 },
-  { id: 'TRM-002', name: 'Main Bar Terminal 2', location: 'Main Bar', type: 'fixed', status: 'online', supported_methods: ['tap', 'chip', 'swipe', 'nfc'], last_transaction: '2024-11-24T14:28:00Z', transactions_today: 198, revenue_today: 3920.25 },
-  { id: 'TRM-003', name: 'Merch Booth A', location: 'Merchandise', type: 'fixed', status: 'online', supported_methods: ['tap', 'chip', 'swipe', 'nfc'], last_transaction: '2024-11-24T14:25:00Z', transactions_today: 156, revenue_today: 8750.00 },
-  { id: 'TRM-004', name: 'Mobile Server 1', location: 'Floor', type: 'mobile', status: 'online', supported_methods: ['tap', 'nfc'], last_transaction: '2024-11-24T14:32:00Z', transactions_today: 89, revenue_today: 1780.75, battery_level: 78 },
-  { id: 'TRM-005', name: 'Mobile Server 2', location: 'Floor', type: 'mobile', status: 'processing', supported_methods: ['tap', 'nfc'], transactions_today: 67, revenue_today: 1340.00, battery_level: 45 },
-  { id: 'TRM-006', name: 'Self-Service Kiosk 1', location: 'Entrance', type: 'kiosk', status: 'online', supported_methods: ['tap', 'chip', 'nfc', 'qr'], last_transaction: '2024-11-24T14:29:00Z', transactions_today: 312, revenue_today: 6240.00 },
-  { id: 'TRM-007', name: 'VIP Bar Terminal', location: 'VIP Area', type: 'fixed', status: 'offline', supported_methods: ['tap', 'chip', 'swipe', 'nfc'], transactions_today: 0, revenue_today: 0 },
-];
-
-const mockTransactions: Transaction[] = [
-  { id: 'TXN-001', terminal_id: 'TRM-001', terminal_name: 'Main Bar Terminal 1', amount: 24.50, tip_amount: 5.00, payment_method: 'tap', card_type: 'Visa', card_last_four: '4242', status: 'completed', timestamp: '2024-11-24T14:30:00Z' },
-  { id: 'TXN-002', terminal_id: 'TRM-003', terminal_name: 'Merch Booth A', amount: 85.00, payment_method: 'chip', card_type: 'Mastercard', card_last_four: '5555', status: 'completed', timestamp: '2024-11-24T14:28:00Z' },
-  { id: 'TXN-003', terminal_id: 'TRM-004', terminal_name: 'Mobile Server 1', amount: 18.00, tip_amount: 4.00, payment_method: 'nfc', card_type: 'Apple Pay', status: 'completed', timestamp: '2024-11-24T14:25:00Z' },
-  { id: 'TXN-004', terminal_id: 'TRM-006', terminal_name: 'Self-Service Kiosk 1', amount: 45.00, payment_method: 'qr', status: 'completed', timestamp: '2024-11-24T14:22:00Z' },
-  { id: 'TXN-005', terminal_id: 'TRM-002', terminal_name: 'Main Bar Terminal 2', amount: 32.00, payment_method: 'swipe', card_type: 'Amex', card_last_four: '3782', status: 'failed', timestamp: '2024-11-24T14:20:00Z' },
-];
-
-const mockPaymentMethods: PaymentMethod[] = [
-  { id: 'PM-001', name: 'Contactless (Tap)', type: 'contactless', icon: 'wifi', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
-  { id: 'PM-002', name: 'Chip (EMV)', type: 'chip', icon: 'creditcard', enabled: true, fee_percent: 2.4, processing_time: '3-5 sec' },
-  { id: 'PM-003', name: 'Magnetic Swipe', type: 'swipe', icon: 'creditcard', enabled: true, fee_percent: 2.9, processing_time: '2-3 sec' },
-  { id: 'PM-004', name: 'Apple Pay / Google Pay', type: 'mobile', icon: 'smartphone', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
-  { id: 'PM-005', name: 'RFID Wristband', type: 'wristband', icon: 'watch', enabled: true, fee_percent: 1.5, processing_time: '< 1 sec' },
-];
+const mockTerminals = DEMO_PAYMENT_TERMINALS;
+const mockTransactions = DEMO_POS_TRANSACTIONS;
+const mockPaymentMethods = DEMO_PAYMENT_METHODS;
 
 function CashlessPaymentPageContent() {
   const router = useRouter();
