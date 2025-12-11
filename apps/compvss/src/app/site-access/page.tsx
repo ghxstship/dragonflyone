@@ -34,41 +34,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface AccessPoint {
-  id: string;
-  name: string;
-  type: "Gate" | "Loading Dock" | "Parking" | "Entrance";
-  status: "Open" | "Closed" | "Restricted";
-  currentVehicles?: number;
-  maxCapacity?: number;
-  assignedCrew?: string[];
-}
+import {
+  DEMO_ACCESS_POINTS,
+  DEMO_VEHICLE_PASSES,
+  type DemoAccessPoint as AccessPoint,
+  type DemoVehiclePass as VehiclePass,
+} from "../../lib/demo-data";
 
-interface VehiclePass {
-  id: string;
-  vehicleType: "Truck" | "Van" | "Car" | "Bus";
-  licensePlate: string;
-  company: string;
-  driver: string;
-  accessPoints: string[];
-  validFrom: string;
-  validUntil: string;
-  status: "Active" | "Expired" | "Pending";
-}
-
-const mockAccessPoints: AccessPoint[] = [
-  { id: "AP-001", name: "Main Gate A", type: "Gate", status: "Open", currentVehicles: 3, maxCapacity: 5, assignedCrew: ["Security Team 1"] },
-  { id: "AP-002", name: "Loading Dock 1", type: "Loading Dock", status: "Open", currentVehicles: 2, maxCapacity: 4 },
-  { id: "AP-003", name: "Loading Dock 2", type: "Loading Dock", status: "Restricted", currentVehicles: 1, maxCapacity: 4 },
-  { id: "AP-004", name: "Crew Parking", type: "Parking", status: "Open", currentVehicles: 45, maxCapacity: 100 },
-  { id: "AP-005", name: "VIP Entrance", type: "Entrance", status: "Closed" },
-];
-
-const mockVehiclePasses: VehiclePass[] = [
-  { id: "VP-001", vehicleType: "Truck", licensePlate: "ABC-1234", company: "PRG Lighting", driver: "John Smith", accessPoints: ["Main Gate A", "Loading Dock 1"], validFrom: "2024-11-24T06:00:00Z", validUntil: "2024-11-24T22:00:00Z", status: "Active" },
-  { id: "VP-002", vehicleType: "Van", licensePlate: "XYZ-5678", company: "Audio Systems Inc", driver: "Mike Johnson", accessPoints: ["Main Gate A", "Loading Dock 2"], validFrom: "2024-11-24T08:00:00Z", validUntil: "2024-11-24T20:00:00Z", status: "Active" },
-  { id: "VP-003", vehicleType: "Bus", licensePlate: "BUS-9999", company: "Artist Transport", driver: "Sarah Lee", accessPoints: ["Main Gate A", "VIP Entrance"], validFrom: "2024-11-24T16:00:00Z", validUntil: "2024-11-25T04:00:00Z", status: "Pending" },
-];
+const mockAccessPoints = DEMO_ACCESS_POINTS;
+const mockVehiclePasses = DEMO_VEHICLE_PASSES;
 
 export default function SiteAccessPage() {
   const router = useRouter();

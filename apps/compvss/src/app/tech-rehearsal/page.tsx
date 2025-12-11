@@ -36,47 +36,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface TechRehearsalSession {
-  id: string;
-  name: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  type: "Full Tech" | "Cue-to-Cue" | "Dress Rehearsal" | "Sound Check" | "Focus Call";
-  status: "Scheduled" | "In Progress" | "Completed" | "Cancelled";
-  location: string;
-  departments: string[];
-  notes?: string;
-  issues: number;
-}
+import {
+  DEMO_TECH_REHEARSAL_SESSIONS,
+  DEMO_REHEARSAL_NOTES,
+  type DemoTechRehearsalSession as TechRehearsalSession,
+  type DemoRehearsalNote as RehearsalNote,
+} from "../../lib/demo-data";
 
-interface RehearsalNote {
-  id: string;
-  sessionId: string;
-  timestamp: string;
-  department: string;
-  type: "Issue" | "Fix" | "Note" | "Cue Change";
-  description: string;
-  assignedTo?: string;
-  resolved: boolean;
-  priority: "Low" | "Medium" | "High" | "Critical";
-}
-
-const mockSessions: TechRehearsalSession[] = [
-  { id: "TR-001", name: "Full Tech Run", date: "2024-11-24", startTime: "14:00", endTime: "22:00", type: "Full Tech", status: "Completed", location: "Main Stage", departments: ["Audio", "Lighting", "Video", "Stage"], notes: "Full run-through with all elements", issues: 8 },
-  { id: "TR-002", name: "Cue-to-Cue", date: "2024-11-25", startTime: "10:00", endTime: "14:00", type: "Cue-to-Cue", status: "In Progress", location: "Main Stage", departments: ["Lighting", "Video"], issues: 3 },
-  { id: "TR-003", name: "Sound Check - Headliner", date: "2024-11-25", startTime: "15:00", endTime: "17:00", type: "Sound Check", status: "Scheduled", location: "Main Stage", departments: ["Audio"], issues: 0 },
-  { id: "TR-004", name: "Dress Rehearsal", date: "2024-11-25", startTime: "18:00", endTime: "21:00", type: "Dress Rehearsal", status: "Scheduled", location: "Main Stage", departments: ["Audio", "Lighting", "Video", "Stage", "Wardrobe"], issues: 0 },
-  { id: "TR-005", name: "Focus Call", date: "2024-11-24", startTime: "10:00", endTime: "13:00", type: "Focus Call", status: "Completed", location: "Main Stage", departments: ["Lighting"], issues: 2 },
-];
-
-const mockNotes: RehearsalNote[] = [
-  { id: "RN-001", sessionId: "TR-001", timestamp: "14:32", department: "Lighting", type: "Issue", description: "Gobo rotation on SL key light is reversed", assignedTo: "Sarah Chen", resolved: true, priority: "Medium" },
-  { id: "RN-002", sessionId: "TR-001", timestamp: "15:15", department: "Audio", type: "Issue", description: "Feedback on vocal mic during chorus", assignedTo: "John Martinez", resolved: true, priority: "High" },
-  { id: "RN-003", sessionId: "TR-001", timestamp: "16:45", department: "Video", type: "Cue Change", description: "Add 2-second delay to video cue 23", resolved: true, priority: "Low" },
-  { id: "RN-004", sessionId: "TR-002", timestamp: "10:20", department: "Lighting", type: "Issue", description: "Cue 45 timing needs adjustment - too fast", assignedTo: "Sarah Chen", resolved: false, priority: "Medium" },
-  { id: "RN-005", sessionId: "TR-002", timestamp: "11:05", department: "Video", type: "Note", description: "Client requested brighter logo on intro", resolved: false, priority: "Low" },
-];
+const mockSessions = DEMO_TECH_REHEARSAL_SESSIONS;
+const mockNotes = DEMO_REHEARSAL_NOTES;
 
 export default function TechRehearsalPage() {
   const router = useRouter();

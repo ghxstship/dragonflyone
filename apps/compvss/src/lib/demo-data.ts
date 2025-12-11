@@ -1161,3 +1161,131 @@ export const DEMO_TEMPLATES: DemoTemplate[] = [
   { id: 'TPL-009', name: 'Equipment Checkout SOP', category: 'SOP', description: 'Standard procedure for equipment checkout/return', version: '1.3', lastUpdated: '2024-10-30', updatedBy: 'Warehouse', downloads: 156, tags: ['equipment', 'procedure', 'warehouse'], fileType: 'PDF', size: '88 KB' },
   { id: 'TPL-010', name: 'Strike Checklist', category: 'Checklist', description: 'Post-event strike and packout verification', version: '3.5', lastUpdated: '2024-11-19', updatedBy: 'Operations', downloads: 445, tags: ['strike', 'packout', 'verification'], fileType: 'PDF', size: '48 KB' },
 ];
+
+// =============================================================================
+// VIP MANAGEMENT (for vip-management/page.tsx)
+// =============================================================================
+
+export interface DemoVIPGuest {
+  id: string;
+  name: string;
+  email: string;
+  passType: 'VIP' | 'Backstage' | 'All Access' | 'Artist Guest' | 'Media';
+  status: 'Pending' | 'Approved' | 'Checked In' | 'Denied';
+  addedBy: string;
+  accessAreas: string[];
+  validUntil: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoAccessZone {
+  id: string;
+  name: string;
+  currentOccupancy: number;
+  maxCapacity: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_VIP_GUESTS: DemoVIPGuest[] = [
+  { id: 'VIP-001', name: 'Jennifer Morrison', email: 'jennifer@label.com', passType: 'All Access', status: 'Checked In', addedBy: 'Production Manager', accessAreas: ['Backstage', 'Green Room', 'VIP Lounge'], validUntil: '2024-11-25T04:00:00Z' },
+  { id: 'VIP-002', name: 'Marcus Chen', email: 'marcus@press.com', passType: 'Media', status: 'Approved', addedBy: 'PR Manager', accessAreas: ['Press Area', 'Photo Pit'], validUntil: '2024-11-24T23:00:00Z', notes: 'Photo pass - first 3 songs' },
+  { id: 'VIP-003', name: 'Sarah Williams', email: 'sarah@example.com', passType: 'Artist Guest', status: 'Pending', addedBy: 'The Midnight Collective', accessAreas: ['Backstage'], validUntil: '2024-11-25T02:00:00Z', notes: "Artist's sister" },
+];
+
+export const DEMO_ACCESS_ZONES: DemoAccessZone[] = [
+  { id: 'ZONE-001', name: 'VIP Lounge', currentOccupancy: 45, maxCapacity: 100 },
+  { id: 'ZONE-002', name: 'Backstage', currentOccupancy: 23, maxCapacity: 50 },
+  { id: 'ZONE-003', name: 'Green Room', currentOccupancy: 8, maxCapacity: 20 },
+  { id: 'ZONE-004', name: 'Photo Pit', currentOccupancy: 6, maxCapacity: 15 },
+];
+
+// =============================================================================
+// SITE ACCESS (for site-access/page.tsx)
+// =============================================================================
+
+export interface DemoAccessPoint {
+  id: string;
+  name: string;
+  type: 'Gate' | 'Loading Dock' | 'Parking' | 'Entrance';
+  status: 'Open' | 'Closed' | 'Restricted';
+  currentVehicles?: number;
+  maxCapacity?: number;
+  assignedCrew?: string[];
+  [key: string]: unknown;
+}
+
+export interface DemoVehiclePass {
+  id: string;
+  vehicleType: 'Truck' | 'Van' | 'Car' | 'Bus';
+  licensePlate: string;
+  company: string;
+  driver: string;
+  accessPoints: string[];
+  validFrom: string;
+  validUntil: string;
+  status: 'Active' | 'Expired' | 'Pending';
+  [key: string]: unknown;
+}
+
+export const DEMO_ACCESS_POINTS: DemoAccessPoint[] = [
+  { id: 'AP-001', name: 'Main Gate A', type: 'Gate', status: 'Open', currentVehicles: 3, maxCapacity: 5, assignedCrew: ['Security Team 1'] },
+  { id: 'AP-002', name: 'Loading Dock 1', type: 'Loading Dock', status: 'Open', currentVehicles: 2, maxCapacity: 4 },
+  { id: 'AP-003', name: 'Loading Dock 2', type: 'Loading Dock', status: 'Restricted', currentVehicles: 1, maxCapacity: 4 },
+  { id: 'AP-004', name: 'Crew Parking', type: 'Parking', status: 'Open', currentVehicles: 45, maxCapacity: 100 },
+  { id: 'AP-005', name: 'VIP Entrance', type: 'Entrance', status: 'Closed' },
+];
+
+export const DEMO_VEHICLE_PASSES: DemoVehiclePass[] = [
+  { id: 'VP-001', vehicleType: 'Truck', licensePlate: 'ABC-1234', company: 'PRG Lighting', driver: 'John Smith', accessPoints: ['Main Gate A', 'Loading Dock 1'], validFrom: '2024-11-24T06:00:00Z', validUntil: '2024-11-24T22:00:00Z', status: 'Active' },
+  { id: 'VP-002', vehicleType: 'Van', licensePlate: 'XYZ-5678', company: 'Audio Systems Inc', driver: 'Mike Johnson', accessPoints: ['Main Gate A', 'Loading Dock 2'], validFrom: '2024-11-24T08:00:00Z', validUntil: '2024-11-24T20:00:00Z', status: 'Active' },
+  { id: 'VP-003', vehicleType: 'Bus', licensePlate: 'BUS-9999', company: 'Artist Transport', driver: 'Sarah Lee', accessPoints: ['Main Gate A', 'VIP Entrance'], validFrom: '2024-11-24T16:00:00Z', validUntil: '2024-11-25T04:00:00Z', status: 'Pending' },
+];
+
+// =============================================================================
+// TECH REHEARSAL (for tech-rehearsal/page.tsx)
+// =============================================================================
+
+export interface DemoTechRehearsalSession {
+  id: string;
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  type: 'Full Tech' | 'Cue-to-Cue' | 'Dress Rehearsal' | 'Sound Check' | 'Focus Call';
+  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Cancelled';
+  location: string;
+  departments: string[];
+  notes?: string;
+  issues: number;
+  [key: string]: unknown;
+}
+
+export interface DemoRehearsalNote {
+  id: string;
+  sessionId: string;
+  timestamp: string;
+  department: string;
+  type: 'Issue' | 'Fix' | 'Note' | 'Cue Change';
+  description: string;
+  assignedTo?: string;
+  resolved: boolean;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  [key: string]: unknown;
+}
+
+export const DEMO_TECH_REHEARSAL_SESSIONS: DemoTechRehearsalSession[] = [
+  { id: 'TR-001', name: 'Full Tech Run', date: '2024-11-24', startTime: '14:00', endTime: '22:00', type: 'Full Tech', status: 'Completed', location: 'Main Stage', departments: ['Audio', 'Lighting', 'Video', 'Stage'], notes: 'Full run-through with all elements', issues: 8 },
+  { id: 'TR-002', name: 'Cue-to-Cue', date: '2024-11-25', startTime: '10:00', endTime: '14:00', type: 'Cue-to-Cue', status: 'In Progress', location: 'Main Stage', departments: ['Lighting', 'Video'], issues: 3 },
+  { id: 'TR-003', name: 'Sound Check - Headliner', date: '2024-11-25', startTime: '15:00', endTime: '17:00', type: 'Sound Check', status: 'Scheduled', location: 'Main Stage', departments: ['Audio'], issues: 0 },
+  { id: 'TR-004', name: 'Dress Rehearsal', date: '2024-11-25', startTime: '18:00', endTime: '21:00', type: 'Dress Rehearsal', status: 'Scheduled', location: 'Main Stage', departments: ['Audio', 'Lighting', 'Video', 'Stage', 'Wardrobe'], issues: 0 },
+  { id: 'TR-005', name: 'Focus Call', date: '2024-11-24', startTime: '10:00', endTime: '13:00', type: 'Focus Call', status: 'Completed', location: 'Main Stage', departments: ['Lighting'], issues: 2 },
+];
+
+export const DEMO_REHEARSAL_NOTES: DemoRehearsalNote[] = [
+  { id: 'RN-001', sessionId: 'TR-001', timestamp: '14:32', department: 'Lighting', type: 'Issue', description: 'Gobo rotation on SL key light is reversed', assignedTo: 'Sarah Chen', resolved: true, priority: 'Medium' },
+  { id: 'RN-002', sessionId: 'TR-001', timestamp: '15:15', department: 'Audio', type: 'Issue', description: 'Feedback on vocal mic during chorus', assignedTo: 'John Martinez', resolved: true, priority: 'High' },
+  { id: 'RN-003', sessionId: 'TR-001', timestamp: '16:45', department: 'Video', type: 'Cue Change', description: 'Add 2-second delay to video cue 23', resolved: true, priority: 'Low' },
+  { id: 'RN-004', sessionId: 'TR-002', timestamp: '10:20', department: 'Lighting', type: 'Issue', description: 'Cue 45 timing needs adjustment - too fast', assignedTo: 'Sarah Chen', resolved: false, priority: 'Medium' },
+  { id: 'RN-005', sessionId: 'TR-002', timestamp: '11:05', department: 'Video', type: 'Note', description: 'Client requested brighter logo on intro', resolved: false, priority: 'Low' },
+];

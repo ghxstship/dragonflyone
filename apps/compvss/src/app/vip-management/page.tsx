@@ -35,30 +35,14 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface VIPGuest {
-  id: string;
-  name: string;
-  email: string;
-  passType: "VIP" | "Backstage" | "All Access" | "Artist Guest" | "Media";
-  status: "Pending" | "Approved" | "Checked In" | "Denied";
-  addedBy: string;
-  accessAreas: string[];
-  validUntil: string;
-  notes?: string;
-}
+import {
+  DEMO_VIP_GUESTS,
+  DEMO_ACCESS_ZONES,
+  type DemoVIPGuest as VIPGuest,
+} from "../../lib/demo-data";
 
-const mockVIPGuests: VIPGuest[] = [
-  { id: "VIP-001", name: "Jennifer Morrison", email: "jennifer@label.com", passType: "All Access", status: "Checked In", addedBy: "Production Manager", accessAreas: ["Backstage", "Green Room", "VIP Lounge"], validUntil: "2024-11-25T04:00:00Z" },
-  { id: "VIP-002", name: "Marcus Chen", email: "marcus@press.com", passType: "Media", status: "Approved", addedBy: "PR Manager", accessAreas: ["Press Area", "Photo Pit"], validUntil: "2024-11-24T23:00:00Z", notes: "Photo pass - first 3 songs" },
-  { id: "VIP-003", name: "Sarah Williams", email: "sarah@example.com", passType: "Artist Guest", status: "Pending", addedBy: "The Midnight Collective", accessAreas: ["Backstage"], validUntil: "2024-11-25T02:00:00Z", notes: "Artist's sister" },
-];
-
-const mockAccessZones = [
-  { id: "ZONE-001", name: "VIP Lounge", currentOccupancy: 45, maxCapacity: 100 },
-  { id: "ZONE-002", name: "Backstage", currentOccupancy: 23, maxCapacity: 50 },
-  { id: "ZONE-003", name: "Green Room", currentOccupancy: 8, maxCapacity: 20 },
-  { id: "ZONE-004", name: "Photo Pit", currentOccupancy: 6, maxCapacity: 15 },
-];
+const mockVIPGuests = DEMO_VIP_GUESTS;
+const mockAccessZones = DEMO_ACCESS_ZONES;
 
 export default function VIPManagementPage() {
   const router = useRouter();
