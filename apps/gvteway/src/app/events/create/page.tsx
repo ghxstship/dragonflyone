@@ -19,6 +19,7 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
+import { useEventCreateData } from '@/hooks/useEventCreate';
 
 export default function CreateEventPage() {
   const router = useRouter();
@@ -33,33 +34,21 @@ export default function CreateEventPage() {
     ticketPrice: '',
     vipPrice: '',
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+
+  const { createEvent, isCreating, error } = useEventCreateData();
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    setError(null);
+    setLocalError(null);
     
     try {
-      const response = await fetch('/api/events/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to create event');
-      }
-
-      const event = await response.json();
-      router.push(`/events/${event.id}`);
+      await createEvent(formData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred');
-    } finally {
-      setIsSubmitting(false);
+      setLocalError(err instanceof Error ? err.message : 'An unexpected error occurred');
     }
   };
+
+  const displayError = localError || (error instanceof Error ? error.message : null);
 
   return (
     <GvtewayAppLayout>
@@ -71,9 +60,9 @@ export default function CreateEventPage() {
               <Body className="text-on-dark-muted">Set up your new event</Body>
             </Stack>
 
-        {error && (
+        {displayError && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {displayError}
           </Alert>
         )}
 
@@ -188,8 +177,8 @@ export default function CreateEventPage() {
           </Grid>
 
           <Stack direction="horizontal" gap={4}>
-            <Button type="submit" variant="solid" disabled={isSubmitting}>
-              {isSubmitting ? (
+            <Button type="submit" variant="solid" disabled={isCreating}>
+              {isCreating ? (
                 <>
                   <Spinner size="sm" className="mr-2" />
                   Creating...
@@ -202,7 +191,7 @@ export default function CreateEventPage() {
               type="button"
               variant="outline"
               onClick={() => router.back()}
-              disabled={isSubmitting}
+              disabled={isCreating}
             >
               Cancel
             </Button>
