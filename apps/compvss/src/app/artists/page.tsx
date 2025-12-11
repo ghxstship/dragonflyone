@@ -23,32 +23,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface Artist {
-  id: string;
-  name: string;
-  genre: string;
-  type: "Solo" | "Band" | "DJ" | "Orchestra" | "Speaker";
-  manager?: string;
-  managerEmail?: string;
-  managerPhone?: string;
-  agent?: string;
-  technicalRider: boolean;
-  hospitalityRider: boolean;
-  inputList: boolean;
-  stageplot: boolean;
-  lastPerformance?: string;
-  upcomingShows: number;
-  notes?: string;
-  [key: string]: unknown;
-}
-
-const mockArtists: Artist[] = [
-  { id: "ART-001", name: "The Midnight Collective", genre: "Indie Rock", type: "Band", manager: "Sarah Mitchell", managerEmail: "sarah@mgmt.com", managerPhone: "+1 555-0201", agent: "CAA", technicalRider: true, hospitalityRider: true, inputList: true, stageplot: true, lastPerformance: "2024-10-15", upcomingShows: 3 },
-  { id: "ART-002", name: "DJ Phantom", genre: "Electronic", type: "DJ", manager: "Mike Torres", managerEmail: "mike@djmgmt.com", managerPhone: "+1 555-0202", technicalRider: true, hospitalityRider: false, inputList: true, stageplot: false, lastPerformance: "2024-11-10", upcomingShows: 5 },
-  { id: "ART-003", name: "Aurora Keys", genre: "Pop", type: "Solo", manager: "Jennifer Lee", managerEmail: "jen@starpower.com", managerPhone: "+1 555-0203", agent: "WME", technicalRider: true, hospitalityRider: true, inputList: true, stageplot: true, upcomingShows: 2 },
-  { id: "ART-004", name: "Tampa Symphony", genre: "Classical", type: "Orchestra", manager: "Robert Chen", managerEmail: "rchen@symphony.org", managerPhone: "+1 555-0204", technicalRider: true, hospitalityRider: true, inputList: true, stageplot: true, lastPerformance: "2024-09-20", upcomingShows: 1 },
-  { id: "ART-005", name: "Dr. James Wilson", genre: "Keynote", type: "Speaker", manager: "Lisa Park", managerEmail: "lisa@speakers.com", managerPhone: "+1 555-0205", technicalRider: true, hospitalityRider: false, inputList: false, stageplot: false, upcomingShows: 0 },
-];
+import {
+  DEMO_ARTISTS,
+  type DemoArtist as Artist,
+} from "../../lib/demo-data";
 
 const columns: ListPageColumn<Artist>[] = [
   { key: 'name', label: 'Artist', accessor: 'name', sortable: true },
@@ -76,7 +54,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function ArtistsPage() {
   const router = useRouter();
-  const [artists, setArtists] = useState<Artist[]>(mockArtists);
+  const [artists, setArtists] = useState<Artist[]>(DEMO_ARTISTS);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
