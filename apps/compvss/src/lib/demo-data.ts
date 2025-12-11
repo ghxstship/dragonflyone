@@ -802,3 +802,30 @@ export const DEMO_ASSIGNABLE_CREW: DemoAssignableCrewMember[] = [
   { id: '4', name: 'Emily Watson', role: 'Stage Manager', skills: ['Production', 'Communication', 'Cueing'], available: true },
   { id: '5', name: 'James Kim', role: 'Rigger', skills: ['Structural', 'Safety', 'Motors'], available: true },
 ];
+
+// =============================================================================
+// CREW BACKGROUND CHECKS (for crew/background-checks/page.tsx)
+// =============================================================================
+
+export interface DemoCrewBackgroundCheck {
+  id: string;
+  employeeName: string;
+  employeeId: string;
+  department: string;
+  checkType: 'Criminal' | 'Employment' | 'Education' | 'Credit' | 'Comprehensive';
+  status: 'Pending' | 'In Progress' | 'Completed' | 'Failed' | 'Expired';
+  submittedDate: string;
+  completedDate?: string;
+  expiryDate?: string;
+  daysUntilExpiry?: number;
+  result?: 'Clear' | 'Review Required' | 'Failed';
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_BACKGROUND_CHECKS: DemoCrewBackgroundCheck[] = [
+  { id: 'BC-001', employeeName: 'John Smith', employeeId: 'EMP-001', department: 'Audio', checkType: 'Comprehensive', status: 'Completed', submittedDate: '2024-01-15', completedDate: '2024-01-20', expiryDate: '2025-01-20', daysUntilExpiry: 56, result: 'Clear' },
+  { id: 'BC-002', employeeName: 'Sarah Johnson', employeeId: 'EMP-002', department: 'Lighting', checkType: 'Criminal', status: 'Expired', submittedDate: '2023-11-01', completedDate: '2023-11-05', expiryDate: '2024-11-05', daysUntilExpiry: -20, result: 'Clear' },
+  { id: 'BC-003', employeeName: 'Mike Davis', employeeId: 'EMP-003', department: 'Stage', checkType: 'Comprehensive', status: 'In Progress', submittedDate: '2024-11-20' },
+  { id: 'BC-004', employeeName: 'Emily Chen', employeeId: 'EMP-004', department: 'Video', checkType: 'Employment', status: 'Completed', submittedDate: '2024-06-01', completedDate: '2024-06-10', expiryDate: '2025-06-10', daysUntilExpiry: 197, result: 'Clear' },
+  { id: 'BC-005', employeeName: 'Robert Wilson', employeeId: 'EMP-005', department: 'Rigging', checkType: 'Comprehensive', status: 'Completed', submittedDate: '2024-09-15', completedDate: '2024-09-22', expiryDate: '2024-12-22', daysUntilExpiry: 27, result: 'Review Required' },
+];

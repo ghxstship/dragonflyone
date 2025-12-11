@@ -33,27 +33,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface BackgroundCheck {
-  id: string;
-  employeeName: string;
-  employeeId: string;
-  department: string;
-  checkType: "Criminal" | "Employment" | "Education" | "Credit" | "Comprehensive";
-  status: "Pending" | "In Progress" | "Completed" | "Failed" | "Expired";
-  submittedDate: string;
-  completedDate?: string;
-  expiryDate?: string;
-  daysUntilExpiry?: number;
-  result?: "Clear" | "Review Required" | "Failed";
-}
-
-const mockChecks: BackgroundCheck[] = [
-  { id: "BC-001", employeeName: "John Smith", employeeId: "EMP-001", department: "Audio", checkType: "Comprehensive", status: "Completed", submittedDate: "2024-01-15", completedDate: "2024-01-20", expiryDate: "2025-01-20", daysUntilExpiry: 56, result: "Clear" },
-  { id: "BC-002", employeeName: "Sarah Johnson", employeeId: "EMP-002", department: "Lighting", checkType: "Criminal", status: "Expired", submittedDate: "2023-11-01", completedDate: "2023-11-05", expiryDate: "2024-11-05", daysUntilExpiry: -20, result: "Clear" },
-  { id: "BC-003", employeeName: "Mike Davis", employeeId: "EMP-003", department: "Stage", checkType: "Comprehensive", status: "In Progress", submittedDate: "2024-11-20" },
-  { id: "BC-004", employeeName: "Emily Chen", employeeId: "EMP-004", department: "Video", checkType: "Employment", status: "Completed", submittedDate: "2024-06-01", completedDate: "2024-06-10", expiryDate: "2025-06-10", daysUntilExpiry: 197, result: "Clear" },
-  { id: "BC-005", employeeName: "Robert Wilson", employeeId: "EMP-005", department: "Rigging", checkType: "Comprehensive", status: "Completed", submittedDate: "2024-09-15", completedDate: "2024-09-22", expiryDate: "2024-12-22", daysUntilExpiry: 27, result: "Review Required" },
-];
+import {
+  DEMO_CREW_BACKGROUND_CHECKS,
+  type DemoCrewBackgroundCheck as BackgroundCheck,
+} from "../../../lib/demo-data";
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
@@ -66,14 +49,14 @@ export default function BackgroundChecksPage() {
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [showInitiateModal, setShowInitiateModal] = useState(false);
 
-  const expiringCount = mockChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
-  const expiredCount = mockChecks.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)).length;
-  const pendingCount = mockChecks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
+  const expiringCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
+  const expiredCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)).length;
+  const pendingCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Pending" || c.status === "In Progress").length;
 
-  const filteredChecks = activeTab === "all" ? mockChecks :
-    activeTab === "expiring" ? mockChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30) :
-    activeTab === "expired" ? mockChecks.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)) :
-    mockChecks.filter(c => c.status === "In Progress" || c.status === "Pending");
+  const filteredChecks = activeTab === "all" ? DEMO_CREW_BACKGROUND_CHECKS :
+    activeTab === "expiring" ? DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30) :
+    activeTab === "expired" ? DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)) :
+    DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "In Progress" || c.status === "Pending");
 
   return (
     <CompvssAppLayout>
@@ -96,7 +79,7 @@ export default function BackgroundChecksPage() {
             )}
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockChecks.length.toString()} label="Total Checks" />
+              <StatCard value={DEMO_CREW_BACKGROUND_CHECKS.length.toString()} label="Total Checks" />
               <StatCard value={pendingCount.toString()} label="In Progress" />
               <StatCard value={expiringCount.toString()} label="Expiring Soon" />
               <StatCard value={expiredCount.toString()} label="Expired" />
@@ -232,7 +215,7 @@ export default function BackgroundChecksPage() {
           <Stack gap={4}>
             <Select>
               <option value="">Select Employee...</option>
-              {mockChecks.map(c => <option key={c.employeeId} value={c.employeeId}>{c.employeeName}</option>)}
+              {DEMO_CREW_BACKGROUND_CHECKS.map(c => <option key={c.employeeId} value={c.employeeId}>{c.employeeName}</option>)}
             </Select>
             <Select>
               <option value="">Check Type...</option>
