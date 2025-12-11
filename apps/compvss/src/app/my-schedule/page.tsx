@@ -24,64 +24,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface ScheduleItem {
-  id: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  production: string;
-  venue: string;
-  department: string;
-  role: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
-}
+import {
+  DEMO_MY_SCHEDULE,
+  type DemoScheduleItem as ScheduleItem,
+} from '../../lib/demo-data';
 
-const mockSchedule: ScheduleItem[] = [
-  {
-    id: '1',
-    date: '2024-12-05',
-    startTime: '08:00',
-    endTime: '16:00',
-    production: 'Summer Music Festival 2024',
-    venue: 'Central Park Amphitheater',
-    department: 'Stage',
-    role: 'Stage Manager',
-    status: 'confirmed',
-  },
-  {
-    id: '2',
-    date: '2024-12-06',
-    startTime: '10:00',
-    endTime: '18:00',
-    production: 'Summer Music Festival 2024',
-    venue: 'Central Park Amphitheater',
-    department: 'Stage',
-    role: 'Stage Manager',
-    status: 'confirmed',
-  },
-  {
-    id: '3',
-    date: '2024-12-07',
-    startTime: '06:00',
-    endTime: '14:00',
-    production: 'Corporate Gala',
-    venue: 'Grand Ballroom',
-    department: 'Audio',
-    role: 'A1',
-    status: 'pending',
-  },
-  {
-    id: '4',
-    date: '2024-12-10',
-    startTime: '12:00',
-    endTime: '20:00',
-    production: 'Tech Conference',
-    venue: 'Convention Center',
-    department: 'Video',
-    role: 'LED Tech',
-    status: 'confirmed',
-  },
-];
+const mockSchedule = DEMO_MY_SCHEDULE;
 
 export default function MySchedulePage() {
   const [currentWeek, setCurrentWeek] = useState(new Date());

@@ -976,3 +976,74 @@ export const DEMO_ISSUES: DemoIssue[] = [
   { id: 'ISS-004', title: 'Missing crew member', description: 'Stagehand Alex Johnson not checked in, no response to calls', category: 'personnel', priority: 'high', status: 'open', reported_by: 'Stage Manager', department: 'Stage', created_at: '2024-11-24T09:00:00Z', updated_at: '2024-11-24T09:30:00Z', escalation_level: 1 },
   { id: 'ISS-005', title: 'Fire exit blocked', description: 'Equipment cases blocking emergency exit door 3', category: 'safety', priority: 'critical', status: 'resolved', reported_by: 'Safety Officer', assigned_to: 'Stagehands', department: 'Safety', location: 'Backstage', created_at: '2024-11-24T10:00:00Z', updated_at: '2024-11-24T10:15:00Z', escalation_level: 0, resolution: 'Cases moved to designated storage area' },
 ];
+
+// =============================================================================
+// MY SCHEDULE (for my-schedule/page.tsx)
+// =============================================================================
+
+export interface DemoScheduleItem {
+  id: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  production: string;
+  venue: string;
+  department: string;
+  role: string;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  [key: string]: unknown;
+}
+
+export const DEMO_MY_SCHEDULE: DemoScheduleItem[] = [
+  { id: '1', date: '2024-12-05', startTime: '08:00', endTime: '16:00', production: 'Summer Music Festival 2024', venue: 'Central Park Amphitheater', department: 'Stage', role: 'Stage Manager', status: 'confirmed' },
+  { id: '2', date: '2024-12-06', startTime: '10:00', endTime: '18:00', production: 'Summer Music Festival 2024', venue: 'Central Park Amphitheater', department: 'Stage', role: 'Stage Manager', status: 'confirmed' },
+  { id: '3', date: '2024-12-07', startTime: '06:00', endTime: '14:00', production: 'Corporate Gala', venue: 'Grand Ballroom', department: 'Audio', role: 'A1', status: 'pending' },
+  { id: '4', date: '2024-12-10', startTime: '12:00', endTime: '20:00', production: 'Tech Conference', venue: 'Convention Center', department: 'Video', role: 'LED Tech', status: 'confirmed' },
+];
+
+// =============================================================================
+// MY ASSIGNMENTS (for my-assignments/page.tsx)
+// =============================================================================
+
+export interface DemoAssignment {
+  id: string;
+  production: string;
+  venue: string;
+  dates: string;
+  department: string;
+  role: string;
+  rate: number;
+  status: 'pending' | 'accepted' | 'declined';
+  deadline: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_MY_ASSIGNMENTS: DemoAssignment[] = [
+  { id: '1', production: "New Year's Eve Gala", venue: 'Grand Ballroom', dates: 'Dec 31, 2024 - Jan 1, 2025', department: 'Stage', role: 'Stage Manager', rate: 450, status: 'pending', deadline: '2024-12-20' },
+  { id: '2', production: 'Winter Concert Series', venue: 'Symphony Hall', dates: 'Jan 5-7, 2025', department: 'Audio', role: 'A1', rate: 350, status: 'pending', deadline: '2024-12-25' },
+  { id: '3', production: 'Corporate Awards', venue: 'Convention Center', dates: 'Jan 15, 2025', department: 'Video', role: 'LED Tech', rate: 300, status: 'accepted', deadline: '2024-12-15' },
+  { id: '4', production: 'Trade Show', venue: 'Expo Center', dates: 'Jan 20-22, 2025', department: 'Lighting', role: 'LD', rate: 400, status: 'declined', deadline: '2024-12-10' },
+];
+
+// =============================================================================
+// RUN OF SHOW (for run-of-show/page.tsx)
+// =============================================================================
+
+export interface DemoCueItem {
+  id: string;
+  time: string;
+  cue: string;
+  department: string;
+  notes: string;
+  status: 'pending' | 'ready' | 'complete';
+  [key: string]: unknown;
+}
+
+export const DEMO_CUES: DemoCueItem[] = [
+  { id: '1', time: '19:00', cue: 'Doors Open', department: 'FOH', notes: 'Begin guest entry', status: 'complete' },
+  { id: '2', time: '19:45', cue: 'House Lights to Half', department: 'Lighting', notes: '15 min warning', status: 'complete' },
+  { id: '3', time: '20:00', cue: 'Show Start - Intro Video', department: 'Video', notes: 'Q1 - Roll intro', status: 'ready' },
+  { id: '4', time: '20:02', cue: 'Artist Walk On', department: 'Stage', notes: 'SR entrance', status: 'ready' },
+  { id: '5', time: '20:03', cue: 'Song 1 - Opening Number', department: 'Sound', notes: 'Playback + Live', status: 'pending' },
+  { id: '6', time: '20:08', cue: 'Lighting Look 2', department: 'Lighting', notes: 'Q12 - Blue wash', status: 'pending' },
+];

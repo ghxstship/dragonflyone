@@ -22,64 +22,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface Assignment {
-  id: string;
-  production: string;
-  venue: string;
-  dates: string;
-  department: string;
-  role: string;
-  rate: number;
-  status: 'pending' | 'accepted' | 'declined';
-  deadline: string;
-}
+import {
+  DEMO_MY_ASSIGNMENTS,
+  type DemoAssignment as Assignment,
+} from '../../lib/demo-data';
 
-const mockAssignments: Assignment[] = [
-  {
-    id: '1',
-    production: 'New Year\'s Eve Gala',
-    venue: 'Grand Ballroom',
-    dates: 'Dec 31, 2024 - Jan 1, 2025',
-    department: 'Stage',
-    role: 'Stage Manager',
-    rate: 450,
-    status: 'pending',
-    deadline: '2024-12-20',
-  },
-  {
-    id: '2',
-    production: 'Winter Concert Series',
-    venue: 'Symphony Hall',
-    dates: 'Jan 5-7, 2025',
-    department: 'Audio',
-    role: 'A1',
-    rate: 350,
-    status: 'pending',
-    deadline: '2024-12-25',
-  },
-  {
-    id: '3',
-    production: 'Corporate Awards',
-    venue: 'Convention Center',
-    dates: 'Jan 15, 2025',
-    department: 'Video',
-    role: 'LED Tech',
-    rate: 300,
-    status: 'accepted',
-    deadline: '2024-12-15',
-  },
-  {
-    id: '4',
-    production: 'Trade Show',
-    venue: 'Expo Center',
-    dates: 'Jan 20-22, 2025',
-    department: 'Lighting',
-    role: 'LD',
-    rate: 400,
-    status: 'declined',
-    deadline: '2024-12-10',
-  },
-];
+const mockAssignments = DEMO_MY_ASSIGNMENTS;
 
 export default function MyAssignmentsPage() {
   const [assignments, setAssignments] = useState(mockAssignments);

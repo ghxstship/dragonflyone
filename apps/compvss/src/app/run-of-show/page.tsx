@@ -16,23 +16,12 @@ import {
 } from '@ghxstship/ui';
 import { useSchedule } from '@/hooks/useSchedule';
 
-interface CueItem {
-  id: string;
-  time: string;
-  cue: string;
-  department: string;
-  notes: string;
-  status: 'pending' | 'ready' | 'complete';
-}
+import {
+  DEMO_CUES,
+  type DemoCueItem as CueItem,
+} from '../../lib/demo-data';
 
-const mockCues: CueItem[] = [
-  { id: '1', time: '19:00', cue: 'Doors Open', department: 'FOH', notes: 'Begin guest entry', status: 'complete' },
-  { id: '2', time: '19:45', cue: 'House Lights to Half', department: 'Lighting', notes: '15 min warning', status: 'complete' },
-  { id: '3', time: '20:00', cue: 'Show Start - Intro Video', department: 'Video', notes: 'Q1 - Roll intro', status: 'ready' },
-  { id: '4', time: '20:02', cue: 'Artist Walk On', department: 'Stage', notes: 'SR entrance', status: 'ready' },
-  { id: '5', time: '20:03', cue: 'Song 1 - Opening Number', department: 'Sound', notes: 'Playback + Live', status: 'pending' },
-  { id: '6', time: '20:08', cue: 'Lighting Look 2', department: 'Lighting', notes: 'Q12 - Blue wash', status: 'pending' },
-];
+const mockCues = DEMO_CUES;
 
 export default function RunOfShowPage() {
   const router = useRouter();
