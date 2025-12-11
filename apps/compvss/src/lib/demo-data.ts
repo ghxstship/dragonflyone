@@ -605,3 +605,39 @@ export const DEMO_FILE_VERSIONS: DemoFileVersion[] = [
   { version: 2, uploadedBy: 'John Smith', uploadedAt: '2024-11-22 10:15', changes: 'Added rigging points' },
   { version: 1, uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-20 09:00', changes: 'Initial upload' },
 ];
+
+// =============================================================================
+// RADIO CHANNELS (for communications/page.tsx - radio channels overview)
+// =============================================================================
+
+export interface DemoRadioChannel {
+  id: string;
+  name: string;
+  frequency: string;
+  type: string;
+  users: number;
+  status: 'active' | 'standby' | 'inactive';
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  [key: string]: unknown;
+}
+
+export const DEMO_RADIO_CHANNELS: DemoRadioChannel[] = [
+  { id: '1', name: 'Main Production', frequency: '462.5625 MHz', type: 'Radio', users: 24, status: 'active', priority: 'high' },
+  { id: '2', name: 'Stage Crew', frequency: '462.5875 MHz', type: 'Radio', users: 12, status: 'active', priority: 'medium' },
+  { id: '3', name: 'Emergency Services', frequency: '462.6125 MHz', type: 'Radio', users: 8, status: 'standby', priority: 'critical' },
+];
+
+export interface DemoRadioMessage {
+  id: string;
+  channel: string;
+  sender: string;
+  message: string;
+  timestamp: string;
+  priority: 'normal' | 'high' | 'urgent';
+  [key: string]: unknown;
+}
+
+export const DEMO_RADIO_MESSAGES: DemoRadioMessage[] = [
+  { id: '1', channel: 'Main Production', sender: 'Production Manager', message: 'Load-in complete, ready for soundcheck', timestamp: '14:32', priority: 'normal' },
+  { id: '2', channel: 'Stage Crew', sender: 'Stage Manager', message: 'Need assistance with riser setup stage left', timestamp: '14:35', priority: 'high' },
+];

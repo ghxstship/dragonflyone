@@ -18,19 +18,16 @@ import {
 } from '@ghxstship/ui';
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
+import {
+  DEMO_RADIO_CHANNELS,
+  DEMO_RADIO_MESSAGES,
+} from '../../lib/demo-data';
+
 export default function CommunicationsPage() {
   const router = useRouter();
 
-  const channels = [
-    { id: '1', name: 'Main Production', frequency: '462.5625 MHz', type: 'Radio', users: 24, status: 'active', priority: 'high' },
-    { id: '2', name: 'Stage Crew', frequency: '462.5875 MHz', type: 'Radio', users: 12, status: 'active', priority: 'medium' },
-    { id: '3', name: 'Emergency Services', frequency: '462.6125 MHz', type: 'Radio', users: 8, status: 'standby', priority: 'critical' },
-  ];
-
-  const messages = [
-    { id: '1', channel: 'Main Production', sender: 'Production Manager', message: 'Load-in complete, ready for soundcheck', timestamp: '14:32', priority: 'normal' },
-    { id: '2', channel: 'Stage Crew', sender: 'Stage Manager', message: 'Need assistance with riser setup stage left', timestamp: '14:35', priority: 'high' },
-  ];
+  const channels = DEMO_RADIO_CHANNELS;
+  const messages = DEMO_RADIO_MESSAGES;
 
   return (
     <CompvssAppLayout>
