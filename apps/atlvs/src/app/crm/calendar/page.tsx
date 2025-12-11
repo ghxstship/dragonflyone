@@ -9,27 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface CalendarEvent {
-  id: string;
-  title: string;
-  type: 'Meeting' | 'Call' | 'Task' | 'Reminder';
-  date: string;
-  time: string;
-  duration: string;
-  attendees: string[];
-  linkedContact?: string;
-  linkedDeal?: string;
-  location?: string;
-  status: 'Scheduled' | 'Completed' | 'Cancelled';
-  [key: string]: unknown;
-}
-
-const mockData: CalendarEvent[] = [
-  { id: 'EVT-001', title: 'Client Discovery Call', type: 'Call', date: '2024-11-25', time: '10:00 AM', duration: '30 min', attendees: ['John Smith', 'Client Rep'], linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Scheduled' },
-  { id: 'EVT-002', title: 'Site Visit - Grand Arena', type: 'Meeting', date: '2024-11-25', time: '2:00 PM', duration: '2 hrs', attendees: ['John Smith', 'Sarah Johnson', 'Venue Manager'], linkedContact: 'Grand Arena', location: '123 Arena Blvd', status: 'Scheduled' },
-  { id: 'EVT-003', title: 'Proposal Review', type: 'Meeting', date: '2024-11-26', time: '11:00 AM', duration: '1 hr', attendees: ['Sales Team'], linkedDeal: 'Corporate Gala 2024', status: 'Scheduled' },
-  { id: 'EVT-004', title: 'Follow-up: Tech Corp', type: 'Task', date: '2024-11-26', time: '3:00 PM', duration: '15 min', attendees: ['John Smith'], linkedContact: 'Tech Corp', status: 'Scheduled' },
-];
+import {
+  DEMO_CRM_CALENDAR_EVENTS,
+  type DemoCrmCalendarEvent as CalendarEvent,
+} from '../../../lib/demo-data';
 
 const getTypeVariant = (type: string): 'solid' | 'outline' | 'ghost' => {
   switch (type) { case 'Meeting': return 'solid'; case 'Call': return 'outline'; case 'Task': return 'outline'; case 'Reminder': return 'ghost'; default: return 'ghost'; }
@@ -61,7 +44,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function CalendarIntegrationPage() {
   const router = useRouter();
-  const [data, setData] = useState<CalendarEvent[]>(mockData);
+  const [data, setData] = useState<CalendarEvent[]>(DEMO_CRM_CALENDAR_EVENTS);
   const [selected, setSelected] = useState<CalendarEvent | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);

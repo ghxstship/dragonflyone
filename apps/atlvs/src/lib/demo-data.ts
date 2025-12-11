@@ -527,3 +527,29 @@ export const DEMO_CRM_TASKS: DemoCrmTask[] = [
   { id: 'TSK-004', title: 'Review vendor quotes', type: 'Task', priority: 'Medium', dueDate: '2024-11-24', assignedTo: 'John Smith', status: 'Overdue' },
   { id: 'TSK-005', title: 'Client check-in call', type: 'Call', priority: 'Low', dueDate: '2024-11-23', assignedTo: 'Mike Davis', linkedContact: 'Music Festival Inc', status: 'Completed' },
 ];
+
+// =============================================================================
+// CRM CALENDAR EVENTS (for crm/calendar page)
+// =============================================================================
+
+export interface DemoCrmCalendarEvent {
+  id: string;
+  title: string;
+  type: 'Meeting' | 'Call' | 'Task' | 'Reminder';
+  date: string;
+  time: string;
+  duration: string;
+  attendees: string[];
+  linkedContact?: string;
+  linkedDeal?: string;
+  location?: string;
+  status: 'Scheduled' | 'Completed' | 'Cancelled';
+  [key: string]: unknown;
+}
+
+export const DEMO_CRM_CALENDAR_EVENTS: DemoCrmCalendarEvent[] = [
+  { id: 'EVT-001', title: 'Client Discovery Call', type: 'Call', date: '2024-11-25', time: '10:00 AM', duration: '30 min', attendees: ['John Smith', 'Client Rep'], linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Scheduled' },
+  { id: 'EVT-002', title: 'Site Visit - Grand Arena', type: 'Meeting', date: '2024-11-25', time: '2:00 PM', duration: '2 hrs', attendees: ['John Smith', 'Sarah Johnson', 'Venue Manager'], linkedContact: 'Grand Arena', location: '123 Arena Blvd', status: 'Scheduled' },
+  { id: 'EVT-003', title: 'Proposal Review', type: 'Meeting', date: '2024-11-26', time: '11:00 AM', duration: '1 hr', attendees: ['Sales Team'], linkedDeal: 'Corporate Gala 2024', status: 'Scheduled' },
+  { id: 'EVT-004', title: 'Follow-up: Tech Corp', type: 'Task', date: '2024-11-26', time: '3:00 PM', duration: '15 min', attendees: ['John Smith'], linkedContact: 'Tech Corp', status: 'Scheduled' },
+];
