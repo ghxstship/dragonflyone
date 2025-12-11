@@ -10,42 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-interface AccessibilityRequest {
-  id: string;
-  eventName: string;
-  eventId: string;
-  guestName: string;
-  email: string;
-  requestType: string[];
-  status: "Pending" | "Approved" | "Confirmed" | "Completed";
-  submittedDate: string;
-  notes?: string;
-}
+import {
+  DEMO_ACCESSIBILITY_REQUESTS,
+  DEMO_ACCESSIBILITY_SERVICES,
+  type DemoAccessibilityRequest as AccessibilityRequest,
+  type DemoAccessibilityService as AccessibilityService,
+} from "@/lib/demo-data";
 
-interface AccessibilityService {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  available: boolean;
-}
-
-const mockRequests: AccessibilityRequest[] = [
-  { id: "ACC-001", eventName: "Summer Fest 2024", eventId: "EVT-001", guestName: "Robert Johnson", email: "robert@email.com", requestType: ["Wheelchair Seating", "Companion Seat"], status: "Confirmed", submittedDate: "2024-11-20", notes: "Section A, Row 1" },
-  { id: "ACC-002", eventName: "Summer Fest 2024", eventId: "EVT-001", guestName: "Maria Garcia", email: "maria@email.com", requestType: ["ASL Interpreter"], status: "Approved", submittedDate: "2024-11-22" },
-  { id: "ACC-003", eventName: "Fall Concert", eventId: "EVT-002", guestName: "James Wilson", email: "james@email.com", requestType: ["Assistive Listening Device"], status: "Pending", submittedDate: "2024-11-24" },
-];
-
-const mockServices: AccessibilityService[] = [
-  { id: "SVC-001", name: "Wheelchair Accessible Seating", description: "Designated wheelchair spaces with companion seating", icon: "♿", available: true },
-  { id: "SVC-002", name: "ASL Interpretation", description: "American Sign Language interpreters for performances", icon: "🤟", available: true },
-  { id: "SVC-003", name: "Assistive Listening Devices", description: "Personal amplification devices available at venue", icon: "🎧", available: true },
-  { id: "SVC-004", name: "Audio Description", description: "Live audio description of visual elements", icon: "🔊", available: true },
-  { id: "SVC-005", name: "Service Animal Accommodations", description: "Relief areas and water stations for service animals", icon: "🐕", available: true },
-  { id: "SVC-006", name: "Sensory-Friendly Viewing", description: "Quiet areas with reduced sensory stimulation", icon: "🧘", available: true },
-  { id: "SVC-007", name: "Accessible Parking", description: "Reserved accessible parking spaces near entrance", icon: "🅿️", available: true },
-  { id: "SVC-008", name: "Mobility Assistance", description: "Wheelchair and mobility device rentals", icon: "🦽", available: true },
-];
+const mockRequests = DEMO_ACCESSIBILITY_REQUESTS;
+const mockServices = DEMO_ACCESSIBILITY_SERVICES;
 
 function AccessibilityPageContent() {
   const router = useRouter();

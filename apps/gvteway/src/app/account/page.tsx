@@ -23,18 +23,12 @@ import {
 import { GvtewayAppLayout } from '../../components/app-layout';
 import Link from 'next/link';
 
-interface UpcomingEvent {
-  id: string;
-  name: string;
-  date: string;
-  venue: string;
-  ticketCount: number;
-}
+import {
+  DEMO_UPCOMING_EVENTS,
+  type DemoUpcomingEvent as UpcomingEvent,
+} from '../../lib/demo-data';
 
-const MOCK_UPCOMING: UpcomingEvent[] = [
-  { id: 'E-001', name: 'Summer Music Festival 2024', date: 'Nov 20, 2024', venue: 'Outdoor Amphitheater', ticketCount: 2 },
-  { id: 'E-002', name: 'New Years Eve Concert', date: 'Dec 31, 2024', venue: 'City Arena', ticketCount: 4 },
-];
+const MOCK_UPCOMING = DEMO_UPCOMING_EVENTS;
 
 export default function AccountPage() {
   const [upcomingEvents] = useState(MOCK_UPCOMING);

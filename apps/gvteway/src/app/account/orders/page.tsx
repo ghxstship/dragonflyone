@@ -24,21 +24,12 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
 
-interface Order {
-  id: string;
-  date: string;
-  eventName: string;
-  ticketCount: number;
-  total: number;
-  status: 'completed' | 'pending' | 'refunded';
-}
+import {
+  DEMO_ORDERS,
+  type DemoOrder as Order,
+} from '../../../lib/demo-data';
 
-const MOCK_ORDERS: Order[] = [
-  { id: 'ORD-12345', date: '2024-11-10', eventName: 'Summer Music Festival 2024', ticketCount: 2, total: 350, status: 'completed' },
-  { id: 'ORD-12346', date: '2024-11-05', eventName: 'New Years Eve Concert', ticketCount: 4, total: 600, status: 'completed' },
-  { id: 'ORD-12347', date: '2024-10-01', eventName: 'Fall Festival', ticketCount: 2, total: 150, status: 'completed' },
-  { id: 'ORD-12348', date: '2024-09-15', eventName: 'Jazz Night', ticketCount: 2, total: 100, status: 'refunded' },
-];
+const MOCK_ORDERS = DEMO_ORDERS;
 
 export default function AccountOrdersPage() {
   const [orders] = useState(MOCK_ORDERS);
