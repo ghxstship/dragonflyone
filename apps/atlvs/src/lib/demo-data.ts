@@ -891,3 +891,33 @@ export const DEMO_IDLE_ASSETS: DemoIdleAsset[] = [
   { id: 'AST-104', name: 'CM Lodestar 2T (8)', category: 'Rigging', idleDays: 30, lastUsed: '2024-10-25', location: 'Warehouse C', value: 32000, monthlyCarryCost: 320, recommendation: 'Monitor' },
   { id: 'AST-105', name: 'Stageline SL100', category: 'Staging', idleDays: 120, lastUsed: '2024-07-26', location: 'Yard', value: 95000, monthlyCarryCost: 1200, recommendation: 'Sell' },
 ];
+
+// =============================================================================
+// ASSET KITS (for assets/kits page)
+// =============================================================================
+
+export interface DemoAssetKitItem {
+  name: string;
+  quantity: number;
+  category: string;
+}
+
+export interface DemoAssetKit {
+  id: string;
+  name: string;
+  category: string;
+  itemCount: number;
+  totalValue: number;
+  status: 'Available' | 'Deployed' | 'Partial';
+  lastUsed?: string;
+  description: string;
+  items: DemoAssetKitItem[];
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSET_KITS: DemoAssetKit[] = [
+  { id: 'KIT-001', name: 'Festival Main Stage Audio', category: 'Audio', itemCount: 48, totalValue: 425000, status: 'Available', lastUsed: '2024-11-15', description: 'Complete L-Acoustics K2 system with subs and processing', items: [{ name: 'L-Acoustics K2', quantity: 24, category: 'Speakers' }, { name: 'KS28 Subs', quantity: 16, category: 'Speakers' }, { name: 'LA12X Amps', quantity: 8, category: 'Amplifiers' }] },
+  { id: 'KIT-002', name: 'Corporate Event Lighting', category: 'Lighting', itemCount: 32, totalValue: 85000, status: 'Deployed', lastUsed: '2024-11-20', description: 'Versatile lighting package for corporate events', items: [{ name: 'Clay Paky Sharpy', quantity: 12, category: 'Moving Lights' }, { name: 'ETC Source Four', quantity: 16, category: 'Conventionals' }, { name: 'grandMA3', quantity: 1, category: 'Consoles' }] },
+  { id: 'KIT-003', name: 'Video Wall 20x10', category: 'Video', itemCount: 200, totalValue: 320000, status: 'Available', description: 'ROE CB5 LED wall configuration', items: [{ name: 'ROE CB5 Panels', quantity: 200, category: 'LED' }, { name: 'Brompton Processors', quantity: 4, category: 'Processing' }] },
+  { id: 'KIT-004', name: 'Outdoor Stage Package', category: 'Staging', itemCount: 156, totalValue: 175000, status: 'Partial', description: '40x32 outdoor stage with roof system', items: [{ name: 'Stage Decks', quantity: 80, category: 'Decking' }, { name: 'Roof Sections', quantity: 24, category: 'Roof' }, { name: 'Legs 4ft', quantity: 52, category: 'Support' }] },
+];

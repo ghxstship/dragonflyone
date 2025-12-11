@@ -9,25 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface AssetKit {
-  id: string;
-  name: string;
-  category: string;
-  itemCount: number;
-  totalValue: number;
-  status: 'Available' | 'Deployed' | 'Partial';
-  lastUsed?: string;
-  description: string;
-  items: { name: string; quantity: number; category: string }[];
-  [key: string]: unknown;
-}
-
-const mockData: AssetKit[] = [
-  { id: 'KIT-001', name: 'Festival Main Stage Audio', category: 'Audio', itemCount: 48, totalValue: 425000, status: 'Available', lastUsed: '2024-11-15', description: 'Complete L-Acoustics K2 system with subs and processing', items: [{ name: 'L-Acoustics K2', quantity: 24, category: 'Speakers' }, { name: 'KS28 Subs', quantity: 16, category: 'Speakers' }, { name: 'LA12X Amps', quantity: 8, category: 'Amplifiers' }] },
-  { id: 'KIT-002', name: 'Corporate Event Lighting', category: 'Lighting', itemCount: 32, totalValue: 85000, status: 'Deployed', lastUsed: '2024-11-20', description: 'Versatile lighting package for corporate events', items: [{ name: 'Clay Paky Sharpy', quantity: 12, category: 'Moving Lights' }, { name: 'ETC Source Four', quantity: 16, category: 'Conventionals' }, { name: 'grandMA3', quantity: 1, category: 'Consoles' }] },
-  { id: 'KIT-003', name: 'Video Wall 20x10', category: 'Video', itemCount: 200, totalValue: 320000, status: 'Available', description: 'ROE CB5 LED wall configuration', items: [{ name: 'ROE CB5 Panels', quantity: 200, category: 'LED' }, { name: 'Brompton Processors', quantity: 4, category: 'Processing' }] },
-  { id: 'KIT-004', name: 'Outdoor Stage Package', category: 'Staging', itemCount: 156, totalValue: 175000, status: 'Partial', description: '40x32 outdoor stage with roof system', items: [{ name: 'Stage Decks', quantity: 80, category: 'Decking' }, { name: 'Roof Sections', quantity: 24, category: 'Roof' }, { name: 'Legs 4ft', quantity: 52, category: 'Support' }] },
-];
+import {
+  DEMO_ASSET_KITS,
+  type DemoAssetKit as AssetKit,
+} from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -55,7 +40,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetKitsPage() {
   const router = useRouter();
-  const [data, setData] = useState<AssetKit[]>(mockData);
+  const [data, setData] = useState<AssetKit[]>(DEMO_ASSET_KITS);
   const [selected, setSelected] = useState<AssetKit | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -138,7 +123,7 @@ export default function AssetKitsPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
