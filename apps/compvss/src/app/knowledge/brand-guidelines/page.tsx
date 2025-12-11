@@ -27,41 +27,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface BrandAsset {
-  id: string;
-  name: string;
-  type: "Logo" | "Color" | "Typography" | "Template" | "Icon" | "Photo";
-  format?: string;
-  usage: string;
-  downloadUrl?: string;
-}
+import {
+  DEMO_BRAND_ASSETS,
+  DEMO_BRAND_GUIDELINES,
+  type DemoBrandAsset as BrandAsset,
+  type DemoBrandGuideline as BrandGuideline,
+} from "../../../lib/demo-data";
 
-interface BrandGuideline {
-  id: string;
-  title: string;
-  category: string;
-  content: string;
-  examples?: string[];
-}
-
-const mockAssets: BrandAsset[] = [
-  { id: "BA-001", name: "Primary Logo - Full Color", type: "Logo", format: "SVG, PNG, EPS", usage: "Primary use on light backgrounds" },
-  { id: "BA-002", name: "Primary Logo - White", type: "Logo", format: "SVG, PNG, EPS", usage: "Use on dark backgrounds or photos" },
-  { id: "BA-003", name: "Icon Mark", type: "Icon", format: "SVG, PNG", usage: "Social media, favicons, small applications" },
-  { id: "BA-004", name: "Brand Colors", type: "Color", usage: "Primary: #000000, Secondary: #FFFFFF, Accent: #3B82F6" },
-  { id: "BA-005", name: "Typography - Display", type: "Typography", usage: "Headlines and titles: Inter Bold" },
-  { id: "BA-006", name: "Typography - Body", type: "Typography", usage: "Body text: Inter Regular" },
-  { id: "BA-007", name: "Email Template", type: "Template", format: "HTML", usage: "Official email communications" },
-  { id: "BA-008", name: "Presentation Template", type: "Template", format: "PPTX, KEY", usage: "Client presentations and proposals" },
-];
-
-const mockGuidelines: BrandGuideline[] = [
-  { id: "BG-001", title: "Logo Clear Space", category: "Logo Usage", content: "Maintain minimum clear space equal to the height of the icon mark around all sides of the logo." },
-  { id: "BG-002", title: "Minimum Size", category: "Logo Usage", content: "Logo should never appear smaller than 100px wide for digital or 1 inch for print." },
-  { id: "BG-003", title: "Color Application", category: "Color", content: "Primary black should be used for text and primary elements. Accent blue for CTAs and highlights." },
-  { id: "BG-004", title: "Photography Style", category: "Photography", content: "Use high-contrast, dynamic imagery that captures the energy of live events. Avoid stock photos." },
-  { id: "BG-005", title: "Voice & Tone", category: "Messaging", content: "Professional yet approachable. Confident but not arrogant. Technical expertise with accessible language." },
-];
+const mockAssets = DEMO_BRAND_ASSETS;
+const mockGuidelines = DEMO_BRAND_GUIDELINES;
 
 const categories = ["All", "Logo Usage", "Color", "Typography", "Photography", "Messaging"];
 

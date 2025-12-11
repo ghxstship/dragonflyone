@@ -33,41 +33,15 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface TranslatedContent {
-  id: string;
-  title: string;
-  category: string;
-  sourceLanguage: string;
-  translations: { language: string; status: 'Complete' | 'In Progress' | 'Pending'; progress: number }[];
-  lastUpdated: string;
-}
+import {
+  DEMO_TRANSLATED_CONTENT,
+  DEMO_LANGUAGE_SETTINGS,
+  type DemoTranslatedContent as TranslatedContent,
+  type DemoLanguageSetting as LanguageSetting,
+} from '../../../lib/demo-data';
 
-interface LanguageSetting {
-  code: string;
-  name: string;
-  nativeName: string;
-  enabled: boolean;
-  contentCount: number;
-  translators: number;
-}
-
-const mockContent: TranslatedContent[] = [
-  { id: 'DOC-001', title: 'Safety Procedures Manual', category: 'Safety', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'French', status: 'Complete', progress: 100 }, { language: 'German', status: 'In Progress', progress: 75 }], lastUpdated: '2024-11-20' },
-  { id: 'DOC-002', title: 'Audio Equipment Guide', category: 'Equipment', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'Japanese', status: 'In Progress', progress: 45 }], lastUpdated: '2024-11-18' },
-  { id: 'DOC-003', title: 'Rigging Best Practices', category: 'Safety', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Pending', progress: 0 }, { language: 'Portuguese', status: 'Pending', progress: 0 }], lastUpdated: '2024-11-15' },
-  { id: 'DOC-004', title: 'Event Setup Checklist', category: 'Operations', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'French', status: 'Complete', progress: 100 }, { language: 'German', status: 'Complete', progress: 100 }, { language: 'Mandarin', status: 'In Progress', progress: 60 }], lastUpdated: '2024-11-22' },
-];
-
-const mockLanguages: LanguageSetting[] = [
-  { code: 'en', name: 'English', nativeName: 'English', enabled: true, contentCount: 245, translators: 0 },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', enabled: true, contentCount: 198, translators: 3 },
-  { code: 'fr', name: 'French', nativeName: 'Français', enabled: true, contentCount: 156, translators: 2 },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', enabled: true, contentCount: 89, translators: 1 },
-  { code: 'ja', name: 'Japanese', nativeName: '日本語', enabled: true, contentCount: 45, translators: 1 },
-  { code: 'zh', name: 'Mandarin', nativeName: '中文', enabled: true, contentCount: 32, translators: 1 },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português', enabled: false, contentCount: 0, translators: 0 },
-  { code: 'ko', name: 'Korean', nativeName: '한국어', enabled: false, contentCount: 0, translators: 0 },
-];
+const mockContent = DEMO_TRANSLATED_CONTENT;
+const mockLanguages = DEMO_LANGUAGE_SETTINGS;
 
 export default function MultilingualPage() {
   const router = useRouter();

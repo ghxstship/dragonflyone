@@ -34,42 +34,15 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface OfflineContent {
-  id: string;
-  title: string;
-  category: string;
-  size: string;
-  lastSynced: string;
-  status: 'Synced' | 'Pending' | 'Outdated' | 'Error';
-  priority: 'High' | 'Medium' | 'Low';
-}
+import {
+  DEMO_OFFLINE_CONTENT,
+  DEMO_OFFLINE_PACKAGES,
+  type DemoOfflineContent as OfflineContent,
+  type DemoOfflinePackage as OfflinePackage,
+} from '../../../lib/demo-data';
 
-interface OfflinePackage {
-  id: string;
-  name: string;
-  description: string;
-  contentCount: number;
-  totalSize: string;
-  downloaded: boolean;
-  lastUpdated: string;
-}
-
-const mockContent: OfflineContent[] = [
-  { id: 'OFF-001', title: 'Safety Procedures Manual', category: 'Safety', size: '2.4 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'High' },
-  { id: 'OFF-002', title: 'Emergency Response Guide', category: 'Safety', size: '1.8 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'High' },
-  { id: 'OFF-003', title: 'Audio Equipment Setup', category: 'Equipment', size: '5.2 MB', lastSynced: '2024-11-24 14:00', status: 'Outdated', priority: 'Medium' },
-  { id: 'OFF-004', title: 'Lighting Focus Sheets', category: 'Technical', size: '3.1 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'Medium' },
-  { id: 'OFF-005', title: 'Rigging Calculations', category: 'Technical', size: '1.5 MB', lastSynced: '2024-11-23 10:00', status: 'Pending', priority: 'High' },
-  { id: 'OFF-006', title: 'Union Rules Reference', category: 'Compliance', size: '0.8 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'Low' },
-];
-
-const mockPackages: OfflinePackage[] = [
-  { id: 'PKG-001', name: 'Safety Essentials', description: 'Critical safety documents and emergency procedures', contentCount: 12, totalSize: '15.2 MB', downloaded: true, lastUpdated: '2024-11-20' },
-  { id: 'PKG-002', name: 'Audio Department', description: 'Audio equipment guides, line lists, and system documentation', contentCount: 28, totalSize: '45.8 MB', downloaded: true, lastUpdated: '2024-11-18' },
-  { id: 'PKG-003', name: 'Lighting Department', description: 'Lighting focus sheets, fixture manuals, and programming guides', contentCount: 35, totalSize: '62.3 MB', downloaded: false, lastUpdated: '2024-11-22' },
-  { id: 'PKG-004', name: 'Video Department', description: 'Video I/O documentation, LED wall guides, and signal flow diagrams', contentCount: 22, totalSize: '38.5 MB', downloaded: false, lastUpdated: '2024-11-19' },
-  { id: 'PKG-005', name: 'Rigging & Staging', description: 'Rigging calculations, load charts, and staging documentation', contentCount: 18, totalSize: '25.1 MB', downloaded: true, lastUpdated: '2024-11-21' },
-];
+const mockContent = DEMO_OFFLINE_CONTENT;
+const mockPackages = DEMO_OFFLINE_PACKAGES;
 
 export default function OfflineAccessPage() {
   const router = useRouter();

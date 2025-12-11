@@ -1388,3 +1388,130 @@ export const DEMO_SYNC_JOBS: DemoSyncJob[] = [
   { id: '1', source_system: 'atlvs', target_system: 'compvss', status: 'synced', created_at: '2024-11-25T10:00:00Z', payload: { action: 'create_project', deal_id: 'deal-123' } },
   { id: '2', source_system: 'compvss', target_system: 'gvteway', status: 'pending', created_at: '2024-11-25T09:30:00Z', payload: { action: 'create_event', project_id: 'proj-456' } },
 ];
+
+// =============================================================================
+// KNOWLEDGE - BRAND GUIDELINES (for knowledge/brand-guidelines/page.tsx)
+// =============================================================================
+
+export interface DemoBrandAsset {
+  id: string;
+  name: string;
+  type: 'Logo' | 'Color' | 'Typography' | 'Template' | 'Icon' | 'Photo';
+  format?: string;
+  usage: string;
+  downloadUrl?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoBrandGuideline {
+  id: string;
+  title: string;
+  category: string;
+  content: string;
+  examples?: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_BRAND_ASSETS: DemoBrandAsset[] = [
+  { id: 'BA-001', name: 'Primary Logo - Full Color', type: 'Logo', format: 'SVG, PNG, EPS', usage: 'Primary use on light backgrounds' },
+  { id: 'BA-002', name: 'Primary Logo - White', type: 'Logo', format: 'SVG, PNG, EPS', usage: 'Use on dark backgrounds or photos' },
+  { id: 'BA-003', name: 'Icon Mark', type: 'Icon', format: 'SVG, PNG', usage: 'Social media, favicons, small applications' },
+  { id: 'BA-004', name: 'Brand Colors', type: 'Color', usage: 'Primary: #000000, Secondary: #FFFFFF, Accent: #3B82F6' },
+  { id: 'BA-005', name: 'Typography - Display', type: 'Typography', usage: 'Headlines and titles: Inter Bold' },
+  { id: 'BA-006', name: 'Typography - Body', type: 'Typography', usage: 'Body text: Inter Regular' },
+  { id: 'BA-007', name: 'Email Template', type: 'Template', format: 'HTML', usage: 'Official email communications' },
+  { id: 'BA-008', name: 'Presentation Template', type: 'Template', format: 'PPTX, KEY', usage: 'Client presentations and proposals' },
+];
+
+export const DEMO_BRAND_GUIDELINES: DemoBrandGuideline[] = [
+  { id: 'BG-001', title: 'Logo Clear Space', category: 'Logo Usage', content: 'Maintain minimum clear space equal to the height of the icon mark around all sides of the logo.' },
+  { id: 'BG-002', title: 'Minimum Size', category: 'Logo Usage', content: 'Logo should never appear smaller than 100px wide for digital or 1 inch for print.' },
+  { id: 'BG-003', title: 'Color Application', category: 'Color', content: 'Primary black should be used for text and primary elements. Accent blue for CTAs and highlights.' },
+  { id: 'BG-004', title: 'Photography Style', category: 'Photography', content: 'Use high-contrast, dynamic imagery that captures the energy of live events. Avoid stock photos.' },
+  { id: 'BG-005', title: 'Voice & Tone', category: 'Messaging', content: 'Professional yet approachable. Confident but not arrogant. Technical expertise with accessible language.' },
+];
+
+// =============================================================================
+// KNOWLEDGE - MULTILINGUAL (for knowledge/multilingual/page.tsx)
+// =============================================================================
+
+export interface DemoTranslatedContent {
+  id: string;
+  title: string;
+  category: string;
+  sourceLanguage: string;
+  translations: { language: string; status: 'Complete' | 'In Progress' | 'Pending'; progress: number }[];
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export interface DemoLanguageSetting {
+  code: string;
+  name: string;
+  nativeName: string;
+  enabled: boolean;
+  contentCount: number;
+  translators: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_TRANSLATED_CONTENT: DemoTranslatedContent[] = [
+  { id: 'DOC-001', title: 'Safety Procedures Manual', category: 'Safety', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'French', status: 'Complete', progress: 100 }, { language: 'German', status: 'In Progress', progress: 75 }], lastUpdated: '2024-11-20' },
+  { id: 'DOC-002', title: 'Audio Equipment Guide', category: 'Equipment', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'Japanese', status: 'In Progress', progress: 45 }], lastUpdated: '2024-11-18' },
+  { id: 'DOC-003', title: 'Rigging Best Practices', category: 'Safety', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Pending', progress: 0 }, { language: 'Portuguese', status: 'Pending', progress: 0 }], lastUpdated: '2024-11-15' },
+  { id: 'DOC-004', title: 'Event Setup Checklist', category: 'Operations', sourceLanguage: 'English', translations: [{ language: 'Spanish', status: 'Complete', progress: 100 }, { language: 'French', status: 'Complete', progress: 100 }, { language: 'German', status: 'Complete', progress: 100 }, { language: 'Mandarin', status: 'In Progress', progress: 60 }], lastUpdated: '2024-11-22' },
+];
+
+export const DEMO_LANGUAGE_SETTINGS: DemoLanguageSetting[] = [
+  { code: 'en', name: 'English', nativeName: 'English', enabled: true, contentCount: 245, translators: 0 },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', enabled: true, contentCount: 198, translators: 3 },
+  { code: 'fr', name: 'French', nativeName: 'Français', enabled: true, contentCount: 156, translators: 2 },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', enabled: true, contentCount: 89, translators: 1 },
+  { code: 'ja', name: 'Japanese', nativeName: '日本語', enabled: true, contentCount: 45, translators: 1 },
+  { code: 'zh', name: 'Mandarin', nativeName: '中文', enabled: true, contentCount: 32, translators: 1 },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português', enabled: false, contentCount: 0, translators: 0 },
+  { code: 'ko', name: 'Korean', nativeName: '한국어', enabled: false, contentCount: 0, translators: 0 },
+];
+
+// =============================================================================
+// KNOWLEDGE - OFFLINE (for knowledge/offline/page.tsx)
+// =============================================================================
+
+export interface DemoOfflineContent {
+  id: string;
+  title: string;
+  category: string;
+  size: string;
+  lastSynced: string;
+  status: 'Synced' | 'Pending' | 'Outdated' | 'Error';
+  priority: 'High' | 'Medium' | 'Low';
+  [key: string]: unknown;
+}
+
+export interface DemoOfflinePackage {
+  id: string;
+  name: string;
+  description: string;
+  contentCount: number;
+  totalSize: string;
+  downloaded: boolean;
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_OFFLINE_CONTENT: DemoOfflineContent[] = [
+  { id: 'OFF-001', title: 'Safety Procedures Manual', category: 'Safety', size: '2.4 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'High' },
+  { id: 'OFF-002', title: 'Emergency Response Guide', category: 'Safety', size: '1.8 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'High' },
+  { id: 'OFF-003', title: 'Audio Equipment Setup', category: 'Equipment', size: '5.2 MB', lastSynced: '2024-11-24 14:00', status: 'Outdated', priority: 'Medium' },
+  { id: 'OFF-004', title: 'Lighting Focus Sheets', category: 'Technical', size: '3.1 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'Medium' },
+  { id: 'OFF-005', title: 'Rigging Calculations', category: 'Technical', size: '1.5 MB', lastSynced: '2024-11-23 10:00', status: 'Pending', priority: 'High' },
+  { id: 'OFF-006', title: 'Union Rules Reference', category: 'Compliance', size: '0.8 MB', lastSynced: '2024-11-25 08:30', status: 'Synced', priority: 'Low' },
+];
+
+export const DEMO_OFFLINE_PACKAGES: DemoOfflinePackage[] = [
+  { id: 'PKG-001', name: 'Safety Essentials', description: 'Critical safety documents and emergency procedures', contentCount: 12, totalSize: '15.2 MB', downloaded: true, lastUpdated: '2024-11-20' },
+  { id: 'PKG-002', name: 'Audio Department', description: 'Audio equipment guides, line lists, and system documentation', contentCount: 28, totalSize: '45.8 MB', downloaded: true, lastUpdated: '2024-11-18' },
+  { id: 'PKG-003', name: 'Lighting Department', description: 'Lighting focus sheets, fixture manuals, and programming guides', contentCount: 35, totalSize: '62.3 MB', downloaded: false, lastUpdated: '2024-11-22' },
+  { id: 'PKG-004', name: 'Video Department', description: 'Video I/O documentation, LED wall guides, and signal flow diagrams', contentCount: 22, totalSize: '38.5 MB', downloaded: false, lastUpdated: '2024-11-19' },
+  { id: 'PKG-005', name: 'Rigging & Staging', description: 'Rigging calculations, load charts, and staging documentation', contentCount: 18, totalSize: '25.1 MB', downloaded: true, lastUpdated: '2024-11-21' },
+];
