@@ -11,32 +11,13 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface ShoppablePost {
-  id: string;
-  imageUrl: string;
-  caption: string;
-  creator: string;
-  platform: "Instagram" | "TikTok" | "Twitter";
-  products: ShoppableProduct[];
-  likes: number;
-  createdAt: string;
-  eventName?: string;
-}
+import {
+  DEMO_SHOPPABLE_POSTS,
+  type DemoShoppablePost as ShoppablePost,
+  type DemoShoppableProduct as ShoppableProduct,
+} from "@/lib/demo-data";
 
-interface ShoppableProduct {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  inStock: boolean;
-}
-
-const mockPosts: ShoppablePost[] = [
-  { id: "SP-001", imageUrl: "/post1.jpg", caption: "Festival vibes in this amazing merch! 🎵", creator: "@festivalfan", platform: "Instagram", products: [{ id: "P-001", name: "Summer Fest Tee", price: 35, image: "/tee.jpg", inStock: true }, { id: "P-002", name: "Festival Cap", price: 25, image: "/cap.jpg", inStock: true }], likes: 1245, createdAt: "2024-11-24", eventName: "Summer Fest 2024" },
-  { id: "SP-002", imageUrl: "/post2.jpg", caption: "Best concert outfit ever! Shop my look 👇", creator: "@musiclover", platform: "TikTok", products: [{ id: "P-003", name: "Band Hoodie", price: 65, image: "/hoodie.jpg", inStock: true }], likes: 3421, createdAt: "2024-11-23" },
-  { id: "SP-003", imageUrl: "/post3.jpg", caption: "VIP experience was incredible!", creator: "@vipfan", platform: "Instagram", products: [{ id: "P-004", name: "VIP Lanyard", price: 15, image: "/lanyard.jpg", inStock: false }, { id: "P-005", name: "Poster Set", price: 45, image: "/poster.jpg", inStock: true }], likes: 892, createdAt: "2024-11-22", eventName: "Fall Concert" },
-  { id: "SP-004", imageUrl: "/post4.jpg", caption: "Rocking this limited edition piece!", creator: "@collector", platform: "Twitter", products: [{ id: "P-006", name: "Limited Vinyl", price: 55, image: "/vinyl.jpg", inStock: true }], likes: 567, createdAt: "2024-11-21" },
-];
+const mockPosts = DEMO_SHOPPABLE_POSTS;
 
 function ShoppablePostsPageContent() {
   const router = useRouter();

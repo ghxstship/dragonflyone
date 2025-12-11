@@ -10,29 +10,12 @@ import {
 } from "@ghxstship/ui";
 import { Globe, Check } from "lucide-react";
 
-interface Language {
-  code: string;
-  name: string;
-  nativeName: string;
-  coverage: number;
-  isDefault?: boolean;
-  isSelected?: boolean;
-}
+import {
+  DEMO_LANGUAGES,
+  type DemoLanguage as Language,
+} from "@/lib/demo-data";
 
-const mockLanguages: Language[] = [
-  { code: "en", name: "English", nativeName: "English", coverage: 100, isDefault: true, isSelected: true },
-  { code: "es", name: "Spanish", nativeName: "Español", coverage: 98 },
-  { code: "fr", name: "French", nativeName: "Français", coverage: 95 },
-  { code: "de", name: "German", nativeName: "Deutsch", coverage: 92 },
-  { code: "pt", name: "Portuguese", nativeName: "Português", coverage: 90 },
-  { code: "it", name: "Italian", nativeName: "Italiano", coverage: 88 },
-  { code: "ja", name: "Japanese", nativeName: "日本語", coverage: 85 },
-  { code: "ko", name: "Korean", nativeName: "한국어", coverage: 82 },
-  { code: "zh", name: "Chinese (Simplified)", nativeName: "简体中文", coverage: 88 },
-  { code: "ar", name: "Arabic", nativeName: "العربية", coverage: 75 },
-  { code: "nl", name: "Dutch", nativeName: "Nederlands", coverage: 78 },
-  { code: "ru", name: "Russian", nativeName: "Русский", coverage: 72 },
-];
+const mockLanguages = DEMO_LANGUAGES;
 
 export default function LanguageSettingsPage() {
   const router = useRouter();

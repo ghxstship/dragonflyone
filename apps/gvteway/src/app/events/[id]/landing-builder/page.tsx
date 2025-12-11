@@ -28,14 +28,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface LandingSection {
-  id: string;
-  type: "hero" | "lineup" | "tickets" | "venue" | "sponsors" | "faq" | "gallery" | "countdown" | "social" | "custom";
-  title: string;
-  enabled: boolean;
-  order: number;
-  settings: Record<string, unknown>;
-}
+import {
+  DEMO_LANDING_SECTIONS,
+  DEMO_LANDING_TEMPLATES,
+  DEMO_FONT_OPTIONS,
+  type DemoLandingSection as LandingSection,
+} from "@/lib/demo-data";
 
 interface LandingPageConfig {
   id: string;
@@ -52,32 +50,9 @@ interface LandingPageConfig {
   published: boolean;
 }
 
-const defaultSections: LandingSection[] = [
-  { id: "hero", type: "hero", title: "Hero Section", enabled: true, order: 1, settings: { showCountdown: true, backgroundType: "image" } },
-  { id: "lineup", type: "lineup", title: "Artist Lineup", enabled: true, order: 2, settings: { layout: "grid", showBios: true } },
-  { id: "tickets", type: "tickets", title: "Tickets", enabled: true, order: 3, settings: { showPricing: true, ctaText: "Get Tickets" } },
-  { id: "venue", type: "venue", title: "Venue & Location", enabled: true, order: 4, settings: { showMap: true, showDirections: true } },
-  { id: "sponsors", type: "sponsors", title: "Sponsors", enabled: false, order: 5, settings: { layout: "carousel" } },
-  { id: "faq", type: "faq", title: "FAQ", enabled: true, order: 6, settings: { expandable: true } },
-  { id: "gallery", type: "gallery", title: "Photo Gallery", enabled: false, order: 7, settings: { layout: "masonry" } },
-  { id: "social", type: "social", title: "Social Feed", enabled: false, order: 8, settings: { platforms: ["instagram", "twitter"] } },
-];
-
-const templates = [
-  { id: "minimal", name: "Minimal", description: "Clean, modern design with focus on content" },
-  { id: "bold", name: "Bold", description: "High-impact visuals with strong typography" },
-  { id: "festival", name: "Festival", description: "Vibrant, energetic design for multi-day events" },
-  { id: "corporate", name: "Corporate", description: "Professional, polished design for business events" },
-  { id: "concert", name: "Concert", description: "Artist-focused design with immersive imagery" },
-];
-
-const fontOptions = [
-  { id: "anton", name: "Anton", preview: "BOLD IMPACT" },
-  { id: "bebas", name: "Bebas Neue", preview: "CLEAN HEADERS" },
-  { id: "inter", name: "Inter", preview: "Modern Sans" },
-  { id: "playfair", name: "Playfair Display", preview: "Elegant Serif" },
-  { id: "space", name: "Space Grotesk", preview: "Tech Forward" },
-];
+const defaultSections = DEMO_LANDING_SECTIONS;
+const templates = DEMO_LANDING_TEMPLATES;
+const fontOptions = DEMO_FONT_OPTIONS;
 
 function LandingBuilderPageContent() {
   const router = useRouter();

@@ -1916,3 +1916,128 @@ export const DEMO_OFFLINE_TICKETS: DemoOfflineTicket[] = [
   { id: 'TKT-001', eventName: 'Summer Fest 2024', eventDate: '2024-11-25', ticketType: 'VIP Pass', qrCode: 'QR_DATA_ENCRYPTED_001', cachedAt: '2024-11-24T10:00:00Z', expiresAt: '2024-11-26T00:00:00Z', isValid: true },
   { id: 'TKT-002', eventName: 'Summer Fest 2024', eventDate: '2024-11-25', ticketType: 'General Admission', qrCode: 'QR_DATA_ENCRYPTED_002', cachedAt: '2024-11-24T10:00:00Z', expiresAt: '2024-11-26T00:00:00Z', isValid: true },
 ];
+
+// =============================================================================
+// SETTINGS - LANGUAGE (for settings/language/page.tsx)
+// =============================================================================
+
+export interface DemoLanguage {
+  code: string;
+  name: string;
+  nativeName: string;
+  coverage: number;
+  isDefault?: boolean;
+  isSelected?: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_LANGUAGES: DemoLanguage[] = [
+  { code: 'en', name: 'English', nativeName: 'English', coverage: 100, isDefault: true, isSelected: true },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', coverage: 98 },
+  { code: 'fr', name: 'French', nativeName: 'Français', coverage: 95 },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', coverage: 92 },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português', coverage: 90 },
+  { code: 'it', name: 'Italian', nativeName: 'Italiano', coverage: 88 },
+  { code: 'ja', name: 'Japanese', nativeName: '日本語', coverage: 85 },
+  { code: 'ko', name: 'Korean', nativeName: '한국어', coverage: 82 },
+  { code: 'zh', name: 'Chinese (Simplified)', nativeName: '简体中文', coverage: 88 },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', coverage: 75 },
+  { code: 'nl', name: 'Dutch', nativeName: 'Nederlands', coverage: 78 },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', coverage: 72 },
+];
+
+// =============================================================================
+// EVENTS - LANDING BUILDER (for events/[id]/landing-builder/page.tsx)
+// =============================================================================
+
+export interface DemoLandingSection {
+  id: string;
+  type: 'hero' | 'lineup' | 'tickets' | 'venue' | 'sponsors' | 'faq' | 'gallery' | 'countdown' | 'social' | 'custom';
+  title: string;
+  enabled: boolean;
+  order: number;
+  settings: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export const DEMO_LANDING_SECTIONS: DemoLandingSection[] = [
+  { id: 'hero', type: 'hero', title: 'Hero Section', enabled: true, order: 1, settings: { showCountdown: true, backgroundType: 'image' } },
+  { id: 'lineup', type: 'lineup', title: 'Artist Lineup', enabled: true, order: 2, settings: { layout: 'grid', showBios: true } },
+  { id: 'tickets', type: 'tickets', title: 'Tickets', enabled: true, order: 3, settings: { showPricing: true, ctaText: 'Get Tickets' } },
+  { id: 'venue', type: 'venue', title: 'Venue & Location', enabled: true, order: 4, settings: { showMap: true, showDirections: true } },
+  { id: 'sponsors', type: 'sponsors', title: 'Sponsors', enabled: false, order: 5, settings: { layout: 'carousel' } },
+  { id: 'faq', type: 'faq', title: 'FAQ', enabled: true, order: 6, settings: { expandable: true } },
+  { id: 'gallery', type: 'gallery', title: 'Photo Gallery', enabled: false, order: 7, settings: { layout: 'masonry' } },
+  { id: 'social', type: 'social', title: 'Social Feed', enabled: false, order: 8, settings: { platforms: ['instagram', 'twitter'] } },
+];
+
+export const DEMO_LANDING_TEMPLATES = [
+  { id: 'minimal', name: 'Minimal', description: 'Clean, modern design with focus on content' },
+  { id: 'bold', name: 'Bold', description: 'High-impact visuals with strong typography' },
+  { id: 'festival', name: 'Festival', description: 'Vibrant, energetic design for multi-day events' },
+  { id: 'corporate', name: 'Corporate', description: 'Professional, polished design for business events' },
+  { id: 'concert', name: 'Concert', description: 'Artist-focused design with immersive imagery' },
+];
+
+export const DEMO_FONT_OPTIONS = [
+  { id: 'anton', name: 'Anton', preview: 'BOLD IMPACT' },
+  { id: 'bebas', name: 'Bebas Neue', preview: 'CLEAN HEADERS' },
+  { id: 'inter', name: 'Inter', preview: 'Modern Sans' },
+  { id: 'playfair', name: 'Playfair Display', preview: 'Elegant Serif' },
+  { id: 'space', name: 'Space Grotesk', preview: 'Tech Forward' },
+];
+
+// =============================================================================
+// SHOP - SHOPPABLE (for shop/shoppable/page.tsx)
+// =============================================================================
+
+export interface DemoShoppableItem {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+  inStock: boolean;
+  featured?: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_SHOPPABLE_ITEMS: DemoShoppableItem[] = [
+  { id: 'SHOP-001', name: 'Festival T-Shirt', price: 35, image: '/merch/tshirt.jpg', category: 'Apparel', inStock: true, featured: true },
+  { id: 'SHOP-002', name: 'VIP Hoodie', price: 75, image: '/merch/hoodie.jpg', category: 'Apparel', inStock: true },
+  { id: 'SHOP-003', name: 'Event Poster', price: 25, image: '/merch/poster.jpg', category: 'Collectibles', inStock: true },
+  { id: 'SHOP-004', name: 'Limited Edition Vinyl', price: 45, image: '/merch/vinyl.jpg', category: 'Music', inStock: false },
+];
+
+// =============================================================================
+// SHOP - SHOPPABLE POSTS (for shop/shoppable/page.tsx)
+// =============================================================================
+
+export interface DemoShoppableProduct {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  inStock: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoShoppablePost {
+  id: string;
+  imageUrl: string;
+  caption: string;
+  creator: string;
+  platform: 'Instagram' | 'TikTok' | 'Twitter';
+  products: DemoShoppableProduct[];
+  likes: number;
+  createdAt: string;
+  eventName?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SHOPPABLE_POSTS: DemoShoppablePost[] = [
+  { id: 'SP-001', imageUrl: '/post1.jpg', caption: 'Festival vibes in this amazing merch!', creator: '@festivalfan', platform: 'Instagram', products: [{ id: 'P-001', name: 'Summer Fest Tee', price: 35, image: '/tee.jpg', inStock: true }, { id: 'P-002', name: 'Festival Cap', price: 25, image: '/cap.jpg', inStock: true }], likes: 1245, createdAt: '2024-11-24', eventName: 'Summer Fest 2024' },
+  { id: 'SP-002', imageUrl: '/post2.jpg', caption: 'Best concert outfit ever! Shop my look', creator: '@musiclover', platform: 'TikTok', products: [{ id: 'P-003', name: 'Band Hoodie', price: 65, image: '/hoodie.jpg', inStock: true }], likes: 3421, createdAt: '2024-11-23' },
+  { id: 'SP-003', imageUrl: '/post3.jpg', caption: 'VIP experience was incredible!', creator: '@vipfan', platform: 'Instagram', products: [{ id: 'P-004', name: 'VIP Lanyard', price: 15, image: '/lanyard.jpg', inStock: false }, { id: 'P-005', name: 'Poster Set', price: 45, image: '/poster.jpg', inStock: true }], likes: 892, createdAt: '2024-11-22', eventName: 'Fall Concert' },
+  { id: 'SP-004', imageUrl: '/post4.jpg', caption: 'Rocking this limited edition piece!', creator: '@collector', platform: 'Twitter', products: [{ id: 'P-006', name: 'Limited Vinyl', price: 55, image: '/vinyl.jpg', inStock: true }], likes: 567, createdAt: '2024-11-21' },
+];
