@@ -1031,3 +1031,31 @@ export const DEMO_STORAGE_LOCATIONS: DemoStorageLocation[] = [
   { id: 'LOC-005', name: 'Rigging Container', type: 'Container', capacity: 2000, used: 1500, category: 'Rigging', climate: 'Outdoor', status: 'Active' },
   { id: 'LOC-006', name: 'Staging Yard', type: 'Warehouse', capacity: 20000, used: 12000, category: 'Staging', address: '456 Staging Way', climate: 'Outdoor', status: 'Active' },
 ];
+
+// =============================================================================
+// ASSET TRACKING (for assets/tracking page)
+// =============================================================================
+
+export interface DemoAssetLocation {
+  id: string;
+  assetId: string;
+  assetName: string;
+  category: string;
+  trackingType: 'GPS' | 'RFID' | 'Manual';
+  locationName: string;
+  locationAddress: string;
+  zone?: string;
+  lastSeen: string;
+  status: 'Active' | 'In Transit' | 'Stationary' | 'Offline';
+  batteryLevel?: number;
+  assignedProject?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSET_LOCATIONS: DemoAssetLocation[] = [
+  { id: 'LOC-001', assetId: 'AST-001', assetName: 'Meyer Sound LEO Line Array', category: 'Audio', trackingType: 'GPS', locationName: 'Tampa Convention Center', locationAddress: '333 S Franklin St, Tampa, FL', zone: 'Loading Dock A', lastSeen: '2024-11-24T14:32:00Z', status: 'Active', batteryLevel: 87, assignedProject: 'PROJ-2024-089' },
+  { id: 'LOC-002', assetId: 'AST-002', assetName: 'Robe MegaPointe (24x)', category: 'Lighting', trackingType: 'RFID', locationName: 'Warehouse A', locationAddress: '1234 Industrial Blvd, Tampa, FL', zone: 'Bay 1 - Rack C', lastSeen: '2024-11-24T15:00:00Z', status: 'Stationary' },
+  { id: 'LOC-003', assetId: 'AST-003', assetName: 'disguise gx 2c Media Server', category: 'Video', trackingType: 'GPS', locationName: 'In Transit', locationAddress: 'I-4 East, Orlando, FL', lastSeen: '2024-11-24T14:45:00Z', status: 'In Transit', batteryLevel: 92, assignedProject: 'PROJ-2024-091' },
+  { id: 'LOC-004', assetId: 'AST-004', assetName: 'Staging Deck System', category: 'Staging', trackingType: 'Manual', locationName: 'Warehouse B', locationAddress: '5678 Storage Way, Tampa, FL', zone: 'Ground Level - Section D', lastSeen: '2024-11-23T16:00:00Z', status: 'Stationary' },
+  { id: 'LOC-005', assetId: 'AST-005', assetName: 'Chain Motor Hoists (20x)', category: 'Rigging', trackingType: 'RFID', locationName: 'Amalie Arena', locationAddress: '401 Channelside Dr, Tampa, FL', zone: 'Rigging Grid - Section 4', lastSeen: '2024-11-24T10:00:00Z', status: 'Active', assignedProject: 'PROJ-2024-088' },
+];

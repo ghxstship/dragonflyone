@@ -10,29 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface AssetLocation {
-  id: string;
-  assetId: string;
-  assetName: string;
-  category: string;
-  trackingType: 'GPS' | 'RFID' | 'Manual';
-  locationName: string;
-  locationAddress: string;
-  zone?: string;
-  lastSeen: string;
-  status: 'Active' | 'In Transit' | 'Stationary' | 'Offline';
-  batteryLevel?: number;
-  assignedProject?: string;
-  [key: string]: unknown;
-}
-
-const mockData: AssetLocation[] = [
-  { id: 'LOC-001', assetId: 'AST-001', assetName: 'Meyer Sound LEO Line Array', category: 'Audio', trackingType: 'GPS', locationName: 'Tampa Convention Center', locationAddress: '333 S Franklin St, Tampa, FL', zone: 'Loading Dock A', lastSeen: '2024-11-24T14:32:00Z', status: 'Active', batteryLevel: 87, assignedProject: 'PROJ-2024-089' },
-  { id: 'LOC-002', assetId: 'AST-002', assetName: 'Robe MegaPointe (24x)', category: 'Lighting', trackingType: 'RFID', locationName: 'Warehouse A', locationAddress: '1234 Industrial Blvd, Tampa, FL', zone: 'Bay 1 - Rack C', lastSeen: '2024-11-24T15:00:00Z', status: 'Stationary' },
-  { id: 'LOC-003', assetId: 'AST-003', assetName: 'disguise gx 2c Media Server', category: 'Video', trackingType: 'GPS', locationName: 'In Transit', locationAddress: 'I-4 East, Orlando, FL', lastSeen: '2024-11-24T14:45:00Z', status: 'In Transit', batteryLevel: 92, assignedProject: 'PROJ-2024-091' },
-  { id: 'LOC-004', assetId: 'AST-004', assetName: 'Staging Deck System', category: 'Staging', trackingType: 'Manual', locationName: 'Warehouse B', locationAddress: '5678 Storage Way, Tampa, FL', zone: 'Ground Level - Section D', lastSeen: '2024-11-23T16:00:00Z', status: 'Stationary' },
-  { id: 'LOC-005', assetId: 'AST-005', assetName: 'Chain Motor Hoists (20x)', category: 'Rigging', trackingType: 'RFID', locationName: 'Amalie Arena', locationAddress: '401 Channelside Dr, Tampa, FL', zone: 'Rigging Grid - Section 4', lastSeen: '2024-11-24T10:00:00Z', status: 'Active', assignedProject: 'PROJ-2024-088' },
-];
+import {
+  DEMO_ASSET_LOCATIONS,
+  type DemoAssetLocation as AssetLocation,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -56,7 +37,7 @@ const filters: ListPageFilter[] = [
 
 export default function AssetTrackingPage() {
   const router = useRouter();
-  const [data] = useState<AssetLocation[]>(mockData);
+  const [data] = useState<AssetLocation[]>(DEMO_ASSET_LOCATIONS);
   const [selected, setSelected] = useState<AssetLocation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -119,7 +100,7 @@ export default function AssetTrackingPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
