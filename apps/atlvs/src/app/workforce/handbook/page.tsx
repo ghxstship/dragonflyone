@@ -35,46 +35,11 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface HandbookSection {
-  id: string;
-  title: string;
-  category: string;
-  version: string;
-  lastUpdated: string;
-  requiresAck: boolean;
-  description: string;
-}
-
-interface PolicyAcknowledgment {
-  id: string;
-  employeeId: string;
-  employeeName: string;
-  department: string;
-  policyId: string;
-  policyTitle: string;
-  acknowledgedDate?: string;
-  status: 'Acknowledged' | 'Pending' | 'Overdue';
-  dueDate: string;
-}
-
-const mockSections: HandbookSection[] = [
-  { id: 'SEC-001', title: 'Code of Conduct', category: 'General', version: '3.2', lastUpdated: '2024-09-01', requiresAck: true, description: 'Professional behavior standards and ethical guidelines' },
-  { id: 'SEC-002', title: 'Anti-Harassment Policy', category: 'Compliance', version: '2.1', lastUpdated: '2024-10-15', requiresAck: true, description: 'Workplace harassment prevention and reporting procedures' },
-  { id: 'SEC-003', title: 'Safety Procedures', category: 'Safety', version: '4.0', lastUpdated: '2024-11-01', requiresAck: true, description: 'Workplace safety requirements and emergency procedures' },
-  { id: 'SEC-004', title: 'Time Off Policies', category: 'Benefits', version: '2.5', lastUpdated: '2024-08-01', requiresAck: false, description: 'PTO, sick leave, and vacation policies' },
-  { id: 'SEC-005', title: 'Equipment Usage', category: 'Operations', version: '1.8', lastUpdated: '2024-07-15', requiresAck: true, description: 'Proper use and care of company equipment' },
-  { id: 'SEC-006', title: 'Confidentiality Agreement', category: 'Legal', version: '2.0', lastUpdated: '2024-06-01', requiresAck: true, description: 'Protection of confidential and proprietary information' },
-  { id: 'SEC-007', title: 'Remote Work Policy', category: 'General', version: '1.5', lastUpdated: '2024-09-15', requiresAck: false, description: 'Guidelines for remote and hybrid work arrangements' },
-  { id: 'SEC-008', title: 'Drug & Alcohol Policy', category: 'Compliance', version: '2.3', lastUpdated: '2024-05-01', requiresAck: true, description: 'Substance abuse prevention and testing policies' },
-];
-
-const mockAcknowledgments: PolicyAcknowledgment[] = [
-  { id: 'ACK-001', employeeId: 'EMP-101', employeeName: 'John Smith', department: 'Production', policyId: 'SEC-001', policyTitle: 'Code of Conduct', acknowledgedDate: '2024-09-15', status: 'Acknowledged', dueDate: '2024-09-30' },
-  { id: 'ACK-002', employeeId: 'EMP-102', employeeName: 'Sarah Johnson', department: 'Finance', policyId: 'SEC-002', policyTitle: 'Anti-Harassment Policy', status: 'Pending', dueDate: '2024-11-30' },
-  { id: 'ACK-003', employeeId: 'EMP-103', employeeName: 'Mike Williams', department: 'Operations', policyId: 'SEC-003', policyTitle: 'Safety Procedures', status: 'Overdue', dueDate: '2024-11-15' },
-  { id: 'ACK-004', employeeId: 'EMP-104', employeeName: 'Emily Davis', department: 'Audio', policyId: 'SEC-001', policyTitle: 'Code of Conduct', acknowledgedDate: '2024-09-20', status: 'Acknowledged', dueDate: '2024-09-30' },
-  { id: 'ACK-005', employeeId: 'EMP-105', employeeName: 'Chris Brown', department: 'Lighting', policyId: 'SEC-006', policyTitle: 'Confidentiality Agreement', status: 'Pending', dueDate: '2024-12-01' },
-];
+import {
+  DEMO_HANDBOOK_SECTIONS,
+  DEMO_POLICY_ACKNOWLEDGMENTS,
+  type DemoHandbookSection as HandbookSection,
+} from '../../../lib/demo-data';
 
 const categories = ['All', 'General', 'Compliance', 'Safety', 'Benefits', 'Operations', 'Legal'];
 
@@ -90,13 +55,13 @@ export default function HandbookPage() {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [showSendReminderModal, setShowSendReminderModal] = useState(false);
 
-  const filteredSections = categoryFilter === 'All' ? mockSections : mockSections.filter((s) => s.category === categoryFilter);
+  const filteredSections = categoryFilter === 'All' ? DEMO_HANDBOOK_SECTIONS : DEMO_HANDBOOK_SECTIONS.filter((s) => s.category === categoryFilter);
 
-  const requiresAckCount = mockSections.filter((s) => s.requiresAck).length;
-  const acknowledgedCount = mockAcknowledgments.filter((a) => a.status === 'Acknowledged').length;
-  const pendingCount = mockAcknowledgments.filter((a) => a.status === 'Pending').length;
-  const overdueCount = mockAcknowledgments.filter((a) => a.status === 'Overdue').length;
-  const complianceRate = Math.round((acknowledgedCount / mockAcknowledgments.length) * 100);
+  const requiresAckCount = DEMO_HANDBOOK_SECTIONS.filter((s) => s.requiresAck).length;
+  const acknowledgedCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Acknowledged').length;
+  const pendingCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Pending').length;
+  const overdueCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Overdue').length;
+  const complianceRate = Math.round((acknowledgedCount / DEMO_POLICY_ACKNOWLEDGMENTS.length) * 100);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -126,7 +91,7 @@ export default function HandbookPage() {
           <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Handbook Sections" value={mockSections.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Handbook Sections" value={DEMO_HANDBOOK_SECTIONS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Requires Acknowledgment" value={requiresAckCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Compliance Rate" value={`${complianceRate}%`} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Overdue" value={overdueCount} trend={overdueCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
@@ -217,7 +182,7 @@ export default function HandbookPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockAcknowledgments.map((ack) => (
+                  {DEMO_POLICY_ACKNOWLEDGMENTS.map((ack) => (
                     <TableRow key={ack.id} className={ack.status === 'Overdue' ? 'bg-error-900/10' : ''}>
                       <TableCell>
                         <Stack gap={1}>
@@ -295,8 +260,8 @@ export default function HandbookPage() {
                 <Stack gap={4}>
                   <H3>By Policy</H3>
                   <Stack gap={2}>
-                    {mockSections.filter((s) => s.requiresAck).map((section) => {
-                      const acks = mockAcknowledgments.filter((a) => a.policyId === section.id);
+                    {DEMO_HANDBOOK_SECTIONS.filter((s) => s.requiresAck).map((section) => {
+                      const acks = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.policyId === section.id);
                       const ackRate = acks.length > 0 ? Math.round((acks.filter((a) => a.status === 'Acknowledged').length / acks.length) * 100) : 0;
                       return (
                         <Stack key={section.id} gap={1}>
@@ -388,7 +353,7 @@ export default function HandbookPage() {
               <Label>Policy</Label>
               <Select className="border-ink-700 bg-black text-white">
                 <option value="all">All Policies</option>
-                {mockSections
+                {DEMO_HANDBOOK_SECTIONS
                   .filter((s) => s.requiresAck)
                   .map((s) => (
                     <option key={s.id} value={s.id}>

@@ -640,3 +640,48 @@ export const DEMO_UNION_RULES: DemoUnionRule[] = [
   { id: 'RULE-004', union: 'IBEW Local 3', category: 'Overtime', rule: 'Double time after 12', description: 'Double time rate applies after 12 hours worked', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Rate Multiplier' },
   { id: 'RULE-005', union: 'Teamsters Local 817', category: 'Travel', rule: 'Portal-to-portal pay', description: 'Pay begins when leaving designated call point', effectiveDate: '2024-01-01', status: 'Active' },
 ];
+
+// =============================================================================
+// HANDBOOK (for workforce/handbook page)
+// =============================================================================
+
+export interface DemoHandbookSection {
+  id: string;
+  title: string;
+  category: string;
+  version: string;
+  lastUpdated: string;
+  requiresAck: boolean;
+  description: string;
+}
+
+export interface DemoPolicyAcknowledgment {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  policyId: string;
+  policyTitle: string;
+  acknowledgedDate?: string;
+  status: 'Acknowledged' | 'Pending' | 'Overdue';
+  dueDate: string;
+}
+
+export const DEMO_HANDBOOK_SECTIONS: DemoHandbookSection[] = [
+  { id: 'SEC-001', title: 'Code of Conduct', category: 'General', version: '3.2', lastUpdated: '2024-09-01', requiresAck: true, description: 'Professional behavior standards and ethical guidelines' },
+  { id: 'SEC-002', title: 'Anti-Harassment Policy', category: 'Compliance', version: '2.1', lastUpdated: '2024-10-15', requiresAck: true, description: 'Workplace harassment prevention and reporting procedures' },
+  { id: 'SEC-003', title: 'Safety Procedures', category: 'Safety', version: '4.0', lastUpdated: '2024-11-01', requiresAck: true, description: 'Workplace safety requirements and emergency procedures' },
+  { id: 'SEC-004', title: 'Time Off Policies', category: 'Benefits', version: '2.5', lastUpdated: '2024-08-01', requiresAck: false, description: 'PTO, sick leave, and vacation policies' },
+  { id: 'SEC-005', title: 'Equipment Usage', category: 'Operations', version: '1.8', lastUpdated: '2024-07-15', requiresAck: true, description: 'Proper use and care of company equipment' },
+  { id: 'SEC-006', title: 'Confidentiality Agreement', category: 'Legal', version: '2.0', lastUpdated: '2024-06-01', requiresAck: true, description: 'Protection of confidential and proprietary information' },
+  { id: 'SEC-007', title: 'Remote Work Policy', category: 'General', version: '1.5', lastUpdated: '2024-09-15', requiresAck: false, description: 'Guidelines for remote and hybrid work arrangements' },
+  { id: 'SEC-008', title: 'Drug & Alcohol Policy', category: 'Compliance', version: '2.3', lastUpdated: '2024-05-01', requiresAck: true, description: 'Substance abuse prevention and testing policies' },
+];
+
+export const DEMO_POLICY_ACKNOWLEDGMENTS: DemoPolicyAcknowledgment[] = [
+  { id: 'ACK-001', employeeId: 'EMP-101', employeeName: 'John Smith', department: 'Production', policyId: 'SEC-001', policyTitle: 'Code of Conduct', acknowledgedDate: '2024-09-15', status: 'Acknowledged', dueDate: '2024-09-30' },
+  { id: 'ACK-002', employeeId: 'EMP-102', employeeName: 'Sarah Johnson', department: 'Finance', policyId: 'SEC-002', policyTitle: 'Anti-Harassment Policy', status: 'Pending', dueDate: '2024-11-30' },
+  { id: 'ACK-003', employeeId: 'EMP-103', employeeName: 'Mike Williams', department: 'Operations', policyId: 'SEC-003', policyTitle: 'Safety Procedures', status: 'Overdue', dueDate: '2024-11-15' },
+  { id: 'ACK-004', employeeId: 'EMP-104', employeeName: 'Emily Davis', department: 'Audio', policyId: 'SEC-001', policyTitle: 'Code of Conduct', acknowledgedDate: '2024-09-20', status: 'Acknowledged', dueDate: '2024-09-30' },
+  { id: 'ACK-005', employeeId: 'EMP-105', employeeName: 'Chris Brown', department: 'Lighting', policyId: 'SEC-006', policyTitle: 'Confidentiality Agreement', status: 'Pending', dueDate: '2024-12-01' },
+];
