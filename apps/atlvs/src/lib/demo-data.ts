@@ -553,3 +553,28 @@ export const DEMO_CRM_CALENDAR_EVENTS: DemoCrmCalendarEvent[] = [
   { id: 'EVT-003', title: 'Proposal Review', type: 'Meeting', date: '2024-11-26', time: '11:00 AM', duration: '1 hr', attendees: ['Sales Team'], linkedDeal: 'Corporate Gala 2024', status: 'Scheduled' },
   { id: 'EVT-004', title: 'Follow-up: Tech Corp', type: 'Task', date: '2024-11-26', time: '3:00 PM', duration: '15 min', attendees: ['John Smith'], linkedContact: 'Tech Corp', status: 'Scheduled' },
 ];
+
+// =============================================================================
+// COMPENSATION PLANS (for workforce/compensation page)
+// =============================================================================
+
+export interface DemoCompensationPlan {
+  id: string;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  role: string;
+  currentSalary: number;
+  proposedSalary: number;
+  equityGrant?: number;
+  bonus?: number;
+  effectiveDate: string;
+  status: 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';
+  [key: string]: unknown;
+}
+
+export const DEMO_COMPENSATION_PLANS: DemoCompensationPlan[] = [
+  { id: 'COMP-001', employeeId: 'EMP-101', employeeName: 'John Smith', department: 'Production', role: 'Senior Engineer', currentSalary: 95000, proposedSalary: 105000, equityGrant: 5000, bonus: 10000, effectiveDate: '2025-01-01', status: 'Pending Approval' },
+  { id: 'COMP-002', employeeId: 'EMP-102', employeeName: 'Sarah Johnson', department: 'Finance', role: 'Finance Manager', currentSalary: 85000, proposedSalary: 92000, bonus: 8000, effectiveDate: '2025-01-01', status: 'Approved' },
+  { id: 'COMP-003', employeeId: 'EMP-103', employeeName: 'Mike Williams', department: 'Operations', role: 'Operations Lead', currentSalary: 78000, proposedSalary: 85000, equityGrant: 3000, effectiveDate: '2025-01-01', status: 'Draft' },
+];

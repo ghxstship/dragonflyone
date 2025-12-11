@@ -271,12 +271,22 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     key={zone.code}
                     className="border-2 border-grey-300 bg-grey-100 p-4"
                   >
-                    <Text className="mb-1 font-display text-body-md uppercase text-ink-950">
-                      {zone.name}
-                    </Text>
-                    <Text className="font-mono text-mono-xs text-grey-500">
-                      {zone.code} | Level {zone.accessLevel} | Cap: {zone.capacity}
-                    </Text>
+                    <Stack gap={2}>
+                      <Text className="font-display text-body-md uppercase text-ink-950">
+                        {zone.name}
+                      </Text>
+                      <Box className="flex flex-wrap gap-2">
+                        <Text className="rounded-badge border-2 border-grey-300 bg-white px-2 py-0.5 font-mono text-mono-xs text-grey-500">
+                          {zone.code}
+                        </Text>
+                        <Text className="rounded-badge border-2 border-grey-300 bg-white px-2 py-0.5 font-mono text-mono-xs text-grey-500">
+                          Level {zone.accessLevel}
+                        </Text>
+                        <Text className="rounded-badge border-2 border-grey-300 bg-white px-2 py-0.5 font-mono text-mono-xs text-grey-500">
+                          Cap: {zone.capacity}
+                        </Text>
+                      </Box>
+                    </Stack>
                   </Box>
                 ))}
               </Grid>

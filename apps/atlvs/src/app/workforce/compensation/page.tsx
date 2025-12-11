@@ -16,26 +16,10 @@ import {
   type DetailSection,
 } from '@ghxstship/ui';
 
-interface CompensationPlan {
-  id: string;
-  employeeId: string;
-  employeeName: string;
-  department: string;
-  role: string;
-  currentSalary: number;
-  proposedSalary: number;
-  equityGrant?: number;
-  bonus?: number;
-  effectiveDate: string;
-  status: 'Draft' | 'Pending Approval' | 'Approved' | 'Rejected';
-  [key: string]: unknown;
-}
-
-const mockPlans: CompensationPlan[] = [
-  { id: 'COMP-001', employeeId: 'EMP-101', employeeName: 'John Smith', department: 'Production', role: 'Senior Engineer', currentSalary: 95000, proposedSalary: 105000, equityGrant: 5000, bonus: 10000, effectiveDate: '2025-01-01', status: 'Pending Approval' },
-  { id: 'COMP-002', employeeId: 'EMP-102', employeeName: 'Sarah Johnson', department: 'Finance', role: 'Finance Manager', currentSalary: 85000, proposedSalary: 92000, bonus: 8000, effectiveDate: '2025-01-01', status: 'Approved' },
-  { id: 'COMP-003', employeeId: 'EMP-103', employeeName: 'Mike Williams', department: 'Operations', role: 'Operations Lead', currentSalary: 78000, proposedSalary: 85000, equityGrant: 3000, effectiveDate: '2025-01-01', status: 'Draft' },
-];
+import {
+  DEMO_COMPENSATION_PLANS,
+  type DemoCompensationPlan as CompensationPlan,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -63,7 +47,7 @@ const filters: ListPageFilter[] = [
 
 export default function CompensationPage() {
   const router = useRouter();
-  const [plans, setPlans] = useState<CompensationPlan[]>(mockPlans);
+  const [plans, setPlans] = useState<CompensationPlan[]>(DEMO_COMPENSATION_PLANS);
   const [selectedPlan, setSelectedPlan] = useState<CompensationPlan | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
