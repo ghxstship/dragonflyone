@@ -134,3 +134,63 @@ export const DEMO_ARTISTS: DemoArtist[] = [
   { id: 'ART-004', name: 'Tampa Symphony', genre: 'Classical', type: 'Orchestra', manager: 'Robert Chen', managerEmail: 'rchen@symphony.org', managerPhone: '+1 555-0204', technicalRider: true, hospitalityRider: true, inputList: true, stageplot: true, lastPerformance: '2024-09-20', upcomingShows: 1 },
   { id: 'ART-005', name: 'Dr. James Wilson', genre: 'Keynote', type: 'Speaker', manager: 'Lisa Park', managerEmail: 'lisa@speakers.com', managerPhone: '+1 555-0205', technicalRider: true, hospitalityRider: false, inputList: false, stageplot: false, upcomingShows: 0 },
 ];
+
+// =============================================================================
+// AVAILABILITY CREW MEMBERS (for availability/page.tsx)
+// =============================================================================
+
+export interface DemoAvailabilityCrewMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+}
+
+export const DEMO_AVAILABILITY_CREW_MEMBERS: DemoAvailabilityCrewMember[] = [
+  { id: 'CREW-001', name: 'John Martinez', role: 'Audio Engineer', department: 'Audio' },
+  { id: 'CREW-002', name: 'Sarah Chen', role: 'Lighting Designer', department: 'Lighting' },
+  { id: 'CREW-003', name: 'Mike Thompson', role: 'Stage Manager', department: 'Stage' },
+  { id: 'CREW-004', name: 'Lisa Park', role: 'Video Director', department: 'Video' },
+  { id: 'CREW-005', name: 'Tom Wilson', role: 'Head Rigger', department: 'Rigging' },
+];
+
+export interface DemoAvailabilitySlot {
+  id: string;
+  user_id: string;
+  user_name: string;
+  role: string;
+  department: string;
+  date: string;
+  status: 'available' | 'unavailable' | 'tentative' | 'booked';
+  start_time?: string;
+  end_time?: string;
+  notes?: string;
+  calendar_source?: 'manual' | 'google' | 'outlook' | 'ical';
+  [key: string]: unknown;
+}
+
+export const generateDemoAvailability = (): DemoAvailabilitySlot[] => {
+  const slots: DemoAvailabilitySlot[] = [];
+  const statuses: DemoAvailabilitySlot['status'][] = ['available', 'unavailable', 'tentative', 'booked'];
+  
+  DEMO_AVAILABILITY_CREW_MEMBERS.forEach(member => {
+    for (let i = 0; i < 14; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      const dateStr = date.toISOString().split('T')[0];
+      
+      slots.push({
+        id: `SLOT-${member.id}-${dateStr}`,
+        user_id: member.id,
+        user_name: member.name,
+        role: member.role,
+        department: member.department,
+        date: dateStr,
+        status: statuses[Math.floor(Math.random() * statuses.length)],
+        calendar_source: Math.random() > 0.5 ? 'google' : 'manual',
+      });
+    }
+  });
+  
+  return slots;
+};

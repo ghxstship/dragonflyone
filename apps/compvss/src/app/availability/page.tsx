@@ -21,54 +21,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface AvailabilitySlot {
-  id: string;
-  user_id: string;
-  user_name: string;
-  role: string;
-  department: string;
-  date: string;
-  status: 'available' | 'unavailable' | 'tentative' | 'booked';
-  start_time?: string;
-  end_time?: string;
-  notes?: string;
-  calendar_source?: 'manual' | 'google' | 'outlook' | 'ical';
-  [key: string]: unknown;
-}
-
-const mockCrewMembers = [
-  { id: 'CREW-001', name: 'John Martinez', role: 'Audio Engineer', department: 'Audio' },
-  { id: 'CREW-002', name: 'Sarah Chen', role: 'Lighting Designer', department: 'Lighting' },
-  { id: 'CREW-003', name: 'Mike Thompson', role: 'Stage Manager', department: 'Stage' },
-  { id: 'CREW-004', name: 'Lisa Park', role: 'Video Director', department: 'Video' },
-  { id: 'CREW-005', name: 'Tom Wilson', role: 'Head Rigger', department: 'Rigging' },
-];
-
-const generateMockAvailability = (): AvailabilitySlot[] => {
-  const slots: AvailabilitySlot[] = [];
-  const statuses: AvailabilitySlot['status'][] = ['available', 'unavailable', 'tentative', 'booked'];
-  
-  mockCrewMembers.forEach(member => {
-    for (let i = 0; i < 14; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      const dateStr = date.toISOString().split('T')[0];
-      
-      slots.push({
-        id: `SLOT-${member.id}-${dateStr}`,
-        user_id: member.id,
-        user_name: member.name,
-        role: member.role,
-        department: member.department,
-        date: dateStr,
-        status: statuses[Math.floor(Math.random() * statuses.length)],
-        calendar_source: Math.random() > 0.5 ? 'google' : 'manual',
-      });
-    }
-  });
-  
-  return slots;
-};
+import {
+  generateDemoAvailability,
+  type DemoAvailabilitySlot as AvailabilitySlot,
+} from '../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -97,7 +53,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AvailabilityPage() {
-  const [availability, setAvailability] = useState<AvailabilitySlot[]>(generateMockAvailability());
+  const [availability, setAvailability] = useState<AvailabilitySlot[]>(generateDemoAvailability());
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
