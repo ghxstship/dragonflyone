@@ -21,31 +21,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface Issue {
-  id: string;
-  title: string;
-  description: string;
-  category: 'technical' | 'safety' | 'logistics' | 'personnel' | 'vendor' | 'other';
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  status: 'open' | 'in_progress' | 'escalated' | 'resolved' | 'closed';
-  reported_by: string;
-  assigned_to?: string;
-  department: string;
-  location?: string;
-  created_at: string;
-  updated_at: string;
-  escalation_level: number;
-  resolution?: string;
-  [key: string]: unknown;
-}
-
-const mockIssues: Issue[] = [
-  { id: 'ISS-001', title: 'Main PA system feedback', description: 'Intermittent feedback from house left speaker cluster', category: 'technical', priority: 'high', status: 'in_progress', reported_by: 'John Martinez', assigned_to: 'Audio Team', department: 'Audio', location: 'Main Stage', created_at: '2024-11-24T14:30:00Z', updated_at: '2024-11-24T14:45:00Z', escalation_level: 1 },
-  { id: 'ISS-002', title: 'Truss motor malfunction', description: 'Motor 3 on downstage truss not responding', category: 'technical', priority: 'critical', status: 'escalated', reported_by: 'Chris Brown', assigned_to: 'Rigging Lead', department: 'Rigging', location: 'Main Stage', created_at: '2024-11-24T13:00:00Z', updated_at: '2024-11-24T14:00:00Z', escalation_level: 2 },
-  { id: 'ISS-003', title: 'Catering delivery delayed', description: 'Crew lunch delivery running 45 minutes late', category: 'logistics', priority: 'medium', status: 'open', reported_by: 'Production Office', department: 'Production', created_at: '2024-11-24T11:00:00Z', updated_at: '2024-11-24T11:00:00Z', escalation_level: 0 },
-  { id: 'ISS-004', title: 'Missing crew member', description: 'Stagehand Alex Johnson not checked in, no response to calls', category: 'personnel', priority: 'high', status: 'open', reported_by: 'Stage Manager', department: 'Stage', created_at: '2024-11-24T09:00:00Z', updated_at: '2024-11-24T09:30:00Z', escalation_level: 1 },
-  { id: 'ISS-005', title: 'Fire exit blocked', description: 'Equipment cases blocking emergency exit door 3', category: 'safety', priority: 'critical', status: 'resolved', reported_by: 'Safety Officer', assigned_to: 'Stagehands', department: 'Safety', location: 'Backstage', created_at: '2024-11-24T10:00:00Z', updated_at: '2024-11-24T10:15:00Z', escalation_level: 0, resolution: 'Cases moved to designated storage area' },
-];
+import {
+  DEMO_ISSUES,
+  type DemoIssue as Issue,
+} from '../../lib/demo-data';
 
 const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => {
   switch (priority) {
@@ -83,7 +62,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
-  const [issues, setIssues] = useState<Issue[]>(mockIssues);
+  const [issues, setIssues] = useState<Issue[]>(DEMO_ISSUES);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);

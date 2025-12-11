@@ -23,29 +23,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface GlossaryTerm {
-  id: string;
-  term: string;
-  definition: string;
-  category: "Audio" | "Lighting" | "Video" | "Staging" | "Rigging" | "Production" | "General";
-  aliases?: string[];
-  relatedTerms?: string[];
-}
-
-const mockTerms: GlossaryTerm[] = [
-  { id: "GLO-001", term: "FOH", definition: "Front of House - The area where the audience is located, or the mixing position for audio/lighting.", category: "General", aliases: ["Front of House"], relatedTerms: ["BOH", "Monitor World"] },
-  { id: "GLO-002", term: "BOH", definition: "Back of House - The backstage area including dressing rooms, production offices, and load-in areas.", category: "General", aliases: ["Back of House", "Backstage"], relatedTerms: ["FOH", "Green Room"] },
-  { id: "GLO-003", term: "Line Array", definition: "A loudspeaker system where multiple speaker elements are arranged in a vertical line to create a coherent wavefront.", category: "Audio", relatedTerms: ["Point Source", "Subwoofer"] },
-  { id: "GLO-004", term: "Truss", definition: "Aluminum or steel structural framework used to hang lighting, audio, and video equipment.", category: "Rigging", aliases: ["Box Truss", "Triangle Truss"], relatedTerms: ["Motor", "Bridle"] },
-  { id: "GLO-005", term: "DMX", definition: "Digital Multiplex - A standard protocol for controlling lighting fixtures and effects.", category: "Lighting", aliases: ["DMX512"], relatedTerms: ["Art-Net", "sACN"] },
-  { id: "GLO-006", term: "IEM", definition: "In-Ear Monitor - Personal monitoring system worn by performers to hear themselves and the mix.", category: "Audio", aliases: ["In-Ears", "Ears"], relatedTerms: ["Wedge", "Monitor Mix"] },
-  { id: "GLO-007", term: "LED Wall", definition: "A video display made up of LED panels tiled together to create a seamless large-format screen.", category: "Video", aliases: ["LED Screen", "Video Wall"], relatedTerms: ["Pixel Pitch", "Processing"] },
-  { id: "GLO-008", term: "Deck", definition: "The stage floor or platform surface where performers and equipment are positioned.", category: "Staging", aliases: ["Stage Deck"], relatedTerms: ["Riser", "Thrust"] },
-  { id: "GLO-009", term: "Strike", definition: "The process of dismantling and removing all production equipment after an event.", category: "Production", aliases: ["Load-Out", "Tear Down"], relatedTerms: ["Load-In", "Bump Out"] },
-  { id: "GLO-010", term: "Rider", definition: "A document specifying technical and hospitality requirements for an artist or production.", category: "Production", aliases: ["Tech Rider", "Hospitality Rider"], relatedTerms: ["Advance", "Input List"] },
-  { id: "GLO-011", term: "Bridle", definition: "A rigging configuration using multiple legs to distribute load from a single point.", category: "Rigging", relatedTerms: ["Shackle", "Motor"] },
-  { id: "GLO-012", term: "Gobo", definition: "A template or pattern placed in a lighting fixture to project shapes or textures.", category: "Lighting", aliases: ["Pattern", "Template"], relatedTerms: ["Moving Light", "Profile"] },
-];
+import {
+  DEMO_GLOSSARY_TERMS,
+  type DemoGlossaryTerm as GlossaryTerm,
+} from "../../lib/demo-data";
 
 const categories = ["Audio", "Lighting", "Video", "Staging", "Rigging", "Production", "General"];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -57,7 +38,7 @@ export default function GlossaryPage() {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [selectedTerm, setSelectedTerm] = useState<GlossaryTerm | null>(null);
 
-  const filteredTerms = mockTerms.filter(t => {
+  const filteredTerms = DEMO_GLOSSARY_TERMS.filter(t => {
     const matchesSearch = t.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           t.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           t.aliases?.some(a => a.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -82,9 +63,9 @@ export default function GlossaryPage() {
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
-              <StatCard value={mockTerms.length.toString()} label="Total Terms" />
+              <StatCard value={DEMO_GLOSSARY_TERMS.length.toString()} label="Total Terms" />
               <StatCard value={categories.length.toString()} label="Categories" />
-              <StatCard value={mockTerms.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
+              <StatCard value={DEMO_GLOSSARY_TERMS.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
               <StatCard value={filteredTerms.length.toString()} label="Filtered" />
             </Grid>
 
@@ -102,7 +83,7 @@ export default function GlossaryPage() {
               <Stack direction="horizontal" gap={1} className="flex-wrap justify-center">
                 <Button variant={selectedLetter === null ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(null)}>All</Button>
                 {alphabet.map(letter => {
-                  const hasTerms = mockTerms.some(t => t.term.toUpperCase().startsWith(letter));
+                  const hasTerms = DEMO_GLOSSARY_TERMS.some(t => t.term.toUpperCase().startsWith(letter));
                   return (
                     <Button key={letter} variant={selectedLetter === letter ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(letter)} disabled={!hasTerms} className={!hasTerms ? "opacity-30" : ""}>
                       {letter}

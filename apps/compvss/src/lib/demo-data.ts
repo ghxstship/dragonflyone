@@ -917,3 +917,62 @@ export const DEMO_CATALOG_DATA: DemoCatalogData = {
   total: 329,
   categories: ['Audio Visual', 'Lighting', 'Staging', 'Power', 'Rigging'],
 };
+
+// =============================================================================
+// GLOSSARY (for glossary/page.tsx)
+// =============================================================================
+
+export interface DemoGlossaryTerm {
+  id: string;
+  term: string;
+  definition: string;
+  category: 'Audio' | 'Lighting' | 'Video' | 'Staging' | 'Rigging' | 'Production' | 'General';
+  aliases?: string[];
+  relatedTerms?: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_GLOSSARY_TERMS: DemoGlossaryTerm[] = [
+  { id: 'GLO-001', term: 'FOH', definition: 'Front of House - The area where the audience is located, or the mixing position for audio/lighting.', category: 'General', aliases: ['Front of House'], relatedTerms: ['BOH', 'Monitor World'] },
+  { id: 'GLO-002', term: 'BOH', definition: 'Back of House - The backstage area including dressing rooms, production offices, and load-in areas.', category: 'General', aliases: ['Back of House', 'Backstage'], relatedTerms: ['FOH', 'Green Room'] },
+  { id: 'GLO-003', term: 'Line Array', definition: 'A loudspeaker system where multiple speaker elements are arranged in a vertical line to create a coherent wavefront.', category: 'Audio', relatedTerms: ['Point Source', 'Subwoofer'] },
+  { id: 'GLO-004', term: 'Truss', definition: 'Aluminum or steel structural framework used to hang lighting, audio, and video equipment.', category: 'Rigging', aliases: ['Box Truss', 'Triangle Truss'], relatedTerms: ['Motor', 'Bridle'] },
+  { id: 'GLO-005', term: 'DMX', definition: 'Digital Multiplex - A standard protocol for controlling lighting fixtures and effects.', category: 'Lighting', aliases: ['DMX512'], relatedTerms: ['Art-Net', 'sACN'] },
+  { id: 'GLO-006', term: 'IEM', definition: 'In-Ear Monitor - Personal monitoring system worn by performers to hear themselves and the mix.', category: 'Audio', aliases: ['In-Ears', 'Ears'], relatedTerms: ['Wedge', 'Monitor Mix'] },
+  { id: 'GLO-007', term: 'LED Wall', definition: 'A video display made up of LED panels tiled together to create a seamless large-format screen.', category: 'Video', aliases: ['LED Screen', 'Video Wall'], relatedTerms: ['Pixel Pitch', 'Processing'] },
+  { id: 'GLO-008', term: 'Deck', definition: 'The stage floor or platform surface where performers and equipment are positioned.', category: 'Staging', aliases: ['Stage Deck'], relatedTerms: ['Riser', 'Thrust'] },
+  { id: 'GLO-009', term: 'Strike', definition: 'The process of dismantling and removing all production equipment after an event.', category: 'Production', aliases: ['Load-Out', 'Tear Down'], relatedTerms: ['Load-In', 'Bump Out'] },
+  { id: 'GLO-010', term: 'Rider', definition: 'A document specifying technical and hospitality requirements for an artist or production.', category: 'Production', aliases: ['Tech Rider', 'Hospitality Rider'], relatedTerms: ['Advance', 'Input List'] },
+  { id: 'GLO-011', term: 'Bridle', definition: 'A rigging configuration using multiple legs to distribute load from a single point.', category: 'Rigging', relatedTerms: ['Shackle', 'Motor'] },
+  { id: 'GLO-012', term: 'Gobo', definition: 'A template or pattern placed in a lighting fixture to project shapes or textures.', category: 'Lighting', aliases: ['Pattern', 'Template'], relatedTerms: ['Moving Light', 'Profile'] },
+];
+
+// =============================================================================
+// ISSUES (for issues/page.tsx)
+// =============================================================================
+
+export interface DemoIssue {
+  id: string;
+  title: string;
+  description: string;
+  category: 'technical' | 'safety' | 'logistics' | 'personnel' | 'vendor' | 'other';
+  priority: 'critical' | 'high' | 'medium' | 'low';
+  status: 'open' | 'in_progress' | 'escalated' | 'resolved' | 'closed';
+  reported_by: string;
+  assigned_to?: string;
+  department: string;
+  location?: string;
+  created_at: string;
+  updated_at: string;
+  escalation_level: number;
+  resolution?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_ISSUES: DemoIssue[] = [
+  { id: 'ISS-001', title: 'Main PA system feedback', description: 'Intermittent feedback from house left speaker cluster', category: 'technical', priority: 'high', status: 'in_progress', reported_by: 'John Martinez', assigned_to: 'Audio Team', department: 'Audio', location: 'Main Stage', created_at: '2024-11-24T14:30:00Z', updated_at: '2024-11-24T14:45:00Z', escalation_level: 1 },
+  { id: 'ISS-002', title: 'Truss motor malfunction', description: 'Motor 3 on downstage truss not responding', category: 'technical', priority: 'critical', status: 'escalated', reported_by: 'Chris Brown', assigned_to: 'Rigging Lead', department: 'Rigging', location: 'Main Stage', created_at: '2024-11-24T13:00:00Z', updated_at: '2024-11-24T14:00:00Z', escalation_level: 2 },
+  { id: 'ISS-003', title: 'Catering delivery delayed', description: 'Crew lunch delivery running 45 minutes late', category: 'logistics', priority: 'medium', status: 'open', reported_by: 'Production Office', department: 'Production', created_at: '2024-11-24T11:00:00Z', updated_at: '2024-11-24T11:00:00Z', escalation_level: 0 },
+  { id: 'ISS-004', title: 'Missing crew member', description: 'Stagehand Alex Johnson not checked in, no response to calls', category: 'personnel', priority: 'high', status: 'open', reported_by: 'Stage Manager', department: 'Stage', created_at: '2024-11-24T09:00:00Z', updated_at: '2024-11-24T09:30:00Z', escalation_level: 1 },
+  { id: 'ISS-005', title: 'Fire exit blocked', description: 'Equipment cases blocking emergency exit door 3', category: 'safety', priority: 'critical', status: 'resolved', reported_by: 'Safety Officer', assigned_to: 'Stagehands', department: 'Safety', location: 'Backstage', created_at: '2024-11-24T10:00:00Z', updated_at: '2024-11-24T10:15:00Z', escalation_level: 0, resolution: 'Cases moved to designated storage area' },
+];
