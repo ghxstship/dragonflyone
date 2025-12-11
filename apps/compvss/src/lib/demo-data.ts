@@ -879,3 +879,41 @@ export const DEMO_DIRECTORY_ENTRIES: DemoDirectoryEntry[] = [
   { id: 'DIR-005', name: 'Madison Square Garden', type: 'Venue', specialties: ['Arena', 'Concert', 'Sports'], languages: ['English'], location: 'New York, NY', rating: 4.8, available: true },
   { id: 'DIR-006', name: 'Yuki Tanaka', type: 'Crew', specialties: ['Video Director', 'LED Tech'], languages: ['Japanese', 'English'], location: 'Los Angeles, CA', rating: 4.7, available: true },
 ];
+
+// =============================================================================
+// ADVANCING CATALOG (for advancing/catalog/page.tsx)
+// =============================================================================
+
+export interface DemoCatalogItem {
+  id: string;
+  item_id: string;
+  item_name: string;
+  category: string;
+  subcategory: string;
+  specifications: string;
+  standard_unit: string;
+  common_variations: string[];
+  industry_vertical: string;
+  procurement_type: string;
+  featured: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_CATALOG_ITEMS: DemoCatalogItem[] = [
+  { id: 'demo-1', item_id: 'AV-001', item_name: 'LED Video Wall Panel', category: 'Audio Visual', subcategory: 'Video', specifications: '2.5mm pixel pitch, 500x500mm panel, indoor rated', standard_unit: 'panel', common_variations: ['2.5mm', '2.9mm', '3.9mm'], industry_vertical: 'events', procurement_type: 'rental', featured: true },
+  { id: 'demo-2', item_id: 'LX-001', item_name: 'Moving Head Wash Light', category: 'Lighting', subcategory: 'Moving Lights', specifications: 'RGBW LED, 19x15W, zoom 7-50 degrees', standard_unit: 'fixture', common_variations: ['Wash', 'Spot', 'Beam'], industry_vertical: 'events', procurement_type: 'rental', featured: true },
+  { id: 'demo-3', item_id: 'ST-001', item_name: 'Stage Deck Platform', category: 'Staging', subcategory: 'Decking', specifications: '4x8 ft aluminum frame, adjustable legs 16-24 inches', standard_unit: 'deck', common_variations: ['4x4', '4x8', '6x8'], industry_vertical: 'events', procurement_type: 'rental', featured: false },
+];
+
+export interface DemoCatalogData {
+  items: DemoCatalogItem[];
+  total: number;
+  categories: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_CATALOG_DATA: DemoCatalogData = {
+  items: DEMO_CATALOG_ITEMS,
+  total: 329,
+  categories: ['Audio Visual', 'Lighting', 'Staging', 'Power', 'Rigging'],
+};

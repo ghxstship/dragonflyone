@@ -24,54 +24,10 @@ import {
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';
 
-// Demo data for unauthenticated users
-const DEMO_CATALOG_ITEMS: ProductionCatalogItem[] = [
-  {
-    id: "demo-1",
-    item_id: "AV-001",
-    item_name: "LED Video Wall Panel",
-    category: "Audio Visual",
-    subcategory: "Video",
-    specifications: "2.5mm pixel pitch, 500x500mm panel, indoor rated",
-    standard_unit: "panel",
-    common_variations: ["2.5mm", "2.9mm", "3.9mm"],
-    industry_vertical: "events",
-    procurement_type: "rental",
-    featured: true,
-  },
-  {
-    id: "demo-2",
-    item_id: "LX-001",
-    item_name: "Moving Head Wash Light",
-    category: "Lighting",
-    subcategory: "Moving Lights",
-    specifications: "RGBW LED, 19x15W, zoom 7-50 degrees",
-    standard_unit: "fixture",
-    common_variations: ["Wash", "Spot", "Beam"],
-    industry_vertical: "events",
-    procurement_type: "rental",
-    featured: true,
-  },
-  {
-    id: "demo-3",
-    item_id: "ST-001",
-    item_name: "Stage Deck Platform",
-    category: "Staging",
-    subcategory: "Decking",
-    specifications: "4x8 ft aluminum frame, adjustable legs 16-24 inches",
-    standard_unit: "deck",
-    common_variations: ["4x4", "4x8", "6x8"],
-    industry_vertical: "events",
-    procurement_type: "rental",
-    featured: false,
-  },
-];
-
-const DEMO_CATALOG_DATA = {
-  items: DEMO_CATALOG_ITEMS,
-  total: 329,
-  categories: ["Audio Visual", "Lighting", "Staging", "Power", "Rigging"],
-};
+import {
+  DEMO_CATALOG_ITEMS,
+  DEMO_CATALOG_DATA,
+} from '../../../lib/demo-data';
 
 export default function CatalogPage() {
   const router = useRouter();
