@@ -9,28 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface CreditCardTxn {
-  id: string;
-  cardId: string;
-  lastFour: string;
-  cardHolder: string;
-  merchant: string;
-  amount: number;
-  date: string;
-  category: string;
-  status: "Pending" | "Posted" | "Disputed";
-  receipt?: boolean;
-  department: string;
-  [key: string]: unknown;
-}
-
-const mockData: CreditCardTxn[] = [
-  { id: "TXN-001", cardId: "CC-001", lastFour: "4521", cardHolder: "John Smith", merchant: "Audio Equipment Co", amount: 2450, date: "2024-11-24", category: "Equipment", status: "Posted", receipt: true, department: "Production" },
-  { id: "TXN-002", cardId: "CC-002", lastFour: "7832", cardHolder: "Sarah Johnson", merchant: "Delta Airlines", amount: 1890, date: "2024-11-23", category: "Travel", status: "Posted", receipt: true, department: "Executive" },
-  { id: "TXN-003", cardId: "CC-001", lastFour: "4521", cardHolder: "John Smith", merchant: "Staples", amount: 156, date: "2024-11-23", category: "Office Supplies", status: "Pending", department: "Production" },
-  { id: "TXN-004", cardId: "CC-003", lastFour: "9156", cardHolder: "Mike Davis", merchant: "Hilton Hotels", amount: 890, date: "2024-11-22", category: "Travel", status: "Posted", receipt: false, department: "Operations" },
-  { id: "TXN-005", cardId: "CC-002", lastFour: "7832", cardHolder: "Sarah Johnson", merchant: "Amazon Business", amount: 567, date: "2024-11-22", category: "Supplies", status: "Disputed", department: "Executive" },
-];
+import {
+  DEMO_CREDIT_CARD_TXNS,
+  type DemoCreditCardTxn as CreditCardTxn,
+} from "../../../lib/demo-data";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -52,7 +34,7 @@ const filters: ListPageFilter[] = [
 
 export default function CreditCardsPage() {
   const router = useRouter();
-  const [data, setData] = useState<CreditCardTxn[]>(mockData);
+  const [data, setData] = useState<CreditCardTxn[]>(DEMO_CREDIT_CARD_TXNS);
   const [selected, setSelected] = useState<CreditCardTxn | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -112,7 +94,7 @@ export default function CreditCardsPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

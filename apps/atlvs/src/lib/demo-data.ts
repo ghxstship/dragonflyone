@@ -1164,3 +1164,30 @@ export const DEMO_DATA_SOURCES: DemoDataSource[] = [
   { id: 'SRC-005', name: 'Salesforce CRM', type: 'API', status: 'Connected', lastSync: '2024-11-25 09:00', recordCount: 125000, syncFrequency: 'Daily' },
   { id: 'SRC-006', name: 'Google Analytics', type: 'API', status: 'Error', lastSync: '2024-11-24 18:00', recordCount: 8500000, syncFrequency: 'Daily' },
 ];
+
+// =============================================================================
+// CREDIT CARD TRANSACTIONS (for finance/credit-cards page)
+// =============================================================================
+
+export interface DemoCreditCardTxn {
+  id: string;
+  cardId: string;
+  lastFour: string;
+  cardHolder: string;
+  merchant: string;
+  amount: number;
+  date: string;
+  category: string;
+  status: 'Pending' | 'Posted' | 'Disputed';
+  receipt?: boolean;
+  department: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CREDIT_CARD_TXNS: DemoCreditCardTxn[] = [
+  { id: 'TXN-001', cardId: 'CC-001', lastFour: '4521', cardHolder: 'John Smith', merchant: 'Audio Equipment Co', amount: 2450, date: '2024-11-24', category: 'Equipment', status: 'Posted', receipt: true, department: 'Production' },
+  { id: 'TXN-002', cardId: 'CC-002', lastFour: '7832', cardHolder: 'Sarah Johnson', merchant: 'Delta Airlines', amount: 1890, date: '2024-11-23', category: 'Travel', status: 'Posted', receipt: true, department: 'Executive' },
+  { id: 'TXN-003', cardId: 'CC-001', lastFour: '4521', cardHolder: 'John Smith', merchant: 'Staples', amount: 156, date: '2024-11-23', category: 'Office Supplies', status: 'Pending', department: 'Production' },
+  { id: 'TXN-004', cardId: 'CC-003', lastFour: '9156', cardHolder: 'Mike Davis', merchant: 'Hilton Hotels', amount: 890, date: '2024-11-22', category: 'Travel', status: 'Posted', receipt: false, department: 'Operations' },
+  { id: 'TXN-005', cardId: 'CC-002', lastFour: '7832', cardHolder: 'Sarah Johnson', merchant: 'Amazon Business', amount: 567, date: '2024-11-22', category: 'Supplies', status: 'Disputed', department: 'Executive' },
+];
