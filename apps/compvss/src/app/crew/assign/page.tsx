@@ -19,21 +19,10 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface CrewMember {
-  id: string;
-  name: string;
-  role: string;
-  skills: string[];
-  available: boolean;
-}
-
-const mockCrew: CrewMember[] = [
-  { id: '1', name: 'Mike Johnson', role: 'Lighting Tech', skills: ['ETC', 'GrandMA', 'Rigging'], available: true },
-  { id: '2', name: 'Sarah Chen', role: 'Sound Engineer', skills: ['DiGiCo', 'Meyer Sound', 'RF'], available: true },
-  { id: '3', name: 'David Rodriguez', role: 'Video Director', skills: ['Barco', 'Resolume', 'IMAG'], available: false },
-  { id: '4', name: 'Emily Watson', role: 'Stage Manager', skills: ['Production', 'Communication', 'Cueing'], available: true },
-  { id: '5', name: 'James Kim', role: 'Rigger', skills: ['Structural', 'Safety', 'Motors'], available: true },
-];
+import {
+  DEMO_ASSIGNABLE_CREW,
+  type DemoAssignableCrewMember as CrewMember,
+} from '../../../lib/demo-data';
 
 export default function AssignCrewPage() {
   const router = useRouter();
@@ -42,7 +31,7 @@ export default function AssignCrewPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [assigned, setAssigned] = useState<string[]>([]);
 
-  const filteredCrew = mockCrew.filter(member => {
+  const filteredCrew = DEMO_ASSIGNABLE_CREW.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          member.role.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = !selectedRole || member.role === selectedRole;
@@ -151,7 +140,7 @@ export default function AssignCrewPage() {
               <Stack gap={4}>
                 <H2>ASSIGNED CREW ({assigned.length})</H2>
                 <Stack gap={3}>
-                  {mockCrew.filter(c => assigned.includes(c.id)).map(member => (
+                  {DEMO_ASSIGNABLE_CREW.filter(c => assigned.includes(c.id)).map(member => (
                     <Card key={member.id} className="border-l-4 border-black p-4">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>

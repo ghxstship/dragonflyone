@@ -781,3 +781,24 @@ export const DEMO_RIDER_STATUS: DemoRiderStatus[] = [
   { category: 'Hospitality Rider', status: 'pending', lastUpdated: '2024-12-01' },
   { category: 'Backline Requirements', status: 'approved', lastUpdated: '2024-10-15' },
 ];
+
+// =============================================================================
+// CREW ASSIGN (for crew/assign/page.tsx)
+// =============================================================================
+
+export interface DemoAssignableCrewMember {
+  id: string;
+  name: string;
+  role: string;
+  skills: string[];
+  available: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSIGNABLE_CREW: DemoAssignableCrewMember[] = [
+  { id: '1', name: 'Mike Johnson', role: 'Lighting Tech', skills: ['ETC', 'GrandMA', 'Rigging'], available: true },
+  { id: '2', name: 'Sarah Chen', role: 'Sound Engineer', skills: ['DiGiCo', 'Meyer Sound', 'RF'], available: true },
+  { id: '3', name: 'David Rodriguez', role: 'Video Director', skills: ['Barco', 'Resolume', 'IMAG'], available: false },
+  { id: '4', name: 'Emily Watson', role: 'Stage Manager', skills: ['Production', 'Communication', 'Cueing'], available: true },
+  { id: '5', name: 'James Kim', role: 'Rigger', skills: ['Structural', 'Safety', 'Motors'], available: true },
+];
