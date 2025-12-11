@@ -866,3 +866,28 @@ export const DEMO_DAMAGE_REPORTS: DemoDamageReport[] = [
   { id: 'DMG-003', assetId: 'AST-004', assetName: 'Staging Deck Module #23', category: 'Staging', reportedBy: 'Tom Wilson', reportedDate: '2024-11-15', severity: 'Minor', status: 'Resolved', description: 'Surface scratches from load-in. Cosmetic only.', location: 'Amalie Arena', projectId: 'PROJ-088', estimatedCost: 150, actualCost: 120, resolvedDate: '2024-11-17' },
   { id: 'DMG-004', assetId: 'AST-005', assetName: 'Chain Motor Hoist #12', category: 'Rigging', reportedBy: 'John Martinez', reportedDate: '2024-11-22', severity: 'Critical', status: 'Under Review', description: 'Chain slippage detected during load test. Removed from service pending inspection.', location: 'Warehouse A', insuranceClaim: true },
 ];
+
+// =============================================================================
+// IDLE ASSETS (for assets/idle-analysis page)
+// =============================================================================
+
+export interface DemoIdleAsset {
+  id: string;
+  name: string;
+  category: string;
+  idleDays: number;
+  lastUsed: string;
+  location: string;
+  value: number;
+  monthlyCarryCost: number;
+  recommendation: 'Sell' | 'Rent Out' | 'Redeploy' | 'Monitor';
+  [key: string]: unknown;
+}
+
+export const DEMO_IDLE_ASSETS: DemoIdleAsset[] = [
+  { id: 'AST-101', name: 'Meyer Sound LYON', category: 'Audio', idleDays: 45, lastUsed: '2024-10-10', location: 'Warehouse A', value: 85000, monthlyCarryCost: 850, recommendation: 'Rent Out' },
+  { id: 'AST-102', name: 'Robe MegaPointe (12)', category: 'Lighting', idleDays: 62, lastUsed: '2024-09-23', location: 'Warehouse B', value: 48000, monthlyCarryCost: 480, recommendation: 'Redeploy' },
+  { id: 'AST-103', name: 'Blackmagic ATEM 4K', category: 'Video', idleDays: 90, lastUsed: '2024-08-26', location: 'Warehouse A', value: 12000, monthlyCarryCost: 120, recommendation: 'Sell' },
+  { id: 'AST-104', name: 'CM Lodestar 2T (8)', category: 'Rigging', idleDays: 30, lastUsed: '2024-10-25', location: 'Warehouse C', value: 32000, monthlyCarryCost: 320, recommendation: 'Monitor' },
+  { id: 'AST-105', name: 'Stageline SL100', category: 'Staging', idleDays: 120, lastUsed: '2024-07-26', location: 'Yard', value: 95000, monthlyCarryCost: 1200, recommendation: 'Sell' },
+];
