@@ -288,3 +288,38 @@ export const DEMO_VENDOR_CONTRACTS_FULL: DemoVendorContractFull[] = [
   { id: 'VC-004', vendorName: 'Video Tech Pro', contractType: 'Master Services', startDate: '2024-01-01', expiryDate: '2025-12-31', value: 150000, status: 'Active', daysUntilExpiry: 402, autoRenew: true, category: 'Video' },
   { id: 'VC-005', vendorName: 'Rigging Experts', contractType: 'Equipment Rental', startDate: '2024-06-01', expiryDate: '2024-12-15', value: 95000, status: 'Expiring', daysUntilExpiry: 20, autoRenew: false, category: 'Rigging' },
 ];
+
+// =============================================================================
+// OKRs (for okrs page)
+// =============================================================================
+
+export interface DemoKeyResult {
+  kr: string;
+  progress: number;
+}
+
+export interface DemoOKRItem {
+  id: string;
+  objective: string;
+  owner: string;
+  progress: number;
+  keyResults: DemoKeyResult[];
+}
+
+export const DEMO_OKRS_LIST: DemoOKRItem[] = [
+  { id: 'OKR-Q4-001', objective: 'Scale Production Capacity 50%', owner: 'Operations', progress: 65, keyResults: [
+    { kr: 'Hire 15 new crew members', progress: 80 },
+    { kr: 'Acquire $2M in new equipment', progress: 60 },
+    { kr: 'Open second warehouse facility', progress: 45 },
+  ]},
+  { id: 'OKR-Q4-002', objective: 'Increase Revenue to $15M', owner: 'Business Dev', progress: 70, keyResults: [
+    { kr: 'Close 8 new festival contracts', progress: 75 },
+    { kr: 'Expand into 3 new markets', progress: 66 },
+    { kr: 'Achieve 95% client retention', progress: 100 },
+  ]},
+  { id: 'OKR-Q4-003', objective: 'Enhance Operational Excellence', owner: 'COO', progress: 55, keyResults: [
+    { kr: 'Reduce setup time by 25%', progress: 40 },
+    { kr: 'Achieve 99% on-time delivery', progress: 85 },
+    { kr: 'Zero safety incidents', progress: 100 },
+  ]},
+];

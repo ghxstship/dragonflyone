@@ -20,36 +20,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface KeyResult {
-  kr: string;
-  progress: number;
-}
-
-interface OKR {
-  id: string;
-  objective: string;
-  owner: string;
-  progress: number;
-  keyResults: KeyResult[];
-}
-
-const mockOKRs: OKR[] = [
-  { id: "OKR-Q4-001", objective: "Scale Production Capacity 50%", owner: "Operations", progress: 65, keyResults: [
-    { kr: "Hire 15 new crew members", progress: 80 },
-    { kr: "Acquire $2M in new equipment", progress: 60 },
-    { kr: "Open second warehouse facility", progress: 45 },
-  ]},
-  { id: "OKR-Q4-002", objective: "Increase Revenue to $15M", owner: "Business Dev", progress: 70, keyResults: [
-    { kr: "Close 8 new festival contracts", progress: 75 },
-    { kr: "Expand into 3 new markets", progress: 66 },
-    { kr: "Achieve 95% client retention", progress: 100 },
-  ]},
-  { id: "OKR-Q4-003", objective: "Enhance Operational Excellence", owner: "COO", progress: 55, keyResults: [
-    { kr: "Reduce setup time by 25%", progress: 40 },
-    { kr: "Achieve 99% on-time delivery", progress: 85 },
-    { kr: "Zero safety incidents", progress: 100 },
-  ]},
-];
+import {
+  DEMO_OKRS_LIST,
+  type DemoOKRItem as OKR,
+} from "../../lib/demo-data";
 
 const getProgressVariant = (progress: number): 'solid' | 'outline' | 'ghost' => {
   if (progress >= 70) return 'solid';
@@ -84,7 +58,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function OKRsPage() {
   const router = useRouter();
-  const [okrs, setOkrs] = useState<OKR[]>(mockOKRs);
+  const [okrs, setOkrs] = useState<OKR[]>(DEMO_OKRS_LIST);
   const [selectedOKR, setSelectedOKR] = useState<OKR | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
