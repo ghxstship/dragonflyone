@@ -10,38 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-interface EventTemplate {
-  id: string;
-  name: string;
-  type: "Concert" | "Festival" | "Corporate" | "Theater" | "Sports" | "Custom";
-  description: string;
-  lastUsed?: string;
-  timesUsed: number;
-  sections: string[];
-}
+import {
+  DEMO_EVENT_TEMPLATES,
+  DEMO_RECENT_EVENTS,
+  type DemoEventTemplate as EventTemplate,
+  type DemoRecentEvent as RecentEvent,
+} from "@/lib/demo-data";
 
-interface RecentEvent {
-  id: string;
-  name: string;
-  date: string;
-  venue: string;
-  type: string;
-}
-
-const mockTemplates: EventTemplate[] = [
-  { id: "TPL-001", name: "Standard Concert", type: "Concert", description: "Single artist concert with GA and reserved seating", timesUsed: 45, lastUsed: "2024-11-20", sections: ["Event Info", "Ticketing", "Seating", "Marketing"] },
-  { id: "TPL-002", name: "Multi-Day Festival", type: "Festival", description: "Multi-day outdoor festival with multiple stages", timesUsed: 12, lastUsed: "2024-10-15", sections: ["Event Info", "Ticketing", "Lineup", "Camping", "Vendors", "Marketing"] },
-  { id: "TPL-003", name: "Corporate Conference", type: "Corporate", description: "Business conference with sessions and networking", timesUsed: 28, lastUsed: "2024-11-18", sections: ["Event Info", "Registration", "Sessions", "Sponsors", "Networking"] },
-  { id: "TPL-004", name: "Theater Production", type: "Theater", description: "Theatrical performance with assigned seating", timesUsed: 15, lastUsed: "2024-11-10", sections: ["Event Info", "Ticketing", "Seating", "Cast", "Marketing"] },
-  { id: "TPL-005", name: "Sporting Event", type: "Sports", description: "Sports event with tiered seating and concessions", timesUsed: 8, lastUsed: "2024-09-25", sections: ["Event Info", "Ticketing", "Seating", "Teams", "Concessions"] },
-];
-
-const mockRecentEvents: RecentEvent[] = [
-  { id: "EVT-001", name: "Summer Music Festival 2024", date: "2024-08-15", venue: "Central Park", type: "Festival" },
-  { id: "EVT-002", name: "Tech Conference 2024", date: "2024-10-20", venue: "Convention Center", type: "Corporate" },
-  { id: "EVT-003", name: "Rock Concert Tour", date: "2024-11-05", venue: "Madison Square Garden", type: "Concert" },
-  { id: "EVT-004", name: "Holiday Gala", date: "2024-12-15", venue: "Grand Ballroom", type: "Corporate" },
-];
+const mockTemplates = DEMO_EVENT_TEMPLATES;
+const mockRecentEvents = DEMO_RECENT_EVENTS;
 
 function EventCloneContent() {
   const router = useRouter();

@@ -531,3 +531,133 @@ export const DEMO_TRANSPORT_OPTIONS: DemoTransportOption[] = [
   { id: 'TRN-003', name: 'Uber/Lyft Zone', type: 'Rideshare Zone', description: 'Designated pickup and drop-off area', features: ['North side of venue', 'Well-lit', 'Security present'] },
   { id: 'TRN-004', name: 'Bike Valet', type: 'Bike Parking', description: 'Free secure bike parking', features: ['Free', 'Attended', 'Helmet storage available'] },
 ];
+
+// =============================================================================
+// EVENTS - PHOTO BOOTH (for events/[id]/photo-booth/page.tsx)
+// =============================================================================
+
+export interface DemoPhotoBoothSession {
+  id: string;
+  boothId: string;
+  boothName: string;
+  timestamp: string;
+  photoCount: number;
+  shared: boolean;
+  sharedTo?: string[];
+  email?: string;
+  printed: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoPhotoBooth {
+  id: string;
+  name: string;
+  location: string;
+  status: 'Active' | 'Offline' | 'Maintenance';
+  sessionCount: number;
+  photosTaken: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_PHOTO_BOOTHS: DemoPhotoBooth[] = [
+  { id: 'PB-001', name: 'Main Entrance Booth', location: 'North Gate', status: 'Active', sessionCount: 156, photosTaken: 468 },
+  { id: 'PB-002', name: 'VIP Lounge Booth', location: 'VIP Area', status: 'Active', sessionCount: 45, photosTaken: 135 },
+  { id: 'PB-003', name: 'Stage Area Booth', location: 'Near Main Stage', status: 'Active', sessionCount: 234, photosTaken: 702 },
+  { id: 'PB-004', name: 'Merch Tent Booth', location: 'Merchandise Area', status: 'Offline', sessionCount: 89, photosTaken: 267 },
+];
+
+export const DEMO_PHOTO_BOOTH_SESSIONS: DemoPhotoBoothSession[] = [
+  { id: 'SES-001', boothId: 'PB-001', boothName: 'Main Entrance', timestamp: '2024-11-24T20:15:00Z', photoCount: 3, shared: true, sharedTo: ['Instagram', 'Email'], email: 'john@email.com', printed: true },
+  { id: 'SES-002', boothId: 'PB-003', boothName: 'Stage Area', timestamp: '2024-11-24T20:12:00Z', photoCount: 4, shared: true, sharedTo: ['TikTok'], printed: false },
+  { id: 'SES-003', boothId: 'PB-002', boothName: 'VIP Lounge', timestamp: '2024-11-24T20:10:00Z', photoCount: 2, shared: false, printed: true },
+  { id: 'SES-004', boothId: 'PB-001', boothName: 'Main Entrance', timestamp: '2024-11-24T20:08:00Z', photoCount: 3, shared: true, sharedTo: ['Instagram', 'Facebook'], email: 'sarah@email.com', printed: true },
+];
+
+// =============================================================================
+// EVENTS - CLONE (for events/clone/page.tsx)
+// =============================================================================
+
+export interface DemoEventTemplate {
+  id: string;
+  name: string;
+  type: 'Concert' | 'Festival' | 'Corporate' | 'Theater' | 'Sports' | 'Custom';
+  description: string;
+  lastUsed?: string;
+  timesUsed: number;
+  sections: string[];
+  [key: string]: unknown;
+}
+
+export interface DemoRecentEvent {
+  id: string;
+  name: string;
+  date: string;
+  venue: string;
+  type: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_EVENT_TEMPLATES: DemoEventTemplate[] = [
+  { id: 'TPL-001', name: 'Standard Concert', type: 'Concert', description: 'Single artist concert with GA and reserved seating', timesUsed: 45, lastUsed: '2024-11-20', sections: ['Event Info', 'Ticketing', 'Seating', 'Marketing'] },
+  { id: 'TPL-002', name: 'Multi-Day Festival', type: 'Festival', description: 'Multi-day outdoor festival with multiple stages', timesUsed: 12, lastUsed: '2024-10-15', sections: ['Event Info', 'Ticketing', 'Lineup', 'Camping', 'Vendors', 'Marketing'] },
+  { id: 'TPL-003', name: 'Corporate Conference', type: 'Corporate', description: 'Business conference with sessions and networking', timesUsed: 28, lastUsed: '2024-11-18', sections: ['Event Info', 'Registration', 'Sessions', 'Sponsors', 'Networking'] },
+  { id: 'TPL-004', name: 'Theater Production', type: 'Theater', description: 'Theatrical performance with assigned seating', timesUsed: 15, lastUsed: '2024-11-10', sections: ['Event Info', 'Ticketing', 'Seating', 'Cast', 'Marketing'] },
+  { id: 'TPL-005', name: 'Sporting Event', type: 'Sports', description: 'Sports event with tiered seating and concessions', timesUsed: 8, lastUsed: '2024-09-25', sections: ['Event Info', 'Ticketing', 'Seating', 'Teams', 'Concessions'] },
+];
+
+export const DEMO_RECENT_EVENTS: DemoRecentEvent[] = [
+  { id: 'EVT-001', name: 'Summer Music Festival 2024', date: '2024-08-15', venue: 'Central Park', type: 'Festival' },
+  { id: 'EVT-002', name: 'Tech Conference 2024', date: '2024-10-20', venue: 'Convention Center', type: 'Corporate' },
+  { id: 'EVT-003', name: 'Rock Concert Tour', date: '2024-11-05', venue: 'Madison Square Garden', type: 'Concert' },
+  { id: 'EVT-004', name: 'Holiday Gala', date: '2024-12-15', venue: 'Grand Ballroom', type: 'Corporate' },
+];
+
+// =============================================================================
+// EVENTS - COLLABORATION (for events/create/collaboration/page.tsx)
+// =============================================================================
+
+export interface DemoCollaborator {
+  id: string;
+  name: string;
+  email: string;
+  organization: string;
+  role: 'Promoter' | 'Venue' | 'Artist' | 'Sponsor' | 'Production';
+  permissions: string[];
+  status: 'Active' | 'Pending' | 'Revoked';
+  lastActive?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoActivityLog {
+  id: string;
+  user: string;
+  action: string;
+  timestamp: string;
+  section: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_COLLABORATORS: DemoCollaborator[] = [
+  { id: 'COL-001', name: 'John Smith', email: 'john@promoter.com', organization: 'Live Nation', role: 'Promoter', permissions: ['Edit Event', 'Manage Tickets', 'View Analytics'], status: 'Active', lastActive: '2 hours ago' },
+  { id: 'COL-002', name: 'Sarah Johnson', email: 'sarah@venue.com', organization: 'Madison Square Garden', role: 'Venue', permissions: ['View Event', 'Edit Venue Info', 'Manage Capacity'], status: 'Active', lastActive: '1 day ago' },
+  { id: 'COL-003', name: 'Mike Davis', email: 'mike@artist.com', organization: 'Artist Management', role: 'Artist', permissions: ['View Event', 'Edit Artist Info'], status: 'Pending' },
+  { id: 'COL-004', name: 'Emily Chen', email: 'emily@sponsor.com', organization: 'Brand Corp', role: 'Sponsor', permissions: ['View Event', 'View Analytics'], status: 'Active', lastActive: '3 days ago' },
+];
+
+export const DEMO_ACTIVITY_LOGS: DemoActivityLog[] = [
+  { id: 'ACT-001', user: 'John Smith', action: 'Updated ticket pricing', timestamp: '2 hours ago', section: 'Ticketing' },
+  { id: 'ACT-002', user: 'Sarah Johnson', action: 'Modified venue capacity', timestamp: '1 day ago', section: 'Venue' },
+  { id: 'ACT-003', user: 'You', action: 'Added new collaborator', timestamp: '2 days ago', section: 'Team' },
+  { id: 'ACT-004', user: 'Emily Chen', action: 'Viewed analytics report', timestamp: '3 days ago', section: 'Analytics' },
+];
+
+export const DEMO_PERMISSION_OPTIONS = [
+  'View Event',
+  'Edit Event',
+  'Manage Tickets',
+  'View Analytics',
+  'Edit Venue Info',
+  'Manage Capacity',
+  'Edit Artist Info',
+  'Manage Marketing',
+];

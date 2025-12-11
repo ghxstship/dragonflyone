@@ -11,49 +11,17 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-interface Collaborator {
-  id: string;
-  name: string;
-  email: string;
-  organization: string;
-  role: "Promoter" | "Venue" | "Artist" | "Sponsor" | "Production";
-  permissions: string[];
-  status: "Active" | "Pending" | "Revoked";
-  lastActive?: string;
-}
+import {
+  DEMO_COLLABORATORS,
+  DEMO_ACTIVITY_LOGS,
+  DEMO_PERMISSION_OPTIONS,
+  type DemoCollaborator as Collaborator,
+  type DemoActivityLog as ActivityLog,
+} from "@/lib/demo-data";
 
-interface ActivityLog {
-  id: string;
-  user: string;
-  action: string;
-  timestamp: string;
-  section: string;
-}
-
-const mockCollaborators: Collaborator[] = [
-  { id: "COL-001", name: "John Smith", email: "john@promoter.com", organization: "Live Nation", role: "Promoter", permissions: ["Edit Event", "Manage Tickets", "View Analytics"], status: "Active", lastActive: "2 hours ago" },
-  { id: "COL-002", name: "Sarah Johnson", email: "sarah@venue.com", organization: "Madison Square Garden", role: "Venue", permissions: ["View Event", "Edit Venue Info", "Manage Capacity"], status: "Active", lastActive: "1 day ago" },
-  { id: "COL-003", name: "Mike Davis", email: "mike@artist.com", organization: "Artist Management", role: "Artist", permissions: ["View Event", "Edit Artist Info"], status: "Pending" },
-  { id: "COL-004", name: "Emily Chen", email: "emily@sponsor.com", organization: "Brand Corp", role: "Sponsor", permissions: ["View Event", "View Analytics"], status: "Active", lastActive: "3 days ago" },
-];
-
-const mockActivity: ActivityLog[] = [
-  { id: "ACT-001", user: "John Smith", action: "Updated ticket pricing", timestamp: "2 hours ago", section: "Ticketing" },
-  { id: "ACT-002", user: "Sarah Johnson", action: "Modified venue capacity", timestamp: "1 day ago", section: "Venue" },
-  { id: "ACT-003", user: "You", action: "Added new collaborator", timestamp: "2 days ago", section: "Team" },
-  { id: "ACT-004", user: "Emily Chen", action: "Viewed analytics report", timestamp: "3 days ago", section: "Analytics" },
-];
-
-const permissionOptions = [
-  "View Event",
-  "Edit Event",
-  "Manage Tickets",
-  "View Analytics",
-  "Edit Venue Info",
-  "Manage Capacity",
-  "Edit Artist Info",
-  "Manage Marketing",
-];
+const mockCollaborators = DEMO_COLLABORATORS;
+const mockActivity = DEMO_ACTIVITY_LOGS;
+const permissionOptions = DEMO_PERMISSION_OPTIONS;
 
 function EventCollaborationPageContent() {
   const router = useRouter();

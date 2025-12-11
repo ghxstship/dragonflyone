@@ -10,40 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Input, Kicker,
 } from "@ghxstship/ui";
 
-interface PhotoBoothSession {
-  id: string;
-  boothId: string;
-  boothName: string;
-  timestamp: string;
-  photoCount: number;
-  shared: boolean;
-  sharedTo?: string[];
-  email?: string;
-  printed: boolean;
-}
+import {
+  DEMO_PHOTO_BOOTHS,
+  DEMO_PHOTO_BOOTH_SESSIONS,
+  type DemoPhotoBooth as PhotoBooth,
+  type DemoPhotoBoothSession as PhotoBoothSession,
+} from "@/lib/demo-data";
 
-interface PhotoBooth {
-  id: string;
-  name: string;
-  location: string;
-  status: "Active" | "Offline" | "Maintenance";
-  sessionCount: number;
-  photosTaken: number;
-}
-
-const mockBooths: PhotoBooth[] = [
-  { id: "PB-001", name: "Main Entrance Booth", location: "North Gate", status: "Active", sessionCount: 156, photosTaken: 468 },
-  { id: "PB-002", name: "VIP Lounge Booth", location: "VIP Area", status: "Active", sessionCount: 45, photosTaken: 135 },
-  { id: "PB-003", name: "Stage Area Booth", location: "Near Main Stage", status: "Active", sessionCount: 234, photosTaken: 702 },
-  { id: "PB-004", name: "Merch Tent Booth", location: "Merchandise Area", status: "Offline", sessionCount: 89, photosTaken: 267 },
-];
-
-const mockSessions: PhotoBoothSession[] = [
-  { id: "SES-001", boothId: "PB-001", boothName: "Main Entrance", timestamp: "2024-11-24T20:15:00Z", photoCount: 3, shared: true, sharedTo: ["Instagram", "Email"], email: "john@email.com", printed: true },
-  { id: "SES-002", boothId: "PB-003", boothName: "Stage Area", timestamp: "2024-11-24T20:12:00Z", photoCount: 4, shared: true, sharedTo: ["TikTok"], printed: false },
-  { id: "SES-003", boothId: "PB-002", boothName: "VIP Lounge", timestamp: "2024-11-24T20:10:00Z", photoCount: 2, shared: false, printed: true },
-  { id: "SES-004", boothId: "PB-001", boothName: "Main Entrance", timestamp: "2024-11-24T20:08:00Z", photoCount: 3, shared: true, sharedTo: ["Instagram", "Facebook"], email: "sarah@email.com", printed: true },
-];
+const mockBooths = DEMO_PHOTO_BOOTHS;
+const mockSessions = DEMO_PHOTO_BOOTH_SESSIONS;
 
 function PhotoBoothPageContent() {
   const router = useRouter();
