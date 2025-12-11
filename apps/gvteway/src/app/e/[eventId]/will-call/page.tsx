@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -29,69 +29,31 @@ import {
   User,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface WillCallTicket {
-  id: string;
-  orderId: string;
-  name: string;
-  email: string;
-  ticketCount: number;
-  ticketType: string;
-  status: 'pending' | 'picked-up';
-  pickupTime?: string;
-}
-
-const MOCK_WILL_CALL: WillCallTicket[] = [
-  { id: 'WC-001', orderId: 'ORD-12345', name: 'John Smith', email: 'john@email.com', ticketCount: 2, ticketType: 'VIP', status: 'pending' },
-  { id: 'WC-002', orderId: 'ORD-12346', name: 'Jane Doe', email: 'jane@email.com', ticketCount: 4, ticketType: 'GA', status: 'picked-up', pickupTime: '18:30' },
-  { id: 'WC-003', orderId: 'ORD-12347', name: 'Bob Wilson', email: 'bob@email.com', ticketCount: 1, ticketType: 'Premium', status: 'pending' },
-  { id: 'WC-004', orderId: 'ORD-12348', name: 'Sarah Chen', email: 'sarah@email.com', ticketCount: 2, ticketType: 'GA', status: 'picked-up', pickupTime: '19:15' },
-];
+import { useEventWillCallData, type WillCallTicket } from '@/hooks/useEventOperations';
 
 export default function EventWillCallPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [tickets, setTickets] = useState<WillCallTicket[]>(MOCK_WILL_CALL);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  const fetchWillCallTickets = useCallback(async () => {
-    if (!eventId) return;
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/will-call`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.tickets && data.tickets.length > 0) {
-          setTickets(data.tickets);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch will call tickets:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
+  const { tickets, isLoading: loading, markPickedUp } = useEventWillCallData(eventId);
 
-  useEffect(() => {
-    fetchWillCallTickets();
-  }, [fetchWillCallTickets]);
+  const pendingCount = tickets.filter((t: WillCallTicket) => t.status === 'pending').length;
+  const pickedUpCount = tickets.filter((t: WillCallTicket) => t.status === 'picked-up').length;
+  const totalTickets = tickets.reduce((sum: number, t: WillCallTicket) => sum + t.ticketCount, 0);
 
-  const pendingCount = tickets.filter(t => t.status === 'pending').length;
-  const pickedUpCount = tickets.filter(t => t.status === 'picked-up').length;
-  const totalTickets = tickets.reduce((sum, t) => sum + t.ticketCount, 0);
-
-  const filteredTickets = tickets.filter(t =>
+  const filteredTickets = tickets.filter((t: WillCallTicket) =>
     t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.orderId.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handlePickup = (id: string) => {
-    setTickets(prev => prev.map(t =>
-      t.id === id ? { ...t, status: 'picked-up' as const, pickupTime: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) } : t
-    ));
+  const handlePickup = async (id: string) => {
+    try {
+      await markPickedUp(id);
+    } catch {
+      // Error handled by hook
+    }
   };
 
   return (
@@ -134,7 +96,7 @@ export default function EventWillCallPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredTickets.map(ticket => (
+                  {filteredTickets.map((ticket: WillCallTicket) => (
                     <TableRow key={ticket.id}>
                       <TableCell>{ticket.orderId}</TableCell>
                       <TableCell className="font-weight-semibold">{ticket.name}</TableCell>

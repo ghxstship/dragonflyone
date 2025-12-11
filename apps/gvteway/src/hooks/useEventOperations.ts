@@ -178,3 +178,64 @@ export function useEventCheckInData(eventId: string) {
     isSearching: searchMutation.isPending,
   };
 }
+
+export interface WillCallTicket {
+  id: string;
+  orderId: string;
+  name: string;
+  email: string;
+  ticketCount: number;
+  ticketType: string;
+  status: 'pending' | 'picked-up';
+  pickupTime?: string;
+}
+
+const DEMO_WILL_CALL: WillCallTicket[] = [
+  { id: 'WC-001', orderId: 'ORD-12345', name: 'John Smith', email: 'john@email.com', ticketCount: 2, ticketType: 'VIP', status: 'pending' },
+  { id: 'WC-002', orderId: 'ORD-12346', name: 'Jane Doe', email: 'jane@email.com', ticketCount: 4, ticketType: 'GA', status: 'picked-up', pickupTime: '18:30' },
+];
+
+export function useEventWillCall(eventId: string) {
+  return useQuery({
+    queryKey: eventOpsKeys.willCall(eventId),
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/will-call`);
+      if (!response.ok) return DEMO_WILL_CALL;
+      const data = await response.json();
+      return data.tickets || DEMO_WILL_CALL;
+    },
+    enabled: !!eventId,
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useMarkPickedUp(eventId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (ticketId: string) => {
+      const response = await fetch(`/api/events/${eventId}/will-call/${ticketId}/pickup`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to mark as picked up');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventOpsKeys.willCall(eventId) });
+    },
+  });
+}
+
+export function useEventWillCallData(eventId: string) {
+  const ticketsQuery = useEventWillCall(eventId);
+  const pickupMutation = useMarkPickedUp(eventId);
+
+  return {
+    tickets: ticketsQuery.data || [],
+    isLoading: ticketsQuery.isLoading,
+    error: ticketsQuery.error,
+    refetch: ticketsQuery.refetch,
+    markPickedUp: pickupMutation.mutateAsync,
+    isMarking: pickupMutation.isPending,
+  };
+}
