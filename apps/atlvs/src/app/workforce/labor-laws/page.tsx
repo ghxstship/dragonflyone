@@ -9,29 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface StateLaborLaw {
-  id: string;
-  state: string;
-  stateCode: string;
-  category: string;
-  requirement: string;
-  description: string;
-  effectiveDate: string;
-  lastUpdated: string;
-  status: 'Active' | 'Updated' | 'Pending';
-  [key: string]: unknown;
-}
-
-const mockData: StateLaborLaw[] = [
-  { id: 'LAW-001', state: 'California', stateCode: 'CA', category: 'Meal Breaks', requirement: '30-min meal break', description: 'Employees must receive a 30-minute unpaid meal break for shifts over 5 hours', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-002', state: 'California', stateCode: 'CA', category: 'Rest Breaks', requirement: '10-min rest per 4 hours', description: 'Paid 10-minute rest break for every 4 hours worked', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-003', state: 'California', stateCode: 'CA', category: 'Overtime', requirement: 'Daily overtime', description: 'Overtime after 8 hours in a day, double time after 12 hours', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-004', state: 'New York', stateCode: 'NY', category: 'Meal Breaks', requirement: '30-min meal break', description: 'Meal break required for shifts over 6 hours spanning noon', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-005', state: 'New York', stateCode: 'NY', category: 'Spread of Hours', requirement: 'Extra hour pay', description: 'Additional hour at minimum wage if workday exceeds 10 hours', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-006', state: 'Texas', stateCode: 'TX', category: 'Overtime', requirement: 'Federal FLSA only', description: 'Texas follows federal overtime rules - overtime after 40 hours/week', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-  { id: 'LAW-007', state: 'Illinois', stateCode: 'IL', category: 'Meal Breaks', requirement: '20-min meal break', description: '20-minute meal break for shifts of 7.5+ hours', effectiveDate: '2024-01-01', lastUpdated: '2024-06-01', status: 'Updated' },
-  { id: 'LAW-008', state: 'Nevada', stateCode: 'NV', category: 'Rest Breaks', requirement: '10-min rest per 4 hours', description: 'Paid 10-minute rest break for every 4 hours worked', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
-];
+import {
+  DEMO_STATE_LABOR_LAWS,
+  type DemoStateLaborLaw as StateLaborLaw,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) { case 'Active': return 'solid'; case 'Updated': return 'outline'; case 'Pending': return 'ghost'; default: return 'ghost'; }
@@ -54,7 +35,7 @@ const filters: ListPageFilter[] = [
 
 export default function LaborLawsPage() {
   const router = useRouter();
-  const [data] = useState<StateLaborLaw[]>(mockData);
+  const [data] = useState<StateLaborLaw[]>(DEMO_STATE_LABOR_LAWS);
   const [selected, setSelected] = useState<StateLaborLaw | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -111,7 +92,7 @@ export default function LaborLawsPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
