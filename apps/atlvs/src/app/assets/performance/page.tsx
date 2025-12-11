@@ -10,28 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface AssetPerformance {
-  id: string;
-  name: string;
-  category: string;
-  utilizationRate: number;
-  uptime: number;
-  failureCount: number;
-  mtbf: number;
-  mttr: number;
-  healthScore: number;
-  predictedFailure?: string;
-  lastMaintenance: string;
-  [key: string]: unknown;
-}
-
-const mockData: AssetPerformance[] = [
-  { id: 'AST-001', name: 'L-Acoustics K2 Array', category: 'Audio', utilizationRate: 78, uptime: 99.2, failureCount: 1, mtbf: 2400, mttr: 4, healthScore: 92, lastMaintenance: '2024-10-15' },
-  { id: 'AST-002', name: 'Clay Paky Sharpy Plus', category: 'Lighting', utilizationRate: 85, uptime: 98.5, failureCount: 3, mtbf: 1800, mttr: 2, healthScore: 88, predictedFailure: '2025-02-15', lastMaintenance: '2024-11-01' },
-  { id: 'AST-003', name: 'ROE Visual CB5 Panels', category: 'Video', utilizationRate: 62, uptime: 99.8, failureCount: 0, mtbf: 3200, mttr: 1, healthScore: 98, lastMaintenance: '2024-09-20' },
-  { id: 'AST-004', name: 'CM Lodestar 1T Hoists', category: 'Rigging', utilizationRate: 71, uptime: 99.5, failureCount: 2, mtbf: 2100, mttr: 6, healthScore: 85, predictedFailure: '2025-01-20', lastMaintenance: '2024-10-25' },
-  { id: 'AST-005', name: 'DiGiCo SD12 Console', category: 'Audio', utilizationRate: 92, uptime: 100, failureCount: 0, mtbf: 4000, mttr: 0, healthScore: 100, lastMaintenance: '2024-11-10' },
-];
+import {
+  DEMO_ASSET_PERFORMANCE,
+  type DemoAssetPerformance as AssetPerformance,
+} from '../../../lib/demo-data';
 
 const getHealthVariant = (score: number): 'solid' | 'outline' | 'ghost' => {
   if (score >= 90) return 'solid';
@@ -55,7 +37,7 @@ const filters: ListPageFilter[] = [
 
 export default function AssetPerformancePage() {
   const router = useRouter();
-  const [data] = useState<AssetPerformance[]>(mockData);
+  const [data] = useState<AssetPerformance[]>(DEMO_ASSET_PERFORMANCE);
   const [selected, setSelected] = useState<AssetPerformance | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -117,7 +99,7 @@ export default function AssetPerformancePage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

@@ -949,3 +949,30 @@ export const DEMO_OPTIMIZATION_RECOMMENDATIONS: DemoOptimizationRecommendation[]
   { id: 'REC-004', type: 'consolidation', priority: 'low', asset_id: 'AST-004', asset_name: 'Cable Inventory', category: 'Infrastructure', current_utilization: 40, target_utilization: 60, recommendation: 'Multiple cable types with low utilization. Consolidate to standard types.', potential_savings: 8000, action_items: ['Audit cable inventory', 'Identify redundant types', 'Create standardization plan'], status: 'pending' },
   { id: 'REC-005', type: 'replacement', priority: 'medium', asset_id: 'AST-005', asset_name: 'PTZ Camera Set', category: 'Video', current_utilization: 65, target_utilization: 70, recommendation: 'Asset approaching end of life. Plan replacement within 6 months.', potential_savings: 12000, action_items: ['Research replacement models', 'Get quotes', 'Plan transition timeline'], status: 'pending' },
 ];
+
+// =============================================================================
+// ASSET PERFORMANCE (for assets/performance page)
+// =============================================================================
+
+export interface DemoAssetPerformance {
+  id: string;
+  name: string;
+  category: string;
+  utilizationRate: number;
+  uptime: number;
+  failureCount: number;
+  mtbf: number;
+  mttr: number;
+  healthScore: number;
+  predictedFailure?: string;
+  lastMaintenance: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSET_PERFORMANCE: DemoAssetPerformance[] = [
+  { id: 'AST-001', name: 'L-Acoustics K2 Array', category: 'Audio', utilizationRate: 78, uptime: 99.2, failureCount: 1, mtbf: 2400, mttr: 4, healthScore: 92, lastMaintenance: '2024-10-15' },
+  { id: 'AST-002', name: 'Clay Paky Sharpy Plus', category: 'Lighting', utilizationRate: 85, uptime: 98.5, failureCount: 3, mtbf: 1800, mttr: 2, healthScore: 88, predictedFailure: '2025-02-15', lastMaintenance: '2024-11-01' },
+  { id: 'AST-003', name: 'ROE Visual CB5 Panels', category: 'Video', utilizationRate: 62, uptime: 99.8, failureCount: 0, mtbf: 3200, mttr: 1, healthScore: 98, lastMaintenance: '2024-09-20' },
+  { id: 'AST-004', name: 'CM Lodestar 1T Hoists', category: 'Rigging', utilizationRate: 71, uptime: 99.5, failureCount: 2, mtbf: 2100, mttr: 6, healthScore: 85, predictedFailure: '2025-01-20', lastMaintenance: '2024-10-25' },
+  { id: 'AST-005', name: 'DiGiCo SD12 Console', category: 'Audio', utilizationRate: 92, uptime: 100, failureCount: 0, mtbf: 4000, mttr: 0, healthScore: 100, lastMaintenance: '2024-11-10' },
+];
