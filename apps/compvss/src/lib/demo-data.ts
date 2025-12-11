@@ -854,3 +854,28 @@ export const DEMO_CREW_AVAILABILITY: DemoCrewAvailability[] = [
   { id: 'CRW-004', name: 'Emily Chen', role: 'Video Director', department: 'Video', avatar: 'EC', status: 'Available', weekAvailability: [true, true, true, true, true, true, false] },
   { id: 'CRW-005', name: 'Robert Wilson', role: 'Rigger', department: 'Rigging', avatar: 'RW', status: 'Unavailable', nextAvailable: '2024-12-15', weekAvailability: [false, false, false, false, false, false, false] },
 ];
+
+// =============================================================================
+// DIRECTORY FILTERS (for directory/filters/page.tsx)
+// =============================================================================
+
+export interface DemoDirectoryEntry {
+  id: string;
+  name: string;
+  type: 'Crew' | 'Vendor' | 'Venue';
+  specialties: string[];
+  languages: string[];
+  location: string;
+  rating: number;
+  available: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_DIRECTORY_ENTRIES: DemoDirectoryEntry[] = [
+  { id: 'DIR-001', name: 'John Smith', type: 'Crew', specialties: ['Audio Engineer', 'FOH Mixer', 'System Tech'], languages: ['English', 'Spanish'], location: 'Los Angeles, CA', rating: 4.9, available: true },
+  { id: 'DIR-002', name: 'Maria Garcia', type: 'Crew', specialties: ['Lighting Designer', 'Programmer'], languages: ['Spanish', 'English', 'Portuguese'], location: 'Miami, FL', rating: 4.8, available: true },
+  { id: 'DIR-003', name: 'PRG', type: 'Vendor', specialties: ['Audio', 'Lighting', 'Video', 'Staging'], languages: ['English'], location: 'Multiple', rating: 4.7, available: true },
+  { id: 'DIR-004', name: 'Hans Mueller', type: 'Crew', specialties: ['Rigger', 'Head Rigger'], languages: ['German', 'English'], location: 'New York, NY', rating: 4.9, available: false },
+  { id: 'DIR-005', name: 'Madison Square Garden', type: 'Venue', specialties: ['Arena', 'Concert', 'Sports'], languages: ['English'], location: 'New York, NY', rating: 4.8, available: true },
+  { id: 'DIR-006', name: 'Yuki Tanaka', type: 'Crew', specialties: ['Video Director', 'LED Tech'], languages: ['Japanese', 'English'], location: 'Los Angeles, CA', rating: 4.7, available: true },
+];
