@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -23,33 +23,17 @@ import {
   Clock,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-
-interface TicketTier {
-  id: string;
-  name: string;
-  price: number;
-  capacity: number;
-  sold: number;
-  available: number;
-  revenue: number;
-}
-
-const MOCK_TIERS: TicketTier[] = [
-  { id: '1', name: 'General Admission', price: 75, capacity: 500, sold: 423, available: 77, revenue: 31725 },
-  { id: '2', name: 'VIP', price: 150, capacity: 100, sold: 87, available: 13, revenue: 13050 },
-  { id: '3', name: 'Premium', price: 250, capacity: 50, sold: 42, available: 8, revenue: 10500 },
-  { id: '4', name: 'Table Service', price: 500, capacity: 20, sold: 18, available: 2, revenue: 9000 },
-];
+import { useEventBoxOfficeData, type TicketTier } from '@/hooks/useEventOperations';
 
 export default function EventBoxOfficePage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [tiers, setTiers] = useState(MOCK_TIERS);
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(new Date());
 
+  const { tiers, isLoading, refetch } = useEventBoxOfficeData(eventId);
+
   const totals = tiers.reduce(
-    (acc, tier) => ({
+    (acc: { capacity: number; sold: number; available: number; revenue: number }, tier: TicketTier) => ({
       capacity: acc.capacity + tier.capacity,
       sold: acc.sold + tier.sold,
       available: acc.available + tier.available,
@@ -58,28 +42,22 @@ export default function EventBoxOfficePage() {
     { capacity: 0, sold: 0, available: 0, revenue: 0 }
   );
 
-  const soldPercentage = Math.round((totals.sold / totals.capacity) * 100);
+  const soldPercentage = totals.capacity > 0 ? Math.round((totals.sold / totals.capacity) * 100) : 0;
 
-  const handleRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/box-office`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.tiers) setTiers(data.tiers);
-      }
-      setLastUpdated(new Date());
-    } catch (_error) {
-      // Handle error
-    } finally {
-      setIsRefreshing(false);
-    }
-  }, [eventId]);
+  const handleRefresh = async () => {
+    await refetch();
+    setLastUpdated(new Date());
+  };
 
-  useEffect(() => {
-    const interval = setInterval(handleRefresh, 30000);
-    return () => clearInterval(interval);
-  }, [eventId, handleRefresh]);
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <Stack className="items-center py-12">
+          <RefreshCw size={24} className="animate-spin" />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>
@@ -96,8 +74,8 @@ export default function EventBoxOfficePage() {
               <Clock size={14} className="mr-1 inline" />
               Updated {lastUpdated.toLocaleTimeString()}
             </Body>
-            <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing}>
-              <RefreshCw size={16} className={isRefreshing ? 'animate-spin' : ''} />
+            <Button variant="outline" onClick={handleRefresh}>
+              <RefreshCw size={16} />
             </Button>
           </Stack>
         </Stack>
@@ -133,7 +111,7 @@ export default function EventBoxOfficePage() {
         </Grid>
 
         <Grid cols={2} gap={6}>
-          {tiers.map((tier) => {
+          {tiers.map((tier: TicketTier) => {
             const tierSoldPct = Math.round((tier.sold / tier.capacity) * 100);
             return (
               <Card key={tier.id} variant="elevated" inverted>

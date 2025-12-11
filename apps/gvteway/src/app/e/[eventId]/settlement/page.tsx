@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -26,23 +25,7 @@ import {
   Download,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface SettlementData {
-  grossRevenue: number;
-  ticketFees: number;
-  refunds: number;
-  netTicketRevenue: number;
-  venueCost: number;
-  productionCost: number;
-  talentCost: number;
-  marketingCost: number;
-  staffingCost: number;
-  miscCost: number;
-  totalCosts: number;
-  netProfit: number;
-  profitMargin: number;
-}
+import { useEventSettlementData, type SettlementData } from '@/hooks/useEventOperations';
 
 const defaultSettlement: SettlementData = {
   grossRevenue: 0,
@@ -63,28 +46,9 @@ const defaultSettlement: SettlementData = {
 export default function EventSettlementPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [settlement, setSettlement] = useState<SettlementData>(defaultSettlement);
-  const [loading, setLoading] = useState(true);
 
-  const fetchSettlement = useCallback(async () => {
-    if (!eventId) return;
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/settlement`);
-      if (response.ok) {
-        const data = await response.json();
-        setSettlement(data.settlement || defaultSettlement);
-      }
-    } catch (error) {
-      log.error('Failed to fetch settlement:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    fetchSettlement();
-  }, [fetchSettlement]);
+  const { settlement: fetchedSettlement, isLoading: loading } = useEventSettlementData(eventId);
+  const settlement = fetchedSettlement || defaultSettlement;
 
   return (
     <GvtewayAppLayout>
