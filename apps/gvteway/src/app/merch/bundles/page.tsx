@@ -30,56 +30,15 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 
-interface BundleProduct {
-  id: string;
-  name: string;
-  type: 'ticket' | 'merch' | 'parking' | 'upgrade' | 'experience';
-  price: number;
-  image?: string;
-}
+import {
+  DEMO_BUNDLES,
+  DEMO_CROSS_SELLS,
+  type DemoBundle as Bundle,
+  type DemoCrossSellRecommendation as CrossSellRecommendation,
+} from '@/lib/demo-data';
 
-interface Bundle {
-  id: string;
-  name: string;
-  description: string;
-  products: BundleProduct[];
-  original_price: number;
-  bundle_price: number;
-  savings_percent: number;
-  available_quantity: number;
-  sold_count: number;
-  is_active: boolean;
-  valid_from?: string;
-  valid_until?: string;
-  event_id?: string;
-  event_name?: string;
-}
-
-interface CrossSellRecommendation {
-  id: string;
-  trigger_product_id: string;
-  trigger_product_name: string;
-  recommended_product_id: string;
-  recommended_product_name: string;
-  recommended_product_price: number;
-  discount_percent?: number;
-  conversion_rate: number;
-  is_active: boolean;
-}
-
-const mockBundles: Bundle[] = [
-  { id: 'BND-001', name: 'VIP Experience Package', description: 'VIP ticket + exclusive merch + premium parking', products: [{ id: 'P1', name: 'VIP Ticket', type: 'ticket', price: 250 }, { id: 'P2', name: 'Tour T-Shirt', type: 'merch', price: 45 }, { id: 'P3', name: 'Premium Parking', type: 'parking', price: 35 }], original_price: 330, bundle_price: 280, savings_percent: 15, available_quantity: 100, sold_count: 67, is_active: true, event_name: 'Summer Fest 2024' },
-  { id: 'BND-002', name: 'Fan Starter Pack', description: 'GA ticket + poster + drink voucher', products: [{ id: 'P4', name: 'GA Ticket', type: 'ticket', price: 75 }, { id: 'P5', name: 'Event Poster', type: 'merch', price: 25 }, { id: 'P6', name: 'Drink Voucher', type: 'experience', price: 15 }], original_price: 115, bundle_price: 95, savings_percent: 17, available_quantity: 500, sold_count: 312, is_active: true, event_name: 'Summer Fest 2024' },
-  { id: 'BND-003', name: 'Merch Bundle', description: 'T-shirt + hoodie + cap at special price', products: [{ id: 'P7', name: 'Tour T-Shirt', type: 'merch', price: 45 }, { id: 'P8', name: 'Tour Hoodie', type: 'merch', price: 85 }, { id: 'P9', name: 'Snapback Cap', type: 'merch', price: 35 }], original_price: 165, bundle_price: 130, savings_percent: 21, available_quantity: 200, sold_count: 89, is_active: true },
-  { id: 'BND-004', name: 'Ultimate Fan Package', description: 'Meet & greet + VIP ticket + signed merch', products: [{ id: 'P10', name: 'Meet & Greet', type: 'experience', price: 500 }, { id: 'P11', name: 'VIP Ticket', type: 'ticket', price: 250 }, { id: 'P12', name: 'Signed Poster', type: 'merch', price: 100 }], original_price: 850, bundle_price: 699, savings_percent: 18, available_quantity: 25, sold_count: 18, is_active: true, event_name: 'Summer Fest 2024' },
-];
-
-const mockCrossSells: CrossSellRecommendation[] = [
-  { id: 'CS-001', trigger_product_id: 'TKT-001', trigger_product_name: 'GA Ticket', recommended_product_id: 'PRK-001', recommended_product_name: 'Event Parking', recommended_product_price: 25, discount_percent: 10, conversion_rate: 34.5, is_active: true },
-  { id: 'CS-002', trigger_product_id: 'TKT-001', trigger_product_name: 'GA Ticket', recommended_product_id: 'MRC-001', recommended_product_name: 'Tour T-Shirt', recommended_product_price: 45, conversion_rate: 22.3, is_active: true },
-  { id: 'CS-003', trigger_product_id: 'TKT-002', trigger_product_name: 'VIP Ticket', recommended_product_id: 'EXP-001', recommended_product_name: 'Backstage Tour', recommended_product_price: 150, discount_percent: 15, conversion_rate: 18.7, is_active: true },
-  { id: 'CS-004', trigger_product_id: 'MRC-001', trigger_product_name: 'Tour T-Shirt', recommended_product_id: 'MRC-002', recommended_product_name: 'Tour Hoodie', recommended_product_price: 85, discount_percent: 5, conversion_rate: 28.1, is_active: true },
-];
+const mockBundles = DEMO_BUNDLES;
+const mockCrossSells = DEMO_CROSS_SELLS;
 
 function BundlesPageContent() {
   const router = useRouter();

@@ -1033,3 +1033,142 @@ export const DEMO_FAN_CONTENT: DemoFanContent[] = [
   { id: 'FC-004', type: 'Photo', title: 'Sunset Stage', creator: 'Alex R.', eventName: 'Fall Concert', createdAt: '2024-11-20', likes: 234, comments: 19, featured: false, status: 'Published', tags: ['sunset', 'stage'] },
   { id: 'FC-005', type: 'Review', title: 'Best Night Ever', creator: 'Jordan K.', eventName: 'Summer Fest 2024', createdAt: '2024-11-25', likes: 89, comments: 12, featured: false, status: 'Pending', tags: ['review', 'amazing'] },
 ];
+
+// =============================================================================
+// MARKETING - MEDIA KIT (for marketing/media-kit/page.tsx)
+// =============================================================================
+
+export interface DemoMediaAsset {
+  id: string;
+  name: string;
+  type: 'Logo' | 'Photo' | 'Video' | 'Press Release' | 'Fact Sheet' | 'Bio';
+  format: string;
+  size: string;
+  event?: string;
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export interface DemoPressRelease {
+  id: string;
+  title: string;
+  event: string;
+  date: string;
+  status: 'Draft' | 'Published' | 'Distributed';
+  downloads: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_MEDIA_ASSETS: DemoMediaAsset[] = [
+  { id: 'MA-001', name: 'Event Logo - Full Color', type: 'Logo', format: 'SVG, PNG, EPS', size: '2.4 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-20' },
+  { id: 'MA-002', name: 'Event Logo - White', type: 'Logo', format: 'SVG, PNG, EPS', size: '2.1 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-20' },
+  { id: 'MA-003', name: 'Hero Image - Main Stage', type: 'Photo', format: 'JPG', size: '8.5 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-18' },
+  { id: 'MA-004', name: 'Promo Video - 30s', type: 'Video', format: 'MP4', size: '45 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-15' },
+  { id: 'MA-005', name: 'Event Fact Sheet', type: 'Fact Sheet', format: 'PDF', size: '1.2 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-22' },
+  { id: 'MA-006', name: 'Artist Bios', type: 'Bio', format: 'PDF, DOCX', size: '3.8 MB', event: 'Summer Music Festival 2025', lastUpdated: '2024-11-19' },
+];
+
+export const DEMO_PRESS_RELEASES: DemoPressRelease[] = [
+  { id: 'PR-001', title: 'Summer Music Festival 2025 Lineup Announced', event: 'Summer Music Festival 2025', date: '2024-11-20', status: 'Published', downloads: 245 },
+  { id: 'PR-002', title: 'Early Bird Tickets Now Available', event: 'Summer Music Festival 2025', date: '2024-11-15', status: 'Distributed', downloads: 189 },
+  { id: 'PR-003', title: 'New Year Gala VIP Experience Details', event: 'New Year Gala', date: '2024-11-25', status: 'Draft', downloads: 0 },
+];
+
+// =============================================================================
+// MARKETING - PIXELS (for marketing/pixels/page.tsx)
+// =============================================================================
+
+export interface DemoTrackingPixel {
+  id: string;
+  name: string;
+  platform: 'Facebook' | 'Google Ads' | 'TikTok' | 'LinkedIn' | 'Twitter' | 'Snapchat';
+  pixelId: string;
+  status: 'Active' | 'Inactive' | 'Error';
+  eventsTracked: number;
+  lastFired?: string;
+  events: string[];
+  [key: string]: unknown;
+}
+
+export interface DemoConversionEvent {
+  id: string;
+  name: string;
+  type: 'PageView' | 'Purchase' | 'AddToCart' | 'InitiateCheckout' | 'Lead' | 'Custom';
+  count: number;
+  value: number;
+  lastTriggered: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_TRACKING_PIXELS: DemoTrackingPixel[] = [
+  { id: 'PX-001', name: 'Facebook Pixel', platform: 'Facebook', pixelId: '123456789012345', status: 'Active', eventsTracked: 15420, lastFired: '2 min ago', events: ['PageView', 'Purchase', 'AddToCart', 'InitiateCheckout'] },
+  { id: 'PX-002', name: 'Google Ads', platform: 'Google Ads', pixelId: 'AW-987654321', status: 'Active', eventsTracked: 12350, lastFired: '5 min ago', events: ['PageView', 'Purchase', 'Lead'] },
+  { id: 'PX-003', name: 'TikTok Pixel', platform: 'TikTok', pixelId: 'CTIKTOK123456', status: 'Active', eventsTracked: 8920, lastFired: '10 min ago', events: ['PageView', 'Purchase'] },
+  { id: 'PX-004', name: 'LinkedIn Insight', platform: 'LinkedIn', pixelId: '12345678', status: 'Inactive', eventsTracked: 0, events: ['PageView'] },
+];
+
+export const DEMO_CONVERSION_EVENTS: DemoConversionEvent[] = [
+  { id: 'EVT-001', name: 'Page View', type: 'PageView', count: 45230, value: 0, lastTriggered: 'Just now' },
+  { id: 'EVT-002', name: 'Purchase', type: 'Purchase', count: 1245, value: 186750, lastTriggered: '3 min ago' },
+  { id: 'EVT-003', name: 'Add to Cart', type: 'AddToCart', count: 3420, value: 0, lastTriggered: '1 min ago' },
+  { id: 'EVT-004', name: 'Initiate Checkout', type: 'InitiateCheckout', count: 2180, value: 0, lastTriggered: '5 min ago' },
+  { id: 'EVT-005', name: 'Lead Capture', type: 'Lead', count: 890, value: 0, lastTriggered: '15 min ago' },
+];
+
+// =============================================================================
+// MERCH - BUNDLES (for merch/bundles/page.tsx)
+// =============================================================================
+
+export interface DemoBundleProduct {
+  id: string;
+  name: string;
+  type: 'ticket' | 'merch' | 'parking' | 'upgrade' | 'experience';
+  price: number;
+  image?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoBundle {
+  id: string;
+  name: string;
+  description: string;
+  products: DemoBundleProduct[];
+  original_price: number;
+  bundle_price: number;
+  savings_percent: number;
+  available_quantity: number;
+  sold_count: number;
+  is_active: boolean;
+  valid_from?: string;
+  valid_until?: string;
+  event_id?: string;
+  event_name?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoCrossSellRecommendation {
+  id: string;
+  trigger_product_id: string;
+  trigger_product_name: string;
+  recommended_product_id: string;
+  recommended_product_name: string;
+  recommended_product_price: number;
+  discount_percent?: number;
+  conversion_rate: number;
+  is_active: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_BUNDLES: DemoBundle[] = [
+  { id: 'BND-001', name: 'VIP Experience Package', description: 'VIP ticket + exclusive merch + premium parking', products: [{ id: 'P1', name: 'VIP Ticket', type: 'ticket', price: 250 }, { id: 'P2', name: 'Tour T-Shirt', type: 'merch', price: 45 }, { id: 'P3', name: 'Premium Parking', type: 'parking', price: 35 }], original_price: 330, bundle_price: 280, savings_percent: 15, available_quantity: 100, sold_count: 67, is_active: true, event_name: 'Summer Fest 2024' },
+  { id: 'BND-002', name: 'Fan Starter Pack', description: 'GA ticket + poster + drink voucher', products: [{ id: 'P4', name: 'GA Ticket', type: 'ticket', price: 75 }, { id: 'P5', name: 'Event Poster', type: 'merch', price: 25 }, { id: 'P6', name: 'Drink Voucher', type: 'experience', price: 15 }], original_price: 115, bundle_price: 95, savings_percent: 17, available_quantity: 500, sold_count: 312, is_active: true, event_name: 'Summer Fest 2024' },
+  { id: 'BND-003', name: 'Merch Bundle', description: 'T-shirt + hoodie + cap at special price', products: [{ id: 'P7', name: 'Tour T-Shirt', type: 'merch', price: 45 }, { id: 'P8', name: 'Tour Hoodie', type: 'merch', price: 85 }, { id: 'P9', name: 'Snapback Cap', type: 'merch', price: 35 }], original_price: 165, bundle_price: 130, savings_percent: 21, available_quantity: 200, sold_count: 89, is_active: true },
+  { id: 'BND-004', name: 'Ultimate Fan Package', description: 'Meet & greet + VIP ticket + signed merch', products: [{ id: 'P10', name: 'Meet & Greet', type: 'experience', price: 500 }, { id: 'P11', name: 'VIP Ticket', type: 'ticket', price: 250 }, { id: 'P12', name: 'Signed Poster', type: 'merch', price: 100 }], original_price: 850, bundle_price: 699, savings_percent: 18, available_quantity: 25, sold_count: 18, is_active: true, event_name: 'Summer Fest 2024' },
+];
+
+export const DEMO_CROSS_SELLS: DemoCrossSellRecommendation[] = [
+  { id: 'CS-001', trigger_product_id: 'TKT-001', trigger_product_name: 'GA Ticket', recommended_product_id: 'PRK-001', recommended_product_name: 'Event Parking', recommended_product_price: 25, discount_percent: 10, conversion_rate: 34.5, is_active: true },
+  { id: 'CS-002', trigger_product_id: 'TKT-001', trigger_product_name: 'GA Ticket', recommended_product_id: 'MRC-001', recommended_product_name: 'Tour T-Shirt', recommended_product_price: 45, conversion_rate: 22.3, is_active: true },
+  { id: 'CS-003', trigger_product_id: 'TKT-002', trigger_product_name: 'VIP Ticket', recommended_product_id: 'EXP-001', recommended_product_name: 'Backstage Tour', recommended_product_price: 150, discount_percent: 15, conversion_rate: 18.7, is_active: true },
+  { id: 'CS-004', trigger_product_id: 'MRC-001', trigger_product_name: 'Tour T-Shirt', recommended_product_id: 'MRC-002', recommended_product_name: 'Tour Hoodie', recommended_product_price: 85, discount_percent: 5, conversion_rate: 28.1, is_active: true },
+];

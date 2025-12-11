@@ -10,39 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-interface MediaAsset {
-  id: string;
-  name: string;
-  type: "Logo" | "Photo" | "Video" | "Press Release" | "Fact Sheet" | "Bio";
-  format: string;
-  size: string;
-  event?: string;
-  lastUpdated: string;
-}
+import {
+  DEMO_MEDIA_ASSETS,
+  DEMO_PRESS_RELEASES,
+  type DemoMediaAsset as MediaAsset,
+  type DemoPressRelease as PressRelease,
+} from "@/lib/demo-data";
 
-interface PressRelease {
-  id: string;
-  title: string;
-  event: string;
-  date: string;
-  status: "Draft" | "Published" | "Distributed";
-  downloads: number;
-}
-
-const mockAssets: MediaAsset[] = [
-  { id: "MA-001", name: "Event Logo - Full Color", type: "Logo", format: "SVG, PNG, EPS", size: "2.4 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-20" },
-  { id: "MA-002", name: "Event Logo - White", type: "Logo", format: "SVG, PNG, EPS", size: "2.1 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-20" },
-  { id: "MA-003", name: "Hero Image - Main Stage", type: "Photo", format: "JPG", size: "8.5 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-18" },
-  { id: "MA-004", name: "Promo Video - 30s", type: "Video", format: "MP4", size: "45 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-15" },
-  { id: "MA-005", name: "Event Fact Sheet", type: "Fact Sheet", format: "PDF", size: "1.2 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-22" },
-  { id: "MA-006", name: "Artist Bios", type: "Bio", format: "PDF, DOCX", size: "3.8 MB", event: "Summer Music Festival 2025", lastUpdated: "2024-11-19" },
-];
-
-const mockReleases: PressRelease[] = [
-  { id: "PR-001", title: "Summer Music Festival 2025 Lineup Announced", event: "Summer Music Festival 2025", date: "2024-11-20", status: "Published", downloads: 245 },
-  { id: "PR-002", title: "Early Bird Tickets Now Available", event: "Summer Music Festival 2025", date: "2024-11-15", status: "Distributed", downloads: 189 },
-  { id: "PR-003", title: "New Year Gala VIP Experience Details", event: "New Year Gala", date: "2024-11-25", status: "Draft", downloads: 0 },
-];
+const mockAssets = DEMO_MEDIA_ASSETS;
+const mockReleases = DEMO_PRESS_RELEASES;
 
 function MediaKitPageContent() {
   const router = useRouter();

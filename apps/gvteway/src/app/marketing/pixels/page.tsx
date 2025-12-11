@@ -11,40 +11,15 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-interface TrackingPixel {
-  id: string;
-  name: string;
-  platform: "Facebook" | "Google Ads" | "TikTok" | "LinkedIn" | "Twitter" | "Snapchat";
-  pixelId: string;
-  status: "Active" | "Inactive" | "Error";
-  eventsTracked: number;
-  lastFired?: string;
-  events: string[];
-}
+import {
+  DEMO_TRACKING_PIXELS,
+  DEMO_CONVERSION_EVENTS,
+  type DemoTrackingPixel as TrackingPixel,
+  type DemoConversionEvent as ConversionEvent,
+} from "@/lib/demo-data";
 
-interface ConversionEvent {
-  id: string;
-  name: string;
-  type: "PageView" | "Purchase" | "AddToCart" | "InitiateCheckout" | "Lead" | "Custom";
-  count: number;
-  value: number;
-  lastTriggered: string;
-}
-
-const mockPixels: TrackingPixel[] = [
-  { id: "PX-001", name: "Facebook Pixel", platform: "Facebook", pixelId: "123456789012345", status: "Active", eventsTracked: 15420, lastFired: "2 min ago", events: ["PageView", "Purchase", "AddToCart", "InitiateCheckout"] },
-  { id: "PX-002", name: "Google Ads", platform: "Google Ads", pixelId: "AW-987654321", status: "Active", eventsTracked: 12350, lastFired: "5 min ago", events: ["PageView", "Purchase", "Lead"] },
-  { id: "PX-003", name: "TikTok Pixel", platform: "TikTok", pixelId: "CTIKTOK123456", status: "Active", eventsTracked: 8920, lastFired: "10 min ago", events: ["PageView", "Purchase"] },
-  { id: "PX-004", name: "LinkedIn Insight", platform: "LinkedIn", pixelId: "12345678", status: "Inactive", eventsTracked: 0, events: ["PageView"] },
-];
-
-const mockEvents: ConversionEvent[] = [
-  { id: "EVT-001", name: "Page View", type: "PageView", count: 45230, value: 0, lastTriggered: "Just now" },
-  { id: "EVT-002", name: "Purchase", type: "Purchase", count: 1245, value: 186750, lastTriggered: "3 min ago" },
-  { id: "EVT-003", name: "Add to Cart", type: "AddToCart", count: 3420, value: 0, lastTriggered: "1 min ago" },
-  { id: "EVT-004", name: "Initiate Checkout", type: "InitiateCheckout", count: 2180, value: 0, lastTriggered: "5 min ago" },
-  { id: "EVT-005", name: "Lead Capture", type: "Lead", count: 890, value: 0, lastTriggered: "15 min ago" },
-];
+const mockPixels = DEMO_TRACKING_PIXELS;
+const mockEvents = DEMO_CONVERSION_EVENTS;
 
 function PixelsPageContent() {
   const router = useRouter();
