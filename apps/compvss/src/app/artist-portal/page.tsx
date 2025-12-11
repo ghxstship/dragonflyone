@@ -24,48 +24,14 @@ import {
 import Link from 'next/link';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-const mockArtistData = {
-  artistName: 'The Midnight Collective',
-  upcomingShows: 3,
-  pendingRiders: 1,
-  confirmedBookings: 5,
-};
+import {
+  DEMO_ARTIST_DATA,
+  DEMO_UPCOMING_SHOWS,
+  DEMO_RIDER_STATUS,
+} from '../../lib/demo-data';
 
-const upcomingShows = [
-  {
-    id: '1',
-    event: 'Summer Music Festival',
-    venue: 'Central Park Amphitheater',
-    date: '2024-12-15',
-    time: '20:00',
-    setLength: '90 min',
-    status: 'confirmed',
-  },
-  {
-    id: '2',
-    event: 'New Year\'s Eve Gala',
-    venue: 'Grand Ballroom',
-    date: '2024-12-31',
-    time: '23:00',
-    setLength: '60 min',
-    status: 'confirmed',
-  },
-  {
-    id: '3',
-    event: 'Winter Concert Series',
-    venue: 'Symphony Hall',
-    date: '2025-01-10',
-    time: '19:30',
-    setLength: '120 min',
-    status: 'pending',
-  },
-];
-
-const riderStatus = [
-  { category: 'Technical Rider', status: 'approved', lastUpdated: '2024-11-01' },
-  { category: 'Hospitality Rider', status: 'pending', lastUpdated: '2024-12-01' },
-  { category: 'Backline Requirements', status: 'approved', lastUpdated: '2024-10-15' },
-];
+const upcomingShows = DEMO_UPCOMING_SHOWS;
+const riderStatus = DEMO_RIDER_STATUS;
 
 export default function ArtistPortalPage() {
   return (
@@ -73,7 +39,7 @@ export default function ArtistPortalPage() {
       <Stack gap={8}>
         <SectionHeader
           kicker="Artist Portal"
-          title={`Welcome, ${mockArtistData.artistName}`}
+          title={`Welcome, ${DEMO_ARTIST_DATA.artistName}`}
           description="Manage your bookings, riders, and hospitality requests"
           colorScheme="on-dark"
         />
@@ -81,19 +47,19 @@ export default function ArtistPortalPage() {
         <Grid cols={4} gap={4}>
           <StatCard
             label="Upcoming Shows"
-            value={mockArtistData.upcomingShows.toString()}
+            value={DEMO_ARTIST_DATA.upcomingShows.toString()}
             icon={<Music size={20} />}
             inverted
           />
           <StatCard
             label="Confirmed Bookings"
-            value={mockArtistData.confirmedBookings.toString()}
+            value={DEMO_ARTIST_DATA.confirmedBookings.toString()}
             icon={<CheckCircle size={20} />}
             inverted
           />
           <StatCard
             label="Pending Riders"
-            value={mockArtistData.pendingRiders.toString()}
+            value={DEMO_ARTIST_DATA.pendingRiders.toString()}
             icon={<FileText size={20} />}
             inverted
           />

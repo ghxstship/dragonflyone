@@ -732,3 +732,52 @@ export const DEMO_CREW_POSTS: DemoCrewPost[] = [
   { id: 'POST-002', authorId: 'CRW-002', authorName: 'Sarah Johnson', authorRole: 'Lighting Designer', content: 'New certification achieved! MA3 Programming Level 2', timestamp: '5 hours ago', likes: 45, comments: 12, type: 'Achievement' },
   { id: 'POST-003', authorId: 'CRW-003', authorName: 'Mike Davis', authorRole: 'Stage Manager', content: 'Behind the scenes from last night\'s corporate gala', timestamp: '1 day ago', likes: 67, comments: 15, type: 'Photo' },
 ];
+
+// =============================================================================
+// ARTIST PORTAL (for artist-portal/page.tsx)
+// =============================================================================
+
+export interface DemoArtistData {
+  artistName: string;
+  upcomingShows: number;
+  pendingRiders: number;
+  confirmedBookings: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_ARTIST_DATA: DemoArtistData = {
+  artistName: 'The Midnight Collective',
+  upcomingShows: 3,
+  pendingRiders: 1,
+  confirmedBookings: 5,
+};
+
+export interface DemoUpcomingShow {
+  id: string;
+  event: string;
+  venue: string;
+  date: string;
+  time: string;
+  setLength: string;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  [key: string]: unknown;
+}
+
+export const DEMO_UPCOMING_SHOWS: DemoUpcomingShow[] = [
+  { id: '1', event: 'Summer Music Festival', venue: 'Central Park Amphitheater', date: '2024-12-15', time: '20:00', setLength: '90 min', status: 'confirmed' },
+  { id: '2', event: 'New Year\'s Eve Gala', venue: 'Grand Ballroom', date: '2024-12-31', time: '23:00', setLength: '60 min', status: 'confirmed' },
+  { id: '3', event: 'Winter Concert Series', venue: 'Symphony Hall', date: '2025-01-10', time: '19:30', setLength: '120 min', status: 'pending' },
+];
+
+export interface DemoRiderStatus {
+  category: string;
+  status: 'approved' | 'pending' | 'rejected';
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_RIDER_STATUS: DemoRiderStatus[] = [
+  { category: 'Technical Rider', status: 'approved', lastUpdated: '2024-11-01' },
+  { category: 'Hospitality Rider', status: 'pending', lastUpdated: '2024-12-01' },
+  { category: 'Backline Requirements', status: 'approved', lastUpdated: '2024-10-15' },
+];
