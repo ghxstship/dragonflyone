@@ -1587,3 +1587,47 @@ export const DEMO_CREDENTIALS: DemoCredential[] = [
   { id: '4', type: 'Background Check', name: 'National Background Check', issuer: 'Sterling', issueDate: '2024-01-01', expiryDate: '2025-01-01', status: 'active' },
   { id: '5', type: 'Training', name: 'Fire Safety Training', issuer: 'Internal', issueDate: '2024-11-01', expiryDate: '2025-11-01', status: 'pending' },
 ];
+
+// =============================================================================
+// MY DELIVERIES (for my-deliveries/page.tsx)
+// =============================================================================
+
+export interface DemoMyDelivery {
+  id: string;
+  production: string;
+  venue: string;
+  date: string;
+  time: string;
+  items: string[];
+  status: 'scheduled' | 'in_transit' | 'delivered' | 'confirmed';
+  contactName: string;
+  contactPhone: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_MY_DELIVERIES: DemoMyDelivery[] = [
+  { id: 'DEL-001', production: 'Summer Music Festival', venue: 'Central Park Amphitheater', date: '2024-12-10', time: '08:00', items: ['Main PA System', 'Monitor Wedges (8)', 'Mixing Console'], status: 'scheduled', contactName: 'John Smith', contactPhone: '(555) 123-4567' },
+  { id: 'DEL-002', production: 'Corporate Gala', venue: 'Grand Ballroom', date: '2024-12-15', time: '06:00', items: ['Wireless Microphones (12)', 'In-Ear Monitors (6)'], status: 'confirmed', contactName: 'Jane Doe', contactPhone: '(555) 987-6543' },
+  { id: 'DEL-003', production: 'Tech Conference', venue: 'Convention Center', date: '2024-12-08', time: '10:00', items: ['Presentation Audio Package'], status: 'delivered', contactName: 'Bob Wilson', contactPhone: '(555) 456-7890' },
+];
+
+// =============================================================================
+// MY HOSPITALITY (for my-hospitality/page.tsx)
+// =============================================================================
+
+export interface DemoHospitalityRequest {
+  id: string;
+  event: string;
+  date: string;
+  category: 'catering' | 'transport' | 'accommodation' | 'other';
+  description: string;
+  status: 'pending' | 'approved' | 'declined';
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_HOSPITALITY_REQUESTS: DemoHospitalityRequest[] = [
+  { id: '1', event: 'Summer Music Festival', date: '2024-12-15', category: 'catering', description: 'Vegetarian meals for 6 band members, hot meals preferred', status: 'approved', notes: 'Confirmed with catering team' },
+  { id: '2', event: 'Summer Music Festival', date: '2024-12-15', category: 'transport', description: 'Airport pickup for 6 people, arriving 2pm at JFK', status: 'pending' },
+  { id: '3', event: "New Year's Eve Gala", date: '2024-12-31', category: 'accommodation', description: '3 double rooms for Dec 30-Jan 1', status: 'approved', notes: 'Booked at Grand Hotel' },
+];

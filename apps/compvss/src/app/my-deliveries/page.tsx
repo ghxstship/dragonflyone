@@ -25,53 +25,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface Delivery {
-  id: string;
-  production: string;
-  venue: string;
-  date: string;
-  time: string;
-  items: string[];
-  status: 'scheduled' | 'in_transit' | 'delivered' | 'confirmed';
-  contactName: string;
-  contactPhone: string;
-}
+import {
+  DEMO_MY_DELIVERIES,
+  type DemoMyDelivery as Delivery,
+} from '../../lib/demo-data';
 
-const mockDeliveries: Delivery[] = [
-  {
-    id: 'DEL-001',
-    production: 'Summer Music Festival',
-    venue: 'Central Park Amphitheater',
-    date: '2024-12-10',
-    time: '08:00',
-    items: ['Main PA System', 'Monitor Wedges (8)', 'Mixing Console'],
-    status: 'scheduled',
-    contactName: 'John Smith',
-    contactPhone: '(555) 123-4567',
-  },
-  {
-    id: 'DEL-002',
-    production: 'Corporate Gala',
-    venue: 'Grand Ballroom',
-    date: '2024-12-15',
-    time: '06:00',
-    items: ['Wireless Microphones (12)', 'In-Ear Monitors (6)'],
-    status: 'confirmed',
-    contactName: 'Jane Doe',
-    contactPhone: '(555) 987-6543',
-  },
-  {
-    id: 'DEL-003',
-    production: 'Tech Conference',
-    venue: 'Convention Center',
-    date: '2024-12-08',
-    time: '10:00',
-    items: ['Presentation Audio Package'],
-    status: 'delivered',
-    contactName: 'Bob Wilson',
-    contactPhone: '(555) 456-7890',
-  },
-];
+const mockDeliveries = DEMO_MY_DELIVERIES;
 
 export default function MyDeliveriesPage() {
   const [deliveries] = useState(mockDeliveries);

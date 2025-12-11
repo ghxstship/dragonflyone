@@ -27,44 +27,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface HospitalityRequest {
-  id: string;
-  event: string;
-  date: string;
-  category: 'catering' | 'transport' | 'accommodation' | 'other';
-  description: string;
-  status: 'pending' | 'approved' | 'declined';
-  notes?: string;
-}
+import {
+  DEMO_HOSPITALITY_REQUESTS,
+  type DemoHospitalityRequest as HospitalityRequest,
+} from '../../lib/demo-data';
 
-const mockRequests: HospitalityRequest[] = [
-  {
-    id: '1',
-    event: 'Summer Music Festival',
-    date: '2024-12-15',
-    category: 'catering',
-    description: 'Vegetarian meals for 6 band members, hot meals preferred',
-    status: 'approved',
-    notes: 'Confirmed with catering team',
-  },
-  {
-    id: '2',
-    event: 'Summer Music Festival',
-    date: '2024-12-15',
-    category: 'transport',
-    description: 'Airport pickup for 6 people, arriving 2pm at JFK',
-    status: 'pending',
-  },
-  {
-    id: '3',
-    event: 'New Year\'s Eve Gala',
-    date: '2024-12-31',
-    category: 'accommodation',
-    description: '3 double rooms for Dec 30-Jan 1',
-    status: 'approved',
-    notes: 'Booked at Grand Hotel',
-  },
-];
+const mockRequests = DEMO_HOSPITALITY_REQUESTS;
 
 export default function MyHospitalityPage() {
   const [requests] = useState(mockRequests);
