@@ -10,7 +10,6 @@ import {
   Text,
   FullBleedSection,
   Button,
-  Textarea,
 } from "@ghxstship/ui";
 import { ArrowUp, Sparkles, Music, Palette, Zap, Globe, Heart, Star } from "lucide-react";
 
@@ -106,15 +105,15 @@ export function GeneratorHero({
           {/* Chat-style Input Container */}
           <form onSubmit={handleSubmit} className="w-full">
             <Box className="relative overflow-hidden rounded-modal border-2 border-ink-950 bg-white shadow-md transition-shadow focus-within:shadow-primary">
-              {/* Textarea */}
-              <Textarea
+              {/* Textarea - using native element to avoid design system border conflicts */}
+              <textarea
                 ref={textareaRef}
                 value={creativeSeed}
-                onChange={(e) => onCreativeSeedChange(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onCreativeSeedChange(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Describe your experience concept..."
                 disabled={isGenerating}
-                className="w-full resize-none border-0 bg-transparent px-4 pb-14 pt-4 text-body-md text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-0"
+                className="w-full resize-none border-0 bg-transparent px-4 pb-14 pt-4 font-body text-body-md text-ink-950 shadow-none outline-none placeholder:text-grey-400 focus:outline-none focus:ring-0"
                 style={{ minHeight: "56px", maxHeight: "200px" }}
                 rows={1}
               />

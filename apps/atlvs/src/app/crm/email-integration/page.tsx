@@ -9,25 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface EmailThread {
-  id: string;
-  subject: string;
-  from: string;
-  to: string;
-  date: string;
-  preview: string;
-  linkedContact?: string;
-  linkedDeal?: string;
-  status: 'Unread' | 'Read' | 'Replied';
-  [key: string]: unknown;
-}
-
-const mockData: EmailThread[] = [
-  { id: 'EM-001', subject: 'Re: Summer Festival Proposal', from: 'client@festival.com', to: 'john.smith@company.com', date: '2024-11-25 10:30', preview: 'Thanks for sending over the proposal. We have reviewed it and have a few questions...', linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Unread' },
-  { id: 'EM-002', subject: 'Equipment Quote Request', from: 'vendor@audiohouse.com', to: 'john.smith@company.com', date: '2024-11-25 09:15', preview: 'Please find attached our quote for the L-Acoustics system rental...', linkedContact: 'Audio House Inc', status: 'Read' },
-  { id: 'EM-003', subject: 'Contract Review - Corporate Gala', from: 'legal@techcorp.com', to: 'sales@company.com', date: '2024-11-24 16:45', preview: 'Our legal team has completed the review. Please see the attached redlines...', linkedContact: 'Tech Corp', linkedDeal: 'Corporate Gala 2024', status: 'Replied' },
-  { id: 'EM-004', subject: 'Meeting Confirmation', from: 'assistant@venue.com', to: 'john.smith@company.com', date: '2024-11-24 14:20', preview: 'This confirms your site visit scheduled for November 28th at 2:00 PM...', linkedContact: 'Grand Arena', status: 'Read' },
-];
+import {
+  DEMO_EMAIL_THREADS,
+  type DemoEmailThread as EmailThread,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -46,7 +31,7 @@ const filters: ListPageFilter[] = [
 
 export default function EmailIntegrationPage() {
   const router = useRouter();
-  const [data] = useState<EmailThread[]>(mockData);
+  const [data] = useState<EmailThread[]>(DEMO_EMAIL_THREADS);
   const [selected, setSelected] = useState<EmailThread | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -105,7 +90,7 @@ export default function EmailIntegrationPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

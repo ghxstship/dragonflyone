@@ -752,3 +752,27 @@ export const DEMO_UNION_COMPLIANCE_RULES: DemoUnionComplianceRule[] = [
   { id: 'UR-003', localId: 'UL-001', category: 'Turnaround', rule: '12-Hour Rest', requirement: 'Minimum 12 hours between calls', penalty: 'Golden time rates' },
   { id: 'UR-004', localId: 'UL-002', category: 'Staffing', rule: 'Minimum Crew', requirement: '4-person minimum for rigging calls', penalty: 'Full crew pay required' },
 ];
+
+// =============================================================================
+// EMAIL THREADS (for crm/email-integration page)
+// =============================================================================
+
+export interface DemoEmailThread {
+  id: string;
+  subject: string;
+  from: string;
+  to: string;
+  date: string;
+  preview: string;
+  linkedContact?: string;
+  linkedDeal?: string;
+  status: 'Unread' | 'Read' | 'Replied';
+  [key: string]: unknown;
+}
+
+export const DEMO_EMAIL_THREADS: DemoEmailThread[] = [
+  { id: 'EM-001', subject: 'Re: Summer Festival Proposal', from: 'client@festival.com', to: 'john.smith@company.com', date: '2024-11-25 10:30', preview: 'Thanks for sending over the proposal. We have reviewed it and have a few questions...', linkedContact: 'Festival Productions', linkedDeal: 'Summer Fest 2025', status: 'Unread' },
+  { id: 'EM-002', subject: 'Equipment Quote Request', from: 'vendor@audiohouse.com', to: 'john.smith@company.com', date: '2024-11-25 09:15', preview: 'Please find attached our quote for the L-Acoustics system rental...', linkedContact: 'Audio House Inc', status: 'Read' },
+  { id: 'EM-003', subject: 'Contract Review - Corporate Gala', from: 'legal@techcorp.com', to: 'sales@company.com', date: '2024-11-24 16:45', preview: 'Our legal team has completed the review. Please see the attached redlines...', linkedContact: 'Tech Corp', linkedDeal: 'Corporate Gala 2024', status: 'Replied' },
+  { id: 'EM-004', subject: 'Meeting Confirmation', from: 'assistant@venue.com', to: 'john.smith@company.com', date: '2024-11-24 14:20', preview: 'This confirms your site visit scheduled for November 28th at 2:00 PM...', linkedContact: 'Grand Arena', status: 'Read' },
+];
