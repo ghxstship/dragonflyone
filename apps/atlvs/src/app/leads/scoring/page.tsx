@@ -34,64 +34,17 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface Lead {
-  id: string;
-  company: string;
-  contact_name: string;
-  contact_email: string;
-  contact_title: string;
-  source: 'website' | 'referral' | 'event' | 'cold_outreach' | 'inbound';
-  status: 'new' | 'contacted' | 'qualified' | 'proposal' | 'negotiation' | 'won' | 'lost';
-  score: number;
-  score_breakdown: ScoreBreakdown;
-  estimated_value: number;
-  created_at: string;
-  last_activity: string;
-  qualification_status: 'unqualified' | 'mql' | 'sql' | 'opportunity';
-}
-
-interface ScoreBreakdown {
-  demographic: number;
-  behavioral: number;
-  engagement: number;
-  fit: number;
-}
-
-interface ScoringRule {
-  id: string;
-  category: 'demographic' | 'behavioral' | 'engagement' | 'fit';
-  name: string;
-  condition: string;
-  points: number;
-  is_active: boolean;
-}
-
-const mockLeads: Lead[] = [
-  { id: 'LEAD-001', company: 'TechCorp Inc', contact_name: 'John Smith', contact_email: 'john@techcorp.com', contact_title: 'VP of Events', source: 'website', status: 'qualified', score: 85, score_breakdown: { demographic: 25, behavioral: 20, engagement: 25, fit: 15 }, estimated_value: 150000, created_at: '2024-11-20T10:00:00Z', last_activity: '2024-11-24T14:00:00Z', qualification_status: 'sql' },
-  { id: 'LEAD-002', company: 'Global Events Ltd', contact_name: 'Sarah Johnson', contact_email: 'sarah@globalevents.com', contact_title: 'Event Director', source: 'referral', status: 'proposal', score: 92, score_breakdown: { demographic: 30, behavioral: 22, engagement: 25, fit: 15 }, estimated_value: 250000, created_at: '2024-11-15T09:00:00Z', last_activity: '2024-11-24T10:00:00Z', qualification_status: 'opportunity' },
-  { id: 'LEAD-003', company: 'StartupXYZ', contact_name: 'Mike Chen', contact_email: 'mike@startupxyz.com', contact_title: 'CEO', source: 'event', status: 'contacted', score: 45, score_breakdown: { demographic: 10, behavioral: 15, engagement: 10, fit: 10 }, estimated_value: 25000, created_at: '2024-11-22T14:00:00Z', last_activity: '2024-11-23T16:00:00Z', qualification_status: 'mql' },
-  { id: 'LEAD-004', company: 'Enterprise Solutions', contact_name: 'Lisa Park', contact_email: 'lisa@enterprise.com', contact_title: 'CMO', source: 'inbound', status: 'new', score: 72, score_breakdown: { demographic: 20, behavioral: 18, engagement: 20, fit: 14 }, estimated_value: 100000, created_at: '2024-11-24T08:00:00Z', last_activity: '2024-11-24T08:00:00Z', qualification_status: 'mql' },
-  { id: 'LEAD-005', company: 'Local Business Co', contact_name: 'Tom Wilson', contact_email: 'tom@localbiz.com', contact_title: 'Owner', source: 'cold_outreach', status: 'contacted', score: 28, score_breakdown: { demographic: 5, behavioral: 8, engagement: 10, fit: 5 }, estimated_value: 10000, created_at: '2024-11-21T11:00:00Z', last_activity: '2024-11-22T09:00:00Z', qualification_status: 'unqualified' },
-];
-
-const mockScoringRules: ScoringRule[] = [
-  { id: 'RULE-001', category: 'demographic', name: 'Company Size > 500', condition: 'employees > 500', points: 15, is_active: true },
-  { id: 'RULE-002', category: 'demographic', name: 'Decision Maker Title', condition: 'title contains VP, Director, C-level', points: 10, is_active: true },
-  { id: 'RULE-003', category: 'demographic', name: 'Target Industry', condition: 'industry in [Events, Entertainment, Corporate]', points: 10, is_active: true },
-  { id: 'RULE-004', category: 'behavioral', name: 'Visited Pricing Page', condition: 'page_view = pricing', points: 10, is_active: true },
-  { id: 'RULE-005', category: 'behavioral', name: 'Downloaded Content', condition: 'download_count > 0', points: 8, is_active: true },
-  { id: 'RULE-006', category: 'behavioral', name: 'Requested Demo', condition: 'demo_request = true', points: 15, is_active: true },
-  { id: 'RULE-007', category: 'engagement', name: 'Email Opens > 3', condition: 'email_opens > 3', points: 10, is_active: true },
-  { id: 'RULE-008', category: 'engagement', name: 'Website Visits > 5', condition: 'website_visits > 5', points: 10, is_active: true },
-  { id: 'RULE-009', category: 'engagement', name: 'Recent Activity (7 days)', condition: 'last_activity < 7 days', points: 10, is_active: true },
-  { id: 'RULE-010', category: 'fit', name: 'Budget Confirmed', condition: 'budget_confirmed = true', points: 15, is_active: true },
-  { id: 'RULE-011', category: 'fit', name: 'Timeline < 6 months', condition: 'timeline < 6 months', points: 10, is_active: true },
-];
+import {
+  DEMO_LEADS_SCORING_FULL,
+  DEMO_SCORING_RULES_FULL,
+  type DemoLeadScoringFull as Lead,
+  type DemoScoringRuleFull as ScoringRule,
+} from '../../../lib/demo-data';
 
 export default function LeadScoringPage() {
   const router = useRouter();
-  const [leads, setLeads] = useState<Lead[]>(mockLeads);
-  const [rules, setRules] = useState<ScoringRule[]>(mockScoringRules);
+  const [leads, setLeads] = useState<Lead[]>(DEMO_LEADS_SCORING_FULL);
+  const [rules, setRules] = useState<ScoringRule[]>(DEMO_SCORING_RULES_FULL);
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useLocalTabState({
