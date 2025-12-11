@@ -12,38 +12,15 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface CrisisIncident {
-  id: string;
-  title: string;
-  severity: "Low" | "Medium" | "High" | "Critical";
-  status: "Active" | "Monitoring" | "Resolved";
-  category: string;
-  startTime: string;
-  platform: string;
-  mentions: number;
-  assignedTo: string;
-}
+import {
+  DEMO_CRISIS_INCIDENTS,
+  DEMO_RESPONSE_TEMPLATES,
+  type DemoCrisisIncident as CrisisIncident,
+  type DemoResponseTemplate as ResponseTemplate,
+} from "@/lib/demo-data";
 
-interface ResponseTemplate {
-  id: string;
-  name: string;
-  category: string;
-  content: string;
-  usageCount: number;
-}
-
-const mockIncidents: CrisisIncident[] = [
-  { id: "CRI-001", title: "Ticket Purchase Issues", severity: "High", status: "Active", category: "Technical", startTime: "2024-11-25 14:30", platform: "Twitter", mentions: 156, assignedTo: "Support Team" },
-  { id: "CRI-002", title: "Event Postponement Rumors", severity: "Medium", status: "Monitoring", category: "Misinformation", startTime: "2024-11-25 12:00", platform: "Instagram", mentions: 89, assignedTo: "PR Team" },
-  { id: "CRI-003", title: "Refund Request Surge", severity: "Critical", status: "Active", category: "Customer Service", startTime: "2024-11-25 15:00", platform: "Multiple", mentions: 234, assignedTo: "CS Lead" },
-];
-
-const mockTemplates: ResponseTemplate[] = [
-  { id: "RT-001", name: "Technical Issue Acknowledgment", category: "Technical", content: "We are aware of the technical issues affecting [ISSUE]. Our team is working to resolve this as quickly as possible. We apologize for any inconvenience.", usageCount: 45 },
-  { id: "RT-002", name: "Event Status Update", category: "General", content: "Thank you for your patience. [EVENT] is proceeding as scheduled. Please check our official channels for the latest updates.", usageCount: 32 },
-  { id: "RT-003", name: "Refund Policy Response", category: "Customer Service", content: "We understand your concerns. Our refund policy allows [POLICY]. Please contact support@example.com for assistance with your specific situation.", usageCount: 67 },
-  { id: "RT-004", name: "Safety Incident Response", category: "Safety", content: "The safety of our guests is our top priority. We are working with local authorities to address [INCIDENT]. Updates will be provided as information becomes available.", usageCount: 12 },
-];
+const mockIncidents = DEMO_CRISIS_INCIDENTS;
+const mockTemplates = DEMO_RESPONSE_TEMPLATES;
 
 function CrisisManagementPageContent() {
   const router = useRouter();

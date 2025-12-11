@@ -1172,3 +1172,109 @@ export const DEMO_CROSS_SELLS: DemoCrossSellRecommendation[] = [
   { id: 'CS-003', trigger_product_id: 'TKT-002', trigger_product_name: 'VIP Ticket', recommended_product_id: 'EXP-001', recommended_product_name: 'Backstage Tour', recommended_product_price: 150, discount_percent: 15, conversion_rate: 18.7, is_active: true },
   { id: 'CS-004', trigger_product_id: 'MRC-001', trigger_product_name: 'Tour T-Shirt', recommended_product_id: 'MRC-002', recommended_product_name: 'Tour Hoodie', recommended_product_price: 85, discount_percent: 5, conversion_rate: 28.1, is_active: true },
 ];
+
+// =============================================================================
+// SOCIAL - CRISIS MANAGEMENT (for social/crisis-management/page.tsx)
+// =============================================================================
+
+export interface DemoCrisisIncident {
+  id: string;
+  title: string;
+  severity: 'Low' | 'Medium' | 'High' | 'Critical';
+  status: 'Active' | 'Monitoring' | 'Resolved';
+  category: string;
+  startTime: string;
+  platform: string;
+  mentions: number;
+  assignedTo: string;
+  [key: string]: unknown;
+}
+
+export interface DemoResponseTemplate {
+  id: string;
+  name: string;
+  category: string;
+  content: string;
+  usageCount: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_CRISIS_INCIDENTS: DemoCrisisIncident[] = [
+  { id: 'CRI-001', title: 'Ticket Purchase Issues', severity: 'High', status: 'Active', category: 'Technical', startTime: '2024-11-25 14:30', platform: 'Twitter', mentions: 156, assignedTo: 'Support Team' },
+  { id: 'CRI-002', title: 'Event Postponement Rumors', severity: 'Medium', status: 'Monitoring', category: 'Misinformation', startTime: '2024-11-25 12:00', platform: 'Instagram', mentions: 89, assignedTo: 'PR Team' },
+  { id: 'CRI-003', title: 'Refund Request Surge', severity: 'Critical', status: 'Active', category: 'Customer Service', startTime: '2024-11-25 15:00', platform: 'Multiple', mentions: 234, assignedTo: 'CS Lead' },
+];
+
+export const DEMO_RESPONSE_TEMPLATES: DemoResponseTemplate[] = [
+  { id: 'RT-001', name: 'Technical Issue Acknowledgment', category: 'Technical', content: 'We are aware of the technical issues affecting [ISSUE]. Our team is working to resolve this as quickly as possible. We apologize for any inconvenience.', usageCount: 45 },
+  { id: 'RT-002', name: 'Event Status Update', category: 'General', content: 'Thank you for your patience. [EVENT] is proceeding as scheduled. Please check our official channels for the latest updates.', usageCount: 32 },
+  { id: 'RT-003', name: 'Refund Policy Response', category: 'Customer Service', content: 'We understand your concerns. Our refund policy allows [POLICY]. Please contact support@example.com for assistance with your specific situation.', usageCount: 67 },
+  { id: 'RT-004', name: 'Safety Incident Response', category: 'Safety', content: 'The safety of our guests is our top priority. We are working with local authorities to address [INCIDENT]. Updates will be provided as information becomes available.', usageCount: 12 },
+];
+
+// =============================================================================
+// SOCIAL - SENTIMENT (for social/sentiment/page.tsx)
+// =============================================================================
+
+export interface DemoSentimentAlert {
+  id: string;
+  type: 'Negative Spike' | 'Trending Topic' | 'Crisis' | 'Positive Surge';
+  severity: 'Low' | 'Medium' | 'High' | 'Critical';
+  source: string;
+  keyword: string;
+  mentions: number;
+  sentiment: number;
+  timestamp: string;
+  status: 'Active' | 'Acknowledged' | 'Resolved';
+  [key: string]: unknown;
+}
+
+export interface DemoSentimentMetrics {
+  overall: number;
+  positive: number;
+  neutral: number;
+  negative: number;
+  volume: number;
+  trending: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_SENTIMENT_ALERTS: DemoSentimentAlert[] = [
+  { id: 'SA-001', type: 'Negative Spike', severity: 'High', source: 'Twitter', keyword: 'ticket issues', mentions: 156, sentiment: -0.72, timestamp: '10 min ago', status: 'Active' },
+  { id: 'SA-002', type: 'Trending Topic', severity: 'Low', source: 'Instagram', keyword: 'lineup reveal', mentions: 2450, sentiment: 0.85, timestamp: '25 min ago', status: 'Acknowledged' },
+  { id: 'SA-003', type: 'Positive Surge', severity: 'Low', source: 'TikTok', keyword: 'dance challenge', mentions: 8900, sentiment: 0.92, timestamp: '1 hr ago', status: 'Resolved' },
+  { id: 'SA-004', type: 'Crisis', severity: 'Critical', source: 'Twitter', keyword: 'refund', mentions: 89, sentiment: -0.88, timestamp: '5 min ago', status: 'Active' },
+];
+
+export const DEMO_SENTIMENT_METRICS: DemoSentimentMetrics = {
+  overall: 0.72,
+  positive: 68,
+  neutral: 22,
+  negative: 10,
+  volume: 15600,
+  trending: ['#SummerFest2024', 'lineup', 'tickets', 'VIP'],
+};
+
+// =============================================================================
+// TICKETS - ANTI-SCALPING (for tickets/anti-scalping/page.tsx)
+// =============================================================================
+
+export interface DemoFlaggedTransaction {
+  id: string;
+  orderId: string;
+  eventName: string;
+  buyerEmail: string;
+  quantity: number;
+  flagReason: string;
+  riskScore: number;
+  status: 'Flagged' | 'Under Review' | 'Cleared' | 'Blocked';
+  timestamp: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_FLAGGED_TRANSACTIONS: DemoFlaggedTransaction[] = [
+  { id: 'FLG-001', orderId: 'ORD-5421', eventName: 'Summer Fest 2024', buyerEmail: 'buyer1@email.com', quantity: 8, flagReason: 'High quantity purchase', riskScore: 85, status: 'Under Review', timestamp: '2024-11-25 14:30' },
+  { id: 'FLG-002', orderId: 'ORD-5422', eventName: 'Summer Fest 2024', buyerEmail: 'buyer2@email.com', quantity: 4, flagReason: 'Multiple purchases same IP', riskScore: 72, status: 'Flagged', timestamp: '2024-11-25 14:35' },
+  { id: 'FLG-003', orderId: 'ORD-5423', eventName: 'Fall Concert', buyerEmail: 'buyer3@email.com', quantity: 6, flagReason: 'Known reseller pattern', riskScore: 92, status: 'Blocked', timestamp: '2024-11-25 13:20' },
+  { id: 'FLG-004', orderId: 'ORD-5424', eventName: 'Summer Fest 2024', buyerEmail: 'buyer4@email.com', quantity: 4, flagReason: 'Velocity check failed', riskScore: 65, status: 'Cleared', timestamp: '2024-11-25 12:45' },
+];

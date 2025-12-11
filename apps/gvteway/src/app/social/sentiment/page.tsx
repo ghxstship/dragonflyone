@@ -12,33 +12,14 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface SentimentAlert {
-  id: string;
-  type: "Negative Spike" | "Trending Topic" | "Crisis" | "Positive Surge";
-  severity: "Low" | "Medium" | "High" | "Critical";
-  source: string;
-  keyword: string;
-  mentions: number;
-  sentiment: number;
-  timestamp: string;
-  status: "Active" | "Acknowledged" | "Resolved";
-}
+import {
+  DEMO_SENTIMENT_ALERTS,
+  DEMO_SENTIMENT_METRICS,
+  type DemoSentimentAlert as SentimentAlert,
+} from "@/lib/demo-data";
 
-const mockAlerts: SentimentAlert[] = [
-  { id: "SA-001", type: "Negative Spike", severity: "High", source: "Twitter", keyword: "ticket issues", mentions: 156, sentiment: -0.72, timestamp: "10 min ago", status: "Active" },
-  { id: "SA-002", type: "Trending Topic", severity: "Low", source: "Instagram", keyword: "lineup reveal", mentions: 2450, sentiment: 0.85, timestamp: "25 min ago", status: "Acknowledged" },
-  { id: "SA-003", type: "Positive Surge", severity: "Low", source: "TikTok", keyword: "dance challenge", mentions: 8900, sentiment: 0.92, timestamp: "1 hr ago", status: "Resolved" },
-  { id: "SA-004", type: "Crisis", severity: "Critical", source: "Twitter", keyword: "refund", mentions: 89, sentiment: -0.88, timestamp: "5 min ago", status: "Active" },
-];
-
-const mockMetrics = {
-  overall: 0.72,
-  positive: 68,
-  neutral: 22,
-  negative: 10,
-  volume: 15600,
-  trending: ["#SummerFest2024", "lineup", "tickets", "VIP"],
-};
+const mockAlerts = DEMO_SENTIMENT_ALERTS;
+const mockMetrics = DEMO_SENTIMENT_METRICS;
 
 function SentimentAnalysisPageContent() {
   const router = useRouter();

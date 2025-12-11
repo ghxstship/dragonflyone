@@ -11,43 +11,20 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-interface FlaggedTransaction {
-  id: string;
-  orderId: string;
-  eventName: string;
-  buyerEmail: string;
-  quantity: number;
-  flagReason: string;
-  riskScore: number;
-  status: "Flagged" | "Under Review" | "Cleared" | "Blocked";
-  timestamp: string;
-}
+import {
+  DEMO_FLAGGED_TRANSACTIONS,
+  DEMO_PROTECTION_RULES,
+  type DemoFlaggedTransaction as FlaggedTransaction,
+} from "@/lib/demo-data";
 
-interface ProtectionRule {
-  id: string;
-  name: string;
-  description: string;
-  enabled: boolean;
-  threshold?: number;
-}
-
-const mockFlagged: FlaggedTransaction[] = [
-  { id: "FLG-001", orderId: "ORD-5421", eventName: "Summer Fest 2024", buyerEmail: "buyer1@email.com", quantity: 8, flagReason: "High quantity purchase", riskScore: 85, status: "Under Review", timestamp: "2024-11-25 14:30" },
-  { id: "FLG-002", orderId: "ORD-5422", eventName: "Summer Fest 2024", buyerEmail: "buyer2@email.com", quantity: 4, flagReason: "Multiple purchases same IP", riskScore: 72, status: "Flagged", timestamp: "2024-11-25 14:35" },
-  { id: "FLG-003", orderId: "ORD-5423", eventName: "Fall Concert", buyerEmail: "buyer3@email.com", quantity: 6, flagReason: "Known reseller pattern", riskScore: 92, status: "Blocked", timestamp: "2024-11-25 13:20" },
-  { id: "FLG-004", orderId: "ORD-5424", eventName: "Summer Fest 2024", buyerEmail: "buyer4@email.com", quantity: 4, flagReason: "Velocity check failed", riskScore: 65, status: "Cleared", timestamp: "2024-11-25 12:45" },
-];
-
-const mockRules: ProtectionRule[] = [
-  { id: "RULE-001", name: "Purchase Limit", description: "Maximum tickets per transaction", enabled: true, threshold: 6 },
-  { id: "RULE-002", name: "Account Limit", description: "Maximum tickets per account per event", enabled: true, threshold: 8 },
-  { id: "RULE-003", name: "IP Velocity", description: "Maximum purchases from same IP in 1 hour", enabled: true, threshold: 3 },
-  { id: "RULE-004", name: "Bot Detection", description: "CAPTCHA and behavior analysis", enabled: true },
-  { id: "RULE-005", name: "ID Verification", description: "Require ID match at entry", enabled: false },
-  { id: "RULE-006", name: "Non-Transferable", description: "Tickets locked to purchaser", enabled: false },
-  { id: "RULE-007", name: "Resale Price Cap", description: "Maximum resale price limit", enabled: true, threshold: 120 },
-  { id: "RULE-008", name: "Official Resale Only", description: "Block third-party resale platforms", enabled: true },
-];
+const mockFlagged = DEMO_FLAGGED_TRANSACTIONS;
+const mockRules = DEMO_PROTECTION_RULES.map(r => ({
+  id: r.id,
+  name: r.name,
+  description: r.description,
+  enabled: r.enabled,
+  threshold: r.threshold,
+}));
 
 function AntiScalpingPageContent() {
   const router = useRouter();
