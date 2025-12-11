@@ -26,69 +26,12 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
 
-interface Blueprint {
-  id: string;
-  name: string;
-  description: string;
-  experienceType: string;
-  createdAt: string;
-  foundation: {
-    x: string; // Experiential
-    y: string; // Emotional
-    z: string; // Transformational
-  };
-  senses: {
-    sight: string;
-    sound: string;
-    taste: string;
-    touch: string;
-    smell: string;
-  };
-  journeyPhases: string[];
-}
+import {
+  DEMO_BLUEPRINTS,
+  type DemoBlueprint as Blueprint,
+} from '@/lib/demo-data';
 
-const mockBlueprints: Blueprint[] = [
-  {
-    id: 'bp-001',
-    name: 'Summer Music Festival 2025',
-    description: 'A three-day outdoor music festival celebrating indie and electronic music',
-    experienceType: 'Festival',
-    createdAt: '2024-12-01T10:00:00Z',
-    foundation: {
-      x: 'Multi-stage live performances with interactive art installations',
-      y: 'Joy, freedom, community connection, musical discovery',
-      z: 'Attendees leave with new musical tastes and lasting friendships',
-    },
-    senses: {
-      sight: 'Vibrant stage lighting, LED installations, art sculptures',
-      sound: 'Live music across 4 stages, ambient soundscapes',
-      taste: 'Gourmet food trucks, craft beverages, local cuisine',
-      touch: 'Interactive installations, comfortable seating areas',
-      smell: 'Fresh outdoor air, food aromas, essential oil diffusers',
-    },
-    journeyPhases: ['Arrival & Check-in', 'Exploration', 'Peak Experience', 'Wind Down', 'Departure'],
-  },
-  {
-    id: 'bp-002',
-    name: 'Corporate Innovation Summit',
-    description: 'A two-day conference focused on emerging technologies and business transformation',
-    experienceType: 'Conference',
-    createdAt: '2024-11-28T14:00:00Z',
-    foundation: {
-      x: 'Keynotes, workshops, networking sessions, demo zones',
-      y: 'Inspiration, curiosity, professional growth, connection',
-      z: 'Attendees gain actionable insights and valuable connections',
-    },
-    senses: {
-      sight: 'Modern stage design, digital displays, branded environments',
-      sound: 'Professional audio, background music, clear presentations',
-      taste: 'Premium catering, coffee stations, networking receptions',
-      touch: 'Interactive demos, comfortable seating, quality materials',
-      smell: 'Fresh coffee, clean spaces, subtle ambient scents',
-    },
-    journeyPhases: ['Registration', 'Opening Session', 'Breakouts', 'Networking', 'Closing'],
-  },
-];
+const mockBlueprints = DEMO_BLUEPRINTS;
 
 export default function CreateFromBlueprintPage() {
   const [selectedBlueprint, setSelectedBlueprint] = useState<Blueprint | null>(null);

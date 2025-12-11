@@ -9,6 +9,8 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
+import { DEMO_EVENT_TEMPLATES } from "@/lib/demo-data";
+
 interface EventTemplate {
   id: string;
   name: string;
@@ -20,12 +22,16 @@ interface EventTemplate {
   settings: { ticketTypes: number; sections: number; addOns: number };
 }
 
-const mockTemplates: EventTemplate[] = [
-  { id: "TPL-001", name: "Standard Concert", type: "Concert", description: "Single artist concert with GA and VIP sections", usageCount: 45, lastUsed: "2024-11-20", createdBy: "System", settings: { ticketTypes: 3, sections: 2, addOns: 4 } },
-  { id: "TPL-002", name: "Multi-Day Festival", type: "Festival", description: "Multi-day festival with multiple stages", usageCount: 12, lastUsed: "2024-11-15", createdBy: "System", settings: { ticketTypes: 5, sections: 6, addOns: 8 } },
-  { id: "TPL-003", name: "Theater Performance", type: "Theater", description: "Reserved seating theater event", usageCount: 28, lastUsed: "2024-11-18", createdBy: "System", settings: { ticketTypes: 4, sections: 3, addOns: 2 } },
-  { id: "TPL-004", name: "Club Night", type: "Nightlife", description: "Nightclub event with table service", usageCount: 67, lastUsed: "2024-11-24", createdBy: "Marketing", settings: { ticketTypes: 4, sections: 2, addOns: 5 } },
-];
+const mockTemplates: EventTemplate[] = DEMO_EVENT_TEMPLATES.map(t => ({
+  id: t.id,
+  name: t.name,
+  type: t.type,
+  description: t.description,
+  usageCount: t.timesUsed,
+  lastUsed: t.lastUsed,
+  createdBy: 'System',
+  settings: { ticketTypes: 3, sections: t.sections.length, addOns: 4 },
+}));
 
 export default function EventTemplatesPage() {
   const router = useRouter();

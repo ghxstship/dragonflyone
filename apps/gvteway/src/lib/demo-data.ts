@@ -1363,3 +1363,101 @@ export const DEMO_RFID_WRISTBANDS: DemoRFIDWristband[] = [
   { id: 'WB-003', wristbandId: 'RFID-G7H8I9', guestName: 'Mike Davis', email: 'mike@email.com', ticketType: 'VIP', balance: 0, status: 'Active', registeredAt: '2024-11-24T13:00:00Z', lastUsed: '2024-11-24T21:00:00Z', transactions: 12 },
   { id: 'WB-004', wristbandId: 'RFID-J1K2L3', guestName: 'Emily Chen', email: 'emily@email.com', ticketType: 'GA', balance: 75.25, status: 'Lost', registeredAt: '2024-11-24T16:00:00Z', transactions: 2 },
 ];
+
+// =============================================================================
+// EVENTS - SOCIAL WALL (for events/[id]/social-wall/page.tsx)
+// =============================================================================
+
+export interface DemoSocialPost {
+  id: string;
+  platform: 'Twitter' | 'Instagram' | 'TikTok';
+  author: string;
+  handle: string;
+  content: string;
+  timestamp: string;
+  likes: number;
+  retweets?: number;
+  hashtags: string[];
+  mediaType?: 'image' | 'video';
+  approved: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_SOCIAL_POSTS: DemoSocialPost[] = [
+  { id: 'TW-001', platform: 'Twitter', author: 'Sarah M', handle: '@sarahm', content: 'This concert is AMAZING! Best night ever!', timestamp: '2 min ago', likes: 45, retweets: 12, hashtags: ['SummerFest2024', 'LiveMusic'], approved: true },
+  { id: 'TW-002', platform: 'Twitter', author: 'Mike T', handle: '@miket', content: 'The energy in this crowd is unreal!', timestamp: '5 min ago', likes: 89, retweets: 23, hashtags: ['SummerFest2024'], approved: true },
+  { id: 'IG-001', platform: 'Instagram', author: 'Emily C', handle: '@emilyc', content: 'Front row vibes! Living my best life!', timestamp: '8 min ago', likes: 234, hashtags: ['SummerFest2024', 'FrontRow'], mediaType: 'image', approved: true },
+  { id: 'TW-003', platform: 'Twitter', author: 'Alex R', handle: '@alexr', content: 'That guitar solo just gave me chills!', timestamp: '10 min ago', likes: 67, retweets: 8, hashtags: ['SummerFest2024', 'GuitarSolo'], approved: true },
+  { id: 'TK-001', platform: 'TikTok', author: 'Jordan K', handle: '@jordank', content: 'POV: You are at the best festival of the year', timestamp: '12 min ago', likes: 1245, hashtags: ['SummerFest2024', 'Festival'], mediaType: 'video', approved: true },
+  { id: 'TW-004', platform: 'Twitter', author: 'Chris P', handle: '@chrisp', content: 'The production quality is insane! Those lights!', timestamp: '15 min ago', likes: 34, retweets: 5, hashtags: ['SummerFest2024', 'Production'], approved: true },
+];
+
+// =============================================================================
+// EVENTS - FROM BLUEPRINT (for events/create/from-blueprint/page.tsx)
+// =============================================================================
+
+export interface DemoBlueprint {
+  id: string;
+  name: string;
+  description: string;
+  experienceType: string;
+  createdAt: string;
+  foundation: {
+    x: string;
+    y: string;
+    z: string;
+  };
+  senses: {
+    sight: string;
+    sound: string;
+    taste: string;
+    touch: string;
+    smell: string;
+  };
+  journeyPhases: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_BLUEPRINTS: DemoBlueprint[] = [
+  {
+    id: 'bp-001',
+    name: 'Summer Music Festival 2025',
+    description: 'A three-day outdoor music festival celebrating indie and electronic music',
+    experienceType: 'Festival',
+    createdAt: '2024-12-01T10:00:00Z',
+    foundation: {
+      x: 'Multi-stage live performances with interactive art installations',
+      y: 'Joy, freedom, community connection, musical discovery',
+      z: 'Attendees leave with new musical tastes and lasting friendships',
+    },
+    senses: {
+      sight: 'Vibrant stage lighting, LED installations, art sculptures',
+      sound: 'Live music across 4 stages, ambient soundscapes',
+      taste: 'Gourmet food trucks, craft beverages, local cuisine',
+      touch: 'Interactive installations, comfortable seating areas',
+      smell: 'Fresh outdoor air, food aromas, essential oil diffusers',
+    },
+    journeyPhases: ['Arrival & Check-in', 'Exploration', 'Peak Experience', 'Wind Down', 'Departure'],
+  },
+  {
+    id: 'bp-002',
+    name: 'Corporate Innovation Summit',
+    description: 'A two-day conference focused on emerging technologies and business transformation',
+    experienceType: 'Conference',
+    createdAt: '2024-11-28T14:00:00Z',
+    foundation: {
+      x: 'Keynotes, workshops, networking sessions, demo zones',
+      y: 'Inspiration, curiosity, professional growth, connection',
+      z: 'Attendees gain actionable insights and valuable connections',
+    },
+    senses: {
+      sight: 'Modern stage design, digital displays, branded environments',
+      sound: 'Professional audio, background music, clear presentations',
+      taste: 'Premium catering, coffee stations, networking receptions',
+      touch: 'Interactive demos, comfortable seating, quality materials',
+      smell: 'Fresh coffee, clean spaces, subtle ambient scents',
+    },
+    journeyPhases: ['Registration', 'Opening Session', 'Breakouts', 'Networking', 'Closing'],
+  },
+];
+

@@ -10,28 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface SocialPost {
-  id: string;
-  platform: "Twitter" | "Instagram" | "TikTok";
-  author: string;
-  handle: string;
-  content: string;
-  timestamp: string;
-  likes: number;
-  retweets?: number;
-  hashtags: string[];
-  mediaType?: "image" | "video";
-  approved: boolean;
-}
+import {
+  DEMO_SOCIAL_POSTS,
+  type DemoSocialPost as SocialPost,
+} from "@/lib/demo-data";
 
-const mockPosts: SocialPost[] = [
-  { id: "TW-001", platform: "Twitter", author: "Sarah M", handle: "@sarahm", content: "This concert is AMAZING! Best night ever! 🎵🔥", timestamp: "2 min ago", likes: 45, retweets: 12, hashtags: ["SummerFest2024", "LiveMusic"], approved: true },
-  { id: "TW-002", platform: "Twitter", author: "Mike T", handle: "@miket", content: "The energy in this crowd is unreal! 🙌", timestamp: "5 min ago", likes: 89, retweets: 23, hashtags: ["SummerFest2024"], approved: true },
-  { id: "IG-001", platform: "Instagram", author: "Emily C", handle: "@emilyc", content: "Front row vibes ✨ Living my best life!", timestamp: "8 min ago", likes: 234, hashtags: ["SummerFest2024", "FrontRow"], mediaType: "image", approved: true },
-  { id: "TW-003", platform: "Twitter", author: "Alex R", handle: "@alexr", content: "That guitar solo just gave me chills! 🎸", timestamp: "10 min ago", likes: 67, retweets: 8, hashtags: ["SummerFest2024", "GuitarSolo"], approved: true },
-  { id: "TK-001", platform: "TikTok", author: "Jordan K", handle: "@jordank", content: "POV: You're at the best festival of the year 🎪", timestamp: "12 min ago", likes: 1245, hashtags: ["SummerFest2024", "Festival"], mediaType: "video", approved: true },
-  { id: "TW-004", platform: "Twitter", author: "Chris P", handle: "@chrisp", content: "The production quality is insane! Those lights! 💡", timestamp: "15 min ago", likes: 34, retweets: 5, hashtags: ["SummerFest2024", "Production"], approved: true },
-];
+const mockPosts = DEMO_SOCIAL_POSTS;
 
 function SocialWallPageContent() {
   const router = useRouter();
