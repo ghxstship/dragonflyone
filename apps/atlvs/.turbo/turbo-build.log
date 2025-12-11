@@ -8,6 +8,7 @@
 
    Creating an optimized production build ...
    Using tsconfig file: tsconfig.build.json
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Collecting page data ...

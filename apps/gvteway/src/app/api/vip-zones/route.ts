@@ -23,13 +23,7 @@ const vipZoneSchema = z.object({
   access_level: z.enum(['standard', 'premium', 'all_access']).default('standard'),
 });
 
-// Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ zones: [] });
-}
-
-// Original implementation preserved for when table is created
-async function _originalGET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);

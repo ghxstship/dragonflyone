@@ -14,11 +14,7 @@ function getSupabaseClient() {
 
 // GET - Fetch interactive venue map data
 // Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ maps: [] });
-}
-
-async function _originalGET(
+export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {

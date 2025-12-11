@@ -12,13 +12,7 @@ function getSupabaseClient() {
 
 
 
-// Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ categories: [] });
-}
-
-// Original implementation preserved for when table is created
-async function _originalGET(_request: NextRequest) {
+export async function GET(_request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     // Get content counts by type

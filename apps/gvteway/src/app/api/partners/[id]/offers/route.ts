@@ -31,11 +31,7 @@ const offerSchema = z.object({
 });
 
 // Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ offers: [] });
-}
-
-async function _originalGET(
+export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {

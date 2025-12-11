@@ -14,11 +14,7 @@ function getSupabaseClient() {
 
 // GET - Fetch lost and found items
 // Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ items: [] });
-}
-
-async function _originalGET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);

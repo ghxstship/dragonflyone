@@ -3,11 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { log } from '@ghxstship/config';
 
 // Table does not exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ sales: [] });
-}
-
-async function _originalGET(
+export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }
 ) {

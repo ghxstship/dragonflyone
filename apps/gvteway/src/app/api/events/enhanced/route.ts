@@ -28,11 +28,7 @@ const createEventSchema = z.object({
 });
 
 // Table does not exist - return empty response
-export async function GET() {
-  return NextResponse.json({ events: [] });
-}
-
-const _originalGET = apiRoute(
+export const GET = apiRoute(
   async (request: NextRequest) => {
     try {
       const supabase = getSupabaseClient();

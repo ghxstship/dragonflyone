@@ -37,12 +37,7 @@ const streamSchema = z.object({
 });
 
 // GET - List streams or get stream details
-// Note: live_streams table doesn't exist - return empty response
-export async function GET() {
-  return NextResponse.json({ streams: [] });
-}
-
-const _originalGET = apiRoute(
+export const GET = apiRoute(
   async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { searchParams } = new URL(request.url);
     const stream_id = searchParams.get('stream_id');

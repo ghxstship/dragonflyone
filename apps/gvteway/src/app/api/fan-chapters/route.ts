@@ -13,14 +13,6 @@ function getSupabaseClient() {
 
 
 // Local fan chapters and geographic communities
-// Note: fan_chapters table doesn't exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({
-    chapters: [],
-    nearby: []
-  });
-}
-
 export async function POST(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();

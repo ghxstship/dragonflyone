@@ -31,12 +31,7 @@ const campaignSchema = z.object({
   }).optional(),
 });
 
-// Note: ad_campaigns table doesn't exist in schema - return empty response
-export async function GET() {
-  return NextResponse.json({ campaigns: [], summary: { total: 0, active: 0, total_spend: 0, total_impressions: 0 } });
-}
-
-async function _originalGET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
