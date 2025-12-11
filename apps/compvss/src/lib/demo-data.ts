@@ -1289,3 +1289,102 @@ export const DEMO_REHEARSAL_NOTES: DemoRehearsalNote[] = [
   { id: 'RN-004', sessionId: 'TR-002', timestamp: '10:20', department: 'Lighting', type: 'Issue', description: 'Cue 45 timing needs adjustment - too fast', assignedTo: 'Sarah Chen', resolved: false, priority: 'Medium' },
   { id: 'RN-005', sessionId: 'TR-002', timestamp: '11:05', department: 'Video', type: 'Note', description: 'Client requested brighter logo on intro', resolved: false, priority: 'Low' },
 ];
+
+// =============================================================================
+// SOCIAL AMPLIFICATION (for social-amplification/page.tsx)
+// =============================================================================
+
+export interface DemoArtistProfile {
+  id: string;
+  name: string;
+  genre: string;
+  followers: number;
+  platforms: { name: string; handle: string; followers: number }[];
+  scheduledPosts: number;
+  engagement: number;
+  status: 'Active' | 'Pending' | 'Inactive';
+  [key: string]: unknown;
+}
+
+export interface DemoAmplificationCampaign {
+  id: string;
+  name: string;
+  eventName: string;
+  artists: string[];
+  startDate: string;
+  endDate: string;
+  status: 'Active' | 'Scheduled' | 'Completed';
+  reach: number;
+  engagement: number;
+  posts: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_ARTIST_PROFILES: DemoArtistProfile[] = [
+  { id: 'ART-001', name: 'The Headliners', genre: 'Rock', followers: 2500000, platforms: [{ name: 'Instagram', handle: '@theheadliners', followers: 1500000 }, { name: 'Twitter', handle: '@headliners', followers: 800000 }, { name: 'TikTok', handle: '@theheadliners', followers: 200000 }], scheduledPosts: 5, engagement: 4.2, status: 'Active' },
+  { id: 'ART-002', name: 'DJ Pulse', genre: 'Electronic', followers: 850000, platforms: [{ name: 'Instagram', handle: '@djpulse', followers: 500000 }, { name: 'Twitter', handle: '@djpulse', followers: 350000 }], scheduledPosts: 3, engagement: 5.1, status: 'Active' },
+  { id: 'ART-003', name: 'Indie Collective', genre: 'Indie', followers: 320000, platforms: [{ name: 'Instagram', handle: '@indiecollective', followers: 200000 }, { name: 'TikTok', handle: '@indiecollective', followers: 120000 }], scheduledPosts: 0, engagement: 3.8, status: 'Pending' },
+];
+
+export const DEMO_AMPLIFICATION_CAMPAIGNS: DemoAmplificationCampaign[] = [
+  { id: 'CAMP-001', name: 'Summer Fest Launch', eventName: 'Summer Fest 2024', artists: ['The Headliners', 'DJ Pulse'], startDate: '2024-11-01', endDate: '2024-11-30', status: 'Active', reach: 3200000, engagement: 156000, posts: 24 },
+  { id: 'CAMP-002', name: 'Ticket Sale Push', eventName: 'Summer Fest 2024', artists: ['The Headliners', 'DJ Pulse', 'Indie Collective'], startDate: '2024-12-01', endDate: '2024-12-15', status: 'Scheduled', reach: 0, engagement: 0, posts: 12 },
+];
+
+// =============================================================================
+// STAKEHOLDER PORTAL (for stakeholder-portal/page.tsx)
+// =============================================================================
+
+export interface DemoStakeholder {
+  id: string;
+  name: string;
+  organization: string;
+  role: 'Client' | 'Sponsor' | 'Vendor' | 'Partner';
+  accessLevel: 'Full' | 'Limited' | 'View Only';
+  lastLogin?: string;
+  status: 'Active' | 'Pending' | 'Inactive';
+  [key: string]: unknown;
+}
+
+export interface DemoStakeholderUpdate {
+  id: string;
+  projectName: string;
+  title: string;
+  content: string;
+  author: string;
+  timestamp: string;
+  type: 'Status' | 'Milestone' | 'Alert' | 'Document';
+  [key: string]: unknown;
+}
+
+export const DEMO_STAKEHOLDERS: DemoStakeholder[] = [
+  { id: 'STK-001', name: 'John Client', organization: 'Festival Productions', role: 'Client', accessLevel: 'Full', lastLogin: '2024-11-25 09:30', status: 'Active' },
+  { id: 'STK-002', name: 'Sarah Sponsor', organization: 'Brand Corp', role: 'Sponsor', accessLevel: 'Limited', lastLogin: '2024-11-24 14:15', status: 'Active' },
+  { id: 'STK-003', name: 'Mike Vendor', organization: 'Audio House', role: 'Vendor', accessLevel: 'View Only', lastLogin: '2024-11-23 11:00', status: 'Active' },
+  { id: 'STK-004', name: 'Emily Partner', organization: 'Venue Group', role: 'Partner', accessLevel: 'Limited', status: 'Pending' },
+];
+
+export const DEMO_STAKEHOLDER_UPDATES: DemoStakeholderUpdate[] = [
+  { id: 'UPD-001', projectName: 'Summer Fest 2024', title: 'Stage Build Complete', content: 'Main stage construction finished ahead of schedule. Ready for equipment load-in.', author: 'Production Manager', timestamp: '2024-11-25 10:00', type: 'Milestone' },
+  { id: 'UPD-002', projectName: 'Summer Fest 2024', title: 'Weather Advisory', content: 'Monitoring potential rain for load-in day. Contingency plans activated.', author: 'Operations', timestamp: '2024-11-25 08:30', type: 'Alert' },
+  { id: 'UPD-003', projectName: 'Corporate Gala', title: 'Budget Update', content: 'Q4 budget revision approved. Updated documents available in portal.', author: 'Finance', timestamp: '2024-11-24 16:00', type: 'Document' },
+];
+
+// =============================================================================
+// INTEGRATIONS (for integrations/page.tsx)
+// =============================================================================
+
+export interface DemoSyncJob {
+  id: string;
+  source_system: string;
+  target_system: string;
+  status: string;
+  created_at: string;
+  payload: Record<string, unknown>;
+  [key: string]: unknown;
+}
+
+export const DEMO_SYNC_JOBS: DemoSyncJob[] = [
+  { id: '1', source_system: 'atlvs', target_system: 'compvss', status: 'synced', created_at: '2024-11-25T10:00:00Z', payload: { action: 'create_project', deal_id: 'deal-123' } },
+  { id: '2', source_system: 'compvss', target_system: 'gvteway', status: 'pending', created_at: '2024-11-25T09:30:00Z', payload: { action: 'create_event', project_id: 'proj-456' } },
+];

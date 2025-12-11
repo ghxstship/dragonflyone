@@ -29,38 +29,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Stakeholder {
-  id: string;
-  name: string;
-  organization: string;
-  role: "Client" | "Sponsor" | "Vendor" | "Partner";
-  accessLevel: "Full" | "Limited" | "View Only";
-  lastLogin?: string;
-  status: "Active" | "Pending" | "Inactive";
-}
+import {
+  DEMO_STAKEHOLDERS,
+  DEMO_STAKEHOLDER_UPDATES,
+  type DemoStakeholder as Stakeholder,
+  type DemoStakeholderUpdate as Update,
+} from "../../lib/demo-data";
 
-interface Update {
-  id: string;
-  projectName: string;
-  title: string;
-  content: string;
-  author: string;
-  timestamp: string;
-  type: "Status" | "Milestone" | "Alert" | "Document";
-}
-
-const mockStakeholders: Stakeholder[] = [
-  { id: "STK-001", name: "John Client", organization: "Festival Productions", role: "Client", accessLevel: "Full", lastLogin: "2024-11-25 09:30", status: "Active" },
-  { id: "STK-002", name: "Sarah Sponsor", organization: "Brand Corp", role: "Sponsor", accessLevel: "Limited", lastLogin: "2024-11-24 14:15", status: "Active" },
-  { id: "STK-003", name: "Mike Vendor", organization: "Audio House", role: "Vendor", accessLevel: "View Only", lastLogin: "2024-11-23 11:00", status: "Active" },
-  { id: "STK-004", name: "Emily Partner", organization: "Venue Group", role: "Partner", accessLevel: "Limited", status: "Pending" },
-];
-
-const mockUpdates: Update[] = [
-  { id: "UPD-001", projectName: "Summer Fest 2024", title: "Stage Build Complete", content: "Main stage construction finished ahead of schedule. Ready for equipment load-in.", author: "Production Manager", timestamp: "2024-11-25 10:00", type: "Milestone" },
-  { id: "UPD-002", projectName: "Summer Fest 2024", title: "Weather Advisory", content: "Monitoring potential rain for load-in day. Contingency plans activated.", author: "Operations", timestamp: "2024-11-25 08:30", type: "Alert" },
-  { id: "UPD-003", projectName: "Corporate Gala", title: "Budget Update", content: "Q4 budget revision approved. Updated documents available in portal.", author: "Finance", timestamp: "2024-11-24 16:00", type: "Document" },
-];
+const mockStakeholders = DEMO_STAKEHOLDERS;
+const mockUpdates = DEMO_STAKEHOLDER_UPDATES;
 
 export default function StakeholderPortalPage() {
   const router = useRouter();

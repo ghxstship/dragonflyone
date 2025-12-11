@@ -29,40 +29,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface ArtistProfile {
-  id: string;
-  name: string;
-  genre: string;
-  followers: number;
-  platforms: { name: string; handle: string; followers: number }[];
-  scheduledPosts: number;
-  engagement: number;
-  status: "Active" | "Pending" | "Inactive";
-}
+import {
+  DEMO_ARTIST_PROFILES,
+  DEMO_AMPLIFICATION_CAMPAIGNS,
+  type DemoArtistProfile as ArtistProfile,
+  type DemoAmplificationCampaign as AmplificationCampaign,
+} from "../../lib/demo-data";
 
-interface AmplificationCampaign {
-  id: string;
-  name: string;
-  eventName: string;
-  artists: string[];
-  startDate: string;
-  endDate: string;
-  status: "Active" | "Scheduled" | "Completed";
-  reach: number;
-  engagement: number;
-  posts: number;
-}
-
-const mockArtists: ArtistProfile[] = [
-  { id: "ART-001", name: "The Headliners", genre: "Rock", followers: 2500000, platforms: [{ name: "Instagram", handle: "@theheadliners", followers: 1500000 }, { name: "Twitter", handle: "@headliners", followers: 800000 }, { name: "TikTok", handle: "@theheadliners", followers: 200000 }], scheduledPosts: 5, engagement: 4.2, status: "Active" },
-  { id: "ART-002", name: "DJ Pulse", genre: "Electronic", followers: 850000, platforms: [{ name: "Instagram", handle: "@djpulse", followers: 500000 }, { name: "Twitter", handle: "@djpulse", followers: 350000 }], scheduledPosts: 3, engagement: 5.1, status: "Active" },
-  { id: "ART-003", name: "Indie Collective", genre: "Indie", followers: 320000, platforms: [{ name: "Instagram", handle: "@indiecollective", followers: 200000 }, { name: "TikTok", handle: "@indiecollective", followers: 120000 }], scheduledPosts: 0, engagement: 3.8, status: "Pending" },
-];
-
-const mockCampaigns: AmplificationCampaign[] = [
-  { id: "CAMP-001", name: "Summer Fest Launch", eventName: "Summer Fest 2024", artists: ["The Headliners", "DJ Pulse"], startDate: "2024-11-01", endDate: "2024-11-30", status: "Active", reach: 3200000, engagement: 156000, posts: 24 },
-  { id: "CAMP-002", name: "Ticket Sale Push", eventName: "Summer Fest 2024", artists: ["The Headliners", "DJ Pulse", "Indie Collective"], startDate: "2024-12-01", endDate: "2024-12-15", status: "Scheduled", reach: 0, engagement: 0, posts: 12 },
-];
+const mockArtists = DEMO_ARTIST_PROFILES;
+const mockCampaigns = DEMO_AMPLIFICATION_CAMPAIGNS;
 
 export default function SocialAmplificationPage() {
   const router = useRouter();

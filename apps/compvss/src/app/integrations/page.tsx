@@ -27,14 +27,10 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface SyncJob {
-  id: string;
-  source_system: string;
-  target_system: string;
-  status: string;
-  created_at: string;
-  payload: Record<string, unknown>;
-}
+import {
+  DEMO_SYNC_JOBS,
+  type DemoSyncJob as SyncJob,
+} from '../../lib/demo-data';
 
 export default function CompvssIntegrationsPage() {
   const router = useRouter();
@@ -49,26 +45,8 @@ export default function CompvssIntegrationsPage() {
   const fetchSyncJobs = async () => {
     setLoading(true);
     try {
-      // Mock data for demonstration
-      const mockJobs: SyncJob[] = [
-        {
-          id: '1',
-          source_system: 'atlvs',
-          target_system: 'compvss',
-          status: 'synced',
-          created_at: new Date().toISOString(),
-          payload: { action: 'create_project', deal_id: 'deal-123' },
-        },
-        {
-          id: '2',
-          source_system: 'compvss',
-          target_system: 'gvteway',
-          status: 'pending',
-          created_at: new Date().toISOString(),
-          payload: { action: 'create_event', project_id: 'proj-456' },
-        },
-      ];
-      setSyncJobs(mockJobs);
+      // Use centralized demo data
+      setSyncJobs(DEMO_SYNC_JOBS);
     } catch (error) {
       log.error('Failed to fetch sync jobs:', error instanceof Error ? error : undefined);
     } finally {
