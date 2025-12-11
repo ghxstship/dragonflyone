@@ -806,3 +806,31 @@ export const DEMO_CRM_LEADS: DemoCrmLead[] = [
   { id: 'LEAD-004', name: 'David Park', company: 'StartUp Ventures', email: 'dpark@startup.io', source: 'LinkedIn', score: 45, grade: 'C', status: 'New', lastActivity: '2024-11-24', engagementScore: 40, fitScore: 50, behaviorScore: 45, estimatedValue: 25000 },
   { id: 'LEAD-005', name: 'Lisa Thompson', company: 'Local Business', email: 'lisa@local.com', source: 'Cold Outreach', score: 28, grade: 'D', status: 'Contacted', lastActivity: '2024-11-20', engagementScore: 25, fitScore: 30, behaviorScore: 30, estimatedValue: 10000 },
 ];
+
+// =============================================================================
+// CALIBRATION RECORDS (for assets/calibration page)
+// =============================================================================
+
+export interface DemoCalibrationRecord {
+  id: string;
+  assetId: string;
+  assetName: string;
+  category: string;
+  calibrationType: string;
+  lastCalibration: string;
+  nextDue: string;
+  frequency: string;
+  status: 'Current' | 'Due Soon' | 'Overdue' | 'Scheduled';
+  certifiedBy?: string;
+  certificateNumber?: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CALIBRATION_RECORDS: DemoCalibrationRecord[] = [
+  { id: 'CAL-001', assetId: 'AST-010', assetName: 'Fluke 87V Multimeter', category: 'Test Equipment', calibrationType: 'Electrical Calibration', lastCalibration: '2024-06-15', nextDue: '2025-06-15', frequency: 'Annual', status: 'Current', certifiedBy: 'Cal Labs Inc', certificateNumber: 'CL-2024-4521' },
+  { id: 'CAL-002', assetId: 'AST-011', assetName: 'NTI Audio XL2', category: 'Audio Measurement', calibrationType: 'Acoustic Calibration', lastCalibration: '2024-03-20', nextDue: '2024-12-20', frequency: '9 Months', status: 'Due Soon', certifiedBy: 'NTI Americas', certificateNumber: 'NTI-2024-8892' },
+  { id: 'CAL-003', assetId: 'AST-012', assetName: 'CM Lodestar Load Cell', category: 'Rigging', calibrationType: 'Load Certification', lastCalibration: '2024-01-10', nextDue: '2024-07-10', frequency: '6 Months', status: 'Overdue', certifiedBy: 'Rigging Safety Inc', certificateNumber: 'RS-2024-1123' },
+  { id: 'CAL-004', assetId: 'AST-013', assetName: 'Minolta CL-200A', category: 'Lighting Measurement', calibrationType: 'Photometric Calibration', lastCalibration: '2024-08-01', nextDue: '2025-08-01', frequency: 'Annual', status: 'Current', certifiedBy: 'Konica Minolta', certificateNumber: 'KM-2024-5567' },
+  { id: 'CAL-005', assetId: 'AST-014', assetName: 'Laser Distance Meter', category: 'Survey Equipment', calibrationType: 'Distance Calibration', lastCalibration: '2024-09-15', nextDue: '2024-12-15', frequency: 'Quarterly', status: 'Scheduled', certifiedBy: 'Precision Labs', certificateNumber: 'PL-2024-9901', notes: 'Scheduled for Dec 10' },
+];
