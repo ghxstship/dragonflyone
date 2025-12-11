@@ -24,48 +24,20 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface SuccessionPlan {
-  id: string;
-  position: string;
-  department: string;
-  currentHolder: string;
-  riskLevel: 'Low' | 'Medium' | 'High' | 'Critical';
-  successors: Successor[];
-  lastReviewed: string;
-}
-
-interface Successor {
-  id: string;
-  name: string;
-  currentRole: string;
-  readiness: 'Ready Now' | '1-2 Years' | '3-5 Years';
-  developmentAreas: string[];
-  readinessScore: number;
-}
-
-const mockPlans: SuccessionPlan[] = [
-  { id: 'SUC-001', position: 'VP of Production', department: 'Production', currentHolder: 'Robert Chen', riskLevel: 'High', lastReviewed: '2024-10-15', successors: [
-    { id: 'S-001', name: 'Sarah Johnson', currentRole: 'Production Director', readiness: 'Ready Now', developmentAreas: ['Executive presence', 'P&L management'], readinessScore: 85 },
-    { id: 'S-002', name: 'Mike Williams', currentRole: 'Senior PM', readiness: '1-2 Years', developmentAreas: ['Leadership', 'Strategic planning'], readinessScore: 65 },
-  ]},
-  { id: 'SUC-002', position: 'Technical Director', department: 'Technical', currentHolder: 'James Wilson', riskLevel: 'Medium', lastReviewed: '2024-11-01', successors: [
-    { id: 'S-003', name: 'Emily Davis', currentRole: 'Lead Engineer', readiness: '1-2 Years', developmentAreas: ['Team management', 'Budget oversight'], readinessScore: 70 },
-  ]},
-  { id: 'SUC-003', position: 'Finance Director', department: 'Finance', currentHolder: 'Lisa Park', riskLevel: 'Low', lastReviewed: '2024-09-20', successors: [
-    { id: 'S-004', name: 'Chris Brown', currentRole: 'Finance Manager', readiness: 'Ready Now', developmentAreas: ['Investor relations'], readinessScore: 90 },
-    { id: 'S-005', name: 'Amy Chen', currentRole: 'Senior Accountant', readiness: '3-5 Years', developmentAreas: ['Management', 'Strategy', 'Forecasting'], readinessScore: 45 },
-  ]},
-];
+import {
+  DEMO_SUCCESSION_PLANS,
+  type DemoSuccessionPlan as SuccessionPlan,
+} from '../../../lib/demo-data';
 
 export default function SuccessionPlanningPage() {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState<SuccessionPlan | null>(null);
   const [riskFilter, setRiskFilter] = useState('All');
 
-  const filteredPlans = riskFilter === 'All' ? mockPlans : mockPlans.filter(p => p.riskLevel === riskFilter);
-  const highRiskCount = mockPlans.filter(p => p.riskLevel === 'High' || p.riskLevel === 'Critical').length;
-  const readyNowCount = mockPlans.flatMap(p => p.successors).filter(s => s.readiness === 'Ready Now').length;
-  const totalSuccessors = mockPlans.flatMap(p => p.successors).length;
+  const filteredPlans = riskFilter === 'All' ? DEMO_SUCCESSION_PLANS : DEMO_SUCCESSION_PLANS.filter(p => p.riskLevel === riskFilter);
+  const highRiskCount = DEMO_SUCCESSION_PLANS.filter(p => p.riskLevel === 'High' || p.riskLevel === 'Critical').length;
+  const readyNowCount = DEMO_SUCCESSION_PLANS.flatMap(p => p.successors).filter(s => s.readiness === 'Ready Now').length;
+  const totalSuccessors = DEMO_SUCCESSION_PLANS.flatMap(p => p.successors).length;
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
@@ -101,7 +73,7 @@ export default function SuccessionPlanningPage() {
           <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Key Positions" value={mockPlans.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Key Positions" value={DEMO_SUCCESSION_PLANS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="High Risk" value={highRiskCount} trend={highRiskCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Ready Now" value={readyNowCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Successors" value={totalSuccessors} className="bg-transparent border-2 border-ink-800" />
