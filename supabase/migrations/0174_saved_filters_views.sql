@@ -1,91 +1,107 @@
--- Migration: 0045_saved_filters_views.sql
--- Description: Create saved_filters and saved_views tables for BACK-064
--- Created: 2024-12-10
+-- Migration: 0174_saved_filters_views.sql
+-- Description: Add organization_id and app columns to saved_filters and create saved_views table for BACK-064
+-- Created: 2024-12-11
 
 -- ============================================================================
--- SAVED FILTERS TABLE
--- Stores user-defined filter presets for list pages
+-- ADD MISSING COLUMNS TO SAVED FILTERS TABLE
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS public.saved_filters (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
-  
-  -- Filter identification
-  name TEXT NOT NULL,
-  entity_type TEXT NOT NULL, -- e.g., 'contacts', 'invoices', 'crew', 'events'
-  app TEXT NOT NULL CHECK (app IN ('atlvs', 'compvss', 'gvteway')),
-  
-  -- Filter configuration (JSONB for flexibility)
-  conditions JSONB NOT NULL DEFAULT '[]'::jsonb,
-  -- Example: [{"field": "status", "operator": "equals", "value": "active"}]
-  
-  -- Sharing settings
-  is_public BOOLEAN NOT NULL DEFAULT false,
-  is_default BOOLEAN NOT NULL DEFAULT false,
-  
-  -- Metadata
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  
-  -- Constraints
-  CONSTRAINT saved_filters_name_length CHECK (char_length(name) >= 1 AND char_length(name) <= 100),
-  CONSTRAINT saved_filters_entity_type_length CHECK (char_length(entity_type) >= 1 AND char_length(entity_type) <= 100)
-);
+-- Add organization_id column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_filters' 
+    AND column_name = 'organization_id'
+  ) THEN
+    ALTER TABLE public.saved_filters 
+    ADD COLUMN organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE;
+  END IF;
+END $$;
 
--- Indexes for saved_filters
-CREATE INDEX IF NOT EXISTS idx_saved_filters_user_id ON public.saved_filters(user_id);
+-- Add app column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_filters' 
+    AND column_name = 'app'
+  ) THEN
+    ALTER TABLE public.saved_filters 
+    ADD COLUMN app TEXT DEFAULT 'atlvs' CHECK (app IN ('atlvs', 'compvss', 'gvteway'));
+  END IF;
+END $$;
+
+-- Create indexes if they don't exist
 CREATE INDEX IF NOT EXISTS idx_saved_filters_organization_id ON public.saved_filters(organization_id);
+CREATE INDEX IF NOT EXISTS idx_saved_filters_user_id ON public.saved_filters(user_id);
 CREATE INDEX IF NOT EXISTS idx_saved_filters_entity_type ON public.saved_filters(entity_type);
 CREATE INDEX IF NOT EXISTS idx_saved_filters_app ON public.saved_filters(app);
 CREATE INDEX IF NOT EXISTS idx_saved_filters_is_public ON public.saved_filters(is_public) WHERE is_public = true;
 
 -- ============================================================================
--- SAVED VIEWS TABLE
--- Stores user-defined view configurations (columns, sort, etc.)
+-- ADD MISSING COLUMNS TO SAVED VIEWS TABLE
 -- ============================================================================
 
-CREATE TABLE IF NOT EXISTS public.saved_views (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE,
-  
-  -- View identification
-  name TEXT NOT NULL,
-  entity_type TEXT NOT NULL, -- e.g., 'contacts', 'invoices', 'crew', 'events'
-  app TEXT NOT NULL CHECK (app IN ('atlvs', 'compvss', 'gvteway')),
-  
-  -- View configuration (JSONB for flexibility)
-  visible_columns JSONB NOT NULL DEFAULT '[]'::jsonb,
-  -- Example: ["id", "name", "email", "status", "created_at"]
-  
-  column_order JSONB NOT NULL DEFAULT '[]'::jsonb,
-  -- Example: ["name", "status", "email", "created_at", "id"]
-  
-  column_widths JSONB NOT NULL DEFAULT '{}'::jsonb,
-  -- Example: {"name": 200, "email": 250, "status": 100}
-  
-  sort_config JSONB NOT NULL DEFAULT '{}'::jsonb,
-  -- Example: {"field": "created_at", "direction": "desc"}
-  
-  -- Optional: Link to a saved filter
-  saved_filter_id UUID REFERENCES public.saved_filters(id) ON DELETE SET NULL,
-  
-  -- Sharing settings
-  is_public BOOLEAN NOT NULL DEFAULT false,
-  is_default BOOLEAN NOT NULL DEFAULT false,
-  
-  -- Metadata
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  
-  -- Constraints
-  CONSTRAINT saved_views_name_length CHECK (char_length(name) >= 1 AND char_length(name) <= 100),
-  CONSTRAINT saved_views_entity_type_length CHECK (char_length(entity_type) >= 1 AND char_length(entity_type) <= 100)
-);
+-- Add organization_id column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_views' 
+    AND column_name = 'organization_id'
+  ) THEN
+    ALTER TABLE public.saved_views 
+    ADD COLUMN organization_id UUID REFERENCES public.organizations(id) ON DELETE CASCADE;
+  END IF;
+END $$;
 
--- Indexes for saved_views
+-- Add app column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_views' 
+    AND column_name = 'app'
+  ) THEN
+    ALTER TABLE public.saved_views 
+    ADD COLUMN app TEXT DEFAULT 'atlvs' CHECK (app IN ('atlvs', 'compvss', 'gvteway'));
+  END IF;
+END $$;
+
+-- Add saved_filter_id column if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_views' 
+    AND column_name = 'saved_filter_id'
+  ) THEN
+    ALTER TABLE public.saved_views 
+    ADD COLUMN saved_filter_id UUID REFERENCES public.saved_filters(id) ON DELETE SET NULL;
+  END IF;
+END $$;
+
+-- Add sort_config column if it doesn't exist (remote uses sort_by/sort_order instead)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns 
+    WHERE table_schema = 'public' 
+    AND table_name = 'saved_views' 
+    AND column_name = 'sort_config'
+  ) THEN
+    ALTER TABLE public.saved_views 
+    ADD COLUMN sort_config JSONB DEFAULT '{}'::jsonb;
+  END IF;
+END $$;
+
+-- Create indexes if they don't exist
 CREATE INDEX IF NOT EXISTS idx_saved_views_user_id ON public.saved_views(user_id);
 CREATE INDEX IF NOT EXISTS idx_saved_views_organization_id ON public.saved_views(organization_id);
 CREATE INDEX IF NOT EXISTS idx_saved_views_entity_type ON public.saved_views(entity_type);
@@ -100,16 +116,29 @@ CREATE INDEX IF NOT EXISTS idx_saved_views_saved_filter_id ON public.saved_views
 ALTER TABLE public.saved_filters ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.saved_views ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist (to avoid conflicts)
+DROP POLICY IF EXISTS "Users can view their own saved filters" ON public.saved_filters;
+DROP POLICY IF EXISTS "Users can view public saved filters" ON public.saved_filters;
+DROP POLICY IF EXISTS "Users can view public saved filters in their org" ON public.saved_filters;
+DROP POLICY IF EXISTS "Users can create their own saved filters" ON public.saved_filters;
+DROP POLICY IF EXISTS "Users can update their own saved filters" ON public.saved_filters;
+DROP POLICY IF EXISTS "Users can delete their own saved filters" ON public.saved_filters;
+
+DROP POLICY IF EXISTS "Users can view their own saved views" ON public.saved_views;
+DROP POLICY IF EXISTS "Users can view public saved views" ON public.saved_views;
+DROP POLICY IF EXISTS "Users can view public saved views in their org" ON public.saved_views;
+DROP POLICY IF EXISTS "Users can create their own saved views" ON public.saved_views;
+DROP POLICY IF EXISTS "Users can update their own saved views" ON public.saved_views;
+DROP POLICY IF EXISTS "Users can delete their own saved views" ON public.saved_views;
+
 -- Saved Filters RLS Policies
 CREATE POLICY "Users can view their own saved filters"
   ON public.saved_filters FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can view public saved filters in their org"
+CREATE POLICY "Users can view public saved filters"
   ON public.saved_filters FOR SELECT
-  USING (is_public = true AND organization_id IN (
-    SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid()
-  ));
+  USING (is_public = true);
 
 CREATE POLICY "Users can create their own saved filters"
   ON public.saved_filters FOR INSERT
@@ -128,11 +157,9 @@ CREATE POLICY "Users can view their own saved views"
   ON public.saved_views FOR SELECT
   USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can view public saved views in their org"
+CREATE POLICY "Users can view public saved views"
   ON public.saved_views FOR SELECT
-  USING (is_public = true AND organization_id IN (
-    SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid()
-  ));
+  USING (is_public = true);
 
 CREATE POLICY "Users can create their own saved views"
   ON public.saved_views FOR INSERT
