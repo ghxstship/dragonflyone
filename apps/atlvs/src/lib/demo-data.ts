@@ -1005,3 +1005,29 @@ export const DEMO_RENTAL_EQUIPMENT: DemoRentalEquipment[] = [
   { id: 'RNT-005', name: 'Avolites Arena Console', category: 'Lighting', vendor: '4Wall', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 500, totalCost: 3500, status: 'Returned', poNumber: 'PO-2024-440', condition: 'Good' },
   { id: 'RNT-006', name: 'Shure ULXD4Q Wireless', category: 'Audio', vendor: 'PRG', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 75, totalCost: 525, status: 'Overdue', poNumber: 'PO-2024-441', condition: 'Good' },
 ];
+
+// =============================================================================
+// STORAGE LOCATIONS (for assets/storage page)
+// =============================================================================
+
+export interface DemoStorageLocation {
+  id: string;
+  name: string;
+  type: 'Warehouse' | 'Bay' | 'Rack' | 'Container';
+  capacity: number;
+  used: number;
+  category: string;
+  address?: string;
+  climate: 'Standard' | 'Climate Controlled' | 'Outdoor';
+  status: 'Active' | 'Full' | 'Maintenance';
+  [key: string]: unknown;
+}
+
+export const DEMO_STORAGE_LOCATIONS: DemoStorageLocation[] = [
+  { id: 'LOC-001', name: 'Main Warehouse', type: 'Warehouse', capacity: 50000, used: 38500, category: 'All', address: '123 Industrial Blvd', climate: 'Climate Controlled', status: 'Active' },
+  { id: 'LOC-002', name: 'Audio Bay A', type: 'Bay', capacity: 5000, used: 4200, category: 'Audio', climate: 'Climate Controlled', status: 'Active' },
+  { id: 'LOC-003', name: 'Lighting Bay B', type: 'Bay', capacity: 5000, used: 4800, category: 'Lighting', climate: 'Standard', status: 'Active' },
+  { id: 'LOC-004', name: 'Video Storage', type: 'Bay', capacity: 3000, used: 3000, category: 'Video', climate: 'Climate Controlled', status: 'Full' },
+  { id: 'LOC-005', name: 'Rigging Container', type: 'Container', capacity: 2000, used: 1500, category: 'Rigging', climate: 'Outdoor', status: 'Active' },
+  { id: 'LOC-006', name: 'Staging Yard', type: 'Warehouse', capacity: 20000, used: 12000, category: 'Staging', address: '456 Staging Way', climate: 'Outdoor', status: 'Active' },
+];

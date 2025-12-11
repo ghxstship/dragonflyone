@@ -10,27 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface StorageLocation {
-  id: string;
-  name: string;
-  type: 'Warehouse' | 'Bay' | 'Rack' | 'Container';
-  capacity: number;
-  used: number;
-  category: string;
-  address?: string;
-  climate: 'Standard' | 'Climate Controlled' | 'Outdoor';
-  status: 'Active' | 'Full' | 'Maintenance';
-  [key: string]: unknown;
-}
-
-const mockData: StorageLocation[] = [
-  { id: 'LOC-001', name: 'Main Warehouse', type: 'Warehouse', capacity: 50000, used: 38500, category: 'All', address: '123 Industrial Blvd', climate: 'Climate Controlled', status: 'Active' },
-  { id: 'LOC-002', name: 'Audio Bay A', type: 'Bay', capacity: 5000, used: 4200, category: 'Audio', climate: 'Climate Controlled', status: 'Active' },
-  { id: 'LOC-003', name: 'Lighting Bay B', type: 'Bay', capacity: 5000, used: 4800, category: 'Lighting', climate: 'Standard', status: 'Active' },
-  { id: 'LOC-004', name: 'Video Storage', type: 'Bay', capacity: 3000, used: 3000, category: 'Video', climate: 'Climate Controlled', status: 'Full' },
-  { id: 'LOC-005', name: 'Rigging Container', type: 'Container', capacity: 2000, used: 1500, category: 'Rigging', climate: 'Outdoor', status: 'Active' },
-  { id: 'LOC-006', name: 'Staging Yard', type: 'Warehouse', capacity: 20000, used: 12000, category: 'Staging', address: '456 Staging Way', climate: 'Outdoor', status: 'Active' },
-];
+import {
+  DEMO_STORAGE_LOCATIONS,
+  type DemoStorageLocation as StorageLocation,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -52,7 +35,7 @@ const filters: ListPageFilter[] = [
 
 export default function StorageOptimizationPage() {
   const router = useRouter();
-  const [data] = useState<StorageLocation[]>(mockData);
+  const [data] = useState<StorageLocation[]>(DEMO_STORAGE_LOCATIONS);
   const [selected, setSelected] = useState<StorageLocation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -113,7 +96,7 @@ export default function StorageOptimizationPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
