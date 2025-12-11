@@ -346,3 +346,28 @@ export const DEMO_CASE_STUDIES: DemoCaseStudy[] = [
   { id: 'CS-003', title: 'Crew Scheduling Optimization', projectName: 'Corporate Gala', type: 'Lessons Learned', category: 'Operations', date: '2024-03-10', author: 'Ops Team', summary: 'How we reduced overtime by 30% through better advance planning and skill-based crew assignment.', keyTakeaways: ['Skill matrix for assignments', 'Buffer time between calls', 'Cross-training program'], metrics: [{ label: 'OT Reduction', value: '30%' }, { label: 'Cost Saved', value: '$45K' }] },
   { id: 'CS-004', title: 'LED Wall Calibration Standards', projectName: 'Multiple Events', type: 'Success', category: 'Video', date: '2024-04-05', author: 'Video Dept', summary: 'Establishing company-wide LED calibration standards that improved client satisfaction scores.', keyTakeaways: ['Standardized color profiles', 'Pre-event calibration checklist', 'Client approval workflow'], metrics: [{ label: 'Satisfaction', value: '+25%' }, { label: 'Callbacks', value: '-60%' }] },
 ];
+
+// =============================================================================
+// CERTIFICATIONS (for certifications/page.tsx)
+// =============================================================================
+
+export interface DemoCertification {
+  id: string;
+  crew_member_id?: string;
+  crew_member_name: string;
+  certification_type: string;
+  issue_date: string;
+  expiry_date: string;
+  status: 'active' | 'expiring_soon' | 'expired';
+  issuing_authority?: string;
+  certificate_number?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CERTIFICATIONS: DemoCertification[] = [
+  { id: 'CERT-001', crew_member_name: 'James Wilson', certification_type: 'OSHA Safety', issue_date: '2024-01-15', expiry_date: '2027-01-15', status: 'active' },
+  { id: 'CERT-002', crew_member_name: 'Maria Garcia', certification_type: 'Rigging Level 3', issue_date: '2023-06-10', expiry_date: '2025-06-10', status: 'active' },
+  { id: 'CERT-003', crew_member_name: 'David Chen', certification_type: 'First Aid/CPR', issue_date: '2023-11-20', expiry_date: '2024-11-20', status: 'expiring_soon' },
+  { id: 'CERT-004', crew_member_name: 'Sarah Martinez', certification_type: 'Forklift Operator', issue_date: '2022-03-15', expiry_date: '2024-03-15', status: 'expired' },
+  { id: 'CERT-005', crew_member_name: 'Michael Brown', certification_type: 'Electrical Safety', issue_date: '2024-09-01', expiry_date: '2027-09-01', status: 'active' },
+];

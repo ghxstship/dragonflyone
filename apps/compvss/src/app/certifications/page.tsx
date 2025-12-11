@@ -24,26 +24,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface Certification {
-  id: string;
-  crew_member_id?: string;
-  crew_member_name: string;
-  certification_type: string;
-  issue_date: string;
-  expiry_date: string;
-  status: "active" | "expiring_soon" | "expired";
-  issuing_authority?: string;
-  certificate_number?: string;
-}
-
-// Mock data - would come from API
-const mockCertifications: Certification[] = [
-  { id: "CERT-001", crew_member_name: "James Wilson", certification_type: "OSHA Safety", issue_date: "2024-01-15", expiry_date: "2027-01-15", status: "active" },
-  { id: "CERT-002", crew_member_name: "Maria Garcia", certification_type: "Rigging Level 3", issue_date: "2023-06-10", expiry_date: "2025-06-10", status: "active" },
-  { id: "CERT-003", crew_member_name: "David Chen", certification_type: "First Aid/CPR", issue_date: "2023-11-20", expiry_date: "2024-11-20", status: "expiring_soon" },
-  { id: "CERT-004", crew_member_name: "Sarah Martinez", certification_type: "Forklift Operator", issue_date: "2022-03-15", expiry_date: "2024-03-15", status: "expired" },
-  { id: "CERT-005", crew_member_name: "Michael Brown", certification_type: "Electrical Safety", issue_date: "2024-09-01", expiry_date: "2027-09-01", status: "active" },
-];
+import {
+  DEMO_CERTIFICATIONS,
+  type DemoCertification as Certification,
+} from "../../lib/demo-data";
 
 const columns: ListPageColumn<Certification>[] = [
   { key: 'id', label: 'ID', accessor: 'id', sortable: true },
@@ -104,7 +88,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function CertificationsPage() {
   const router = useRouter();
-  const [certifications, setCertifications] = useState<Certification[]>(mockCertifications);
+  const [certifications, setCertifications] = useState<Certification[]>(DEMO_CERTIFICATIONS);
   const [loading] = useState(false);
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -115,7 +99,7 @@ export default function CertificationsPage() {
 
   const refetch = useCallback(() => {
     // Would fetch from API
-    setCertifications(mockCertifications);
+    setCertifications(DEMO_CERTIFICATIONS);
   }, []);
 
   const rowActions: ListPageAction<Certification>[] = [
