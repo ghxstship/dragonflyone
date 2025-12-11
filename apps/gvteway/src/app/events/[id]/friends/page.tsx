@@ -9,35 +9,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface Friend {
-  id: string;
-  name: string;
-  avatar?: string;
-  status: "attending" | "interested" | "invited";
-  location?: { section?: string; row?: string; seat?: string };
-  lastSeen?: string;
-  shareLocation: boolean;
-}
+import {
+  DEMO_EVENT_FRIENDS,
+  DEMO_MEETUP_SPOTS,
+  type DemoEventFriend as Friend,
+  type DemoMeetupSpot as MeetupSpot,
+} from "@/lib/demo-data";
 
-interface MeetupSpot {
-  id: string;
-  name: string;
-  description: string;
-  type: "food" | "drinks" | "merch" | "restroom" | "custom";
-}
-
-const mockFriends: Friend[] = [
-  { id: "F-001", name: "Alex Thompson", status: "attending", location: { section: "A", row: "12", seat: "5" }, lastSeen: "2 min ago", shareLocation: true },
-  { id: "F-002", name: "Jordan Lee", status: "attending", location: { section: "B", row: "8" }, lastSeen: "5 min ago", shareLocation: true },
-  { id: "F-003", name: "Casey Morgan", status: "interested", shareLocation: false },
-  { id: "F-004", name: "Riley Chen", status: "invited", shareLocation: false },
-];
-
-const meetupSpots: MeetupSpot[] = [
-  { id: "MS-001", name: "Main Bar", description: "Near Section A entrance", type: "drinks" },
-  { id: "MS-002", name: "Food Court", description: "Ground level, east side", type: "food" },
-  { id: "MS-003", name: "Merch Booth", description: "Main concourse", type: "merch" },
-];
+const mockFriends = DEMO_EVENT_FRIENDS;
+const meetupSpots = DEMO_MEETUP_SPOTS;
 
 export default function FriendFinderPage() {
   const router = useRouter();

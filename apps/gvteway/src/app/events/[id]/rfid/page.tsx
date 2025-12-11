@@ -16,26 +16,12 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface RFIDWristband {
-  id: string;
-  wristbandId: string;
-  guestName: string;
-  email: string;
-  ticketType: string;
-  balance: number;
-  status: "Active" | "Inactive" | "Lost" | "Replaced";
-  registeredAt: string;
-  lastUsed?: string;
-  transactions: number;
-  [key: string]: unknown;
-}
+import {
+  DEMO_RFID_WRISTBANDS,
+  type DemoRFIDWristband as RFIDWristband,
+} from "@/lib/demo-data";
 
-const mockWristbands: RFIDWristband[] = [
-  { id: "WB-001", wristbandId: "RFID-A1B2C3", guestName: "John Smith", email: "john@email.com", ticketType: "VIP", balance: 125.50, status: "Active", registeredAt: "2024-11-24T14:00:00Z", lastUsed: "2024-11-24T20:15:00Z", transactions: 8 },
-  { id: "WB-002", wristbandId: "RFID-D4E5F6", guestName: "Sarah Johnson", email: "sarah@email.com", ticketType: "GA", balance: 45.00, status: "Active", registeredAt: "2024-11-24T15:30:00Z", lastUsed: "2024-11-24T19:45:00Z", transactions: 3 },
-  { id: "WB-003", wristbandId: "RFID-G7H8I9", guestName: "Mike Davis", email: "mike@email.com", ticketType: "VIP", balance: 0, status: "Active", registeredAt: "2024-11-24T13:00:00Z", lastUsed: "2024-11-24T21:00:00Z", transactions: 12 },
-  { id: "WB-004", wristbandId: "RFID-J1K2L3", guestName: "Emily Chen", email: "emily@email.com", ticketType: "GA", balance: 75.25, status: "Lost", registeredAt: "2024-11-24T16:00:00Z", transactions: 2 },
-];
+const mockWristbands = DEMO_RFID_WRISTBANDS;
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {

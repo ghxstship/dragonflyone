@@ -1278,3 +1278,88 @@ export const DEMO_FLAGGED_TRANSACTIONS: DemoFlaggedTransaction[] = [
   { id: 'FLG-003', orderId: 'ORD-5423', eventName: 'Fall Concert', buyerEmail: 'buyer3@email.com', quantity: 6, flagReason: 'Known reseller pattern', riskScore: 92, status: 'Blocked', timestamp: '2024-11-25 13:20' },
   { id: 'FLG-004', orderId: 'ORD-5424', eventName: 'Summer Fest 2024', buyerEmail: 'buyer4@email.com', quantity: 4, flagReason: 'Velocity check failed', riskScore: 65, status: 'Cleared', timestamp: '2024-11-25 12:45' },
 ];
+
+// =============================================================================
+// EVENTS - FLOOR CONFIG (for events/[id]/floor-config/page.tsx)
+// =============================================================================
+
+export interface DemoFloorSection {
+  id: string;
+  name: string;
+  type: 'GA Standing' | 'GA Seated' | 'Pit' | 'VIP' | 'ADA' | 'Reserved';
+  capacity: number;
+  sold: number;
+  price: number;
+  status: 'Available' | 'Limited' | 'Sold Out' | 'Closed';
+  color: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_FLOOR_SECTIONS: DemoFloorSection[] = [
+  { id: 'SEC-001', name: 'General Admission Floor', type: 'GA Standing', capacity: 5000, sold: 3850, price: 75, status: 'Available', color: '#3B82F6' },
+  { id: 'SEC-002', name: 'Front Pit', type: 'Pit', capacity: 500, sold: 500, price: 150, status: 'Sold Out', color: '#EF4444' },
+  { id: 'SEC-003', name: 'VIP Lounge', type: 'VIP', capacity: 200, sold: 145, price: 250, status: 'Limited', color: '#F59E0B' },
+  { id: 'SEC-004', name: 'ADA Section', type: 'ADA', capacity: 50, sold: 12, price: 75, status: 'Available', color: '#10B981' },
+  { id: 'SEC-005', name: 'GA Seated', type: 'GA Seated', capacity: 1000, sold: 780, price: 85, status: 'Available', color: '#8B5CF6' },
+];
+
+// =============================================================================
+// EVENTS - FRIENDS (for events/[id]/friends/page.tsx)
+// =============================================================================
+
+export interface DemoEventFriend {
+  id: string;
+  name: string;
+  avatar?: string;
+  status: 'attending' | 'interested' | 'invited';
+  location?: { section?: string; row?: string; seat?: string };
+  lastSeen?: string;
+  shareLocation: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoMeetupSpot {
+  id: string;
+  name: string;
+  description: string;
+  type: 'food' | 'drinks' | 'merch' | 'restroom' | 'custom';
+  [key: string]: unknown;
+}
+
+export const DEMO_EVENT_FRIENDS: DemoEventFriend[] = [
+  { id: 'F-001', name: 'Alex Thompson', status: 'attending', location: { section: 'A', row: '12', seat: '5' }, lastSeen: '2 min ago', shareLocation: true },
+  { id: 'F-002', name: 'Jordan Lee', status: 'attending', location: { section: 'B', row: '8' }, lastSeen: '5 min ago', shareLocation: true },
+  { id: 'F-003', name: 'Casey Morgan', status: 'interested', shareLocation: false },
+  { id: 'F-004', name: 'Riley Chen', status: 'invited', shareLocation: false },
+];
+
+export const DEMO_MEETUP_SPOTS: DemoMeetupSpot[] = [
+  { id: 'MS-001', name: 'Main Bar', description: 'Near Section A entrance', type: 'drinks' },
+  { id: 'MS-002', name: 'Food Court', description: 'Ground level, east side', type: 'food' },
+  { id: 'MS-003', name: 'Merch Booth', description: 'Main concourse', type: 'merch' },
+];
+
+// =============================================================================
+// EVENTS - RFID (for events/[id]/rfid/page.tsx)
+// =============================================================================
+
+export interface DemoRFIDWristband {
+  id: string;
+  wristbandId: string;
+  guestName: string;
+  email: string;
+  ticketType: string;
+  balance: number;
+  status: 'Active' | 'Inactive' | 'Lost' | 'Replaced';
+  registeredAt: string;
+  lastUsed?: string;
+  transactions: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_RFID_WRISTBANDS: DemoRFIDWristband[] = [
+  { id: 'WB-001', wristbandId: 'RFID-A1B2C3', guestName: 'John Smith', email: 'john@email.com', ticketType: 'VIP', balance: 125.50, status: 'Active', registeredAt: '2024-11-24T14:00:00Z', lastUsed: '2024-11-24T20:15:00Z', transactions: 8 },
+  { id: 'WB-002', wristbandId: 'RFID-D4E5F6', guestName: 'Sarah Johnson', email: 'sarah@email.com', ticketType: 'GA', balance: 45.00, status: 'Active', registeredAt: '2024-11-24T15:30:00Z', lastUsed: '2024-11-24T19:45:00Z', transactions: 3 },
+  { id: 'WB-003', wristbandId: 'RFID-G7H8I9', guestName: 'Mike Davis', email: 'mike@email.com', ticketType: 'VIP', balance: 0, status: 'Active', registeredAt: '2024-11-24T13:00:00Z', lastUsed: '2024-11-24T21:00:00Z', transactions: 12 },
+  { id: 'WB-004', wristbandId: 'RFID-J1K2L3', guestName: 'Emily Chen', email: 'emily@email.com', ticketType: 'GA', balance: 75.25, status: 'Lost', registeredAt: '2024-11-24T16:00:00Z', transactions: 2 },
+];

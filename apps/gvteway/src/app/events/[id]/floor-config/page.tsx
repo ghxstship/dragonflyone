@@ -10,24 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, Kicker,
 } from "@ghxstship/ui";
 
-interface FloorSection {
-  id: string;
-  name: string;
-  type: "GA Standing" | "GA Seated" | "Pit" | "VIP" | "ADA" | "Reserved";
-  capacity: number;
-  sold: number;
-  price: number;
-  status: "Available" | "Limited" | "Sold Out" | "Closed";
-  color: string;
-}
+import {
+  DEMO_FLOOR_SECTIONS,
+  type DemoFloorSection as FloorSection,
+} from "@/lib/demo-data";
 
-const mockSections: FloorSection[] = [
-  { id: "SEC-001", name: "General Admission Floor", type: "GA Standing", capacity: 5000, sold: 3850, price: 75, status: "Available", color: "#3B82F6" },
-  { id: "SEC-002", name: "Front Pit", type: "Pit", capacity: 500, sold: 500, price: 150, status: "Sold Out", color: "#EF4444" },
-  { id: "SEC-003", name: "VIP Lounge", type: "VIP", capacity: 200, sold: 145, price: 250, status: "Limited", color: "#F59E0B" },
-  { id: "SEC-004", name: "ADA Section", type: "ADA", capacity: 50, sold: 12, price: 75, status: "Available", color: "#10B981" },
-  { id: "SEC-005", name: "GA Seated", type: "GA Seated", capacity: 1000, sold: 780, price: 85, status: "Available", color: "#8B5CF6" },
-];
+const mockSections = DEMO_FLOOR_SECTIONS;
 
 function FloorConfigPageContent() {
   const router = useRouter();
