@@ -19,29 +19,10 @@ import {
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface BackgroundCheck {
-  id: string;
-  crewMemberId: string;
-  crewMemberName: string;
-  department: string;
-  checkType: "Standard" | "Enhanced" | "Federal";
-  status: "Pending" | "In Progress" | "Cleared" | "Flagged" | "Expired";
-  submittedDate: string;
-  completedDate?: string;
-  expirationDate?: string;
-  provider: string;
-  daysUntilExpiry?: number;
-  [key: string]: unknown;
-}
-
-const mockChecks: BackgroundCheck[] = [
-  { id: "BGC-001", crewMemberId: "CRW-101", crewMemberName: "John Smith", department: "Audio", checkType: "Enhanced", status: "Cleared", submittedDate: "2024-01-15", completedDate: "2024-01-22", expirationDate: "2025-01-22", provider: "Sterling", daysUntilExpiry: 58 },
-  { id: "BGC-002", crewMemberId: "CRW-102", crewMemberName: "Sarah Johnson", department: "Lighting", checkType: "Standard", status: "Cleared", submittedDate: "2024-03-10", completedDate: "2024-03-15", expirationDate: "2025-03-15", provider: "Checkr", daysUntilExpiry: 110 },
-  { id: "BGC-003", crewMemberId: "CRW-103", crewMemberName: "Mike Davis", department: "Stage", checkType: "Enhanced", status: "Expired", submittedDate: "2023-06-01", completedDate: "2023-06-08", expirationDate: "2024-06-08", provider: "Sterling", daysUntilExpiry: -170 },
-  { id: "BGC-004", crewMemberId: "CRW-104", crewMemberName: "Emily Chen", department: "Video", checkType: "Standard", status: "In Progress", submittedDate: "2024-11-20", provider: "Checkr" },
-  { id: "BGC-005", crewMemberId: "CRW-105", crewMemberName: "Alex Rodriguez", department: "Rigging", checkType: "Federal", status: "Pending", submittedDate: "2024-11-24", provider: "Sterling" },
-  { id: "BGC-006", crewMemberId: "CRW-106", crewMemberName: "Lisa Park", department: "Audio", checkType: "Enhanced", status: "Cleared", submittedDate: "2024-08-01", completedDate: "2024-08-10", expirationDate: "2024-12-10", provider: "Checkr", daysUntilExpiry: 15 },
-];
+import {
+  DEMO_BACKGROUND_CHECKS,
+  type DemoBackgroundCheck as BackgroundCheck,
+} from "../../lib/demo-data";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -78,7 +59,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
-  const [checks, setChecks] = useState<BackgroundCheck[]>(mockChecks);
+  const [checks, setChecks] = useState<BackgroundCheck[]>(DEMO_BACKGROUND_CHECKS);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
