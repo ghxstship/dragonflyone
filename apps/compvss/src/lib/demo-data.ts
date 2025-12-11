@@ -398,3 +398,63 @@ export const DEMO_CHANNELS: DemoChannel[] = [
   { id: 'CH-007', name: 'Security', department: 'Security', type: 'Radio', members: 20, frequency: 'Ch 6', status: 'Active', description: 'Security team communications' },
   { id: 'CH-008', name: 'Catering', department: 'Hospitality', type: 'Chat', members: 8, status: 'Active', description: 'Catering and hospitality coordination' },
 ];
+
+// =============================================================================
+// MESSAGING CHANNELS (for channels/page.tsx - different from communications/channels)
+// =============================================================================
+
+export interface DemoChannelMember {
+  id: string;
+  name: string;
+  role: string;
+  avatar?: string;
+  is_online: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_CHANNEL_MEMBERS: DemoChannelMember[] = [
+  { id: 'MEM-001', name: 'John Martinez', role: 'Audio Lead', is_online: true },
+  { id: 'MEM-002', name: 'Sarah Chen', role: 'Lighting Director', is_online: true },
+  { id: 'MEM-003', name: 'Mike Thompson', role: 'Stage Manager', is_online: false },
+  { id: 'MEM-004', name: 'Lisa Park', role: 'Video Tech', is_online: true },
+  { id: 'MEM-005', name: 'Tom Wilson', role: 'Rigger', is_online: false },
+];
+
+export interface DemoMessagingChannel {
+  id: string;
+  name: string;
+  type: 'department' | 'project' | 'broadcast' | 'private';
+  department?: string;
+  description?: string;
+  members: DemoChannelMember[];
+  is_active: boolean;
+  created_at: string;
+  last_message?: string;
+  unread_count: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_MESSAGING_CHANNELS: DemoMessagingChannel[] = [
+  { id: 'CH-001', name: 'Audio Department', type: 'department', department: 'Audio', description: 'All audio team communications', members: DEMO_CHANNEL_MEMBERS.slice(0, 2), is_active: true, created_at: '2024-11-01', last_message: 'FOH mix ready for soundcheck', unread_count: 3 },
+  { id: 'CH-002', name: 'Lighting Department', type: 'department', department: 'Lighting', description: 'Lighting crew channel', members: DEMO_CHANNEL_MEMBERS.slice(1, 3), is_active: true, created_at: '2024-11-01', last_message: 'Focus complete on stage left', unread_count: 0 },
+  { id: 'CH-003', name: 'Video Department', type: 'department', department: 'Video', description: 'Video and LED wall team', members: DEMO_CHANNEL_MEMBERS.slice(3, 5), is_active: true, created_at: '2024-11-01', last_message: 'Content loaded and tested', unread_count: 1 },
+  { id: 'CH-004', name: 'Stage Management', type: 'department', department: 'Stage', description: 'Stage managers and crew chiefs', members: DEMO_CHANNEL_MEMBERS.slice(2, 4), is_active: true, created_at: '2024-11-01', last_message: 'Artist ETA 30 minutes', unread_count: 5 },
+  { id: 'CH-005', name: 'All Hands', type: 'broadcast', description: 'Broadcast channel for all crew', members: DEMO_CHANNEL_MEMBERS, is_active: true, created_at: '2024-11-01', last_message: 'Doors in 2 hours', unread_count: 0 },
+  { id: 'CH-006', name: 'Production Office', type: 'private', description: 'Production management only', members: DEMO_CHANNEL_MEMBERS.slice(0, 3), is_active: true, created_at: '2024-11-01', last_message: 'Budget update attached', unread_count: 2 },
+];
+
+export interface DemoMessage {
+  id: string;
+  channel_id: string;
+  sender: DemoChannelMember;
+  content: string;
+  timestamp: string;
+  is_priority: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_MESSAGES: DemoMessage[] = [
+  { id: 'MSG-001', channel_id: 'CH-001', sender: DEMO_CHANNEL_MEMBERS[0], content: 'FOH mix ready for soundcheck', timestamp: '2024-11-24T14:30:00Z', is_priority: false },
+  { id: 'MSG-002', channel_id: 'CH-001', sender: DEMO_CHANNEL_MEMBERS[1], content: 'Copy that, lighting ready when you are', timestamp: '2024-11-24T14:32:00Z', is_priority: false },
+  { id: 'MSG-003', channel_id: 'CH-001', sender: DEMO_CHANNEL_MEMBERS[0], content: 'Starting soundcheck in 5', timestamp: '2024-11-24T14:35:00Z', is_priority: true },
+];

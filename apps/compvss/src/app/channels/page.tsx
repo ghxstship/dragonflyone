@@ -25,64 +25,20 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface Channel {
-  id: string;
-  name: string;
-  type: 'department' | 'project' | 'broadcast' | 'private';
-  department?: string;
-  description?: string;
-  members: ChannelMember[];
-  is_active: boolean;
-  created_at: string;
-  last_message?: string;
-  unread_count: number;
-}
-
-interface ChannelMember {
-  id: string;
-  name: string;
-  role: string;
-  avatar?: string;
-  is_online: boolean;
-}
-
-interface Message {
-  id: string;
-  channel_id: string;
-  sender: ChannelMember;
-  content: string;
-  timestamp: string;
-  is_priority: boolean;
-}
-
-const mockMembers: ChannelMember[] = [
-  { id: 'MEM-001', name: 'John Martinez', role: 'Audio Lead', is_online: true },
-  { id: 'MEM-002', name: 'Sarah Chen', role: 'Lighting Director', is_online: true },
-  { id: 'MEM-003', name: 'Mike Thompson', role: 'Stage Manager', is_online: false },
-  { id: 'MEM-004', name: 'Lisa Park', role: 'Video Tech', is_online: true },
-  { id: 'MEM-005', name: 'Tom Wilson', role: 'Rigger', is_online: false },
-];
-
-const mockChannels: Channel[] = [
-  { id: 'CH-001', name: 'Audio Department', type: 'department', department: 'Audio', description: 'All audio team communications', members: mockMembers.slice(0, 2), is_active: true, created_at: '2024-11-01', last_message: 'FOH mix ready for soundcheck', unread_count: 3 },
-  { id: 'CH-002', name: 'Lighting Department', type: 'department', department: 'Lighting', description: 'Lighting crew channel', members: mockMembers.slice(1, 3), is_active: true, created_at: '2024-11-01', last_message: 'Focus complete on stage left', unread_count: 0 },
-  { id: 'CH-003', name: 'Video Department', type: 'department', department: 'Video', description: 'Video and LED wall team', members: mockMembers.slice(3, 5), is_active: true, created_at: '2024-11-01', last_message: 'Content loaded and tested', unread_count: 1 },
-  { id: 'CH-004', name: 'Stage Management', type: 'department', department: 'Stage', description: 'Stage managers and crew chiefs', members: mockMembers.slice(2, 4), is_active: true, created_at: '2024-11-01', last_message: 'Artist ETA 30 minutes', unread_count: 5 },
-  { id: 'CH-005', name: 'All Hands', type: 'broadcast', description: 'Broadcast channel for all crew', members: mockMembers, is_active: true, created_at: '2024-11-01', last_message: 'Doors in 2 hours', unread_count: 0 },
-  { id: 'CH-006', name: 'Production Office', type: 'private', description: 'Production management only', members: mockMembers.slice(0, 3), is_active: true, created_at: '2024-11-01', last_message: 'Budget update attached', unread_count: 2 },
-];
-
-const mockMessages: Message[] = [
-  { id: 'MSG-001', channel_id: 'CH-001', sender: mockMembers[0], content: 'FOH mix ready for soundcheck', timestamp: '2024-11-24T14:30:00Z', is_priority: false },
-  { id: 'MSG-002', channel_id: 'CH-001', sender: mockMembers[1], content: 'Copy that, lighting ready when you are', timestamp: '2024-11-24T14:32:00Z', is_priority: false },
-  { id: 'MSG-003', channel_id: 'CH-001', sender: mockMembers[0], content: 'Starting soundcheck in 5', timestamp: '2024-11-24T14:35:00Z', is_priority: true },
-];
+import {
+  DEMO_CHANNEL_MEMBERS,
+  DEMO_MESSAGING_CHANNELS,
+  DEMO_MESSAGES,
+  type DemoChannelMember as ChannelMember,
+  type DemoMessagingChannel as Channel,
+  type DemoMessage as Message,
+} from '../../lib/demo-data';
 
 export default function ChannelsPage() {
   const router = useRouter();
-  const [channels, setChannels] = useState<Channel[]>(mockChannels);
-  const [selectedChannel, setSelectedChannel] = useState<Channel | null>(mockChannels[0]);
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [channels, setChannels] = useState<Channel[]>(DEMO_MESSAGING_CHANNELS);
+  const [selectedChannel, setSelectedChannel] = useState<Channel | null>(DEMO_MESSAGING_CHANNELS[0]);
+  const [messages, setMessages] = useState<Message[]>(DEMO_MESSAGES);
   const [newMessage, setNewMessage] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
@@ -103,7 +59,7 @@ export default function ChannelsPage() {
     const message: Message = {
       id: `MSG-${Date.now()}`,
       channel_id: selectedChannel.id,
-      sender: mockMembers[0],
+      sender: DEMO_CHANNEL_MEMBERS[0],
       content: newMessage,
       timestamp: new Date().toISOString(),
       is_priority: false,
@@ -154,7 +110,7 @@ export default function ChannelsPage() {
 
   const channelMessages = messages.filter(m => m.channel_id === selectedChannel?.id);
   const totalUnread = channels.reduce((sum, c) => sum + c.unread_count, 0);
-  const onlineMembers = mockMembers.filter(m => m.is_online).length;
+  const onlineMembers = DEMO_CHANNEL_MEMBERS.filter(m => m.is_online).length;
 
   return (
     <CompvssAppLayout>
@@ -187,7 +143,7 @@ export default function ChannelsPage() {
               <StatCard label="Active Channels" value={channels.filter(c => c.is_active).length.toString()} />
               <StatCard label="Unread Messages" value={totalUnread.toString()} />
               <StatCard label="Online Members" value={onlineMembers.toString()} />
-              <StatCard label="Total Members" value={mockMembers.length.toString()} />
+              <StatCard label="Total Members" value={DEMO_CHANNEL_MEMBERS.length.toString()} />
             </Grid>
 
             <Grid cols={3} gap={6}>
