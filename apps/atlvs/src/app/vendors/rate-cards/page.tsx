@@ -17,70 +17,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface RateItem {
-  id: string;
-  description: string;
-  unit: string;
-  dailyRate: number;
-  weeklyRate: number;
-  monthlyRate?: number;
-}
-
-interface RateCard {
-  id: string;
-  vendorName: string;
-  vendorId: string;
-  category: string;
-  effectiveDate: string;
-  expirationDate: string;
-  status: "Active" | "Expired" | "Pending";
-  items: RateItem[];
-  notes?: string;
-}
-
-const mockRateCards: RateCard[] = [
-  {
-    id: "RC-001",
-    vendorName: "Pro Audio Solutions",
-    vendorId: "VND-001",
-    category: "Audio",
-    effectiveDate: "2024-01-01",
-    expirationDate: "2024-12-31",
-    status: "Active",
-    items: [
-      { id: "RI-001", description: "L-Acoustics K2 Line Array (per box)", unit: "Day", dailyRate: 450, weeklyRate: 1800, monthlyRate: 5400 },
-      { id: "RI-002", description: "L-Acoustics SB28 Subwoofer", unit: "Day", dailyRate: 200, weeklyRate: 800, monthlyRate: 2400 },
-      { id: "RI-003", description: "DiGiCo SD12 Console", unit: "Day", dailyRate: 800, weeklyRate: 3200, monthlyRate: 9600 },
-    ],
-    notes: "Volume discounts available for orders over $10,000",
-  },
-  {
-    id: "RC-002",
-    vendorName: "Elite Lighting Co",
-    vendorId: "VND-002",
-    category: "Lighting",
-    effectiveDate: "2024-01-01",
-    expirationDate: "2024-12-31",
-    status: "Active",
-    items: [
-      { id: "RI-005", description: "Clay Paky Sharpy Plus", unit: "Day", dailyRate: 125, weeklyRate: 500, monthlyRate: 1500 },
-      { id: "RI-006", description: "Robe MegaPointe", unit: "Day", dailyRate: 150, weeklyRate: 600, monthlyRate: 1800 },
-    ],
-  },
-  {
-    id: "RC-003",
-    vendorName: "Stage Systems Inc",
-    vendorId: "VND-003",
-    category: "Staging",
-    effectiveDate: "2024-06-01",
-    expirationDate: "2025-05-31",
-    status: "Active",
-    items: [
-      { id: "RI-008", description: "40x60 Stage Deck", unit: "Day", dailyRate: 2500, weeklyRate: 10000 },
-      { id: "RI-009", description: "Roof System (40x40)", unit: "Day", dailyRate: 3500, weeklyRate: 14000 },
-    ],
-  },
-];
+import {
+  DEMO_RATE_CARDS_FULL,
+  type DemoRateCardFull as RateCard,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -116,7 +56,7 @@ const filters: ListPageFilter[] = [
 
 export default function RateCardsPage() {
   const router = useRouter();
-  const [rateCards] = useState<RateCard[]>(mockRateCards);
+  const [rateCards] = useState<RateCard[]>(DEMO_RATE_CARDS_FULL);
   const [selectedRateCard, setSelectedRateCard] = useState<RateCard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
