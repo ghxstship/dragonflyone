@@ -122,3 +122,6 @@ export * from './import-utils';
 export * from './saved-filters';
 export { useSavedFilters, useSavedViews } from './hooks/useSavedFilters';
 export type { FilterPreset, ViewPreset } from './hooks/useSavedFilters';
+
+// PDF generation utilities
+export * from './pdf-generator';

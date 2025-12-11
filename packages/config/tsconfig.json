@@ -63,7 +63,8 @@
     "rate-limiting.ts",
     "export-utils.ts",
     "import-utils.ts",
-    "saved-filters.ts"
+    "saved-filters.ts",
+    "pdf-generator.ts"
   ],
   "exclude": [
     "node_modules",

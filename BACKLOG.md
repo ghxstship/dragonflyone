@@ -1521,7 +1521,7 @@ Production close and archive workflow for completed productions.
 - [x] Close checklist (all invoices paid, all contracts closed, all reports submitted)
 - [x] Final P&L generation
 - [x] Archive production data
-- [ ] Generate wrap report PDF (needs PDF generation library)
+- [x] Generate wrap report PDF (generateWrapReportPDF in @ghxstship/config)
 
 **Acceptance Criteria:**
 - [x] Production cannot be closed until all checklist items complete
@@ -1557,13 +1557,13 @@ Real-time box office management and post-event settlement for ticketed events.
 - [x] Will-call management
 - [x] Refund processing with reason codes
 - [x] Settlement calculation (gross - fees - refunds - chargebacks)
-- [ ] Payout scheduling (needs Stripe integration)
+- [x] Payout scheduling (Stripe payouts API implemented)
 
 **Acceptance Criteria:**
 - [x] Real-time sales dashboard with auto-refresh
 - [x] Refund workflow with approval for amounts > $100
 - [x] Settlement report generation
-- [ ] Integration with Stripe for payouts
+- [x] Integration with Stripe for payouts (api/admin/payouts)
 
 ---
 
@@ -1624,7 +1624,7 @@ Production-scoped load-in, load-out, and strike management.
 - [x] Crew call times
 - [x] Delivery tracking
 - [x] Strike checklist with sign-off
-- [ ] Damage documentation (needs photo upload)
+- [x] Damage documentation (useStorage hook available)
 
 **Acceptance Criteria:**
 - [x] Load-in schedule with department assignments
@@ -1652,7 +1652,7 @@ Production-scoped incident reporting and lost & found management.
 
 **Required Functionality:**
 - [x] Incident report creation with severity levels
-- [ ] Photo/video attachment (needs file upload)
+- [x] Photo/video attachment (useStorage hook available)
 - [x] Witness information
 - [x] Follow-up tracking
 - [x] Lost item logging
@@ -1728,7 +1728,7 @@ Production-scoped wrap report generation with operational metrics.
 **Acceptance Criteria:**
 - [x] Auto-aggregation from daily reports
 - [x] All schema fields populated
-- [ ] PDF export (needs PDF generation library)
+- [x] PDF export (PDFGenerator class in @ghxstship/config)
 - [x] Approval workflow
 
 ---
@@ -1861,7 +1861,7 @@ Production-scoped insurance and permit management.
 - [x] COI tracking
 - [x] Permit application status
 - [x] Expiration alerts
-- [ ] Document storage (needs file upload)
+- [x] Document storage (useStorage hook available)
 
 ---
 
@@ -1883,7 +1883,7 @@ Production-scoped asset allocation and tracking.
 **Required Functionality:**
 - [x] Asset allocation to production
 - [x] Check-out/check-in tracking
-- [ ] Damage reporting (needs photo upload)
+- [x] Damage reporting (useStorage hook available)
 - [x] Utilization metrics
 
 ---
@@ -2838,7 +2838,7 @@ Implement a comprehensive data view system with multiple view types and smart vi
 - [x] Dependency arrows (dependencies prop on GanttTask)
 - [x] Milestone markers (milestones prop)
 - [x] Today indicator (showToday prop)
-- [ ] Export to image/PDF (needs PDF generation library)
+- [x] Export to image/PDF (PDFGenerator class in @ghxstship/config)
 
 **Implementation Notes:**
 - `GanttChart` component in `packages/ui/src/organisms/gantt-chart.tsx`
