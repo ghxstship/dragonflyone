@@ -9,26 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface UnionRule {
-  id: string;
-  union: string;
-  category: string;
-  rule: string;
-  description: string;
-  effectiveDate: string;
-  status: 'Active' | 'Pending' | 'Expired';
-  penaltyType?: string;
-  penaltyAmount?: number;
-  [key: string]: unknown;
-}
-
-const mockData: UnionRule[] = [
-  { id: 'RULE-001', union: 'IATSE Local 1', category: 'Work Hours', rule: 'Maximum 10-hour call', description: 'Standard work call cannot exceed 10 hours without meal penalty', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Hourly', penaltyAmount: 75 },
-  { id: 'RULE-002', union: 'IATSE Local 1', category: 'Meal Breaks', rule: '6-hour meal break', description: 'Meal break required within 6 hours of call time', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Per Violation', penaltyAmount: 50 },
-  { id: 'RULE-003', union: 'IATSE Local 1', category: 'Turnaround', rule: '10-hour turnaround', description: 'Minimum 10 hours between end of call and next call', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Hourly', penaltyAmount: 100 },
-  { id: 'RULE-004', union: 'IBEW Local 3', category: 'Overtime', rule: 'Double time after 12', description: 'Double time rate applies after 12 hours worked', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Rate Multiplier' },
-  { id: 'RULE-005', union: 'Teamsters Local 817', category: 'Travel', rule: 'Portal-to-portal pay', description: 'Pay begins when leaving designated call point', effectiveDate: '2024-01-01', status: 'Active' },
-];
+import {
+  DEMO_UNION_RULES,
+  type DemoUnionRule as UnionRule,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) { case 'Active': return 'solid'; case 'Pending': return 'outline'; case 'Expired': return 'ghost'; default: return 'ghost'; }
@@ -51,7 +35,7 @@ const filters: ListPageFilter[] = [
 
 export default function UnionRulesPage() {
   const router = useRouter();
-  const [data] = useState<UnionRule[]>(mockData);
+  const [data] = useState<UnionRule[]>(DEMO_UNION_RULES);
   const [selected, setSelected] = useState<UnionRule | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -108,7 +92,7 @@ export default function UnionRulesPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

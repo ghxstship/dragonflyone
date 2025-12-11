@@ -8,7 +8,7 @@ import {
   Box,
   Text,
   FullBleedSection,
-  H2,
+  H1,
   H3,
   Card,
   Grid,
@@ -17,6 +17,7 @@ import {
   Tab,
   TabPanel,
   Label,
+  Tooltip,
 } from "@ghxstship/ui";
 import {
   Eye,
@@ -59,29 +60,36 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
   return (
     <FullBleedSection background="white" className="py-16">
       <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-        {/* Blueprint Header */}
-        <Stack gap={4} className="mb-12 text-center">
-          <Label className="font-mono text-mono-sm uppercase tracking-kicker text-grey-500">
-            Your Experience Blueprint
-          </Label>
-          <H2 className="font-display text-display-sm uppercase tracking-display text-ink-950">
-            {blueprint.concept.name}
-          </H2>
-          <Body className="mx-auto max-w-2xl text-body-lg italic text-grey-600">
-            &ldquo;{blueprint.concept.tagline}&rdquo;
-          </Body>
-        </Stack>
-
-        {/* Color Palette Preview */}
-        <Box className="mb-12 flex justify-center gap-4">
-          {blueprint.concept.visualIdentity.colorPalette.map((color, index) => (
-            <Box
-              key={index}
-              className="size-16 border-2 border-ink-950 shadow-md"
-              style={{ backgroundColor: color }}
-              title={color}
-            />
-          ))}
+        {/* Blueprint Header - Compact Hero */}
+        <Box className="mb-10">
+          <Stack gap={6} className="text-center">
+            <Label className="font-mono text-mono-sm uppercase tracking-kicker text-grey-500">
+              Your Experience Blueprint
+            </Label>
+            <H1 className="font-display text-display-md uppercase tracking-display text-ink-950 md:text-display-lg">
+              {blueprint.concept.name}
+            </H1>
+            <Body className="mx-auto max-w-2xl text-body-lg italic text-grey-600">
+              &ldquo;{blueprint.concept.tagline}&rdquo;
+            </Body>
+            
+            {/* Brand Color Palette - Inline with label */}
+            <Box className="flex items-center justify-center gap-4">
+              <Text className="font-mono text-mono-xs uppercase tracking-kicker text-grey-400">
+                Brand Palette
+              </Text>
+              <Box className="flex gap-2">
+                {blueprint.concept.visualIdentity.colorPalette.map((color, index) => (
+                  <Tooltip key={index} content={color}>
+                    <Box
+                      className="size-8 cursor-pointer border-2 border-ink-950 shadow-sm transition-transform hover:scale-110"
+                      style={{ backgroundColor: color }}
+                    />
+                  </Tooltip>
+                ))}
+              </Box>
+            </Box>
+          </Stack>
         </Box>
 
         {/* Tabbed Content */}

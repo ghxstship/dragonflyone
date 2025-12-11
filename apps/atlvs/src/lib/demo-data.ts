@@ -615,3 +615,28 @@ export const DEMO_SUCCESSION_PLANS: DemoSuccessionPlan[] = [
     { id: 'S-005', name: 'Amy Chen', currentRole: 'Senior Accountant', readiness: '3-5 Years', developmentAreas: ['Management', 'Strategy', 'Forecasting'], readinessScore: 45 },
   ]},
 ];
+
+// =============================================================================
+// UNION RULES (for workforce/union-rules page)
+// =============================================================================
+
+export interface DemoUnionRule {
+  id: string;
+  union: string;
+  category: string;
+  rule: string;
+  description: string;
+  effectiveDate: string;
+  status: 'Active' | 'Pending' | 'Expired';
+  penaltyType?: string;
+  penaltyAmount?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_UNION_RULES: DemoUnionRule[] = [
+  { id: 'RULE-001', union: 'IATSE Local 1', category: 'Work Hours', rule: 'Maximum 10-hour call', description: 'Standard work call cannot exceed 10 hours without meal penalty', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Hourly', penaltyAmount: 75 },
+  { id: 'RULE-002', union: 'IATSE Local 1', category: 'Meal Breaks', rule: '6-hour meal break', description: 'Meal break required within 6 hours of call time', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Per Violation', penaltyAmount: 50 },
+  { id: 'RULE-003', union: 'IATSE Local 1', category: 'Turnaround', rule: '10-hour turnaround', description: 'Minimum 10 hours between end of call and next call', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Hourly', penaltyAmount: 100 },
+  { id: 'RULE-004', union: 'IBEW Local 3', category: 'Overtime', rule: 'Double time after 12', description: 'Double time rate applies after 12 hours worked', effectiveDate: '2024-01-01', status: 'Active', penaltyType: 'Rate Multiplier' },
+  { id: 'RULE-005', union: 'Teamsters Local 817', category: 'Travel', rule: 'Portal-to-portal pay', description: 'Pay begins when leaving designated call point', effectiveDate: '2024-01-01', status: 'Active' },
+];
