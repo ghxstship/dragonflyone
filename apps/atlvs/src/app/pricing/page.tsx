@@ -12,7 +12,7 @@ import {
   Button,
   FullBleedSection,
 } from "@ghxstship/ui";
-import { Check, ArrowRight, Zap, Building2, Crown } from "lucide-react";
+import { Check, ArrowRight, User, Users, Rocket, Crown } from "lucide-react";
 import NextLink from "next/link";
 
 export const runtime = "edge";
@@ -20,59 +20,92 @@ export const runtime = "edge";
 const pricingData = {
   hero: {
     headline: "SIMPLE, TRANSPARENT PRICING",
-    description: "Choose the plan that fits your production needs. All plans include unlimited projects, records, and seats.",
+    description: "Choose the plan that fits your production needs. Annual plans get 2 months free.",
   },
   plans: [
     {
-      name: "STARTER",
-      price: "Free",
-      period: "",
-      description: "Perfect for small productions and freelancers getting started.",
-      icon: Zap,
+      name: "DEVIATOR",
+      price: "$49",
+      annualPrice: "$490",
+      period: "/month",
+      annualPeriod: "/year",
+      description: "Perfect for solo operators who like to keep things lean.",
+      icon: User,
       features: [
-        "Up to 3 active projects",
-        "Basic asset tracking",
-        "Team collaboration",
-        "Mobile app access",
-        "Email support",
+        "ATLVS only",
+        "1 Seat included",
+        "Unlimited Projects",
+        "Unlimited Records",
+        "Email Support",
+        "7-day data retention",
+        "Community access",
       ],
       cta: "START FREE",
-      href: "/auth/signup",
+      href: "/auth/signup?plan=deviator",
       popular: false,
     },
     {
-      name: "PROFESSIONAL",
-      price: "$99",
+      name: "NAVIGATOR",
+      price: "$149",
+      annualPrice: "$1,490",
       period: "/month",
-      description: "For growing production companies with multiple concurrent projects.",
-      icon: Building2,
+      annualPeriod: "/year",
+      description: "For teams who are done playing spreadsheet roulette.",
+      icon: Users,
       features: [
-        "Unlimited projects",
-        "Advanced asset management",
-        "Financial tracking & budgets",
-        "Crew scheduling",
-        "Integrations (Slack, QuickBooks)",
-        "Priority support",
-        "Custom reports",
+        "ATLVS + COMPVSS",
+        "Unlimited Seats",
+        "Unlimited Projects",
+        "Unlimited Records",
+        "Priority Support",
+        "90-day data retention",
+        "API access",
+        "Advanced analytics",
       ],
       cta: "START TRIAL",
-      href: "/auth/signup?plan=pro",
+      href: "/auth/signup?plan=navigator",
       popular: true,
+    },
+    {
+      name: "AVIATOR",
+      price: "$399",
+      annualPrice: "$3,990",
+      period: "/month",
+      annualPeriod: "/year",
+      description: "The whole enchilada. For those who refuse to compromise.",
+      icon: Rocket,
+      features: [
+        "ATLVS + COMPVSS + GVTEWAY",
+        "Unlimited Seats",
+        "Unlimited Projects",
+        "Unlimited Records",
+        "Dedicated CSM",
+        "Unlimited data retention",
+        "Full API access",
+        "SSO & advanced security",
+        "Custom integrations",
+      ],
+      cta: "START TRIAL",
+      href: "/auth/signup?plan=aviator",
+      popular: false,
     },
     {
       name: "ENTERPRISE",
       price: "Custom",
+      annualPrice: "Custom",
       period: "",
+      annualPeriod: "",
       description: "For large organizations with complex production operations.",
       icon: Crown,
       features: [
-        "Everything in Professional",
-        "Dedicated account manager",
-        "Custom integrations",
-        "SSO & advanced security",
+        "Everything in Aviator",
+        "Unlimited Seats",
+        "White-label options",
+        "On-premise deployment",
         "SLA guarantees",
         "On-site training",
-        "White-label options",
+        "Dedicated infrastructure",
+        "Custom contracts",
       ],
       cta: "CONTACT SALES",
       href: "/contact",
@@ -90,14 +123,22 @@ const pricingData = {
     },
     {
       question: "Is there a free trial?",
-      answer: "Yes! Professional plans come with a 14-day free trial. No credit card required to start.",
+      answer: "Yes! All paid plans come with a 14-day free trial. No credit card required to start.",
     },
     {
       question: "What's included in 'unlimited'?",
-      answer: "Unlimited means unlimited. No caps on projects, records, seats, integrations, or automations.",
+      answer: "Unlimited means unlimited. No caps on projects, records, integrations, or automations. Seats are unlimited on Navigator and above.",
+    },
+    {
+      question: "What's the difference between tiers?",
+      answer: "Deviator is ATLVS only with 1 seat. Navigator adds COMPVSS and unlimited seats. Aviator includes the full suite with GVTEWAY, dedicated support, and enterprise security.",
+    },
+    {
+      question: "Do you offer annual billing?",
+      answer: "Yes! Annual plans save you 2 months compared to monthly billing. That's over 16% off.",
     },
   ],
-  footnote: "All plans include: Unlimited projects, records, seats, integrations, automations, and 24/7/365 support",
+  footnote: "All plans include: Unlimited Projects, Records, Integrations, Automations, and 24/7/365 Support",
 };
 
 export default function PricingPage() {
@@ -123,7 +164,7 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <Grid cols={3} gap={6} className="sm:grid-cols-1">
+          <Grid cols={4} gap={6} className="md:grid-cols-2 sm:grid-cols-1">
             {pricingData.plans.map((plan) => (
               <Card
                 key={plan.name}

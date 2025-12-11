@@ -239,3 +239,159 @@ export function useEventWillCallData(eventId: string) {
     isMarking: pickupMutation.isPending,
   };
 }
+
+export interface RefundRequest {
+  id: string;
+  orderId: string;
+  customerName: string;
+  amount: number;
+  reason: string;
+  status: 'pending' | 'approved' | 'rejected' | 'processed';
+  requestedAt: string;
+}
+
+const DEMO_REFUNDS: RefundRequest[] = [
+  { id: 'REF-001', orderId: 'ORD-12345', customerName: 'John Smith', amount: 150, reason: 'Unable to attend', status: 'pending', requestedAt: '2024-11-16 10:30' },
+  { id: 'REF-002', orderId: 'ORD-12346', customerName: 'Jane Doe', amount: 75, reason: 'Event rescheduled', status: 'approved', requestedAt: '2024-11-15 14:20' },
+];
+
+export function useEventRefunds(eventId: string) {
+  return useQuery({
+    queryKey: eventOpsKeys.refunds(eventId),
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/refunds`);
+      if (!response.ok) return DEMO_REFUNDS;
+      const data = await response.json();
+      return data.refunds || DEMO_REFUNDS;
+    },
+    enabled: !!eventId,
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useProcessRefund(eventId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ refundId, action }: { refundId: string; action: 'approve' | 'reject' }) => {
+      const response = await fetch(`/api/events/${eventId}/refunds/${refundId}/${action}`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error(`Failed to ${action} refund`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventOpsKeys.refunds(eventId) });
+    },
+  });
+}
+
+export function useEventRefundsData(eventId: string) {
+  const refundsQuery = useEventRefunds(eventId);
+  const processMutation = useProcessRefund(eventId);
+
+  return {
+    refunds: refundsQuery.data || [],
+    isLoading: refundsQuery.isLoading,
+    error: refundsQuery.error,
+    refetch: refundsQuery.refetch,
+    processRefund: processMutation.mutateAsync,
+    isProcessing: processMutation.isPending,
+  };
+}
+
+export interface Credential {
+  id: string;
+  name: string;
+  role: string;
+  type: 'all-access' | 'backstage' | 'vip' | 'media' | 'staff';
+  status: 'active' | 'checked-in' | 'expired';
+  issuedAt: string;
+  lastScan?: string;
+}
+
+const DEMO_CREDENTIALS: Credential[] = [
+  { id: 'CRED-001', name: 'John Smith', role: 'Production Manager', type: 'all-access', status: 'checked-in', issuedAt: '2024-11-15', lastScan: '18:30' },
+  { id: 'CRED-002', name: 'Jane Doe', role: 'Artist Manager', type: 'backstage', status: 'active', issuedAt: '2024-11-15' },
+];
+
+export function useEventCredentials(eventId: string) {
+  return useQuery({
+    queryKey: eventOpsKeys.credentials(eventId),
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/credentials`);
+      if (!response.ok) return DEMO_CREDENTIALS;
+      const data = await response.json();
+      return data.credentials || DEMO_CREDENTIALS;
+    },
+    enabled: !!eventId,
+    staleTime: 30 * 1000,
+  });
+}
+
+export function useEventCredentialsData(eventId: string) {
+  const credentialsQuery = useEventCredentials(eventId);
+
+  return {
+    credentials: credentialsQuery.data || [],
+    isLoading: credentialsQuery.isLoading,
+    error: credentialsQuery.error,
+    refetch: credentialsQuery.refetch,
+  };
+}
+
+export interface ScanStats {
+  valid: number;
+  invalid: number;
+  total: number;
+}
+
+const DEMO_SCAN_STATS: ScanStats = { valid: 423, invalid: 12, total: 435 };
+
+export function useEventScanStats(eventId: string) {
+  return useQuery({
+    queryKey: eventOpsKeys.scan(eventId),
+    queryFn: async () => {
+      const response = await fetch(`/api/events/${eventId}/scan-stats`);
+      if (!response.ok) return DEMO_SCAN_STATS;
+      const data = await response.json();
+      return data.stats || DEMO_SCAN_STATS;
+    },
+    enabled: !!eventId,
+    staleTime: 10 * 1000,
+    refetchInterval: 10 * 1000,
+  });
+}
+
+export function useValidateTicket(eventId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (ticketCode: string) => {
+      const response = await fetch(`/api/events/${eventId}/validate-ticket`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ticketCode }),
+      });
+      const data = await response.json();
+      return { ...data, valid: response.ok && data.valid };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: eventOpsKeys.scan(eventId) });
+    },
+  });
+}
+
+export function useEventScanData(eventId: string) {
+  const statsQuery = useEventScanStats(eventId);
+  const validateMutation = useValidateTicket(eventId);
+
+  return {
+    stats: statsQuery.data || DEMO_SCAN_STATS,
+    isLoading: statsQuery.isLoading,
+    error: statsQuery.error,
+    refetch: statsQuery.refetch,
+    validateTicket: validateMutation.mutateAsync,
+    isValidating: validateMutation.isPending,
+  };
+}

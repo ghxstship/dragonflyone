@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -23,7 +23,7 @@ import {
   Keyboard,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
+import { useEventScanData } from '@/hooks/useEventOperations';
 
 interface ScanResult {
   ticketId: string;
@@ -38,65 +38,31 @@ export default function EventScanPage() {
   const eventId = params?.eventId as string;
   const [manualCode, setManualCode] = useState('');
   const [lastScan, setLastScan] = useState<ScanResult | null>(null);
-  const [scanCount, setScanCount] = useState({ valid: 0, invalid: 0, total: 0 });
-  const [isScanning, setIsScanning] = useState(false);
 
-  // Fetch scan stats for this event
-  useEffect(() => {
-    if (!eventId) return;
-    const fetchScanStats = async () => {
-      try {
-        const response = await fetch(`/api/events/${eventId}/scan-stats`);
-        if (response.ok) {
-          const data = await response.json();
-          setScanCount(data.stats || { valid: 0, invalid: 0, total: 0 });
-        }
-      } catch (error) {
-        log.error('Failed to fetch scan stats:', error instanceof Error ? error : undefined);
-      }
-    };
-    fetchScanStats();
-  }, [eventId]);
+  const { stats: scanCount, validateTicket, isValidating: isScanning } = useEventScanData(eventId);
 
-  const handleManualScan = useCallback(async () => {
+  const handleManualScan = async () => {
     if (!manualCode.trim()) return;
-    setIsScanning(true);
     
     try {
-      // Validate ticket via API
-      const response = await fetch(`/api/events/${eventId}/validate-ticket`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ticketCode: manualCode }),
-      });
-      
-      const data = await response.json();
-      const isValid = response.ok && data.valid;
+      const data = await validateTicket(manualCode);
       
       setLastScan({
         ticketId: manualCode,
-        status: isValid ? 'valid' : 'invalid',
+        status: data.valid ? 'valid' : 'invalid',
         name: data.name,
         ticketType: data.ticketType,
-        message: data.message || (isValid ? 'Ticket validated successfully' : 'Invalid ticket code'),
+        message: data.message || (data.valid ? 'Ticket validated successfully' : 'Invalid ticket code'),
       });
-      setScanCount(prev => ({
-        ...prev,
-        valid: prev.valid + (isValid ? 1 : 0),
-        invalid: prev.invalid + (isValid ? 0 : 1),
-        total: prev.total + 1,
-      }));
-    } catch (error) {
+      setManualCode('');
+    } catch {
       setLastScan({
         ticketId: manualCode,
         status: 'invalid',
         message: 'Failed to validate ticket',
       });
-    } finally {
-      setIsScanning(false);
-      setManualCode('');
     }
-  }, [manualCode, eventId]);
+  };
 
   return (
     <GvtewayAppLayout>

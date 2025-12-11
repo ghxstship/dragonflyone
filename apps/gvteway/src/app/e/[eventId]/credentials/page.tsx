@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -25,59 +25,19 @@ import {
   Scan,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-import { log } from '@ghxstship/config';
-
-interface Credential {
-  id: string;
-  name: string;
-  role: string;
-  type: 'all-access' | 'backstage' | 'vip' | 'media' | 'staff';
-  status: 'active' | 'checked-in' | 'expired';
-  issuedAt: string;
-  lastScan?: string;
-}
-
-const MOCK_CREDENTIALS: Credential[] = [
-  { id: 'CRED-001', name: 'John Smith', role: 'Production Manager', type: 'all-access', status: 'checked-in', issuedAt: '2024-11-15', lastScan: '18:30' },
-  { id: 'CRED-002', name: 'Jane Doe', role: 'Artist Manager', type: 'backstage', status: 'active', issuedAt: '2024-11-15' },
-  { id: 'CRED-003', name: 'Bob Wilson', role: 'Photographer', type: 'media', status: 'checked-in', issuedAt: '2024-11-16', lastScan: '17:45' },
-  { id: 'CRED-004', name: 'Sarah Chen', role: 'VIP Guest', type: 'vip', status: 'active', issuedAt: '2024-11-16' },
-  { id: 'CRED-005', name: 'Mike Johnson', role: 'Security', type: 'staff', status: 'checked-in', issuedAt: '2024-11-14', lastScan: '16:00' },
-];
+import { useEventCredentialsData, type Credential } from '@/hooks/useEventOperations';
 
 export default function EventCredentialsPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [credentials, setCredentials] = useState<Credential[]>(MOCK_CREDENTIALS);
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
 
-  const fetchCredentials = useCallback(async () => {
-    if (!eventId) return;
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/credentials`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.credentials && data.credentials.length > 0) {
-          setCredentials(data.credentials);
-        }
-      }
-    } catch (error) {
-      log.error('Failed to fetch credentials:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
+  const { credentials, isLoading: loading } = useEventCredentialsData(eventId);
 
-  useEffect(() => {
-    fetchCredentials();
-  }, [fetchCredentials]);
+  const activeCount = credentials.filter((c: Credential) => c.status === 'active').length;
+  const checkedInCount = credentials.filter((c: Credential) => c.status === 'checked-in').length;
 
-  const activeCount = credentials.filter(c => c.status === 'active').length;
-  const checkedInCount = credentials.filter(c => c.status === 'checked-in').length;
-
-  const filteredCredentials = credentials.filter(c =>
+  const filteredCredentials = credentials.filter((c: Credential) =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     c.role.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -117,7 +77,7 @@ export default function EventCredentialsPage() {
                 </Stack>
               ) : (
               <Grid cols={2} gap={4}>
-                {filteredCredentials.map(cred => (
+                {filteredCredentials.map((cred: Credential) => (
                   <Card key={cred.id} variant="elevated" inverted>
                     <CardBody>
                       <Stack gap={3}>
