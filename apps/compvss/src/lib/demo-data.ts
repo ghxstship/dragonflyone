@@ -246,3 +246,28 @@ export const DEMO_BACKUP_PLANS: DemoBackupPlan[] = [
   { id: 'BP-003', name: 'Key Crew No-Show', project: 'Summer Fest 2024', category: 'Staffing', triggerCondition: 'Department head unavailable', status: 'Active', lastUpdated: '2024-11-15', owner: 'Operations', steps: ['Contact backup personnel', 'Reassign duties if needed', 'Brief replacement on responsibilities', 'Update crew manifest', 'Document for post-event'] },
   { id: 'BP-004', name: 'Vendor Equipment Delay', project: 'Corporate Gala', category: 'Vendor', triggerCondition: 'Equipment delivery delayed > 2 hours', status: 'Draft', lastUpdated: '2024-11-22', owner: 'Logistics', steps: ['Contact vendor for ETA', 'Identify alternative sources', 'Adjust load-in schedule', 'Notify affected departments', 'Escalate if unresolved'] },
 ];
+
+// =============================================================================
+// BEST PRACTICES (for best-practices/page.tsx)
+// =============================================================================
+
+export interface DemoBestPractice {
+  id: string;
+  title: string;
+  category: string;
+  discipline: string;
+  summary: string;
+  author: string;
+  views: number;
+  rating: number;
+  tags: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_BEST_PRACTICES: DemoBestPractice[] = [
+  { id: 'BP-001', title: 'Line Array Rigging Safety', category: 'Safety', discipline: 'Audio', summary: 'Essential safety protocols for flying line array systems.', author: 'Safety Team', views: 1245, rating: 4.9, tags: ['rigging', 'audio'] },
+  { id: 'BP-002', title: 'LED Wall Calibration', category: 'Technical', discipline: 'Video', summary: 'Guide for calibrating LED video walls for optimal color accuracy.', author: 'Video Dept', views: 892, rating: 4.7, tags: ['video', 'calibration'] },
+  { id: 'BP-003', title: 'Festival Stage Changeover', category: 'Operations', discipline: 'Stage', summary: 'Efficient changeover procedures for multi-act festival stages.', author: 'Stage Mgmt', views: 2156, rating: 4.8, tags: ['festival', 'changeover'] },
+  { id: 'BP-004', title: 'Power Distribution Planning', category: 'Technical', discipline: 'Power', summary: 'Best practices for calculating power requirements.', author: 'Electrical', views: 1567, rating: 4.6, tags: ['power', 'planning'] },
+  { id: 'BP-005', title: 'Crew Communication', category: 'Operations', discipline: 'General', summary: 'Effective radio and intercom communication protocols.', author: 'Ops Team', views: 1890, rating: 4.8, tags: ['communication', 'radio'] },
+];

@@ -23,25 +23,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface BestPractice {
-  id: string;
-  title: string;
-  category: string;
-  discipline: string;
-  summary: string;
-  author: string;
-  views: number;
-  rating: number;
-  tags: string[];
-}
-
-const mockPractices: BestPractice[] = [
-  { id: "BP-001", title: "Line Array Rigging Safety", category: "Safety", discipline: "Audio", summary: "Essential safety protocols for flying line array systems.", author: "Safety Team", views: 1245, rating: 4.9, tags: ["rigging", "audio"] },
-  { id: "BP-002", title: "LED Wall Calibration", category: "Technical", discipline: "Video", summary: "Guide for calibrating LED video walls for optimal color accuracy.", author: "Video Dept", views: 892, rating: 4.7, tags: ["video", "calibration"] },
-  { id: "BP-003", title: "Festival Stage Changeover", category: "Operations", discipline: "Stage", summary: "Efficient changeover procedures for multi-act festival stages.", author: "Stage Mgmt", views: 2156, rating: 4.8, tags: ["festival", "changeover"] },
-  { id: "BP-004", title: "Power Distribution Planning", category: "Technical", discipline: "Power", summary: "Best practices for calculating power requirements.", author: "Electrical", views: 1567, rating: 4.6, tags: ["power", "planning"] },
-  { id: "BP-005", title: "Crew Communication", category: "Operations", discipline: "General", summary: "Effective radio and intercom communication protocols.", author: "Ops Team", views: 1890, rating: 4.8, tags: ["communication", "radio"] },
-];
+import {
+  DEMO_BEST_PRACTICES,
+  type DemoBestPractice as BestPractice,
+} from "../../lib/demo-data";
 
 const categories = ["All", "Safety", "Technical", "Operations", "Planning"];
 const disciplines = ["All", "Audio", "Lighting", "Video", "Stage", "Rigging", "Power", "General"];
@@ -53,7 +38,7 @@ export default function BestPracticesPage() {
   const [disciplineFilter, setDisciplineFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPractices = mockPractices.filter(p => {
+  const filteredPractices = DEMO_BEST_PRACTICES.filter(p => {
     const matchesCategory = categoryFilter === "All" || p.category === categoryFilter;
     const matchesDiscipline = disciplineFilter === "All" || p.discipline === disciplineFilter;
     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -76,9 +61,9 @@ export default function BestPracticesPage() {
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
-              <StatCard value={mockPractices.length.toString()} label="Total Guides" />
+              <StatCard value={DEMO_BEST_PRACTICES.length.toString()} label="Total Guides" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={mockPractices.reduce((s, p) => s + p.views, 0).toString()} label="Total Views" />
+              <StatCard value={DEMO_BEST_PRACTICES.reduce((s, p) => s + p.views, 0).toString()} label="Total Views" />
               <StatCard value="4.8" label="Avg Rating" />
             </Grid>
 
