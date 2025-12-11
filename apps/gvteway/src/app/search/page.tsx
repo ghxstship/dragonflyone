@@ -14,12 +14,9 @@ import {
   useDebounce,
 } from "@ghxstship/ui";
 
-const mockResults = [
-  { id: "1", type: "Event", title: "Ultra Music Festival 2025", location: "Miami, FL", date: "Mar 28-30" },
-  { id: "2", type: "Venue", title: "Bayfront Park", location: "Miami, FL", capacity: "65,000" },
-  { id: "3", type: "Event", title: "Rolling Loud Miami", location: "Miami Gardens, FL", date: "May 9-11" },
-  { id: "4", type: "Artist", title: "Armin van Buuren", genre: "Trance", followers: "2.1M" },
-];
+import { DEMO_SEARCH_RESULTS } from "@/lib/demo-data";
+
+const mockResults = DEMO_SEARCH_RESULTS;
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");

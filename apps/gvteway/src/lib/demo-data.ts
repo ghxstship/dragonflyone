@@ -1590,3 +1590,113 @@ export const DEMO_INFLUENCERS: DemoInfluencer[] = [
   { id: 'INF-003', name: 'Concert Vibes', handle: '@concertvibes', platform: 'Instagram', followers: 125000, engagement: 5.1, niche: 'Concerts', status: 'Pending', campaigns: 0, revenue: 0 },
   { id: 'INF-004', name: 'DJ Reviews', handle: '@djreviews', platform: 'YouTube', followers: 450000, engagement: 3.9, niche: 'EDM', status: 'Completed', campaigns: 2, revenue: 8500 },
 ];
+
+// =============================================================================
+// MEMBERSHIP - BENEFITS (for membership/benefits/page.tsx)
+// =============================================================================
+
+export interface DemoMemberBenefit {
+  id: string;
+  name: string;
+  description: string;
+  type: 'Discount' | 'Access' | 'Content' | 'Experience' | 'Merchandise';
+  value?: string;
+  enabled: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoMembershipTier {
+  id: string;
+  name: string;
+  price: number;
+  billingCycle: 'Monthly' | 'Annual';
+  memberCount: number;
+  benefits: DemoMemberBenefit[];
+  color: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_MEMBERSHIP_TIERS: DemoMembershipTier[] = [
+  {
+    id: 'TIER-001', name: 'Fan Club', price: 9.99, billingCycle: 'Monthly', memberCount: 2450, color: '#3B82F6',
+    benefits: [
+      { id: 'B-001', name: 'Presale Access', description: '48-hour early access to tickets', type: 'Access', enabled: true },
+      { id: 'B-002', name: 'Member Discount', description: '10% off all ticket purchases', type: 'Discount', value: '10%', enabled: true },
+      { id: 'B-003', name: 'Exclusive Content', description: 'Behind-the-scenes videos and photos', type: 'Content', enabled: true },
+    ]
+  },
+  {
+    id: 'TIER-002', name: 'VIP Member', price: 29.99, billingCycle: 'Monthly', memberCount: 890, color: '#F59E0B',
+    benefits: [
+      { id: 'B-004', name: 'Priority Presale', description: '72-hour early access to tickets', type: 'Access', enabled: true },
+      { id: 'B-005', name: 'VIP Discount', description: '20% off all ticket purchases', type: 'Discount', value: '20%', enabled: true },
+      { id: 'B-006', name: 'Free Shipping', description: 'Free shipping on all merchandise', type: 'Merchandise', enabled: true },
+      { id: 'B-007', name: 'Meet & Greet Entry', description: 'Monthly raffle for meet & greet', type: 'Experience', enabled: true },
+      { id: 'B-008', name: 'Exclusive Merch', description: 'Access to member-only merchandise', type: 'Merchandise', enabled: true },
+    ]
+  },
+  {
+    id: 'TIER-003', name: 'Platinum', price: 199.99, billingCycle: 'Annual', memberCount: 156, color: '#8B5CF6',
+    benefits: [
+      { id: 'B-009', name: 'First Access', description: 'First access to all tickets before public', type: 'Access', enabled: true },
+      { id: 'B-010', name: 'Platinum Discount', description: '30% off all purchases', type: 'Discount', value: '30%', enabled: true },
+      { id: 'B-011', name: 'Guaranteed Meet & Greet', description: 'One guaranteed meet & greet per year', type: 'Experience', enabled: true },
+      { id: 'B-012', name: 'VIP Lounge Access', description: 'Complimentary VIP lounge at all events', type: 'Access', enabled: true },
+      { id: 'B-013', name: 'Annual Gift Box', description: 'Exclusive annual merchandise gift box', type: 'Merchandise', enabled: true },
+      { id: 'B-014', name: 'Concierge Service', description: 'Dedicated member concierge', type: 'Experience', enabled: true },
+    ]
+  },
+];
+
+export const DEMO_AVAILABLE_BENEFITS = [
+  { type: 'Discount', options: ['5% off', '10% off', '15% off', '20% off', '25% off', '30% off'] },
+  { type: 'Access', options: ['24hr Presale', '48hr Presale', '72hr Presale', 'VIP Entrance', 'Backstage Access', 'Soundcheck Access'] },
+  { type: 'Content', options: ['Exclusive Videos', 'Behind the Scenes', 'Live Streams', 'Digital Downloads', 'Early Releases'] },
+  { type: 'Experience', options: ['Meet & Greet Raffle', 'Guaranteed Meet & Greet', 'VIP Lounge', 'Photo Opportunities', 'Concierge Service'] },
+  { type: 'Merchandise', options: ['Free Shipping', 'Member-Only Items', 'Annual Gift Box', 'Birthday Gift', 'Welcome Kit'] },
+];
+
+// =============================================================================
+// MODERATE (for moderate/page.tsx)
+// =============================================================================
+
+export interface DemoModerationItem {
+  id: string;
+  type: 'review' | 'comment' | 'report';
+  content: string;
+  author: string;
+  eventId: string;
+  eventName: string;
+  status: 'pending' | 'approved' | 'rejected';
+  timestamp: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_MODERATION_ITEMS: DemoModerationItem[] = [
+  { id: '1', type: 'review', content: 'Amazing show! Best experience ever!', author: 'john_doe', eventId: 'e1', eventName: 'Summer Fest', status: 'pending', timestamp: '2024-11-23 10:30' },
+  { id: '2', type: 'report', content: 'Inappropriate behavior reported', author: 'moderator', eventId: 'e2', eventName: 'Rock Concert', status: 'pending', timestamp: '2024-11-23 11:15' },
+  { id: '3', type: 'comment', content: 'Looking forward to this!', author: 'jane_smith', eventId: 'e1', eventName: 'Summer Fest', status: 'approved', timestamp: '2024-11-23 09:45' },
+];
+
+// =============================================================================
+// SEARCH (for search/page.tsx)
+// =============================================================================
+
+export interface DemoSearchResult {
+  id: string;
+  type: string;
+  title: string;
+  location?: string;
+  date?: string;
+  capacity?: string;
+  genre?: string;
+  followers?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SEARCH_RESULTS: DemoSearchResult[] = [
+  { id: '1', type: 'Event', title: 'Ultra Music Festival 2025', location: 'Miami, FL', date: 'Mar 28-30' },
+  { id: '2', type: 'Venue', title: 'Bayfront Park', location: 'Miami, FL', capacity: '65,000' },
+  { id: '3', type: 'Event', title: 'Rolling Loud Miami', location: 'Miami Gardens, FL', date: 'May 9-11' },
+  { id: '4', type: 'Artist', title: 'Armin van Buuren', genre: 'Trance', followers: '2.1M' },
+];

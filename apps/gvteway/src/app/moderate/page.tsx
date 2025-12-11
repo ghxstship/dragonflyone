@@ -18,22 +18,12 @@ import {
  * Note: Backend API exists for content moderation, ready for integration
  */
 
-interface ModerationItem {
-  id: string;
-  type: 'review' | 'comment' | 'report';
-  content: string;
-  author: string;
-  eventId: string;
-  eventName: string;
-  status: 'pending' | 'approved' | 'rejected';
-  timestamp: string;
-}
+import {
+  DEMO_MODERATION_ITEMS,
+  type DemoModerationItem as ModerationItem,
+} from '@/lib/demo-data';
 
-const mockItems: ModerationItem[] = [
-  { id: '1', type: 'review', content: 'Amazing show! Best experience ever!', author: 'john_doe', eventId: 'e1', eventName: 'Summer Fest', status: 'pending', timestamp: '2024-11-23 10:30' },
-  { id: '2', type: 'report', content: 'Inappropriate behavior reported', author: 'moderator', eventId: 'e2', eventName: 'Rock Concert', status: 'pending', timestamp: '2024-11-23 11:15' },
-  { id: '3', type: 'comment', content: 'Looking forward to this!', author: 'jane_smith', eventId: 'e1', eventName: 'Summer Fest', status: 'approved', timestamp: '2024-11-23 09:45' },
-];
+const mockItems = DEMO_MODERATION_ITEMS;
 
 export default function ModeratePage() {
   const [items, setItems] = useState(mockItems);
