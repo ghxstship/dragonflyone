@@ -371,3 +371,30 @@ export const DEMO_CERTIFICATIONS: DemoCertification[] = [
   { id: 'CERT-004', crew_member_name: 'Sarah Martinez', certification_type: 'Forklift Operator', issue_date: '2022-03-15', expiry_date: '2024-03-15', status: 'expired' },
   { id: 'CERT-005', crew_member_name: 'Michael Brown', certification_type: 'Electrical Safety', issue_date: '2024-09-01', expiry_date: '2027-09-01', status: 'active' },
 ];
+
+// =============================================================================
+// COMMUNICATION CHANNELS (for communications/channels/page.tsx)
+// =============================================================================
+
+export interface DemoChannel {
+  id: string;
+  name: string;
+  department: string;
+  type: 'Radio' | 'Intercom' | 'Chat' | 'All';
+  members: number;
+  frequency?: string;
+  status: 'Active' | 'Inactive';
+  description: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CHANNELS: DemoChannel[] = [
+  { id: 'CH-001', name: 'Production', department: 'Production', type: 'All', members: 45, frequency: 'Ch 1', status: 'Active', description: 'Main production coordination channel' },
+  { id: 'CH-002', name: 'Audio', department: 'Audio', type: 'Radio', members: 12, frequency: 'Ch 2', status: 'Active', description: 'Audio department communications' },
+  { id: 'CH-003', name: 'Lighting', department: 'Lighting', type: 'Radio', members: 8, frequency: 'Ch 3', status: 'Active', description: 'Lighting department communications' },
+  { id: 'CH-004', name: 'Video', department: 'Video', type: 'Radio', members: 6, frequency: 'Ch 4', status: 'Active', description: 'Video department communications' },
+  { id: 'CH-005', name: 'Stage Management', department: 'Stage', type: 'Intercom', members: 15, frequency: 'PL 1', status: 'Active', description: 'Stage management and cue calling' },
+  { id: 'CH-006', name: 'Rigging', department: 'Rigging', type: 'Radio', members: 10, frequency: 'Ch 5', status: 'Active', description: 'Rigging crew coordination' },
+  { id: 'CH-007', name: 'Security', department: 'Security', type: 'Radio', members: 20, frequency: 'Ch 6', status: 'Active', description: 'Security team communications' },
+  { id: 'CH-008', name: 'Catering', department: 'Hospitality', type: 'Chat', members: 8, status: 'Active', description: 'Catering and hospitality coordination' },
+];

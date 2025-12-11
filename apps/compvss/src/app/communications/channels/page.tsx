@@ -28,27 +28,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Channel {
-  id: string;
-  name: string;
-  department: string;
-  type: "Radio" | "Intercom" | "Chat" | "All";
-  members: number;
-  frequency?: string;
-  status: "Active" | "Inactive";
-  description: string;
-}
-
-const mockChannels: Channel[] = [
-  { id: "CH-001", name: "Production", department: "Production", type: "All", members: 45, frequency: "Ch 1", status: "Active", description: "Main production coordination channel" },
-  { id: "CH-002", name: "Audio", department: "Audio", type: "Radio", members: 12, frequency: "Ch 2", status: "Active", description: "Audio department communications" },
-  { id: "CH-003", name: "Lighting", department: "Lighting", type: "Radio", members: 8, frequency: "Ch 3", status: "Active", description: "Lighting department communications" },
-  { id: "CH-004", name: "Video", department: "Video", type: "Radio", members: 6, frequency: "Ch 4", status: "Active", description: "Video department communications" },
-  { id: "CH-005", name: "Stage Management", department: "Stage", type: "Intercom", members: 15, frequency: "PL 1", status: "Active", description: "Stage management and cue calling" },
-  { id: "CH-006", name: "Rigging", department: "Rigging", type: "Radio", members: 10, frequency: "Ch 5", status: "Active", description: "Rigging crew coordination" },
-  { id: "CH-007", name: "Security", department: "Security", type: "Radio", members: 20, frequency: "Ch 6", status: "Active", description: "Security team communications" },
-  { id: "CH-008", name: "Catering", department: "Hospitality", type: "Chat", members: 8, status: "Active", description: "Catering and hospitality coordination" },
-];
+import {
+  DEMO_CHANNELS,
+  type DemoChannel as Channel,
+} from "../../../lib/demo-data";
 
 const departments = ["All", "Production", "Audio", "Lighting", "Video", "Stage", "Rigging", "Security", "Hospitality"];
 
@@ -64,9 +47,9 @@ export default function ChannelsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [departmentFilter, setDepartmentFilter] = useState("All");
 
-  const filteredChannels = departmentFilter === "All" ? mockChannels : mockChannels.filter(c => c.department === departmentFilter);
-  const activeChannels = mockChannels.filter(c => c.status === "Active").length;
-  const totalMembers = mockChannels.reduce((s, c) => s + c.members, 0);
+  const filteredChannels = departmentFilter === "All" ? DEMO_CHANNELS : DEMO_CHANNELS.filter(c => c.department === departmentFilter);
+  const activeChannels = DEMO_CHANNELS.filter(c => c.status === "Active").length;
+  const totalMembers = DEMO_CHANNELS.reduce((s, c) => s + c.members, 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -94,7 +77,7 @@ export default function ChannelsPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockChannels.length.toString()} label="Total Channels" />
+              <StatCard value={DEMO_CHANNELS.length.toString()} label="Total Channels" />
               <StatCard value={activeChannels.toString()} label="Active" />
               <StatCard value={totalMembers.toString()} label="Total Members" />
               <StatCard value={(departments.length - 1).toString()} label="Departments" />
