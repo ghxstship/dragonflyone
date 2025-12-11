@@ -27,69 +27,19 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface Contact {
-  id: string;
-  name: string;
-  title: string;
-  company: string;
-  type: 'client' | 'vendor' | 'partner' | 'prospect' | 'internal';
-  email: string;
-  phone?: string;
-}
-
-interface Relationship {
-  id: string;
-  from_contact_id: string;
-  from_contact: Contact;
-  to_contact_id: string;
-  to_contact: Contact;
-  relationship_type: 'reports_to' | 'manages' | 'works_with' | 'referred_by' | 'decision_maker' | 'influencer' | 'champion' | 'blocker';
-  strength: 'strong' | 'moderate' | 'weak';
-  notes?: string;
-}
-
-interface StakeholderMap {
-  organization_id: string;
-  organization_name: string;
-  stakeholders: {
-    contact: Contact;
-    role: string;
-    influence: 'high' | 'medium' | 'low';
-    sentiment: 'positive' | 'neutral' | 'negative';
-  }[];
-}
-
-const mockContacts: Contact[] = [
-  { id: 'CON-001', name: 'Sarah Mitchell', title: 'VP of Events', company: 'Acme Corp', type: 'client', email: 'sarah@acme.com', phone: '+1 555-0101' },
-  { id: 'CON-002', name: 'John Davis', title: 'Event Manager', company: 'Acme Corp', type: 'client', email: 'john@acme.com', phone: '+1 555-0102' },
-  { id: 'CON-003', name: 'Lisa Chen', title: 'CFO', company: 'Acme Corp', type: 'client', email: 'lisa@acme.com' },
-  { id: 'CON-004', name: 'Mike Thompson', title: 'CEO', company: 'Acme Corp', type: 'client', email: 'mike@acme.com' },
-  { id: 'CON-005', name: 'Emily Park', title: 'Procurement Director', company: 'Acme Corp', type: 'client', email: 'emily@acme.com' },
-];
-
-const mockRelationships: Relationship[] = [
-  { id: 'REL-001', from_contact_id: 'CON-002', from_contact: mockContacts[1], to_contact_id: 'CON-001', to_contact: mockContacts[0], relationship_type: 'reports_to', strength: 'strong' },
-  { id: 'REL-002', from_contact_id: 'CON-001', from_contact: mockContacts[0], to_contact_id: 'CON-004', to_contact: mockContacts[3], relationship_type: 'reports_to', strength: 'strong' },
-  { id: 'REL-003', from_contact_id: 'CON-003', from_contact: mockContacts[2], to_contact_id: 'CON-004', to_contact: mockContacts[3], relationship_type: 'reports_to', strength: 'strong' },
-  { id: 'REL-004', from_contact_id: 'CON-001', from_contact: mockContacts[0], to_contact_id: 'CON-003', to_contact: mockContacts[2], relationship_type: 'works_with', strength: 'moderate' },
-];
-
-const mockStakeholderMap: StakeholderMap = {
-  organization_id: 'ORG-001',
-  organization_name: 'Acme Corp',
-  stakeholders: [
-    { contact: mockContacts[3], role: 'Executive Sponsor', influence: 'high', sentiment: 'positive' },
-    { contact: mockContacts[0], role: 'Project Owner', influence: 'high', sentiment: 'positive' },
-    { contact: mockContacts[2], role: 'Budget Approver', influence: 'high', sentiment: 'neutral' },
-    { contact: mockContacts[1], role: 'Day-to-Day Contact', influence: 'medium', sentiment: 'positive' },
-    { contact: mockContacts[4], role: 'Procurement Lead', influence: 'medium', sentiment: 'neutral' },
-  ],
-};
+import {
+  DEMO_CONTACTS,
+  DEMO_RELATIONSHIPS,
+  DEMO_STAKEHOLDER_MAP,
+  type DemoContact as Contact,
+  type DemoRelationship as Relationship,
+  type DemoStakeholderMap as StakeholderMap,
+} from '../../../lib/demo-data';
 
 export default function RelationshipsPage() {
-  const [contacts, setContacts] = useState<Contact[]>(mockContacts);
-  const [relationships, setRelationships] = useState<Relationship[]>(mockRelationships);
-  const [stakeholderMap, setStakeholderMap] = useState<StakeholderMap>(mockStakeholderMap);
+  const [contacts, setContacts] = useState<Contact[]>(DEMO_CONTACTS);
+  const [relationships, setRelationships] = useState<Relationship[]>(DEMO_RELATIONSHIPS);
+  const [stakeholderMap, setStakeholderMap] = useState<StakeholderMap>(DEMO_STAKEHOLDER_MAP);
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useLocalTabState({
@@ -111,9 +61,9 @@ export default function RelationshipsPage() {
 
   const handleRefresh = () => {
     // Refresh all data from mock sources
-    setContacts(mockContacts);
-    setStakeholderMap(mockStakeholderMap);
-    setRelationships(mockRelationships);
+    setContacts(DEMO_CONTACTS);
+    setStakeholderMap(DEMO_STAKEHOLDER_MAP);
+    setRelationships(DEMO_RELATIONSHIPS);
     setSuccess('Data refreshed');
   };
 
@@ -189,7 +139,7 @@ export default function RelationshipsPage() {
 
 
         primaryAction={{ label: 'Add Relationship', onClick: () => setShowAddModal(true) }}
-        secondaryAction={{ label: 'Refresh', onClick: handleRefresh }}
+        secondaryActions={[{ id: 'refresh', label: 'Refresh', onClick: handleRefresh }]}
         showFavorite
         showSettings
       />
@@ -296,8 +246,8 @@ export default function RelationshipsPage() {
                 <Stack className="items-center">
                   <Card className="p-4 border-2 border-black bg-ink-100 w-64">
                     <Stack gap={1} className="text-center">
-                      <Body className="font-weight-bold">{mockContacts[3].name}</Body>
-                      <Label className="text-ink-500">{mockContacts[3].title}</Label>
+                      <Body className="font-weight-bold">{DEMO_CONTACTS[3].name}</Body>
+                      <Label className="text-ink-500">{DEMO_CONTACTS[3].title}</Label>
                       {getRelationshipBadge('decision_maker')}
                     </Stack>
                   </Card>
@@ -305,7 +255,7 @@ export default function RelationshipsPage() {
 
                 {/* Direct Reports */}
                 <Stack direction="horizontal" className="justify-center gap-8">
-                  {[mockContacts[0], mockContacts[2]].map(contact => (
+                  {[DEMO_CONTACTS[0], DEMO_CONTACTS[2]].map(contact => (
                     <Stack key={contact.id} className="items-center" gap={4}>
                       <Card className="w-1 h-8 bg-black" />
                       <Card className="p-4 border-2 border-black w-56">
@@ -324,8 +274,8 @@ export default function RelationshipsPage() {
                     <Card className="w-1 h-8 bg-black" />
                     <Card className="p-4 border-2 border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
-                        <Body className="font-weight-bold">{mockContacts[1].name}</Body>
-                        <Label className="text-ink-500">{mockContacts[1].title}</Label>
+                        <Body className="font-weight-bold">{DEMO_CONTACTS[1].name}</Body>
+                        <Label className="text-ink-500">{DEMO_CONTACTS[1].title}</Label>
                       </Stack>
                     </Card>
                   </Stack>
@@ -333,8 +283,8 @@ export default function RelationshipsPage() {
                     <Card className="w-1 h-8 bg-black" />
                     <Card className="p-4 border-2 border-ink-300 w-48">
                       <Stack gap={1} className="text-center">
-                        <Body className="font-weight-bold">{mockContacts[4].name}</Body>
-                        <Label className="text-ink-500">{mockContacts[4].title}</Label>
+                        <Body className="font-weight-bold">{DEMO_CONTACTS[4].name}</Body>
+                        <Label className="text-ink-500">{DEMO_CONTACTS[4].title}</Label>
                       </Stack>
                     </Card>
                   </Stack>
