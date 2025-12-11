@@ -222,3 +222,27 @@ export const DEMO_BACKGROUND_CHECKS: DemoBackgroundCheck[] = [
   { id: 'BGC-005', crewMemberId: 'CRW-105', crewMemberName: 'Alex Rodriguez', department: 'Rigging', checkType: 'Federal', status: 'Pending', submittedDate: '2024-11-24', provider: 'Sterling' },
   { id: 'BGC-006', crewMemberId: 'CRW-106', crewMemberName: 'Lisa Park', department: 'Audio', checkType: 'Enhanced', status: 'Cleared', submittedDate: '2024-08-01', completedDate: '2024-08-10', expirationDate: '2024-12-10', provider: 'Checkr', daysUntilExpiry: 15 },
 ];
+
+// =============================================================================
+// BACKUP PLANS (for backup-plans/page.tsx)
+// =============================================================================
+
+export interface DemoBackupPlan {
+  id: string;
+  name: string;
+  project: string;
+  category: 'Weather' | 'Technical' | 'Staffing' | 'Vendor' | 'Venue' | 'Safety';
+  triggerCondition: string;
+  status: 'Active' | 'Draft' | 'Archived';
+  lastUpdated: string;
+  owner: string;
+  steps: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_BACKUP_PLANS: DemoBackupPlan[] = [
+  { id: 'BP-001', name: 'Rain Delay Protocol', project: 'Summer Fest 2024', category: 'Weather', triggerCondition: 'Rainfall > 0.5in/hr or lightning within 10mi', status: 'Active', lastUpdated: '2024-11-20', owner: 'Production Manager', steps: ['Pause outdoor activities', 'Move guests to covered areas', 'Notify all departments via radio', 'Monitor weather radar', 'Resume when conditions clear'] },
+  { id: 'BP-002', name: 'Main PA Failure', project: 'Summer Fest 2024', category: 'Technical', triggerCondition: 'Loss of main PA system', status: 'Active', lastUpdated: '2024-11-18', owner: 'Audio Lead', steps: ['Switch to backup system', 'Notify FOH engineer', 'Diagnose primary system', 'Inform production manager', 'Document incident'] },
+  { id: 'BP-003', name: 'Key Crew No-Show', project: 'Summer Fest 2024', category: 'Staffing', triggerCondition: 'Department head unavailable', status: 'Active', lastUpdated: '2024-11-15', owner: 'Operations', steps: ['Contact backup personnel', 'Reassign duties if needed', 'Brief replacement on responsibilities', 'Update crew manifest', 'Document for post-event'] },
+  { id: 'BP-004', name: 'Vendor Equipment Delay', project: 'Corporate Gala', category: 'Vendor', triggerCondition: 'Equipment delivery delayed > 2 hours', status: 'Draft', lastUpdated: '2024-11-22', owner: 'Logistics', steps: ['Contact vendor for ETA', 'Identify alternative sources', 'Adjust load-in schedule', 'Notify affected departments', 'Escalate if unresolved'] },
+];

@@ -24,24 +24,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface BackupPlan {
-  id: string;
-  name: string;
-  project: string;
-  category: "Weather" | "Technical" | "Staffing" | "Vendor" | "Venue" | "Safety";
-  triggerCondition: string;
-  status: "Active" | "Draft" | "Archived";
-  lastUpdated: string;
-  owner: string;
-  steps: string[];
-}
-
-const mockPlans: BackupPlan[] = [
-  { id: "BP-001", name: "Rain Delay Protocol", project: "Summer Fest 2024", category: "Weather", triggerCondition: "Rainfall > 0.5in/hr or lightning within 10mi", status: "Active", lastUpdated: "2024-11-20", owner: "Production Manager", steps: ["Pause outdoor activities", "Move guests to covered areas", "Notify all departments via radio", "Monitor weather radar", "Resume when conditions clear"] },
-  { id: "BP-002", name: "Main PA Failure", project: "Summer Fest 2024", category: "Technical", triggerCondition: "Loss of main PA system", status: "Active", lastUpdated: "2024-11-18", owner: "Audio Lead", steps: ["Switch to backup system", "Notify FOH engineer", "Diagnose primary system", "Inform production manager", "Document incident"] },
-  { id: "BP-003", name: "Key Crew No-Show", project: "Summer Fest 2024", category: "Staffing", triggerCondition: "Department head unavailable", status: "Active", lastUpdated: "2024-11-15", owner: "Operations", steps: ["Contact backup personnel", "Reassign duties if needed", "Brief replacement on responsibilities", "Update crew manifest", "Document for post-event"] },
-  { id: "BP-004", name: "Vendor Equipment Delay", project: "Corporate Gala", category: "Vendor", triggerCondition: "Equipment delivery delayed > 2 hours", status: "Draft", lastUpdated: "2024-11-22", owner: "Logistics", steps: ["Contact vendor for ETA", "Identify alternative sources", "Adjust load-in schedule", "Notify affected departments", "Escalate if unresolved"] },
-];
+import {
+  DEMO_BACKUP_PLANS,
+  type DemoBackupPlan as BackupPlan,
+} from "../../lib/demo-data";
 
 const categories = ["All", "Weather", "Technical", "Staffing", "Vendor", "Venue", "Safety"];
 
@@ -51,8 +37,8 @@ export default function BackupPlansPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const filteredPlans = categoryFilter === "All" ? mockPlans : mockPlans.filter(p => p.category === categoryFilter);
-  const activePlans = mockPlans.filter(p => p.status === "Active").length;
+  const filteredPlans = categoryFilter === "All" ? DEMO_BACKUP_PLANS : DEMO_BACKUP_PLANS.filter(p => p.category === categoryFilter);
+  const activePlans = DEMO_BACKUP_PLANS.filter(p => p.status === "Active").length;
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -81,10 +67,10 @@ export default function BackupPlansPage() {
         <Container>
           <Stack gap={10}>
             <Grid cols={4} gap={6}>
-              <StatCard value={mockPlans.length.toString()} label="Total Plans" />
+              <StatCard value={DEMO_BACKUP_PLANS.length.toString()} label="Total Plans" />
               <StatCard value={activePlans.toString()} label="Active" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={mockPlans.filter(p => p.status === "Draft").length.toString()} label="Draft" />
+              <StatCard value={DEMO_BACKUP_PLANS.filter(p => p.status === "Draft").length.toString()} label="Draft" />
             </Grid>
 
             {/* Filters and Actions */}
