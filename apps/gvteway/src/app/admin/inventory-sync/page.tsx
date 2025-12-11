@@ -16,57 +16,18 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface InventoryLocation {
-  id: string;
-  name: string;
-  type: 'warehouse' | 'store' | 'online';
-  quantity: number;
-  last_updated: string;
-}
+import {
+  DEMO_INVENTORY_ITEMS,
+  DEMO_INVENTORY_LOCATIONS,
+  DEMO_SYNC_LOGS,
+  type DemoInventoryItem as InventoryItem,
+  type DemoInventoryLocation as InventoryLocation,
+  type DemoSyncLog as SyncLog,
+} from '@/lib/demo-data';
 
-interface InventoryItem {
-  id: string;
-  sku: string;
-  name: string;
-  category: string;
-  online_quantity: number;
-  physical_quantity: number;
-  reserved_quantity: number;
-  available_quantity: number;
-  sync_status: 'synced' | 'pending' | 'conflict' | 'error';
-  last_sync: string;
-  locations: InventoryLocation[];
-  [key: string]: unknown;
-}
-
-interface SyncLog {
-  id: string;
-  timestamp: string;
-  type: 'manual' | 'auto' | 'scheduled';
-  items_synced: number;
-  conflicts: number;
-  status: 'completed' | 'failed' | 'partial';
-  duration_ms: number;
-}
-
-const defaultLocations: InventoryLocation[] = [
-  { id: 'LOC-001', name: 'Main Warehouse', type: 'warehouse', quantity: 100, last_updated: '2024-11-24T14:30:00Z' },
-  { id: 'LOC-002', name: 'Online Store', type: 'online', quantity: 50, last_updated: '2024-11-24T14:30:00Z' },
-];
-
-const mockInventory: InventoryItem[] = [
-  { id: 'INV-001', sku: 'TSHIRT-BLK-M', name: 'Tour T-Shirt Black (M)', category: 'Apparel', online_quantity: 150, physical_quantity: 148, reserved_quantity: 12, available_quantity: 136, sync_status: 'synced', last_sync: '2024-11-24T14:30:00Z', locations: defaultLocations },
-  { id: 'INV-002', sku: 'HOODIE-GRY-L', name: 'Tour Hoodie Gray (L)', category: 'Apparel', online_quantity: 75, physical_quantity: 72, reserved_quantity: 5, available_quantity: 67, sync_status: 'conflict', last_sync: '2024-11-24T14:28:00Z', locations: defaultLocations },
-  { id: 'INV-003', sku: 'POSTER-LTD', name: 'Limited Edition Poster', category: 'Collectibles', online_quantity: 200, physical_quantity: 200, reserved_quantity: 45, available_quantity: 155, sync_status: 'synced', last_sync: '2024-11-24T14:32:00Z', locations: defaultLocations },
-  { id: 'INV-004', sku: 'CAP-BLK', name: 'Snapback Cap Black', category: 'Accessories', online_quantity: 85, physical_quantity: 85, reserved_quantity: 8, available_quantity: 77, sync_status: 'synced', last_sync: '2024-11-24T14:30:00Z', locations: defaultLocations },
-  { id: 'INV-005', sku: 'VINYL-ALBUM', name: 'Vinyl Album', category: 'Music', online_quantity: 50, physical_quantity: 48, reserved_quantity: 3, available_quantity: 45, sync_status: 'pending', last_sync: '2024-11-24T14:15:00Z', locations: defaultLocations },
-];
-
-const mockSyncLogs: SyncLog[] = [
-  { id: 'LOG-001', timestamp: '2024-11-24T14:30:00Z', type: 'auto', items_synced: 5, conflicts: 1, status: 'completed', duration_ms: 1500 },
-  { id: 'LOG-002', timestamp: '2024-11-24T14:00:00Z', type: 'scheduled', items_synced: 5, conflicts: 0, status: 'completed', duration_ms: 1200 },
-  { id: 'LOG-003', timestamp: '2024-11-24T13:30:00Z', type: 'manual', items_synced: 3, conflicts: 0, status: 'completed', duration_ms: 800 },
-];
+const defaultLocations = DEMO_INVENTORY_LOCATIONS;
+const mockInventory = DEMO_INVENTORY_ITEMS;
+const mockSyncLogs = DEMO_SYNC_LOGS;
 
 const getSyncStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) {

@@ -10,47 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Kicker,
 } from "@ghxstship/ui";
 
-interface Challenge {
-  id: string;
-  title: string;
-  description: string;
-  type: "Individual" | "Team" | "Community";
-  category: "Attendance" | "Social" | "Engagement" | "Referral" | "Collection";
-  startDate: string;
-  endDate: string;
-  status: "Active" | "Upcoming" | "Completed";
-  participants: number;
-  goal: number;
-  currentProgress: number;
-  reward: string;
-  rewardPoints: number;
-  userProgress?: number;
-  userCompleted?: boolean;
-}
+import {
+  DEMO_CHALLENGES,
+  DEMO_LEADERBOARD,
+  type DemoChallenge as Challenge,
+  type DemoLeaderboard as Leaderboard,
+} from "@/lib/demo-data";
 
-interface Leaderboard {
-  rank: number;
-  userName: string;
-  points: number;
-  completedChallenges: number;
-}
-
-const mockChallenges: Challenge[] = [
-  { id: "CH-001", title: "Concert Explorer", description: "Attend 5 different events this season", type: "Individual", category: "Attendance", startDate: "2024-11-01", endDate: "2024-12-31", status: "Active", participants: 1250, goal: 5, currentProgress: 3, reward: "Explorer Badge + 500 Points", rewardPoints: 500, userProgress: 3 },
-  { id: "CH-002", title: "Social Butterfly", description: "Share 10 events on social media", type: "Individual", category: "Social", startDate: "2024-11-01", endDate: "2024-11-30", status: "Active", participants: 890, goal: 10, currentProgress: 7, reward: "Social Badge + 300 Points", rewardPoints: 300, userProgress: 7 },
-  { id: "CH-003", title: "Community Goal: 10K Check-ins", description: "Help the community reach 10,000 event check-ins", type: "Community", category: "Engagement", startDate: "2024-11-01", endDate: "2024-11-30", status: "Active", participants: 4500, goal: 10000, currentProgress: 7850, reward: "Everyone gets 100 bonus points", rewardPoints: 100 },
-  { id: "CH-004", title: "Referral Champion", description: "Invite 3 friends who purchase tickets", type: "Individual", category: "Referral", startDate: "2024-11-15", endDate: "2024-12-15", status: "Active", participants: 450, goal: 3, currentProgress: 1, reward: "Free Ticket + 1000 Points", rewardPoints: 1000, userProgress: 1 },
-  { id: "CH-005", title: "Merch Collector", description: "Purchase items from 3 different events", type: "Individual", category: "Collection", startDate: "2024-12-01", endDate: "2024-12-31", status: "Upcoming", participants: 0, goal: 3, currentProgress: 0, reward: "Collector Badge + Exclusive Item", rewardPoints: 750 },
-  { id: "CH-006", title: "Summer Fest Superfan", description: "Complete all Summer Fest activities", type: "Individual", category: "Engagement", startDate: "2024-10-01", endDate: "2024-10-31", status: "Completed", participants: 2100, goal: 10, currentProgress: 10, reward: "Superfan Badge + VIP Upgrade", rewardPoints: 2000, userProgress: 10, userCompleted: true },
-];
-
-const mockLeaderboard: Leaderboard[] = [
-  { rank: 1, userName: "MusicFan2024", points: 15420, completedChallenges: 12 },
-  { rank: 2, userName: "ConcertQueen", points: 14850, completedChallenges: 11 },
-  { rank: 3, userName: "LiveShowLover", points: 13200, completedChallenges: 10 },
-  { rank: 4, userName: "FestivalFreak", points: 12100, completedChallenges: 9 },
-  { rank: 5, userName: "VenueHopper", points: 11500, completedChallenges: 9 },
-];
+const mockChallenges = DEMO_CHALLENGES;
+const mockLeaderboard = DEMO_LEADERBOARD;
 
 function ChallengesPageContent() {
   const router = useRouter();

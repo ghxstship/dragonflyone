@@ -12,36 +12,15 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface Currency {
-  code: string;
-  name: string;
-  symbol: string;
-  rate: number;
-  enabled: boolean;
-  lastUpdated: string;
-}
+import {
+  DEMO_CURRENCIES,
+  DEMO_LOCALIZED_PRICES,
+  type DemoCurrency as Currency,
+  type DemoLocalizedPrice as LocalizedPrice,
+} from "@/lib/demo-data";
 
-interface LocalizedPrice {
-  eventName: string;
-  basePrice: number;
-  baseCurrency: string;
-  localizedPrices: { currency: string; price: number }[];
-}
-
-const mockCurrencies: Currency[] = [
-  { code: "USD", name: "US Dollar", symbol: "$", rate: 1.0, enabled: true, lastUpdated: "2024-11-25" },
-  { code: "EUR", name: "Euro", symbol: "€", rate: 0.92, enabled: true, lastUpdated: "2024-11-25" },
-  { code: "GBP", name: "British Pound", symbol: "£", rate: 0.79, enabled: true, lastUpdated: "2024-11-25" },
-  { code: "CAD", name: "Canadian Dollar", symbol: "C$", rate: 1.36, enabled: true, lastUpdated: "2024-11-25" },
-  { code: "AUD", name: "Australian Dollar", symbol: "A$", rate: 1.53, enabled: true, lastUpdated: "2024-11-25" },
-  { code: "JPY", name: "Japanese Yen", symbol: "¥", rate: 149.50, enabled: false, lastUpdated: "2024-11-25" },
-  { code: "MXN", name: "Mexican Peso", symbol: "MX$", rate: 17.25, enabled: false, lastUpdated: "2024-11-25" },
-];
-
-const mockPrices: LocalizedPrice[] = [
-  { eventName: "Summer Music Festival 2025", basePrice: 150, baseCurrency: "USD", localizedPrices: [{ currency: "EUR", price: 138 }, { currency: "GBP", price: 119 }, { currency: "CAD", price: 204 }] },
-  { eventName: "New Year Gala", basePrice: 250, baseCurrency: "USD", localizedPrices: [{ currency: "EUR", price: 230 }, { currency: "GBP", price: 198 }, { currency: "CAD", price: 340 }] },
-];
+const mockCurrencies = DEMO_CURRENCIES;
+const mockPrices = DEMO_LOCALIZED_PRICES;
 
 function CurrencyPageContent() {
   const router = useRouter();

@@ -251,3 +251,146 @@ export const DEMO_PAYMENT_METHODS: DemoPaymentMethod[] = [
   { id: 'PM-004', name: 'Apple Pay / Google Pay', type: 'mobile', icon: 'smartphone', enabled: true, fee_percent: 2.6, processing_time: '< 2 sec' },
   { id: 'PM-005', name: 'RFID Wristband', type: 'wristband', icon: 'watch', enabled: true, fee_percent: 1.5, processing_time: '< 1 sec' },
 ];
+
+// =============================================================================
+// ADMIN - INVENTORY SYNC (for admin/inventory-sync/page.tsx)
+// =============================================================================
+
+export interface DemoInventoryLocation {
+  id: string;
+  name: string;
+  type: 'warehouse' | 'store' | 'online';
+  quantity: number;
+  last_updated: string;
+  [key: string]: unknown;
+}
+
+export interface DemoInventoryItem {
+  id: string;
+  sku: string;
+  name: string;
+  category: string;
+  online_quantity: number;
+  physical_quantity: number;
+  reserved_quantity: number;
+  available_quantity: number;
+  sync_status: 'synced' | 'pending' | 'conflict' | 'error';
+  last_sync: string;
+  locations: DemoInventoryLocation[];
+  [key: string]: unknown;
+}
+
+export interface DemoSyncLog {
+  id: string;
+  timestamp: string;
+  type: 'manual' | 'auto' | 'scheduled';
+  items_synced: number;
+  conflicts: number;
+  status: 'completed' | 'failed' | 'partial';
+  duration_ms: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_INVENTORY_LOCATIONS: DemoInventoryLocation[] = [
+  { id: 'LOC-001', name: 'Main Warehouse', type: 'warehouse', quantity: 100, last_updated: '2024-11-24T14:30:00Z' },
+  { id: 'LOC-002', name: 'Online Store', type: 'online', quantity: 50, last_updated: '2024-11-24T14:30:00Z' },
+];
+
+export const DEMO_INVENTORY_ITEMS: DemoInventoryItem[] = [
+  { id: 'INV-001', sku: 'TSHIRT-BLK-M', name: 'Tour T-Shirt Black (M)', category: 'Apparel', online_quantity: 150, physical_quantity: 148, reserved_quantity: 12, available_quantity: 136, sync_status: 'synced', last_sync: '2024-11-24T14:30:00Z', locations: DEMO_INVENTORY_LOCATIONS },
+  { id: 'INV-002', sku: 'HOODIE-GRY-L', name: 'Tour Hoodie Gray (L)', category: 'Apparel', online_quantity: 75, physical_quantity: 72, reserved_quantity: 5, available_quantity: 67, sync_status: 'conflict', last_sync: '2024-11-24T14:28:00Z', locations: DEMO_INVENTORY_LOCATIONS },
+  { id: 'INV-003', sku: 'POSTER-LTD', name: 'Limited Edition Poster', category: 'Collectibles', online_quantity: 200, physical_quantity: 200, reserved_quantity: 45, available_quantity: 155, sync_status: 'synced', last_sync: '2024-11-24T14:32:00Z', locations: DEMO_INVENTORY_LOCATIONS },
+  { id: 'INV-004', sku: 'CAP-BLK', name: 'Snapback Cap Black', category: 'Accessories', online_quantity: 85, physical_quantity: 85, reserved_quantity: 8, available_quantity: 77, sync_status: 'synced', last_sync: '2024-11-24T14:30:00Z', locations: DEMO_INVENTORY_LOCATIONS },
+  { id: 'INV-005', sku: 'VINYL-ALBUM', name: 'Vinyl Album', category: 'Music', online_quantity: 50, physical_quantity: 48, reserved_quantity: 3, available_quantity: 45, sync_status: 'pending', last_sync: '2024-11-24T14:15:00Z', locations: DEMO_INVENTORY_LOCATIONS },
+];
+
+export const DEMO_SYNC_LOGS: DemoSyncLog[] = [
+  { id: 'LOG-001', timestamp: '2024-11-24T14:30:00Z', type: 'auto', items_synced: 5, conflicts: 1, status: 'completed', duration_ms: 1500 },
+  { id: 'LOG-002', timestamp: '2024-11-24T14:00:00Z', type: 'scheduled', items_synced: 5, conflicts: 0, status: 'completed', duration_ms: 1200 },
+  { id: 'LOG-003', timestamp: '2024-11-24T13:30:00Z', type: 'manual', items_synced: 3, conflicts: 0, status: 'completed', duration_ms: 800 },
+];
+
+// =============================================================================
+// CHECKOUT - CURRENCY (for checkout/currency/page.tsx)
+// =============================================================================
+
+export interface DemoCurrency {
+  code: string;
+  name: string;
+  symbol: string;
+  rate: number;
+  enabled: boolean;
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export interface DemoLocalizedPrice {
+  eventName: string;
+  basePrice: number;
+  baseCurrency: string;
+  localizedPrices: { currency: string; price: number }[];
+  [key: string]: unknown;
+}
+
+export const DEMO_CURRENCIES: DemoCurrency[] = [
+  { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1.0, enabled: true, lastUpdated: '2024-11-25' },
+  { code: 'EUR', name: 'Euro', symbol: '€', rate: 0.92, enabled: true, lastUpdated: '2024-11-25' },
+  { code: 'GBP', name: 'British Pound', symbol: '£', rate: 0.79, enabled: true, lastUpdated: '2024-11-25' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', rate: 1.36, enabled: true, lastUpdated: '2024-11-25' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', rate: 1.53, enabled: true, lastUpdated: '2024-11-25' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥', rate: 149.50, enabled: false, lastUpdated: '2024-11-25' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: 'MX$', rate: 17.25, enabled: false, lastUpdated: '2024-11-25' },
+];
+
+export const DEMO_LOCALIZED_PRICES: DemoLocalizedPrice[] = [
+  { eventName: 'Summer Music Festival 2025', basePrice: 150, baseCurrency: 'USD', localizedPrices: [{ currency: 'EUR', price: 138 }, { currency: 'GBP', price: 119 }, { currency: 'CAD', price: 204 }] },
+  { eventName: 'New Year Gala', basePrice: 250, baseCurrency: 'USD', localizedPrices: [{ currency: 'EUR', price: 230 }, { currency: 'GBP', price: 198 }, { currency: 'CAD', price: 340 }] },
+];
+
+// =============================================================================
+// COMMUNITY - CHALLENGES (for community/challenges/page.tsx)
+// =============================================================================
+
+export interface DemoChallenge {
+  id: string;
+  title: string;
+  description: string;
+  type: 'Individual' | 'Team' | 'Community';
+  category: 'Attendance' | 'Social' | 'Engagement' | 'Referral' | 'Collection';
+  startDate: string;
+  endDate: string;
+  status: 'Active' | 'Upcoming' | 'Completed';
+  participants: number;
+  goal: number;
+  currentProgress: number;
+  reward: string;
+  rewardPoints: number;
+  userProgress?: number;
+  userCompleted?: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoLeaderboard {
+  rank: number;
+  userName: string;
+  points: number;
+  completedChallenges: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_CHALLENGES: DemoChallenge[] = [
+  { id: 'CH-001', title: 'Concert Explorer', description: 'Attend 5 different events this season', type: 'Individual', category: 'Attendance', startDate: '2024-11-01', endDate: '2024-12-31', status: 'Active', participants: 1250, goal: 5, currentProgress: 3, reward: 'Explorer Badge + 500 Points', rewardPoints: 500, userProgress: 3 },
+  { id: 'CH-002', title: 'Social Butterfly', description: 'Share 10 events on social media', type: 'Individual', category: 'Social', startDate: '2024-11-01', endDate: '2024-11-30', status: 'Active', participants: 890, goal: 10, currentProgress: 7, reward: 'Social Badge + 300 Points', rewardPoints: 300, userProgress: 7 },
+  { id: 'CH-003', title: 'Community Goal: 10K Check-ins', description: 'Help the community reach 10,000 event check-ins', type: 'Community', category: 'Engagement', startDate: '2024-11-01', endDate: '2024-11-30', status: 'Active', participants: 4500, goal: 10000, currentProgress: 7850, reward: 'Everyone gets 100 bonus points', rewardPoints: 100 },
+  { id: 'CH-004', title: 'Referral Champion', description: 'Invite 3 friends who purchase tickets', type: 'Individual', category: 'Referral', startDate: '2024-11-15', endDate: '2024-12-15', status: 'Active', participants: 450, goal: 3, currentProgress: 1, reward: 'Free Ticket + 1000 Points', rewardPoints: 1000, userProgress: 1 },
+  { id: 'CH-005', title: 'Merch Collector', description: 'Purchase items from 3 different events', type: 'Individual', category: 'Collection', startDate: '2024-12-01', endDate: '2024-12-31', status: 'Upcoming', participants: 0, goal: 3, currentProgress: 0, reward: 'Collector Badge + Exclusive Item', rewardPoints: 750 },
+  { id: 'CH-006', title: 'Summer Fest Superfan', description: 'Complete all Summer Fest activities', type: 'Individual', category: 'Engagement', startDate: '2024-10-01', endDate: '2024-10-31', status: 'Completed', participants: 2100, goal: 10, currentProgress: 10, reward: 'Superfan Badge + VIP Upgrade', rewardPoints: 2000, userProgress: 10, userCompleted: true },
+];
+
+export const DEMO_LEADERBOARD: DemoLeaderboard[] = [
+  { rank: 1, userName: 'MusicFan2024', points: 15420, completedChallenges: 12 },
+  { rank: 2, userName: 'ConcertQueen', points: 14850, completedChallenges: 11 },
+  { rank: 3, userName: 'LiveShowLover', points: 13200, completedChallenges: 10 },
+  { rank: 4, userName: 'FestivalFreak', points: 12100, completedChallenges: 9 },
+  { rank: 5, userName: 'VenueHopper', points: 11500, completedChallenges: 9 },
+];
