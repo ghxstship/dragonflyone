@@ -776,3 +776,33 @@ export const DEMO_EMAIL_THREADS: DemoEmailThread[] = [
   { id: 'EM-003', subject: 'Contract Review - Corporate Gala', from: 'legal@techcorp.com', to: 'sales@company.com', date: '2024-11-24 16:45', preview: 'Our legal team has completed the review. Please see the attached redlines...', linkedContact: 'Tech Corp', linkedDeal: 'Corporate Gala 2024', status: 'Replied' },
   { id: 'EM-004', subject: 'Meeting Confirmation', from: 'assistant@venue.com', to: 'john.smith@company.com', date: '2024-11-24 14:20', preview: 'This confirms your site visit scheduled for November 28th at 2:00 PM...', linkedContact: 'Grand Arena', status: 'Read' },
 ];
+
+// =============================================================================
+// CRM LEAD SCORING (for crm/lead-scoring page)
+// =============================================================================
+
+export interface DemoCrmLead {
+  id: string;
+  name: string;
+  company: string;
+  email: string;
+  source: string;
+  score: number;
+  grade: 'A' | 'B' | 'C' | 'D';
+  status: 'New' | 'Contacted' | 'Qualified' | 'Proposal' | 'Negotiation' | 'Won' | 'Lost';
+  lastActivity: string;
+  engagementScore: number;
+  fitScore: number;
+  behaviorScore: number;
+  assignedTo?: string;
+  estimatedValue?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_CRM_LEADS: DemoCrmLead[] = [
+  { id: 'LEAD-001', name: 'Sarah Mitchell', company: 'TechCorp Events', email: 'sarah@techcorp.com', source: 'Website', score: 92, grade: 'A', status: 'Qualified', lastActivity: '2024-11-24', engagementScore: 85, fitScore: 95, behaviorScore: 90, assignedTo: 'John Smith', estimatedValue: 125000 },
+  { id: 'LEAD-002', name: 'Michael Chen', company: 'Festival Productions', email: 'mchen@festprod.com', source: 'Referral', score: 78, grade: 'B', status: 'Proposal', lastActivity: '2024-11-23', engagementScore: 70, fitScore: 85, behaviorScore: 75, assignedTo: 'Jane Doe', estimatedValue: 85000 },
+  { id: 'LEAD-003', name: 'Emily Rodriguez', company: 'Corporate Events Inc', email: 'emily@corpevents.com', source: 'Trade Show', score: 65, grade: 'B', status: 'Contacted', lastActivity: '2024-11-22', engagementScore: 60, fitScore: 70, behaviorScore: 65, estimatedValue: 45000 },
+  { id: 'LEAD-004', name: 'David Park', company: 'StartUp Ventures', email: 'dpark@startup.io', source: 'LinkedIn', score: 45, grade: 'C', status: 'New', lastActivity: '2024-11-24', engagementScore: 40, fitScore: 50, behaviorScore: 45, estimatedValue: 25000 },
+  { id: 'LEAD-005', name: 'Lisa Thompson', company: 'Local Business', email: 'lisa@local.com', source: 'Cold Outreach', score: 28, grade: 'D', status: 'Contacted', lastActivity: '2024-11-20', engagementScore: 25, fitScore: 30, behaviorScore: 30, estimatedValue: 10000 },
+];
