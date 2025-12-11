@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import {
   SectionHeader,
@@ -25,13 +25,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../../components/app-layout';
-
-interface CheckInStats {
-  totalCapacity: number;
-  checkedIn: number;
-  pending: number;
-  denied: number;
-}
+import { useEventCheckInData } from '@/hooks/useEventOperations';
 
 interface RecentScan {
   id: string;
@@ -45,64 +39,36 @@ interface RecentScan {
 export default function EventCheckInPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [stats, setStats] = useState<CheckInStats>({
-    totalCapacity: 670,
-    checkedIn: 423,
-    pending: 247,
-    denied: 12,
-  });
   const [recentScans, setRecentScans] = useState<RecentScan[]>([
     { id: '1', ticketId: 'TKT-001234', name: 'John Smith', ticketType: 'VIP', status: 'success', timestamp: new Date() },
     { id: '2', ticketId: 'TKT-001235', name: 'Jane Doe', ticketType: 'GA', status: 'success', timestamp: new Date(Date.now() - 60000) },
     { id: '3', ticketId: 'TKT-001236', name: 'Bob Wilson', ticketType: 'GA', status: 'duplicate', timestamp: new Date(Date.now() - 120000) },
   ]);
   const [manualSearch, setManualSearch] = useState('');
-  const [isSearching, setIsSearching] = useState(false);
+
+  const { stats, searchTicket, isSearching, refetch } = useEventCheckInData(eventId);
 
   const checkedInPercentage = Math.round((stats.checkedIn / stats.totalCapacity) * 100);
 
-  const handleManualSearch = useCallback(async () => {
+  const handleManualSearch = async () => {
     if (!manualSearch.trim()) return;
-    setIsSearching(true);
     try {
-      const response = await fetch(`/api/events/${eventId}/check-in/search?q=${encodeURIComponent(manualSearch)}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.ticket) {
-          setRecentScans(prev => [{
-            id: Date.now().toString(),
-            ticketId: data.ticket.id,
-            name: data.ticket.name,
-            ticketType: data.ticket.type,
-            status: data.ticket.status,
-            timestamp: new Date(),
-          }, ...prev.slice(0, 9)]);
-        }
+      const data = await searchTicket(manualSearch);
+      if (data.ticket) {
+        setRecentScans(prev => [{
+          id: Date.now().toString(),
+          ticketId: data.ticket.id,
+          name: data.ticket.name,
+          ticketType: data.ticket.type,
+          status: data.ticket.status,
+          timestamp: new Date(),
+        }, ...prev.slice(0, 9)]);
       }
-    } catch (_error) {
-      // Handle error
-    } finally {
-      setIsSearching(false);
       setManualSearch('');
+    } catch {
+      // Error handled by hook
     }
-  }, [eventId, manualSearch]);
-
-  const refreshStats = useCallback(async () => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/check-in/stats`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.stats) setStats(data.stats);
-      }
-    } catch (_error) {
-      // Handle error
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    const interval = setInterval(refreshStats, 10000);
-    return () => clearInterval(interval);
-  }, [refreshStats]);
+  };
 
   const getStatusBadge = (status: RecentScan['status']) => {
     switch (status) {
@@ -212,7 +178,7 @@ export default function EventCheckInPage() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="items-center justify-between">
                 <H3 className="text-white">Recent Scans</H3>
-                <Button variant="ghost" size="sm" onClick={refreshStats}>
+                <Button variant="ghost" size="sm" onClick={() => refetch()}>
                   <RefreshCw size={14} className="mr-1" />
                   Refresh
                 </Button>
