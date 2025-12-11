@@ -10,33 +10,10 @@ import {
 } from "@ghxstship/ui";
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface DamageReport {
-  id: string;
-  assetId: string;
-  assetName: string;
-  category: string;
-  reportedBy: string;
-  reportedDate: string;
-  severity: "Minor" | "Moderate" | "Major" | "Critical";
-  status: "Reported" | "Under Review" | "Repair Scheduled" | "In Repair" | "Resolved" | "Write-Off";
-  description: string;
-  location: string;
-  projectId?: string;
-  estimatedCost?: number;
-  actualCost?: number;
-  insuranceClaim?: boolean;
-  photos?: string[];
-  repairVendor?: string;
-  resolvedDate?: string;
-  [key: string]: unknown;
-}
-
-const mockData: DamageReport[] = [
-  { id: "DMG-001", assetId: "AST-003", assetName: "disguise gx 2c Media Server", category: "Video", reportedBy: "Mike Thompson", reportedDate: "2024-11-20", severity: "Moderate", status: "In Repair", description: "Fan failure causing overheating. Unit shut down during show.", location: "Tampa Convention Center", projectId: "PROJ-089", estimatedCost: 1200, repairVendor: "PRG Technical Services", insuranceClaim: false },
-  { id: "DMG-002", assetId: "AST-002", assetName: "Robe MegaPointe #7", category: "Lighting", reportedBy: "Sarah Chen", reportedDate: "2024-11-18", severity: "Major", status: "Repair Scheduled", description: "Gobo wheel motor seized. Complete motor assembly replacement needed.", location: "Warehouse A", estimatedCost: 850, repairVendor: "Robe Service Center", insuranceClaim: false },
-  { id: "DMG-003", assetId: "AST-004", assetName: "Staging Deck Module #23", category: "Staging", reportedBy: "Tom Wilson", reportedDate: "2024-11-15", severity: "Minor", status: "Resolved", description: "Surface scratches from load-in. Cosmetic only.", location: "Amalie Arena", projectId: "PROJ-088", estimatedCost: 150, actualCost: 120, resolvedDate: "2024-11-17" },
-  { id: "DMG-004", assetId: "AST-005", assetName: "Chain Motor Hoist #12", category: "Rigging", reportedBy: "John Martinez", reportedDate: "2024-11-22", severity: "Critical", status: "Under Review", description: "Chain slippage detected during load test. Removed from service pending inspection.", location: "Warehouse A", insuranceClaim: true },
-];
+import {
+  DEMO_DAMAGE_REPORTS,
+  type DemoDamageReport as DamageReport,
+} from '../../../lib/demo-data';
 
 const getSeverityVariant = (severity: string): 'solid' | 'outline' | 'ghost' => {
   switch (severity) { case 'Critical': return 'solid'; case 'Major': return 'outline'; case 'Moderate': return 'outline'; case 'Minor': return 'ghost'; default: return 'ghost'; }
@@ -61,7 +38,7 @@ const filters: ListPageFilter[] = [
 
 export default function DamageReportsPage() {
   const router = useRouter();
-  const [data] = useState<DamageReport[]>(mockData);
+  const [data] = useState<DamageReport[]>(DEMO_DAMAGE_REPORTS);
   const [selected, setSelected] = useState<DamageReport | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -122,7 +99,7 @@ export default function DamageReportsPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
