@@ -10,28 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface AssetUtilization {
-  id: string;
-  name: string;
-  category: string;
-  purchasePrice: number;
-  currentValue: number;
-  totalRevenue: number;
-  utilizationRate: number;
-  daysDeployed: number;
-  projectCount: number;
-  roi: number;
-  costPerDay: number;
-  [key: string]: unknown;
-}
-
-const mockData: AssetUtilization[] = [
-  { id: 'AST-001', name: 'Meyer Sound LEO Line Array', category: 'Audio', purchasePrice: 285000, currentValue: 228000, totalRevenue: 142500, utilizationRate: 0.82, daysDeployed: 299, projectCount: 47, roi: 50, costPerDay: 780 },
-  { id: 'AST-002', name: 'Robe MegaPointe (24x)', category: 'Lighting', purchasePrice: 156000, currentValue: 124800, totalRevenue: 98400, utilizationRate: 0.91, daysDeployed: 332, projectCount: 52, roi: 63, costPerDay: 427 },
-  { id: 'AST-003', name: 'disguise gx 2c Media Server', category: 'Video', purchasePrice: 48000, currentValue: 38400, totalRevenue: 28500, utilizationRate: 0.75, daysDeployed: 274, projectCount: 38, roi: 59, costPerDay: 131 },
-  { id: 'AST-004', name: 'Staging Deck System', category: 'Staging', purchasePrice: 95000, currentValue: 76000, totalRevenue: 51300, utilizationRate: 0.68, daysDeployed: 248, projectCount: 41, roi: 54, costPerDay: 260 },
-  { id: 'AST-005', name: 'Chain Motor Hoists (20x)', category: 'Rigging', purchasePrice: 42000, currentValue: 33600, totalRevenue: 33600, utilizationRate: 0.79, daysDeployed: 288, projectCount: 56, roi: 80, costPerDay: 115 },
-];
+import {
+  DEMO_ASSET_UTILIZATION,
+  type DemoAssetUtilization as AssetUtilization,
+} from '../../../lib/demo-data';
 
 const getUtilizationVariant = (rate: number): 'solid' | 'outline' | 'ghost' => {
   if (rate >= 0.8) return 'solid';
@@ -57,7 +39,7 @@ const filters: ListPageFilter[] = [
 
 export default function AssetUtilizationPage() {
   const router = useRouter();
-  const [data] = useState<AssetUtilization[]>(mockData);
+  const [data] = useState<AssetUtilization[]>(DEMO_ASSET_UTILIZATION);
   const [selected, setSelected] = useState<AssetUtilization | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -119,7 +101,7 @@ export default function AssetUtilizationPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

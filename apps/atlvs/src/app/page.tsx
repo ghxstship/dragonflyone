@@ -51,6 +51,20 @@ import {
   Heart,
   Megaphone,
   Link as LinkIcon,
+  Target,
+  FileSignature,
+  Truck,
+  Route,
+  Radio,
+  AlertTriangle,
+  IdCard,
+  Receipt,
+  TrendingUp,
+  GitBranch,
+  Sparkles,
+  Lock,
+  Globe,
+  type LucideIcon,
 } from "lucide-react";
 import {
   atlvsLandingHero,
@@ -228,19 +242,42 @@ export default function Home() {
             {atlvsFeatureGrid.map((feature) => (
               <Article key={feature.title} className="border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
                 <Box className="mb-4 flex h-10 w-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                  {feature.icon === "FastForward" && <FastForward className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "ClipboardList" && <ClipboardList className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Calendar" && <Calendar className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Users" && <Users className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Box" && <Package className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "FileText" && <FileText className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "DollarSign" && <DollarSign className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "MessageSquare" && <MessageSquare className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Shield" && <Shield className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Smartphone" && <Smartphone className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "BarChart" && <BarChart3 className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Zap" && <Zap className="h-5 w-5 text-ink-950" />}
-                  {feature.icon === "Puzzle" && <Puzzle className="h-5 w-5 text-ink-950" />}
+                  {(() => {
+                    const iconMap: Record<string, LucideIcon> = {
+                      Target,
+                      FileSignature,
+                      Handshake,
+                      FastForward,
+                      DollarSign,
+                      Calendar,
+                      Building2,
+                      Truck,
+                      Route,
+                      ClipboardList,
+                      Users,
+                      Box: Package,
+                      FileText,
+                      Mic2,
+                      Clock,
+                      Smartphone,
+                      MessageSquare,
+                      Shield,
+                      Radio,
+                      AlertTriangle,
+                      IdCard,
+                      BarChart: BarChart3,
+                      Receipt,
+                      TrendingUp,
+                      GitBranch,
+                      Zap,
+                      Sparkles,
+                      Puzzle,
+                      Lock,
+                      Globe,
+                    };
+                    const IconComponent = iconMap[feature.icon];
+                    return IconComponent ? <IconComponent className="h-5 w-5 text-ink-950" /> : null;
+                  })()}
                 </Box>
                 <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950">{feature.title}</H3>
                 <Body className="mt-2 text-body-sm text-grey-600">{feature.description}</Body>
