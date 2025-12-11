@@ -20,28 +20,10 @@ import {
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface Task {
-  id: string;
-  title: string;
-  type: "Follow-up" | "Call" | "Email" | "Meeting" | "Task";
-  priority: "High" | "Medium" | "Low";
-  dueDate: string;
-  dueTime?: string;
-  assignedTo: string;
-  linkedContact?: string;
-  linkedDeal?: string;
-  status: "Pending" | "Completed" | "Overdue";
-  reminder?: string;
-  [key: string]: unknown;
-}
-
-const mockTasks: Task[] = [
-  { id: "TSK-001", title: "Follow up on proposal", type: "Follow-up", priority: "High", dueDate: "2024-11-25", dueTime: "10:00 AM", assignedTo: "John Smith", linkedContact: "Festival Productions", linkedDeal: "Summer Fest 2025", status: "Pending", reminder: "1 hour before" },
-  { id: "TSK-002", title: "Send contract revision", type: "Email", priority: "High", dueDate: "2024-11-25", assignedTo: "John Smith", linkedContact: "Tech Corp", linkedDeal: "Corporate Gala", status: "Pending" },
-  { id: "TSK-003", title: "Schedule site visit", type: "Call", priority: "Medium", dueDate: "2024-11-26", assignedTo: "Sarah Johnson", linkedContact: "Grand Arena", status: "Pending", reminder: "1 day before" },
-  { id: "TSK-004", title: "Review vendor quotes", type: "Task", priority: "Medium", dueDate: "2024-11-24", assignedTo: "John Smith", status: "Overdue" },
-  { id: "TSK-005", title: "Client check-in call", type: "Call", priority: "Low", dueDate: "2024-11-23", assignedTo: "Mike Davis", linkedContact: "Music Festival Inc", status: "Completed" },
-];
+import {
+  DEMO_CRM_TASKS,
+  type DemoCrmTask as Task,
+} from '../../../lib/demo-data';
 
 const getTypeIcon = (type: string) => {
   switch (type) {
@@ -81,7 +63,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [tasks, setTasks] = useState<Task[]>(DEMO_CRM_TASKS);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
