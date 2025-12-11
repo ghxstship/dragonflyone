@@ -298,3 +298,26 @@ export const DEMO_BID_OPPORTUNITIES: DemoBidOpportunity[] = [
   { id: 'BID-003', title: 'Theater Production - Lighting', client: 'City Arts Center', type: 'Invitation', category: 'Lighting', dueDate: '2024-11-30', budget: '$25K-$35K', status: 'Under Review', description: 'Lighting design for 6-week theater run', requirements: ['Theater experience'], attachments: 2, bidAmount: 32000 },
   { id: 'BID-004', title: 'Concert Series - Staging', client: 'Live Nation', type: 'RFP', category: 'Staging', dueDate: '2024-11-25', status: 'Won', description: 'Staging for 10-city tour', requirements: ['Tour experience'], attachments: 6, bidAmount: 425000 },
 ];
+
+// =============================================================================
+// BUILD/STRIKE TASKS (for build-strike/page.tsx)
+// =============================================================================
+
+export interface DemoBuildStrikeTask {
+  id: string;
+  task: string;
+  area: string;
+  assignedTo: string;
+  status: 'pending' | 'in-progress' | 'complete';
+  priority: 'low' | 'medium' | 'high';
+  [key: string]: unknown;
+}
+
+export const DEMO_BUILD_STRIKE_TASKS: DemoBuildStrikeTask[] = [
+  { id: '1', task: 'Rig main truss', area: 'Stage', assignedTo: 'Rigging Team', status: 'complete', priority: 'high' },
+  { id: '2', task: 'Install LED wall', area: 'Upstage', assignedTo: 'Video Team', status: 'in-progress', priority: 'high' },
+  { id: '3', task: 'Run power distribution', area: 'FOH', assignedTo: 'Electric', status: 'in-progress', priority: 'high' },
+  { id: '4', task: 'Set up console', area: 'FOH', assignedTo: 'Sound Team', status: 'pending', priority: 'medium' },
+  { id: '5', task: 'Install monitors', area: 'Stage', assignedTo: 'Sound Team', status: 'pending', priority: 'medium' },
+  { id: '6', task: 'Drape stage', area: 'Stage', assignedTo: 'Stage Team', status: 'pending', priority: 'low' },
+];

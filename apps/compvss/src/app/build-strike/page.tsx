@@ -16,27 +16,14 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface Task {
-  id: string;
-  task: string;
-  area: string;
-  assignedTo: string;
-  status: 'pending' | 'in-progress' | 'complete';
-  priority: 'low' | 'medium' | 'high';
-}
-
-const mockTasks: Task[] = [
-  { id: '1', task: 'Rig main truss', area: 'Stage', assignedTo: 'Rigging Team', status: 'complete', priority: 'high' },
-  { id: '2', task: 'Install LED wall', area: 'Upstage', assignedTo: 'Video Team', status: 'in-progress', priority: 'high' },
-  { id: '3', task: 'Run power distribution', area: 'FOH', assignedTo: 'Electric', status: 'in-progress', priority: 'high' },
-  { id: '4', task: 'Set up console', area: 'FOH', assignedTo: 'Sound Team', status: 'pending', priority: 'medium' },
-  { id: '5', task: 'Install monitors', area: 'Stage', assignedTo: 'Sound Team', status: 'pending', priority: 'medium' },
-  { id: '6', task: 'Drape stage', area: 'Stage', assignedTo: 'Stage Team', status: 'pending', priority: 'low' },
-];
+import {
+  DEMO_BUILD_STRIKE_TASKS,
+  type DemoBuildStrikeTask as Task,
+} from '../../lib/demo-data';
 
 export default function BuildStrikePage() {
   const router = useRouter();
-  const [tasks, setTasks] = useState(mockTasks);
+  const [tasks, setTasks] = useState(DEMO_BUILD_STRIKE_TASKS);
 
   const displayTasks = tasks;
 
