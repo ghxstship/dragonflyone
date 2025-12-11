@@ -976,3 +976,32 @@ export const DEMO_ASSET_PERFORMANCE: DemoAssetPerformance[] = [
   { id: 'AST-004', name: 'CM Lodestar 1T Hoists', category: 'Rigging', utilizationRate: 71, uptime: 99.5, failureCount: 2, mtbf: 2100, mttr: 6, healthScore: 85, predictedFailure: '2025-01-20', lastMaintenance: '2024-10-25' },
   { id: 'AST-005', name: 'DiGiCo SD12 Console', category: 'Audio', utilizationRate: 92, uptime: 100, failureCount: 0, mtbf: 4000, mttr: 0, healthScore: 100, lastMaintenance: '2024-11-10' },
 ];
+
+// =============================================================================
+// RENTAL EQUIPMENT (for assets/rentals page)
+// =============================================================================
+
+export interface DemoRentalEquipment {
+  id: string;
+  name: string;
+  category: string;
+  vendor: string;
+  projectName: string;
+  rentalStart: string;
+  rentalEnd: string;
+  dailyRate: number;
+  totalCost: number;
+  status: 'Reserved' | 'On Rent' | 'Returned' | 'Overdue';
+  poNumber?: string;
+  condition: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_RENTAL_EQUIPMENT: DemoRentalEquipment[] = [
+  { id: 'RNT-001', name: 'Barco UDX-4K32', category: 'Video', vendor: 'PRG', projectName: 'Summer Fest 2024', rentalStart: '2024-11-20', rentalEnd: '2024-11-26', dailyRate: 1500, totalCost: 10500, status: 'On Rent', poNumber: 'PO-2024-456', condition: 'Excellent' },
+  { id: 'RNT-002', name: 'd&b audiotechnik SL-SUB', category: 'Audio', vendor: 'Sound Systems Inc', projectName: 'Summer Fest 2024', rentalStart: '2024-11-20', rentalEnd: '2024-11-26', dailyRate: 200, totalCost: 1400, status: 'On Rent', poNumber: 'PO-2024-457', condition: 'Good' },
+  { id: 'RNT-003', name: 'Stageline SL-320 Mobile Stage', category: 'Staging', vendor: 'Stageline', projectName: 'Summer Fest 2024', rentalStart: '2024-11-18', rentalEnd: '2024-11-27', dailyRate: 3500, totalCost: 35000, status: 'On Rent', poNumber: 'PO-2024-450', condition: 'Good' },
+  { id: 'RNT-004', name: 'CM Lodestar 2-Ton (x10)', category: 'Rigging', vendor: 'Rigging Solutions', projectName: 'Corporate Gala', rentalStart: '2024-12-01', rentalEnd: '2024-12-05', dailyRate: 150, totalCost: 750, status: 'Reserved', condition: 'Excellent' },
+  { id: 'RNT-005', name: 'Avolites Arena Console', category: 'Lighting', vendor: '4Wall', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 500, totalCost: 3500, status: 'Returned', poNumber: 'PO-2024-440', condition: 'Good' },
+  { id: 'RNT-006', name: 'Shure ULXD4Q Wireless', category: 'Audio', vendor: 'PRG', projectName: 'Fall Festival', rentalStart: '2024-11-10', rentalEnd: '2024-11-16', dailyRate: 75, totalCost: 525, status: 'Overdue', poNumber: 'PO-2024-441', condition: 'Good' },
+];
