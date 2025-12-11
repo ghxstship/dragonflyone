@@ -22,25 +22,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface CrewAvailability {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  avatar: string;
-  status: "Available" | "Busy" | "Tentative" | "Unavailable";
-  currentProject?: string;
-  nextAvailable?: string;
-  weekAvailability: boolean[];
-}
-
-const mockCrew: CrewAvailability[] = [
-  { id: "CRW-001", name: "John Smith", role: "Audio Engineer", department: "Audio", avatar: "JS", status: "Available", weekAvailability: [true, true, true, true, true, false, false] },
-  { id: "CRW-002", name: "Sarah Johnson", role: "Lighting Designer", department: "Lighting", avatar: "SJ", status: "Busy", currentProject: "Summer Fest 2024", nextAvailable: "2024-12-01", weekAvailability: [false, false, false, false, false, false, false] },
-  { id: "CRW-003", name: "Mike Davis", role: "Stage Manager", department: "Stage", avatar: "MD", status: "Tentative", weekAvailability: [true, true, false, false, true, true, false] },
-  { id: "CRW-004", name: "Emily Chen", role: "Video Director", department: "Video", avatar: "EC", status: "Available", weekAvailability: [true, true, true, true, true, true, false] },
-  { id: "CRW-005", name: "Robert Wilson", role: "Rigger", department: "Rigging", avatar: "RW", status: "Unavailable", nextAvailable: "2024-12-15", weekAvailability: [false, false, false, false, false, false, false] },
-];
+import {
+  DEMO_CREW_AVAILABILITY,
+  type DemoCrewAvailability as CrewAvailability,
+} from "../../../lib/demo-data";
 
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const departments = ["All", "Audio", "Lighting", "Video", "Stage", "Rigging"];
@@ -51,13 +36,13 @@ export default function AvailabilityPage() {
   const [departmentFilter, setDepartmentFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  const filteredCrew = mockCrew.filter(c => {
+  const filteredCrew = DEMO_CREW_AVAILABILITY.filter(c => {
     const matchesDept = departmentFilter === "All" || c.department === departmentFilter;
     const matchesStatus = statusFilter === "All" || c.status === statusFilter;
     return matchesDept && matchesStatus;
   });
 
-  const availableCount = mockCrew.filter(c => c.status === "Available").length;
+  const availableCount = DEMO_CREW_AVAILABILITY.filter(c => c.status === "Available").length;
 
   return (
     <CompvssAppLayout>
@@ -74,10 +59,10 @@ export default function AvailabilityPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockCrew.length.toString()} label="Total Crew" />
+              <StatCard value={DEMO_CREW_AVAILABILITY.length.toString()} label="Total Crew" />
               <StatCard value={availableCount.toString()} label="Available Now" />
-              <StatCard value={mockCrew.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
-              <StatCard value={mockCrew.filter(c => c.status === "Tentative").length.toString()} label="Tentative" />
+              <StatCard value={DEMO_CREW_AVAILABILITY.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
+              <StatCard value={DEMO_CREW_AVAILABILITY.filter(c => c.status === "Tentative").length.toString()} label="Tentative" />
             </Grid>
 
             <Stack direction="horizontal" className="justify-between">

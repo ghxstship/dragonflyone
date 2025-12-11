@@ -829,3 +829,28 @@ export const DEMO_CREW_BACKGROUND_CHECKS: DemoCrewBackgroundCheck[] = [
   { id: 'BC-004', employeeName: 'Emily Chen', employeeId: 'EMP-004', department: 'Video', checkType: 'Employment', status: 'Completed', submittedDate: '2024-06-01', completedDate: '2024-06-10', expiryDate: '2025-06-10', daysUntilExpiry: 197, result: 'Clear' },
   { id: 'BC-005', employeeName: 'Robert Wilson', employeeId: 'EMP-005', department: 'Rigging', checkType: 'Comprehensive', status: 'Completed', submittedDate: '2024-09-15', completedDate: '2024-09-22', expiryDate: '2024-12-22', daysUntilExpiry: 27, result: 'Review Required' },
 ];
+
+// =============================================================================
+// DIRECTORY AVAILABILITY (for directory/availability/page.tsx)
+// =============================================================================
+
+export interface DemoCrewAvailability {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  avatar: string;
+  status: 'Available' | 'Busy' | 'Tentative' | 'Unavailable';
+  currentProject?: string;
+  nextAvailable?: string;
+  weekAvailability: boolean[];
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_AVAILABILITY: DemoCrewAvailability[] = [
+  { id: 'CRW-001', name: 'John Smith', role: 'Audio Engineer', department: 'Audio', avatar: 'JS', status: 'Available', weekAvailability: [true, true, true, true, true, false, false] },
+  { id: 'CRW-002', name: 'Sarah Johnson', role: 'Lighting Designer', department: 'Lighting', avatar: 'SJ', status: 'Busy', currentProject: 'Summer Fest 2024', nextAvailable: '2024-12-01', weekAvailability: [false, false, false, false, false, false, false] },
+  { id: 'CRW-003', name: 'Mike Davis', role: 'Stage Manager', department: 'Stage', avatar: 'MD', status: 'Tentative', weekAvailability: [true, true, false, false, true, true, false] },
+  { id: 'CRW-004', name: 'Emily Chen', role: 'Video Director', department: 'Video', avatar: 'EC', status: 'Available', weekAvailability: [true, true, true, true, true, true, false] },
+  { id: 'CRW-005', name: 'Robert Wilson', role: 'Rigger', department: 'Rigging', avatar: 'RW', status: 'Unavailable', nextAvailable: '2024-12-15', weekAvailability: [false, false, false, false, false, false, false] },
+];
