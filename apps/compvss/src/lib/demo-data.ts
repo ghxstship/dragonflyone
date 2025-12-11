@@ -641,3 +641,51 @@ export const DEMO_RADIO_MESSAGES: DemoRadioMessage[] = [
   { id: '1', channel: 'Main Production', sender: 'Production Manager', message: 'Load-in complete, ready for soundcheck', timestamp: '14:32', priority: 'normal' },
   { id: '2', channel: 'Stage Crew', sender: 'Stage Manager', message: 'Need assistance with riser setup stage left', timestamp: '14:35', priority: 'high' },
 ];
+
+// =============================================================================
+// CREW SOCIAL (for crew-social/page.tsx)
+// =============================================================================
+
+export interface DemoSocialCrewMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  avatar?: string;
+  bio?: string;
+  skills: string[];
+  projects_count: number;
+  connections: string[];
+  is_online: boolean;
+  joined_date: string;
+  location?: string;
+  phone?: string;
+  email?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SOCIAL_CREW_MEMBERS: DemoSocialCrewMember[] = [
+  { id: 'CREW-001', name: 'John Martinez', role: 'Audio Engineer', department: 'Audio', bio: 'FOH engineer with 15 years experience in live sound.', skills: ['FOH Mixing', 'System Design', 'RF Coordination'], projects_count: 127, connections: ['CREW-002', 'CREW-003'], is_online: true, joined_date: '2020-03-15', location: 'Los Angeles, CA', email: 'john@crew.com' },
+  { id: 'CREW-002', name: 'Sarah Chen', role: 'Lighting Designer', department: 'Lighting', bio: 'Award-winning LD specializing in concert touring.', skills: ['grandMA', 'Vectorworks', 'Previz'], projects_count: 89, connections: ['CREW-001', 'CREW-004'], is_online: true, joined_date: '2019-08-22', location: 'Nashville, TN', email: 'sarah@crew.com' },
+  { id: 'CREW-003', name: 'Mike Thompson', role: 'Stage Manager', department: 'Stage', bio: 'Production stage manager for festivals and arena tours.', skills: ['Cue Calling', 'Crew Management', 'Logistics'], projects_count: 156, connections: ['CREW-001', 'CREW-005'], is_online: false, joined_date: '2018-01-10', location: 'Austin, TX', email: 'mike@crew.com' },
+  { id: 'CREW-004', name: 'Lisa Park', role: 'Video Director', department: 'Video', bio: 'Live video director and IMAG specialist.', skills: ['Switching', 'Camera Direction', 'LED Content'], projects_count: 72, connections: ['CREW-002'], is_online: true, joined_date: '2021-05-03', location: 'New York, NY', email: 'lisa@crew.com' },
+  { id: 'CREW-005', name: 'Tom Wilson', role: 'Head Rigger', department: 'Rigging', bio: 'Certified rigger with arena and outdoor experience.', skills: ['Chain Motors', 'Truss Systems', 'Load Calculations'], projects_count: 203, connections: ['CREW-003'], is_online: false, joined_date: '2017-11-28', location: 'Chicago, IL', email: 'tom@crew.com' },
+];
+
+export interface DemoCrewPhoto {
+  id: string;
+  url: string;
+  caption?: string;
+  uploaded_by: string;
+  project_name?: string;
+  uploaded_at: string;
+  likes: number;
+  liked_by: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_PHOTOS: DemoCrewPhoto[] = [
+  { id: 'PHOTO-001', url: '/photos/crew-1.jpg', caption: 'FOH setup at Madison Square Garden', uploaded_by: 'John Martinez', project_name: 'Arena Tour 2024', uploaded_at: '2024-11-20', likes: 24, liked_by: ['CREW-002', 'CREW-003'] },
+  { id: 'PHOTO-002', url: '/photos/crew-2.jpg', caption: 'Lighting rig ready for showtime', uploaded_by: 'Sarah Chen', project_name: 'Festival Main Stage', uploaded_at: '2024-11-18', likes: 31, liked_by: ['CREW-001', 'CREW-004', 'CREW-005'] },
+  { id: 'PHOTO-003', url: '/photos/crew-3.jpg', caption: 'Crew dinner after load-in', uploaded_by: 'Mike Thompson', project_name: 'Corporate Event', uploaded_at: '2024-11-15', likes: 18, liked_by: ['CREW-001', 'CREW-002'] },
+];
