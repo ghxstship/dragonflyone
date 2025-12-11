@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -16,7 +16,7 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import { useSeating } from '@/hooks/useSeating';
-import { log } from '@ghxstship/config';
+import { useEventDetailsData } from '@/hooks/useEventDetails';
 
 interface Seat {
   id: string;
@@ -34,26 +34,13 @@ export default function SeatingPage() {
   const router = useRouter();
   const eventId = params.id as string;
   const { seating, loading, error, fetchSeating } = useSeating(eventId);
+  const { event } = useEventDetailsData(eventId);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
-  const [event, setEvent] = useState<{ title: string; date: string; venue: string } | null>(null);
 
   useEffect(() => {
     fetchSeating();
-    fetchEventDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventId]);
-
-  const fetchEventDetails = async () => {
-    try {
-      const response = await fetch(`/api/events/${eventId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setEvent(data.event);
-      }
-    } catch (err) {
-      log.error('Failed to fetch event details');
-    }
-  };
 
   const handleSeatClick = (seatId: string, status: string) => {
     if (status !== 'available') return;
