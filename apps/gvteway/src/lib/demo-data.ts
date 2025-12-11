@@ -1767,3 +1767,82 @@ export const DEMO_RECENT_SCANS: DemoRecentScan[] = [
   { id: '2', ticketId: 'TKT-001235', name: 'Jane Doe', ticketType: 'GA', status: 'success', timestamp: new Date(Date.now() - 60000) },
   { id: '3', ticketId: 'TKT-001236', name: 'Bob Wilson', ticketType: 'GA', status: 'duplicate', timestamp: new Date(Date.now() - 120000) },
 ];
+
+// =============================================================================
+// SOCIAL - STORY TEMPLATES (for social/story-templates/page.tsx)
+// =============================================================================
+
+export interface DemoStoryTemplate {
+  id: string;
+  name: string;
+  category: string;
+  platform: 'Instagram' | 'TikTok' | 'Both';
+  dimensions: string;
+  uses: number;
+  preview: string;
+  elements: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_STORY_TEMPLATES: DemoStoryTemplate[] = [
+  { id: 'ST-001', name: 'Event Countdown', category: 'Promotion', platform: 'Instagram', dimensions: '1080x1920', uses: 2456, preview: 'countdown', elements: ['Countdown Timer', 'Event Logo', 'Date/Time', 'CTA Button'] },
+  { id: 'ST-002', name: 'Lineup Reveal', category: 'Announcement', platform: 'Both', dimensions: '1080x1920', uses: 1890, preview: 'lineup', elements: ['Artist Photos', 'Names', 'Stage Info', 'Animated Reveal'] },
+  { id: 'ST-003', name: 'Ticket Giveaway', category: 'Contest', platform: 'Instagram', dimensions: '1080x1920', uses: 3245, preview: 'giveaway', elements: ['Prize Info', 'Entry Rules', 'Deadline', 'Swipe Up'] },
+  { id: 'ST-004', name: 'Behind the Scenes', category: 'Content', platform: 'Both', dimensions: '1080x1920', uses: 1567, preview: 'bts', elements: ['Photo Frame', 'Caption Area', 'Stickers', 'Location Tag'] },
+  { id: 'ST-005', name: 'Artist Spotlight', category: 'Promotion', platform: 'Instagram', dimensions: '1080x1920', uses: 2134, preview: 'spotlight', elements: ['Artist Photo', 'Bio', 'Social Links', 'Music Player'] },
+  { id: 'ST-006', name: 'Flash Sale', category: 'Sales', platform: 'Both', dimensions: '1080x1920', uses: 4567, preview: 'sale', elements: ['Discount Badge', 'Timer', 'Price', 'Shop Link'] },
+];
+
+export const DEMO_STORY_CATEGORIES = ['All', 'Promotion', 'Announcement', 'Contest', 'Content', 'Sales'];
+
+// =============================================================================
+// SOCIAL - TIKTOK CHALLENGES (for social/tiktok-challenges/page.tsx)
+// =============================================================================
+
+export interface DemoTikTokChallenge {
+  id: string;
+  name: string;
+  hashtag: string;
+  eventName: string;
+  status: 'Active' | 'Scheduled' | 'Completed';
+  startDate: string;
+  endDate: string;
+  participants: number;
+  views: number;
+  engagement: number;
+  prize?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_TIKTOK_CHALLENGES: DemoTikTokChallenge[] = [
+  { id: 'TTC-001', name: 'Festival Dance Challenge', hashtag: '#SummerFestDance', eventName: 'Summer Fest 2024', status: 'Active', startDate: '2024-11-20', endDate: '2024-12-05', participants: 12500, views: 2450000, engagement: 8.2, prize: 'VIP Tickets + Merch Bundle' },
+  { id: 'TTC-002', name: 'Countdown Duet', hashtag: '#SummerFestCountdown', eventName: 'Summer Fest 2024', status: 'Active', startDate: '2024-11-15', endDate: '2024-11-30', participants: 8900, views: 1890000, engagement: 6.5, prize: 'Backstage Passes' },
+  { id: 'TTC-003', name: 'Best Festival Fit', hashtag: '#FestivalFitCheck', eventName: 'Summer Fest 2024', status: 'Scheduled', startDate: '2024-12-01', endDate: '2024-12-15', participants: 0, views: 0, engagement: 0, prize: 'Shopping Spree' },
+  { id: 'TTC-004', name: 'Throwback Memories', hashtag: '#FestMemories', eventName: 'Fall Concert', status: 'Completed', startDate: '2024-10-01', endDate: '2024-10-15', participants: 5600, views: 980000, engagement: 7.1 },
+];
+
+// =============================================================================
+// TICKETS - GROUPS (for tickets/groups/page.tsx)
+// =============================================================================
+
+export interface DemoGroupOrder {
+  id: string;
+  organizerName: string;
+  organizerEmail: string;
+  eventName: string;
+  groupSize: number;
+  ticketType: string;
+  totalAmount: number;
+  discount: number;
+  status: 'Pending' | 'Confirmed' | 'Paid' | 'Completed';
+  createdDate: string;
+  attendeesRegistered: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_GROUP_ORDERS: DemoGroupOrder[] = [
+  { id: 'GRP-001', organizerName: 'John Smith', organizerEmail: 'john@company.com', eventName: 'Summer Music Festival 2025', groupSize: 25, ticketType: 'General Admission', totalAmount: 3375, discount: 10, status: 'Confirmed', createdDate: '2024-11-20', attendeesRegistered: 18 },
+  { id: 'GRP-002', organizerName: 'Sarah Johnson', organizerEmail: 'sarah@corp.com', eventName: 'Tech Conference 2025', groupSize: 50, ticketType: 'Full Access', totalAmount: 12250, discount: 15, status: 'Paid', createdDate: '2024-11-18', attendeesRegistered: 50 },
+  { id: 'GRP-003', organizerName: 'Mike Davis', organizerEmail: 'mike@org.com', eventName: 'New Year Gala', groupSize: 10, ticketType: 'VIP', totalAmount: 2250, discount: 5, status: 'Pending', createdDate: '2024-11-22', attendeesRegistered: 0 },
+  { id: 'GRP-004', organizerName: 'Emily Chen', organizerEmail: 'emily@school.edu', eventName: 'Summer Music Festival 2025', groupSize: 100, ticketType: 'General Admission', totalAmount: 12000, discount: 20, status: 'Completed', createdDate: '2024-11-10', attendeesRegistered: 100 },
+];

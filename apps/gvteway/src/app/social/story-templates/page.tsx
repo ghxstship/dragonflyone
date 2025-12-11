@@ -10,27 +10,14 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface StoryTemplate {
-  id: string;
-  name: string;
-  category: string;
-  platform: "Instagram" | "TikTok" | "Both";
-  dimensions: string;
-  uses: number;
-  preview: string;
-  elements: string[];
-}
+import {
+  DEMO_STORY_TEMPLATES,
+  DEMO_STORY_CATEGORIES,
+  type DemoStoryTemplate as StoryTemplate,
+} from "@/lib/demo-data";
 
-const mockTemplates: StoryTemplate[] = [
-  { id: "ST-001", name: "Event Countdown", category: "Promotion", platform: "Instagram", dimensions: "1080x1920", uses: 2456, preview: "⏰", elements: ["Countdown Timer", "Event Logo", "Date/Time", "CTA Button"] },
-  { id: "ST-002", name: "Lineup Reveal", category: "Announcement", platform: "Both", dimensions: "1080x1920", uses: 1890, preview: "🎤", elements: ["Artist Photos", "Names", "Stage Info", "Animated Reveal"] },
-  { id: "ST-003", name: "Ticket Giveaway", category: "Contest", platform: "Instagram", dimensions: "1080x1920", uses: 3245, preview: "🎁", elements: ["Prize Info", "Entry Rules", "Deadline", "Swipe Up"] },
-  { id: "ST-004", name: "Behind the Scenes", category: "Content", platform: "Both", dimensions: "1080x1920", uses: 1567, preview: "🎬", elements: ["Photo Frame", "Caption Area", "Stickers", "Location Tag"] },
-  { id: "ST-005", name: "Artist Spotlight", category: "Promotion", platform: "Instagram", dimensions: "1080x1920", uses: 2134, preview: "⭐", elements: ["Artist Photo", "Bio", "Social Links", "Music Player"] },
-  { id: "ST-006", name: "Flash Sale", category: "Sales", platform: "Both", dimensions: "1080x1920", uses: 4567, preview: "⚡", elements: ["Discount Badge", "Timer", "Price", "Shop Link"] },
-];
-
-const categories = ["All", "Promotion", "Announcement", "Contest", "Content", "Sales"];
+const mockTemplates = DEMO_STORY_TEMPLATES;
+const categories = DEMO_STORY_CATEGORIES;
 
 export default function StoryTemplatesPage() {
   const router = useRouter();

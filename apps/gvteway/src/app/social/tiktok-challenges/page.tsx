@@ -11,26 +11,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface TikTokChallenge {
-  id: string;
-  name: string;
-  hashtag: string;
-  eventName: string;
-  status: "Active" | "Scheduled" | "Completed";
-  startDate: string;
-  endDate: string;
-  participants: number;
-  views: number;
-  engagement: number;
-  prize?: string;
-}
+import {
+  DEMO_TIKTOK_CHALLENGES,
+  type DemoTikTokChallenge as TikTokChallenge,
+} from "@/lib/demo-data";
 
-const mockChallenges: TikTokChallenge[] = [
-  { id: "TTC-001", name: "Festival Dance Challenge", hashtag: "#SummerFestDance", eventName: "Summer Fest 2024", status: "Active", startDate: "2024-11-20", endDate: "2024-12-05", participants: 12500, views: 2450000, engagement: 8.2, prize: "VIP Tickets + Merch Bundle" },
-  { id: "TTC-002", name: "Countdown Duet", hashtag: "#SummerFestCountdown", eventName: "Summer Fest 2024", status: "Active", startDate: "2024-11-15", endDate: "2024-11-30", participants: 8900, views: 1890000, engagement: 6.5, prize: "Backstage Passes" },
-  { id: "TTC-003", name: "Best Festival Fit", hashtag: "#FestivalFitCheck", eventName: "Summer Fest 2024", status: "Scheduled", startDate: "2024-12-01", endDate: "2024-12-15", participants: 0, views: 0, engagement: 0, prize: "Shopping Spree" },
-  { id: "TTC-004", name: "Throwback Memories", hashtag: "#FestMemories", eventName: "Fall Concert", status: "Completed", startDate: "2024-10-01", endDate: "2024-10-15", participants: 5600, views: 980000, engagement: 7.1 },
-];
+const mockChallenges = DEMO_TIKTOK_CHALLENGES;
 
 function TikTokChallengesPageContent() {
   const router = useRouter();

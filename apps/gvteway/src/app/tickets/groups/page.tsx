@@ -11,26 +11,12 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-interface GroupOrder {
-  id: string;
-  organizerName: string;
-  organizerEmail: string;
-  eventName: string;
-  groupSize: number;
-  ticketType: string;
-  totalAmount: number;
-  discount: number;
-  status: "Pending" | "Confirmed" | "Paid" | "Completed";
-  createdDate: string;
-  attendeesRegistered: number;
-}
+import {
+  DEMO_GROUP_ORDERS,
+  type DemoGroupOrder as GroupOrder,
+} from "@/lib/demo-data";
 
-const mockGroups: GroupOrder[] = [
-  { id: "GRP-001", organizerName: "John Smith", organizerEmail: "john@company.com", eventName: "Summer Music Festival 2025", groupSize: 25, ticketType: "General Admission", totalAmount: 3375, discount: 10, status: "Confirmed", createdDate: "2024-11-20", attendeesRegistered: 18 },
-  { id: "GRP-002", organizerName: "Sarah Johnson", organizerEmail: "sarah@corp.com", eventName: "Tech Conference 2025", groupSize: 50, ticketType: "Full Access", totalAmount: 12250, discount: 15, status: "Paid", createdDate: "2024-11-18", attendeesRegistered: 50 },
-  { id: "GRP-003", organizerName: "Mike Davis", organizerEmail: "mike@org.com", eventName: "New Year Gala", groupSize: 10, ticketType: "VIP", totalAmount: 2250, discount: 5, status: "Pending", createdDate: "2024-11-22", attendeesRegistered: 0 },
-  { id: "GRP-004", organizerName: "Emily Chen", organizerEmail: "emily@school.edu", eventName: "Summer Music Festival 2025", groupSize: 100, ticketType: "General Admission", totalAmount: 12000, discount: 20, status: "Completed", createdDate: "2024-11-10", attendeesRegistered: 100 },
-];
+const mockGroups = DEMO_GROUP_ORDERS;
 
 function GroupTicketsPageContent() {
   const router = useRouter();
