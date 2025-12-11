@@ -8,21 +8,9 @@ import {
   Card, Badge, Alert, Kicker,
 } from "@ghxstship/ui";
 
-interface OfflineTicket {
-  id: string;
-  eventName: string;
-  eventDate: string;
-  ticketType: string;
-  qrCode: string;
-  cachedAt: string;
-  expiresAt: string;
-  isValid: boolean;
-}
+import { DEMO_OFFLINE_TICKETS } from "@/lib/demo-data";
 
-const mockOfflineTickets: OfflineTicket[] = [
-  { id: "TKT-001", eventName: "Summer Fest 2024", eventDate: "2024-11-25", ticketType: "VIP Pass", qrCode: "QR_DATA_ENCRYPTED_001", cachedAt: "2024-11-24T10:00:00Z", expiresAt: "2024-11-26T00:00:00Z", isValid: true },
-  { id: "TKT-002", eventName: "Summer Fest 2024", eventDate: "2024-11-25", ticketType: "General Admission", qrCode: "QR_DATA_ENCRYPTED_002", cachedAt: "2024-11-24T10:00:00Z", expiresAt: "2024-11-26T00:00:00Z", isValid: true },
-];
+const mockOfflineTickets = DEMO_OFFLINE_TICKETS;
 
 export default function OfflineWalletPage() {
   const router = useRouter();

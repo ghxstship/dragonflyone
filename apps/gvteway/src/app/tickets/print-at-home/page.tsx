@@ -9,24 +9,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface PrintTicket {
-  id: string;
-  orderId: string;
-  eventName: string;
-  ticketType: string;
-  purchaserName: string;
-  purchaseDate: string;
-  printCount: number;
-  lastPrinted?: string;
-  status: "Available" | "Printed" | "Used" | "Expired";
-}
+import {
+  DEMO_PRINT_TICKETS,
+  type DemoPrintTicket as PrintTicket,
+} from "@/lib/demo-data";
 
-const mockTickets: PrintTicket[] = [
-  { id: "TKT-001", orderId: "ORD-12345", eventName: "Summer Music Festival 2025", ticketType: "General Admission", purchaserName: "John Smith", purchaseDate: "2024-11-20", printCount: 2, lastPrinted: "2024-11-22", status: "Printed" },
-  { id: "TKT-002", orderId: "ORD-12345", eventName: "Summer Music Festival 2025", ticketType: "General Admission", purchaserName: "John Smith", purchaseDate: "2024-11-20", printCount: 0, status: "Available" },
-  { id: "TKT-003", orderId: "ORD-12346", eventName: "New Year Gala", ticketType: "VIP", purchaserName: "Sarah Johnson", purchaseDate: "2024-11-18", printCount: 1, lastPrinted: "2024-11-19", status: "Printed" },
-  { id: "TKT-004", orderId: "ORD-12347", eventName: "Tech Conference 2025", ticketType: "Full Access", purchaserName: "Mike Davis", purchaseDate: "2024-11-15", printCount: 0, status: "Available" },
-];
+const mockTickets = DEMO_PRINT_TICKETS;
 
 export default function PrintAtHomePage() {
   const router = useRouter();

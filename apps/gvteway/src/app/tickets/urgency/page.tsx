@@ -10,25 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface UrgencyTactic {
-  id: string;
-  eventName: string;
-  type: "Countdown" | "Low Inventory" | "Price Increase" | "Last Chance";
-  message: string;
-  status: "Active" | "Scheduled" | "Ended";
-  startDate?: string;
-  endDate?: string;
-  threshold?: number;
-  currentValue?: number;
-  conversions: number;
-}
+import {
+  DEMO_URGENCY_TACTICS,
+  type DemoUrgencyTactic as UrgencyTactic,
+} from "@/lib/demo-data";
 
-const mockTactics: UrgencyTactic[] = [
-  { id: "UT-001", eventName: "Summer Music Festival 2025", type: "Countdown", message: "Early bird pricing ends in", status: "Active", endDate: "2024-12-15", conversions: 156 },
-  { id: "UT-002", eventName: "Summer Music Festival 2025", type: "Low Inventory", message: "Only {count} VIP tickets left!", status: "Active", threshold: 50, currentValue: 23, conversions: 89 },
-  { id: "UT-003", eventName: "New Year Gala", type: "Price Increase", message: "Price increases by $25 in", status: "Scheduled", startDate: "2024-12-01", endDate: "2024-12-10", conversions: 0 },
-  { id: "UT-004", eventName: "Tech Conference 2025", type: "Last Chance", message: "Final tickets available!", status: "Active", threshold: 20, currentValue: 12, conversions: 45 },
-];
+const mockTactics = DEMO_URGENCY_TACTICS;
 
 function UrgencyTacticsPageContent() {
   const router = useRouter();

@@ -1846,3 +1846,73 @@ export const DEMO_GROUP_ORDERS: DemoGroupOrder[] = [
   { id: 'GRP-003', organizerName: 'Mike Davis', organizerEmail: 'mike@org.com', eventName: 'New Year Gala', groupSize: 10, ticketType: 'VIP', totalAmount: 2250, discount: 5, status: 'Pending', createdDate: '2024-11-22', attendeesRegistered: 0 },
   { id: 'GRP-004', organizerName: 'Emily Chen', organizerEmail: 'emily@school.edu', eventName: 'Summer Music Festival 2025', groupSize: 100, ticketType: 'General Admission', totalAmount: 12000, discount: 20, status: 'Completed', createdDate: '2024-11-10', attendeesRegistered: 100 },
 ];
+
+// =============================================================================
+// TICKETS - PRINT AT HOME (for tickets/print-at-home/page.tsx)
+// =============================================================================
+
+export interface DemoPrintTicket {
+  id: string;
+  orderId: string;
+  eventName: string;
+  ticketType: string;
+  purchaserName: string;
+  purchaseDate: string;
+  printCount: number;
+  lastPrinted?: string;
+  status: 'Available' | 'Printed' | 'Used' | 'Expired';
+  [key: string]: unknown;
+}
+
+export const DEMO_PRINT_TICKETS: DemoPrintTicket[] = [
+  { id: 'TKT-001', orderId: 'ORD-12345', eventName: 'Summer Music Festival 2025', ticketType: 'General Admission', purchaserName: 'John Smith', purchaseDate: '2024-11-20', printCount: 2, lastPrinted: '2024-11-22', status: 'Printed' },
+  { id: 'TKT-002', orderId: 'ORD-12345', eventName: 'Summer Music Festival 2025', ticketType: 'General Admission', purchaserName: 'John Smith', purchaseDate: '2024-11-20', printCount: 0, status: 'Available' },
+  { id: 'TKT-003', orderId: 'ORD-12346', eventName: 'New Year Gala', ticketType: 'VIP', purchaserName: 'Sarah Johnson', purchaseDate: '2024-11-18', printCount: 1, lastPrinted: '2024-11-19', status: 'Printed' },
+  { id: 'TKT-004', orderId: 'ORD-12347', eventName: 'Tech Conference 2025', ticketType: 'Full Access', purchaserName: 'Mike Davis', purchaseDate: '2024-11-15', printCount: 0, status: 'Available' },
+];
+
+// =============================================================================
+// TICKETS - URGENCY (for tickets/urgency/page.tsx)
+// =============================================================================
+
+export interface DemoUrgencyTactic {
+  id: string;
+  eventName: string;
+  type: 'Countdown' | 'Low Inventory' | 'Price Increase' | 'Last Chance';
+  message: string;
+  status: 'Active' | 'Scheduled' | 'Ended';
+  startDate?: string;
+  endDate?: string;
+  threshold?: number;
+  currentValue?: number;
+  conversions: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_URGENCY_TACTICS: DemoUrgencyTactic[] = [
+  { id: 'UT-001', eventName: 'Summer Music Festival 2025', type: 'Countdown', message: 'Early bird pricing ends in', status: 'Active', endDate: '2024-12-15', conversions: 156 },
+  { id: 'UT-002', eventName: 'Summer Music Festival 2025', type: 'Low Inventory', message: 'Only {count} VIP tickets left!', status: 'Active', threshold: 50, currentValue: 23, conversions: 89 },
+  { id: 'UT-003', eventName: 'New Year Gala', type: 'Price Increase', message: 'Price increases by $25 in', status: 'Scheduled', startDate: '2024-12-01', endDate: '2024-12-10', conversions: 0 },
+  { id: 'UT-004', eventName: 'Tech Conference 2025', type: 'Last Chance', message: 'Final tickets available!', status: 'Active', threshold: 20, currentValue: 12, conversions: 45 },
+];
+
+// =============================================================================
+// WALLET - OFFLINE (for wallet/offline/page.tsx)
+// =============================================================================
+
+export interface DemoOfflineTicket {
+  id: string;
+  eventName: string;
+  eventDate: string;
+  ticketType: string;
+  qrCode: string;
+  cachedAt: string;
+  expiresAt: string;
+  isValid: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_OFFLINE_TICKETS: DemoOfflineTicket[] = [
+  { id: 'TKT-001', eventName: 'Summer Fest 2024', eventDate: '2024-11-25', ticketType: 'VIP Pass', qrCode: 'QR_DATA_ENCRYPTED_001', cachedAt: '2024-11-24T10:00:00Z', expiresAt: '2024-11-26T00:00:00Z', isValid: true },
+  { id: 'TKT-002', eventName: 'Summer Fest 2024', eventDate: '2024-11-25', ticketType: 'General Admission', qrCode: 'QR_DATA_ENCRYPTED_002', cachedAt: '2024-11-24T10:00:00Z', expiresAt: '2024-11-26T00:00:00Z', isValid: true },
+];
