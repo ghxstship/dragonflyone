@@ -1047,3 +1047,117 @@ export const DEMO_CUES: DemoCueItem[] = [
   { id: '5', time: '20:03', cue: 'Song 1 - Opening Number', department: 'Sound', notes: 'Playback + Live', status: 'pending' },
   { id: '6', time: '20:08', cue: 'Lighting Look 2', department: 'Lighting', notes: 'Q12 - Blue wash', status: 'pending' },
 ];
+
+// =============================================================================
+// MESSAGES (for messages/page.tsx)
+// =============================================================================
+
+export interface DemoConversation {
+  id: string;
+  participantName: string;
+  participantRole: string;
+  lastMessage: string;
+  timestamp: string;
+  unread: number;
+  online: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoDirectMessage {
+  id: string;
+  senderId: string;
+  content: string;
+  timestamp: string;
+  read: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_CONVERSATIONS: DemoConversation[] = [
+  { id: 'CONV-001', participantName: 'John Smith', participantRole: 'Audio Lead', lastMessage: 'The console is set up and ready', timestamp: '2 min ago', unread: 2, online: true },
+  { id: 'CONV-002', participantName: 'Sarah Johnson', participantRole: 'Stage Manager', lastMessage: 'Changeover complete, ready for soundcheck', timestamp: '15 min ago', unread: 0, online: true },
+  { id: 'CONV-003', participantName: 'Mike Davis', participantRole: 'Lighting Designer', lastMessage: 'Focus session scheduled for 3pm', timestamp: '1 hr ago', unread: 1, online: false },
+  { id: 'CONV-004', participantName: 'Emily Chen', participantRole: 'Video Director', lastMessage: 'Camera positions confirmed', timestamp: '3 hrs ago', unread: 0, online: false },
+];
+
+export const DEMO_DIRECT_MESSAGES: DemoDirectMessage[] = [
+  { id: 'MSG-001', senderId: 'other', content: 'Hey, just wanted to check on the audio setup', timestamp: '10:30 AM', read: true },
+  { id: 'MSG-002', senderId: 'me', content: 'All good here, console is patched and ready', timestamp: '10:32 AM', read: true },
+  { id: 'MSG-003', senderId: 'other', content: 'Great! What about the monitor mixes?', timestamp: '10:33 AM', read: true },
+  { id: 'MSG-004', senderId: 'me', content: 'Working on those now, should be done in 20', timestamp: '10:35 AM', read: true },
+  { id: 'MSG-005', senderId: 'other', content: 'The console is set up and ready', timestamp: '10:45 AM', read: false },
+];
+
+// =============================================================================
+// MENTORSHIP (for mentorship/page.tsx)
+// =============================================================================
+
+export interface DemoMentor {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  yearsExperience: number;
+  specialties: string[];
+  availability: 'Available' | 'Limited' | 'Full';
+  mentees: number;
+  maxMentees: number;
+  rating: number;
+  [key: string]: unknown;
+}
+
+export interface DemoMentorshipProgram {
+  id: string;
+  name: string;
+  description: string;
+  duration: string;
+  level: 'Entry' | 'Intermediate' | 'Advanced';
+  modules: number;
+  enrolled: number;
+  capacity: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_MENTORS: DemoMentor[] = [
+  { id: 'MNT-001', name: 'Sarah Chen', role: 'Senior Production Manager', department: 'Production', yearsExperience: 15, specialties: ['Festival Production', 'Large Scale Events', 'Budget Management'], availability: 'Available', mentees: 2, maxMentees: 4, rating: 4.9 },
+  { id: 'MNT-002', name: 'Mike Thompson', role: 'Technical Director', department: 'Technical', yearsExperience: 20, specialties: ['Audio Systems', 'Rigging', 'Safety'], availability: 'Limited', mentees: 3, maxMentees: 3, rating: 4.8 },
+  { id: 'MNT-003', name: 'Lisa Park', role: 'Lighting Designer', department: 'Lighting', yearsExperience: 12, specialties: ['Concert Lighting', 'Programming', 'Design'], availability: 'Available', mentees: 1, maxMentees: 3, rating: 4.7 },
+  { id: 'MNT-004', name: 'John Martinez', role: 'Stage Manager', department: 'Stage', yearsExperience: 18, specialties: ['Run of Show', 'Artist Relations', 'Crew Management'], availability: 'Full', mentees: 4, maxMentees: 4, rating: 4.9 },
+];
+
+export const DEMO_MENTORSHIP_PROGRAMS: DemoMentorshipProgram[] = [
+  { id: 'PRG-001', name: 'Production Fundamentals', description: 'Learn the basics of live event production', duration: '8 weeks', level: 'Entry', modules: 12, enrolled: 24, capacity: 30 },
+  { id: 'PRG-002', name: 'Technical Operations', description: 'Deep dive into technical production systems', duration: '12 weeks', level: 'Intermediate', modules: 18, enrolled: 15, capacity: 20 },
+  { id: 'PRG-003', name: 'Leadership in Production', description: 'Develop management and leadership skills', duration: '16 weeks', level: 'Advanced', modules: 24, enrolled: 8, capacity: 12 },
+];
+
+// =============================================================================
+// TEMPLATES (for templates/page.tsx)
+// =============================================================================
+
+export interface DemoTemplate {
+  id: string;
+  name: string;
+  category: 'Contract' | 'Checklist' | 'Form' | 'Rider' | 'Report' | 'SOP';
+  description: string;
+  version: string;
+  lastUpdated: string;
+  updatedBy: string;
+  downloads: number;
+  tags: string[];
+  fileType: 'PDF' | 'DOCX' | 'XLSX' | 'Google Doc';
+  size: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_TEMPLATES: DemoTemplate[] = [
+  { id: 'TPL-001', name: 'Production Services Agreement', category: 'Contract', description: 'Standard contract for production services with clients', version: '3.2', lastUpdated: '2024-11-15', updatedBy: 'Legal Team', downloads: 245, tags: ['legal', 'client', 'services'], fileType: 'DOCX', size: '125 KB' },
+  { id: 'TPL-002', name: 'Crew Deal Memo', category: 'Contract', description: 'Day-call and freelance crew agreement', version: '2.1', lastUpdated: '2024-11-10', updatedBy: 'HR Team', downloads: 892, tags: ['crew', 'labor', 'freelance'], fileType: 'PDF', size: '85 KB' },
+  { id: 'TPL-003', name: 'Load-In Checklist', category: 'Checklist', description: 'Comprehensive load-in verification checklist', version: '4.0', lastUpdated: '2024-11-20', updatedBy: 'Operations', downloads: 567, tags: ['load-in', 'operations', 'verification'], fileType: 'PDF', size: '45 KB' },
+  { id: 'TPL-004', name: 'Safety Walk-Through Form', category: 'Form', description: 'Pre-event safety inspection documentation', version: '2.5', lastUpdated: '2024-11-18', updatedBy: 'Safety Team', downloads: 423, tags: ['safety', 'inspection', 'compliance'], fileType: 'PDF', size: '62 KB' },
+  { id: 'TPL-005', name: 'Technical Rider Template', category: 'Rider', description: 'Standard technical rider for artists/performers', version: '1.8', lastUpdated: '2024-10-25', updatedBy: 'Production', downloads: 334, tags: ['technical', 'artist', 'requirements'], fileType: 'DOCX', size: '98 KB' },
+  { id: 'TPL-006', name: 'Hospitality Rider Template', category: 'Rider', description: 'Artist hospitality and catering requirements', version: '1.5', lastUpdated: '2024-10-20', updatedBy: 'Production', downloads: 289, tags: ['hospitality', 'catering', 'artist'], fileType: 'DOCX', size: '75 KB' },
+  { id: 'TPL-007', name: 'Show Report Template', category: 'Report', description: 'Post-event show report documentation', version: '3.0', lastUpdated: '2024-11-12', updatedBy: 'Operations', downloads: 678, tags: ['report', 'post-event', 'documentation'], fileType: 'XLSX', size: '156 KB' },
+  { id: 'TPL-008', name: 'Incident Report Form', category: 'Form', description: 'Safety and security incident documentation', version: '2.2', lastUpdated: '2024-11-08', updatedBy: 'Safety Team', downloads: 234, tags: ['incident', 'safety', 'security'], fileType: 'PDF', size: '52 KB' },
+  { id: 'TPL-009', name: 'Equipment Checkout SOP', category: 'SOP', description: 'Standard procedure for equipment checkout/return', version: '1.3', lastUpdated: '2024-10-30', updatedBy: 'Warehouse', downloads: 156, tags: ['equipment', 'procedure', 'warehouse'], fileType: 'PDF', size: '88 KB' },
+  { id: 'TPL-010', name: 'Strike Checklist', category: 'Checklist', description: 'Post-event strike and packout verification', version: '3.5', lastUpdated: '2024-11-19', updatedBy: 'Operations', downloads: 445, tags: ['strike', 'packout', 'verification'], fileType: 'PDF', size: '48 KB' },
+];

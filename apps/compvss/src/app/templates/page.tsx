@@ -24,32 +24,12 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Template {
-  id: string;
-  name: string;
-  category: "Contract" | "Checklist" | "Form" | "Rider" | "Report" | "SOP";
-  description: string;
-  version: string;
-  lastUpdated: string;
-  updatedBy: string;
-  downloads: number;
-  tags: string[];
-  fileType: "PDF" | "DOCX" | "XLSX" | "Google Doc";
-  size: string;
-}
+import {
+  DEMO_TEMPLATES,
+  type DemoTemplate as Template,
+} from "../../lib/demo-data";
 
-const mockTemplates: Template[] = [
-  { id: "TPL-001", name: "Production Services Agreement", category: "Contract", description: "Standard contract for production services with clients", version: "3.2", lastUpdated: "2024-11-15", updatedBy: "Legal Team", downloads: 245, tags: ["legal", "client", "services"], fileType: "DOCX", size: "125 KB" },
-  { id: "TPL-002", name: "Crew Deal Memo", category: "Contract", description: "Day-call and freelance crew agreement", version: "2.1", lastUpdated: "2024-11-10", updatedBy: "HR Team", downloads: 892, tags: ["crew", "labor", "freelance"], fileType: "PDF", size: "85 KB" },
-  { id: "TPL-003", name: "Load-In Checklist", category: "Checklist", description: "Comprehensive load-in verification checklist", version: "4.0", lastUpdated: "2024-11-20", updatedBy: "Operations", downloads: 567, tags: ["load-in", "operations", "verification"], fileType: "PDF", size: "45 KB" },
-  { id: "TPL-004", name: "Safety Walk-Through Form", category: "Form", description: "Pre-event safety inspection documentation", version: "2.5", lastUpdated: "2024-11-18", updatedBy: "Safety Team", downloads: 423, tags: ["safety", "inspection", "compliance"], fileType: "PDF", size: "62 KB" },
-  { id: "TPL-005", name: "Technical Rider Template", category: "Rider", description: "Standard technical rider for artists/performers", version: "1.8", lastUpdated: "2024-10-25", updatedBy: "Production", downloads: 334, tags: ["technical", "artist", "requirements"], fileType: "DOCX", size: "98 KB" },
-  { id: "TPL-006", name: "Hospitality Rider Template", category: "Rider", description: "Artist hospitality and catering requirements", version: "1.5", lastUpdated: "2024-10-20", updatedBy: "Production", downloads: 289, tags: ["hospitality", "catering", "artist"], fileType: "DOCX", size: "75 KB" },
-  { id: "TPL-007", name: "Show Report Template", category: "Report", description: "Post-event show report documentation", version: "3.0", lastUpdated: "2024-11-12", updatedBy: "Operations", downloads: 678, tags: ["report", "post-event", "documentation"], fileType: "XLSX", size: "156 KB" },
-  { id: "TPL-008", name: "Incident Report Form", category: "Form", description: "Safety and security incident documentation", version: "2.2", lastUpdated: "2024-11-08", updatedBy: "Safety Team", downloads: 234, tags: ["incident", "safety", "security"], fileType: "PDF", size: "52 KB" },
-  { id: "TPL-009", name: "Equipment Checkout SOP", category: "SOP", description: "Standard procedure for equipment checkout/return", version: "1.3", lastUpdated: "2024-10-30", updatedBy: "Warehouse", downloads: 156, tags: ["equipment", "procedure", "warehouse"], fileType: "PDF", size: "88 KB" },
-  { id: "TPL-010", name: "Strike Checklist", category: "Checklist", description: "Post-event strike and packout verification", version: "3.5", lastUpdated: "2024-11-19", updatedBy: "Operations", downloads: 445, tags: ["strike", "packout", "verification"], fileType: "PDF", size: "48 KB" },
-];
+const mockTemplates = DEMO_TEMPLATES;
 
 const categories = ["Contract", "Checklist", "Form", "Rider", "Report", "SOP"];
 

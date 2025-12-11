@@ -18,38 +18,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Conversation {
-  id: string;
-  participantName: string;
-  participantRole: string;
-  lastMessage: string;
-  timestamp: string;
-  unread: number;
-  online: boolean;
-}
+import {
+  DEMO_CONVERSATIONS,
+  DEMO_DIRECT_MESSAGES,
+  type DemoConversation as Conversation,
+  type DemoDirectMessage as Message,
+} from "../../lib/demo-data";
 
-interface Message {
-  id: string;
-  senderId: string;
-  content: string;
-  timestamp: string;
-  read: boolean;
-}
-
-const mockConversations: Conversation[] = [
-  { id: "CONV-001", participantName: "John Smith", participantRole: "Audio Lead", lastMessage: "The console is set up and ready", timestamp: "2 min ago", unread: 2, online: true },
-  { id: "CONV-002", participantName: "Sarah Johnson", participantRole: "Stage Manager", lastMessage: "Changeover complete, ready for soundcheck", timestamp: "15 min ago", unread: 0, online: true },
-  { id: "CONV-003", participantName: "Mike Davis", participantRole: "Lighting Designer", lastMessage: "Focus session scheduled for 3pm", timestamp: "1 hr ago", unread: 1, online: false },
-  { id: "CONV-004", participantName: "Emily Chen", participantRole: "Video Director", lastMessage: "Camera positions confirmed", timestamp: "3 hrs ago", unread: 0, online: false },
-];
-
-const mockMessages: Message[] = [
-  { id: "MSG-001", senderId: "other", content: "Hey, just wanted to check on the audio setup", timestamp: "10:30 AM", read: true },
-  { id: "MSG-002", senderId: "me", content: "All good here, console is patched and ready", timestamp: "10:32 AM", read: true },
-  { id: "MSG-003", senderId: "other", content: "Great! What about the monitor mixes?", timestamp: "10:33 AM", read: true },
-  { id: "MSG-004", senderId: "me", content: "Working on those now, should be done in 20", timestamp: "10:35 AM", read: true },
-  { id: "MSG-005", senderId: "other", content: "The console is set up and ready", timestamp: "10:45 AM", read: false },
-];
+const mockConversations = DEMO_CONVERSATIONS;
+const mockMessages = DEMO_DIRECT_MESSAGES;
 
 export default function MessagesPage() {
   const router = useRouter();

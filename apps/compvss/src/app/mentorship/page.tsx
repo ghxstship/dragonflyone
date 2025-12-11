@@ -30,42 +30,15 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Mentor {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  yearsExperience: number;
-  specialties: string[];
-  availability: "Available" | "Limited" | "Full";
-  mentees: number;
-  maxMentees: number;
-  rating: number;
-}
+import {
+  DEMO_MENTORS,
+  DEMO_MENTORSHIP_PROGRAMS,
+  type DemoMentor as Mentor,
+  type DemoMentorshipProgram as MentorshipProgram,
+} from "../../lib/demo-data";
 
-interface MentorshipProgram {
-  id: string;
-  name: string;
-  description: string;
-  duration: string;
-  level: "Entry" | "Intermediate" | "Advanced";
-  modules: number;
-  enrolled: number;
-  capacity: number;
-}
-
-const mockMentors: Mentor[] = [
-  { id: "MNT-001", name: "Sarah Chen", role: "Senior Production Manager", department: "Production", yearsExperience: 15, specialties: ["Festival Production", "Large Scale Events", "Budget Management"], availability: "Available", mentees: 2, maxMentees: 4, rating: 4.9 },
-  { id: "MNT-002", name: "Mike Thompson", role: "Technical Director", department: "Technical", yearsExperience: 20, specialties: ["Audio Systems", "Rigging", "Safety"], availability: "Limited", mentees: 3, maxMentees: 3, rating: 4.8 },
-  { id: "MNT-003", name: "Lisa Park", role: "Lighting Designer", department: "Lighting", yearsExperience: 12, specialties: ["Concert Lighting", "Programming", "Design"], availability: "Available", mentees: 1, maxMentees: 3, rating: 4.7 },
-  { id: "MNT-004", name: "John Martinez", role: "Stage Manager", department: "Stage", yearsExperience: 18, specialties: ["Run of Show", "Artist Relations", "Crew Management"], availability: "Full", mentees: 4, maxMentees: 4, rating: 4.9 },
-];
-
-const mockPrograms: MentorshipProgram[] = [
-  { id: "PRG-001", name: "Production Fundamentals", description: "Learn the basics of live event production", duration: "8 weeks", level: "Entry", modules: 12, enrolled: 24, capacity: 30 },
-  { id: "PRG-002", name: "Technical Operations", description: "Deep dive into technical production systems", duration: "12 weeks", level: "Intermediate", modules: 18, enrolled: 15, capacity: 20 },
-  { id: "PRG-003", name: "Leadership in Production", description: "Develop management and leadership skills", duration: "16 weeks", level: "Advanced", modules: 24, enrolled: 8, capacity: 12 },
-];
+const mockMentors = DEMO_MENTORS;
+const mockPrograms = DEMO_MENTORSHIP_PROGRAMS;
 
 export default function MentorshipPage() {
   const router = useRouter();
