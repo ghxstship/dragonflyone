@@ -22,67 +22,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface Credential {
-  id: string;
-  type: string;
-  name: string;
-  issuer: string;
-  issueDate: string;
-  expiryDate: string;
-  status: 'active' | 'expiring' | 'expired' | 'pending';
-  documentUrl?: string;
-}
+import {
+  DEMO_CREDENTIALS,
+  type DemoCredential as Credential,
+} from '../../lib/demo-data';
 
-const mockCredentials: Credential[] = [
-  {
-    id: '1',
-    type: 'Certification',
-    name: 'OSHA 10-Hour Construction',
-    issuer: 'OSHA',
-    issueDate: '2023-06-15',
-    expiryDate: '2028-06-15',
-    status: 'active',
-    documentUrl: '/docs/osha-cert.pdf',
-  },
-  {
-    id: '2',
-    type: 'License',
-    name: 'Forklift Operator License',
-    issuer: 'State DOL',
-    issueDate: '2023-01-10',
-    expiryDate: '2025-01-10',
-    status: 'expiring',
-    documentUrl: '/docs/forklift.pdf',
-  },
-  {
-    id: '3',
-    type: 'Certification',
-    name: 'Rigging Level 1',
-    issuer: 'ETCP',
-    issueDate: '2022-03-20',
-    expiryDate: '2024-03-20',
-    status: 'expired',
-    documentUrl: '/docs/rigging.pdf',
-  },
-  {
-    id: '4',
-    type: 'Background Check',
-    name: 'National Background Check',
-    issuer: 'Sterling',
-    issueDate: '2024-01-01',
-    expiryDate: '2025-01-01',
-    status: 'active',
-  },
-  {
-    id: '5',
-    type: 'Training',
-    name: 'Fire Safety Training',
-    issuer: 'Internal',
-    issueDate: '2024-11-01',
-    expiryDate: '2025-11-01',
-    status: 'pending',
-  },
-];
+const mockCredentials = DEMO_CREDENTIALS;
 
 export default function MyCredentialsPage() {
   const [credentials] = useState(mockCredentials);

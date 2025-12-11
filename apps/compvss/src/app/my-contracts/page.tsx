@@ -24,59 +24,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface Contract {
-  id: string;
-  production: string;
-  client: string;
-  startDate: string;
-  endDate: string;
-  value: number;
-  status: 'draft' | 'pending_signature' | 'active' | 'completed' | 'expired';
-  type: string;
-}
+import {
+  DEMO_CONTRACTS,
+  type DemoContract as Contract,
+} from '../../lib/demo-data';
 
-const mockContracts: Contract[] = [
-  {
-    id: 'CTR-2024-001',
-    production: 'Summer Music Festival 2024',
-    client: 'Festival Productions LLC',
-    startDate: '2024-06-01',
-    endDate: '2024-08-31',
-    value: 45000,
-    status: 'active',
-    type: 'Equipment Rental',
-  },
-  {
-    id: 'CTR-2024-002',
-    production: 'Corporate Gala Series',
-    client: 'Executive Events Inc',
-    startDate: '2024-09-01',
-    endDate: '2024-12-31',
-    value: 28000,
-    status: 'active',
-    type: 'Audio Services',
-  },
-  {
-    id: 'CTR-2024-003',
-    production: 'Tech Conference 2025',
-    client: 'TechCon Global',
-    startDate: '2025-01-15',
-    endDate: '2025-01-18',
-    value: 15000,
-    status: 'pending_signature',
-    type: 'Full Production',
-  },
-  {
-    id: 'CTR-2023-015',
-    production: 'Holiday Concert Series',
-    client: 'City Arts Council',
-    startDate: '2023-12-01',
-    endDate: '2023-12-25',
-    value: 22000,
-    status: 'completed',
-    type: 'Equipment Rental',
-  },
-];
+const mockContracts = DEMO_CONTRACTS;
 
 export default function MyContractsPage() {
   const [contracts] = useState(mockContracts);

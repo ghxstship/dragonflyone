@@ -1515,3 +1515,75 @@ export const DEMO_OFFLINE_PACKAGES: DemoOfflinePackage[] = [
   { id: 'PKG-004', name: 'Video Department', description: 'Video I/O documentation, LED wall guides, and signal flow diagrams', contentCount: 22, totalSize: '38.5 MB', downloaded: false, lastUpdated: '2024-11-19' },
   { id: 'PKG-005', name: 'Rigging & Staging', description: 'Rigging calculations, load charts, and staging documentation', contentCount: 18, totalSize: '25.1 MB', downloaded: true, lastUpdated: '2024-11-21' },
 ];
+
+// =============================================================================
+// KNOWLEDGE - REGULATIONS (for knowledge/regulations/page.tsx)
+// =============================================================================
+
+export interface DemoRegulation {
+  id: string;
+  title: string;
+  category: 'OSHA' | 'Fire' | 'Electrical' | 'Labor' | 'ADA' | 'Environmental' | 'Noise';
+  jurisdiction: string;
+  lastUpdated: string;
+  status: 'Current' | 'Updated' | 'Review Required';
+  summary: string;
+  documentUrl?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_REGULATIONS: DemoRegulation[] = [
+  { id: 'REG-001', title: 'OSHA General Industry Standards', category: 'OSHA', jurisdiction: 'Federal', lastUpdated: '2024-10-15', status: 'Current', summary: 'Comprehensive workplace safety standards including fall protection, PPE requirements, and hazard communication.' },
+  { id: 'REG-002', title: 'NFPA 102 - Assembly Seating', category: 'Fire', jurisdiction: 'Federal', lastUpdated: '2024-08-01', status: 'Current', summary: 'Fire safety requirements for assembly occupancies including egress, fire suppression, and crowd management.' },
+  { id: 'REG-003', title: 'NEC Article 525 - Carnivals/Fairs', category: 'Electrical', jurisdiction: 'Federal', lastUpdated: '2024-06-20', status: 'Current', summary: 'Electrical installation requirements for temporary events including grounding, GFCI protection, and cable management.' },
+  { id: 'REG-004', title: 'California Labor Code', category: 'Labor', jurisdiction: 'California', lastUpdated: '2024-11-01', status: 'Updated', summary: 'State labor laws including meal breaks, overtime, and worker classification requirements.' },
+  { id: 'REG-005', title: 'ADA Accessibility Guidelines', category: 'ADA', jurisdiction: 'Federal', lastUpdated: '2024-03-15', status: 'Current', summary: 'Accessibility requirements for public events including wheelchair access, signage, and assistive services.' },
+  { id: 'REG-006', title: 'EPA Noise Regulations', category: 'Noise', jurisdiction: 'Federal', lastUpdated: '2024-05-10', status: 'Review Required', summary: 'Environmental noise limits and monitoring requirements for outdoor events.' },
+];
+
+// =============================================================================
+// MY CONTRACTS (for my-contracts/page.tsx)
+// =============================================================================
+
+export interface DemoContract {
+  id: string;
+  production: string;
+  client: string;
+  startDate: string;
+  endDate: string;
+  value: number;
+  status: 'draft' | 'pending_signature' | 'active' | 'completed' | 'expired';
+  type: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CONTRACTS: DemoContract[] = [
+  { id: 'CTR-2024-001', production: 'Summer Music Festival 2024', client: 'Festival Productions LLC', startDate: '2024-06-01', endDate: '2024-08-31', value: 45000, status: 'active', type: 'Equipment Rental' },
+  { id: 'CTR-2024-002', production: 'Corporate Gala Series', client: 'Executive Events Inc', startDate: '2024-09-01', endDate: '2024-12-31', value: 28000, status: 'active', type: 'Audio Services' },
+  { id: 'CTR-2024-003', production: 'Tech Conference 2025', client: 'TechCon Global', startDate: '2025-01-15', endDate: '2025-01-18', value: 15000, status: 'pending_signature', type: 'Full Production' },
+  { id: 'CTR-2023-015', production: 'Holiday Concert Series', client: 'City Arts Council', startDate: '2023-12-01', endDate: '2023-12-25', value: 22000, status: 'completed', type: 'Equipment Rental' },
+];
+
+// =============================================================================
+// MY CREDENTIALS (for my-credentials/page.tsx)
+// =============================================================================
+
+export interface DemoCredential {
+  id: string;
+  type: string;
+  name: string;
+  issuer: string;
+  issueDate: string;
+  expiryDate: string;
+  status: 'active' | 'expiring' | 'expired' | 'pending';
+  documentUrl?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CREDENTIALS: DemoCredential[] = [
+  { id: '1', type: 'Certification', name: 'OSHA 10-Hour Construction', issuer: 'OSHA', issueDate: '2023-06-15', expiryDate: '2028-06-15', status: 'active', documentUrl: '/docs/osha-cert.pdf' },
+  { id: '2', type: 'License', name: 'Forklift Operator License', issuer: 'State DOL', issueDate: '2023-01-10', expiryDate: '2025-01-10', status: 'expiring', documentUrl: '/docs/forklift.pdf' },
+  { id: '3', type: 'Certification', name: 'Rigging Level 1', issuer: 'ETCP', issueDate: '2022-03-20', expiryDate: '2024-03-20', status: 'expired', documentUrl: '/docs/rigging.pdf' },
+  { id: '4', type: 'Background Check', name: 'National Background Check', issuer: 'Sterling', issueDate: '2024-01-01', expiryDate: '2025-01-01', status: 'active' },
+  { id: '5', type: 'Training', name: 'Fire Safety Training', issuer: 'Internal', issueDate: '2024-11-01', expiryDate: '2025-11-01', status: 'pending' },
+];

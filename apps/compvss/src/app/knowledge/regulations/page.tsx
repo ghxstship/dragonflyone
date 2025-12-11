@@ -23,25 +23,12 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Regulation {
-  id: string;
-  title: string;
-  category: "OSHA" | "Fire" | "Electrical" | "Labor" | "ADA" | "Environmental" | "Noise";
-  jurisdiction: string;
-  lastUpdated: string;
-  status: "Current" | "Updated" | "Review Required";
-  summary: string;
-  documentUrl?: string;
-}
+import {
+  DEMO_REGULATIONS,
+  type DemoRegulation as Regulation,
+} from "../../../lib/demo-data";
 
-const mockRegulations: Regulation[] = [
-  { id: "REG-001", title: "OSHA General Industry Standards", category: "OSHA", jurisdiction: "Federal", lastUpdated: "2024-10-15", status: "Current", summary: "Comprehensive workplace safety standards including fall protection, PPE requirements, and hazard communication." },
-  { id: "REG-002", title: "NFPA 102 - Assembly Seating", category: "Fire", jurisdiction: "Federal", lastUpdated: "2024-08-01", status: "Current", summary: "Fire safety requirements for assembly occupancies including egress, fire suppression, and crowd management." },
-  { id: "REG-003", title: "NEC Article 525 - Carnivals/Fairs", category: "Electrical", jurisdiction: "Federal", lastUpdated: "2024-06-20", status: "Current", summary: "Electrical installation requirements for temporary events including grounding, GFCI protection, and cable management." },
-  { id: "REG-004", title: "California Labor Code", category: "Labor", jurisdiction: "California", lastUpdated: "2024-11-01", status: "Updated", summary: "State labor laws including meal breaks, overtime, and worker classification requirements." },
-  { id: "REG-005", title: "ADA Accessibility Guidelines", category: "ADA", jurisdiction: "Federal", lastUpdated: "2024-03-15", status: "Current", summary: "Accessibility requirements for public events including wheelchair access, signage, and assistive services." },
-  { id: "REG-006", title: "EPA Noise Regulations", category: "Noise", jurisdiction: "Federal", lastUpdated: "2024-05-10", status: "Review Required", summary: "Environmental noise limits and monitoring requirements for outdoor events." },
-];
+const mockRegulations = DEMO_REGULATIONS;
 
 const categories = ["All", "OSHA", "Fire", "Electrical", "Labor", "ADA", "Environmental", "Noise"];
 
