@@ -10,27 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-interface FanContent {
-  id: string;
-  type: "Photo" | "Video" | "Story" | "Review";
-  title: string;
-  creator: string;
-  eventName: string;
-  createdAt: string;
-  likes: number;
-  comments: number;
-  featured: boolean;
-  status: "Published" | "Pending" | "Featured";
-  tags: string[];
-}
+import {
+  DEMO_FAN_CONTENT,
+  type DemoFanContent as FanContent,
+} from "@/lib/demo-data";
 
-const mockContent: FanContent[] = [
-  { id: "FC-001", type: "Photo", title: "Front Row Magic", creator: "Sarah M.", eventName: "Summer Fest 2024", createdAt: "2024-11-24", likes: 342, comments: 28, featured: true, status: "Featured", tags: ["concert", "crowd"] },
-  { id: "FC-002", type: "Video", title: "Epic Encore", creator: "Mike T.", eventName: "Summer Fest 2024", createdAt: "2024-11-24", likes: 892, comments: 67, featured: true, status: "Featured", tags: ["encore", "fireworks"] },
-  { id: "FC-003", type: "Story", title: "My First Festival", creator: "Emily C.", eventName: "Summer Fest 2024", createdAt: "2024-11-25", likes: 156, comments: 42, featured: false, status: "Published", tags: ["firsttime", "memories"] },
-  { id: "FC-004", type: "Photo", title: "Sunset Stage", creator: "Alex R.", eventName: "Fall Concert", createdAt: "2024-11-20", likes: 234, comments: 19, featured: false, status: "Published", tags: ["sunset", "stage"] },
-  { id: "FC-005", type: "Review", title: "Best Night Ever", creator: "Jordan K.", eventName: "Summer Fest 2024", createdAt: "2024-11-25", likes: 89, comments: 12, featured: false, status: "Pending", tags: ["review", "amazing"] },
-];
+const mockContent = DEMO_FAN_CONTENT;
 
 function FanContentPageContent() {
   const router = useRouter();
