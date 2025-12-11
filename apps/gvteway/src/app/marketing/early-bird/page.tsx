@@ -10,27 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface EarlyBirdCampaign {
-  id: string;
-  eventName: string;
-  tierName: string;
-  originalPrice: number;
-  discountedPrice: number;
-  discountPercent: number;
-  startDate: string;
-  endDate: string;
-  ticketsAllocated: number;
-  ticketsSold: number;
-  status: "Scheduled" | "Active" | "Ending Soon" | "Ended";
-  daysRemaining?: number;
-}
+import {
+  DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS,
+  type DemoMarketingEarlyBirdCampaign as EarlyBirdCampaign,
+} from "@/lib/demo-data";
 
-const mockCampaigns: EarlyBirdCampaign[] = [
-  { id: "EB-001", eventName: "Summer Music Festival 2025", tierName: "Super Early Bird", originalPrice: 150, discountedPrice: 99, discountPercent: 34, startDate: "2024-11-01", endDate: "2024-12-15", ticketsAllocated: 500, ticketsSold: 423, status: "Active", daysRemaining: 20 },
-  { id: "EB-002", eventName: "Summer Music Festival 2025", tierName: "Early Bird", originalPrice: 150, discountedPrice: 119, discountPercent: 21, startDate: "2024-12-16", endDate: "2025-01-31", ticketsAllocated: 1000, ticketsSold: 0, status: "Scheduled" },
-  { id: "EB-003", eventName: "Tech Conference 2025", tierName: "Early Access", originalPrice: 299, discountedPrice: 199, discountPercent: 33, startDate: "2024-11-15", endDate: "2024-11-30", ticketsAllocated: 200, ticketsSold: 187, status: "Ending Soon", daysRemaining: 5 },
-  { id: "EB-004", eventName: "New Year Gala", tierName: "Early Bird", originalPrice: 250, discountedPrice: 175, discountPercent: 30, startDate: "2024-10-01", endDate: "2024-11-15", ticketsAllocated: 300, ticketsSold: 300, status: "Ended" },
-];
+const mockCampaigns = DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS;
 
 function EarlyBirdPageContent() {
   const router = useRouter();

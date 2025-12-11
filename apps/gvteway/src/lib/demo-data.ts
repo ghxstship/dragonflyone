@@ -1461,3 +1461,132 @@ export const DEMO_BLUEPRINTS: DemoBlueprint[] = [
   },
 ];
 
+// =============================================================================
+// MARKETING - AB TESTING (for marketing/ab-testing/page.tsx)
+// =============================================================================
+
+export interface DemoABTestVariant {
+  name: string;
+  visitors: number;
+  conversions: number;
+  conversionRate: number;
+  [key: string]: unknown;
+}
+
+export interface DemoABTest {
+  id: string;
+  name: string;
+  type: 'Landing Page' | 'Pricing' | 'Email' | 'CTA' | 'Checkout';
+  status: 'Running' | 'Completed' | 'Draft' | 'Paused';
+  startDate: string;
+  endDate?: string;
+  variants: DemoABTestVariant[];
+  winner?: string;
+  confidence?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_AB_TESTS: DemoABTest[] = [
+  { 
+    id: 'AB-001', 
+    name: 'Hero Image Test', 
+    type: 'Landing Page', 
+    status: 'Running', 
+    startDate: '2024-11-15',
+    variants: [
+      { name: 'Control (Festival Photo)', visitors: 4520, conversions: 226, conversionRate: 5.0 },
+      { name: 'Variant A (Artist Photo)', visitors: 4480, conversions: 269, conversionRate: 6.0 },
+    ],
+    confidence: 87
+  },
+  { 
+    id: 'AB-002', 
+    name: 'Ticket Price Display', 
+    type: 'Pricing', 
+    status: 'Completed', 
+    startDate: '2024-11-01',
+    endDate: '2024-11-14',
+    variants: [
+      { name: 'Control ($150)', visitors: 8200, conversions: 328, conversionRate: 4.0 },
+      { name: 'Variant A ($149)', visitors: 8150, conversions: 407, conversionRate: 5.0 },
+    ],
+    winner: 'Variant A ($149)',
+    confidence: 95
+  },
+  { 
+    id: 'AB-003', 
+    name: 'CTA Button Color', 
+    type: 'CTA', 
+    status: 'Running', 
+    startDate: '2024-11-20',
+    variants: [
+      { name: 'Control (Black)', visitors: 2100, conversions: 84, conversionRate: 4.0 },
+      { name: 'Variant A (Orange)', visitors: 2080, conversions: 104, conversionRate: 5.0 },
+      { name: 'Variant B (Green)', visitors: 2050, conversions: 82, conversionRate: 4.0 },
+    ],
+    confidence: 72
+  },
+  { 
+    id: 'AB-004', 
+    name: 'Email Subject Line', 
+    type: 'Email', 
+    status: 'Draft', 
+    startDate: '2024-12-01',
+    variants: [
+      { name: 'Control', visitors: 0, conversions: 0, conversionRate: 0 },
+      { name: 'Variant A', visitors: 0, conversions: 0, conversionRate: 0 },
+    ]
+  },
+];
+
+// =============================================================================
+// MARKETING - EARLY BIRD (for marketing/early-bird/page.tsx)
+// =============================================================================
+
+export interface DemoMarketingEarlyBirdCampaign {
+  id: string;
+  eventName: string;
+  tierName: string;
+  originalPrice: number;
+  discountedPrice: number;
+  discountPercent: number;
+  startDate: string;
+  endDate: string;
+  ticketsAllocated: number;
+  ticketsSold: number;
+  status: 'Scheduled' | 'Active' | 'Ending Soon' | 'Ended';
+  daysRemaining?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS: DemoMarketingEarlyBirdCampaign[] = [
+  { id: 'EB-001', eventName: 'Summer Music Festival 2025', tierName: 'Super Early Bird', originalPrice: 150, discountedPrice: 99, discountPercent: 34, startDate: '2024-11-01', endDate: '2024-12-15', ticketsAllocated: 500, ticketsSold: 423, status: 'Active', daysRemaining: 20 },
+  { id: 'EB-002', eventName: 'Summer Music Festival 2025', tierName: 'Early Bird', originalPrice: 150, discountedPrice: 119, discountPercent: 21, startDate: '2024-12-16', endDate: '2025-01-31', ticketsAllocated: 1000, ticketsSold: 0, status: 'Scheduled' },
+  { id: 'EB-003', eventName: 'Tech Conference 2025', tierName: 'Early Access', originalPrice: 299, discountedPrice: 199, discountPercent: 33, startDate: '2024-11-15', endDate: '2024-11-30', ticketsAllocated: 200, ticketsSold: 187, status: 'Ending Soon', daysRemaining: 5 },
+  { id: 'EB-004', eventName: 'New Year Gala', tierName: 'Early Bird', originalPrice: 250, discountedPrice: 175, discountPercent: 30, startDate: '2024-10-01', endDate: '2024-11-15', ticketsAllocated: 300, ticketsSold: 300, status: 'Ended' },
+];
+
+// =============================================================================
+// MARKETING - INFLUENCERS (for marketing/influencers/page.tsx)
+// =============================================================================
+
+export interface DemoInfluencer {
+  id: string;
+  name: string;
+  handle: string;
+  platform: string;
+  followers: number;
+  engagement: number;
+  niche: string;
+  status: 'Active' | 'Pending' | 'Completed';
+  campaigns: number;
+  revenue: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_INFLUENCERS: DemoInfluencer[] = [
+  { id: 'INF-001', name: 'Sarah Music', handle: '@sarahmusic', platform: 'Instagram', followers: 250000, engagement: 4.2, niche: 'Music', status: 'Active', campaigns: 3, revenue: 12500 },
+  { id: 'INF-002', name: 'Festival Life', handle: '@festlife', platform: 'TikTok', followers: 890000, engagement: 6.8, niche: 'Festivals', status: 'Active', campaigns: 5, revenue: 28000 },
+  { id: 'INF-003', name: 'Concert Vibes', handle: '@concertvibes', platform: 'Instagram', followers: 125000, engagement: 5.1, niche: 'Concerts', status: 'Pending', campaigns: 0, revenue: 0 },
+  { id: 'INF-004', name: 'DJ Reviews', handle: '@djreviews', platform: 'YouTube', followers: 450000, engagement: 3.9, niche: 'EDM', status: 'Completed', campaigns: 2, revenue: 8500 },
+];

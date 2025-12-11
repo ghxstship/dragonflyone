@@ -10,70 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-interface ABTest {
-  id: string;
-  name: string;
-  type: "Landing Page" | "Pricing" | "Email" | "CTA" | "Checkout";
-  status: "Running" | "Completed" | "Draft" | "Paused";
-  startDate: string;
-  endDate?: string;
-  variants: { name: string; visitors: number; conversions: number; conversionRate: number }[];
-  winner?: string;
-  confidence?: number;
-}
+import {
+  DEMO_AB_TESTS,
+  type DemoABTest as ABTest,
+} from "@/lib/demo-data";
 
-const mockTests: ABTest[] = [
-  { 
-    id: "AB-001", 
-    name: "Hero Image Test", 
-    type: "Landing Page", 
-    status: "Running", 
-    startDate: "2024-11-15",
-    variants: [
-      { name: "Control (Festival Photo)", visitors: 4520, conversions: 226, conversionRate: 5.0 },
-      { name: "Variant A (Artist Photo)", visitors: 4480, conversions: 269, conversionRate: 6.0 },
-    ],
-    confidence: 87
-  },
-  { 
-    id: "AB-002", 
-    name: "Ticket Price Display", 
-    type: "Pricing", 
-    status: "Completed", 
-    startDate: "2024-11-01",
-    endDate: "2024-11-14",
-    variants: [
-      { name: "Control ($150)", visitors: 8200, conversions: 328, conversionRate: 4.0 },
-      { name: "Variant A ($149)", visitors: 8150, conversions: 407, conversionRate: 5.0 },
-    ],
-    winner: "Variant A ($149)",
-    confidence: 95
-  },
-  { 
-    id: "AB-003", 
-    name: "CTA Button Color", 
-    type: "CTA", 
-    status: "Running", 
-    startDate: "2024-11-20",
-    variants: [
-      { name: "Control (Black)", visitors: 2100, conversions: 84, conversionRate: 4.0 },
-      { name: "Variant A (Orange)", visitors: 2080, conversions: 104, conversionRate: 5.0 },
-      { name: "Variant B (Green)", visitors: 2050, conversions: 82, conversionRate: 4.0 },
-    ],
-    confidence: 72
-  },
-  { 
-    id: "AB-004", 
-    name: "Email Subject Line", 
-    type: "Email", 
-    status: "Draft", 
-    startDate: "2024-12-01",
-    variants: [
-      { name: "Control", visitors: 0, conversions: 0, conversionRate: 0 },
-      { name: "Variant A", visitors: 0, conversions: 0, conversionRate: 0 },
-    ]
-  },
-];
+const mockTests = DEMO_AB_TESTS;
 
 function ABTestingPageContent() {
   const router = useRouter();

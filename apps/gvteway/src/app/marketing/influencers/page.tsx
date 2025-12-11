@@ -10,25 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Kicker,
 } from "@ghxstship/ui";
 
-interface Influencer {
-  id: string;
-  name: string;
-  handle: string;
-  platform: string;
-  followers: number;
-  engagement: number;
-  niche: string;
-  status: "Active" | "Pending" | "Completed";
-  campaigns: number;
-  revenue: number;
-}
+import {
+  DEMO_INFLUENCERS,
+  type DemoInfluencer as Influencer,
+} from "@/lib/demo-data";
 
-const mockInfluencers: Influencer[] = [
-  { id: "INF-001", name: "Sarah Music", handle: "@sarahmusic", platform: "Instagram", followers: 250000, engagement: 4.2, niche: "Music", status: "Active", campaigns: 3, revenue: 12500 },
-  { id: "INF-002", name: "Festival Life", handle: "@festlife", platform: "TikTok", followers: 890000, engagement: 6.8, niche: "Festivals", status: "Active", campaigns: 5, revenue: 28000 },
-  { id: "INF-003", name: "Concert Vibes", handle: "@concertvibes", platform: "Instagram", followers: 125000, engagement: 5.1, niche: "Concerts", status: "Pending", campaigns: 0, revenue: 0 },
-  { id: "INF-004", name: "DJ Reviews", handle: "@djreviews", platform: "YouTube", followers: 450000, engagement: 3.9, niche: "EDM", status: "Completed", campaigns: 2, revenue: 8500 },
-];
+const mockInfluencers = DEMO_INFLUENCERS;
 
 function InfluencersPageContent() {
   const router = useRouter();
