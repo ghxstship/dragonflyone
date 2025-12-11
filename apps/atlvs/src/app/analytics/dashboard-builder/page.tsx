@@ -10,25 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface Dashboard {
-  id: string;
-  name: string;
-  description?: string;
-  widgetCount: number;
-  isDefault: boolean;
-  createdAt: string;
-  lastModified: string;
-  status: 'Active' | 'Draft';
-  [key: string]: unknown;
-}
-
-const mockData: Dashboard[] = [
-  { id: 'DB-001', name: 'Executive Overview', description: 'High-level KPIs for leadership', widgetCount: 8, isDefault: true, createdAt: '2024-11-01', lastModified: '2024-11-20', status: 'Active' },
-  { id: 'DB-002', name: 'Finance Dashboard', description: 'Financial metrics and trends', widgetCount: 12, isDefault: false, createdAt: '2024-11-10', lastModified: '2024-11-18', status: 'Active' },
-  { id: 'DB-003', name: 'Operations Dashboard', description: 'Operational KPIs and workflows', widgetCount: 6, isDefault: false, createdAt: '2024-11-15', lastModified: '2024-11-15', status: 'Draft' },
-  { id: 'DB-004', name: 'Sales Pipeline', description: 'Deal tracking and forecasting', widgetCount: 10, isDefault: false, createdAt: '2024-10-20', lastModified: '2024-11-22', status: 'Active' },
-  { id: 'DB-005', name: 'HR Analytics', description: 'Workforce metrics', widgetCount: 5, isDefault: false, createdAt: '2024-10-15', lastModified: '2024-11-10', status: 'Active' },
-];
+import {
+  DEMO_DASHBOARDS,
+  type DemoDashboard as Dashboard,
+} from '../../../lib/demo-data';
 
 const columns: ListPageColumn<Dashboard>[] = [
   { key: 'name', label: 'Dashboard', accessor: 'name', sortable: true },
@@ -51,7 +36,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DashboardBuilderPage() {
   const router = useRouter();
-  const [data, setData] = useState<Dashboard[]>(mockData);
+  const [data, setData] = useState<Dashboard[]>(DEMO_DASHBOARDS);
   const [selected, setSelected] = useState<Dashboard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -127,7 +112,7 @@ export default function DashboardBuilderPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 

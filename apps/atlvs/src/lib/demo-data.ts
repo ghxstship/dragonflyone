@@ -1116,3 +1116,27 @@ export const DEMO_CLIENT_RETENTION: DemoClientRetention[] = [
   { id: 'CL-006', clientName: 'Local Business Co', segment: 'SMB', firstDealDate: '2023-06-15', totalDeals: 3, totalRevenue: 35000, lastDealDate: '2024-01-10', status: 'Churned', healthScore: 15, daysSinceLastDeal: 319, avgDealSize: 11667, npsScore: 4 },
   { id: 'CL-007', clientName: 'Innovation Labs', segment: 'Mid-Market', firstDealDate: '2024-10-01', totalDeals: 1, totalRevenue: 45000, lastDealDate: '2024-10-01', status: 'New', healthScore: 75, daysSinceLastDeal: 54, avgDealSize: 45000 },
 ];
+
+// =============================================================================
+// DASHBOARDS (for analytics/dashboard-builder page)
+// =============================================================================
+
+export interface DemoDashboard {
+  id: string;
+  name: string;
+  description?: string;
+  widgetCount: number;
+  isDefault: boolean;
+  createdAt: string;
+  lastModified: string;
+  status: 'Active' | 'Draft';
+  [key: string]: unknown;
+}
+
+export const DEMO_DASHBOARDS: DemoDashboard[] = [
+  { id: 'DB-001', name: 'Executive Overview', description: 'High-level KPIs for leadership', widgetCount: 8, isDefault: true, createdAt: '2024-11-01', lastModified: '2024-11-20', status: 'Active' },
+  { id: 'DB-002', name: 'Finance Dashboard', description: 'Financial metrics and trends', widgetCount: 12, isDefault: false, createdAt: '2024-11-10', lastModified: '2024-11-18', status: 'Active' },
+  { id: 'DB-003', name: 'Operations Dashboard', description: 'Operational KPIs and workflows', widgetCount: 6, isDefault: false, createdAt: '2024-11-15', lastModified: '2024-11-15', status: 'Draft' },
+  { id: 'DB-004', name: 'Sales Pipeline', description: 'Deal tracking and forecasting', widgetCount: 10, isDefault: false, createdAt: '2024-10-20', lastModified: '2024-11-22', status: 'Active' },
+  { id: 'DB-005', name: 'HR Analytics', description: 'Workforce metrics', widgetCount: 5, isDefault: false, createdAt: '2024-10-15', lastModified: '2024-11-10', status: 'Active' },
+];

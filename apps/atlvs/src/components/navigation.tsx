@@ -64,12 +64,12 @@ export function CreatorNavigationPublic() {
           {/* Desktop CTAs + Mobile Toggle */}
           <Stack direction="horizontal" gap={3} className="items-center">
             <Link href="/auth/signup" className="hidden md:block">
-              <button className="inline-flex items-center justify-center gap-2 border-2 border-white bg-white px-4 py-2 font-heading text-body-sm font-weight-bold uppercase tracking-label text-black shadow-brand-sm transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brand-md active:translate-x-0.5 active:translate-y-0.5 active:shadow-brand-active">
+              <Button variant="solid" size="sm" inverted>
                 Get Started
-              </button>
+              </Button>
             </Link>
             <Link href="/auth/signin" className="hidden md:block">
-              <Button variant="outlineInk" size="sm">
+              <Button variant="outline" size="sm" inverted>
                 Sign In
               </Button>
             </Link>
@@ -126,12 +126,12 @@ export function CreatorNavigationPublic() {
             </Stack>
             <Stack gap={4}>
               <Link href="/auth/signup" onClick={handleClose} className="block">
-                <button className="inline-flex w-full items-center justify-center gap-2 border-2 border-white bg-white px-6 py-3 font-heading text-body-sm font-weight-bold uppercase tracking-label text-black shadow-brand-md transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-brand-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-brand-active">
+                <Button variant="solid" size="md" inverted fullWidth>
                   Get Started
-                </button>
+                </Button>
               </Link>
               <Link href="/auth/signin" onClick={handleClose} className="block">
-                <Button variant="outlineInk" size="md" fullWidth>
+                <Button variant="outline" size="md" inverted fullWidth>
                   Sign In
                 </Button>
               </Link>
