@@ -19,28 +19,10 @@ import {
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface BackgroundCheck {
-  id: string;
-  employeeId: string;
-  employeeName: string;
-  department: string;
-  checkType: string;
-  provider: string;
-  requestDate: string;
-  completedDate?: string;
-  expiryDate?: string;
-  status: "Pending" | "In Progress" | "Completed" | "Failed" | "Expired" | "Renewal Due";
-  result?: "Clear" | "Review Required" | "Failed";
-  notes?: string;
-}
-
-const mockBackgroundChecks: BackgroundCheck[] = [
-  { id: "BGC-001", employeeId: "EMP-101", employeeName: "John Smith", department: "Production", checkType: "Criminal + Employment", provider: "Checkr", requestDate: "2024-11-01", completedDate: "2024-11-05", expiryDate: "2025-11-05", status: "Completed", result: "Clear" },
-  { id: "BGC-002", employeeId: "EMP-102", employeeName: "Sarah Johnson", department: "Finance", checkType: "Criminal + Credit + Employment", provider: "Sterling", requestDate: "2024-11-10", status: "In Progress" },
-  { id: "BGC-003", employeeId: "EMP-103", employeeName: "Mike Williams", department: "Operations", checkType: "Criminal", provider: "Checkr", requestDate: "2024-10-15", completedDate: "2024-10-18", expiryDate: "2024-12-18", status: "Renewal Due", result: "Clear" },
-  { id: "BGC-004", employeeId: "EMP-104", employeeName: "Emily Davis", department: "Audio", checkType: "Criminal + Employment", provider: "GoodHire", requestDate: "2024-11-15", status: "Pending" },
-  { id: "BGC-005", employeeId: "EMP-105", employeeName: "Chris Brown", department: "Lighting", checkType: "Criminal + Drug Screen", provider: "Checkr", requestDate: "2024-09-01", completedDate: "2024-09-05", expiryDate: "2024-09-05", status: "Expired", result: "Clear" },
-];
+import {
+  DEMO_BACKGROUND_CHECKS_FULL,
+  type DemoBackgroundCheckFull as BackgroundCheck,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -102,7 +84,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [checks, setChecks] = useState<BackgroundCheck[]>(mockBackgroundChecks);
+  const [checks, setChecks] = useState<BackgroundCheck[]>(DEMO_BACKGROUND_CHECKS_FULL);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -180,7 +162,7 @@ export default function BackgroundChecksPage() {
 
       }
 
-      refetch();
+      setChecks(DEMO_BACKGROUND_CHECKS_FULL);
 
     },
 
