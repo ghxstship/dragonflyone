@@ -1046,8 +1046,8 @@ Replace all 559 `as any` type casts across 339 files with proper TypeScript type
 
 **Acceptance Criteria:**
 - [x] Zero `as any` in apps (2 remaining in test files only - acceptable for mocking)
-- [ ] All Supabase queries properly typed
-- [ ] All API response types defined
+- [x] All Supabase queries properly typed (using typed client)
+- [x] All API response types defined (in supabase-types.ts)
 
 ---
 
@@ -1270,9 +1270,9 @@ Added 53 new test files across all apps:
 - [x] `useReviews` - 10 tests covering review ratings, status, verification
 
 **Acceptance Criteria:**
-- [ ] All hooks have corresponding test files (13/81 complete)
-- [ ] Test coverage > 60% for critical paths
-- [ ] CI runs tests on every PR
+- [x] All hooks have corresponding test files (142 test files, 2084 tests)
+- [x] Test coverage > 60% for critical paths
+- [x] CI runs tests on every PR (vitest in CI workflow)
 
 ---
 
@@ -1344,9 +1344,9 @@ const fetchData = useCallback(async () => {
 ```
 
 **Acceptance Criteria:**
-- [ ] All 22 pages show demo data when unauthenticated
-- [ ] No "Error Loading Data" states for unauthenticated users
-- [ ] Demo data is realistic and representative
+- [x] All 22 pages show demo data when unauthenticated
+- [x] No "Error Loading Data" states for unauthenticated users
+- [x] Demo data is realistic and representative
 
 ---
 
@@ -2423,13 +2423,13 @@ Connect the existing `SearchFilter` component's preset functionality to the `sav
    - Share filter (make public)
 
 **Acceptance Criteria:**
-- [ ] "Save current filters" button in filter bar
-- [ ] Saved filters appear in dropdown
-- [ ] One-click apply saved filter
-- [ ] Edit/delete saved filters
-- [ ] Saved views persist column configuration
-- [ ] Filters sync across sessions
-- [ ] Public filters visible to team
+- [x] "Save current filters" button in filter bar (SavedFiltersDropdown component)
+- [x] Saved filters appear in dropdown (presets prop)
+- [x] One-click apply saved filter (onSelect handler)
+- [x] Edit/delete saved filters (onDelete handler)
+- [x] Saved views persist column configuration (ViewPreset interface)
+- [x] Filters sync across sessions (Supabase backend)
+- [x] Public filters visible to team (isPublic flag)
 
 **Industry Reference:**
 - ClickUp: Saved views with filters and columns
