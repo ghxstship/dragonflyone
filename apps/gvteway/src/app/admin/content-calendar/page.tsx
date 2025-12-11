@@ -11,25 +11,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface ScheduledPost {
-  id: string;
-  title: string;
-  content: string;
-  platform: string;
-  scheduledDate: string;
-  scheduledTime: string;
-  status: "Scheduled" | "Published" | "Draft";
-  eventName?: string;
-  mediaType: string;
-  author: string;
-}
+import {
+  DEMO_SCHEDULED_POSTS,
+  type DemoScheduledPost as ScheduledPost,
+} from "@/lib/demo-data";
 
-const mockPosts: ScheduledPost[] = [
-  { id: "POST-001", title: "Lineup Reveal", content: "Check out our lineup!", platform: "All", scheduledDate: "2024-11-26", scheduledTime: "10:00", status: "Scheduled", eventName: "Summer Fest", mediaType: "Carousel", author: "Marketing" },
-  { id: "POST-002", title: "Early Bird Reminder", content: "Last chance for early bird!", platform: "Instagram", scheduledDate: "2024-11-26", scheduledTime: "14:00", status: "Scheduled", eventName: "Summer Fest", mediaType: "Story", author: "Sarah M." },
-  { id: "POST-003", title: "Behind the Scenes", content: "Production setup peek", platform: "TikTok", scheduledDate: "2024-11-27", scheduledTime: "12:00", status: "Draft", mediaType: "Video", author: "Content Team" },
-  { id: "POST-004", title: "Artist Spotlight", content: "Meet our headliner!", platform: "Facebook", scheduledDate: "2024-11-25", scheduledTime: "18:00", status: "Published", eventName: "Summer Fest", mediaType: "Image", author: "Marketing" },
-];
+const mockPosts = DEMO_SCHEDULED_POSTS;
 
 function ContentCalendarPageContent() {
   const router = useRouter();

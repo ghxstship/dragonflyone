@@ -788,3 +788,58 @@ export const DEMO_ATTRIBUTION_SOURCES: DemoAttributionSource[] = [
   { source: 'Direct', conversions: 134, revenue: 20100, percentage: 11 },
   { source: 'Referral', conversions: 78, revenue: 11700, percentage: 6 },
 ];
+
+// =============================================================================
+// ADMIN - CONTENT CALENDAR (for admin/content-calendar/page.tsx)
+// =============================================================================
+
+export interface DemoScheduledPost {
+  id: string;
+  title: string;
+  content: string;
+  platform: string;
+  scheduledDate: string;
+  scheduledTime: string;
+  status: 'Scheduled' | 'Published' | 'Draft';
+  eventName?: string;
+  mediaType: string;
+  author: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SCHEDULED_POSTS: DemoScheduledPost[] = [
+  { id: 'POST-001', title: 'Lineup Reveal', content: 'Check out our lineup!', platform: 'All', scheduledDate: '2024-11-26', scheduledTime: '10:00', status: 'Scheduled', eventName: 'Summer Fest', mediaType: 'Carousel', author: 'Marketing' },
+  { id: 'POST-002', title: 'Early Bird Reminder', content: 'Last chance for early bird!', platform: 'Instagram', scheduledDate: '2024-11-26', scheduledTime: '14:00', status: 'Scheduled', eventName: 'Summer Fest', mediaType: 'Story', author: 'Sarah M.' },
+  { id: 'POST-003', title: 'Behind the Scenes', content: 'Production setup peek', platform: 'TikTok', scheduledDate: '2024-11-27', scheduledTime: '12:00', status: 'Draft', mediaType: 'Video', author: 'Content Team' },
+  { id: 'POST-004', title: 'Artist Spotlight', content: 'Meet our headliner!', platform: 'Facebook', scheduledDate: '2024-11-25', scheduledTime: '18:00', status: 'Published', eventName: 'Summer Fest', mediaType: 'Image', author: 'Marketing' },
+];
+
+// =============================================================================
+// ADMIN - CONTESTS (for admin/contests/page.tsx)
+// =============================================================================
+
+export interface DemoContest {
+  id: string;
+  name: string;
+  type: 'Giveaway' | 'Photo Contest' | 'Video Contest' | 'Hashtag Challenge' | 'Sweepstakes';
+  eventId?: string;
+  eventName?: string;
+  prize: string;
+  prizeValue: number;
+  startDate: string;
+  endDate: string;
+  status: 'Draft' | 'Active' | 'Ended' | 'Selecting Winner';
+  entries: number;
+  platforms: string[];
+  rules?: string;
+  winnerId?: string;
+  winnerName?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CONTESTS: DemoContest[] = [
+  { id: 'CNT-001', name: 'Summer Fest VIP Giveaway', type: 'Giveaway', eventId: 'EVT-001', eventName: 'Summer Fest 2024', prize: '2 VIP Tickets + Meet & Greet', prizeValue: 500, startDate: '2024-11-01', endDate: '2024-11-20', status: 'Ended', entries: 2450, platforms: ['Instagram', 'Twitter'], winnerId: 'USR-123', winnerName: 'Sarah M.' },
+  { id: 'CNT-002', name: 'Best Concert Photo', type: 'Photo Contest', eventId: 'EVT-001', eventName: 'Summer Fest 2024', prize: 'Free tickets to next 3 events', prizeValue: 300, startDate: '2024-11-15', endDate: '2024-12-01', status: 'Active', entries: 156, platforms: ['Instagram'] },
+  { id: 'CNT-003', name: '#SummerFestVibes Challenge', type: 'Hashtag Challenge', eventId: 'EVT-001', eventName: 'Summer Fest 2024', prize: 'Exclusive Merch Bundle', prizeValue: 150, startDate: '2024-11-10', endDate: '2024-11-25', status: 'Active', entries: 892, platforms: ['TikTok', 'Instagram'] },
+  { id: 'CNT-004', name: 'Holiday Sweepstakes', type: 'Sweepstakes', prize: 'Year of Free Concerts', prizeValue: 2000, startDate: '2024-12-01', endDate: '2024-12-25', status: 'Draft', entries: 0, platforms: ['Instagram', 'Twitter', 'Facebook'] },
+];
