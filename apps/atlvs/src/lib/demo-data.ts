@@ -1211,7 +1211,7 @@ export const DEMO_CREW_ASSIGNMENTS: DemoCrewAssignment[] = [
   { id: '3', production: 'Concert Series - Week 1', role: 'Stage Manager', dates: 'Oct 15-18, 2024', status: 'completed', rate: 500 },
 ];
 
-export interface DemoVendorContract {
+export interface DemoProductionVendorContract {
   id: string;
   production: string;
   service: string;
@@ -1221,7 +1221,7 @@ export interface DemoVendorContract {
   endDate: string;
 }
 
-export const DEMO_VENDOR_CONTRACTS: DemoVendorContract[] = [
+export const DEMO_PRODUCTION_VENDOR_CONTRACTS: DemoProductionVendorContract[] = [
   { id: '1', production: 'Summer Music Festival 2024', service: 'Audio Equipment Rental', value: 45000, status: 'active', startDate: 'Nov 15, 2024', endDate: 'Nov 25, 2024' },
   { id: '2', production: 'Corporate Gala', service: 'Lighting Package', value: 12000, status: 'pending', startDate: 'Dec 3, 2024', endDate: 'Dec 6, 2024' },
   { id: '3', production: 'Concert Series', service: 'Stage Equipment', value: 28000, status: 'completed', startDate: 'Oct 10, 2024', endDate: 'Oct 20, 2024' },

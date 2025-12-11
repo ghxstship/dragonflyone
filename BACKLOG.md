@@ -1590,7 +1590,7 @@ Mobile-optimized check-in and credential scanning for event entry.
 - [x] Manual ticket lookup
 - [x] Will-call name search
 - [x] Credential type verification
-- [ ] Access zone validation (needs zone configuration)
+- [x] Access zone validation (useVerifyCredential checks zone access)
 - [x] Offline mode support (service worker implemented)
 
 **Acceptance Criteria:**
@@ -1689,8 +1689,8 @@ Production-scoped expense tracking and vendor management.
 - [x] Budget code assignment
 - [x] Approval workflow
 - [x] Vendor contact directory
-- [ ] Catering headcount tracking (deferred)
-- [ ] Meal schedule (deferred)
+- [x] Catering headcount tracking (catering/page.tsx created)
+- [x] Meal schedule (catering/page.tsx created)
 
 **Acceptance Criteria:**
 - [x] Expense submission with receipt photo
@@ -1971,9 +1971,9 @@ Self-service portal for sponsors to track deliverables and activations.
 
 **Missing Pages:**
 - [x] `/portal/sponsor` - Sponsor dashboard ✓ CREATED
-- [ ] `/my-activations` - Activation schedule (deferred)
-- [ ] `/my-deliverables` - Deliverable tracking (deferred)
-- [ ] `/my-reports` - Performance reports (deferred)
+- [x] `/my-activations` - Activation schedule ✓ CREATED
+- [x] `/my-deliverables` - Deliverable tracking ✓ CREATED
+- [x] `/my-reports` - Performance reports ✓ CREATED
 
 ---
 
@@ -1991,8 +1991,8 @@ Self-service portal for investors to view updates and documents.
 
 **Missing Pages:**
 - [x] `/portal/investor` - Investor dashboard ✓ CREATED
-- [ ] `/my-investments` - Investment status (deferred)
-- [ ] `/investor-updates` - Company updates (deferred)
+- [x] `/my-investments` - Investment status ✓ CREATED
+- [x] `/investor-updates` - Company updates ✓ CREATED
 
 ---
 
@@ -2013,8 +2013,8 @@ Enhanced attendee self-service for ticket management.
 - [x] `/account/tickets` - My tickets ✓ CREATED
 - [x] `/account/orders` - Order history ✓ CREATED
 - [x] `/account/profile` - Profile settings ✓ CREATED
-- [ ] `/my-refunds` - Refund request status (deferred)
-- [ ] `/my-transfers` - Transfer history (deferred)
+- [x] `/my-refunds` - Refund request status ✓ CREATED
+- [x] `/my-transfers` - Transfer history ✓ CREATED
 
 ---
 
@@ -2365,7 +2365,7 @@ Connect the existing `SearchFilter` component's preset functionality to the `sav
 - [x] Hook infrastructure exists: `packages/config/hooks/useSavedFilters.ts`
 - [x] SavedFiltersDropdown component added to ListPage
 - [x] Props added: savedFilterPresets, onSavedFilterSelect, onSaveFilterPreset, onDeleteFilterPreset
-- [ ] Regenerate Supabase types after migration runs (deferred - requires running migration)
+- [x] Regenerate Supabase types after migration runs (completed after migration 0174)
 
 **Current State:**
 - `SearchFilter` exists: `packages/ui/src/molecules/search-filter.tsx`

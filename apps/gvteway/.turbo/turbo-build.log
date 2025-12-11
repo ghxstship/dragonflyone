@@ -8,42 +8,67 @@
     · cpus
 
    Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ⚠ Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
    Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
-   Generating static pages (0/135) ...
-   Generating static pages (33/135) 
-   Generating static pages (67/135) 
-   Generating static pages (101/135) 
- ✓ Generating static pages (135/135)
+   Generating static pages (0/138) ...
+   Generating static pages (34/138) 
+   Generating static pages (68/138) 
+   Generating static pages (103/138) 
+ ✓ Generating static pages (138/138)
    Finalizing page optimization ...
    Collecting build traces ...
 
 Route (app)                                   Size     First Load JS
 ┌ ƒ /                                         8.54 kB         460 kB
-├ ○ /_not-found                               143 B          87.7 kB
+├ ○ /_not-found                               143 B          87.8 kB
 ├ ○ /accessibility                            3.39 kB         467 kB
 ├ ○ /accessibility/request                    5.33 kB         450 kB
-├ ○ /account                                  4.64 kB         475 kB
+├ ○ /account                                  4.63 kB         476 kB
+├ ○ /account/my-refunds                       2.87 kB         448 kB
+├ ○ /account/my-transfers                     2.84 kB         448 kB
 ├ ○ /account/orders                           2.12 kB         466 kB
 ├ ○ /account/profile                          2.82 kB         448 kB
 ├ ○ /account/tickets                          2.44 kB         466 kB
 ├ ○ /activity                                 3.23 kB         454 kB
 ├ ○ /admin/anti-scalping                      4.31 kB         468 kB
-├ ○ /admin/content-calendar                   2.61 kB         466 kB
-├ ○ /admin/contests                           3.91 kB         510 kB
+├ ○ /admin/content-calendar                   2.61 kB         467 kB
+├ ○ /admin/contests                           3.91 kB         647 kB
 ├ ○ /admin/integrations                       4.54 kB         449 kB
-├ ○ /admin/inventory-sync                     3.24 kB         510 kB
-├ ○ /admin/marketing/sms                      3.63 kB         467 kB
+├ ○ /admin/inventory-sync                     3.24 kB         647 kB
+├ ○ /admin/marketing/sms                      3.63 kB         468 kB
 ├ ○ /admin/moderation                         2.85 kB         467 kB
 ├ ○ /admin/pos                                3.31 kB         467 kB
 ├ ○ /admin/pos/cashless                       4.74 kB         469 kB
 ├ ○ /admin/pricing/early-bird                 3.46 kB         467 kB
-├ ○ /admin/promo-codes                        5.97 kB         493 kB
-├ ○ /admin/sales-reporting                    3.29 kB         510 kB
-├ ○ /admin/will-call                          5.52 kB         493 kB
+├ ○ /admin/promo-codes                        5.97 kB         630 kB
+├ ○ /admin/sales-reporting                    3.3 kB          647 kB
+├ ○ /admin/will-call                          5.53 kB         630 kB
 ├ ƒ /api/ab-testing                           0 B                0 B
 ├ ƒ /api/abandoned-cart                       0 B                0 B
 ├ ƒ /api/accessibility                        0 B                0 B
@@ -342,18 +367,18 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/wishlist                             0 B                0 B
 ├ ○ /apply                                    8.67 kB         460 kB
 ├ ○ /apply/confirmation                       4.45 kB         456 kB
-├ ○ /artists                                  3.18 kB         497 kB
-├ ƒ /artists/[id]                             3.96 kB         498 kB
+├ ○ /artists                                  3.18 kB         634 kB
+├ ƒ /artists/[id]                             3.96 kB         634 kB
 ├ ○ /auth/forgot-password                     6.36 kB         387 kB
 ├ ○ /auth/magic-link                          6.58 kB         387 kB
 ├ ○ /auth/reset-password                      6.64 kB         387 kB
-├ ○ /auth/signin                              3.15 kB         482 kB
-├ ○ /auth/signup                              7.04 kB         387 kB
+├ ○ /auth/signin                              3.15 kB         618 kB
+├ ○ /auth/signup                              7.04 kB         388 kB
 ├ ○ /auth/verify-email                        3.95 kB         381 kB
-├ ○ /browse                                   3.34 kB         480 kB
-├ ○ /calendar                                 3.28 kB         491 kB
-├ ○ /cart                                     5.86 kB         493 kB
-├ ○ /checkout                                 3.99 kB         491 kB
+├ ○ /browse                                   3.35 kB         617 kB
+├ ○ /calendar                                 3.29 kB         627 kB
+├ ○ /cart                                     5.86 kB         630 kB
+├ ○ /checkout                                 4 kB            628 kB
 ├ ○ /checkout/currency                        3.37 kB         467 kB
 ├ ƒ /collections/[id]                         2.26 kB         447 kB
 ├ ○ /community                                3.97 kB         449 kB
@@ -362,26 +387,26 @@ Route (app)                                   Size     First Load JS
 ├ ○ /community/guidelines                     4.13 kB         449 kB
 ├ ○ /community/polls                          4.96 kB         450 kB
 ├ ○ /confirmation                             2.88 kB         448 kB
-├ ○ /content                                  5.51 kB         456 kB
+├ ○ /content                                  5.51 kB         457 kB
 ├ ƒ /creators                                 2.29 kB         376 kB
-├ ○ /dashboard                                4.64 kB         492 kB
+├ ○ /dashboard                                4.64 kB         629 kB
 ├ ○ /deals                                    3.55 kB         448 kB
 ├ ○ /design-system                            4.56 kB         449 kB
 ├ ○ /destinations                             3.15 kB         448 kB
-├ ○ /directions                               5.93 kB         493 kB
-├ ○ /discover                                 3.68 kB         448 kB
-├ ○ /discover/quiz                            4.48 kB         455 kB
+├ ○ /directions                               5.94 kB         630 kB
+├ ○ /discover                                 3.68 kB         449 kB
+├ ○ /discover/quiz                            4.48 kB         456 kB
 ├ ƒ /e/[eventId]                              2.58 kB         377 kB
 ├ ƒ /e/[eventId]/box-office                   6.16 kB         451 kB
 ├ ƒ /e/[eventId]/chat                         1.94 kB         376 kB
-├ ƒ /e/[eventId]/check-in                     3.5 kB          470 kB
+├ ƒ /e/[eventId]/check-in                     3.5 kB          471 kB
 ├ ƒ /e/[eventId]/credentials                  3.02 kB         451 kB
 ├ ƒ /e/[eventId]/engage                       2.04 kB         376 kB
 ├ ƒ /e/[eventId]/engage/challenges            663 B           375 kB
 ├ ƒ /e/[eventId]/engage/polls                 654 B           375 kB
-├ ƒ /e/[eventId]/engage/qa                    1.42 kB         375 kB
-├ ƒ /e/[eventId]/engage/ugc                   1.44 kB         375 kB
-├ ƒ /e/[eventId]/entry-info                   2.49 kB         376 kB
+├ ƒ /e/[eventId]/engage/qa                    1.42 kB         376 kB
+├ ƒ /e/[eventId]/engage/ugc                   1.44 kB         376 kB
+├ ƒ /e/[eventId]/entry-info                   2.49 kB         377 kB
 ├ ƒ /e/[eventId]/friends                      2 kB            376 kB
 ├ ƒ /e/[eventId]/lineup                       1.91 kB         376 kB
 ├ ƒ /e/[eventId]/map                          1.99 kB         376 kB
@@ -398,26 +423,26 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /e/[eventId]/seating                      1.88 kB         376 kB
 ├ ƒ /e/[eventId]/services                     1.87 kB         376 kB
 ├ ƒ /e/[eventId]/services/emergency           2.03 kB         376 kB
-├ ƒ /e/[eventId]/services/lost-found          1.42 kB         375 kB
+├ ƒ /e/[eventId]/services/lost-found          1.42 kB         376 kB
 ├ ƒ /e/[eventId]/services/support             663 B           375 kB
 ├ ƒ /e/[eventId]/settlement                   6 kB            451 kB
 ├ ƒ /e/[eventId]/shop                         1.96 kB         376 kB
 ├ ƒ /e/[eventId]/ticket                       2.04 kB         376 kB
 ├ ƒ /e/[eventId]/tickets                      2.07 kB         376 kB
 ├ ƒ /e/[eventId]/will-call                    5.85 kB         451 kB
-├ ○ /events                                   2.67 kB         496 kB
-├ ƒ /events/[id]                              1.83 kB         495 kB
+├ ○ /events                                   2.67 kB         633 kB
+├ ƒ /events/[id]                              1.84 kB         632 kB
 ├ ƒ /events/[id]/accessibility                3.32 kB         467 kB
-├ ƒ /events/[id]/chat                         4.49 kB         455 kB
+├ ƒ /events/[id]/chat                         4.49 kB         456 kB
 ├ ƒ /events/[id]/entry-info                   3.56 kB         448 kB
-├ ƒ /events/[id]/floor-config                 3.57 kB         467 kB
+├ ƒ /events/[id]/floor-config                 3.57 kB         468 kB
 ├ ƒ /events/[id]/friends                      2.43 kB         466 kB
 ├ ƒ /events/[id]/landing-builder              4.19 kB         468 kB
 ├ ƒ /events/[id]/languages                    3.31 kB         467 kB
 ├ ƒ /events/[id]/parking                      3.45 kB         467 kB
 ├ ƒ /events/[id]/photo-booth                  3.07 kB         467 kB
 ├ ƒ /events/[id]/program                      2.25 kB         453 kB
-├ ƒ /events/[id]/rfid                         2.98 kB         491 kB
+├ ƒ /events/[id]/rfid                         2.99 kB         627 kB
 ├ ƒ /events/[id]/seating                      3.45 kB         448 kB
 ├ ƒ /events/[id]/social-wall                  3.19 kB         467 kB
 ├ ƒ /events/[id]/waitlist                     5.11 kB         450 kB
@@ -427,7 +452,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /events/create/collaboration              3.27 kB         467 kB
 ├ ○ /events/create/from-blueprint             3.93 kB         468 kB
 ├ ○ /events/templates                         2.49 kB         466 kB
-├ ○ /experiences                              3.7 kB          497 kB
+├ ○ /experiences                              3.7 kB          634 kB
 ├ ○ /fan-club                                 3.16 kB         467 kB
 ├ ○ /fan-club/exclusive-access                3.43 kB         467 kB
 ├ ○ /fan-clubs                                5.25 kB         450 kB
@@ -446,70 +471,71 @@ Route (app)                                   Size     First Load JS
 ├ ○ /marketing/influencers                    2.91 kB         467 kB
 ├ ○ /marketing/media-kit                      3.45 kB         467 kB
 ├ ○ /marketing/pixels                         3.51 kB         467 kB
-├ ○ /match                                    5.15 kB         499 kB
+├ ○ /match                                    5.16 kB         636 kB
 ├ ○ /membership                               6.46 kB         458 kB
 ├ ○ /membership/benefits                      3.45 kB         467 kB
-├ ○ /merch                                    2.78 kB         490 kB
+├ ○ /merch                                    2.78 kB         627 kB
 ├ ƒ /merch/[artistId]                         4.82 kB         456 kB
 ├ ○ /merch/bundles                            3.8 kB          468 kB
 ├ ○ /messages                                 4.96 kB         456 kB
 ├ ○ /moderate                                 1.9 kB          466 kB
 ├ ○ /my-events                                4.91 kB         456 kB
-├ ○ /nearby                                   3.67 kB         448 kB
+├ ○ /nearby                                   3.67 kB         449 kB
 ├ ○ /new-events                               3.07 kB         448 kB
 ├ ○ /notifications                            5.43 kB         450 kB
-├ ○ /onboarding                               6.79 kB         485 kB
-├ ○ /orders                                   3.03 kB         490 kB
+├ ○ /offline                                  4.29 kB         456 kB
+├ ○ /onboarding                               6.79 kB         622 kB
+├ ○ /orders                                   3.03 kB         627 kB
 ├ ○ /orders/history                           5.41 kB         450 kB
 ├ ○ /packages                                 3.56 kB         448 kB
 ├ ○ /photos                                   4.79 kB         456 kB
 ├ ○ /price-alerts                             5.1 kB          450 kB
 ├ ○ /profile                                  5.54 kB         450 kB
 ├ ○ /profile/badges                           5.55 kB         450 kB
-├ ○ /profile/reputation                       4.67 kB         449 kB
+├ ○ /profile/reputation                       4.67 kB         450 kB
 ├ ○ /qa-sessions                              4.92 kB         456 kB
-├ ○ /referrals                                3.3 kB          491 kB
-├ ○ /resale                                   5.98 kB         493 kB
+├ ○ /referrals                                3.31 kB         627 kB
+├ ○ /resale                                   5.99 kB         630 kB
 ├ ○ /reviews                                  2.42 kB         447 kB
 ├ ○ /reviews/new                              4.08 kB         455 kB
-├ ○ /rewards                                  5.88 kB         493 kB
-├ ○ /saved-searches                           5.69 kB         450 kB
+├ ○ /rewards                                  5.88 kB         630 kB
+├ ○ /saved-searches                           5.69 kB         451 kB
 ├ ○ /search                                   1.8 kB          466 kB
 ├ ○ /search/universal                         2.25 kB         453 kB
 ├ ○ /settings                                 5.04 kB         450 kB
 ├ ○ /settings/language                        2.79 kB         467 kB
-├ ○ /settings/notifications                   5.8 kB          450 kB
-├ ○ /settings/privacy                         5 kB            499 kB
+├ ○ /settings/notifications                   5.8 kB          451 kB
+├ ○ /settings/privacy                         5.01 kB         635 kB
 ├ ○ /shop/shoppable                           3.14 kB         467 kB
 ├ ○ /sitemap.xml                              0 B                0 B
 ├ ○ /social                                   3.4 kB          448 kB
-├ ○ /social/crisis-management                 3.57 kB         467 kB
+├ ○ /social/crisis-management                 3.57 kB         468 kB
 ├ ○ /social/inbox                             3 kB            467 kB
 ├ ○ /social/sentiment                         3.21 kB         467 kB
 ├ ○ /social/story-templates                   2.41 kB         466 kB
 ├ ○ /social/tiktok-challenges                 2.91 kB         467 kB
 ├ ○ /support/chat                             5.42 kB         450 kB
 ├ ƒ /surveys/[id]                             4.38 kB         455 kB
-├ ○ /tickets                                  3.05 kB         490 kB
+├ ○ /tickets                                  3.06 kB         627 kB
 ├ ○ /tickets/anti-scalping                    3.29 kB         467 kB
 ├ ○ /tickets/gift                             5.83 kB         451 kB
-├ ○ /tickets/groups                           3.58 kB         467 kB
+├ ○ /tickets/groups                           3.58 kB         468 kB
 ├ ○ /tickets/print-at-home                    3 kB            467 kB
 ├ ○ /tickets/tracking                         5.01 kB         450 kB
 ├ ○ /tickets/transfer                         4.5 kB          383 kB
 ├ ○ /tickets/urgency                          3.7 kB          468 kB
 ├ ○ /tours                                    2.18 kB         453 kB
-├ ○ /ugc                                      5.53 kB         456 kB
-├ ○ /venues                                   2.78 kB         490 kB
+├ ○ /ugc                                      5.53 kB         457 kB
+├ ○ /venues                                   2.78 kB         627 kB
 ├ ƒ /venues/[id]                              3.97 kB         455 kB
 ├ ○ /wallet                                   3.24 kB         448 kB
 ├ ○ /wallet/offline                           2.8 kB          467 kB
 ├ ○ /watch-parties                            5.59 kB         457 kB
 └ ○ /wishlist                                 5.41 kB         450 kB
-+ First Load JS shared by all                 87.5 kB
++ First Load JS shared by all                 87.7 kB
   ├ chunks/1073-c65eb67de83274c4.js           31.9 kB
   ├ chunks/c39595b4-5514b1fc8048d725.js       53.6 kB
-  └ other shared chunks (total)               1.99 kB
+  └ other shared chunks (total)               2.13 kB
 
 
 ƒ Middleware                                  73.8 kB

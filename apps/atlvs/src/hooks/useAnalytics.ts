@@ -189,6 +189,11 @@ export interface KPIReport {
   description: string;
   kpi_codes: string[];
   category: string;
+  is_global?: boolean;
+  is_user_copy?: boolean;
+  is_favorited?: boolean;
+  source_report_id?: string | null;
+  created_by?: string | null;
 }
 
 const DEMO_KPI_DEFINITIONS: KPIDefinition[] = [
@@ -242,4 +247,113 @@ export function useKPILibraryData() {
     refetchKPIs: kpisQuery.refetch,
     refetchReports: reportsQuery.refetch,
   };
+}
+
+// =============================================================================
+// KPI REPORT ACTIONS (Favorite, Duplicate, Edit, Delete)
+// =============================================================================
+
+export function useFavoriteKPIReports() {
+  return useQuery({
+    queryKey: ['kpi-reports-favorites'],
+    queryFn: async () => {
+      const response = await fetch('/api/kpi/reports/favorites');
+      if (response.status === 401) {
+        return [];
+      }
+      const data = await response.json();
+      return data.success ? data.data : [];
+    },
+    staleTime: 2 * 60 * 1000,
+  });
+}
+
+export function useToggleKPIReportFavorite() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (reportId: string) => {
+      const response = await fetch(`/api/kpi/reports/${reportId}/favorite`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to toggle favorite');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports'] });
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports-favorites'] });
+    },
+  });
+}
+
+export function useDuplicateKPIReport() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ reportId, newName }: { reportId: string; newName?: string }) => {
+      const response = await fetch(`/api/kpi/reports/${reportId}/duplicate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to duplicate report');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports'] });
+    },
+  });
+}
+
+export function useUpdateKPIReport() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      reportId, 
+      updates 
+    }: { 
+      reportId: string; 
+      updates: Partial<Pick<KPIReport, 'name' | 'description' | 'kpi_codes' | 'category'>> 
+    }) => {
+      const response = await fetch(`/api/kpi/reports/${reportId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates),
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to update report');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports'] });
+    },
+  });
+}
+
+export function useDeleteKPIReport() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (reportId: string) => {
+      const response = await fetch(`/api/kpi/reports/${reportId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to delete report');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports'] });
+      queryClient.invalidateQueries({ queryKey: ['kpi-reports-favorites'] });
+    },
+  });
 }

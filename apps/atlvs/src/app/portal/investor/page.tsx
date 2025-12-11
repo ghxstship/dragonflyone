@@ -29,9 +29,9 @@ export default function InvestorPortalPage() {
   const [investments] = useState<DemoInvestment[]>(DEMO_INVESTMENTS);
 
   const totalInvested = investments.reduce((sum, i) => sum + i.amount, 0);
-  const totalReturns = investments.filter(i => i.actualReturn).reduce((sum, i) => sum + (i.actualReturn || 0), 0);
-  const projectedReturns = investments.filter(i => i.status === 'active').reduce((sum, i) => sum + i.projectedReturn, 0);
-  const avgROI = investments.filter(i => i.actualReturn).reduce((sum, i, _, arr) => sum + ((i.actualReturn! - i.amount) / i.amount * 100) / arr.length, 0);
+  const totalReturns = investments.reduce((sum, i) => sum + i.returns, 0);
+  const projectedReturns = investments.filter(i => i.status === 'active').reduce((sum, i) => sum + (i.amount * 1.15), 0);
+  const avgROI = investments.filter(i => i.returns > 0).reduce((sum, i, _, arr) => sum + (i.returns / i.amount * 100) / arr.length, 0);
 
   return (
     <AtlvsAppLayout>
@@ -55,8 +55,8 @@ export default function InvestorPortalPage() {
                     <Stack key={investment.id} className="rounded border-2 border-ink-700 p-4">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>
-                          <Body className="font-weight-semibold text-white">{investment.production}</Body>
-                          <Body className="text-body-sm text-on-dark-muted">{investment.equity}% equity stake</Body>
+                          <Body className="font-weight-semibold text-white">{investment.fund}</Body>
+                          <Body className="text-body-sm text-on-dark-muted">{investment.ownership}% ownership stake</Body>
                         </Stack>
                         <Badge variant={investment.status === 'active' ? 'success' : 'info'}>
                           {investment.status}
@@ -68,13 +68,13 @@ export default function InvestorPortalPage() {
                           <Body className="font-weight-semibold text-white">${investment.amount.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Projected</Body>
-                          <Body className="text-white">${investment.projectedReturn.toLocaleString()}</Body>
+                          <Body className="text-body-sm text-on-dark-muted">Returns</Body>
+                          <Body className="text-white">${investment.returns.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Actual</Body>
-                          <Body className={investment.actualReturn ? 'font-weight-semibold text-success' : 'text-on-dark-muted'}>
-                            {investment.actualReturn ? `$${investment.actualReturn.toLocaleString()}` : '-'}
+                          <Body className="text-body-sm text-on-dark-muted">Last Distribution</Body>
+                          <Body className={investment.returns > 0 ? 'font-weight-semibold text-success' : 'text-on-dark-muted'}>
+                            {investment.lastDistribution}
                           </Body>
                         </Stack>
                       </Stack>

@@ -21,12 +21,21 @@ import {
   StatCard,
   EnterprisePageHeader,
   MainContent,
+  useNotifications,
 } from '@ghxstship/ui';
-import { BarChart3, TrendingUp, Target, Activity } from 'lucide-react';
-import { useKPILibraryData } from '@/hooks/useAnalytics';
+import { BarChart3, TrendingUp, Target, Activity, Star, Copy, Edit, Trash2 } from 'lucide-react';
+import { 
+  useKPILibraryData,
+  useToggleKPIReportFavorite,
+  useDuplicateKPIReport,
+  useDeleteKPIReport,
+  type KPIReport,
+  type KPIDefinition
+} from '@/hooks/useAnalytics';
 
 export default function KPILibraryPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
   const [selectedReport, setSelectedReport] = useState<string | null>(null);
   
@@ -34,7 +43,88 @@ export default function KPILibraryPage() {
     kpis,
     reports,
     isLoading: loading,
+    refetchReports,
   } = useKPILibraryData();
+
+  const toggleFavorite = useToggleKPIReportFavorite();
+  const duplicateReport = useDuplicateKPIReport();
+  const deleteReport = useDeleteKPIReport();
+
+  const handleToggleFavorite = async (report: KPIReport, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await toggleFavorite.mutateAsync(report.id);
+      addNotification({
+        type: 'success',
+        title: report.is_favorited ? 'Removed from favorites' : 'Added to favorites',
+        message: `${report.name} has been ${report.is_favorited ? 'removed from' : 'added to'} your favorites.`
+      });
+    } catch {
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to update favorite status.'
+      });
+    }
+  };
+
+  const handleDuplicate = async (report: KPIReport, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      await duplicateReport.mutateAsync({ reportId: report.id });
+      addNotification({
+        type: 'success',
+        title: 'Report duplicated',
+        message: `A copy of "${report.name}" has been created.`
+      });
+      refetchReports();
+    } catch {
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to duplicate report.'
+      });
+    }
+  };
+
+  const handleDelete = async (report: KPIReport, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (report.is_global) {
+      addNotification({
+        type: 'warning',
+        title: 'Cannot delete',
+        message: 'Global reports cannot be deleted. Duplicate it first to create your own copy.'
+      });
+      return;
+    }
+    try {
+      await deleteReport.mutateAsync(report.id);
+      addNotification({
+        type: 'success',
+        title: 'Report deleted',
+        message: `"${report.name}" has been deleted.`
+      });
+    } catch {
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Failed to delete report.'
+      });
+    }
+  };
+
+  const handleEdit = (report: KPIReport, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (report.is_global && !report.is_user_copy) {
+      addNotification({
+        type: 'info',
+        title: 'Duplicate to edit',
+        message: 'Global reports cannot be edited directly. Duplicate it first to create your own editable copy.'
+      });
+      return;
+    }
+    router.push(`/analytics/kpi/reports/${report.id}/edit`);
+  };
 
   const categories = [
     { value: 'ALL', label: 'All Categories' },
@@ -47,7 +137,7 @@ export default function KPILibraryPage() {
 
   const filteredKPIs = selectedCategory === 'ALL' 
     ? kpis 
-    : kpis.filter(kpi => kpi.category === selectedCategory);
+    : kpis.filter((kpi: KPIDefinition) => kpi.category === selectedCategory);
 
   const getUnitDisplay = (unit: string) => {
     switch (unit) {
@@ -77,11 +167,11 @@ export default function KPILibraryPage() {
   };
 
   const getCategoryStats = () => {
-    const financial = kpis.filter(k => k.category === 'FINANCIAL_PERFORMANCE').length;
-    const ticket = kpis.filter(k => k.category === 'TICKET_ATTENDANCE').length;
-    const operational = kpis.filter(k => k.category === 'OPERATIONAL_EFFICIENCY').length;
-    const marketing = kpis.filter(k => k.category === 'MARKETING_ENGAGEMENT').length;
-    const customer = kpis.filter(k => k.category === 'CUSTOMER_EXPERIENCE').length;
+    const financial = kpis.filter((k: KPIDefinition) => k.category === 'FINANCIAL_PERFORMANCE').length;
+    const ticket = kpis.filter((k: KPIDefinition) => k.category === 'TICKET_ATTENDANCE').length;
+    const operational = kpis.filter((k: KPIDefinition) => k.category === 'OPERATIONAL_EFFICIENCY').length;
+    const marketing = kpis.filter((k: KPIDefinition) => k.category === 'MARKETING_ENGAGEMENT').length;
+    const customer = kpis.filter((k: KPIDefinition) => k.category === 'CUSTOMER_EXPERIENCE').length;
     return { financial, ticket, operational, marketing, customer };
   };
 
@@ -145,7 +235,7 @@ export default function KPILibraryPage() {
             <Stack gap={6}>
               <H2 className="text-white">PRECONFIGURED REPORTS</H2>
               <Grid cols={3} gap={6}>
-                {reports.map((report) => (
+                {reports.map((report: KPIReport) => (
                   <Card
                     key={report.id}
                     variant="default"
@@ -154,12 +244,59 @@ export default function KPILibraryPage() {
                     onClick={() => setSelectedReport(selectedReport === report.id ? null : report.id)}
                   >
                     <CardHeader inverted>
-                      <H3 className="text-white">{report.name}</H3>
+                      <Stack direction="horizontal" className="items-center justify-between">
+                        <H3 className="text-white">{report.name}</H3>
+                        <Stack direction="horizontal" gap={1}>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => handleToggleFavorite(report, e)}
+                            className={report.is_favorited ? 'text-accent' : 'text-on-dark-muted'}
+                          >
+                            <Star className={`size-4 ${report.is_favorited ? 'fill-current' : ''}`} />
+                          </Button>
+                        </Stack>
+                      </Stack>
                     </CardHeader>
                     <CardBody inverted>
                       <Stack gap={3}>
                         <Body className="text-on-dark-secondary">{report.description}</Body>
-                        <Badge variant="outline" inverted>{report.kpi_codes.length} KPIs</Badge>
+                        <Stack direction="horizontal" gap={2} className="items-center justify-between">
+                          <Stack direction="horizontal" gap={2}>
+                            <Badge variant="outline" inverted>{report.kpi_codes.length} KPIs</Badge>
+                            {report.is_global && <Badge variant="solid" inverted>Global</Badge>}
+                            {report.is_user_copy && <Badge variant="info" inverted>My Copy</Badge>}
+                          </Stack>
+                          <Stack direction="horizontal" gap={1}>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => handleDuplicate(report, e)}
+                              title="Duplicate report"
+                            >
+                              <Copy className="size-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={(e) => handleEdit(report, e)}
+                              title={report.is_global ? 'Duplicate to edit' : 'Edit report'}
+                            >
+                              <Edit className="size-4" />
+                            </Button>
+                            {!report.is_global && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => handleDelete(report, e)}
+                                title="Delete report"
+                                className="text-destructive hover:text-destructive"
+                              >
+                                <Trash2 className="size-4" />
+                              </Button>
+                            )}
+                          </Stack>
+                        </Stack>
                       </Stack>
                     </CardBody>
                   </Card>
@@ -191,7 +328,7 @@ export default function KPILibraryPage() {
 
             {/* KPI Grid */}
             <Stack gap={4}>
-              {filteredKPIs.map((kpi) => (
+              {filteredKPIs.map((kpi: KPIDefinition) => (
                 <Card key={kpi.id} variant="default" inverted>
                   <CardBody inverted>
                     <Stack direction="horizontal" className="items-start justify-between">
