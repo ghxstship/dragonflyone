@@ -28,29 +28,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface Vendor {
-  id: string;
-  name: string;
-  category: string;
-  contact: string;
-  email: string;
-  phone: string;
-  contractValue: number;
-  status: 'active' | 'pending' | 'completed';
-}
-
-const MOCK_VENDORS: Vendor[] = [
-  { id: 'V-001', name: 'SoundWave Audio', category: 'Audio', contact: 'Mike Johnson', email: 'mike@soundwave.com', phone: '555-0101', contractValue: 45000, status: 'active' },
-  { id: 'V-002', name: 'LightCraft Productions', category: 'Lighting', contact: 'Sarah Chen', email: 'sarah@lightcraft.com', phone: '555-0102', contractValue: 38000, status: 'active' },
-  { id: 'V-003', name: 'Stage Masters', category: 'Staging', contact: 'Tom Wilson', email: 'tom@stagemasters.com', phone: '555-0103', contractValue: 52000, status: 'completed' },
-  { id: 'V-004', name: 'Local Eats Catering', category: 'Catering', contact: 'Lisa Park', email: 'lisa@localeats.com', phone: '555-0104', contractValue: 15000, status: 'active' },
-];
+import { DEMO_PRODUCTION_VENDORS, type DemoProductionVendor } from '../../../../lib/demo-data';
 
 export default function ProductionVendorsPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [vendors, setVendors] = useState<Vendor[]>(MOCK_VENDORS);
+  const [vendors, setVendors] = useState<DemoProductionVendor[]>(DEMO_PRODUCTION_VENDORS);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 

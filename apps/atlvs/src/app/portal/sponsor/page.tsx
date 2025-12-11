@@ -24,25 +24,10 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Sponsorship {
-  id: string;
-  production: string;
-  tier: string;
-  value: number;
-  status: 'active' | 'pending' | 'completed';
-  impressions: number;
-  engagement: number;
-}
-
-const MOCK_SPONSORSHIPS: Sponsorship[] = [
-  { id: 'S-001', production: 'Summer Music Festival 2024', tier: 'Platinum', value: 150000, status: 'active', impressions: 2500000, engagement: 4.2 },
-  { id: 'S-002', production: 'New Years Eve Concert', tier: 'Gold', value: 75000, status: 'pending', impressions: 0, engagement: 0 },
-  { id: 'S-003', production: 'Fall Festival', tier: 'Silver', value: 35000, status: 'completed', impressions: 850000, engagement: 3.8 },
-];
+import { DEMO_SPONSORSHIPS, type DemoSponsorship } from '../../../lib/demo-data';
 
 export default function SponsorPortalPage() {
-  const [sponsorships] = useState(MOCK_SPONSORSHIPS);
+  const [sponsorships] = useState<DemoSponsorship[]>(DEMO_SPONSORSHIPS);
 
   const totalInvestment = sponsorships.reduce((sum, s) => sum + s.value, 0);
   const totalImpressions = sponsorships.reduce((sum, s) => sum + s.impressions, 0);

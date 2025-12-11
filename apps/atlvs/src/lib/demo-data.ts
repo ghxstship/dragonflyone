@@ -1191,3 +1191,86 @@ export const DEMO_CREDIT_CARD_TXNS: DemoCreditCardTxn[] = [
   { id: 'TXN-004', cardId: 'CC-003', lastFour: '9156', cardHolder: 'Mike Davis', merchant: 'Hilton Hotels', amount: 890, date: '2024-11-22', category: 'Travel', status: 'Posted', receipt: false, department: 'Operations' },
   { id: 'TXN-005', cardId: 'CC-002', lastFour: '7832', cardHolder: 'Sarah Johnson', merchant: 'Amazon Business', amount: 567, date: '2024-11-22', category: 'Supplies', status: 'Disputed', department: 'Executive' },
 ];
+
+// =============================================================================
+// PORTAL DATA (Crew, Vendor, Artist, Sponsor, Investor portals)
+// =============================================================================
+
+export interface DemoCrewAssignment {
+  id: string;
+  production: string;
+  role: string;
+  dates: string;
+  status: 'confirmed' | 'pending' | 'completed';
+  rate: number;
+}
+
+export const DEMO_CREW_ASSIGNMENTS: DemoCrewAssignment[] = [
+  { id: '1', production: 'Summer Music Festival 2024', role: 'Stage Manager', dates: 'Nov 18-22, 2024', status: 'confirmed', rate: 500 },
+  { id: '2', production: 'Corporate Gala', role: 'Technical Director', dates: 'Dec 5, 2024', status: 'pending', rate: 750 },
+  { id: '3', production: 'Concert Series - Week 1', role: 'Stage Manager', dates: 'Oct 15-18, 2024', status: 'completed', rate: 500 },
+];
+
+export interface DemoVendorContract {
+  id: string;
+  production: string;
+  service: string;
+  value: number;
+  status: 'active' | 'pending' | 'completed';
+  startDate: string;
+  endDate: string;
+}
+
+export const DEMO_VENDOR_CONTRACTS: DemoVendorContract[] = [
+  { id: '1', production: 'Summer Music Festival 2024', service: 'Audio Equipment Rental', value: 45000, status: 'active', startDate: 'Nov 15, 2024', endDate: 'Nov 25, 2024' },
+  { id: '2', production: 'Corporate Gala', service: 'Lighting Package', value: 12000, status: 'pending', startDate: 'Dec 3, 2024', endDate: 'Dec 6, 2024' },
+  { id: '3', production: 'Concert Series', service: 'Stage Equipment', value: 28000, status: 'completed', startDate: 'Oct 10, 2024', endDate: 'Oct 20, 2024' },
+];
+
+export interface DemoArtistBooking {
+  id: string;
+  event: string;
+  venue: string;
+  date: string;
+  fee: number;
+  status: 'confirmed' | 'pending' | 'completed';
+  ticketsSold?: number;
+}
+
+export const DEMO_ARTIST_BOOKINGS: DemoArtistBooking[] = [
+  { id: '1', event: 'Summer Music Festival 2024', venue: 'Central Park Amphitheater', date: 'Nov 20, 2024', fee: 75000, status: 'confirmed', ticketsSold: 8500 },
+  { id: '2', event: 'New Years Eve Concert', venue: 'Madison Square Garden', date: 'Dec 31, 2024', fee: 150000, status: 'pending' },
+  { id: '3', event: 'Fall Tour - Chicago', venue: 'United Center', date: 'Oct 15, 2024', fee: 85000, status: 'completed', ticketsSold: 12000 },
+];
+
+export interface DemoSponsorship {
+  id: string;
+  event: string;
+  tier: string;
+  value: number;
+  status: 'active' | 'pending' | 'completed';
+  deliverables: number;
+  completedDeliverables: number;
+}
+
+export const DEMO_SPONSORSHIPS: DemoSponsorship[] = [
+  { id: '1', event: 'Summer Music Festival 2024', tier: 'Platinum', value: 250000, status: 'active', deliverables: 12, completedDeliverables: 8 },
+  { id: '2', event: 'Corporate Gala', tier: 'Gold', value: 75000, status: 'pending', deliverables: 6, completedDeliverables: 0 },
+  { id: '3', event: 'Concert Series', tier: 'Silver', value: 50000, status: 'completed', deliverables: 8, completedDeliverables: 8 },
+];
+
+export interface DemoInvestment {
+  id: string;
+  fund: string;
+  amount: number;
+  ownership: number;
+  status: 'active' | 'pending';
+  returns: number;
+  lastDistribution: string;
+}
+
+export const DEMO_INVESTMENTS: DemoInvestment[] = [
+  { id: '1', fund: 'GHXSTSHIP Growth Fund I', amount: 500000, ownership: 2.5, status: 'active', returns: 45000, lastDistribution: 'Q3 2024' },
+  { id: '2', fund: 'Live Events Opportunity Fund', amount: 250000, ownership: 1.2, status: 'active', returns: 18500, lastDistribution: 'Q3 2024' },
+  { id: '3', fund: 'Venue Acquisition Fund II', amount: 100000, ownership: 0.5, status: 'pending', returns: 0, lastDistribution: '-' },
+];

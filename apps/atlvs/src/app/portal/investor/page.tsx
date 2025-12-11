@@ -23,25 +23,10 @@ import {
   BarChart3,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Investment {
-  id: string;
-  production: string;
-  amount: number;
-  equity: number;
-  status: 'active' | 'completed';
-  projectedReturn: number;
-  actualReturn?: number;
-}
-
-const MOCK_INVESTMENTS: Investment[] = [
-  { id: 'I-001', production: 'Summer Music Festival 2024', amount: 250000, equity: 15, status: 'active', projectedReturn: 325000 },
-  { id: 'I-002', production: 'Concert Series 2024', amount: 100000, equity: 10, status: 'completed', projectedReturn: 130000, actualReturn: 142000 },
-  { id: 'I-003', production: 'New Years Eve Concert', amount: 150000, equity: 12, status: 'active', projectedReturn: 195000 },
-];
+import { DEMO_INVESTMENTS, type DemoInvestment } from '../../../lib/demo-data';
 
 export default function InvestorPortalPage() {
-  const [investments] = useState(MOCK_INVESTMENTS);
+  const [investments] = useState<DemoInvestment[]>(DEMO_INVESTMENTS);
 
   const totalInvested = investments.reduce((sum, i) => sum + i.amount, 0);
   const totalReturns = investments.filter(i => i.actualReturn).reduce((sum, i) => sum + (i.actualReturn || 0), 0);

@@ -23,15 +23,10 @@ import {
 import { GvtewayAppLayout } from '../../components/app-layout';
 import Link from 'next/link';
 
-import {
-  DEMO_UPCOMING_EVENTS,
-  type DemoUpcomingEvent as UpcomingEvent,
-} from '../../lib/demo-data';
-
-const MOCK_UPCOMING = DEMO_UPCOMING_EVENTS;
+import { DEMO_UPCOMING_EVENTS } from '../../lib/demo-data';
 
 export default function AccountPage() {
-  const [upcomingEvents] = useState(MOCK_UPCOMING);
+  const [upcomingEvents] = useState(DEMO_UPCOMING_EVENTS);
 
   return (
     <GvtewayAppLayout>

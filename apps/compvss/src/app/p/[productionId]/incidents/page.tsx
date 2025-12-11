@@ -31,29 +31,13 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface Incident {
-  id: string;
-  title: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  category: string;
-  status: 'open' | 'investigating' | 'resolved' | 'closed';
-  reportedBy: string;
-  reportedAt: string;
-  description: string;
-}
-
-const MOCK_INCIDENTS: Incident[] = [
-  { id: 'INC-001', title: 'Equipment malfunction - Stage left speaker', severity: 'medium', category: 'Equipment', status: 'resolved', reportedBy: 'Audio Tech', reportedAt: '2024-11-15 14:30', description: 'Speaker cutting out intermittently' },
-  { id: 'INC-002', title: 'Minor injury - Crew member', severity: 'high', category: 'Safety', status: 'closed', reportedBy: 'Stage Manager', reportedAt: '2024-11-15 16:45', description: 'Crew member twisted ankle during load-in' },
-  { id: 'INC-003', title: 'Power fluctuation - Lighting rig', severity: 'low', category: 'Technical', status: 'investigating', reportedBy: 'LD', reportedAt: '2024-11-16 09:15', description: 'Intermittent dimming on downstage fixtures' },
-];
+import { DEMO_PRODUCTION_INCIDENTS, type DemoProductionIncident } from '../../../../lib/demo-data';
 
 export default function ProductionIncidentsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const [incidents, setIncidents] = useState<Incident[]>(MOCK_INCIDENTS);
+  const [incidents, setIncidents] = useState<DemoProductionIncident[]>(DEMO_PRODUCTION_INCIDENTS);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newIncident, setNewIncident] = useState({ title: '', severity: 'medium', category: '', description: '' });
 

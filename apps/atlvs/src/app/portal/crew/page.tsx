@@ -23,24 +23,10 @@ import {
   Upload,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Assignment {
-  id: string;
-  production: string;
-  role: string;
-  dates: string;
-  status: 'confirmed' | 'pending' | 'completed';
-  rate: number;
-}
-
-const MOCK_ASSIGNMENTS: Assignment[] = [
-  { id: '1', production: 'Summer Music Festival 2024', role: 'Stage Manager', dates: 'Nov 18-22, 2024', status: 'confirmed', rate: 500 },
-  { id: '2', production: 'Corporate Gala', role: 'Technical Director', dates: 'Dec 5, 2024', status: 'pending', rate: 750 },
-  { id: '3', production: 'Concert Series - Week 1', role: 'Stage Manager', dates: 'Oct 15-18, 2024', status: 'completed', rate: 500 },
-];
+import { DEMO_CREW_ASSIGNMENTS, type DemoCrewAssignment } from '../../../lib/demo-data';
 
 export default function CrewPortalPage() {
-  const [assignments] = useState(MOCK_ASSIGNMENTS);
+  const [assignments] = useState<DemoCrewAssignment[]>(DEMO_CREW_ASSIGNMENTS);
 
   const upcomingCount = assignments.filter(a => a.status === 'confirmed' || a.status === 'pending').length;
   const completedCount = assignments.filter(a => a.status === 'completed').length;

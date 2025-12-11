@@ -21,15 +21,10 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
 
-import {
-  DEMO_USER_TICKETS,
-  type DemoUserTicket as UserTicket,
-} from '../../../lib/demo-data';
-
-const MOCK_TICKETS = DEMO_USER_TICKETS;
+import { DEMO_USER_TICKETS } from '../../../lib/demo-data';
 
 export default function AccountTicketsPage() {
-  const [tickets] = useState(MOCK_TICKETS);
+  const [tickets] = useState(DEMO_USER_TICKETS);
   const [filter, setFilter] = useState<'all' | 'active' | 'past'>('all');
 
   const filteredTickets = tickets.filter(t => {

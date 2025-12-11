@@ -23,24 +23,10 @@ import {
   Building2,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Contract {
-  id: string;
-  production: string;
-  service: string;
-  value: number;
-  status: 'active' | 'pending' | 'completed';
-  dueDate: string;
-}
-
-const MOCK_CONTRACTS: Contract[] = [
-  { id: 'C-001', production: 'Summer Music Festival 2024', service: 'Audio Equipment Rental', value: 45000, status: 'active', dueDate: '2024-11-30' },
-  { id: 'C-002', production: 'Corporate Gala', service: 'Lighting Package', value: 12000, status: 'pending', dueDate: '2024-12-15' },
-  { id: 'C-003', production: 'Concert Series', service: 'Audio Equipment Rental', value: 28000, status: 'completed', dueDate: '2024-10-31' },
-];
+import { DEMO_VENDOR_CONTRACTS, type DemoVendorContract } from '../../../lib/demo-data';
 
 export default function VendorPortalPage() {
-  const [contracts] = useState(MOCK_CONTRACTS);
+  const [contracts] = useState<DemoVendorContract[]>(DEMO_VENDOR_CONTRACTS);
 
   const activeValue = contracts.filter(c => c.status === 'active').reduce((sum, c) => sum + c.value, 0);
   const pendingValue = contracts.filter(c => c.status === 'pending').reduce((sum, c) => sum + c.value, 0);

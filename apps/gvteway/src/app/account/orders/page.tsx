@@ -24,15 +24,10 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
 
-import {
-  DEMO_ORDERS,
-  type DemoOrder as Order,
-} from '../../../lib/demo-data';
-
-const MOCK_ORDERS = DEMO_ORDERS;
+import { DEMO_ORDERS } from '../../../lib/demo-data';
 
 export default function AccountOrdersPage() {
-  const [orders] = useState(MOCK_ORDERS);
+  const [orders] = useState(DEMO_ORDERS);
 
   const totalSpent = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
 

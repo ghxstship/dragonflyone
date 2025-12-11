@@ -35,29 +35,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface Expense {
-  id: string;
-  description: string;
-  category: string;
-  amount: number;
-  vendor: string;
-  submittedBy: string;
-  status: 'pending' | 'approved' | 'rejected' | 'paid';
-  date: string;
-}
-
-const MOCK_EXPENSES: Expense[] = [
-  { id: 'EXP-001', description: 'Catering - Day 1', category: 'Catering', amount: 2500, vendor: 'Local Eats Co', submittedBy: 'PM', status: 'paid', date: '2024-11-15' },
-  { id: 'EXP-002', description: 'Equipment rental - Generators', category: 'Equipment', amount: 4500, vendor: 'Power Solutions', submittedBy: 'TD', status: 'approved', date: '2024-11-14' },
-  { id: 'EXP-003', description: 'Transportation - Artist shuttle', category: 'Transport', amount: 800, vendor: 'Elite Limo', submittedBy: 'Artist Liaison', status: 'pending', date: '2024-11-16' },
-  { id: 'EXP-004', description: 'Supplies - Gaff tape, cables', category: 'Supplies', amount: 350, vendor: 'Stage Supply Co', submittedBy: 'Stage Manager', status: 'approved', date: '2024-11-15' },
-];
+import { DEMO_PRODUCTION_EXPENSES, type DemoProductionExpense } from '../../../../lib/demo-data';
 
 export default function ProductionExpensesPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [expenses, setExpenses] = useState<Expense[]>(MOCK_EXPENSES);
+  const [expenses, setExpenses] = useState<DemoProductionExpense[]>(DEMO_PRODUCTION_EXPENSES);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newExpense, setNewExpense] = useState({ description: '', category: '', amount: '', vendor: '' });
 

@@ -1631,3 +1631,118 @@ export const DEMO_HOSPITALITY_REQUESTS: DemoHospitalityRequest[] = [
   { id: '2', event: 'Summer Music Festival', date: '2024-12-15', category: 'transport', description: 'Airport pickup for 6 people, arriving 2pm at JFK', status: 'pending' },
   { id: '3', event: "New Year's Eve Gala", date: '2024-12-31', category: 'accommodation', description: '3 double rooms for Dec 30-Jan 1', status: 'approved', notes: 'Booked at Grand Hotel' },
 ];
+
+// =============================================================================
+// PRODUCTION-LEVEL DATA (for /p/[productionId]/* pages)
+// =============================================================================
+
+export interface DemoProductionVendor {
+  id: string;
+  name: string;
+  category: string;
+  contact: string;
+  email: string;
+  phone: string;
+  contractValue: number;
+  status: 'active' | 'pending' | 'completed';
+  [key: string]: unknown;
+}
+
+export const DEMO_PRODUCTION_VENDORS: DemoProductionVendor[] = [
+  { id: 'V-001', name: 'SoundWave Audio', category: 'Audio', contact: 'Mike Johnson', email: 'mike@soundwave.com', phone: '555-0101', contractValue: 45000, status: 'active' },
+  { id: 'V-002', name: 'LightCraft Productions', category: 'Lighting', contact: 'Sarah Chen', email: 'sarah@lightcraft.com', phone: '555-0102', contractValue: 38000, status: 'active' },
+  { id: 'V-003', name: 'Stage Masters', category: 'Staging', contact: 'Tom Wilson', email: 'tom@stagemasters.com', phone: '555-0103', contractValue: 52000, status: 'completed' },
+  { id: 'V-004', name: 'Local Eats Catering', category: 'Catering', contact: 'Lisa Park', email: 'lisa@localeats.com', phone: '555-0104', contractValue: 15000, status: 'active' },
+];
+
+export interface DemoProductionExpense {
+  id: string;
+  description: string;
+  category: string;
+  amount: number;
+  submittedBy: string;
+  submittedDate: string;
+  status: 'pending' | 'approved' | 'rejected' | 'paid';
+  receipt?: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_PRODUCTION_EXPENSES: DemoProductionExpense[] = [
+  { id: 'EXP-001', description: 'Equipment rental deposit', category: 'Equipment', amount: 5000, submittedBy: 'John Smith', submittedDate: '2024-11-20', status: 'approved', receipt: true },
+  { id: 'EXP-002', description: 'Crew meals - Day 1', category: 'Catering', amount: 850, submittedBy: 'Sarah Johnson', submittedDate: '2024-11-21', status: 'paid', receipt: true },
+  { id: 'EXP-003', description: 'Transportation - Van rental', category: 'Transport', amount: 1200, submittedBy: 'Mike Davis', submittedDate: '2024-11-22', status: 'pending', receipt: true },
+  { id: 'EXP-004', description: 'Emergency supplies', category: 'Supplies', amount: 350, submittedBy: 'Lisa Chen', submittedDate: '2024-11-22', status: 'rejected' },
+];
+
+export interface DemoProductionIncident {
+  id: string;
+  title: string;
+  description: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'investigating' | 'resolved' | 'closed';
+  reportedBy: string;
+  reportedAt: string;
+  location?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_PRODUCTION_INCIDENTS: DemoProductionIncident[] = [
+  { id: 'INC-001', title: 'Minor equipment malfunction', description: 'Wireless mic pack intermittent signal', severity: 'low', status: 'resolved', reportedBy: 'Audio Tech', reportedAt: '2024-11-20 14:30', location: 'Main Stage' },
+  { id: 'INC-002', title: 'Slip hazard identified', description: 'Wet floor near loading dock', severity: 'medium', status: 'closed', reportedBy: 'Safety Officer', reportedAt: '2024-11-21 09:15', location: 'Loading Dock A' },
+  { id: 'INC-003', title: 'Power fluctuation', description: 'Brief power surge in lighting grid', severity: 'high', status: 'investigating', reportedBy: 'Lighting Director', reportedAt: '2024-11-22 16:45', location: 'Stage Left' },
+];
+
+export interface DemoSettlementItem {
+  id: string;
+  vendor: string;
+  category: string;
+  contracted: number;
+  actual: number;
+  variance: number;
+  status: 'pending' | 'approved' | 'paid';
+  [key: string]: unknown;
+}
+
+export const DEMO_PRODUCTION_SETTLEMENTS: DemoSettlementItem[] = [
+  { id: 'SET-001', vendor: 'SoundWave Audio', category: 'Audio', contracted: 45000, actual: 47500, variance: 2500, status: 'approved' },
+  { id: 'SET-002', vendor: 'LightCraft Productions', category: 'Lighting', contracted: 38000, actual: 38000, variance: 0, status: 'paid' },
+  { id: 'SET-003', vendor: 'Stage Masters', category: 'Staging', contracted: 52000, actual: 49800, variance: -2200, status: 'pending' },
+  { id: 'SET-004', vendor: 'Local Eats Catering', category: 'Catering', contracted: 15000, actual: 16200, variance: 1200, status: 'pending' },
+];
+
+export interface DemoLostFoundItem {
+  id: string;
+  description: string;
+  category: string;
+  foundLocation: string;
+  foundDate: string;
+  foundBy: string;
+  status: 'unclaimed' | 'claimed' | 'disposed';
+  claimedBy?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_LOST_FOUND_ITEMS: DemoLostFoundItem[] = [
+  { id: 'LF-001', description: 'Black iPhone 14', category: 'Electronics', foundLocation: 'VIP Area', foundDate: '2024-11-20', foundBy: 'Security Team', status: 'claimed', claimedBy: 'John Doe' },
+  { id: 'LF-002', description: 'Blue denim jacket', category: 'Clothing', foundLocation: 'Main Stage Area', foundDate: '2024-11-21', foundBy: 'Cleanup Crew', status: 'unclaimed' },
+  { id: 'LF-003', description: 'Car keys with BMW fob', category: 'Keys', foundLocation: 'Parking Lot B', foundDate: '2024-11-21', foundBy: 'Parking Attendant', status: 'unclaimed' },
+  { id: 'LF-004', description: 'Prescription sunglasses', category: 'Accessories', foundLocation: 'Food Court', foundDate: '2024-11-20', foundBy: 'Vendor Staff', status: 'disposed' },
+];
+
+export interface DemoWeatherForecast {
+  date: string;
+  condition: 'sunny' | 'cloudy' | 'rainy' | 'stormy' | 'windy';
+  tempHigh: number;
+  tempLow: number;
+  precipitation: number;
+  windSpeed: number;
+  humidity: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_WEATHER_FORECAST: DemoWeatherForecast[] = [
+  { date: '2024-11-25', condition: 'sunny', tempHigh: 72, tempLow: 58, precipitation: 0, windSpeed: 8, humidity: 45 },
+  { date: '2024-11-26', condition: 'cloudy', tempHigh: 68, tempLow: 55, precipitation: 10, windSpeed: 12, humidity: 60 },
+  { date: '2024-11-27', condition: 'rainy', tempHigh: 62, tempLow: 52, precipitation: 80, windSpeed: 15, humidity: 85 },
+  { date: '2024-11-28', condition: 'windy', tempHigh: 65, tempLow: 50, precipitation: 20, windSpeed: 25, humidity: 55 },
+];

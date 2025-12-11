@@ -30,29 +30,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface SettlementItem {
-  id: string;
-  name: string;
-  role: string;
-  type: 'crew' | 'vendor';
-  contractAmount: number;
-  adjustments: number;
-  finalAmount: number;
-  status: 'pending' | 'approved' | 'paid';
-}
-
-const MOCK_SETTLEMENTS: SettlementItem[] = [
-  { id: 'S-001', name: 'John Smith', role: 'Stage Manager', type: 'crew', contractAmount: 5000, adjustments: 500, finalAmount: 5500, status: 'paid' },
-  { id: 'S-002', name: 'Audio Solutions Inc', role: 'Audio Vendor', type: 'vendor', contractAmount: 45000, adjustments: -2000, finalAmount: 43000, status: 'approved' },
-  { id: 'S-003', name: 'Sarah Chen', role: 'Lighting Designer', type: 'crew', contractAmount: 4500, adjustments: 0, finalAmount: 4500, status: 'pending' },
-  { id: 'S-004', name: 'Stage Masters', role: 'Staging Vendor', type: 'vendor', contractAmount: 52000, adjustments: 3500, finalAmount: 55500, status: 'pending' },
-];
+import { DEMO_PRODUCTION_SETTLEMENTS, type DemoSettlementItem } from '../../../../lib/demo-data';
 
 export default function ProductionSettlementPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [settlements, setSettlements] = useState<SettlementItem[]>(MOCK_SETTLEMENTS);
+  const [settlements, setSettlements] = useState<DemoSettlementItem[]>(DEMO_PRODUCTION_SETTLEMENTS);
   const [loading, setLoading] = useState(true);
 
   const fetchSettlements = useCallback(async () => {

@@ -25,29 +25,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface WeatherForecast {
-  date: string;
-  condition: 'sunny' | 'cloudy' | 'rain' | 'storm';
-  tempHigh: number;
-  tempLow: number;
-  precipitation: number;
-  wind: number;
-  alert?: string;
-}
-
-const MOCK_FORECAST: WeatherForecast[] = [
-  { date: '2024-11-18', condition: 'sunny', tempHigh: 72, tempLow: 58, precipitation: 0, wind: 8 },
-  { date: '2024-11-19', condition: 'cloudy', tempHigh: 68, tempLow: 55, precipitation: 10, wind: 12 },
-  { date: '2024-11-20', condition: 'rain', tempHigh: 62, tempLow: 52, precipitation: 60, wind: 15, alert: 'Rain expected - prepare contingency' },
-  { date: '2024-11-21', condition: 'cloudy', tempHigh: 65, tempLow: 54, precipitation: 20, wind: 10 },
-  { date: '2024-11-22', condition: 'sunny', tempHigh: 70, tempLow: 56, precipitation: 5, wind: 6 },
-];
+import { DEMO_WEATHER_FORECAST, type DemoWeatherForecast } from '../../../../lib/demo-data';
 
 export default function ProductionWeatherPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [forecast, setForecast] = useState<WeatherForecast[]>(MOCK_FORECAST);
+  const [forecast, setForecast] = useState<DemoWeatherForecast[]>(DEMO_WEATHER_FORECAST);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchWeather = useCallback(async () => {

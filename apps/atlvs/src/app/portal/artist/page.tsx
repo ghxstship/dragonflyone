@@ -24,25 +24,10 @@ import {
   MapPin,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Booking {
-  id: string;
-  event: string;
-  venue: string;
-  date: string;
-  setTime: string;
-  status: 'confirmed' | 'pending' | 'completed';
-  fee: number;
-}
-
-const MOCK_BOOKINGS: Booking[] = [
-  { id: 'B-001', event: 'Summer Music Festival 2024', venue: 'Outdoor Amphitheater', date: 'Nov 20, 2024', setTime: '21:00 - 22:30', status: 'confirmed', fee: 25000 },
-  { id: 'B-002', event: 'New Years Eve Concert', venue: 'City Arena', date: 'Dec 31, 2024', setTime: '23:00 - 00:30', status: 'pending', fee: 50000 },
-  { id: 'B-003', event: 'Fall Festival', venue: 'Downtown Park', date: 'Oct 15, 2024', setTime: '20:00 - 21:30', status: 'completed', fee: 18000 },
-];
+import { DEMO_ARTIST_BOOKINGS, type DemoArtistBooking } from '../../../lib/demo-data';
 
 export default function ArtistPortalPage() {
-  const [bookings] = useState(MOCK_BOOKINGS);
+  const [bookings] = useState<DemoArtistBooking[]>(DEMO_ARTIST_BOOKINGS);
 
   const upcomingCount = bookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
   const completedCount = bookings.filter(b => b.status === 'completed').length;

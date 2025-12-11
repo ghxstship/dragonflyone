@@ -31,28 +31,12 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-
-interface LostFoundItem {
-  id: string;
-  description: string;
-  category: string;
-  location: string;
-  status: 'unclaimed' | 'claimed' | 'donated';
-  foundAt: string;
-  claimedBy?: string;
-}
-
-const MOCK_ITEMS: LostFoundItem[] = [
-  { id: 'LF-001', description: 'Black leather wallet', category: 'Personal', location: 'Section A Row 12', status: 'claimed', foundAt: '2024-11-15 22:30', claimedBy: 'John D.' },
-  { id: 'LF-002', description: 'iPhone 15 Pro - Space Black', category: 'Electronics', location: 'VIP Lounge', status: 'unclaimed', foundAt: '2024-11-15 23:15' },
-  { id: 'LF-003', description: 'Blue denim jacket', category: 'Clothing', location: 'Coat Check', status: 'unclaimed', foundAt: '2024-11-16 01:00' },
-  { id: 'LF-004', description: 'Car keys with BMW fob', category: 'Keys', location: 'Parking Lot B', status: 'claimed', foundAt: '2024-11-16 00:45', claimedBy: 'Sarah M.' },
-];
+import { DEMO_LOST_FOUND_ITEMS, type DemoLostFoundItem } from '../../../../lib/demo-data';
 
 export default function ProductionLostFoundPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [items, setItems] = useState<LostFoundItem[]>(MOCK_ITEMS);
+  const [items, setItems] = useState<DemoLostFoundItem[]>(DEMO_LOST_FOUND_ITEMS);
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [newItem, setNewItem] = useState({ description: '', category: '', location: '' });
