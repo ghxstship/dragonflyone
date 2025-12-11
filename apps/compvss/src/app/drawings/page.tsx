@@ -24,27 +24,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface Drawing {
-  id: string;
-  name: string;
-  type: "CAD" | "PDF" | "Vectorworks" | "AutoCAD" | "SketchUp";
-  category: "Stage" | "Lighting" | "Audio" | "Video" | "Rigging" | "Site";
-  project: string;
-  version: number;
-  uploadedBy: string;
-  uploadedAt: string;
-  size: string;
-  status: "Current" | "Superseded" | "Draft";
-  markups: number;
-}
-
-const mockDrawings: Drawing[] = [
-  { id: "DWG-001", name: "Main Stage Layout", type: "Vectorworks", category: "Stage", project: "Summer Fest 2024", version: 4, uploadedBy: "John Smith", uploadedAt: "2024-11-24", size: "12.4 MB", status: "Current", markups: 3 },
-  { id: "DWG-002", name: "Lighting Plot", type: "Vectorworks", category: "Lighting", project: "Summer Fest 2024", version: 6, uploadedBy: "Sarah Johnson", uploadedAt: "2024-11-23", size: "8.7 MB", status: "Current", markups: 5 },
-  { id: "DWG-003", name: "Audio System Layout", type: "AutoCAD", category: "Audio", project: "Summer Fest 2024", version: 3, uploadedBy: "Mike Davis", uploadedAt: "2024-11-22", size: "5.2 MB", status: "Current", markups: 2 },
-  { id: "DWG-004", name: "Rigging Plot", type: "CAD", category: "Rigging", project: "Summer Fest 2024", version: 2, uploadedBy: "Emily Chen", uploadedAt: "2024-11-21", size: "6.8 MB", status: "Current", markups: 1 },
-  { id: "DWG-005", name: "Site Plan", type: "PDF", category: "Site", project: "Summer Fest 2024", version: 1, uploadedBy: "John Smith", uploadedAt: "2024-11-20", size: "3.5 MB", status: "Current", markups: 0 },
-];
+import {
+  DEMO_DRAWINGS,
+  type DemoDrawing as Drawing,
+} from "../../lib/demo-data";
 
 const categories = ["All", "Stage", "Lighting", "Audio", "Video", "Rigging", "Site"];
 
@@ -55,8 +38,8 @@ export default function DrawingsPage() {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const filteredDrawings = categoryFilter === "All" ? mockDrawings : mockDrawings.filter(d => d.category === categoryFilter);
-  const totalMarkups = mockDrawings.reduce((s, d) => s + d.markups, 0);
+  const filteredDrawings = categoryFilter === "All" ? DEMO_DRAWINGS : DEMO_DRAWINGS.filter(d => d.category === categoryFilter);
+  const totalMarkups = DEMO_DRAWINGS.reduce((s, d) => s + d.markups, 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -84,10 +67,10 @@ export default function DrawingsPage() {
         <Container>
           <Stack gap={10}>
             <Grid cols={4} gap={6}>
-              <StatCard value={mockDrawings.length.toString()} label="Total Drawings" />
+              <StatCard value={DEMO_DRAWINGS.length.toString()} label="Total Drawings" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
               <StatCard value={totalMarkups.toString()} label="Active Markups" />
-              <StatCard value={mockDrawings.filter(d => d.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
+              <StatCard value={DEMO_DRAWINGS.filter(d => d.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
             </Grid>
 
             {/* Filters and Actions */}

@@ -494,3 +494,30 @@ export const DEMO_DELIVERIES: DemoDelivery[] = [
   { id: 'DEL-004', vendor: 'Audio Systems Inc', description: 'Wireless microphone systems', trackingNumber: 'FX123456789', carrier: 'FedEx', status: 'Received', scheduledDate: '2024-11-23', scheduledTime: '11:00', actualArrival: '10:45', receivedBy: 'John Martinez', accessPoint: 'Loading Dock 1', projectId: 'PROJ-089', items: [{ name: 'Shure ULXD4Q', quantity: 4, received: 4 }, { name: 'ULXD2 Handheld', quantity: 8, received: 8 }] },
   { id: 'DEL-005', vendor: 'Rigging Solutions', description: 'Chain motors and hardware', status: 'Delayed', scheduledDate: '2024-11-24', scheduledTime: '09:00', accessPoint: 'Loading Dock 2', projectId: 'PROJ-089', items: [{ name: 'CM Lodestar 1-Ton', quantity: 20 }], notes: 'Truck breakdown - ETA delayed 2 hours' },
 ];
+
+// =============================================================================
+// DRAWINGS (for drawings/page.tsx)
+// =============================================================================
+
+export interface DemoDrawing {
+  id: string;
+  name: string;
+  type: 'CAD' | 'PDF' | 'Vectorworks' | 'AutoCAD' | 'SketchUp';
+  category: 'Stage' | 'Lighting' | 'Audio' | 'Video' | 'Rigging' | 'Site';
+  project: string;
+  version: number;
+  uploadedBy: string;
+  uploadedAt: string;
+  size: string;
+  status: 'Current' | 'Superseded' | 'Draft';
+  markups: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_DRAWINGS: DemoDrawing[] = [
+  { id: 'DWG-001', name: 'Main Stage Layout', type: 'Vectorworks', category: 'Stage', project: 'Summer Fest 2024', version: 4, uploadedBy: 'John Smith', uploadedAt: '2024-11-24', size: '12.4 MB', status: 'Current', markups: 3 },
+  { id: 'DWG-002', name: 'Lighting Plot', type: 'Vectorworks', category: 'Lighting', project: 'Summer Fest 2024', version: 6, uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-23', size: '8.7 MB', status: 'Current', markups: 5 },
+  { id: 'DWG-003', name: 'Audio System Layout', type: 'AutoCAD', category: 'Audio', project: 'Summer Fest 2024', version: 3, uploadedBy: 'Mike Davis', uploadedAt: '2024-11-22', size: '5.2 MB', status: 'Current', markups: 2 },
+  { id: 'DWG-004', name: 'Rigging Plot', type: 'CAD', category: 'Rigging', project: 'Summer Fest 2024', version: 2, uploadedBy: 'Emily Chen', uploadedAt: '2024-11-21', size: '6.8 MB', status: 'Current', markups: 1 },
+  { id: 'DWG-005', name: 'Site Plan', type: 'PDF', category: 'Site', project: 'Summer Fest 2024', version: 1, uploadedBy: 'John Smith', uploadedAt: '2024-11-20', size: '3.5 MB', status: 'Current', markups: 0 },
+];
