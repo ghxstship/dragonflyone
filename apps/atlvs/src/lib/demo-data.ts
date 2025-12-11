@@ -713,3 +713,42 @@ export const DEMO_STATE_LABOR_LAWS: DemoStateLaborLaw[] = [
   { id: 'LAW-007', state: 'Illinois', stateCode: 'IL', category: 'Meal Breaks', requirement: '20-min meal break', description: '20-minute meal break for shifts of 7.5+ hours', effectiveDate: '2024-01-01', lastUpdated: '2024-06-01', status: 'Updated' },
   { id: 'LAW-008', state: 'Nevada', stateCode: 'NV', category: 'Rest Breaks', requirement: '10-min rest per 4 hours', description: 'Paid 10-minute rest break for every 4 hours worked', effectiveDate: '2024-01-01', lastUpdated: '2024-01-01', status: 'Active' },
 ];
+
+// =============================================================================
+// UNION COMPLIANCE (for workforce/union-compliance page)
+// =============================================================================
+
+export interface DemoUnionLocal {
+  id: string;
+  name: string;
+  code: string;
+  jurisdiction: string;
+  memberCount: number;
+  contactName: string;
+  contactPhone: string;
+  agreementExpiry: string;
+  status: 'Active' | 'Expiring' | 'Expired';
+}
+
+export interface DemoUnionComplianceRule {
+  id: string;
+  localId: string;
+  category: string;
+  rule: string;
+  requirement: string;
+  penalty?: string;
+}
+
+export const DEMO_UNION_LOCALS: DemoUnionLocal[] = [
+  { id: 'UL-001', name: 'IATSE Local 1', code: 'IA-1', jurisdiction: 'New York', memberCount: 3200, contactName: 'John Smith', contactPhone: '212-555-0100', agreementExpiry: '2025-06-30', status: 'Active' },
+  { id: 'UL-002', name: 'IATSE Local 33', code: 'IA-33', jurisdiction: 'Los Angeles', memberCount: 2800, contactName: 'Maria Garcia', contactPhone: '323-555-0200', agreementExpiry: '2025-03-15', status: 'Expiring' },
+  { id: 'UL-003', name: 'IBEW Local 3', code: 'IBEW-3', jurisdiction: 'New York', memberCount: 1500, contactName: 'Robert Johnson', contactPhone: '212-555-0300', agreementExpiry: '2024-12-31', status: 'Expiring' },
+  { id: 'UL-004', name: 'Teamsters Local 817', code: 'TM-817', jurisdiction: 'New York', memberCount: 890, contactName: 'Sarah Davis', contactPhone: '212-555-0400', agreementExpiry: '2025-09-30', status: 'Active' },
+];
+
+export const DEMO_UNION_COMPLIANCE_RULES: DemoUnionComplianceRule[] = [
+  { id: 'UR-001', localId: 'UL-001', category: 'Work Hours', rule: '8-Hour Day', requirement: 'Overtime after 8 hours at 1.5x rate', penalty: 'Back pay + penalties' },
+  { id: 'UR-002', localId: 'UL-001', category: 'Meal Breaks', rule: 'Meal Penalty', requirement: '6-hour meal break maximum', penalty: '$50/30min violation' },
+  { id: 'UR-003', localId: 'UL-001', category: 'Turnaround', rule: '12-Hour Rest', requirement: 'Minimum 12 hours between calls', penalty: 'Golden time rates' },
+  { id: 'UR-004', localId: 'UL-002', category: 'Staffing', rule: 'Minimum Crew', requirement: '4-person minimum for rigging calls', penalty: 'Full crew pay required' },
+];

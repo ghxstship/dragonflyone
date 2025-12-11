@@ -34,40 +34,12 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface UnionLocal {
-  id: string;
-  name: string;
-  code: string;
-  jurisdiction: string;
-  memberCount: number;
-  contactName: string;
-  contactPhone: string;
-  agreementExpiry: string;
-  status: "Active" | "Expiring" | "Expired";
-}
-
-interface UnionRule {
-  id: string;
-  localId: string;
-  category: string;
-  rule: string;
-  requirement: string;
-  penalty?: string;
-}
-
-const mockLocals: UnionLocal[] = [
-  { id: "UL-001", name: "IATSE Local 1", code: "IA-1", jurisdiction: "New York", memberCount: 3200, contactName: "John Smith", contactPhone: "212-555-0100", agreementExpiry: "2025-06-30", status: "Active" },
-  { id: "UL-002", name: "IATSE Local 33", code: "IA-33", jurisdiction: "Los Angeles", memberCount: 2800, contactName: "Maria Garcia", contactPhone: "323-555-0200", agreementExpiry: "2025-03-15", status: "Expiring" },
-  { id: "UL-003", name: "IBEW Local 3", code: "IBEW-3", jurisdiction: "New York", memberCount: 1500, contactName: "Robert Johnson", contactPhone: "212-555-0300", agreementExpiry: "2024-12-31", status: "Expiring" },
-  { id: "UL-004", name: "Teamsters Local 817", code: "TM-817", jurisdiction: "New York", memberCount: 890, contactName: "Sarah Davis", contactPhone: "212-555-0400", agreementExpiry: "2025-09-30", status: "Active" },
-];
-
-const mockRules: UnionRule[] = [
-  { id: "UR-001", localId: "UL-001", category: "Work Hours", rule: "8-Hour Day", requirement: "Overtime after 8 hours at 1.5x rate", penalty: "Back pay + penalties" },
-  { id: "UR-002", localId: "UL-001", category: "Meal Breaks", rule: "Meal Penalty", requirement: "6-hour meal break maximum", penalty: "$50/30min violation" },
-  { id: "UR-003", localId: "UL-001", category: "Turnaround", rule: "12-Hour Rest", requirement: "Minimum 12 hours between calls", penalty: "Golden time rates" },
-  { id: "UR-004", localId: "UL-002", category: "Staffing", rule: "Minimum Crew", requirement: "4-person minimum for rigging calls", penalty: "Full crew pay required" },
-];
+import {
+  DEMO_UNION_LOCALS,
+  DEMO_UNION_COMPLIANCE_RULES,
+  type DemoUnionLocal as UnionLocal,
+  type DemoUnionComplianceRule as UnionRule,
+} from '../../../lib/demo-data';
 
 export default function UnionCompliancePage() {
   const router = useRouter();
@@ -80,8 +52,8 @@ export default function UnionCompliancePage() {
   const [selectedLocal, setSelectedLocal] = useState<UnionLocal | null>(null);
   const [selectedRule, setSelectedRule] = useState<UnionRule | null>(null);
 
-  const expiringCount = mockLocals.filter(l => l.status === "Expiring").length;
-  const totalMembers = mockLocals.reduce((s, l) => s + l.memberCount, 0);
+  const expiringCount = DEMO_UNION_LOCALS.filter(l => l.status === "Expiring").length;
+  const totalMembers = DEMO_UNION_LOCALS.reduce((s, l) => s + l.memberCount, 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -113,9 +85,9 @@ export default function UnionCompliancePage() {
           )}
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Union Locals" value={mockLocals.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Union Locals" value={DEMO_UNION_LOCALS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Rules" value={mockRules.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Active Rules" value={DEMO_UNION_COMPLIANCE_RULES.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Expiring Agreements" value={expiringCount} trend={expiringCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
@@ -128,7 +100,7 @@ export default function UnionCompliancePage() {
 
             <TabPanel active={isActive('locals')}>
               <Grid cols={2} gap={4}>
-                {mockLocals.map((local) => (
+                {DEMO_UNION_LOCALS.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">
@@ -171,9 +143,9 @@ export default function UnionCompliancePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockRules.map((rule) => (
+                  {DEMO_UNION_COMPLIANCE_RULES.map((rule) => (
                     <TableRow key={rule.id} className="border-ink-800">
-                      <TableCell><Badge variant="outline">{mockLocals.find(l => l.id === rule.localId)?.code}</Badge></TableCell>
+                      <TableCell><Badge variant="outline">{DEMO_UNION_LOCALS.find(l => l.id === rule.localId)?.code}</Badge></TableCell>
                       <TableCell><Label className="text-ink-300">{rule.category}</Label></TableCell>
                       <TableCell><Label className="text-white">{rule.rule}</Label></TableCell>
                       <TableCell><Label className="text-ink-300">{rule.requirement}</Label></TableCell>
@@ -187,7 +159,7 @@ export default function UnionCompliancePage() {
 
             <TabPanel active={isActive('agreements')}>
               <Stack gap={4}>
-                {mockLocals.map((local) => (
+                {DEMO_UNION_LOCALS.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
