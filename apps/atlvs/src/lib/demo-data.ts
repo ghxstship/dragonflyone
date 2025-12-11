@@ -1086,3 +1086,33 @@ export const DEMO_ASSET_UTILIZATION: DemoAssetUtilization[] = [
   { id: 'AST-004', name: 'Staging Deck System', category: 'Staging', purchasePrice: 95000, currentValue: 76000, totalRevenue: 51300, utilizationRate: 0.68, daysDeployed: 248, projectCount: 41, roi: 54, costPerDay: 260 },
   { id: 'AST-005', name: 'Chain Motor Hoists (20x)', category: 'Rigging', purchasePrice: 42000, currentValue: 33600, totalRevenue: 33600, utilizationRate: 0.79, daysDeployed: 288, projectCount: 56, roi: 80, costPerDay: 115 },
 ];
+
+// =============================================================================
+// CLIENT RETENTION (for analytics/client-retention page)
+// =============================================================================
+
+export interface DemoClientRetention {
+  id: string;
+  clientName: string;
+  segment: 'Enterprise' | 'Mid-Market' | 'SMB';
+  firstDealDate: string;
+  totalDeals: number;
+  totalRevenue: number;
+  lastDealDate: string;
+  status: 'Active' | 'At Risk' | 'Churned' | 'New';
+  healthScore: number;
+  daysSinceLastDeal: number;
+  avgDealSize: number;
+  npsScore?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_CLIENT_RETENTION: DemoClientRetention[] = [
+  { id: 'CL-001', clientName: 'TechCorp Events', segment: 'Enterprise', firstDealDate: '2022-03-15', totalDeals: 12, totalRevenue: 450000, lastDealDate: '2024-11-10', status: 'Active', healthScore: 92, daysSinceLastDeal: 14, avgDealSize: 37500, npsScore: 9 },
+  { id: 'CL-002', clientName: 'Festival Productions', segment: 'Enterprise', firstDealDate: '2021-06-20', totalDeals: 18, totalRevenue: 680000, lastDealDate: '2024-10-05', status: 'Active', healthScore: 88, daysSinceLastDeal: 50, avgDealSize: 37778, npsScore: 8 },
+  { id: 'CL-003', clientName: 'Corporate Events Inc', segment: 'Mid-Market', firstDealDate: '2023-01-10', totalDeals: 6, totalRevenue: 125000, lastDealDate: '2024-08-15', status: 'At Risk', healthScore: 45, daysSinceLastDeal: 101, avgDealSize: 20833, npsScore: 6 },
+  { id: 'CL-004', clientName: 'StartUp Ventures', segment: 'SMB', firstDealDate: '2024-02-01', totalDeals: 2, totalRevenue: 28000, lastDealDate: '2024-05-20', status: 'At Risk', healthScore: 35, daysSinceLastDeal: 188, avgDealSize: 14000 },
+  { id: 'CL-005', clientName: 'Media Group LLC', segment: 'Mid-Market', firstDealDate: '2022-09-01', totalDeals: 8, totalRevenue: 195000, lastDealDate: '2024-11-20', status: 'Active', healthScore: 85, daysSinceLastDeal: 4, avgDealSize: 24375, npsScore: 8 },
+  { id: 'CL-006', clientName: 'Local Business Co', segment: 'SMB', firstDealDate: '2023-06-15', totalDeals: 3, totalRevenue: 35000, lastDealDate: '2024-01-10', status: 'Churned', healthScore: 15, daysSinceLastDeal: 319, avgDealSize: 11667, npsScore: 4 },
+  { id: 'CL-007', clientName: 'Innovation Labs', segment: 'Mid-Market', firstDealDate: '2024-10-01', totalDeals: 1, totalRevenue: 45000, lastDealDate: '2024-10-01', status: 'New', healthScore: 75, daysSinceLastDeal: 54, avgDealSize: 45000 },
+];

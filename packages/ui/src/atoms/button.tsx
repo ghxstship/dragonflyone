@@ -103,7 +103,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         );
       case "pop":
         return clsx(
-          "border-4 border-current",
+          "border-2 border-current",
           inverted 
             ? "bg-ink-950 text-white shadow-[4px_4px_0_hsl(var(--primary))]" 
             : "bg-white text-black shadow-[4px_4px_0_hsl(var(--primary))]",
