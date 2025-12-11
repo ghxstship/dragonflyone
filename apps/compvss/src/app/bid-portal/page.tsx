@@ -28,27 +28,10 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface BidOpportunity {
-  id: string;
-  title: string;
-  client: string;
-  type: "RFP" | "RFQ" | "Invitation";
-  category: string;
-  dueDate: string;
-  budget?: string;
-  status: "Open" | "Submitted" | "Under Review" | "Won" | "Lost";
-  description: string;
-  requirements: string[];
-  attachments: number;
-  bidAmount?: number;
-}
-
-const mockBids: BidOpportunity[] = [
-  { id: "BID-001", title: "Summer Festival 2025 - Full Production", client: "Festival Productions", type: "RFP", category: "Full Service", dueDate: "2024-12-15", budget: "$500K-$750K", status: "Open", description: "Full production for 3-day outdoor festival", requirements: ["10+ years experience", "Festival experience"], attachments: 5 },
-  { id: "BID-002", title: "Corporate Gala - AV Services", client: "TechCorp Events", type: "RFQ", category: "Audio", dueDate: "2024-12-01", budget: "$75K-$100K", status: "Submitted", description: "AV services for 500-person awards ceremony", requirements: ["Corporate experience"], attachments: 3, bidAmount: 85000 },
-  { id: "BID-003", title: "Theater Production - Lighting", client: "City Arts Center", type: "Invitation", category: "Lighting", dueDate: "2024-11-30", budget: "$25K-$35K", status: "Under Review", description: "Lighting design for 6-week theater run", requirements: ["Theater experience"], attachments: 2, bidAmount: 32000 },
-  { id: "BID-004", title: "Concert Series - Staging", client: "Live Nation", type: "RFP", category: "Staging", dueDate: "2024-11-25", status: "Won", description: "Staging for 10-city tour", requirements: ["Tour experience"], attachments: 6, bidAmount: 425000 },
-];
+import {
+  DEMO_BID_OPPORTUNITIES,
+  type DemoBidOpportunity as BidOpportunity,
+} from "../../lib/demo-data";
 
 export default function BidPortalPage() {
   const router = useRouter();
@@ -61,10 +44,10 @@ export default function BidPortalPage() {
   const [selectedBid, setSelectedBid] = useState<BidOpportunity | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
-  const openBids = mockBids.filter(b => b.status === "Open").length;
-  const submittedBids = mockBids.filter(b => b.status === "Submitted" || b.status === "Under Review").length;
+  const openBids = DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Open").length;
+  const submittedBids = DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Submitted" || b.status === "Under Review").length;
 
-  const filteredBids = activeTab === "all" ? mockBids : activeTab === "open" ? mockBids.filter(b => b.status === "Open") : mockBids.filter(b => b.status !== "Open");
+  const filteredBids = activeTab === "all" ? DEMO_BID_OPPORTUNITIES : activeTab === "open" ? DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Open") : DEMO_BID_OPPORTUNITIES.filter(b => b.status !== "Open");
 
   return (
     <CompvssAppLayout>
@@ -84,7 +67,7 @@ export default function BidPortalPage() {
             <Grid cols={4} gap={6}>
               <StatCard value={openBids.toString()} label="Open" />
               <StatCard value={submittedBids.toString()} label="Submitted" />
-              <StatCard value={mockBids.filter(b => b.status === "Won").length.toString()} label="Won" />
+              <StatCard value={DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Won").length.toString()} label="Won" />
               <StatCard value="68%" label="Win Rate" />
             </Grid>
 

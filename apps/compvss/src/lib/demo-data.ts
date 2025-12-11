@@ -271,3 +271,30 @@ export const DEMO_BEST_PRACTICES: DemoBestPractice[] = [
   { id: 'BP-004', title: 'Power Distribution Planning', category: 'Technical', discipline: 'Power', summary: 'Best practices for calculating power requirements.', author: 'Electrical', views: 1567, rating: 4.6, tags: ['power', 'planning'] },
   { id: 'BP-005', title: 'Crew Communication', category: 'Operations', discipline: 'General', summary: 'Effective radio and intercom communication protocols.', author: 'Ops Team', views: 1890, rating: 4.8, tags: ['communication', 'radio'] },
 ];
+
+// =============================================================================
+// BID OPPORTUNITIES (for bid-portal/page.tsx)
+// =============================================================================
+
+export interface DemoBidOpportunity {
+  id: string;
+  title: string;
+  client: string;
+  type: 'RFP' | 'RFQ' | 'Invitation';
+  category: string;
+  dueDate: string;
+  budget?: string;
+  status: 'Open' | 'Submitted' | 'Under Review' | 'Won' | 'Lost';
+  description: string;
+  requirements: string[];
+  attachments: number;
+  bidAmount?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_BID_OPPORTUNITIES: DemoBidOpportunity[] = [
+  { id: 'BID-001', title: 'Summer Festival 2025 - Full Production', client: 'Festival Productions', type: 'RFP', category: 'Full Service', dueDate: '2024-12-15', budget: '$500K-$750K', status: 'Open', description: 'Full production for 3-day outdoor festival', requirements: ['10+ years experience', 'Festival experience'], attachments: 5 },
+  { id: 'BID-002', title: 'Corporate Gala - AV Services', client: 'TechCorp Events', type: 'RFQ', category: 'Audio', dueDate: '2024-12-01', budget: '$75K-$100K', status: 'Submitted', description: 'AV services for 500-person awards ceremony', requirements: ['Corporate experience'], attachments: 3, bidAmount: 85000 },
+  { id: 'BID-003', title: 'Theater Production - Lighting', client: 'City Arts Center', type: 'Invitation', category: 'Lighting', dueDate: '2024-11-30', budget: '$25K-$35K', status: 'Under Review', description: 'Lighting design for 6-week theater run', requirements: ['Theater experience'], attachments: 2, bidAmount: 32000 },
+  { id: 'BID-004', title: 'Concert Series - Staging', client: 'Live Nation', type: 'RFP', category: 'Staging', dueDate: '2024-11-25', status: 'Won', description: 'Staging for 10-city tour', requirements: ['Tour experience'], attachments: 6, bidAmount: 425000 },
+];
