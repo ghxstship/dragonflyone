@@ -27,23 +27,15 @@ import {
 import { GvtewayAppLayout } from '../../../../components/app-layout';
 import { useEventCheckInData } from '@/hooks/useEventOperations';
 
-interface RecentScan {
-  id: string;
-  ticketId: string;
-  name: string;
-  ticketType: string;
-  status: 'success' | 'duplicate' | 'invalid' | 'expired';
-  timestamp: Date;
-}
+import {
+  DEMO_RECENT_SCANS,
+  type DemoRecentScan as RecentScan,
+} from '@/lib/demo-data';
 
 export default function EventCheckInPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const [recentScans, setRecentScans] = useState<RecentScan[]>([
-    { id: '1', ticketId: 'TKT-001234', name: 'John Smith', ticketType: 'VIP', status: 'success', timestamp: new Date() },
-    { id: '2', ticketId: 'TKT-001235', name: 'Jane Doe', ticketType: 'GA', status: 'success', timestamp: new Date(Date.now() - 60000) },
-    { id: '3', ticketId: 'TKT-001236', name: 'Bob Wilson', ticketType: 'GA', status: 'duplicate', timestamp: new Date(Date.now() - 120000) },
-  ]);
+  const [recentScans, setRecentScans] = useState<RecentScan[]>(DEMO_RECENT_SCANS);
   const [manualSearch, setManualSearch] = useState('');
 
   const { stats, searchTicket, isSearching, refetch } = useEventCheckInData(eventId);

@@ -26,20 +26,9 @@ import {
 } from "@ghxstship/ui";
 import { useForumsData } from "@/hooks/useForums";
 
-interface ForumCategory {
-  id: string;
-  name: string;
-  description: string;
-  thread_count: number;
-  post_count: number;
-}
+import { DEMO_FORUM_CATEGORIES } from "@/lib/demo-data";
 
-const DEMO_CATEGORIES: ForumCategory[] = [
-  { id: "general", name: "General Discussion", description: "Talk about anything music related", thread_count: 234, post_count: 1890 },
-  { id: "events", name: "Event Talk", description: "Discuss upcoming and past events", thread_count: 156, post_count: 1234 },
-  { id: "reviews", name: "Reviews", description: "Share your event experiences", thread_count: 89, post_count: 567 },
-  { id: "tickets", name: "Tickets & Sales", description: "Buy, sell, and trade tickets", thread_count: 67, post_count: 345 },
-];
+const DEMO_CATEGORIES = DEMO_FORUM_CATEGORIES;
 
 export default function ForumsPage() {
   const router = useRouter();
@@ -77,8 +66,8 @@ export default function ForumsPage() {
       <GvtewayAppLayout>
         <EmptyState
           title="Error Loading Forums"
-          description={error}
-          action={{ label: "Retry", onClick: fetchForums }}
+          description={error instanceof Error ? error.message : String(error)}
+          action={{ label: "Retry", onClick: () => window.location.reload() }}
           inverted
         />
       </GvtewayAppLayout>
@@ -189,7 +178,7 @@ export default function ForumsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {threads.map((thread) => (
+                  {threads.map((thread: { id: string; title: string; category: string; author_name: string; reply_count: number; view_count: number; last_reply_at: string; last_reply_by?: string; is_pinned: boolean; is_locked: boolean; created_at: string }) => (
                     <TableRow 
                       key={thread.id} 
                       className="cursor-pointer"

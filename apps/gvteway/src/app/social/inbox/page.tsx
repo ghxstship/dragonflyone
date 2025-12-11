@@ -11,27 +11,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface SocialMessage {
-  id: string;
-  platform: "Twitter" | "Instagram" | "Facebook" | "TikTok";
-  type: "DM" | "Comment" | "Mention" | "Review";
-  author: string;
-  authorHandle: string;
-  content: string;
-  timestamp: string;
-  status: "New" | "In Progress" | "Resolved" | "Escalated";
-  assignedTo?: string;
-  sentiment: "Positive" | "Neutral" | "Negative";
-  priority: "High" | "Medium" | "Low";
-}
+import {
+  DEMO_SOCIAL_MESSAGES,
+  type DemoSocialMessage as SocialMessage,
+} from "@/lib/demo-data";
 
-const mockMessages: SocialMessage[] = [
-  { id: "SM-001", platform: "Twitter", type: "Mention", author: "John Doe", authorHandle: "@johndoe", content: "Having trouble purchasing tickets for @SummerFest. The checkout keeps timing out. Help!", timestamp: "5 min ago", status: "New", sentiment: "Negative", priority: "High" },
-  { id: "SM-002", platform: "Instagram", type: "DM", author: "Sarah M", authorHandle: "@sarahm_music", content: "Hi! What time do gates open on Saturday? Want to make sure I dont miss the opener!", timestamp: "15 min ago", status: "New", sentiment: "Neutral", priority: "Medium" },
-  { id: "SM-003", platform: "Facebook", type: "Comment", author: "Mike Wilson", authorHandle: "Mike Wilson", content: "Best festival Ive ever been to! Already bought tickets for next year 🎉", timestamp: "1 hr ago", status: "Resolved", sentiment: "Positive", priority: "Low" },
-  { id: "SM-004", platform: "Twitter", type: "DM", author: "Emily Chen", authorHandle: "@emilyc", content: "Is there wheelchair accessible seating available? My mom uses a wheelchair.", timestamp: "2 hrs ago", status: "In Progress", assignedTo: "Support Team", sentiment: "Neutral", priority: "High" },
-  { id: "SM-005", platform: "TikTok", type: "Comment", author: "festivalfan99", authorHandle: "@festivalfan99", content: "The sound quality was terrible at stage 2. Couldnt hear anything!", timestamp: "3 hrs ago", status: "Escalated", sentiment: "Negative", priority: "High" },
-];
+const mockMessages = DEMO_SOCIAL_MESSAGES;
 
 function SocialInboxPageContent() {
   const router = useRouter();

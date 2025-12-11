@@ -1700,3 +1700,70 @@ export const DEMO_SEARCH_RESULTS: DemoSearchResult[] = [
   { id: '3', type: 'Event', title: 'Rolling Loud Miami', location: 'Miami Gardens, FL', date: 'May 9-11' },
   { id: '4', type: 'Artist', title: 'Armin van Buuren', genre: 'Trance', followers: '2.1M' },
 ];
+
+// =============================================================================
+// FORUMS (for forums/page.tsx)
+// =============================================================================
+
+export interface DemoForumCategory {
+  id: string;
+  name: string;
+  description: string;
+  thread_count: number;
+  post_count: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_FORUM_CATEGORIES: DemoForumCategory[] = [
+  { id: 'general', name: 'General Discussion', description: 'Talk about anything music related', thread_count: 234, post_count: 1890 },
+  { id: 'events', name: 'Event Talk', description: 'Discuss upcoming and past events', thread_count: 156, post_count: 1234 },
+  { id: 'reviews', name: 'Reviews', description: 'Share your event experiences', thread_count: 89, post_count: 567 },
+  { id: 'tickets', name: 'Tickets & Sales', description: 'Buy, sell, and trade tickets', thread_count: 67, post_count: 345 },
+];
+
+// =============================================================================
+// SOCIAL - INBOX (for social/inbox/page.tsx)
+// =============================================================================
+
+export interface DemoSocialMessage {
+  id: string;
+  platform: 'Twitter' | 'Instagram' | 'Facebook' | 'TikTok';
+  type: 'DM' | 'Comment' | 'Mention' | 'Review';
+  author: string;
+  authorHandle: string;
+  content: string;
+  timestamp: string;
+  status: 'New' | 'In Progress' | 'Resolved' | 'Escalated';
+  assignedTo?: string;
+  sentiment: 'Positive' | 'Neutral' | 'Negative';
+  priority: 'High' | 'Medium' | 'Low';
+  [key: string]: unknown;
+}
+
+export const DEMO_SOCIAL_MESSAGES: DemoSocialMessage[] = [
+  { id: 'SM-001', platform: 'Twitter', type: 'Mention', author: 'John Doe', authorHandle: '@johndoe', content: 'Having trouble purchasing tickets for @SummerFest. The checkout keeps timing out. Help!', timestamp: '5 min ago', status: 'New', sentiment: 'Negative', priority: 'High' },
+  { id: 'SM-002', platform: 'Instagram', type: 'DM', author: 'Sarah M', authorHandle: '@sarahm_music', content: 'Hi! What time do gates open on Saturday? Want to make sure I dont miss the opener!', timestamp: '15 min ago', status: 'New', sentiment: 'Neutral', priority: 'Medium' },
+  { id: 'SM-003', platform: 'Facebook', type: 'Comment', author: 'Mike Wilson', authorHandle: 'Mike Wilson', content: 'Best festival Ive ever been to! Already bought tickets for next year', timestamp: '1 hr ago', status: 'Resolved', sentiment: 'Positive', priority: 'Low' },
+  { id: 'SM-004', platform: 'Twitter', type: 'DM', author: 'Emily Chen', authorHandle: '@emilyc', content: 'Is there wheelchair accessible seating available? My mom uses a wheelchair.', timestamp: '2 hrs ago', status: 'In Progress', assignedTo: 'Support Team', sentiment: 'Neutral', priority: 'High' },
+  { id: 'SM-005', platform: 'TikTok', type: 'Comment', author: 'festivalfan99', authorHandle: '@festivalfan99', content: 'The sound quality was terrible at stage 2. Couldnt hear anything!', timestamp: '3 hrs ago', status: 'Escalated', sentiment: 'Negative', priority: 'High' },
+];
+
+// =============================================================================
+// E - CHECK-IN (for e/[eventId]/check-in/page.tsx)
+// =============================================================================
+
+export interface DemoRecentScan {
+  id: string;
+  ticketId: string;
+  name: string;
+  ticketType: string;
+  status: 'success' | 'duplicate' | 'invalid' | 'expired';
+  timestamp: Date;
+  [key: string]: unknown;
+}
+
+export const DEMO_RECENT_SCANS: DemoRecentScan[] = [
+  { id: '1', ticketId: 'TKT-001234', name: 'John Smith', ticketType: 'VIP', status: 'success', timestamp: new Date() },
+  { id: '2', ticketId: 'TKT-001235', name: 'Jane Doe', ticketType: 'GA', status: 'success', timestamp: new Date(Date.now() - 60000) },
+  { id: '3', ticketId: 'TKT-001236', name: 'Bob Wilson', ticketType: 'GA', status: 'duplicate', timestamp: new Date(Date.now() - 120000) },
+];
