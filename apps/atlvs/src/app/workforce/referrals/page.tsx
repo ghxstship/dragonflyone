@@ -18,24 +18,10 @@ import {
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface Referral {
-  id: string;
-  candidateName: string;
-  position: string;
-  referredBy: string;
-  referrerDept: string;
-  submittedDate: string;
-  status: "Pending" | "Interviewing" | "Hired" | "Rejected";
-  bonusStatus?: "Pending" | "Paid";
-  bonusAmount?: number;
-}
-
-const mockReferrals: Referral[] = [
-  { id: "REF-001", candidateName: "Alex Thompson", position: "Audio Engineer", referredBy: "John Smith", referrerDept: "Audio", submittedDate: "2024-11-20", status: "Interviewing" },
-  { id: "REF-002", candidateName: "Maria Garcia", position: "Lighting Designer", referredBy: "Sarah Johnson", referrerDept: "Lighting", submittedDate: "2024-11-15", status: "Hired", bonusStatus: "Pending", bonusAmount: 2500 },
-  { id: "REF-003", candidateName: "James Wilson", position: "Stage Manager", referredBy: "Mike Davis", referrerDept: "Stage", submittedDate: "2024-11-10", status: "Hired", bonusStatus: "Paid", bonusAmount: 2500 },
-  { id: "REF-004", candidateName: "Emily Chen", position: "Video Technician", referredBy: "John Smith", referrerDept: "Audio", submittedDate: "2024-11-05", status: "Rejected" },
-];
+import {
+  DEMO_REFERRALS_FULL,
+  type DemoReferralFull as Referral,
+} from '../../../lib/demo-data';
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -78,7 +64,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ReferralProgramPage() {
-  const [referrals, setReferrals] = useState<Referral[]>(mockReferrals);
+  const [referrals, setReferrals] = useState<Referral[]>(DEMO_REFERRALS_FULL);
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -155,7 +141,7 @@ export default function ReferralProgramPage() {
 
       }
 
-      refetch();
+      setReferrals(DEMO_REFERRALS_FULL);
 
     },
 

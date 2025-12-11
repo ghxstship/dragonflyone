@@ -408,3 +408,26 @@ export const DEMO_BACKGROUND_CHECKS_FULL: DemoBackgroundCheckFull[] = [
   { id: 'BGC-004', employeeId: 'EMP-104', employeeName: 'Emily Davis', department: 'Audio', checkType: 'Criminal + Employment', provider: 'GoodHire', requestDate: '2024-11-15', status: 'Pending' },
   { id: 'BGC-005', employeeId: 'EMP-105', employeeName: 'Chris Brown', department: 'Lighting', checkType: 'Criminal + Drug Screen', provider: 'Checkr', requestDate: '2024-09-01', completedDate: '2024-09-05', expiryDate: '2024-09-05', status: 'Expired', result: 'Clear' },
 ];
+
+// =============================================================================
+// REFERRALS (for workforce/referrals page)
+// =============================================================================
+
+export interface DemoReferralFull {
+  id: string;
+  candidateName: string;
+  position: string;
+  referredBy: string;
+  referrerDept: string;
+  submittedDate: string;
+  status: 'Pending' | 'Interviewing' | 'Hired' | 'Rejected';
+  bonusStatus?: 'Pending' | 'Paid';
+  bonusAmount?: number;
+}
+
+export const DEMO_REFERRALS_FULL: DemoReferralFull[] = [
+  { id: 'REF-001', candidateName: 'Alex Thompson', position: 'Audio Engineer', referredBy: 'John Smith', referrerDept: 'Audio', submittedDate: '2024-11-20', status: 'Interviewing' },
+  { id: 'REF-002', candidateName: 'Maria Garcia', position: 'Lighting Designer', referredBy: 'Sarah Johnson', referrerDept: 'Lighting', submittedDate: '2024-11-15', status: 'Hired', bonusStatus: 'Pending', bonusAmount: 2500 },
+  { id: 'REF-003', candidateName: 'James Wilson', position: 'Stage Manager', referredBy: 'Mike Davis', referrerDept: 'Stage', submittedDate: '2024-11-10', status: 'Hired', bonusStatus: 'Paid', bonusAmount: 2500 },
+  { id: 'REF-004', candidateName: 'Emily Chen', position: 'Video Technician', referredBy: 'John Smith', referrerDept: 'Audio', submittedDate: '2024-11-05', status: 'Rejected' },
+];
