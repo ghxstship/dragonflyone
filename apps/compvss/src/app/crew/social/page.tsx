@@ -27,42 +27,12 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface CrewMember {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  avatar: string;
-  status: "Online" | "Away" | "Offline";
-  connections: number;
-  projects: number;
-  bio?: string;
-}
-
-interface CrewPost {
-  id: string;
-  authorId: string;
-  authorName: string;
-  authorRole: string;
-  content: string;
-  timestamp: string;
-  likes: number;
-  comments: number;
-  type: "Photo" | "Update" | "Achievement";
-}
-
-const mockCrew: CrewMember[] = [
-  { id: "CRW-001", name: "John Smith", role: "Audio Engineer", department: "Audio", avatar: "JS", status: "Online", connections: 45, projects: 28, bio: "15 years in live sound. L-Acoustics certified." },
-  { id: "CRW-002", name: "Sarah Johnson", role: "Lighting Designer", department: "Lighting", avatar: "SJ", status: "Online", connections: 62, projects: 35, bio: "Creating memorable visual experiences since 2010." },
-  { id: "CRW-003", name: "Mike Davis", role: "Stage Manager", department: "Stage", avatar: "MD", status: "Away", connections: 78, projects: 52, bio: "Keeping shows running smoothly for 20 years." },
-  { id: "CRW-004", name: "Emily Chen", role: "Video Director", department: "Video", avatar: "EC", status: "Offline", connections: 34, projects: 19, bio: "Broadcast and live event video specialist." },
-];
-
-const mockPosts: CrewPost[] = [
-  { id: "POST-001", authorId: "CRW-001", authorName: "John Smith", authorRole: "Audio Engineer", content: "Just wrapped an amazing festival run! Great team effort everyone 🎵", timestamp: "2 hours ago", likes: 24, comments: 8, type: "Update" },
-  { id: "POST-002", authorId: "CRW-002", authorName: "Sarah Johnson", authorRole: "Lighting Designer", content: "New certification achieved! MA3 Programming Level 2 ✨", timestamp: "5 hours ago", likes: 45, comments: 12, type: "Achievement" },
-  { id: "POST-003", authorId: "CRW-003", authorName: "Mike Davis", authorRole: "Stage Manager", content: "Behind the scenes from last night's corporate gala", timestamp: "1 day ago", likes: 67, comments: 15, type: "Photo" },
-];
+import {
+  DEMO_CREW_SOCIAL_MEMBERS,
+  DEMO_CREW_POSTS,
+  type DemoCrewSocialMember as CrewMember,
+  type DemoCrewPost as CrewPost,
+} from "../../../lib/demo-data";
 
 export default function CrewSocialPage() {
   const router = useRouter();
@@ -74,7 +44,7 @@ export default function CrewSocialPage() {
   });
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
 
-  const onlineCount = mockCrew.filter(c => c.status === "Online").length;
+  const onlineCount = DEMO_CREW_SOCIAL_MEMBERS.filter(c => c.status === "Online").length;
 
   const getPostIcon = (type: string) => {
     switch (type) {
@@ -100,9 +70,9 @@ export default function CrewSocialPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockCrew.length.toString()} label="Crew Members" />
+              <StatCard value={DEMO_CREW_SOCIAL_MEMBERS.length.toString()} label="Crew Members" />
               <StatCard value={onlineCount.toString()} label="Online Now" />
-              <StatCard value={mockPosts.length.toString()} label="Posts Today" />
+              <StatCard value={DEMO_CREW_POSTS.length.toString()} label="Posts Today" />
               <StatCard value="45" label="Your Connections" />
             </Grid>
 
@@ -126,13 +96,13 @@ export default function CrewSocialPage() {
                         <Button variant="solid">Post</Button>
                       </Stack>
                     </Card>
-                    {mockPosts.map((post) => (
+                    {DEMO_CREW_POSTS.map((post) => (
                       <Card key={post.id} className="p-6">
                         <Stack gap={4}>
                           <Stack direction="horizontal" className="justify-between">
                             <Stack direction="horizontal" gap={3}>
                               <Card className="flex size-12 items-center justify-center rounded-avatar">
-                                <Body className="text-body-sm">{mockCrew.find(c => c.id === post.authorId)?.avatar}</Body>
+                                <Body className="text-body-sm">{DEMO_CREW_SOCIAL_MEMBERS.find(c => c.id === post.authorId)?.avatar}</Body>
                               </Card>
                               <Stack gap={0}>
                                 <Body>{post.authorName}</Body>
@@ -163,7 +133,7 @@ export default function CrewSocialPage() {
                     <Card className="p-4">
                       <Stack gap={3}>
                         <Body className="font-display">Online Now</Body>
-                        {mockCrew.filter(c => c.status === "Online").map((member) => (
+                        {DEMO_CREW_SOCIAL_MEMBERS.filter(c => c.status === "Online").map((member) => (
                           <Stack key={member.id} direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedMember(member)}>
                             <Card className="flex size-8 items-center justify-center rounded-avatar">
                               <Body className="text-body-sm">{member.avatar}</Body>
@@ -179,7 +149,7 @@ export default function CrewSocialPage() {
                     <Card className="p-4">
                       <Stack gap={3}>
                         <Body className="font-display">Suggested Connections</Body>
-                        {mockCrew.slice(0, 3).map((member) => (
+                        {DEMO_CREW_SOCIAL_MEMBERS.slice(0, 3).map((member) => (
                           <Stack key={member.id} direction="horizontal" className="items-center justify-between">
                             <Stack direction="horizontal" gap={2}>
                               <Card className="flex size-8 items-center justify-center rounded-avatar">
@@ -198,7 +168,7 @@ export default function CrewSocialPage() {
 
               <TabPanel active={isActive('roster')}>
                 <Grid cols={4} gap={4}>
-                  {mockCrew.map((member) => (
+                  {DEMO_CREW_SOCIAL_MEMBERS.map((member) => (
                     <Card key={member.id} className="cursor-pointer p-4" onClick={() => setSelectedMember(member)}>
                       <Stack gap={3} className="text-center">
                         <Card className="mx-auto flex size-16 items-center justify-center rounded-avatar">
@@ -237,7 +207,7 @@ export default function CrewSocialPage() {
 
               <TabPanel active={isActive('connections')}>
                 <Stack gap={4}>
-                  {mockCrew.map((member) => (
+                  {DEMO_CREW_SOCIAL_MEMBERS.map((member) => (
                     <Card key={member.id} className="p-4">
                       <Stack direction="horizontal" className="items-center justify-between">
                         <Stack direction="horizontal" gap={4}>

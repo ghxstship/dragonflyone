@@ -689,3 +689,46 @@ export const DEMO_CREW_PHOTOS: DemoCrewPhoto[] = [
   { id: 'PHOTO-002', url: '/photos/crew-2.jpg', caption: 'Lighting rig ready for showtime', uploaded_by: 'Sarah Chen', project_name: 'Festival Main Stage', uploaded_at: '2024-11-18', likes: 31, liked_by: ['CREW-001', 'CREW-004', 'CREW-005'] },
   { id: 'PHOTO-003', url: '/photos/crew-3.jpg', caption: 'Crew dinner after load-in', uploaded_by: 'Mike Thompson', project_name: 'Corporate Event', uploaded_at: '2024-11-15', likes: 18, liked_by: ['CREW-001', 'CREW-002'] },
 ];
+
+// =============================================================================
+// CREW SOCIAL FEED (for crew/social/page.tsx)
+// =============================================================================
+
+export interface DemoCrewSocialMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  avatar: string;
+  status: 'Online' | 'Away' | 'Offline';
+  connections: number;
+  projects: number;
+  bio?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_SOCIAL_MEMBERS: DemoCrewSocialMember[] = [
+  { id: 'CRW-001', name: 'John Smith', role: 'Audio Engineer', department: 'Audio', avatar: 'JS', status: 'Online', connections: 45, projects: 28, bio: '15 years in live sound. L-Acoustics certified.' },
+  { id: 'CRW-002', name: 'Sarah Johnson', role: 'Lighting Designer', department: 'Lighting', avatar: 'SJ', status: 'Online', connections: 62, projects: 35, bio: 'Creating memorable visual experiences since 2010.' },
+  { id: 'CRW-003', name: 'Mike Davis', role: 'Stage Manager', department: 'Stage', avatar: 'MD', status: 'Away', connections: 78, projects: 52, bio: 'Keeping shows running smoothly for 20 years.' },
+  { id: 'CRW-004', name: 'Emily Chen', role: 'Video Director', department: 'Video', avatar: 'EC', status: 'Offline', connections: 34, projects: 19, bio: 'Broadcast and live event video specialist.' },
+];
+
+export interface DemoCrewPost {
+  id: string;
+  authorId: string;
+  authorName: string;
+  authorRole: string;
+  content: string;
+  timestamp: string;
+  likes: number;
+  comments: number;
+  type: 'Photo' | 'Update' | 'Achievement';
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_POSTS: DemoCrewPost[] = [
+  { id: 'POST-001', authorId: 'CRW-001', authorName: 'John Smith', authorRole: 'Audio Engineer', content: 'Just wrapped an amazing festival run! Great team effort everyone', timestamp: '2 hours ago', likes: 24, comments: 8, type: 'Update' },
+  { id: 'POST-002', authorId: 'CRW-002', authorName: 'Sarah Johnson', authorRole: 'Lighting Designer', content: 'New certification achieved! MA3 Programming Level 2', timestamp: '5 hours ago', likes: 45, comments: 12, type: 'Achievement' },
+  { id: 'POST-003', authorId: 'CRW-003', authorName: 'Mike Davis', authorRole: 'Stage Manager', content: 'Behind the scenes from last night\'s corporate gala', timestamp: '1 day ago', likes: 67, comments: 15, type: 'Photo' },
+];
