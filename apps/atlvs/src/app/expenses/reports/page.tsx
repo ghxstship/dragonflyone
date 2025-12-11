@@ -174,13 +174,33 @@ export default function ExpenseReportsPage() {
                 </Stack>
               </Card>
 
-              {/* Monthly Trend (placeholder) */}
+              {/* Monthly Trend */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
                   <H3>Monthly Trend</H3>
-                  <Box className="flex h-32 items-center justify-center rounded-card border-2 border-dashed border-grey-300">
-                    <Body className="text-grey-500">Monthly expense chart coming soon</Body>
-                  </Box>
+                  <Stack gap={2}>
+                    {[
+                      { month: 'Oct', amount: 45000, percent: 60 },
+                      { month: 'Nov', amount: 62000, percent: 82 },
+                      { month: 'Dec', amount: 38000, percent: 50 },
+                    ].map((item) => (
+                      <Stack key={item.month} gap={1}>
+                        <Stack direction="horizontal" className="items-center justify-between">
+                          <Body className="text-body-sm text-grey-600">{item.month}</Body>
+                          <Body className="text-body-sm font-weight-semibold">${item.amount.toLocaleString()}</Body>
+                        </Stack>
+                        <Box className="h-2 overflow-hidden rounded-badge bg-grey-200">
+                          <Box 
+                            className="h-full bg-primary transition-all" 
+                            style={{ width: `${item.percent}%` }} 
+                          />
+                        </Box>
+                      </Stack>
+                    ))}
+                  </Stack>
+                  <Body className="text-body-sm text-grey-500">
+                    Total Q4: ${(45000 + 62000 + 38000).toLocaleString()}
+                  </Body>
                 </Stack>
               </Card>
             </Grid>

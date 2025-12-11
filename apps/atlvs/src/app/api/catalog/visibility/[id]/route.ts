@@ -1,0 +1,110 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createAdminClient } from '@/lib/supabase';
+import { log } from '@ghxstship/config';
+
+export const dynamic = 'force-dynamic';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const supabase = createAdminClient();
+  const { id } = await params;
+  
+  try {
+    const { data, error } = await supabase
+      .from('catalog_visibility_settings')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Setting not found' }, { status: 404 });
+      }
+      log.error('Failed to fetch catalog visibility setting:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ setting: data });
+  } catch (error) {
+    log.error('Unexpected error fetching catalog visibility setting:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const supabase = createAdminClient();
+  const { id } = await params;
+  
+  try {
+    const payload = await request.json();
+
+    const { data, error } = await supabase
+      .from('catalog_visibility_settings')
+      .update({
+        is_visible: payload.is_visible,
+        is_requestable: payload.is_requestable,
+        requires_approval: payload.requires_approval,
+        approval_role: payload.approval_role,
+        max_quantity_per_request: payload.max_quantity_per_request,
+        max_value_per_request: payload.max_value_per_request,
+        budget_period: payload.budget_period,
+        budget_limit: payload.budget_limit,
+        notes: payload.notes,
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Setting not found' }, { status: 404 });
+      }
+      log.error('Failed to update catalog visibility setting:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ setting: data });
+  } catch (error) {
+    log.error('Unexpected error updating catalog visibility setting:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const supabase = createAdminClient();
+  const { id } = await params;
+  
+  try {
+    const { error } = await supabase
+      .from('catalog_visibility_settings')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      log.error('Failed to delete catalog visibility setting:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ message: 'Setting deleted successfully' });
+  } catch (error) {
+    log.error('Unexpected error deleting catalog visibility setting:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

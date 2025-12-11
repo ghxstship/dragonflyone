@@ -14,7 +14,6 @@ import {
   DEMO_PARKING_OPTIONS,
   DEMO_TRANSPORT_OPTIONS,
   type DemoParkingOption as ParkingOption,
-  type DemoTransportOption as TransportOption,
 } from "@/lib/demo-data";
 
 const mockParking = DEMO_PARKING_OPTIONS;

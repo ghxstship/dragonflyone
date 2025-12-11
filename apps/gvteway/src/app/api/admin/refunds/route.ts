@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { z } from "zod";
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ status: "ok", refund });
   } catch (error) {
-    Logger.error("Admin refund error", error);
+    logger.error("Admin refund error", error);
     return NextResponse.json({ error: "Unable to process refund" }, { status: 500 });
   }
 }

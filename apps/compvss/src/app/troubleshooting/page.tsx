@@ -22,6 +22,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_TROUBLESHOOTING_GUIDES } from '../../lib/demo-data';
 
 interface TroubleshootingGuide {
   id: string;
@@ -34,12 +35,8 @@ interface TroubleshootingGuide {
   helpful: number;
 }
 
-const mockGuides: TroubleshootingGuide[] = [
-  { id: "TS-001", title: "No Audio Output", category: "Audio", symptom: "Console shows signal but no sound from speakers", steps: ["Check amplifier power", "Verify speaker cables", "Check mute status", "Test with different source"], resolution: "Most commonly caused by muted output or disconnected cables", views: 2456, helpful: 89 },
-  { id: "TS-002", title: "LED Panel Artifacts", category: "Video", symptom: "Random pixels or lines appearing on LED wall", steps: ["Check data cable connections", "Verify processor settings", "Test individual panels", "Check for EMI interference"], resolution: "Usually resolved by reseating data cables or replacing faulty panel", views: 1234, helpful: 76 },
-  { id: "TS-003", title: "Fixture Not Responding", category: "Lighting", symptom: "Moving light not responding to DMX commands", steps: ["Verify DMX address", "Check DMX cable chain", "Test fixture in standalone", "Reset fixture"], resolution: "Address conflicts or cable issues are most common causes", views: 1890, helpful: 82 },
-  { id: "TS-004", title: "Intercom Static", category: "Communications", symptom: "Excessive static or noise on intercom system", steps: ["Check cable shielding", "Verify power supply", "Test individual stations", "Check for RF interference"], resolution: "Ground loops or damaged cables typically cause this issue", views: 987, helpful: 71 },
-];
+const mockGuides = DEMO_TROUBLESHOOTING_GUIDES as unknown as TroubleshootingGuide[];
+
 
 const categories = ["All", "Audio", "Video", "Lighting", "Communications", "Power", "Rigging"];
 

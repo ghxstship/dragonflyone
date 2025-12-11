@@ -32,11 +32,10 @@ interface Document {
   status: string;
 }
 
-const mockDocuments: Document[] = [
-  { id: '1', name: 'Ultra Music Festival - Master Contract 2025', type: 'Contract', folder: 'Contracts', version: '3.2', size: '2.4 MB', uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-20', status: 'active' },
-  { id: '2', name: 'General Liability Insurance Policy', type: 'Insurance', folder: 'Compliance', version: '1.0', size: '1.1 MB', uploadedBy: 'Mike Peters', uploadedAt: '2024-11-15', status: 'active' },
-  { id: '3', name: 'Q4 2024 Financial Statements', type: 'Financial', folder: 'Finance', version: '2.1', size: '856 KB', uploadedBy: 'John Doe', uploadedAt: '2024-11-18', status: 'active' },
-];
+import { DEMO_DOCUMENTS } from '../../lib/demo-data';
+
+const mockDocuments = DEMO_DOCUMENTS as Document[];
+
 
 const columns: ListPageColumn<Document>[] = [
   { key: 'name', label: 'Document', accessor: 'name', sortable: true },

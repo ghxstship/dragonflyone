@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { KPI_MASTER_LIST, getKPIByCode } from '@ghxstship/config/kpi-definitions';
 import type { KPIDefinition } from '@ghxstship/config/types/kpi-types';
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
       count: kpis.length
     });
   } catch (error) {
-    Logger.error('Error fetching KPI definitions:', error);
+    logger.error('Error fetching KPI definitions:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch KPI definitions' },
       { status: 500 }

@@ -25,7 +25,6 @@ import { createExportHandler, createImportHandler, getImportTemplates } from "@g
 
 import {
   DEMO_CREW_MEMBERS,
-  type DemoCrewMember as CrewMember,
 } from "../../lib/demo-data";
 
 const columns: ListPageColumn<CrewMember>[] = [

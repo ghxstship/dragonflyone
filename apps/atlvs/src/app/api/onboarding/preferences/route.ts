@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (settingsError) {
-      Logger.error('Settings update error:', settingsError);
+      logger.error('Settings update error:', settingsError);
       return NextResponse.json({ error: 'Failed to update preferences' }, { status: 500 });
     }
 
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      Logger.error('Profile update error:', profileError);
+      logger.error('Profile update error:', profileError);
     }
 
     return NextResponse.json({ success: true, step: 'preferences' });
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Preferences update error:', error);
+    logger.error('Preferences update error:', error);
     return NextResponse.json({ error: 'Failed to update preferences' }, { status: 500 });
   }
 }

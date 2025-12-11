@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_WEATHER_PLANS } from '../../lib/demo-data';
 
 interface WeatherPlan {
   id: string;
@@ -50,54 +51,8 @@ interface ContingencyAction {
   status: "Ready" | "Activated" | "Completed";
 }
 
-const mockPlans: WeatherPlan[] = [
-  {
-    id: "WP-001",
-    projectName: "Summer Fest 2024",
-    projectId: "PROJ-089",
-    eventDate: "2024-12-15",
-    venue: "Outdoor Amphitheater",
-    venueType: "Outdoor",
-    status: "Active",
-    currentConditions: "Partly Cloudy, 72°F",
-    riskLevel: "Low",
-    contingencyPlans: [
-      { id: "CA-001", trigger: "Rain", threshold: ">0.5 in/hr", action: "Deploy rain covers over FOH and monitor positions", responsible: "Site Manager", status: "Ready" },
-      { id: "CA-002", trigger: "Lightning", threshold: "Within 10 miles", action: "Evacuate to covered areas, pause show", responsible: "Safety Director", status: "Ready" },
-      { id: "CA-003", trigger: "High Wind", threshold: ">35 mph sustained", action: "Lower video walls, secure loose items", responsible: "Technical Director", status: "Ready" },
-      { id: "CA-004", trigger: "Extreme Heat", threshold: ">95°F", action: "Activate cooling stations, increase water distribution", responsible: "Operations", status: "Ready" },
-    ],
-  },
-  {
-    id: "WP-002",
-    projectName: "Corporate Gala",
-    projectId: "PROJ-090",
-    eventDate: "2024-12-20",
-    venue: "Convention Center",
-    venueType: "Indoor",
-    status: "Active",
-    currentConditions: "Clear, 65°F",
-    riskLevel: "Low",
-    contingencyPlans: [
-      { id: "CA-005", trigger: "Power Outage", threshold: "Any duration", action: "Switch to backup generators", responsible: "Technical Director", status: "Ready" },
-    ],
-  },
-  {
-    id: "WP-003",
-    projectName: "Beach Concert",
-    projectId: "PROJ-091",
-    eventDate: "2024-12-10",
-    venue: "Oceanside Beach",
-    venueType: "Outdoor",
-    status: "Triggered",
-    currentConditions: "Storm Warning, 58°F, Wind 25mph",
-    riskLevel: "High",
-    contingencyPlans: [
-      { id: "CA-006", trigger: "Storm Warning", threshold: "NWS Advisory", action: "Delay doors by 2 hours", responsible: "Production Manager", status: "Activated" },
-      { id: "CA-007", trigger: "High Surf", threshold: ">6 ft waves", action: "Move barriers back 50 ft from waterline", responsible: "Site Manager", status: "Completed" },
-    ],
-  },
-];
+const mockPlans = DEMO_WEATHER_PLANS as unknown as WeatherPlan[];
+
 
 export default function WeatherContingencyPage() {
   const router = useRouter();

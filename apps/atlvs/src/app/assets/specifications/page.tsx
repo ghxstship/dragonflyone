@@ -62,95 +62,10 @@ interface Document {
   size: string;
 }
 
-const mockSpecs: AssetSpec[] = [
-  {
-    id: "SPEC-001",
-    name: "Robe MegaPointe",
-    category: "Lighting",
-    manufacturer: "Robe",
-    model: "MegaPointe",
-    specifications: [
-      { label: "Lamp Type", value: "Osram Sirius HRI 470W" },
-      { label: "Color Temperature", value: "6800K" },
-      { label: "Lumen Output", value: "24000", unit: "lm" },
-      { label: "Pan Range", value: "540°" },
-      { label: "Tilt Range", value: "270°" },
-      { label: "Weight", value: "35", unit: "kg" },
-      { label: "Power Consumption", value: "650", unit: "W" },
-      { label: "DMX Channels", value: "37" },
-    ],
-    documents: [
-      { id: "DOC-001", name: "User Manual", type: "Manual", url: "/docs/megapointe-manual.pdf", size: "12.5 MB" },
-      { id: "DOC-002", name: "Technical Datasheet", type: "Datasheet", url: "/docs/megapointe-spec.pdf", size: "2.1 MB" },
-    ],
-    relatedAssets: 24,
-    lastUpdated: "2024-11-15",
-  },
-  {
-    id: "SPEC-002",
-    name: "Meyer Sound LEO-M",
-    category: "Audio",
-    manufacturer: "Meyer Sound",
-    model: "LEO-M",
-    specifications: [
-      { label: "Frequency Response", value: "30 Hz - 18 kHz" },
-      { label: "Max SPL", value: "140", unit: "dB" },
-      { label: "Coverage Pattern", value: "110° x 50°" },
-      { label: "Weight", value: "68", unit: "kg" },
-      { label: "Power Consumption", value: "3600", unit: "W" },
-      { label: "Rigging Points", value: "4" },
-    ],
-    documents: [
-      { id: "DOC-003", name: "User Manual", type: "Manual", url: "/docs/leo-m-manual.pdf", size: "8.3 MB" },
-      { id: "DOC-004", name: "Rigging Guide", type: "Safety", url: "/docs/leo-m-rigging.pdf", size: "4.2 MB" },
-    ],
-    relatedAssets: 12,
-    lastUpdated: "2024-11-10",
-  },
-  {
-    id: "SPEC-003",
-    name: "ROE Visual CB5",
-    category: "Video",
-    manufacturer: "ROE Visual",
-    model: "CB5",
-    specifications: [
-      { label: "Pixel Pitch", value: "5.77", unit: "mm" },
-      { label: "Resolution", value: "104 x 104 px/panel" },
-      { label: "Brightness", value: "5500", unit: "nits" },
-      { label: "Refresh Rate", value: "3840", unit: "Hz" },
-      { label: "Panel Size", value: "600 x 600", unit: "mm" },
-      { label: "Weight", value: "9.5", unit: "kg" },
-      { label: "Power Consumption", value: "180", unit: "W" },
-    ],
-    documents: [
-      { id: "DOC-005", name: "Technical Manual", type: "Manual", url: "/docs/cb5-manual.pdf", size: "6.7 MB" },
-      { id: "DOC-006", name: "CAD Drawings", type: "CAD", url: "/docs/cb5-cad.dwg", size: "1.8 MB" },
-    ],
-    relatedAssets: 200,
-    lastUpdated: "2024-11-20",
-  },
-  {
-    id: "SPEC-004",
-    name: "CM Lodestar 1-Ton",
-    category: "Rigging",
-    manufacturer: "CM",
-    model: "Lodestar 1-Ton",
-    specifications: [
-      { label: "Capacity", value: "1000", unit: "kg" },
-      { label: "Lift Speed", value: "4", unit: "m/min" },
-      { label: "Chain Size", value: "7.9", unit: "mm" },
-      { label: "Motor Power", value: "1.5", unit: "kW" },
-      { label: "Weight", value: "45", unit: "kg" },
-      { label: "Noise Level", value: "65", unit: "dB" },
-    ],
-    documents: [
-      { id: "DOC-007", name: "Safety Manual", type: "Safety", url: "/docs/lodestar-safety.pdf", size: "3.4 MB" },
-      { id: "DOC-008", name: "Inspection Checklist", type: "Manual", url: "/docs/lodestar-inspection.pdf", size: "0.8 MB" },
-    ],
-    relatedAssets: 20,
-    lastUpdated: "2024-10-25",
-  },
-];
+import { DEMO_ASSET_SPECS } from '../../../lib/demo-data';
+
+const mockSpecs = DEMO_ASSET_SPECS as unknown as AssetSpec[];
+
 
 export default function AssetSpecificationsPage() {
   const router = useRouter();

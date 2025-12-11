@@ -13,8 +13,6 @@ import {
 import {
   DEMO_CAMPAIGN_METRICS,
   DEMO_ATTRIBUTION_SOURCES,
-  type DemoCampaignMetric as CampaignMetric,
-  type DemoAttributionSource as AttributionSource,
 } from "@/lib/demo-data";
 
 const mockCampaigns = DEMO_CAMPAIGN_METRICS;

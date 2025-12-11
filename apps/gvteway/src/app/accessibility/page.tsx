@@ -14,7 +14,6 @@ import {
   DEMO_ACCESSIBILITY_REQUESTS,
   DEMO_ACCESSIBILITY_SERVICES,
   type DemoAccessibilityRequest as AccessibilityRequest,
-  type DemoAccessibilityService as AccessibilityService,
 } from "@/lib/demo-data";
 
 const mockRequests = DEMO_ACCESSIBILITY_REQUESTS;

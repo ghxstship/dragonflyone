@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from '@/lib/supabase';
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ reports: data || [] });
   } catch (error) {
-    Logger.error("Error fetching damage reports:", error);
+    logger.error("Error fetching damage reports:", error);
     return NextResponse.json({ error: "Failed to fetch damage reports" }, { status: 500 });
   }
 }
@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ report: data });
   } catch (error) {
-    Logger.error("Error creating damage report:", error);
+    logger.error("Error creating damage report:", error);
     return NextResponse.json({ error: "Failed to create damage report" }, { status: 500 });
   }
 }
@@ -109,7 +109,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ report: data });
   } catch (error) {
-    Logger.error("Error updating damage report:", error);
+    logger.error("Error updating damage report:", error);
     return NextResponse.json({ error: "Failed to update damage report" }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ artists: data || [] });
   } catch (error) {
-    Logger.error("Error fetching artists:", error);
+    logger.error("Error fetching artists:", error);
     return NextResponse.json({ error: "Failed to fetch artists" }, { status: 500 });
   }
 }
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ artist: data });
   } catch (error) {
-    Logger.error("Error creating artist:", error);
+    logger.error("Error creating artist:", error);
     return NextResponse.json({ error: "Failed to create artist" }, { status: 500 });
   }
 }
@@ -96,7 +96,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ artist: data });
   } catch (error) {
-    Logger.error("Error updating artist:", error);
+    logger.error("Error updating artist:", error);
     return NextResponse.json({ error: "Failed to update artist" }, { status: 500 });
   }
 }
@@ -114,7 +114,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error("Error deleting artist:", error);
+    logger.error("Error deleting artist:", error);
     return NextResponse.json({ error: "Failed to delete artist" }, { status: 500 });
   }
 }

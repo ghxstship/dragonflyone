@@ -735,6 +735,88 @@ export type Database = {
           },
         ]
       }
+      advance_template_items: {
+        Row: {
+          catalog_item_id: string | null
+          category: string | null
+          created_at: string | null
+          default_quantity: number
+          description: string | null
+          display_order: number | null
+          estimated_unit_cost: number | null
+          id: string
+          is_locked: boolean | null
+          is_required: boolean | null
+          item_name: string
+          notes: string | null
+          org_catalog_item_id: string | null
+          subcategory: string | null
+          template_id: string
+          unit: string
+          updated_at: string | null
+        }
+        Insert: {
+          catalog_item_id?: string | null
+          category?: string | null
+          created_at?: string | null
+          default_quantity?: number
+          description?: string | null
+          display_order?: number | null
+          estimated_unit_cost?: number | null
+          id?: string
+          is_locked?: boolean | null
+          is_required?: boolean | null
+          item_name: string
+          notes?: string | null
+          org_catalog_item_id?: string | null
+          subcategory?: string | null
+          template_id: string
+          unit?: string
+          updated_at?: string | null
+        }
+        Update: {
+          catalog_item_id?: string | null
+          category?: string | null
+          created_at?: string | null
+          default_quantity?: number
+          description?: string | null
+          display_order?: number | null
+          estimated_unit_cost?: number | null
+          id?: string
+          is_locked?: boolean | null
+          is_required?: boolean | null
+          item_name?: string
+          notes?: string | null
+          org_catalog_item_id?: string | null
+          subcategory?: string | null
+          template_id?: string
+          unit?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "advance_template_items_catalog_item_id_fkey"
+            columns: ["catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "production_advancing_catalog"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "advance_template_items_org_catalog_item_id_fkey"
+            columns: ["org_catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "organization_catalog_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "advance_template_items_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "advance_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       advance_templates: {
         Row: {
           category: string | null
@@ -742,13 +824,20 @@ export type Database = {
           created_by: string | null
           default_items: Json | null
           description: string | null
+          estimated_cost: number | null
           id: string
           is_active: boolean | null
           is_global: boolean | null
+          last_used_at: string | null
           metadata: Json | null
           name: string
           organization_id: string | null
+          project_id: string | null
+          tags: string[] | null
+          team_id: string | null
+          template_type: string | null
           updated_at: string | null
+          usage_count: number | null
         }
         Insert: {
           category?: string | null
@@ -756,13 +845,20 @@ export type Database = {
           created_by?: string | null
           default_items?: Json | null
           description?: string | null
+          estimated_cost?: number | null
           id?: string
           is_active?: boolean | null
           is_global?: boolean | null
+          last_used_at?: string | null
           metadata?: Json | null
           name: string
           organization_id?: string | null
+          project_id?: string | null
+          tags?: string[] | null
+          team_id?: string | null
+          template_type?: string | null
           updated_at?: string | null
+          usage_count?: number | null
         }
         Update: {
           category?: string | null
@@ -770,13 +866,20 @@ export type Database = {
           created_by?: string | null
           default_items?: Json | null
           description?: string | null
+          estimated_cost?: number | null
           id?: string
           is_active?: boolean | null
           is_global?: boolean | null
+          last_used_at?: string | null
           metadata?: Json | null
           name?: string
           organization_id?: string | null
+          project_id?: string | null
+          tags?: string[] | null
+          team_id?: string | null
+          template_type?: string | null
           updated_at?: string | null
+          usage_count?: number | null
         }
         Relationships: [
           {
@@ -798,6 +901,20 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "advance_templates_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "mv_project_financials"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "advance_templates_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
@@ -1969,6 +2086,103 @@ export type Database = {
             columns: ["performed_by"]
             isOneToOne: false
             referencedRelation: "workforce_employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      asset_request_permissions: {
+        Row: {
+          allowed_roles: string[]
+          allowed_user_ids: string[] | null
+          approval_chain: string[] | null
+          auto_approve_below_value: number | null
+          blackout_dates: string[] | null
+          category: string
+          created_at: string | null
+          created_by: string | null
+          denied_user_ids: string[] | null
+          escalation_after_hours: number | null
+          id: string
+          is_active: boolean | null
+          justification_min_length: number | null
+          max_quantity: number | null
+          max_value: number | null
+          notes: string | null
+          organization_id: string
+          request_window_end: string | null
+          request_window_start: string | null
+          requires_justification: boolean | null
+          subcategory: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          allowed_roles?: string[]
+          allowed_user_ids?: string[] | null
+          approval_chain?: string[] | null
+          auto_approve_below_value?: number | null
+          blackout_dates?: string[] | null
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          denied_user_ids?: string[] | null
+          escalation_after_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          justification_min_length?: number | null
+          max_quantity?: number | null
+          max_value?: number | null
+          notes?: string | null
+          organization_id: string
+          request_window_end?: string | null
+          request_window_start?: string | null
+          requires_justification?: boolean | null
+          subcategory?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          allowed_roles?: string[]
+          allowed_user_ids?: string[] | null
+          approval_chain?: string[] | null
+          auto_approve_below_value?: number | null
+          blackout_dates?: string[] | null
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          denied_user_ids?: string[] | null
+          escalation_after_hours?: number | null
+          id?: string
+          is_active?: boolean | null
+          justification_min_length?: number | null
+          max_quantity?: number | null
+          max_value?: number | null
+          notes?: string | null
+          organization_id?: string
+          request_window_end?: string | null
+          request_window_start?: string | null
+          requires_justification?: boolean | null
+          subcategory?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "asset_request_permissions_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "asset_request_permissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "asset_request_permissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -4440,6 +4654,91 @@ export type Database = {
           website?: string | null
         }
         Relationships: []
+      }
+      catalog_visibility_settings: {
+        Row: {
+          approval_role: string | null
+          budget_limit: number | null
+          budget_period: string | null
+          created_at: string | null
+          created_by: string | null
+          id: string
+          is_requestable: boolean | null
+          is_visible: boolean | null
+          max_quantity_per_request: number | null
+          max_value_per_request: number | null
+          notes: string | null
+          organization_id: string
+          requires_approval: boolean | null
+          scope_id: string | null
+          scope_type: string
+          target_type: string
+          target_value: string
+          updated_at: string | null
+        }
+        Insert: {
+          approval_role?: string | null
+          budget_limit?: number | null
+          budget_period?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_requestable?: boolean | null
+          is_visible?: boolean | null
+          max_quantity_per_request?: number | null
+          max_value_per_request?: number | null
+          notes?: string | null
+          organization_id: string
+          requires_approval?: boolean | null
+          scope_id?: string | null
+          scope_type: string
+          target_type: string
+          target_value: string
+          updated_at?: string | null
+        }
+        Update: {
+          approval_role?: string | null
+          budget_limit?: number | null
+          budget_period?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          is_requestable?: boolean | null
+          is_visible?: boolean | null
+          max_quantity_per_request?: number | null
+          max_value_per_request?: number | null
+          notes?: string | null
+          organization_id?: string
+          requires_approval?: boolean | null
+          scope_id?: string | null
+          scope_type?: string
+          target_type?: string
+          target_value?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "catalog_visibility_settings_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "catalog_visibility_settings_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "catalog_visibility_settings_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       catering_orders: {
         Row: {
@@ -20164,6 +20463,35 @@ export type Database = {
           },
         ]
       }
+      kpi_report_favorites: {
+        Row: {
+          created_at: string | null
+          id: string
+          report_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          report_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          report_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kpi_report_favorites_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       kpi_reports: {
         Row: {
           category: string | null
@@ -20173,9 +20501,11 @@ export type Database = {
           filters: Json | null
           id: string
           is_global: boolean | null
+          is_user_copy: boolean | null
           kpi_codes: string[]
           name: string
           organization_id: string
+          source_report_id: string | null
           updated_at: string
         }
         Insert: {
@@ -20186,9 +20516,11 @@ export type Database = {
           filters?: Json | null
           id?: string
           is_global?: boolean | null
+          is_user_copy?: boolean | null
           kpi_codes?: string[]
           name: string
           organization_id: string
+          source_report_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -20199,9 +20531,11 @@ export type Database = {
           filters?: Json | null
           id?: string
           is_global?: boolean | null
+          is_user_copy?: boolean | null
           kpi_codes?: string[]
           name?: string
           organization_id?: string
+          source_report_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -20217,6 +20551,13 @@ export type Database = {
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kpi_reports_source_report_id_fkey"
+            columns: ["source_report_id"]
+            isOneToOne: false
+            referencedRelation: "kpi_reports"
             referencedColumns: ["id"]
           },
         ]
@@ -24100,6 +24441,139 @@ export type Database = {
           },
         ]
       }
+      organization_catalog_items: {
+        Row: {
+          base_price_high: number | null
+          base_price_low: number | null
+          category: string
+          created_at: string | null
+          created_by: string | null
+          custom_fields: Json | null
+          description: string | null
+          display_order: number | null
+          enabled: boolean | null
+          id: string
+          industry_verticals: string[] | null
+          internal_notes: string | null
+          is_locked: boolean | null
+          is_preferred: boolean | null
+          item_id: string
+          item_name: string
+          lock_reason: string | null
+          locked_at: string | null
+          locked_by: string | null
+          organization_id: string
+          preferred_vendors: string[] | null
+          procurement_type: string | null
+          source_catalog_item_id: string | null
+          standard_unit: string
+          subcategory: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          base_price_high?: number | null
+          base_price_low?: number | null
+          category: string
+          created_at?: string | null
+          created_by?: string | null
+          custom_fields?: Json | null
+          description?: string | null
+          display_order?: number | null
+          enabled?: boolean | null
+          id?: string
+          industry_verticals?: string[] | null
+          internal_notes?: string | null
+          is_locked?: boolean | null
+          is_preferred?: boolean | null
+          item_id: string
+          item_name: string
+          lock_reason?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          organization_id: string
+          preferred_vendors?: string[] | null
+          procurement_type?: string | null
+          source_catalog_item_id?: string | null
+          standard_unit?: string
+          subcategory?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          base_price_high?: number | null
+          base_price_low?: number | null
+          category?: string
+          created_at?: string | null
+          created_by?: string | null
+          custom_fields?: Json | null
+          description?: string | null
+          display_order?: number | null
+          enabled?: boolean | null
+          id?: string
+          industry_verticals?: string[] | null
+          internal_notes?: string | null
+          is_locked?: boolean | null
+          is_preferred?: boolean | null
+          item_id?: string
+          item_name?: string
+          lock_reason?: string | null
+          locked_at?: string | null
+          locked_by?: string | null
+          organization_id?: string
+          preferred_vendors?: string[] | null
+          procurement_type?: string | null
+          source_catalog_item_id?: string | null
+          standard_unit?: string
+          subcategory?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_catalog_items_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_catalog_items_locked_by_fkey"
+            columns: ["locked_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_catalog_items_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "mv_executive_dashboard"
+            referencedColumns: ["organization_id"]
+          },
+          {
+            foreignKeyName: "organization_catalog_items_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_catalog_items_source_catalog_item_id_fkey"
+            columns: ["source_catalog_item_id"]
+            isOneToOne: false
+            referencedRelation: "production_advancing_catalog"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "organization_catalog_items_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       organizations: {
         Row: {
           created_at: string
@@ -25926,6 +26400,7 @@ export type Database = {
           submitted_at: string | null
           submitter_id: string
           team_workspace: string | null
+          template_id: string | null
           updated_at: string
         }
         Insert: {
@@ -25948,6 +26423,7 @@ export type Database = {
           submitted_at?: string | null
           submitter_id: string
           team_workspace?: string | null
+          template_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -25970,6 +26446,7 @@ export type Database = {
           submitted_at?: string | null
           submitter_id?: string
           team_workspace?: string | null
+          template_id?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -26020,6 +26497,13 @@ export type Database = {
             columns: ["submitter_id"]
             isOneToOne: false
             referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "production_advances_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "advance_templates"
             referencedColumns: ["id"]
           },
         ]
@@ -38280,6 +38764,42 @@ export type Database = {
           },
         ]
       }
+      user_template_favorites: {
+        Row: {
+          created_at: string | null
+          id: string
+          template_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          template_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          template_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_template_favorites_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "advance_templates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_template_favorites_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "platform_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendors: {
         Row: {
           address: string | null
@@ -41572,6 +42092,15 @@ export type Database = {
         Args: { p_called_by_id: string; p_cue_id: string }
         Returns: boolean
       }
+      can_request_category: {
+        Args: {
+          p_category: string
+          p_organization_id: string
+          p_subcategory?: string
+          p_user_id: string
+        }
+        Returns: boolean
+      }
       check_alert_threshold: {
         Args: { p_current_value: number; p_metric_name: string }
         Returns: Record<string, unknown>
@@ -41729,6 +42258,17 @@ export type Database = {
         Args: { p_lead_id: string; p_user_id: string }
         Returns: undefined
       }
+      create_advance_from_template: {
+        Args: {
+          p_activation_name?: string
+          p_organization_id: string
+          p_project_id?: string
+          p_submitter_id?: string
+          p_team_workspace?: string
+          p_template_id: string
+        }
+        Returns: string
+      }
       create_change_request: {
         Args: {
           p_change_type?: string
@@ -41758,6 +42298,17 @@ export type Database = {
         }
         Returns: string
       }
+      create_template_from_advance: {
+        Args: {
+          p_advance_id: string
+          p_category?: string
+          p_created_by?: string
+          p_description?: string
+          p_is_global?: boolean
+          p_template_name: string
+        }
+        Returns: string
+      }
       create_version_snapshot: {
         Args: {
           p_data: Json
@@ -41783,6 +42334,21 @@ export type Database = {
         Returns: number
       }
       detect_sql_injection: { Args: { input_text: string }; Returns: boolean }
+      duplicate_catalog_item_to_org: {
+        Args: {
+          p_created_by?: string
+          p_custom_item_id?: string
+          p_custom_name?: string
+          p_is_locked?: boolean
+          p_organization_id: string
+          p_source_item_id: string
+        }
+        Returns: string
+      }
+      duplicate_kpi_report: {
+        Args: { p_new_name?: string; p_report_id: string }
+        Returns: string
+      }
       enforce_security_policy: { Args: never; Returns: undefined }
       ensure_primary_organization: { Args: never; Returns: string }
       ensure_rls_enabled: { Args: never; Returns: undefined }
@@ -42018,6 +42584,27 @@ export type Database = {
           email: string
           full_name: string
           job_title: string
+        }[]
+      }
+      get_effective_catalog: {
+        Args: {
+          p_category?: string
+          p_include_global?: boolean
+          p_organization_id: string
+        }
+        Returns: {
+          base_price_high: number
+          base_price_low: number
+          category: string
+          description: string
+          id: string
+          is_locked: boolean
+          is_preferred: boolean
+          item_id: string
+          item_name: string
+          source_type: string
+          standard_unit: string
+          subcategory: string
         }[]
       }
       get_entity_hierarchy: {
@@ -42404,6 +42991,54 @@ export type Database = {
           last_updated: string
         }[]
       }
+      get_user_custom_kpi_reports: {
+        Args: never
+        Returns: {
+          category: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          filters: Json | null
+          id: string
+          is_global: boolean | null
+          is_user_copy: boolean | null
+          kpi_codes: string[]
+          name: string
+          organization_id: string
+          source_report_id: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "kpi_reports"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      get_user_favorite_kpi_reports: {
+        Args: never
+        Returns: {
+          category: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          filters: Json | null
+          id: string
+          is_global: boolean | null
+          is_user_copy: boolean | null
+          kpi_codes: string[]
+          name: string
+          organization_id: string
+          source_report_id: string | null
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "kpi_reports"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       get_user_organization_id: { Args: never; Returns: string }
       get_user_referral_stats: {
         Args: { p_user_id: string }
@@ -42426,6 +43061,28 @@ export type Database = {
           team_id: string
           team_name: string
           team_slug: string
+        }[]
+      }
+      get_user_templates: {
+        Args: {
+          p_category?: string
+          p_include_global?: boolean
+          p_organization_id: string
+          p_user_id: string
+        }
+        Returns: {
+          category: string
+          created_at: string
+          description: string
+          estimated_cost: number
+          id: string
+          is_favorite: boolean
+          is_global: boolean
+          item_count: number
+          last_used_at: string
+          name: string
+          template_type: string
+          usage_count: number
         }[]
       }
       get_user_workflows: {
@@ -42546,6 +43203,10 @@ export type Database = {
       }
       is_following: {
         Args: { p_followed_id: string; p_follower_id: string }
+        Returns: boolean
+      }
+      is_kpi_report_favorited: {
+        Args: { p_report_id: string }
         Returns: boolean
       }
       issue_credential: {
@@ -42778,6 +43439,7 @@ export type Database = {
         Args: { p_auth_user_id: string }
         Returns: undefined
       }
+      reload_pgrst_schema: { Args: never; Returns: undefined }
       require_mfa_claim: { Args: never; Returns: undefined }
       reset_connection_stats: { Args: never; Returns: undefined }
       revoke_credential: {
@@ -43184,6 +43846,10 @@ export type Database = {
       }
       toggle_comment_resolution: {
         Args: { p_comment_id: string }
+        Returns: boolean
+      }
+      toggle_kpi_report_favorite: {
+        Args: { p_report_id: string }
         Returns: boolean
       }
       track_generator_event: {

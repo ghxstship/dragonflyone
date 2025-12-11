@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       total: data.length,
     });
   } catch (error) {
-    Logger.error('Error fetching quick links:', error);
+    logger.error('Error fetching quick links:', error);
     return NextResponse.json(
       { error: 'Failed to fetch quick links' },
       { status: 500 }

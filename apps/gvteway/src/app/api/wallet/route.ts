@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       .single();
 
     if (walletError && walletError.code !== 'PGRST116') {
-      Logger.error('Error fetching wallet:', walletError);
+      logger.error('Error fetching wallet:', walletError);
       return NextResponse.json(
         { error: 'Failed to fetch wallet', details: walletError.message },
         { status: 500 }
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (createError) {
-        Logger.error('Error creating wallet:', createError);
+        logger.error('Error creating wallet:', createError);
         return NextResponse.json(
           { error: 'Failed to create wallet', details: createError.message },
           { status: 500 }
@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/wallet:', error);
+    logger.error('Error in GET /api/wallet:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/wallet/transaction:', error);
+    logger.error('Error in POST /api/wallet/transaction:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -207,7 +207,7 @@ async function handleLoadWallet(body: LoadWalletBody) {
   );
 
   if (error) {
-    Logger.error('Error processing transaction:', error);
+    logger.error('Error processing transaction:', error);
     return NextResponse.json(
       { error: 'Failed to process transaction', details: error.message },
       { status: 500 }

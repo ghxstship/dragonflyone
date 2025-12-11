@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Get email templates error:', error);
+    logger.error('Get email templates error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch templates' },
       { status: 500 }
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create email template error:', error);
+    logger.error('Create email template error:', error);
     return NextResponse.json(
       { error: 'Failed to create template' },
       { status: 500 }

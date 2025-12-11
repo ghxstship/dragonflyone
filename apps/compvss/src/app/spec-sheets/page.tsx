@@ -26,6 +26,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_SPEC_SHEETS } from '../../lib/demo-data';
 
 interface SpecSheet {
   id: string;
@@ -40,13 +41,8 @@ interface SpecSheet {
   specs: { label: string; value: string }[];
 }
 
-const mockSpecs: SpecSheet[] = [
-  { id: "SPEC-001", name: "L-Acoustics K2", manufacturer: "L-Acoustics", category: "Audio", model: "K2", version: "2.1", lastUpdated: "2024-10-15", fileSize: "2.4 MB", downloads: 342, specs: [{ label: "Frequency Range", value: "35Hz - 20kHz" }, { label: "Max SPL", value: "145 dB" }, { label: "Weight", value: "61 kg" }] },
-  { id: "SPEC-002", name: "Clay Paky Sharpy Plus", manufacturer: "Clay Paky", category: "Lighting", model: "Sharpy Plus", version: "1.3", lastUpdated: "2024-09-20", fileSize: "1.8 MB", downloads: 256, specs: [{ label: "Lamp", value: "440W" }, { label: "Beam Angle", value: "5.5°" }, { label: "Weight", value: "21 kg" }] },
-  { id: "SPEC-003", name: "ROE Visual CB5", manufacturer: "ROE Visual", category: "Video", model: "CB5", version: "3.0", lastUpdated: "2024-11-01", fileSize: "3.2 MB", downloads: 189, specs: [{ label: "Pixel Pitch", value: "5.77mm" }, { label: "Brightness", value: "5500 nits" }, { label: "Panel Size", value: "500x500mm" }] },
-  { id: "SPEC-004", name: "CM Lodestar", manufacturer: "CM", category: "Rigging", model: "Lodestar", version: "2.0", lastUpdated: "2024-08-10", fileSize: "1.5 MB", downloads: 423, specs: [{ label: "Capacity", value: "1 ton" }, { label: "Speed", value: "4 m/min" }, { label: "Weight", value: "45 kg" }] },
-  { id: "SPEC-005", name: "DiGiCo SD12", manufacturer: "DiGiCo", category: "Audio", model: "SD12", version: "1.8", lastUpdated: "2024-10-25", fileSize: "4.1 MB", downloads: 312, specs: [{ label: "Channels", value: "72" }, { label: "Buses", value: "36" }, { label: "Sample Rate", value: "96kHz" }] },
-];
+const mockSpecs = DEMO_SPEC_SHEETS as unknown as SpecSheet[];
+
 
 const categories = ["All", "Audio", "Lighting", "Video", "Staging", "Rigging", "Power"];
 

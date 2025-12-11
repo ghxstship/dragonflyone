@@ -37,7 +37,6 @@ import {
 import {
   DEMO_OFFLINE_CONTENT,
   DEMO_OFFLINE_PACKAGES,
-  type DemoOfflineContent as OfflineContent,
   type DemoOfflinePackage as OfflinePackage,
 } from '../../../lib/demo-data';
 

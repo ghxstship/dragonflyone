@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
+import { DEMO_JOB_OPPORTUNITIES } from '../../../lib/demo-data';
 
 interface JobOpportunity {
   id: string;
@@ -42,13 +43,7 @@ interface JobOpportunity {
   applied: boolean;
 }
 
-const mockJobs: JobOpportunity[] = [
-  { id: 'JOB-001', title: 'FOH Audio Engineer', company: 'Live Nation', location: 'Los Angeles, CA', type: 'Gig', rate: '$750/day', posted: '2 hours ago', deadline: '2024-12-01', skills: ['L-Acoustics', 'DiGiCo', 'Live Sound'], saved: true, applied: false },
-  { id: 'JOB-002', title: 'Lighting Designer', company: 'PRG', location: 'Las Vegas, NV', type: 'Full-Time', rate: '$85K-$110K', posted: '1 day ago', skills: ['grandMA3', 'Vectorworks', 'Concert Lighting'], saved: false, applied: false },
-  { id: 'JOB-003', title: 'Video Director', company: 'Screenworks', location: 'Remote', type: 'Contract', rate: '$600/day', posted: '3 days ago', deadline: '2024-11-30', skills: ['Resolume', 'LED Walls', 'Broadcast'], saved: false, applied: true },
-  { id: 'JOB-004', title: 'Stage Manager', company: 'AEG Presents', location: 'New York, NY', type: 'Gig', rate: '$500/day', posted: '5 hours ago', skills: ['Stage Management', 'Intercom', 'Cue Calling'], saved: true, applied: false },
-  { id: 'JOB-005', title: 'Head Rigger', company: 'Stageline', location: 'Nashville, TN', type: 'Freelance', rate: '$450/day', posted: '2 days ago', skills: ['CM Motors', 'Truss', 'ETCP Certified'], saved: false, applied: false },
-];
+const mockJobs = DEMO_JOB_OPPORTUNITIES as JobOpportunity[];
 
 export default function MobileJobSearchPage() {
   const router = useRouter();

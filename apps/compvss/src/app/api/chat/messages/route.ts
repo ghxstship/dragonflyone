@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
       has_more: data?.length === limit,
     });
   } catch (error) {
-    Logger.error('Get chat messages error:', error);
+    logger.error('Get chat messages error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch messages' },
       { status: 500 }
@@ -191,7 +191,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Send message error:', error);
+    logger.error('Send message error:', error);
     return NextResponse.json(
       { error: 'Failed to send message' },
       { status: 500 }

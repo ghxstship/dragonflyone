@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching certifications:', error);
+      logger.error('Error fetching certifications:', error);
       return NextResponse.json(
         { error: 'Failed to fetch certifications', details: error.message },
         { status: 500 }
@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/certifications:', error);
+    logger.error('Error in GET /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating certification:', error);
+      logger.error('Error creating certification:', error);
       return NextResponse.json(
         { error: 'Failed to create certification', details: error.message },
         { status: 500 }
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/certifications:', error);
+    logger.error('Error in POST /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -213,7 +213,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      Logger.error('Error updating certifications:', error);
+      logger.error('Error updating certifications:', error);
       return NextResponse.json(
         { error: 'Failed to update certifications', details: error.message },
         { status: 500 }
@@ -227,7 +227,7 @@ export async function PATCH(request: NextRequest) {
       certifications: data,
     });
   } catch (error) {
-    Logger.error('Error in PATCH /api/certifications:', error);
+    logger.error('Error in PATCH /api/certifications:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

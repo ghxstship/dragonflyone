@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -360,7 +360,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error('Maintenance history error:', error);
+    logger.error('Maintenance history error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -515,7 +515,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    Logger.error('Maintenance history error:', error);
+    logger.error('Maintenance history error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -554,7 +554,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ record });
   } catch (error) {
-    Logger.error('Maintenance history error:', error);
+    logger.error('Maintenance history error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -600,7 +600,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Maintenance history error:', error);
+    logger.error('Maintenance history error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

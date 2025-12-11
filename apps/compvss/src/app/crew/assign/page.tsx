@@ -21,7 +21,6 @@ import {
 
 import {
   DEMO_ASSIGNABLE_CREW,
-  type DemoAssignableCrewMember as CrewMember,
 } from '../../../lib/demo-data';
 
 export default function AssignCrewPage() {

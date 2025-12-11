@@ -37,63 +37,10 @@ interface Dashboard {
   views: number;
 }
 
-const mockDashboards: Dashboard[] = [
-  {
-    id: '1',
-    name: 'Executive Overview',
-    description: 'High-level KPIs and financial metrics for leadership',
-    owner: 'System',
-    visibility: 'organization',
-    widgets: 12,
-    lastModified: '2024-12-04T10:00:00Z',
-    starred: true,
-    views: 1250,
-  },
-  {
-    id: '2',
-    name: 'Production Pipeline',
-    description: 'Active productions status and timeline view',
-    owner: 'Operations Team',
-    visibility: 'team',
-    widgets: 8,
-    lastModified: '2024-12-03T15:30:00Z',
-    starred: true,
-    views: 890,
-  },
-  {
-    id: '3',
-    name: 'Financial Health',
-    description: 'Revenue, expenses, and budget tracking',
-    owner: 'Finance Team',
-    visibility: 'team',
-    widgets: 10,
-    lastModified: '2024-12-02T09:00:00Z',
-    starred: false,
-    views: 456,
-  },
-  {
-    id: '4',
-    name: 'Crew Analytics',
-    description: 'Crew utilization, availability, and performance',
-    owner: 'HR Team',
-    visibility: 'team',
-    widgets: 6,
-    lastModified: '2024-12-01T14:00:00Z',
-    starred: false,
-    views: 234,
-  },
-  {
-    id: '5',
-    name: 'My Custom Dashboard',
-    description: 'Personal metrics and quick access widgets',
-    owner: 'You',
-    visibility: 'private',
-    widgets: 4,
-    lastModified: '2024-11-30T11:00:00Z',
-    starred: true,
-    views: 45,
-  },
-];
+import { DEMO_ANALYTICS_DASHBOARDS } from '../../../lib/demo-data';
+
+const mockDashboards = DEMO_ANALYTICS_DASHBOARDS as unknown as Dashboard[];
+
 
 export default function DashboardsPage() {
   const [dashboards] = useState(mockDashboards);

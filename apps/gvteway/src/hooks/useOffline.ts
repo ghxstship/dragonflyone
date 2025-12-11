@@ -104,11 +104,7 @@ export function useOfflineCache<T>(key: string, initialData?: T) {
   const [data, setData] = useState<T | undefined>(initialData);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadFromCache();
-  }, [key]);
-
-  const loadFromCache = async () => {
+  const loadFromCache = useCallback(async () => {
     try {
       const db = await openDB();
       const transaction = db.transaction('cached-data', 'readonly');
@@ -129,7 +125,11 @@ export function useOfflineCache<T>(key: string, initialData?: T) {
     } catch {
       setLoading(false);
     }
-  };
+  }, [key]);
+
+  useEffect(() => {
+    loadFromCache();
+  }, [loadFromCache]);
 
   const saveToCache = async (newData: T) => {
     try {
@@ -175,11 +175,7 @@ export function useOfflineCache<T>(key: string, initialData?: T) {
 export function useOfflineQueue(storeName: 'cart-updates' | 'wishlist-updates') {
   const [pendingCount, setPendingCount] = useState(0);
 
-  useEffect(() => {
-    loadPendingCount();
-  }, [storeName]);
-
-  const loadPendingCount = async () => {
+  const loadPendingCount = useCallback(async () => {
     try {
       const db = await openDB();
       const transaction = db.transaction(storeName, 'readonly');
@@ -192,7 +188,11 @@ export function useOfflineQueue(storeName: 'cart-updates' | 'wishlist-updates') 
     } catch {
       // Ignore errors
     }
-  };
+  }, [storeName]);
+
+  useEffect(() => {
+    loadPendingCount();
+  }, [loadPendingCount]);
 
   const addToQueue = async (data: Record<string, unknown>) => {
     try {

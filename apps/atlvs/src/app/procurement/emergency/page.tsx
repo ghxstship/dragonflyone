@@ -30,27 +30,10 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-
-interface EmergencyProcurement {
-  id: string;
-  requestor: string;
-  department: string;
-  description: string;
-  amount: number;
-  urgency: 'Critical' | 'High' | 'Medium';
-  reason: string;
-  vendor?: string;
-  requestDate: string;
-  approvedDate?: string;
-  status: 'Pending' | 'Approved' | 'Rejected' | 'Completed';
-  approver?: string;
-}
-
-const mockEmergencies: EmergencyProcurement[] = [
-  { id: 'EMG-001', requestor: 'John Smith', department: 'Production', description: 'Replacement audio console - DiGiCo SD12', amount: 45000, urgency: 'Critical', reason: 'Main console failed during load-in', vendor: 'PRG', requestDate: '2024-11-24', approvedDate: '2024-11-24', status: 'Completed', approver: 'Sarah Johnson' },
-  { id: 'EMG-002', requestor: 'Mike Davis', department: 'Lighting', description: 'Emergency lighting fixtures (12x Robe MegaPointe)', amount: 28000, urgency: 'High', reason: 'Client added last-minute production elements', requestDate: '2024-11-25', status: 'Pending' },
-  { id: 'EMG-003', requestor: 'Emily Chen', department: 'Video', description: 'LED wall panels replacement (20 panels)', amount: 15000, urgency: 'Critical', reason: 'Damaged panels discovered during setup', vendor: 'ROE Visual', requestDate: '2024-11-25', approvedDate: '2024-11-25', status: 'Approved', approver: 'Robert Chen' },
-];
+import {
+  DEMO_EMERGENCY_PROCUREMENTS,
+  type DemoEmergencyProcurement as EmergencyProcurement,
+} from '../../../lib/demo-data';
 
 export default function EmergencyProcurementPage() {
   const router = useRouter();
@@ -58,10 +41,10 @@ export default function EmergencyProcurementPage() {
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
   const [statusFilter, setStatusFilter] = useState('All');
 
-  const filteredRequests = statusFilter === 'All' ? mockEmergencies : mockEmergencies.filter(e => e.status === statusFilter);
-  const pendingCount = mockEmergencies.filter(e => e.status === 'Pending').length;
-  const totalAmount = mockEmergencies.reduce((sum, e) => sum + e.amount, 0);
-  const criticalCount = mockEmergencies.filter(e => e.urgency === 'Critical' && e.status === 'Pending').length;
+  const filteredRequests = statusFilter === 'All' ? DEMO_EMERGENCY_PROCUREMENTS : DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.status === statusFilter);
+  const pendingCount = DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.status === 'Pending').length;
+  const totalAmount = DEMO_EMERGENCY_PROCUREMENTS.reduce((sum, e) => sum + e.amount, 0);
+  const criticalCount = DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.urgency === 'Critical' && e.status === 'Pending').length;
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {

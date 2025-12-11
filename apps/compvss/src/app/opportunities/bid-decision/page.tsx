@@ -26,6 +26,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_BID_OPPORTUNITIES } from '../../../lib/demo-data';
 
 interface BidOpportunity {
   id: string;
@@ -40,12 +41,8 @@ interface BidOpportunity {
   notes?: string;
 }
 
-const mockOpportunities: BidOpportunity[] = [
-  { id: "OPP-001", title: "Summer Festival 2025", client: "Festival Productions", value: 450000, dueDate: "2024-12-01", status: "Pending Review", criteria: [{ name: "Strategic Fit", score: 8, weight: 25 }, { name: "Profitability", score: 7, weight: 30 }, { name: "Resource Availability", score: 6, weight: 20 }, { name: "Win Probability", score: 8, weight: 25 }], recommendation: "Bid" },
-  { id: "OPP-002", title: "Corporate Conference", client: "Tech Corp", value: 85000, dueDate: "2024-11-28", status: "Under Evaluation", criteria: [{ name: "Strategic Fit", score: 5, weight: 25 }, { name: "Profitability", score: 4, weight: 30 }, { name: "Resource Availability", score: 3, weight: 20 }, { name: "Win Probability", score: 6, weight: 25 }] },
-  { id: "OPP-003", title: "Concert Series", client: "Live Nation", value: 780000, dueDate: "2024-12-15", status: "Bid", score: 82, criteria: [{ name: "Strategic Fit", score: 9, weight: 25 }, { name: "Profitability", score: 8, weight: 30 }, { name: "Resource Availability", score: 7, weight: 20 }, { name: "Win Probability", score: 9, weight: 25 }], notes: "High-profile opportunity, strong relationship with client" },
-  { id: "OPP-004", title: "Small Venue Event", client: "Local Promoter", value: 25000, dueDate: "2024-11-25", status: "No Bid", score: 38, criteria: [{ name: "Strategic Fit", score: 3, weight: 25 }, { name: "Profitability", score: 2, weight: 30 }, { name: "Resource Availability", score: 5, weight: 20 }, { name: "Win Probability", score: 6, weight: 25 }], notes: "Low margin, conflicts with larger project" },
-];
+const mockOpportunities = DEMO_BID_OPPORTUNITIES as unknown as BidOpportunity[];
+
 
 export default function BidDecisionPage() {
   const router = useRouter();

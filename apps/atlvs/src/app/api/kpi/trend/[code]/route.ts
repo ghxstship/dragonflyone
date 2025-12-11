@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
@@ -67,7 +67,7 @@ export async function GET(
       count: trendData?.length || 0
     });
   } catch (error) {
-    Logger.error('Error fetching KPI trend:', error);
+    logger.error('Error fetching KPI trend:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch KPI trend' },
       { status: 500 }

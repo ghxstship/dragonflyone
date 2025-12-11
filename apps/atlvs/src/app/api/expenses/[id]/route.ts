@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -53,7 +53,7 @@ export async function GET(
       history: history || [],
     });
   } catch (error) {
-    Logger.error('Error in GET /api/expenses/[id]:', error);
+    logger.error('Error in GET /api/expenses/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -131,7 +131,7 @@ export async function PUT(
 
     return NextResponse.json(updatedExpense);
   } catch (error) {
-    Logger.error('Error in PUT /api/expenses/[id]:', error);
+    logger.error('Error in PUT /api/expenses/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -194,7 +194,7 @@ export async function DELETE(
       message: `Expense ${expense.expense_number} deleted`,
     });
   } catch (error) {
-    Logger.error('Error in DELETE /api/expenses/[id]:', error);
+    logger.error('Error in DELETE /api/expenses/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,0 +1,73 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "ATLVS" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - button "Open navigation" [ref=e7] [cursor=pointer]:
+          - paragraph [ref=e9]: Open navigation
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - img [ref=e19]
+        - heading "SIGN IN" [level=2] [ref=e22]
+        - paragraph [ref=e23]: Access your ATLVS account to manage projects and resources.
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: Email Address
+          - textbox "your@email.com" [ref=e28]
+        - generic [ref=e29]:
+          - generic [ref=e30]: Password
+          - generic [ref=e31]:
+            - textbox "Enter your password" [ref=e32]
+            - button "Show password" [ref=e33] [cursor=pointer]:
+              - img [ref=e34]
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - checkbox [ref=e41] [cursor=pointer]
+            - generic [ref=e42]: Remember me
+          - link "Forgot password?" [ref=e43] [cursor=pointer]:
+            - /url: /auth/forgot-password
+            - button "Forgot password?" [ref=e44]:
+              - generic [ref=e45]: Forgot password?
+        - button "Sign In" [ref=e46] [cursor=pointer]:
+          - generic [ref=e47]: Sign In
+          - img [ref=e49]
+      - generic [ref=e51]:
+        - separator [ref=e52]
+        - generic [ref=e53]: Or continue with
+        - separator [ref=e54]
+      - generic [ref=e55]:
+        - button "Continue with Google" [ref=e56] [cursor=pointer]:
+          - generic [ref=e57]: Continue with Google
+        - button "Continue with Apple" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Continue with Apple
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: Don't have an account?
+        - link "Sign Up" [ref=e62] [cursor=pointer]:
+          - /url: /auth/signup
+          - button "Sign Up" [ref=e63]:
+            - generic [ref=e64]: Sign Up
+    - contentinfo [ref=e65]:
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - link "Privacy" [ref=e69] [cursor=pointer]:
+            - /url: /legal/privacy
+          - link "Terms" [ref=e70] [cursor=pointer]:
+            - /url: /legal/terms
+          - link "Help" [ref=e71] [cursor=pointer]:
+            - /url: /help
+        - generic [ref=e72]: © 2025 GHXSTSHIP INDUSTRIES
+  - generic [ref=e73]:
+    - img [ref=e75]
+    - button "Open Tanstack query devtools" [ref=e123] [cursor=pointer]:
+      - img [ref=e124]
+  - alert [ref=e172]
+  - generic [ref=e175] [cursor=pointer]:
+    - img [ref=e176]
+    - generic [ref=e178]: 1 error
+    - button "Hide Errors" [ref=e179]:
+      - img [ref=e180]
+```

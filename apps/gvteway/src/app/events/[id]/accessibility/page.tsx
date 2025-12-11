@@ -14,9 +14,6 @@ import {
   DEMO_EVENT_ACCESSIBILITY_SERVICES,
   DEMO_AGE_RESTRICTION,
   DEMO_EVENT_ACCESSIBILITY_REQUESTS,
-  type DemoEventAccessibilityService as AccessibilityService,
-  type DemoAgeRestriction as AgeRestriction,
-  type DemoEventAccessibilityRequest as AccessibilityRequest,
 } from "@/lib/demo-data";
 
 const mockServices = DEMO_EVENT_ACCESSIBILITY_SERVICES;

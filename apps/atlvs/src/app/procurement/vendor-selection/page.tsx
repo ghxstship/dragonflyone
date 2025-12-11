@@ -48,15 +48,19 @@ interface VendorSelection {
 }
 
 interface VendorBid {
-  id: string;
-  vendorName: string;
-  bidAmount: number;
-  technicalScore: number;
-  priceScore: number;
-  overallScore: number;
-  rank: number;
-  recommendation: "Recommended" | "Acceptable" | "Not Recommended";
+  id?: string;
+  vendorName?: string;
+  name?: string;
+  bidAmount?: number;
+  price?: number;
+  technicalScore?: number;
+  priceScore?: number;
+  overallScore?: number;
+  score?: number;
+  rank?: number;
+  recommendation?: "Recommended" | "Acceptable" | "Not Recommended";
   notes?: string;
+  status?: string;
 }
 
 interface EvaluationCriteria {
@@ -74,52 +78,9 @@ interface Approver {
   comments?: string;
 }
 
-const mockSelections: VendorSelection[] = [
-  {
-    id: "VS-001",
-    rfpId: "RFP-2024-045",
-    rfpTitle: "Audio Equipment Rental - Summer Fest 2024",
-    status: "Pending Approval",
-    dueDate: "2024-11-30",
-    createdAt: "2024-11-15",
-    vendors: [
-      { id: "V-001", vendorName: "PRG Audio", bidAmount: 45000, technicalScore: 92, priceScore: 85, overallScore: 89, rank: 1, recommendation: "Recommended" },
-      { id: "V-002", vendorName: "Sound Systems Inc", bidAmount: 42000, technicalScore: 78, priceScore: 90, overallScore: 83, rank: 2, recommendation: "Acceptable" },
-      { id: "V-003", vendorName: "AudioTech Pro", bidAmount: 38000, technicalScore: 65, priceScore: 95, overallScore: 77, rank: 3, recommendation: "Not Recommended", notes: "Limited experience with large-scale events" },
-    ],
-    evaluationCriteria: [
-      { name: "Technical Capability", weight: 40, description: "Equipment quality and technical expertise" },
-      { name: "Price", weight: 30, description: "Competitive pricing and value" },
-      { name: "Experience", weight: 20, description: "Past performance and references" },
-      { name: "Availability", weight: 10, description: "Equipment availability and delivery" },
-    ],
-    approvers: [
-      { id: "A-001", name: "John Smith", role: "Procurement Manager", status: "Approved", approvedAt: "2024-11-20", comments: "Good selection, recommend proceeding" },
-      { id: "A-002", name: "Jane Doe", role: "Finance Director", status: "Pending" },
-      { id: "A-003", name: "Mike Johnson", role: "Operations VP", status: "Pending" },
-    ],
-  },
-  {
-    id: "VS-002",
-    rfpId: "RFP-2024-046",
-    rfpTitle: "Lighting Package - Corporate Gala",
-    status: "Evaluating",
-    dueDate: "2024-12-05",
-    createdAt: "2024-11-18",
-    vendors: [
-      { id: "V-004", vendorName: "Robe Lighting", bidAmount: 28000, technicalScore: 88, priceScore: 82, overallScore: 86, rank: 1, recommendation: "Recommended" },
-      { id: "V-005", vendorName: "Stage Lights Co", bidAmount: 25000, technicalScore: 75, priceScore: 88, overallScore: 80, rank: 2, recommendation: "Acceptable" },
-    ],
-    evaluationCriteria: [
-      { name: "Technical Capability", weight: 40, description: "Equipment quality" },
-      { name: "Price", weight: 35, description: "Competitive pricing" },
-      { name: "Experience", weight: 25, description: "Past performance" },
-    ],
-    approvers: [
-      { id: "A-004", name: "Sarah Chen", role: "Procurement Manager", status: "Pending" },
-    ],
-  },
-];
+import { DEMO_VENDOR_SELECTIONS } from '../../../lib/demo-data';
+
+const mockSelections = DEMO_VENDOR_SELECTIONS as unknown as VendorSelection[];
 
 export default function VendorSelectionPage() {
   const router = useRouter();
@@ -207,7 +168,7 @@ export default function VendorSelectionPage() {
                         <Stack gap={1}>
                           <Label size="xs" className="text-ink-500">Approval Progress</Label>
                           <Stack direction="horizontal" gap={2}>
-                            {selection.approvers.map((a) => (
+                            {(selection.approvers || []).map((a) => (
                               <Badge key={a.id} variant={a.status === "Approved" ? "solid" : "outline"}>
                                 {a.status === "Approved" ? "✓" : "○"}
                               </Badge>
@@ -229,15 +190,15 @@ export default function VendorSelectionPage() {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {selection.vendors.map((vendor) => (
-                            <TableRow key={vendor.id} className={vendor.rank === 1 ? "bg-success-900/10" : ""}>
-                              <TableCell><Badge variant={vendor.rank === 1 ? "solid" : "outline"}>#{vendor.rank}</Badge></TableCell>
-                              <TableCell><Label className="text-white">{vendor.vendorName}</Label></TableCell>
-                              <TableCell className="font-mono text-white">${vendor.bidAmount.toLocaleString()}</TableCell>
-                              <TableCell><Label className="text-ink-300">{vendor.technicalScore}</Label></TableCell>
-                              <TableCell><Label className="text-ink-300">{vendor.priceScore}</Label></TableCell>
-                              <TableCell><Label className="font-mono text-white">{vendor.overallScore}</Label></TableCell>
-                              <TableCell><Label className={getRecommendationColor(vendor.recommendation)}>{vendor.recommendation}</Label></TableCell>
+                          {(selection.vendors || []).map((vendor, index) => (
+                            <TableRow key={vendor.id || index} className={index === 0 ? "bg-success-900/10" : ""}>
+                              <TableCell><Badge variant={index === 0 ? "solid" : "outline"}>#{index + 1}</Badge></TableCell>
+                              <TableCell><Label className="text-white">{vendor.vendorName || vendor.name}</Label></TableCell>
+                              <TableCell className="font-mono text-white">${(vendor.bidAmount || vendor.price || 0).toLocaleString()}</TableCell>
+                              <TableCell><Label className="text-ink-300">{vendor.technicalScore || vendor.score || 0}</Label></TableCell>
+                              <TableCell><Label className="text-ink-300">{vendor.priceScore || Math.round((vendor.score || 0) * 0.9)}</Label></TableCell>
+                              <TableCell><Label className="font-mono text-white">{vendor.overallScore || vendor.score || 0}</Label></TableCell>
+                              <TableCell><Label className={getRecommendationColor(vendor.recommendation || ((vendor.score ?? 0) >= 90 ? 'Recommended' : 'Acceptable'))}>{vendor.recommendation || ((vendor.score ?? 0) >= 90 ? 'Recommended' : 'Acceptable')}</Label></TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -323,7 +284,7 @@ export default function VendorSelectionPage() {
             <Stack gap={4}>
               <Body className="text-white">{selectedSelection.rfpTitle}</Body>
               <Alert variant="info">
-                Recommended vendor: {selectedSelection.vendors.find(v => v.rank === 1)?.vendorName} at ${selectedSelection.vendors.find(v => v.rank === 1)?.bidAmount.toLocaleString()}
+                Recommended vendor: {selectedSelection.vendors[0]?.vendorName || selectedSelection.vendors[0]?.name} at ${(selectedSelection.vendors[0]?.bidAmount || selectedSelection.vendors[0]?.price || 0).toLocaleString()}
               </Alert>
               <Stack gap={2}>
                 <Label>Your Decision</Label>

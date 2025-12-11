@@ -26,8 +26,7 @@ export const GET = apiRoute(
       .select(`
         *,
         creator:platform_users!community_groups_created_by_fkey(id, full_name),
-        members:community_group_members(count),
-        posts:community_posts(count)
+        members:community_group_members(count)
       `);
 
     if (category) {
@@ -35,9 +34,9 @@ export const GET = apiRoute(
     }
 
     if (type) {
-      query = query.eq('type', type);
+      query = query.eq('group_type', type);
     } else {
-      query = query.in('type', ['public', 'private']);
+      query = query.in('group_type', ['public', 'private']);
     }
 
     if (search) {
@@ -62,14 +61,26 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: { params: Promise<Record<string, string>>; user?: { id: string } }) => {
     const body = await request.json();
     const data = createGroupSchema.parse(body);
+
+    if (!context.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const slug = data.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
     const { data: group, error } = await supabaseAdmin
       .from('community_groups')
       .insert({
-        ...data,
+        name: data.name,
+        description: data.description,
+        group_type: data.type,
+        category: data.category,
+        rules: data.rules,
+        cover_image: data.banner_url,
+        slug,
         created_by: context.user.id,
       })
       .select()

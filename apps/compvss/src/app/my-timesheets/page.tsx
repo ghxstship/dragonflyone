@@ -21,6 +21,7 @@ import {
   TableHead,
   TableCell,
 } from '@ghxstship/ui';
+import { DEMO_TIMESHEETS } from '../../lib/demo-data';
 import {
   Clock,
   Calendar,
@@ -41,52 +42,8 @@ interface TimesheetEntry {
   status: 'draft' | 'submitted' | 'approved' | 'rejected';
 }
 
-const mockTimesheets: TimesheetEntry[] = [
-  {
-    id: '1',
-    date: '2024-12-05',
-    production: 'Summer Music Festival',
-    clockIn: '08:00',
-    clockOut: '16:30',
-    breakTime: 30,
-    totalHours: 8,
-    rate: 45,
-    status: 'approved',
-  },
-  {
-    id: '2',
-    date: '2024-12-06',
-    production: 'Summer Music Festival',
-    clockIn: '10:00',
-    clockOut: '18:30',
-    breakTime: 30,
-    totalHours: 8,
-    rate: 45,
-    status: 'approved',
-  },
-  {
-    id: '3',
-    date: '2024-12-07',
-    production: 'Corporate Gala',
-    clockIn: '06:00',
-    clockOut: '14:30',
-    breakTime: 30,
-    totalHours: 8,
-    rate: 50,
-    status: 'submitted',
-  },
-  {
-    id: '4',
-    date: '2024-12-08',
-    production: 'Tech Conference',
-    clockIn: '12:00',
-    clockOut: '20:00',
-    breakTime: 0,
-    totalHours: 8,
-    rate: 45,
-    status: 'draft',
-  },
-];
+const mockTimesheets = DEMO_TIMESHEETS as unknown as TimesheetEntry[];
+
 
 export default function MyTimesheetsPage() {
   const [timesheets] = useState(mockTimesheets);

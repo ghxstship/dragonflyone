@@ -14,7 +14,6 @@ import {
   DEMO_CHALLENGES,
   DEMO_LEADERBOARD,
   type DemoChallenge as Challenge,
-  type DemoLeaderboard as Leaderboard,
 } from "@/lib/demo-data";
 
 const mockChallenges = DEMO_CHALLENGES;

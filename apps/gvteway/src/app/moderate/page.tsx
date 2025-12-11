@@ -20,7 +20,6 @@ import {
 
 import {
   DEMO_MODERATION_ITEMS,
-  type DemoModerationItem as ModerationItem,
 } from '@/lib/demo-data';
 
 const mockItems = DEMO_MODERATION_ITEMS;

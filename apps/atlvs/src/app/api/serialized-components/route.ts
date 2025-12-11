@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error('Error fetching serialized components:', error);
+    logger.error('Error fetching serialized components:', error);
     return NextResponse.json(
       { error: 'Failed to fetch serialized components' },
       { status: 500 }
@@ -119,7 +119,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating serialized component:', error);
+    logger.error('Error creating serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to create serialized component' },
       { status: 500 }

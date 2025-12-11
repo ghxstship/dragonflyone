@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -258,7 +258,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ receipts });
   } catch (error) {
-    Logger.error('PO receiving error:', error);
+    logger.error('PO receiving error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -427,7 +427,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    Logger.error('PO receiving error:', error);
+    logger.error('PO receiving error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }
@@ -450,7 +450,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ receipt });
   } catch (error) {
-    Logger.error('PO receiving error:', error);
+    logger.error('PO receiving error:', error);
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

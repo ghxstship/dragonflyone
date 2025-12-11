@@ -38,13 +38,10 @@ interface MaintenanceRecord {
   [key: string]: unknown;
 }
 
-const mockRecords: MaintenanceRecord[] = [
-  { id: "MNT-001", assetId: "AST-001", assetName: "Meyer Sound LEO Family Line Array", category: "Audio", type: "Preventive", status: "Scheduled", priority: "Medium", scheduledDate: "2025-01-15", description: "Quarterly speaker driver inspection", technician: "John Martinez", nextDue: "2025-04-15" },
-  { id: "MNT-002", assetId: "AST-002", assetName: "Robe MegaPointe Lighting Fixtures", category: "Lighting", type: "Corrective", status: "In Progress", priority: "High", scheduledDate: "2024-11-20", description: "Replace faulty gobo wheel motor", technician: "Sarah Chen", vendor: "Robe Lighting", cost: 1250, laborHours: 4 },
-  { id: "MNT-003", assetId: "AST-003", assetName: "disguise gx 2c Media Server", category: "Video", type: "Preventive", status: "Completed", priority: "Medium", scheduledDate: "2024-11-18", completedDate: "2024-11-18", description: "Annual system diagnostics", technician: "Mike Thompson", cost: 450, laborHours: 3, notes: "All tests passed", nextDue: "2025-11-18" },
-  { id: "MNT-004", assetId: "AST-005", assetName: "Chain Motor Hoists (20x 2-ton)", category: "Rigging", type: "Inspection", status: "Overdue", priority: "Critical", scheduledDate: "2024-11-01", description: "Annual safety inspection - OSHA compliance", notes: "URGENT: Cannot be used until completed" },
-  { id: "MNT-005", assetId: "AST-004", assetName: "Staging Deck System", category: "Staging", type: "Preventive", status: "Completed", priority: "Low", scheduledDate: "2024-10-01", completedDate: "2024-10-01", description: "Surface refinishing", technician: "Tom Wilson", cost: 2800, laborHours: 16, nextDue: "2025-04-01" },
-];
+import { DEMO_MAINTENANCE_RECORDS } from '../../../lib/demo-data';
+
+const mockRecords = DEMO_MAINTENANCE_RECORDS as MaintenanceRecord[];
+
 
 const getStatusVariant = getBadgeVariant;
 

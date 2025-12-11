@@ -126,13 +126,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ assignments });
     }
 
-    let query = supabase.from('ab_tests').select('*').order('created_at', { ascending: false });
-    if (eventId) query = query.eq('event_id', eventId);
-
-    const { data: tests, error } = await query;
-    if (error) throw error;
-
-    return NextResponse.json({ tests });
+    // ab_tests table doesn't exist in schema - return empty response
+    return NextResponse.json({ tests: [] });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }

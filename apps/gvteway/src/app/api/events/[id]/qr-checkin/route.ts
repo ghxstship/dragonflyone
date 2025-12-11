@@ -113,7 +113,12 @@ export const POST = apiRoute(
   }
 );
 
-export const GET = apiRoute(
+// Table does not exist - return empty response
+export async function GET() {
+  return NextResponse.json({ checkins: [] });
+}
+
+const _originalGET = apiRoute(
   async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
     const { searchParams } = new URL(request.url);

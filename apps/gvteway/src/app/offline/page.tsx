@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  SectionHeader,
   Card,
   CardBody,
   Stack,
@@ -24,14 +23,14 @@ export default function OfflinePage() {
         <Card variant="elevated" inverted className="max-w-md text-center">
           <CardBody>
             <Stack gap={6} className="items-center">
-              <div className="p-4 rounded-full bg-grey-800">
+              <div className="rounded-avatar bg-grey-800 p-4">
                 <WifiOff size={48} className="text-grey-400" />
               </div>
               
               <Stack gap={2}>
-                <H3 className="text-white">You're Offline</H3>
+                <H3 className="text-white">You&apos;re Offline</H3>
                 <Body className="text-grey-400">
-                  It looks like you've lost your internet connection. Some features may be unavailable until you're back online.
+                  It looks like you&apos;ve lost your internet connection. Some features may be unavailable until you&apos;re back online.
                 </Body>
               </Stack>
 
@@ -48,7 +47,7 @@ export default function OfflinePage() {
                 </Link>
               </Stack>
 
-              <Body className="text-grey-500 text-sm">
+              <Body className="text-body-sm text-grey-500">
                 Your saved tickets and recent activity are still available offline.
               </Body>
             </Stack>

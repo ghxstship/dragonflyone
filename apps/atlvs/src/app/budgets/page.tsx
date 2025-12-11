@@ -9,25 +9,10 @@ import {
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
-
-interface Budget {
-  id: string;
-  name: string;
-  category: string;
-  budgeted: number;
-  actual: number;
-  variance: number;
-  status: 'on-track' | 'over' | 'under';
-  period?: string;
-  [key: string]: unknown;
-}
-
-const mockBudgets: Budget[] = [
-  { id: '1', name: 'Ultra Music Festival 2025', category: 'Events', budgeted: 2500000, actual: 2350000, variance: 150000, status: 'on-track' },
-  { id: '2', name: 'Operations & Overhead', category: 'Operations', budgeted: 450000, actual: 475000, variance: -25000, status: 'over' },
-  { id: '3', name: 'Marketing & Sales', category: 'Marketing', budgeted: 320000, actual: 298000, variance: 22000, status: 'on-track' },
-  { id: '4', name: 'Technology & Infrastructure', category: 'Technology', budgeted: 180000, actual: 195000, variance: -15000, status: 'over' },
-];
+import {
+  DEMO_BUDGETS,
+  type DemoBudget as Budget,
+} from '../../lib/demo-data';
 
 const formatCurrency = (amount: number) => {
   if (Math.abs(amount) >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -62,7 +47,7 @@ const formFields: FormFieldConfig[] = [
 export default function BudgetsPage() {
   const router = useRouter();
   const { data: budgetsData, isLoading } = useBudgets({ period: '2024-q4' });
-  const budgets = (budgetsData || mockBudgets) as Budget[];
+  const budgets = (budgetsData || DEMO_BUDGETS) as Budget[];
   
   const [selected, setSelected] = useState<Budget | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);

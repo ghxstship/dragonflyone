@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data: poolsWithCounts });
   } catch (error) {
-    Logger.error('Error fetching talent pools:', error);
+    logger.error('Error fetching talent pools:', error);
     return NextResponse.json(
       { error: 'Failed to fetch talent pools' },
       { status: 500 }
@@ -131,7 +131,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating talent pool:', error);
+    logger.error('Error creating talent pool:', error);
     return NextResponse.json(
       { error: 'Failed to create talent pool' },
       { status: 500 }

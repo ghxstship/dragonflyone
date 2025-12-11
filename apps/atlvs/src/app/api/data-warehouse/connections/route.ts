@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data, pagination });
   } catch (error) {
-    Logger.error('Error fetching warehouse connections:', error);
+    logger.error('Error fetching warehouse connections:', error);
     return NextResponse.json(
       { error: 'Failed to fetch warehouse connections' },
       { status: 500 }
@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating warehouse connection:', error);
+    logger.error('Error creating warehouse connection:', error);
     return NextResponse.json(
       { error: 'Failed to create warehouse connection' },
       { status: 500 }

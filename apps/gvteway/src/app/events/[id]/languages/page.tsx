@@ -14,7 +14,6 @@ import {
   DEMO_TRANSLATIONS,
   DEMO_TRANSLATION_FIELDS,
   type DemoTranslation as Translation,
-  type DemoTranslationField as TranslationField,
 } from "@/lib/demo-data";
 
 const mockTranslations = DEMO_TRANSLATIONS;

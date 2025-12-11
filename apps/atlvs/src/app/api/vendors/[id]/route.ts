@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -51,7 +51,7 @@ export async function GET(
 
     return NextResponse.json(mockVendor);
   } catch (error) {
-    Logger.error('Error fetching vendor:', error);
+    logger.error('Error fetching vendor:', error);
     return NextResponse.json(
       { error: 'Failed to fetch vendor' },
       { status: 500 }
@@ -90,7 +90,7 @@ export async function PUT(
         { status: 400 }
       );
     }
-    Logger.error('Error updating vendor:', error);
+    logger.error('Error updating vendor:', error);
     return NextResponse.json(
       { error: 'Failed to update vendor' },
       { status: 500 }
@@ -113,7 +113,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true, id });
   } catch (error) {
-    Logger.error('Error deleting vendor:', error);
+    logger.error('Error deleting vendor:', error);
     return NextResponse.json(
       { error: 'Failed to delete vendor' },
       { status: 500 }

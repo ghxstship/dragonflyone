@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching PTO balances:', error);
+      logger.error('Error fetching PTO balances:', error);
       return NextResponse.json(
         { error: 'Failed to fetch PTO balances', details: error.message },
         { status: 500 }
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ ...result, summary, year: parseInt(year) });
   } catch (error) {
-    Logger.error('Error in GET /api/pto-balances:', error);
+    logger.error('Error in GET /api/pto-balances:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating/updating PTO balance:', error);
+      logger.error('Error creating/updating PTO balance:', error);
       return NextResponse.json(
         { error: 'Failed to create/update PTO balance', details: error.message },
         { status: 500 }
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/pto-balances:', error);
+    logger.error('Error in POST /api/pto-balances:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -304,7 +304,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
-    Logger.error('Error in PATCH /api/pto-balances:', error);
+    logger.error('Error in PATCH /api/pto-balances:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

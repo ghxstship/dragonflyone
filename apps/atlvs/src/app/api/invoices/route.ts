@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -42,10 +42,8 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('invoices')
       .select(`
-        id, invoice_number, status, issue_date, due_date, total_amount, amount_paid, amount_due, currency, created_at,
-        client:clients(id, name, email),
-        project:projects(id, name, project_code),
-        payments:invoice_payments(id, amount, payment_date, payment_method)
+        id, invoice_number, status, issue_date, due_date, total_amount, amount_paid, currency, created_at, subtotal, tax, notes,
+        project:projects(id, name)
       `, { count: 'exact' })
       .order('issue_date', { ascending: false });
 
@@ -67,7 +65,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
-      Logger.error('Error fetching invoices:', error);
+      logger.error('Error fetching invoices:', error);
       return NextResponse.json(
         { error: 'Failed to fetch invoices', details: error.message },
         { status: 500 }
@@ -118,7 +116,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ invoices: data, summary, pagination });
   } catch (error) {
-    Logger.error('Error in GET /api/invoices:', error);
+    logger.error('Error in GET /api/invoices:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -162,7 +160,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (invoiceError) {
-      Logger.error('Error creating invoice:', invoiceError);
+      logger.error('Error creating invoice:', invoiceError);
       return NextResponse.json(
         { error: 'Failed to create invoice', details: invoiceError.message },
         { status: 500 }
@@ -232,7 +230,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/invoices:', error);
+    logger.error('Error in POST /api/invoices:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

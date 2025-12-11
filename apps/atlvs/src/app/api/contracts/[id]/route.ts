@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -34,7 +34,7 @@ export async function GET(
         );
       }
 
-      Logger.error('Error fetching contract:', error);
+      logger.error('Error fetching contract:', error);
       return NextResponse.json(
         { error: 'Failed to fetch contract', details: error.message },
         { status: 500 }
@@ -43,7 +43,7 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    Logger.error('Error in GET /api/contracts/[id]:', error);
+    logger.error('Error in GET /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -72,7 +72,7 @@ export async function PATCH(
     } = body;
     // Log excluded fields for audit purposes
     if (_id || _createdAt || _createdBy || _orgId) {
-      Logger.debug('Excluded immutable fields from contract update');
+      logger.debug('Excluded immutable fields from contract update');
     }
 
     const { data, error } = await supabase
@@ -98,7 +98,7 @@ export async function PATCH(
         );
       }
 
-      Logger.error('Error updating contract:', error);
+      logger.error('Error updating contract:', error);
       return NextResponse.json(
         { error: 'Failed to update contract', details: error.message },
         { status: 500 }
@@ -107,7 +107,7 @@ export async function PATCH(
 
     return NextResponse.json(data);
   } catch (error) {
-    Logger.error('Error in PATCH /api/contracts/[id]:', error);
+    logger.error('Error in PATCH /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -144,7 +144,7 @@ export async function DELETE(
       .eq('id', id);
 
     if (error) {
-      Logger.error('Error deleting contract:', error);
+      logger.error('Error deleting contract:', error);
       return NextResponse.json(
         { error: 'Failed to delete contract', details: error.message },
         { status: 500 }
@@ -153,7 +153,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error in DELETE /api/contracts/[id]:', error);
+    logger.error('Error in DELETE /api/contracts/[id]:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

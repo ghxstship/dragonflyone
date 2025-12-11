@@ -21,7 +21,7 @@ import {
   Form,
   Kicker,
 } from '@ghxstship/ui';
-import { useAccessibilityRequestsData, type AccessibilityRequest } from '@/hooks/useAccessibilityRequests';
+import { useAccessibilityRequestsData } from '@/hooks/useAccessibilityRequests';
 
 const SERVICE_TYPES = [
   { id: 'wheelchair', label: 'Wheelchair Accessible Seating', description: 'Reserved accessible seating area' },
@@ -124,9 +124,9 @@ function AccessibilityRequestContent() {
               </Body>
             </Stack>
 
-        {error && (
+        {(error || localError) && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {localError || (error instanceof Error ? error.message : String(error))}
           </Alert>
         )}
 
@@ -222,7 +222,7 @@ function AccessibilityRequestContent() {
               <H3 className="mb-4 text-white">Your Requests</H3>
               {requests.length > 0 ? (
                 <Stack gap={3}>
-                  {requests.map(request => (
+                  {requests.map((request: { id: string; event_title: string; event_date: string; request_type: string; status: string }) => (
                     <Card key={request.id} inverted className="p-3">
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="items-start justify-between">

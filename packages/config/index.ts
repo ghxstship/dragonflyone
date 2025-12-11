@@ -125,3 +125,15 @@ export type { FilterPreset, ViewPreset } from './hooks/useSavedFilters';
 
 // PDF generation utilities
 export * from './pdf-generator';
+
+// Organization catalog hooks
+export * from './hooks/useOrgCatalog';
+
+// Advance templates hooks
+export * from './hooks/useAdvanceTemplates';
+
+// Catalog visibility and permissions hooks
+export * from './hooks/useCatalogVisibility';
+
+// Catalog types
+export type * from './types/catalog';

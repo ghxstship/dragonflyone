@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -50,10 +50,8 @@ export async function GET(request: NextRequest) {
       .from('venues')
       .select(`
         *,
-        events:events(count),
-        contacts:venue_contacts(id, name, role, email, phone)
+        events:events(count)
       `)
-      .eq('is_active', true)
       .order('name', { ascending: true });
 
     if (venueType) {
@@ -78,7 +76,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching venues:', error);
+      logger.error('Error fetching venues:', error);
       return NextResponse.json(
         { error: 'Failed to fetch venues', details: error.message },
         { status: 500 }
@@ -110,7 +108,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ venues: data, summary });
   } catch (error) {
-    Logger.error('Error in GET /api/venues:', error);
+    logger.error('Error in GET /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -137,7 +135,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating venue:', error);
+      logger.error('Error creating venue:', error);
       return NextResponse.json(
         { error: 'Failed to create venue', details: error.message },
         { status: 500 }
@@ -152,7 +150,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/venues:', error);
+    logger.error('Error in POST /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -184,7 +182,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, venue: data });
   } catch (error) {
-    Logger.error('Error in PATCH /api/venues:', error);
+    logger.error('Error in PATCH /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -214,7 +212,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Venue deactivated' });
   } catch (error) {
-    Logger.error('Error in DELETE /api/venues:', error);
+    logger.error('Error in DELETE /api/venues:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error("Failed to capture lead:", error);
+      logger.error("Failed to capture lead:", error);
       // Don't fail the request if DB insert fails - still allow PDF download
       return NextResponse.json({ success: true, leadId: null });
     }
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
       leadId: data?.id,
     });
   } catch (error) {
-    Logger.error("Lead capture error:", error);
+    logger.error("Lead capture error:", error);
     // Don't block PDF download on error
     return NextResponse.json({ success: true, leadId: null });
   }

@@ -15,8 +15,6 @@ import {
 import {
   DEMO_POS_TERMINALS,
   DEMO_POS_MENU_ITEMS,
-  type DemoPOSTerminal as POSTerminal,
-  type DemoPOSMenuItem,
 } from "@/lib/demo-data";
 
 interface CartItem {

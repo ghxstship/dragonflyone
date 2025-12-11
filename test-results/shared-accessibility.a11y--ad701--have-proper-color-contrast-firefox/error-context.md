@@ -1,0 +1,76 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "COMPVSS" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - heading "COMPVSS" [level=1] [ref=e6]
+        - link "Get Started" [ref=e7] [cursor=pointer]:
+          - /url: /auth/signup
+          - button "Get Started" [ref=e8]:
+            - generic [ref=e9]: Get Started
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - img [ref=e18]
+        - heading "SIGN IN" [level=2] [ref=e21]
+        - paragraph [ref=e22]: Access your COMPVSS account to manage crew and resources.
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: Email Address
+          - textbox "your@email.com" [ref=e27]
+        - generic [ref=e28]:
+          - generic [ref=e29]: Password
+          - generic [ref=e30]:
+            - textbox "Enter your password" [ref=e31]
+            - button "Show password" [ref=e32] [cursor=pointer]:
+              - img [ref=e33]
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - checkbox [ref=e40] [cursor=pointer]
+            - generic [ref=e41]: Remember me
+          - link "Forgot password?" [ref=e42] [cursor=pointer]:
+            - /url: /auth/forgot-password
+            - button "Forgot password?" [ref=e43]:
+              - generic [ref=e44]: Forgot password?
+        - button "Sign In" [ref=e45] [cursor=pointer]:
+          - generic [ref=e46]: Sign In
+          - img [ref=e48]
+      - generic [ref=e51]:
+        - separator [ref=e52]
+        - generic [ref=e53]: Or continue with
+        - separator [ref=e54]
+      - generic [ref=e55]:
+        - button "Continue with Google" [ref=e56] [cursor=pointer]:
+          - generic [ref=e57]: Continue with Google
+        - button "Continue with Apple" [ref=e58] [cursor=pointer]:
+          - generic [ref=e59]: Continue with Apple
+      - generic [ref=e60]:
+        - paragraph [ref=e61]: Don't have an account?
+        - link "Sign Up" [ref=e62] [cursor=pointer]:
+          - /url: /auth/signup
+          - button "Sign Up" [ref=e63]:
+            - generic [ref=e64]: Sign Up
+    - contentinfo [ref=e65]:
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - link "Privacy" [ref=e69] [cursor=pointer]:
+            - /url: /legal/privacy
+          - link "Terms" [ref=e70] [cursor=pointer]:
+            - /url: /legal/terms
+          - link "Help" [ref=e71] [cursor=pointer]:
+            - /url: /help
+        - generic [ref=e72]: © 2025 GHXSTSHIP INDUSTRIES
+  - generic [ref=e73]:
+    - img [ref=e75]
+    - button "Open Tanstack query devtools" [ref=e124] [cursor=pointer]:
+      - img [ref=e125]
+  - alert [ref=e174]
+  - generic [ref=e177] [cursor=pointer]:
+    - img [ref=e178]
+    - generic [ref=e182]: 1 error
+    - button "Hide Errors" [ref=e183]:
+      - img [ref=e184]
+```

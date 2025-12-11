@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
@@ -144,7 +144,7 @@ export async function POST(request: NextRequest) {
       );
     }
   } catch (error) {
-    Logger.error('OAuth token error:', error);
+    logger.error('OAuth token error:', error);
     return NextResponse.json(
       { error: 'server_error', error_description: 'Internal server error' },
       { status: 500 }

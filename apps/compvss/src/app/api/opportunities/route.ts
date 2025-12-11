@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { apiRoute } from '@ghxstship/config/middleware';
@@ -75,7 +75,7 @@ export const GET = apiRoute(
       const { data, error } = await query;
 
       if (error) {
-        Logger.error('Error fetching opportunities:', error);
+        logger.error('Error fetching opportunities:', error);
         return NextResponse.json(
           { error: 'Failed to fetch opportunities', details: error.message },
           { status: 500 }
@@ -146,7 +146,7 @@ export const POST = apiRoute(
         .single();
 
       if (error) {
-        Logger.error('Error creating opportunity:', error);
+        logger.error('Error creating opportunity:', error);
         return NextResponse.json(
           { error: 'Failed to create opportunity', details: error.message },
           { status: 500 }
@@ -267,7 +267,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    Logger.error('Error in PATCH /api/opportunities:', error);
+    logger.error('Error in PATCH /api/opportunities:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

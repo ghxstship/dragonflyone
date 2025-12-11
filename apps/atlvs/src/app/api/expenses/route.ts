@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching expenses:', error);
+      logger.error('Error fetching expenses:', error);
       return NextResponse.json(
         { error: 'Failed to fetch expenses', details: error.message },
         { status: 500 }
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/expenses:', error);
+    logger.error('Error in GET /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (expenseError) {
-      Logger.error('Error creating expense:', expenseError);
+      logger.error('Error creating expense:', expenseError);
       return NextResponse.json(
         { error: 'Failed to create expense', details: expenseError.message },
         { status: 500 }
@@ -195,7 +195,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/expenses:', error);
+    logger.error('Error in POST /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -260,7 +260,7 @@ export async function PATCH(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    Logger.error('Error in PATCH /api/expenses:', error);
+    logger.error('Error in PATCH /api/expenses:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Get payroll providers error:', error);
+    logger.error('Get payroll providers error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch payroll providers' },
       { status: 500 }
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create payroll provider error:', error);
+    logger.error('Create payroll provider error:', error);
     return NextResponse.json(
       { error: 'Failed to create payroll provider' },
       { status: 500 }

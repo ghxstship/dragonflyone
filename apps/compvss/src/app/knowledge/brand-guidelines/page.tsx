@@ -31,7 +31,6 @@ import {
   DEMO_BRAND_ASSETS,
   DEMO_BRAND_GUIDELINES,
   type DemoBrandAsset as BrandAsset,
-  type DemoBrandGuideline as BrandGuideline,
 } from "../../../lib/demo-data";
 
 const mockAssets = DEMO_BRAND_ASSETS;

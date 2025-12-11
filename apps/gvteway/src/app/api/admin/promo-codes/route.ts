@@ -31,14 +31,12 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get('status');
     const eventId = searchParams.get('event_id');
 
+    // Use discounts table which exists in the schema
     let query = supabase
-      .from('promo_codes')
+      .from('discounts')
       .select(`
         *,
-        events (
-          id,
-          title
-        )
+        event:events(id, name)
       `)
       .order('created_at', { ascending: false });
 
@@ -53,12 +51,17 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    interface EventData {
+      id: string;
+      name: string;
     }
 
     const promoCodes = data?.map(promo => ({
       ...promo,
-      event_title: promo.events?.title,
+      event_title: (promo.event as EventData | null)?.name,
     })) || [];
 
     return NextResponse.json({ promo_codes: promoCodes });

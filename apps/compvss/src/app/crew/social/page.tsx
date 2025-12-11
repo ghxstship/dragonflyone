@@ -31,7 +31,6 @@ import {
   DEMO_CREW_SOCIAL_MEMBERS,
   DEMO_CREW_POSTS,
   type DemoCrewSocialMember as CrewMember,
-  type DemoCrewPost as CrewPost,
 } from "../../../lib/demo-data";
 
 export default function CrewSocialPage() {

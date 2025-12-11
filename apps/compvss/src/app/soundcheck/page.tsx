@@ -28,6 +28,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_SOUNDCHECK_SLOTS } from '../../lib/demo-data';
 
 interface SoundcheckSlot {
   id: string;
@@ -44,14 +45,8 @@ interface SoundcheckSlot {
   notes?: string;
 }
 
-const mockSoundchecks: SoundcheckSlot[] = [
-  { id: "SC-001", artistName: "Opening Act", stage: "Main Stage", scheduledStart: "14:00", scheduledEnd: "14:30", actualStart: "14:05", actualEnd: "14:35", status: "Completed", duration: 30, requirements: ["Full band setup", "5 vocal mics", "Drum kit"], engineer: "John Martinez", notes: "Requested extra monitor for drummer" },
-  { id: "SC-002", artistName: "Support Band", stage: "Main Stage", scheduledStart: "14:45", scheduledEnd: "15:30", actualStart: "14:50", status: "In Progress", duration: 45, requirements: ["8-piece band", "Brass section", "Keys"], engineer: "John Martinez" },
-  { id: "SC-003", artistName: "Special Guest", stage: "Main Stage", scheduledStart: "15:45", scheduledEnd: "16:30", status: "Scheduled", duration: 45, requirements: ["Solo acoustic", "2 guitars", "Piano"], engineer: "Sarah Chen" },
-  { id: "SC-004", artistName: "Headliner", stage: "Main Stage", scheduledStart: "16:45", scheduledEnd: "18:00", status: "Scheduled", duration: 75, requirements: ["Full production", "Backing tracks", "In-ear monitors", "Custom console settings"], engineer: "Sarah Chen", notes: "Artist's FOH engineer will be present" },
-  { id: "SC-005", artistName: "DJ Set", stage: "Side Stage", scheduledStart: "13:00", scheduledEnd: "13:30", actualStart: "13:00", actualEnd: "13:25", status: "Completed", duration: 30, requirements: ["CDJs", "Mixer", "Laptop input"], engineer: "Mike Thompson" },
-  { id: "SC-006", artistName: "Local Band", stage: "Side Stage", scheduledStart: "13:45", scheduledEnd: "14:15", status: "Delayed", duration: 30, requirements: ["4-piece rock", "Backline provided"], engineer: "Mike Thompson", notes: "Delayed due to gear issue" },
-];
+const mockSoundchecks = DEMO_SOUNDCHECK_SLOTS as unknown as SoundcheckSlot[];
+
 
 export default function SoundcheckPage() {
   const router = useRouter();

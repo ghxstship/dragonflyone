@@ -33,7 +33,6 @@ import {
   DEMO_STAKEHOLDERS,
   DEMO_STAKEHOLDER_UPDATES,
   type DemoStakeholder as Stakeholder,
-  type DemoStakeholderUpdate as Update,
 } from "../../lib/demo-data";
 
 const mockStakeholders = DEMO_STAKEHOLDERS;

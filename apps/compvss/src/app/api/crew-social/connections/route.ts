@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error('Error fetching connections:', error);
+    logger.error('Error fetching connections:', error);
     return NextResponse.json(
       { error: 'Failed to fetch connections' },
       { status: 500 }
@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating connection:', error);
+    logger.error('Error creating connection:', error);
     return NextResponse.json(
       { error: 'Failed to create connection' },
       { status: 500 }
@@ -201,7 +201,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error removing connection:', error);
+    logger.error('Error removing connection:', error);
     return NextResponse.json(
       { error: 'Failed to remove connection' },
       { status: 500 }

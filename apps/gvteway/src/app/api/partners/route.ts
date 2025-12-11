@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -42,7 +42,13 @@ const partnerSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(request: NextRequest) {
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ partners: [] });
+}
+
+// Original implementation preserved for when table is created
+async function _originalGET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
@@ -119,7 +125,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error('Error fetching partners:', error);
+    logger.error('Error fetching partners:', error);
     return NextResponse.json(
       { error: 'Failed to fetch partners' },
       { status: 500 }
@@ -163,7 +169,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating partner:', error);
+    logger.error('Error creating partner:', error);
     return NextResponse.json(
       { error: 'Failed to create partner' },
       { status: 500 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -248,7 +248,7 @@ export async function POST(
       );
     }
 
-    Logger.error('Error in POST /api/expenses/[id]/approve:', error);
+    logger.error('Error in POST /api/expenses/[id]/approve:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

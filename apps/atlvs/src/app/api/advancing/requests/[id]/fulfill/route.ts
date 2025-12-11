@@ -1,4 +1,4 @@
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/[id]/fulfill/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -103,7 +103,7 @@ export async function POST(
     const hasErrors = results.some((r) => r.error);
 
     if (hasErrors) {
-      Logger.error('Error updating items:', results.filter((r) => r.error));
+      logger.error('Error updating items:', results.filter((r) => r.error));
       return NextResponse.json(
         { error: 'Failed to update some items' },
         { status: 500 }
@@ -148,7 +148,7 @@ export async function POST(
       .single();
 
     if (error) {
-      Logger.error('Error updating advance:', error);
+      logger.error('Error updating advance:', error);
       return NextResponse.json(
         { error: 'Failed to update advance', details: error.message },
         { status: 500 }
@@ -159,7 +159,7 @@ export async function POST(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Unexpected error:', error);
+    logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

@@ -35,13 +35,10 @@ interface Asset {
   projects: number;
 }
 
-const mockAssets: Asset[] = [
-  { id: "AST-001", name: "Meyer Sound LEO Family Line Array", category: "Audio", location: "Warehouse A - Bay 3", status: "Available", value: 285000, condition: "Excellent", lastMaintenance: "2024-10-15", nextMaintenance: "2025-01-15", utilization: 0.82, projects: 47 },
-  { id: "AST-002", name: "Robe MegaPointe Lighting Fixtures (24x)", category: "Lighting", location: "Warehouse A - Bay 1", status: "In Use", value: 156000, condition: "Good", lastMaintenance: "2024-09-20", nextMaintenance: "2024-12-20", utilization: 0.91, projects: 52 },
-  { id: "AST-003", name: "disguise gx 2c Media Server", category: "Video", location: "Tech Room 2", status: "Maintenance", value: 48000, condition: "Fair", lastMaintenance: "2024-11-18", nextMaintenance: "2024-12-01", utilization: 0.75, projects: 38 },
-  { id: "AST-004", name: "Staging Deck System (60x8 modules)", category: "Staging", location: "Warehouse B - Ground", status: "Available", value: 95000, condition: "Excellent", lastMaintenance: "2024-10-01", nextMaintenance: "2025-04-01", utilization: 0.68, projects: 41 },
-  { id: "AST-005", name: "Chain Motor Hoists (20x 2-ton)", category: "Rigging", location: "Warehouse A - Bay 4", status: "Available", value: 42000, condition: "Good", lastMaintenance: "2024-11-01", nextMaintenance: "2025-02-01", utilization: 0.79, projects: 56 },
-];
+import { DEMO_ASSETS } from '../../lib/demo-data';
+
+const mockAssets = DEMO_ASSETS as Asset[];
+
 
 const columns: ListPageColumn<Asset>[] = [
   { key: 'name', label: 'Asset', accessor: 'name', sortable: true },

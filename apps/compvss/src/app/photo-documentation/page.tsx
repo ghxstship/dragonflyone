@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_PHOTO_SETS } from '../../lib/demo-data';
 
 interface PhotoSet {
   id: string;
@@ -41,14 +42,8 @@ interface PhotoSet {
   approved: boolean;
 }
 
-const mockPhotoSets: PhotoSet[] = [
-  { id: "PS-001", phase: "Load-In", projectId: "PROJ-089", projectName: "Summer Fest 2024", capturedAt: "2024-11-20T08:00:00Z", capturedBy: "John Martinez", photoCount: 24, description: "Truck arrival and initial unload", tags: ["staging", "trucks", "crew"], approved: true },
-  { id: "PS-002", phase: "Build", projectId: "PROJ-089", projectName: "Summer Fest 2024", capturedAt: "2024-11-21T10:00:00Z", capturedBy: "Sarah Chen", photoCount: 45, description: "Stage construction progress", tags: ["stage", "rigging", "lighting"], approved: true },
-  { id: "PS-003", phase: "Build", projectId: "PROJ-089", projectName: "Summer Fest 2024", capturedAt: "2024-11-22T14:00:00Z", capturedBy: "Sarah Chen", photoCount: 32, description: "Audio and video installation", tags: ["audio", "video", "LED"], approved: false },
-  { id: "PS-004", phase: "Tech Rehearsal", projectId: "PROJ-089", projectName: "Summer Fest 2024", capturedAt: "2024-11-23T16:00:00Z", capturedBy: "Mike Thompson", photoCount: 18, description: "Lighting focus and programming", tags: ["lighting", "programming"], approved: false },
-  { id: "PS-005", phase: "Show", projectId: "PROJ-088", projectName: "Fall Festival", capturedAt: "2024-11-15T20:00:00Z", capturedBy: "Lisa Park", photoCount: 156, description: "Event night documentation", tags: ["performance", "crowd", "production"], approved: true },
-  { id: "PS-006", phase: "Strike", projectId: "PROJ-088", projectName: "Fall Festival", capturedAt: "2024-11-16T02:00:00Z", capturedBy: "John Martinez", photoCount: 28, description: "Post-show strike documentation", tags: ["strike", "packout"], approved: true },
-];
+const mockPhotoSets = DEMO_PHOTO_SETS as unknown as PhotoSet[];
+
 
 const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Out"];
 

@@ -37,7 +37,6 @@ import {
   DEMO_TRANSLATED_CONTENT,
   DEMO_LANGUAGE_SETTINGS,
   type DemoTranslatedContent as TranslatedContent,
-  type DemoLanguageSetting as LanguageSetting,
 } from '../../../lib/demo-data';
 
 const mockContent = DEMO_TRANSLATED_CONTENT;

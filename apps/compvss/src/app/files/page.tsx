@@ -33,7 +33,6 @@ import {
   DEMO_PROJECT_FILES,
   DEMO_FILE_VERSIONS,
   type DemoProjectFile as ProjectFile,
-  type DemoFileVersion as FileVersion,
 } from "../../lib/demo-data";
 
 export default function FileSharingPage() {

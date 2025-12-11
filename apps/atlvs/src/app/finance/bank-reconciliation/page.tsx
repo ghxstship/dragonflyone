@@ -29,14 +29,10 @@ interface BankTransaction {
   [key: string]: unknown;
 }
 
-const mockTransactions: BankTransaction[] = [
-  { id: "BNK-001", date: "2024-11-25", description: "Wire Transfer - Client ABC", amount: 45000, type: "Credit", status: "Matched", matchedTo: "INV-2024-089", bankAccount: "Operating" },
-  { id: "BNK-002", date: "2024-11-25", description: "ACH Payment - Vendor XYZ", amount: -12500, type: "Debit", status: "Matched", matchedTo: "PO-2024-156", bankAccount: "Operating" },
-  { id: "BNK-003", date: "2024-11-24", description: "Check #4521", amount: -3200, type: "Debit", status: "Unmatched", bankAccount: "Operating" },
-  { id: "BNK-004", date: "2024-11-24", description: "Deposit", amount: 28750, type: "Credit", status: "Pending", bankAccount: "Operating" },
-  { id: "BNK-005", date: "2024-11-23", description: "Wire Transfer - Client DEF", amount: 67500, type: "Credit", status: "Reconciled", matchedTo: "INV-2024-085", bankAccount: "Operating" },
-  { id: "BNK-006", date: "2024-11-23", description: "Payroll", amount: -89000, type: "Debit", status: "Reconciled", matchedTo: "PAY-2024-047", bankAccount: "Payroll" },
-];
+import { DEMO_BANK_TRANSACTIONS } from '../../../lib/demo-data';
+
+const mockTransactions = DEMO_BANK_TRANSACTIONS as BankTransaction[];
+
 
 const getStatusVariant = getBadgeVariant;
 

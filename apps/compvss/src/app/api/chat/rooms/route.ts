@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -103,7 +103,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data: roomsWithUnread });
   } catch (error) {
-    Logger.error('Get chat rooms error:', error);
+    logger.error('Get chat rooms error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch chat rooms' },
       { status: 500 }
@@ -204,7 +204,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create chat room error:', error);
+    logger.error('Create chat room error:', error);
     return NextResponse.json(
       { error: 'Failed to create chat room' },
       { status: 500 }

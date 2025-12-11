@@ -17,6 +17,7 @@ import {
   MainContent,
   Select,
 } from "@ghxstship/ui";
+import { DEMO_VENDORS_COMPARE } from '../../../lib/demo-data';
 
 interface Vendor {
   id: string;
@@ -34,12 +35,7 @@ interface Vendor {
   availability: "Available" | "Limited" | "Booked";
 }
 
-const mockVendors: Vendor[] = [
-  { id: "VND-001", name: "Pro Audio Solutions", category: "Audio", rating: 4.8, reviews: 156, location: "Los Angeles, CA", distance: "12 mi", pricing: "Premium", responseTime: "< 2 hours", completedProjects: 234, certifications: ["L-Acoustics", "d&b audiotechnik"], specialties: ["Festivals", "Concerts", "Corporate"], availability: "Available" },
-  { id: "VND-002", name: "SoundWave Productions", category: "Audio", rating: 4.5, reviews: 89, location: "Burbank, CA", distance: "8 mi", pricing: "Mid-Range", responseTime: "< 4 hours", completedProjects: 156, certifications: ["JBL Professional"], specialties: ["Corporate", "Theater"], availability: "Available" },
-  { id: "VND-003", name: "Elite Audio Services", category: "Audio", rating: 4.9, reviews: 203, location: "Santa Monica, CA", distance: "18 mi", pricing: "Premium", responseTime: "< 1 hour", completedProjects: 312, certifications: ["Meyer Sound", "L-Acoustics"], specialties: ["Festivals", "Tours", "Broadcast"], availability: "Limited" },
-  { id: "VND-004", name: "Budget Sound Co", category: "Audio", rating: 4.2, reviews: 67, location: "Glendale, CA", distance: "5 mi", pricing: "Budget", responseTime: "< 6 hours", completedProjects: 89, certifications: ["QSC"], specialties: ["Corporate", "Small Events"], availability: "Available" },
-];
+const mockVendors = DEMO_VENDORS_COMPARE as Vendor[];
 
 const comparisonMetrics = [
   { key: "rating", label: "Rating", format: (v: Vendor) => `${v.rating}/5` },

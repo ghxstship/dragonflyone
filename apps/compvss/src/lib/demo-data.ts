@@ -1746,3 +1746,434 @@ export const DEMO_WEATHER_FORECAST: DemoWeatherForecast[] = [
   { date: '2024-11-27', condition: 'rainy', tempHigh: 62, tempLow: 52, precipitation: 80, windSpeed: 15, humidity: 85 },
   { date: '2024-11-28', condition: 'windy', tempHigh: 65, tempLow: 50, precipitation: 20, windSpeed: 25, humidity: 55 },
 ];
+
+// =============================================================================
+// VENDOR PORTAL DATA
+// =============================================================================
+
+export interface DemoVendorPortalData {
+  companyName: string;
+  activeContracts: number;
+  pendingDeliveries: number;
+  pendingInvoices: number;
+  totalRevenue: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_VENDOR_PORTAL_DATA: DemoVendorPortalData = {
+  companyName: 'Premier Audio Solutions',
+  activeContracts: 3,
+  pendingDeliveries: 2,
+  pendingInvoices: 1,
+  totalRevenue: 45000,
+};
+
+export const DEMO_VENDOR_UPCOMING_DELIVERIES = [
+  { id: '1', production: 'Summer Music Festival', date: '2024-12-10', items: 'Audio Equipment Package', status: 'scheduled' },
+  { id: '2', production: 'Corporate Gala', date: '2024-12-15', items: 'Speaker System', status: 'confirmed' },
+];
+
+export const DEMO_VENDOR_RECENT_INVOICES = [
+  { id: 'INV-001', production: 'Tech Conference', amount: 12500, status: 'paid', date: '2024-11-20' },
+  { id: 'INV-002', production: 'Summer Music Festival', amount: 8500, status: 'pending', date: '2024-12-01' },
+];
+
+// =============================================================================
+// VENDOR COMPARE DATA
+// =============================================================================
+
+export interface DemoVendorCompare {
+  id: string;
+  name: string;
+  category: string;
+  rating: number;
+  reviews: number;
+  location: string;
+  distance: string;
+  pricing: string;
+  responseTime: string;
+  completedProjects: number;
+  certifications: string[];
+  specialties: string[];
+  availability: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_VENDORS_COMPARE: DemoVendorCompare[] = [
+  { id: "VND-001", name: "Pro Audio Solutions", category: "Audio", rating: 4.8, reviews: 156, location: "Los Angeles, CA", distance: "12 mi", pricing: "Premium", responseTime: "< 2 hours", completedProjects: 234, certifications: ["L-Acoustics", "d&b audiotechnik"], specialties: ["Festivals", "Concerts", "Corporate"], availability: "Available" },
+  { id: "VND-002", name: "SoundWave Productions", category: "Audio", rating: 4.5, reviews: 89, location: "Burbank, CA", distance: "8 mi", pricing: "Mid-Range", responseTime: "< 4 hours", completedProjects: 156, certifications: ["JBL Professional"], specialties: ["Corporate", "Theater"], availability: "Available" },
+  { id: "VND-003", name: "Elite Audio Services", category: "Audio", rating: 4.9, reviews: 203, location: "Santa Monica, CA", distance: "18 mi", pricing: "Premium", responseTime: "< 1 hour", completedProjects: 312, certifications: ["Meyer Sound", "L-Acoustics"], specialties: ["Festivals", "Tours", "Broadcast"], availability: "Limited" },
+  { id: "VND-004", name: "Budget Sound Co", category: "Audio", rating: 4.2, reviews: 67, location: "Glendale, CA", distance: "5 mi", pricing: "Budget", responseTime: "< 6 hours", completedProjects: 89, certifications: ["QSC"], specialties: ["Corporate", "Small Events"], availability: "Available" },
+];
+
+// =============================================================================
+// JOB OPPORTUNITIES DATA
+// =============================================================================
+
+export interface DemoJobOpportunity {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: string;
+  rate: string;
+  posted: string;
+  deadline?: string;
+  skills: string[];
+  saved: boolean;
+  applied: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_JOB_OPPORTUNITIES: DemoJobOpportunity[] = [
+  { id: 'JOB-001', title: 'FOH Audio Engineer', company: 'Live Nation', location: 'Los Angeles, CA', type: 'Gig', rate: '$750/day', posted: '2 hours ago', deadline: '2024-12-01', skills: ['L-Acoustics', 'DiGiCo', 'Live Sound'], saved: true, applied: false },
+  { id: 'JOB-002', title: 'Lighting Designer', company: 'PRG', location: 'Las Vegas, NV', type: 'Full-Time', rate: '$85K-$110K', posted: '1 day ago', skills: ['grandMA3', 'Vectorworks', 'Concert Lighting'], saved: false, applied: false },
+  { id: 'JOB-003', title: 'Video Director', company: 'Screenworks', location: 'Remote', type: 'Contract', rate: '$600/day', posted: '3 days ago', deadline: '2024-11-30', skills: ['Resolume', 'LED Walls', 'Broadcast'], saved: false, applied: true },
+  { id: 'JOB-004', title: 'Stage Manager', company: 'AEG Presents', location: 'New York, NY', type: 'Gig', rate: '$500/day', posted: '5 hours ago', skills: ['Stage Management', 'Intercom', 'Cue Calling'], saved: true, applied: false },
+  { id: 'JOB-005', title: 'Head Rigger', company: 'Stageline', location: 'Nashville, TN', type: 'Freelance', rate: '$450/day', posted: '2 days ago', skills: ['CM Motors', 'Truss', 'ETCP Certified'], saved: false, applied: false },
+];
+
+// =============================================================================
+// WIN/LOSS RECORDS DATA
+// =============================================================================
+
+export interface DemoWinLossRecord {
+  id: string;
+  opportunityName: string;
+  client: string;
+  value: number;
+  outcome: string;
+  date: string;
+  reason?: string;
+  competitor?: string;
+  lessonsLearned?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_WIN_LOSS_RECORDS: DemoWinLossRecord[] = [
+  { id: 'WL-001', opportunityName: 'Summer Festival Audio Package', client: 'Festival Productions', value: 125000, outcome: 'Won', date: '2024-11-15', lessonsLearned: 'Strong relationship and competitive pricing' },
+  { id: 'WL-002', opportunityName: 'Corporate Conference AV', client: 'Tech Corp', value: 45000, outcome: 'Lost', date: '2024-11-10', reason: 'Price', competitor: 'Budget AV Co', lessonsLearned: 'Need to offer more flexible pricing tiers' },
+  { id: 'WL-003', opportunityName: 'Concert Tour Support', client: 'Major Label', value: 280000, outcome: 'Won', date: '2024-11-05', lessonsLearned: 'Technical expertise was key differentiator' },
+];
+
+
+// =============================================================================
+// PROPOSALS DATA
+// =============================================================================
+
+export interface DemoProposal {
+  id: string;
+  title: string;
+  client: string;
+  value: number;
+  status: string;
+  submittedDate: string;
+  expiryDate: string;
+  version: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_PROPOSALS: DemoProposal[] = [
+  { id: 'PROP-001', title: 'Summer Festival 2025 Audio Package', client: 'Festival Productions', value: 185000, status: 'Pending Review', submittedDate: '2024-11-20', expiryDate: '2024-12-20', version: 2 },
+  { id: 'PROP-002', title: 'Corporate Conference AV Solution', client: 'Enterprise Inc', value: 65000, status: 'Accepted', submittedDate: '2024-11-15', expiryDate: '2024-12-15', version: 1 },
+  { id: 'PROP-003', title: 'Concert Tour Technical Package', client: 'Touring Co', value: 420000, status: 'Revision Requested', submittedDate: '2024-11-18', expiryDate: '2024-12-18', version: 3 },
+];
+
+// =============================================================================
+// SETTLEMENTS DATA
+// =============================================================================
+
+export interface DemoSettlement {
+  id: string;
+  projectName: string;
+  client: string;
+  contractValue: number;
+  actualCost: number;
+  variance: number;
+  status: string;
+  settlementDate: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SETTLEMENTS: DemoSettlement[] = [
+  { id: 'SET-001', projectName: 'Summer Music Festival', client: 'Festival Productions', contractValue: 125000, actualCost: 118500, variance: 6500, status: 'Pending', settlementDate: '2024-12-01' },
+  { id: 'SET-002', projectName: 'Corporate Gala', client: 'Tech Corp', contractValue: 45000, actualCost: 47200, variance: -2200, status: 'Disputed', settlementDate: '2024-11-28' },
+  { id: 'SET-003', projectName: 'Concert Series', client: 'Live Events Co', contractValue: 280000, actualCost: 275000, variance: 5000, status: 'Completed', settlementDate: '2024-11-15' },
+];
+
+// =============================================================================
+// RISK REGISTER DATA
+// =============================================================================
+
+export interface DemoRisk {
+  id: string;
+  title: string;
+  category: string;
+  probability: string;
+  impact: string;
+  status: string;
+  owner: string;
+  mitigation: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_RISKS: DemoRisk[] = [
+  { id: 'RISK-001', title: 'Weather Delay', category: 'Environmental', probability: 'Medium', impact: 'High', status: 'Active', owner: 'Production Manager', mitigation: 'Weather contingency plan in place' },
+  { id: 'RISK-002', title: 'Equipment Failure', category: 'Technical', probability: 'Low', impact: 'Critical', status: 'Monitoring', owner: 'Technical Director', mitigation: 'Backup equipment on standby' },
+  { id: 'RISK-003', title: 'Vendor No-Show', category: 'Operational', probability: 'Low', impact: 'High', status: 'Mitigated', owner: 'Vendor Manager', mitigation: 'Secondary vendor contracts secured' },
+];
+
+// =============================================================================
+// WEATHER CONTINGENCY PLANS DATA
+// =============================================================================
+
+export interface DemoWeatherPlan {
+  id: string;
+  eventName: string;
+  triggerCondition: string;
+  action: string;
+  responsibility: string;
+  status: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_WEATHER_PLANS: DemoWeatherPlan[] = [
+  { id: 'WP-001', eventName: 'Outdoor Concert', triggerCondition: 'Rain > 50%', action: 'Move to indoor venue', responsibility: 'Production Manager', status: 'Active' },
+  { id: 'WP-002', eventName: 'Festival Day 2', triggerCondition: 'Wind > 25mph', action: 'Lower rigging heights', responsibility: 'Head Rigger', status: 'Active' },
+  { id: 'WP-003', eventName: 'Corporate Event', triggerCondition: 'Lightning within 10mi', action: 'Evacuate outdoor areas', responsibility: 'Safety Officer', status: 'Active' },
+];
+
+// =============================================================================
+// SPEC SHEETS DATA
+// =============================================================================
+
+export interface DemoSpecSheet {
+  id: string;
+  name: string;
+  category: string;
+  manufacturer: string;
+  model: string;
+  version: string;
+  lastUpdated: string;
+  fileSize: string;
+  downloads: number;
+  specs: { label: string; value: string }[];
+  [key: string]: unknown;
+}
+
+export const DEMO_SPEC_SHEETS: DemoSpecSheet[] = [
+  { id: "SPEC-001", name: "L-Acoustics K2", manufacturer: "L-Acoustics", category: "Audio", model: "K2", version: "2.1", lastUpdated: "2024-10-15", fileSize: "2.4 MB", downloads: 342, specs: [{ label: "Frequency Range", value: "35Hz - 20kHz" }, { label: "Max SPL", value: "145 dB" }, { label: "Weight", value: "61 kg" }] },
+  { id: "SPEC-002", name: "Clay Paky Sharpy Plus", manufacturer: "Clay Paky", category: "Lighting", model: "Sharpy Plus", version: "1.3", lastUpdated: "2024-09-20", fileSize: "1.8 MB", downloads: 256, specs: [{ label: "Lamp", value: "440W" }, { label: "Beam Angle", value: "5.5°" }, { label: "Weight", value: "21 kg" }] },
+  { id: "SPEC-003", name: "ROE Visual CB5", manufacturer: "ROE Visual", category: "Video", model: "CB5", version: "3.0", lastUpdated: "2024-11-01", fileSize: "3.2 MB", downloads: 189, specs: [{ label: "Pixel Pitch", value: "5.77mm" }, { label: "Brightness", value: "5500 nits" }, { label: "Panel Size", value: "500x500mm" }] },
+];
+
+// =============================================================================
+// TROUBLESHOOTING GUIDES DATA
+// =============================================================================
+
+export interface DemoTroubleshootingGuide {
+  id: string;
+  title: string;
+  category: string;
+  symptom: string;
+  steps: string[];
+  resolution: string;
+  views: number;
+  helpful: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_TROUBLESHOOTING_GUIDES: DemoTroubleshootingGuide[] = [
+  { id: "TS-001", title: "No Audio Output", category: "Audio", symptom: "Console shows signal but no sound from speakers", steps: ["Check amplifier power", "Verify speaker cables", "Check mute status", "Test with different source"], resolution: "Most commonly caused by muted output or disconnected cables", views: 2456, helpful: 89 },
+  { id: "TS-002", title: "LED Panel Artifacts", category: "Video", symptom: "Random pixels or lines appearing on LED wall", steps: ["Check data cable connections", "Verify processor settings", "Test individual panels", "Check for EMI interference"], resolution: "Usually resolved by reseating data cables or replacing faulty panel", views: 1234, helpful: 76 },
+  { id: "TS-003", title: "Fixture Not Responding", category: "Lighting", symptom: "Moving light not responding to DMX commands", steps: ["Verify DMX address", "Check DMX cable chain", "Test fixture in standalone", "Reset fixture"], resolution: "Address conflicts or cable issues are most common causes", views: 1890, helpful: 82 },
+];
+
+// =============================================================================
+// CREW INVOICES DATA
+// =============================================================================
+
+export interface DemoCrewInvoice {
+  id: string;
+  projectName: string;
+  client: string;
+  amount: number;
+  status: string;
+  submittedDate: string;
+  dueDate: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_CREW_INVOICES: DemoCrewInvoice[] = [
+  { id: 'INV-001', projectName: 'Summer Festival', client: 'Festival Productions', amount: 2500, status: 'Paid', submittedDate: '2024-11-01', dueDate: '2024-11-15' },
+  { id: 'INV-002', projectName: 'Corporate Gala', client: 'Tech Corp', amount: 1800, status: 'Pending', submittedDate: '2024-11-20', dueDate: '2024-12-05' },
+  { id: 'INV-003', projectName: 'Concert Series', client: 'Live Events', amount: 3200, status: 'Overdue', submittedDate: '2024-10-15', dueDate: '2024-10-30' },
+];
+
+// =============================================================================
+// QA CHECKPOINTS DATA
+// =============================================================================
+
+export interface DemoQACheckpoint {
+  id: string;
+  name: string;
+  category: string;
+  status: string;
+  assignee: string;
+  dueDate: string;
+  completedDate?: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_QA_CHECKPOINTS: DemoQACheckpoint[] = [
+  { id: 'QA-001', name: 'Audio System Check', category: 'Audio', status: 'Completed', assignee: 'John Smith', dueDate: '2024-11-25', completedDate: '2024-11-25', notes: 'All systems nominal' },
+  { id: 'QA-002', name: 'Lighting Rig Inspection', category: 'Lighting', status: 'In Progress', assignee: 'Sarah Chen', dueDate: '2024-11-26' },
+  { id: 'QA-003', name: 'Video Wall Calibration', category: 'Video', status: 'Pending', assignee: 'Mike Davis', dueDate: '2024-11-27' },
+];
+
+// =============================================================================
+// PHOTO DOCUMENTATION DATA
+// =============================================================================
+
+export interface DemoPhotoSet {
+  id: string;
+  name: string;
+  project: string;
+  date: string;
+  photoCount: number;
+  category: string;
+  photographer: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_PHOTO_SETS: DemoPhotoSet[] = [
+  { id: 'PHOTO-001', name: 'Load-In Day 1', project: 'Summer Festival', date: '2024-11-20', photoCount: 45, category: 'Setup', photographer: 'John Smith' },
+  { id: 'PHOTO-002', name: 'Stage Build Progress', project: 'Summer Festival', date: '2024-11-21', photoCount: 78, category: 'Construction', photographer: 'Sarah Chen' },
+  { id: 'PHOTO-003', name: 'Final Setup', project: 'Summer Festival', date: '2024-11-22', photoCount: 32, category: 'Completion', photographer: 'Mike Davis' },
+];
+
+// =============================================================================
+// TIMESHEETS DATA
+// =============================================================================
+
+export interface DemoTimesheetEntry {
+  id: string;
+  date: string;
+  project: string;
+  hours: number;
+  rate: number;
+  status: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_TIMESHEETS: DemoTimesheetEntry[] = [
+  { id: 'TS-001', date: '2024-11-25', project: 'Summer Festival', hours: 10, rate: 45, status: 'Approved', notes: 'Load-in day' },
+  { id: 'TS-002', date: '2024-11-26', project: 'Summer Festival', hours: 12, rate: 45, status: 'Pending', notes: 'Show day 1' },
+  { id: 'TS-003', date: '2024-11-27', project: 'Summer Festival', hours: 8, rate: 45, status: 'Draft', notes: 'Strike' },
+];
+
+// =============================================================================
+// TRAINING MODULES DATA
+// =============================================================================
+
+export interface DemoTrainingModule {
+  id: string;
+  title: string;
+  category: string;
+  duration: string;
+  progress: number;
+  status: string;
+  dueDate?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_TRAINING_MODULES: DemoTrainingModule[] = [
+  { id: 'TRN-001', title: 'Safety Fundamentals', category: 'Safety', duration: '2 hours', progress: 100, status: 'Completed' },
+  { id: 'TRN-002', title: 'Rigging Certification', category: 'Technical', duration: '8 hours', progress: 60, status: 'In Progress', dueDate: '2024-12-15' },
+  { id: 'TRN-003', title: 'Equipment Operation', category: 'Technical', duration: '4 hours', progress: 0, status: 'Not Started', dueDate: '2024-12-30' },
+];
+
+// =============================================================================
+// SOUNDCHECK SLOTS DATA
+// =============================================================================
+
+export interface DemoSoundcheckSlot {
+  id: string;
+  artist: string;
+  stage: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  engineer: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SOUNDCHECK_SLOTS: DemoSoundcheckSlot[] = [
+  { id: 'SC-001', artist: 'The Headliners', stage: 'Main Stage', startTime: '14:00', endTime: '15:00', status: 'Completed', engineer: 'John Smith' },
+  { id: 'SC-002', artist: 'Opening Act', stage: 'Main Stage', startTime: '15:30', endTime: '16:00', status: 'In Progress', engineer: 'Sarah Chen' },
+  { id: 'SC-003', artist: 'DJ Set', stage: 'Side Stage', startTime: '16:30', endTime: '17:00', status: 'Scheduled', engineer: 'Mike Davis' },
+];
+
+// =============================================================================
+// SET TIMES DATA
+// =============================================================================
+
+export interface DemoSetTime {
+  id: string;
+  artist: string;
+  stage: string;
+  startTime: string;
+  endTime: string;
+  status: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SET_TIMES: DemoSetTime[] = [
+  { id: 'ST-001', artist: 'Opening Act', stage: 'Main Stage', startTime: '18:00', endTime: '18:45', status: 'Completed' },
+  { id: 'ST-002', artist: 'Support Band', stage: 'Main Stage', startTime: '19:15', endTime: '20:15', status: 'In Progress' },
+  { id: 'ST-003', artist: 'The Headliners', stage: 'Main Stage', startTime: '21:00', endTime: '23:00', status: 'Upcoming' },
+];
+
+// =============================================================================
+// PUNCH LIST DATA
+// =============================================================================
+
+export interface DemoPunchItem {
+  id: string;
+  description: string;
+  location: string;
+  priority: string;
+  status: string;
+  assignee: string;
+  dueDate: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_PUNCH_ITEMS: DemoPunchItem[] = [
+  { id: 'PUNCH-001', description: 'Fix loose cable on stage left', location: 'Main Stage', priority: 'High', status: 'Open', assignee: 'John Smith', dueDate: '2024-11-25' },
+  { id: 'PUNCH-002', description: 'Replace damaged gobo', location: 'Lighting Rig', priority: 'Medium', status: 'In Progress', assignee: 'Sarah Chen', dueDate: '2024-11-26' },
+  { id: 'PUNCH-003', description: 'Calibrate monitor wedges', location: 'FOH', priority: 'Low', status: 'Completed', assignee: 'Mike Davis', dueDate: '2024-11-24' },
+];
+
+// =============================================================================
+// SHOW CALL CREW DATA
+// =============================================================================
+
+export interface DemoShowCallCrew {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  callTime: string;
+  status: string;
+  phone: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SHOW_CALL_CREW: DemoShowCallCrew[] = [
+  { id: 'CREW-001', name: 'John Smith', role: 'FOH Engineer', department: 'Audio', callTime: '14:00', status: 'Checked In', phone: '555-0101' },
+  { id: 'CREW-002', name: 'Sarah Chen', role: 'Lighting Designer', department: 'Lighting', callTime: '14:00', status: 'En Route', phone: '555-0102' },
+  { id: 'CREW-003', name: 'Mike Davis', role: 'Video Director', department: 'Video', callTime: '15:00', status: 'Not Checked In', phone: '555-0103' },
+];

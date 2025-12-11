@@ -14,49 +14,42 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('crew_availability')
-      .select(`
-        *,
-        user:platform_users(id, first_name, last_name, role)
-      `)
-      .order('date');
+      .select('*')
+      .order('start_date');
 
     if (userId) {
-      query = query.eq('user_id', userId);
+      query = query.eq('crew_member_id', userId);
     }
 
     if (startDate) {
-      query = query.gte('date', startDate);
+      query = query.gte('start_date', startDate);
     }
 
     if (endDate) {
-      query = query.lte('date', endDate);
+      query = query.lte('end_date', endDate);
     }
 
     if (status) {
-      query = query.eq('status', status);
+      query = query.eq('availability_type', status);
     }
 
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    interface UserData { first_name?: string; last_name?: string }
-    const availability = data?.map(a => {
-      const userData = a.user as UserData | null;
-      return {
-        id: a.id,
-        user_id: a.user_id,
-        user_name: userData ? `${userData.first_name} ${userData.last_name}` : 'Unknown',
-        date: a.date,
-        status: a.status,
-        start_time: a.start_time,
-        end_time: a.end_time,
-        notes: a.notes,
-        calendar_source: a.calendar_source,
-      };
-    }) || [];
+    const availability = data?.map(a => ({
+      id: a.id,
+      crew_member_id: a.crew_member_id,
+      start_date: a.start_date,
+      end_date: a.end_date,
+      availability_type: a.availability_type,
+      start_time: a.start_time,
+      end_time: a.end_time,
+      notes: a.notes,
+      all_day: a.all_day,
+    })) || [];
 
     return NextResponse.json({ availability });
   } catch (error) {

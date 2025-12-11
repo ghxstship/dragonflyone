@@ -55,19 +55,12 @@ interface SourcingStrategy {
   initiatives: string[];
 }
 
-const mockCategories: Category[] = [
-  { id: 'CAT-001', name: 'Audio Equipment', parentCategory: 'Production Equipment', spend: 1250000, vendors: 12, strategy: 'Strategic', owner: 'John Smith', lastReview: '2024-10-15' },
-  { id: 'CAT-002', name: 'Lighting Equipment', parentCategory: 'Production Equipment', spend: 980000, vendors: 8, strategy: 'Strategic', owner: 'Sarah Johnson', lastReview: '2024-11-01' },
-  { id: 'CAT-003', name: 'Video Equipment', parentCategory: 'Production Equipment', spend: 750000, vendors: 6, strategy: 'Leverage', owner: 'Mike Davis', lastReview: '2024-09-20' },
-  { id: 'CAT-004', name: 'Staging & Rigging', parentCategory: 'Production Equipment', spend: 620000, vendors: 5, strategy: 'Bottleneck', owner: 'Emily Chen', lastReview: '2024-08-15' },
-  { id: 'CAT-005', name: 'Transportation', spend: 450000, vendors: 15, strategy: 'Leverage', owner: 'Chris Brown', lastReview: '2024-10-01' },
-  { id: 'CAT-006', name: 'Office Supplies', spend: 85000, vendors: 3, strategy: 'Non-Critical', owner: 'Amy Wilson', lastReview: '2024-07-01' },
-];
-
-const mockStrategies: SourcingStrategy[] = [
-  { id: 'STR-001', categoryId: 'CAT-001', categoryName: 'Audio Equipment', objective: 'Consolidate vendors and negotiate volume discounts', approach: 'Preferred vendor program with 2-3 strategic partners', targetSavings: 15, status: 'Active', initiatives: ['RFP for L-Acoustics partnership', 'Volume commitment negotiation', 'Rental vs buy analysis'] },
-  { id: 'STR-002', categoryId: 'CAT-002', categoryName: 'Lighting Equipment', objective: 'Reduce lead times and improve availability', approach: 'Consignment inventory with key suppliers', targetSavings: 10, status: 'Active', initiatives: ['Consignment agreement with Robe', 'Safety stock optimization'] },
-];
+import {
+  DEMO_PROCUREMENT_CATEGORIES_FULL,
+  DEMO_PROCUREMENT_SOURCING_STRATEGIES,
+  type DemoProcurementCategoryFull as Category,
+  type DemoProcurementSourcingStrategy as SourcingStrategy,
+} from '../../../lib/demo-data';
 
 export default function CategoryManagementPage() {
   const router = useRouter();
@@ -81,9 +74,9 @@ export default function CategoryManagementPage() {
   const [selectedStrategy, setSelectedStrategy] = useState<SourcingStrategy | null>(null);
   const [strategyFilter, setStrategyFilter] = useState('All');
 
-  const filteredCategories = strategyFilter === 'All' ? mockCategories : mockCategories.filter(c => c.strategy === strategyFilter);
-  const totalSpend = mockCategories.reduce((sum, c) => sum + c.spend, 0);
-  const strategicSpend = mockCategories.filter(c => c.strategy === 'Strategic').reduce((sum, c) => sum + c.spend, 0);
+  const filteredCategories = strategyFilter === 'All' ? DEMO_PROCUREMENT_CATEGORIES_FULL : DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === strategyFilter);
+  const totalSpend = DEMO_PROCUREMENT_CATEGORIES_FULL.reduce((sum, c) => sum + c.spend, 0);
+  const strategicSpend = DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Strategic').reduce((sum, c) => sum + c.spend, 0);
 
   const getStrategyColor = (strategy: string) => {
     switch (strategy) {
@@ -119,10 +112,10 @@ export default function CategoryManagementPage() {
           <Stack gap={10}>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Categories" value={mockCategories.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Categories" value={DEMO_PROCUREMENT_CATEGORIES_FULL.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Spend" value={`$${(totalSpend / 1000000).toFixed(1)}M`} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Strategic Spend" value={`${Math.round(strategicSpend / totalSpend * 100)}%`} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Strategies" value={mockStrategies.filter(s => s.status === 'Active').length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Active Strategies" value={DEMO_PROCUREMENT_SOURCING_STRATEGIES.filter(s => s.status === 'Active').length} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           <Tabs>
@@ -182,7 +175,7 @@ export default function CategoryManagementPage() {
 
           {isActive('strategies') && (
             <Stack gap={4}>
-              {mockStrategies.map((strategy) => (
+              {DEMO_PROCUREMENT_SOURCING_STRATEGIES.map((strategy) => (
                 <Card key={strategy.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between">
@@ -227,7 +220,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-info-400 font-weight-bold">STRATEGIC</Label>
                       <Label className="text-ink-300">High profit impact, High supply risk</Label>
                       <Stack gap={1}>
-                        {mockCategories.filter(c => c.strategy === 'Strategic').map(c => (
+                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Strategic').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -238,7 +231,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-warning-400 font-weight-bold">BOTTLENECK</Label>
                       <Label className="text-ink-300">Low profit impact, High supply risk</Label>
                       <Stack gap={1}>
-                        {mockCategories.filter(c => c.strategy === 'Bottleneck').map(c => (
+                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Bottleneck').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -249,7 +242,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-success-400 font-weight-bold">LEVERAGE</Label>
                       <Label className="text-ink-300">High profit impact, Low supply risk</Label>
                       <Stack gap={1}>
-                        {mockCategories.filter(c => c.strategy === 'Leverage').map(c => (
+                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Leverage').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -260,7 +253,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-ink-400 font-weight-bold">NON-CRITICAL</Label>
                       <Label className="text-ink-300">Low profit impact, Low supply risk</Label>
                       <Stack gap={1}>
-                        {mockCategories.filter(c => c.strategy === 'Non-Critical').map(c => (
+                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Non-Critical').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>

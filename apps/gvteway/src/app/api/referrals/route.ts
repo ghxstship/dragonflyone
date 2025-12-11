@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -150,7 +150,7 @@ export async function GET(request: NextRequest) {
       stats: statsRes.data?.[0] || {},
     });
   } catch (error) {
-    Logger.error('Error in GET /api/referrals:', error);
+    logger.error('Error in GET /api/referrals:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/referrals:', error);
+    logger.error('Error in POST /api/referrals:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -221,7 +221,7 @@ async function createReferralCode(body: ReferralCodeBody) {
     .single();
 
   if (error) {
-    Logger.error('Error creating referral code:', error);
+    logger.error('Error creating referral code:', error);
     return NextResponse.json(
       { error: 'Failed to create referral code', details: error.message },
       { status: 500 }
@@ -286,7 +286,7 @@ async function registerReferral(body: RegisterReferralBody) {
     .single();
 
   if (error) {
-    Logger.error('Error creating referral:', error);
+    logger.error('Error creating referral:', error);
     return NextResponse.json(
       { error: 'Failed to register referral', details: error.message },
       { status: 500 }
@@ -380,7 +380,7 @@ export async function PATCH(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    Logger.error('Error in PATCH /api/referrals:', error);
+    logger.error('Error in PATCH /api/referrals:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

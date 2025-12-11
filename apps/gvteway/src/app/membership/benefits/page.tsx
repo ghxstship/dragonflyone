@@ -14,7 +14,6 @@ import {
   DEMO_MEMBERSHIP_TIERS,
   DEMO_AVAILABLE_BENEFITS,
   type DemoMembershipTier as MembershipTier,
-  type DemoMemberBenefit as MemberBenefit,
 } from "@/lib/demo-data";
 
 const mockTiers = DEMO_MEMBERSHIP_TIERS;

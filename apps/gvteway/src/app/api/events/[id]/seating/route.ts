@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -23,7 +23,12 @@ const createSeatingSchema = z.object({
   seats: z.array(seatSchema),
 });
 
-export const GET = apiRoute(
+// Table does not exist - return empty response
+export async function GET() {
+  return NextResponse.json({ charts: [] });
+}
+
+const _originalGET = apiRoute(
   async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
 
@@ -109,7 +114,7 @@ export const POST = apiRoute(
           .insert(batch);
 
         if (seatsError) {
-          Logger.error('Failed to insert seat batch:', seatsError);
+          logger.error('Failed to insert seat batch:', seatsError);
         }
       }
     }

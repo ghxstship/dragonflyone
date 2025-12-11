@@ -42,57 +42,10 @@ interface Report {
   format: 'pdf' | 'excel' | 'csv';
 }
 
-const mockReports: Report[] = [
-  {
-    id: '1',
-    name: 'Monthly Revenue Summary',
-    type: 'financial',
-    schedule: 'monthly',
-    lastRun: '2024-12-01T09:00:00Z',
-    nextRun: '2025-01-01T09:00:00Z',
-    status: 'active',
-    format: 'pdf',
-  },
-  {
-    id: '2',
-    name: 'Weekly Production Status',
-    type: 'operational',
-    schedule: 'weekly',
-    lastRun: '2024-12-02T08:00:00Z',
-    nextRun: '2024-12-09T08:00:00Z',
-    status: 'active',
-    format: 'excel',
-  },
-  {
-    id: '3',
-    name: 'Daily Crew Utilization',
-    type: 'hr',
-    schedule: 'daily',
-    lastRun: '2024-12-04T06:00:00Z',
-    nextRun: '2024-12-05T06:00:00Z',
-    status: 'active',
-    format: 'csv',
-  },
-  {
-    id: '4',
-    name: 'Budget vs Actual Analysis',
-    type: 'financial',
-    schedule: 'on-demand',
-    lastRun: '2024-11-28T14:30:00Z',
-    status: 'active',
-    format: 'excel',
-  },
-  {
-    id: '5',
-    name: 'Vendor Performance Report',
-    type: 'operational',
-    schedule: 'monthly',
-    lastRun: '2024-12-01T10:00:00Z',
-    nextRun: '2025-01-01T10:00:00Z',
-    status: 'paused',
-    format: 'pdf',
-  },
-];
+import { DEMO_ANALYTICS_REPORTS } from '../../../lib/demo-data';
+
+const mockReports = DEMO_ANALYTICS_REPORTS as unknown as Report[];
+
 
 export default function ReportsPage() {
   const [reports] = useState(mockReports);

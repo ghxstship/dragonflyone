@@ -26,7 +26,7 @@ export default function WaitlistPage() {
   const router = useRouter();
   const eventId = params.id as string;
 
-  const [localError, setLocalError] = useState<string | null>(null);
+  
   const [success, setSuccess] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     email: '',

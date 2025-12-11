@@ -29,6 +29,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_RISKS } from '../../lib/demo-data';
 
 interface Risk {
   id: string;
@@ -49,13 +50,8 @@ interface Risk {
   reviewDate?: string;
 }
 
-const mockRisks: Risk[] = [
-  { id: "RSK-001", title: "Severe weather during outdoor event", description: "Potential for thunderstorms during Summer Fest weekend", category: "Weather", probability: "Medium", impact: "Critical", riskScore: 15, status: "Mitigating", owner: "John Martinez", projectId: "PROJ-089", projectName: "Summer Fest 2024", mitigationPlan: "Monitor weather 72hrs out, have indoor backup venue on standby", contingencyPlan: "Activate weather delay protocol, move to backup venue if needed", triggers: ["Lightning within 10 miles", "Wind > 40mph", "Heavy rain forecast"], identifiedDate: "2024-11-01", reviewDate: "2024-11-24" },
-  { id: "RSK-002", title: "Key vendor equipment failure", description: "Main audio vendor has aging inventory that may fail", category: "Vendor", probability: "Low", impact: "High", riskScore: 8, status: "Monitoring", owner: "Sarah Chen", projectId: "PROJ-089", projectName: "Summer Fest 2024", mitigationPlan: "Request equipment inspection report, have backup vendor identified", contingencyPlan: "Activate backup vendor agreement", identifiedDate: "2024-11-05" },
-  { id: "RSK-003", title: "Permit approval delay", description: "City permit for street closure may be delayed", category: "Regulatory", probability: "Medium", impact: "High", riskScore: 12, status: "Mitigating", owner: "Mike Thompson", projectId: "PROJ-089", projectName: "Summer Fest 2024", mitigationPlan: "Submit application early, maintain regular contact with city office", identifiedDate: "2024-10-15", reviewDate: "2024-11-20" },
-  { id: "RSK-004", title: "Budget overrun on staging", description: "Staging costs may exceed budget due to material price increases", category: "Financial", probability: "High", impact: "Medium", riskScore: 12, status: "Identified", owner: "Lisa Park", projectId: "PROJ-090", projectName: "Corporate Gala", mitigationPlan: "Lock in pricing with vendor, identify cost reduction options", identifiedDate: "2024-11-18" },
-  { id: "RSK-005", title: "Rigging safety concern", description: "Venue ceiling may not support planned rigging load", category: "Safety", probability: "Low", impact: "Critical", riskScore: 10, status: "Closed", owner: "Chris Brown", projectId: "PROJ-089", projectName: "Summer Fest 2024", mitigationPlan: "Structural engineer assessment completed, load approved", identifiedDate: "2024-10-20", reviewDate: "2024-11-10" },
-];
+const mockRisks = DEMO_RISKS as unknown as Risk[];
+
 
 export default function RiskRegisterPage() {
   const router = useRouter();

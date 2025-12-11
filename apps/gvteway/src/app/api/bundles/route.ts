@@ -19,14 +19,10 @@ export async function GET(request: NextRequest) {
     const eventId = searchParams.get('event_id');
     const isActive = searchParams.get('is_active');
 
+    // Use addon_bundles table which exists in the schema
     let query = supabase
-      .from('product_bundles')
-      .select(`
-        *,
-        products:bundle_products(
-          product:products(id, name, type, price)
-        )
-      `)
+      .from('addon_bundles')
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (eventId) {
@@ -40,22 +36,19 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     const bundles = data?.map(b => ({
       id: b.id,
       name: b.name,
       description: b.description,
-      products: b.products?.map((p: Record<string, unknown>) => p.product) || [],
-      original_price: b.original_price,
       bundle_price: b.bundle_price,
-      savings_percent: Math.round(((b.original_price - b.bundle_price) / b.original_price) * 100),
-      available_quantity: b.available_quantity,
-      sold_count: b.sold_count || 0,
+      original_price: b.original_price,
+      savings_percent: b.original_price && b.bundle_price 
+        ? Math.round(((b.original_price - b.bundle_price) / b.original_price) * 100) 
+        : 0,
       is_active: b.is_active,
-      valid_from: b.valid_from,
-      valid_until: b.valid_until,
       event_id: b.event_id,
     })) || [];
 

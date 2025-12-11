@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -59,15 +59,17 @@ export async function GET(request: NextRequest) {
       .from('artists')
       .select(`
         *,
-        upcoming_events:events(
-          id,
-          name,
-          start_date,
-          venue:venues(id, name, city)
+        event_artists(
+          event:events(
+            id,
+            name,
+            start_date,
+            venue:venues(id, name, city)
+          )
         ),
         followers:artist_followers(count)
       `, { count: 'exact' })
-      .eq('is_active', true)
+      .eq('status', 'active')
       .order('name', { ascending: true })
       .range(offset, offset + limit - 1);
 
@@ -78,16 +80,16 @@ export async function GET(request: NextRequest) {
       query = query.or(`name.ilike.%${search}%,genres.cs.{${search}}`);
     }
     if (featured) {
-      query = query.eq('is_featured', true);
+      query = query.not('metadata->featured', 'is', null);
     }
     if (verified) {
-      query = query.eq('is_verified', true);
+      query = query.eq('verified', true);
     }
 
     const { data, error, count } = await query;
 
     if (error) {
-      Logger.error('Error fetching artists:', error);
+      logger.error('Error fetching artists:', error);
       return NextResponse.json(
         { error: 'Failed to fetch artists', details: error.message },
         { status: 500 }
@@ -97,8 +99,8 @@ export async function GET(request: NextRequest) {
     interface ArtistRecord {
       id: string;
       genres: string[];
-      is_verified: boolean;
-      is_featured: boolean;
+      verified: boolean;
+      metadata: { featured?: boolean } | null;
       followers: Array<{ count: number }>;
       [key: string]: unknown;
     }
@@ -106,14 +108,14 @@ export async function GET(request: NextRequest) {
 
     const summary = {
       total: count || 0,
-      verified_count: artists.filter(a => a.is_verified).length,
-      featured_count: artists.filter(a => a.is_featured).length,
+      verified_count: artists.filter(a => a.verified).length,
+      featured_count: artists.filter(a => a.metadata?.featured).length,
       genres: [...new Set(artists.flatMap(a => a.genres || []))],
     };
 
     return NextResponse.json({ artists: data, summary, total: count, limit, offset });
   } catch (error) {
-    Logger.error('Error in GET /api/artists:', error);
+    logger.error('Error in GET /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -142,7 +144,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating artist:', error);
+      logger.error('Error creating artist:', error);
       return NextResponse.json(
         { error: 'Failed to create artist', details: error.message },
         { status: 500 }
@@ -157,7 +159,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/artists:', error);
+    logger.error('Error in POST /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -244,7 +246,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
-    Logger.error('Error in PATCH /api/artists:', error);
+    logger.error('Error in PATCH /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

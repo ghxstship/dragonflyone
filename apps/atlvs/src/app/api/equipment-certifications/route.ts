@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching equipment certifications:', error);
+    logger.error('Error fetching equipment certifications:', error);
     return NextResponse.json(
       { error: 'Failed to fetch equipment certifications' },
       { status: 500 }
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating equipment certification:', error);
+    logger.error('Error creating equipment certification:', error);
     return NextResponse.json(
       { error: 'Failed to create equipment certification' },
       { status: 500 }

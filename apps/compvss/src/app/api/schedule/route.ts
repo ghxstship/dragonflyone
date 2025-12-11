@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -28,52 +28,42 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const projectId = searchParams.get('project_id');
-    const eventId = searchParams.get('event_id');
     const date = searchParams.get('date');
     const startDate = searchParams.get('start_date');
     const endDate = searchParams.get('end_date');
     const type = searchParams.get('type');
 
+    // Use production_timeline table which exists in the schema
     let query = supabase
-      .from('schedule_items')
+      .from('production_timeline')
       .select(`
         *,
-        project:projects(id, name, project_code),
-        event:events(id, name),
-        venue:venues(id, name),
-        assignments:schedule_assignments(
-          id,
-          crew_member:crew_members(id, full_name, role),
-          status
-        )
+        production:productions(id, name)
       `)
-      .order('start_time', { ascending: true });
+      .order('scheduled_time', { ascending: true });
 
     if (projectId) {
-      query = query.eq('project_id', projectId);
-    }
-    if (eventId) {
-      query = query.eq('event_id', eventId);
+      query = query.eq('production_id', projectId);
     }
     if (date) {
       query = query
-        .gte('start_time', `${date}T00:00:00`)
-        .lt('start_time', `${date}T23:59:59`);
+        .gte('scheduled_time', `${date}T00:00:00`)
+        .lt('scheduled_time', `${date}T23:59:59`);
     }
     if (startDate) {
-      query = query.gte('start_time', startDate);
+      query = query.gte('scheduled_time', startDate);
     }
     if (endDate) {
-      query = query.lte('end_time', endDate);
+      query = query.lte('scheduled_time', endDate);
     }
     if (type) {
-      query = query.eq('type', type);
+      query = query.eq('milestone_type', type);
     }
 
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching schedule:', error);
+      logger.error('Error fetching schedule:', error);
       return NextResponse.json(
         { error: 'Failed to fetch schedule', details: error.message },
         { status: 500 }
@@ -105,7 +95,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ schedule: data, summary });
   } catch (error) {
-    Logger.error('Error in GET /api/schedule:', error);
+    logger.error('Error in GET /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -137,7 +127,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating schedule item:', error);
+      logger.error('Error creating schedule item:', error);
       return NextResponse.json(
         { error: 'Failed to create schedule item', details: error.message },
         { status: 500 }
@@ -152,7 +142,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/schedule:', error);
+    logger.error('Error in POST /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -205,7 +195,7 @@ export async function PATCH(request: NextRequest) {
       schedule: data,
     });
   } catch (error) {
-    Logger.error('Error in PATCH /api/schedule:', error);
+    logger.error('Error in PATCH /api/schedule:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -15,7 +15,6 @@ import {
   DEMO_TRACKING_PIXELS,
   DEMO_CONVERSION_EVENTS,
   type DemoTrackingPixel as TrackingPixel,
-  type DemoConversionEvent as ConversionEvent,
 } from "@/lib/demo-data";
 
 const mockPixels = DEMO_TRACKING_PIXELS;

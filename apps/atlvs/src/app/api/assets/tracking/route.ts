@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from '@/lib/supabase';
 
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ locations: data || [] });
   } catch (error) {
-    Logger.error("Error fetching asset locations:", error);
+    logger.error("Error fetching asset locations:", error);
     return NextResponse.json(
       { error: "Failed to fetch asset locations" },
       { status: 500 }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ location: data });
   } catch (error) {
-    Logger.error("Error creating asset location:", error);
+    logger.error("Error creating asset location:", error);
     return NextResponse.json(
       { error: "Failed to create asset location" },
       { status: 500 }
@@ -99,7 +99,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ location: data });
   } catch (error) {
-    Logger.error("Error updating asset location:", error);
+    logger.error("Error updating asset location:", error);
     return NextResponse.json(
       { error: "Failed to update asset location" },
       { status: 500 }

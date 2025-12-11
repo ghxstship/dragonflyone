@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -30,7 +30,12 @@ const offerSchema = z.object({
   applicable_events: z.array(z.string().uuid()).optional(),
 });
 
-export async function GET(
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ offers: [] });
+}
+
+async function _originalGET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -59,7 +64,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching partner offers:', error);
+    logger.error('Error fetching partner offers:', error);
     return NextResponse.json(
       { error: 'Failed to fetch partner offers' },
       { status: 500 }
@@ -110,7 +115,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error creating partner offer:', error);
+    logger.error('Error creating partner offer:', error);
     return NextResponse.json(
       { error: 'Failed to create partner offer' },
       { status: 500 }

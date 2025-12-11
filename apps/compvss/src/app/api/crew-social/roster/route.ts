@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching rosters:', error);
+    logger.error('Error fetching rosters:', error);
     return NextResponse.json(
       { error: 'Failed to fetch rosters' },
       { status: 500 }
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error creating roster:', error);
+    logger.error('Error creating roster:', error);
     return NextResponse.json(
       { error: 'Failed to create roster' },
       { status: 500 }

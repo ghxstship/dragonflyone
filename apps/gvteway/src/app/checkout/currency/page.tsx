@@ -16,7 +16,6 @@ import {
   DEMO_CURRENCIES,
   DEMO_LOCALIZED_PRICES,
   type DemoCurrency as Currency,
-  type DemoLocalizedPrice as LocalizedPrice,
 } from "@/lib/demo-data";
 
 const mockCurrencies = DEMO_CURRENCIES;

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -35,7 +35,6 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category');
     const status = searchParams.get('status');
     const search = searchParams.get('search');
-    const preferred = searchParams.get('preferred') === 'true';
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '50', 10);
     const offset = (page - 1) * limit;
@@ -43,9 +42,7 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from('vendors')
       .select(`
-        id, name, category, contact_name, email, phone, status, preferred, city, state,
-        purchase_orders:purchase_orders(count),
-        total_spend:purchase_orders(total_amount)
+        id, name, category, email, phone, status, city, state, address, country, postal_code, payment_terms, tax_id, notes, tags, vendor_code, legal_name, currency, metadata
       `, { count: 'exact' })
       .order('name', { ascending: true })
       .range(offset, offset + limit - 1);
@@ -56,17 +53,14 @@ export async function GET(request: NextRequest) {
     if (status && status !== 'all') {
       query = query.eq('status', status);
     }
-    if (preferred) {
-      query = query.eq('preferred', true);
-    }
     if (search) {
-      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,contact_name.ilike.%${search}%`);
+      query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%,legal_name.ilike.%${search}%`);
     }
 
     const { data, error, count } = await query;
 
     if (error) {
-      Logger.error('Error fetching vendors:', error);
+      logger.error('Error fetching vendors:', error);
       return NextResponse.json(
         { error: 'Failed to fetch vendors', details: error.message },
         { status: 500 }
@@ -108,7 +102,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ vendors: data, summary, pagination });
   } catch (error) {
-    Logger.error('Error in GET /api/vendors:', error);
+    logger.error('Error in GET /api/vendors:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -143,7 +137,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating vendor:', error);
+      logger.error('Error creating vendor:', error);
       return NextResponse.json(
         { error: 'Failed to create vendor', details: error.message },
         { status: 500 }
@@ -166,7 +160,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/vendors:', error);
+    logger.error('Error in POST /api/vendors:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

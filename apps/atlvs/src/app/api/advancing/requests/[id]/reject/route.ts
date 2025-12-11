@@ -1,4 +1,4 @@
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/[id]/reject/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -83,7 +83,7 @@ export async function POST(
       .single();
 
     if (error) {
-      Logger.error('Error rejecting advance:', error);
+      logger.error('Error rejecting advance:', error);
       return NextResponse.json(
         { error: 'Failed to reject advance request', details: error.message },
         { status: 500 }
@@ -94,7 +94,7 @@ export async function POST(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Unexpected error:', error);
+    logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

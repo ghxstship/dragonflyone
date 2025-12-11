@@ -8,29 +8,6 @@
     · cpus
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
- ⚠ Compiled with warnings
-
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -48,7 +25,7 @@ Route (app)                                   Size     First Load JS
 ┌ ƒ /                                         8.54 kB         460 kB
 ├ ○ /_not-found                               143 B          87.8 kB
 ├ ○ /accessibility                            3.39 kB         467 kB
-├ ○ /accessibility/request                    5.33 kB         450 kB
+├ ○ /accessibility/request                    5.35 kB         450 kB
 ├ ○ /account                                  4.63 kB         476 kB
 ├ ○ /account/my-refunds                       2.87 kB         448 kB
 ├ ○ /account/my-transfers                     2.84 kB         448 kB
@@ -433,7 +410,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /events                                   2.67 kB         633 kB
 ├ ƒ /events/[id]                              1.84 kB         632 kB
 ├ ƒ /events/[id]/accessibility                3.32 kB         467 kB
-├ ƒ /events/[id]/chat                         4.49 kB         456 kB
+├ ƒ /events/[id]/chat                         4.5 kB          456 kB
 ├ ƒ /events/[id]/entry-info                   3.56 kB         448 kB
 ├ ƒ /events/[id]/floor-config                 3.57 kB         468 kB
 ├ ƒ /events/[id]/friends                      2.43 kB         466 kB
@@ -495,7 +472,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /profile/reputation                       4.67 kB         450 kB
 ├ ○ /qa-sessions                              4.92 kB         456 kB
 ├ ○ /referrals                                3.31 kB         627 kB
-├ ○ /resale                                   5.99 kB         630 kB
+├ ○ /resale                                   6.02 kB         630 kB
 ├ ○ /reviews                                  2.42 kB         447 kB
 ├ ○ /reviews/new                              4.08 kB         455 kB
 ├ ○ /rewards                                  5.88 kB         630 kB

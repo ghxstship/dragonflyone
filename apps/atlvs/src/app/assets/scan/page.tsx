@@ -46,11 +46,10 @@ interface ScanHistory {
   location: string;
 }
 
-const mockScanHistory: ScanHistory[] = [
-  { id: 'SCN-001', barcode: 'AST-001-LED', asset_name: 'LED Wall Panel Set A', action: 'check_out', scanned_by: 'John Martinez', timestamp: '2024-11-24T14:30:00Z', location: 'Warehouse A' },
-  { id: 'SCN-002', barcode: 'AST-002-AUD', asset_name: 'Meyer Sound Line Array', action: 'check_in', scanned_by: 'Sarah Chen', timestamp: '2024-11-24T12:15:00Z', location: 'Venue - Main Stage' },
-  { id: 'SCN-003', barcode: 'AST-003-LGT', asset_name: 'Lighting Console grandMA3', action: 'inventory', scanned_by: 'Mike Thompson', timestamp: '2024-11-24T10:00:00Z', location: 'Warehouse B' },
-];
+import { DEMO_SCAN_HISTORY } from '../../../lib/demo-data';
+
+const mockScanHistory = DEMO_SCAN_HISTORY as ScanHistory[];
+
 
 export default function AssetScanPage() {
   const router = useRouter();

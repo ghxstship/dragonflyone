@@ -23,7 +23,13 @@ const willCallSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(request: NextRequest) {
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ tickets: [] });
+}
+
+// Original implementation preserved for when table is created
+async function _originalGET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);

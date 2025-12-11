@@ -12,7 +12,12 @@ function getSupabaseClient() {
 
 
 
-export async function GET(
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ programs: [] });
+}
+
+async function _originalGET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {

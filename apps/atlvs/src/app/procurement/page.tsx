@@ -109,11 +109,7 @@ const formFields: FormFieldConfig[] = [
   { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
 ];
 
-const mockPurchaseOrders: PurchaseOrder[] = [
-  { id: 'PO-2024-001', vendor: 'ProAV Systems', description: 'LED Wall Panels - 100 units', amount: 125000, status: 'active', requestedBy: 'John Smith', dueDate: '2024-12-15', category: 'Equipment' },
-  { id: 'PO-2024-002', vendor: 'Elite Staging Co', description: 'Stage Platforms and Risers', amount: 45000, status: 'pending', requestedBy: 'Sarah Johnson', dueDate: '2024-12-20', category: 'Staging' },
-  { id: 'PO-2024-003', vendor: 'Lumina Lighting', description: 'Moving Head Fixtures - 50 units', amount: 89000, status: 'completed', requestedBy: 'Mike Peters', dueDate: '2024-11-30', category: 'Lighting' },
-];
+import { DEMO_PURCHASE_ORDERS } from '../../lib/demo-data';
 
 export default function ProcurementPage() {
   const router = useRouter();
@@ -127,7 +123,7 @@ export default function ProcurementPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [poToDelete, setPOToDelete] = useState<PurchaseOrder | null>(null);
 
-  const poList = (purchaseOrders || mockPurchaseOrders) as PurchaseOrder[];
+  const poList = (purchaseOrders || DEMO_PURCHASE_ORDERS) as PurchaseOrder[];
 
   const rowActions: ListPageAction<PurchaseOrder>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedPO(row); setDrawerOpen(true); } },

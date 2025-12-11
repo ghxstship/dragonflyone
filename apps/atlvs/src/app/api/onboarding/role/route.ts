@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      Logger.error('Profile update error:', profileError);
+      logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to update role' }, { status: 500 });
     }
 
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Role update error:', error);
+    logger.error('Role update error:', error);
     return NextResponse.json({ error: 'Failed to update role' }, { status: 500 });
   }
 }

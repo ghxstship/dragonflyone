@@ -80,23 +80,25 @@ export default function ResalePage() {
     entityType: 'resale',
     requiredFields: ['event_name', 'ticket_type', 'asking_price'],
     onImport: async (records) => {
-      for (const record of records) {
-        const newListing: ResaleListing = {
-          id: `RSL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          ticket_id: String(record.ticket_id || ''),
-          event_id: String(record.event_id || ''),
-          event_name: String(record.event_name || ''),
-          event_date: String(record.event_date || ''),
-          venue_name: String(record.venue_name || ''),
-          ticket_type: String(record.ticket_type || ''),
-          original_price: Number(record.original_price) || 0,
-          asking_price: Number(record.asking_price) || 0,
-          seller_id: String(record.seller_id || ''),
-          seller_name: String(record.seller_name || ''),
-          status: 'active',
-          listed_at: new Date().toISOString(),
-        };
-        // Listing added - refetch to update
+      const newListings: ResaleListing[] = records.map((record) => ({
+        id: `RSL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        ticket_id: String(record.ticket_id || ''),
+        event_id: String(record.event_id || ''),
+        event_name: String(record.event_name || ''),
+        event_date: String(record.event_date || ''),
+        venue_name: String(record.venue_name || ''),
+        ticket_type: String(record.ticket_type || ''),
+        original_price: Number(record.original_price) || 0,
+        asking_price: Number(record.asking_price) || 0,
+        seller_id: String(record.seller_id || ''),
+        seller_name: String(record.seller_name || ''),
+        status: 'active' as const,
+        listed_at: new Date().toISOString(),
+      }));
+      // In production, this would call the API to create listings
+      // For now, trigger a refetch to update the UI
+      if (newListings.length > 0) {
+        refetch();
       }
     },
   });

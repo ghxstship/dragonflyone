@@ -32,58 +32,15 @@ interface PortfolioProject {
   testimonial?: { quote: string; author: string; role: string };
 }
 
-const mockProjects: PortfolioProject[] = [
-  {
-    id: "PRT-001",
-    name: "Summer Music Festival 2024",
-    client: "Festival Productions Inc",
-    category: "Festival",
-    date: "2024-08-15",
-    location: "Los Angeles, CA",
-    description: "Three-day outdoor music festival featuring 50+ artists across 4 stages",
-    services: ["Full Production", "Audio", "Lighting", "Video", "Staging"],
-    metrics: [{ label: "Attendance", value: "75,000" }, { label: "Stages", value: "4" }, { label: "Artists", value: "52" }],
-    featured: true,
-    testimonial: { quote: "Exceptional production quality that exceeded our expectations.", author: "John Smith", role: "Festival Director" },
-  },
-  {
-    id: "PRT-002",
-    name: "Corporate Annual Gala",
-    client: "Tech Corp",
-    category: "Corporate",
-    date: "2024-09-20",
-    location: "San Francisco, CA",
-    description: "Elegant corporate gala with live entertainment and awards ceremony",
-    services: ["Audio", "Lighting", "Video", "Staging"],
-    metrics: [{ label: "Guests", value: "1,200" }, { label: "Runtime", value: "5 hrs" }],
-    featured: true,
-  },
-  {
-    id: "PRT-003",
-    name: "Arena Tour - Rock Band",
-    client: "Major Label Records",
-    category: "Tour",
-    date: "2024-07-01",
-    location: "National Tour",
-    description: "30-city arena tour with full production package",
-    services: ["Full Production", "Audio", "Lighting", "Video", "Rigging"],
-    metrics: [{ label: "Shows", value: "30" }, { label: "Total Attendance", value: "450,000" }],
-    featured: true,
-    testimonial: { quote: "The crew was professional and the production was flawless every night.", author: "Tour Manager", role: "Major Label Records" },
-  },
-  {
-    id: "PRT-004",
-    name: "Product Launch Event",
-    client: "Consumer Electronics Co",
-    category: "Corporate",
-    date: "2024-10-05",
-    location: "New York, NY",
-    description: "High-profile product launch with live streaming",
-    services: ["Audio", "Video", "Lighting", "Streaming"],
-    metrics: [{ label: "In-Person", value: "500" }, { label: "Livestream", value: "50,000" }],
-    featured: false,
-  },
-];
+import { DEMO_PORTFOLIO_PROJECTS } from '../../lib/demo-data';
+
+const mockProjects = DEMO_PORTFOLIO_PROJECTS.map(p => ({
+  ...p,
+  description: p.highlights?.join(', ') || '',
+  services: ['Full Production', 'Audio', 'Lighting', 'Video'],
+  featured: true,
+})) as PortfolioProject[];
+
 
 const columns: ListPageColumn<PortfolioProject>[] = [
   { key: 'name', label: 'Project', accessor: 'name', sortable: true },

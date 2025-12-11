@@ -51,13 +51,10 @@ interface Shipment {
   cost: number;
 }
 
-const mockShipments: Shipment[] = [
-  { id: 'SHP-001', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Los Angeles, CA', destination: 'Las Vegas, NV', carrier: 'XPO Logistics', trackingNumber: 'XPO123456789', shipDate: '2024-11-22', expectedDelivery: '2024-11-24', status: 'In Transit', items: 45, weight: 12500, cost: 3500 },
-  { id: 'SHP-002', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Nashville, TN', destination: 'Las Vegas, NV', carrier: 'Old Dominion', trackingNumber: 'OD987654321', shipDate: '2024-11-21', expectedDelivery: '2024-11-25', status: 'In Transit', items: 28, weight: 8200, cost: 4200 },
-  { id: 'SHP-003', projectId: 'PROJ-090', projectName: 'Corporate Gala', origin: 'New York, NY', destination: 'Chicago, IL', carrier: 'FedEx Freight', shipDate: '2024-11-28', expectedDelivery: '2024-11-30', status: 'Scheduled', items: 15, weight: 3500, cost: 1800 },
-  { id: 'SHP-004', projectId: 'PROJ-088', projectName: 'Fall Festival', origin: 'Atlanta, GA', destination: 'Miami, FL', carrier: 'Estes Express', trackingNumber: 'EST456789012', shipDate: '2024-11-18', expectedDelivery: '2024-11-20', actualDelivery: '2024-11-20', status: 'Delivered', items: 32, weight: 9800, cost: 2900 },
-  { id: 'SHP-005', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Dallas, TX', destination: 'Las Vegas, NV', carrier: 'YRC Freight', trackingNumber: 'YRC789012345', shipDate: '2024-11-20', expectedDelivery: '2024-11-23', status: 'Delayed', items: 22, weight: 6500, cost: 2800 },
-];
+import {
+  DEMO_LOGISTICS_SHIPMENTS,
+  type DemoLogisticsShipment as Shipment,
+} from '../../../lib/demo-data';
 
 const carriers = ['All', 'XPO Logistics', 'Old Dominion', 'FedEx Freight', 'Estes Express', 'YRC Freight'];
 
@@ -73,12 +70,12 @@ export default function LogisticsPage() {
   const [showNewShipmentModal, setShowNewShipmentModal] = useState(false);
   const [carrierFilter, setCarrierFilter] = useState('All');
 
-  const activeShipments = mockShipments.filter(s => s.status !== 'Delivered');
-  const delayedCount = mockShipments.filter(s => s.status === 'Delayed').length;
-  const totalCost = mockShipments.reduce((sum, s) => sum + s.cost, 0);
-  const inTransitCount = mockShipments.filter(s => s.status === 'In Transit').length;
+  const activeShipments = DEMO_LOGISTICS_SHIPMENTS.filter(s => s.status !== 'Delivered');
+  const delayedCount = DEMO_LOGISTICS_SHIPMENTS.filter(s => s.status === 'Delayed').length;
+  const totalCost = DEMO_LOGISTICS_SHIPMENTS.reduce((sum, s) => sum + s.cost, 0);
+  const inTransitCount = DEMO_LOGISTICS_SHIPMENTS.filter(s => s.status === 'In Transit').length;
 
-  const filteredShipments = mockShipments.filter(s => {
+  const filteredShipments = DEMO_LOGISTICS_SHIPMENTS.filter(s => {
     const matchesCarrier = carrierFilter === 'All' || s.carrier === carrierFilter;
     const matchesTab = activeTab === 'all' || (activeTab === 'active' ? s.status !== 'Delivered' : s.status === 'Delivered');
     return matchesCarrier && matchesTab;

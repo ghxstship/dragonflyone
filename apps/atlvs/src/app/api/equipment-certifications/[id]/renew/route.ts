@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -78,7 +78,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error renewing certification:', error);
+    logger.error('Error renewing certification:', error);
     return NextResponse.json(
       { error: 'Failed to renew certification' },
       { status: 500 }

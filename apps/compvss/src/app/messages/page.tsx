@@ -22,7 +22,6 @@ import {
   DEMO_CONVERSATIONS,
   DEMO_DIRECT_MESSAGES,
   type DemoConversation as Conversation,
-  type DemoDirectMessage as Message,
 } from "../../lib/demo-data";
 
 const mockConversations = DEMO_CONVERSATIONS;

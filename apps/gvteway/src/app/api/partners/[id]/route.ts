@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -80,7 +80,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching partner:', error);
+    logger.error('Error fetching partner:', error);
     return NextResponse.json(
       { error: 'Failed to fetch partner' },
       { status: 500 }
@@ -122,7 +122,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating partner:', error);
+    logger.error('Error updating partner:', error);
     return NextResponse.json(
       { error: 'Failed to update partner' },
       { status: 500 }
@@ -146,7 +146,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error deleting partner:', error);
+    logger.error('Error deleting partner:', error);
     return NextResponse.json(
       { error: 'Failed to delete partner' },
       { status: 500 }

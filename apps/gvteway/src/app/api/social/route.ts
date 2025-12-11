@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -259,7 +259,7 @@ interface SocialContent { message: string; media_urls?: string[]; hashtags?: str
 async function postToSocialMedia(platform: string, account: SocialAccount, content: SocialContent) {
   // This would integrate with actual social media APIs
   // For now, just log the action
-  Logger.info(`Posting to ${platform}:`, content);
+  logger.info(`Posting to ${platform}:`, content);
   
   // In production, implement:
   // - Facebook Graph API

@@ -17,7 +17,6 @@ import {
   Body,
   Button,
   Badge,
-  Box,
 } from '@ghxstship/ui';
 
 interface ReportTemplate {
@@ -226,15 +225,60 @@ export default function MetricsReportsPage() {
                 <Body className="text-grey-600">
                   Create a custom report with specific date ranges and metrics.
                 </Body>
-                <Box className="flex items-center justify-center rounded-card border-2 border-dashed border-grey-300 p-8">
-                  <Stack gap={4} className="items-center text-center">
-                    <FileText className="size-12 text-grey-300" />
-                    <Stack gap={1}>
-                      <Body className="font-weight-semibold">Custom Report Builder</Body>
-                      <Body className="text-body-sm text-grey-500">Coming soon - build custom reports with specific metrics and date ranges</Body>
+                <Grid cols={2} gap={4}>
+                  <Stack gap={2}>
+                    <Body className="text-body-sm font-weight-semibold">Date Range</Body>
+                    <Stack direction="horizontal" gap={2}>
+                      <Button
+                        onClick={() => {}}
+                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                      >
+                        Start Date
+                      </Button>
+                      <Button
+                        onClick={() => {}}
+                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                      >
+                        End Date
+                      </Button>
                     </Stack>
                   </Stack>
-                </Box>
+                  <Stack gap={2}>
+                    <Body className="text-body-sm font-weight-semibold">Report Type</Body>
+                    <Button
+                      onClick={() => {}}
+                      className="border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                    >
+                      Select Report Type
+                    </Button>
+                  </Stack>
+                </Grid>
+                <Stack gap={2}>
+                  <Body className="text-body-sm font-weight-semibold">Include Metrics</Body>
+                  <Grid cols={3} gap={2}>
+                    {['Budget vs Actual', 'Task Completion', 'Sponsor Revenue', 'Expense Breakdown', 'Team Performance', 'Timeline Status'].map((metric) => (
+                      <Button
+                        key={metric}
+                        onClick={() => {}}
+                        className="border-2 border-grey-200 bg-grey-50 px-3 py-2 text-body-sm hover:border-primary hover:bg-primary/5"
+                      >
+                        {metric}
+                      </Button>
+                    ))}
+                  </Grid>
+                </Stack>
+                <Stack direction="horizontal" gap={4} className="items-center justify-between pt-4">
+                  <Body className="text-body-sm text-grey-500">
+                    Select options above to generate your custom report
+                  </Body>
+                  <Button
+                    onClick={() => {}}
+                    className="flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-white"
+                  >
+                    <Download className="size-4" />
+                    Generate Report
+                  </Button>
+                </Stack>
               </Stack>
             </Card>
           </Stack>

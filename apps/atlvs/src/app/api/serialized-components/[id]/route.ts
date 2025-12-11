@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -63,7 +63,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching serialized component:', error);
+    logger.error('Error fetching serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to fetch serialized component' },
       { status: 500 }
@@ -122,7 +122,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating serialized component:', error);
+    logger.error('Error updating serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to update serialized component' },
       { status: 500 }
@@ -145,7 +145,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
-    Logger.error('Error deleting serialized component:', error);
+    logger.error('Error deleting serialized component:', error);
     return NextResponse.json(
       { error: 'Failed to delete serialized component' },
       { status: 500 }

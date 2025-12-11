@@ -14,7 +14,6 @@ import {
   DEMO_PHOTO_BOOTHS,
   DEMO_PHOTO_BOOTH_SESSIONS,
   type DemoPhotoBooth as PhotoBooth,
-  type DemoPhotoBoothSession as PhotoBoothSession,
 } from "@/lib/demo-data";
 
 const mockBooths = DEMO_PHOTO_BOOTHS;

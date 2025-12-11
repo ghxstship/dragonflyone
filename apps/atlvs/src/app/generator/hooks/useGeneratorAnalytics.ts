@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { Logger } from "@ghxstship/config";
+import { logger } from "@ghxstship/config";
 
 // =============================================================================
 // GENERATOR ANALYTICS HOOK
@@ -114,7 +114,7 @@ export function useGeneratorAnalytics(options: AnalyticsOptions = {}) {
         }
       } catch (error) {
         // Silently fail - don't block user actions for analytics
-        Logger.debug("Analytics tracking failed:", error);
+        logger.debug("Analytics tracking failed:", error);
       }
     },
     [blueprintId, creativeSeed]

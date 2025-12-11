@@ -47,14 +47,10 @@ interface ScheduledReport {
   description?: string;
 }
 
-const mockReports: ScheduledReport[] = [
-  { id: "RPT-001", name: "Weekly Revenue Summary", type: "Financial", frequency: "Weekly", nextRun: "2024-12-02 08:00", lastRun: "2024-11-25 08:00", recipients: ["cfo@company.com", "finance@company.com"], format: "PDF", status: "Active", description: "Weekly revenue breakdown by project and client" },
-  { id: "RPT-002", name: "Daily Operations Dashboard", type: "Operations", frequency: "Daily", nextRun: "2024-11-26 06:00", lastRun: "2024-11-25 06:00", recipients: ["ops@company.com"], format: "PDF", status: "Active", description: "Daily operational metrics and KPIs" },
-  { id: "RPT-003", name: "Monthly Sales Pipeline", type: "Sales", frequency: "Monthly", nextRun: "2024-12-01 09:00", lastRun: "2024-11-01 09:00", recipients: ["sales@company.com", "vp-sales@company.com"], format: "Excel", status: "Active", description: "Monthly sales pipeline and forecast" },
-  { id: "RPT-004", name: "Quarterly Client Retention", type: "Analytics", frequency: "Quarterly", nextRun: "2025-01-01 10:00", lastRun: "2024-10-01 10:00", recipients: ["exec@company.com"], format: "PDF", status: "Active", description: "Quarterly client retention and churn analysis" },
-  { id: "RPT-005", name: "Weekly Project Status", type: "Operations", frequency: "Weekly", nextRun: "2024-12-02 07:00", lastRun: "2024-11-25 07:00", recipients: ["pm@company.com", "ops@company.com"], format: "PDF", status: "Paused", description: "Weekly project status and milestones" },
-  { id: "RPT-006", name: "Daily Cash Position", type: "Financial", frequency: "Daily", nextRun: "2024-11-26 07:30", lastRun: "2024-11-25 07:30", recipients: ["cfo@company.com"], format: "Excel", status: "Failed", description: "Daily cash position and bank balances" },
-];
+import { DEMO_SCHEDULED_REPORTS } from '../../../lib/demo-data';
+
+const mockReports = DEMO_SCHEDULED_REPORTS as unknown as ScheduledReport[];
+
 
 const reportTypes = ["Financial", "Operations", "Sales", "Analytics", "Custom"];
 const frequencies = ["Daily", "Weekly", "Monthly", "Quarterly"];

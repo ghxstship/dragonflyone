@@ -14,7 +14,6 @@ import {
   DEMO_EXCLUSIVE_WINDOWS,
   DEMO_FAN_CLUB_TIERS,
   type DemoExclusiveWindow as ExclusiveWindow,
-  type DemoFanClubTier as FanClubTier,
 } from "@/lib/demo-data";
 
 const mockWindows = DEMO_EXCLUSIVE_WINDOWS;

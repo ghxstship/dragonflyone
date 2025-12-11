@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -46,7 +46,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching specialties:', error);
+    logger.error('Error fetching specialties:', error);
     return NextResponse.json(
       { error: 'Failed to fetch specialties' },
       { status: 500 }

@@ -18,14 +18,11 @@ import { createExportHandler, createImportHandler, getImportTemplates } from '@g
 
 import {
   DEMO_INVENTORY_ITEMS,
-  DEMO_INVENTORY_LOCATIONS,
   DEMO_SYNC_LOGS,
   type DemoInventoryItem as InventoryItem,
-  type DemoInventoryLocation as InventoryLocation,
   type DemoSyncLog as SyncLog,
 } from '@/lib/demo-data';
 
-const defaultLocations = DEMO_INVENTORY_LOCATIONS;
 const mockInventory = DEMO_INVENTORY_ITEMS;
 const mockSyncLogs = DEMO_SYNC_LOGS;
 

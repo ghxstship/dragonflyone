@@ -6,49 +6,36 @@ import { createAdminClient } from '@/lib/supabase';
 export async function GET(_request: NextRequest) {
   const supabase = createAdminClient();
   try {
-    // Get all goals
-    const { data: goals, error: goalsError } = await supabase
-      .from('strategic_goals')
-      .select('id, name');
+    // Get projects with their budget and progress for alignment metrics
+    const { data: projects, error: projectsError } = await supabase
+      .from('projects')
+      .select('id, name, budget, status, organization_id')
+      .order('created_at', { ascending: false });
 
-    if (goalsError) {
-      return NextResponse.json({ error: goalsError.message }, { status: 500 });
+    if (projectsError) {
+      return NextResponse.json({ error: projectsError.message }, { status: 500 });
     }
 
-    // Get all alignments with project data
-    const { data: alignments, error: alignmentsError } = await supabase
-      .from('project_goal_alignments')
-      .select(`
-        goal_id,
-        projects (
-          id,
-          budget,
-          progress
-        )
-      `);
-
-    if (alignmentsError) {
-      return NextResponse.json({ error: alignmentsError.message }, { status: 500 });
+    interface ProjectRecord {
+      id: string;
+      name: string;
+      budget: number | null;
+      status: string;
+      organization_id: string;
     }
 
-    // Calculate metrics per goal
-    const metrics = goals?.map(goal => {
-      const goalAlignments = alignments?.filter(a => a.goal_id === goal.id) || [];
-      const projects = goalAlignments.map(a => a.projects).filter(Boolean);
+    const projectList = (projects || []) as ProjectRecord[];
 
-      const totalBudget = projects.reduce((sum, p: Record<string, unknown>) => sum + (p?.budget || 0), 0);
-      const avgProgress = projects.length > 0
-        ? Math.round(projects.reduce((sum, p: Record<string, unknown>) => sum + (p?.progress || 0), 0) / projects.length)
-        : 0;
-
-      return {
-        goal_id: goal.id,
-        goal_name: goal.name,
-        aligned_projects: projects.length,
-        total_budget_aligned: totalBudget,
-        average_progress: avgProgress,
-      };
-    }) || [];
+    // Calculate aggregate metrics from projects
+    const metrics = {
+      total_projects: projectList.length,
+      total_budget: projectList.reduce((sum, p) => sum + (p.budget || 0), 0),
+      by_status: projectList.reduce((acc, p) => {
+        acc[p.status] = (acc[p.status] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>),
+      active_projects: projectList.filter(p => p.status === 'active' || p.status === 'in_progress').length,
+    };
 
     return NextResponse.json({ metrics });
   } catch (error) {

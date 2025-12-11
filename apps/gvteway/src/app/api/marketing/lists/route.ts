@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Get email lists error:', error);
+    logger.error('Get email lists error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch lists' },
       { status: 500 }
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create email list error:', error);
+    logger.error('Create email list error:', error);
     return NextResponse.json(
       { error: 'Failed to create list' },
       { status: 500 }

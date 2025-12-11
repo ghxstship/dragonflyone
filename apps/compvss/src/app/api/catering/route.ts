@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -44,8 +44,7 @@ export async function GET(request: NextRequest) {
       .from('catering_orders')
       .select(`
         *,
-        event:events(id, name, start_date),
-        vendor:vendors(id, name, contact_name, phone)
+        event:events(id, name, start_date)
       `)
       .order('delivery_time', { ascending: true });
 
@@ -65,7 +64,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching catering orders:', error);
+      logger.error('Error fetching catering orders:', error);
       return NextResponse.json(
         { error: 'Failed to fetch catering orders', details: error.message },
         { status: 500 }
@@ -100,7 +99,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ orders: data, summary });
   } catch (error) {
-    Logger.error('Error in GET /api/catering:', error);
+    logger.error('Error in GET /api/catering:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -129,7 +128,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating catering order:', error);
+      logger.error('Error creating catering order:', error);
       return NextResponse.json(
         { error: 'Failed to create catering order', details: error.message },
         { status: 500 }
@@ -144,7 +143,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/catering:', error);
+    logger.error('Error in POST /api/catering:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -195,7 +194,7 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in PATCH /api/catering:', error);
+    logger.error('Error in PATCH /api/catering:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -239,7 +238,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Catering order deleted' });
   } catch (error) {
-    Logger.error('Error in DELETE /api/catering:', error);
+    logger.error('Error in DELETE /api/catering:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -35,7 +35,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching group members:', error);
+    logger.error('Error fetching group members:', error);
     return NextResponse.json(
       { error: 'Failed to fetch group members' },
       { status: 500 }
@@ -89,7 +89,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error adding group member:', error);
+    logger.error('Error adding group member:', error);
     return NextResponse.json(
       { error: 'Failed to add group member' },
       { status: 500 }
@@ -142,7 +142,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating group member:', error);
+    logger.error('Error updating group member:', error);
     return NextResponse.json(
       { error: 'Failed to update group member' },
       { status: 500 }
@@ -176,7 +176,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error removing group member:', error);
+    logger.error('Error removing group member:', error);
     return NextResponse.json(
       { error: 'Failed to remove group member' },
       { status: 500 }

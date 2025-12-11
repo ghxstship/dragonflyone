@@ -14,7 +14,6 @@ import {
   DEMO_FAN_CLUBS,
   DEMO_EXCLUSIVE_PERKS,
   type DemoFanClub as FanClub,
-  type DemoExclusivePerk as ExclusivePerk,
 } from "@/lib/demo-data";
 
 const mockFanClubs = DEMO_FAN_CLUBS;

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import crypto from 'crypto';
@@ -89,7 +89,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.redirect(ssoUrl.toString());
   } catch (error) {
-    Logger.error('SAML login error:', error);
+    logger.error('SAML login error:', error);
     return NextResponse.json(
       { error: 'SAML login failed' },
       { status: 500 }

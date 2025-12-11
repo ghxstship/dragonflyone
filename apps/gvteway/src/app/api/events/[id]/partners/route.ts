@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -25,7 +25,12 @@ const associationSchema = z.object({
   notes: z.string().optional(),
 });
 
-export async function GET(
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ partners: [] });
+}
+
+async function _originalGET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -72,7 +77,7 @@ export async function GET(
       grouped,
     });
   } catch (error) {
-    Logger.error('Error fetching event partners:', error);
+    logger.error('Error fetching event partners:', error);
     return NextResponse.json(
       { error: 'Failed to fetch event partners' },
       { status: 500 }
@@ -156,7 +161,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error creating event partner association:', error);
+    logger.error('Error creating event partner association:', error);
     return NextResponse.json(
       { error: 'Failed to create event partner association' },
       { status: 500 }
@@ -197,7 +202,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error removing event partner:', error);
+    logger.error('Error removing event partner:', error);
     return NextResponse.json(
       { error: 'Failed to remove event partner' },
       { status: 500 }

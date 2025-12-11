@@ -58,19 +58,13 @@ interface Campaign {
   status: "Active" | "Completed" | "Paused";
 }
 
-const mockSources: MarketingSource[] = [
-  { id: "SRC-001", name: "Google Ads", channel: "Paid Search", leads: 245, conversions: 32, revenue: 156000, cost: 12500, roi: 1148 },
-  { id: "SRC-002", name: "LinkedIn", channel: "Social", leads: 189, conversions: 28, revenue: 142000, cost: 8900, roi: 1496 },
-  { id: "SRC-003", name: "Email Marketing", channel: "Email", leads: 312, conversions: 45, revenue: 198000, cost: 2400, roi: 8150 },
-  { id: "SRC-004", name: "Referrals", channel: "Organic", leads: 156, conversions: 38, revenue: 187000, cost: 0, roi: 0 },
-  { id: "SRC-005", name: "Trade Shows", channel: "Events", leads: 89, conversions: 15, revenue: 78000, cost: 25000, roi: 212 },
-];
+import {
+  DEMO_MARKETING_SOURCES,
+  DEMO_MARKETING_CAMPAIGNS,
+} from '../../../lib/demo-data';
 
-const mockCampaigns: Campaign[] = [
-  { id: "CMP-001", name: "Q4 Lead Gen", source: "Google Ads", startDate: "2024-10-01", endDate: "2024-12-31", budget: 15000, spent: 8500, leads: 145, conversions: 18, status: "Active" },
-  { id: "CMP-002", name: "Festival Season Push", source: "LinkedIn", startDate: "2024-11-01", endDate: "2024-11-30", budget: 5000, spent: 3200, leads: 89, conversions: 12, status: "Active" },
-  { id: "CMP-003", name: "Newsletter Promo", source: "Email Marketing", startDate: "2024-11-15", endDate: "2024-11-22", budget: 500, spent: 500, leads: 67, conversions: 8, status: "Completed" },
-];
+const mockSources = DEMO_MARKETING_SOURCES as MarketingSource[];
+const mockCampaigns = DEMO_MARKETING_CAMPAIGNS as Campaign[];
 
 export default function MarketingAttributionPage() {
   const router = useRouter();

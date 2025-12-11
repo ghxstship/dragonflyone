@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      Logger.error('Profile update error:', profileError);
+      logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to update interests' }, { status: 500 });
     }
 
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Interests update error:', error);
+    logger.error('Interests update error:', error);
     return NextResponse.json({ error: 'Failed to update interests' }, { status: 500 });
   }
 }

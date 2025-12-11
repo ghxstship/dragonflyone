@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_QA_CHECKPOINTS } from '../../lib/demo-data';
 
 interface QACheckpoint {
   id: string;
@@ -41,58 +42,8 @@ interface QACheckpoint {
   items: { id: string; description: string; checked: boolean; critical: boolean }[];
 }
 
-const mockCheckpoints: QACheckpoint[] = [
-  {
-    id: "QA-001", name: "Audio System Check", department: "Audio", phase: "Setup", status: "Passed",
-    assignee: "John Martinez", completedAt: "2024-11-24T14:30:00Z", completedBy: "John Martinez",
-    items: [
-      { id: "A1", description: "All speakers powered and receiving signal", checked: true, critical: true },
-      { id: "A2", description: "Console patched correctly", checked: true, critical: true },
-      { id: "A3", description: "Wireless frequencies scanned and clear", checked: true, critical: false },
-      { id: "A4", description: "Backup systems tested", checked: true, critical: false },
-    ]
-  },
-  {
-    id: "QA-002", name: "Lighting Focus", department: "Lighting", phase: "Setup", status: "In Progress",
-    assignee: "Sarah Chen",
-    items: [
-      { id: "L1", description: "All fixtures addressed and responding", checked: true, critical: true },
-      { id: "L2", description: "Focus positions verified", checked: false, critical: true },
-      { id: "L3", description: "Color and gobo inventory confirmed", checked: true, critical: false },
-      { id: "L4", description: "Backup lamps available", checked: false, critical: false },
-    ]
-  },
-  {
-    id: "QA-003", name: "Rigging Safety Inspection", department: "Rigging", phase: "Load-In", status: "Passed",
-    assignee: "Mike Thompson", completedAt: "2024-11-24T10:00:00Z", completedBy: "Mike Thompson",
-    notes: "All points within load limits",
-    items: [
-      { id: "R1", description: "Point loads verified against venue specs", checked: true, critical: true },
-      { id: "R2", description: "Safety cables installed on all fixtures", checked: true, critical: true },
-      { id: "R3", description: "Motor controllers tested", checked: true, critical: true },
-      { id: "R4", description: "Emergency stop tested", checked: true, critical: true },
-    ]
-  },
-  {
-    id: "QA-004", name: "Video System Check", department: "Video", phase: "Tech Rehearsal", status: "Pending",
-    assignee: "Lisa Park",
-    items: [
-      { id: "V1", description: "All screens displaying correctly", checked: false, critical: true },
-      { id: "V2", description: "Content loaded and tested", checked: false, critical: true },
-      { id: "V3", description: "Camera feeds verified", checked: false, critical: false },
-      { id: "V4", description: "Backup playback system ready", checked: false, critical: false },
-    ]
-  },
-  {
-    id: "QA-005", name: "Stage Safety Walk", department: "Safety", phase: "Show Ready", status: "Pending",
-    items: [
-      { id: "S1", description: "Fire extinguishers accessible", checked: false, critical: true },
-      { id: "S2", description: "Emergency exits clear and marked", checked: false, critical: true },
-      { id: "S3", description: "First aid kit stocked", checked: false, critical: true },
-      { id: "S4", description: "Trip hazards addressed", checked: false, critical: false },
-    ]
-  },
-];
+const mockCheckpoints = DEMO_QA_CHECKPOINTS as unknown as QACheckpoint[];
+
 
 export default function QACheckpointsPage() {
   const router = useRouter();

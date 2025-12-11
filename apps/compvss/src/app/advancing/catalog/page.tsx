@@ -25,7 +25,6 @@ import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';
 
 import {
-  DEMO_CATALOG_ITEMS,
   DEMO_CATALOG_DATA,
 } from '../../../lib/demo-data';
 

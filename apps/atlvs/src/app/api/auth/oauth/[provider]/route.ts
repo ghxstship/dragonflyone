@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -34,7 +34,7 @@ export async function POST(
     });
 
     if (error) {
-      Logger.error('OAuth error:', error);
+      logger.error('OAuth error:', error);
       return NextResponse.json(
         { error: error instanceof Error ? error.message : 'Internal server error' },
         { status: 400 }
@@ -43,7 +43,7 @@ export async function POST(
 
     return NextResponse.json({ url: data.url });
   } catch (error) {
-    Logger.error('OAuth error:', error);
+    logger.error('OAuth error:', error);
     return NextResponse.json(
       { error: 'OAuth initialization failed' },
       { status: 500 }

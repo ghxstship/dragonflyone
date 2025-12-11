@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin, fromDynamic } from '@/lib/supabase';
@@ -118,7 +118,7 @@ export const POST = apiRoute(
         .insert(cuesWithIds);
 
       if (cuesError) {
-        Logger.error('Failed to create cues:', cuesError);
+        logger.error('Failed to create cues:', cuesError);
       }
     }
 

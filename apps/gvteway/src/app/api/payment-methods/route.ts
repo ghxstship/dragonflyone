@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching payment methods:', error);
+      logger.error('Error fetching payment methods:', error);
       return NextResponse.json(
         { error: 'Failed to fetch payment methods', details: error.message },
         { status: 500 }
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest) {
       count: masked.length,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/payment-methods:', error);
+    logger.error('Error in GET /api/payment-methods:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error adding payment method:', error);
+      logger.error('Error adding payment method:', error);
       return NextResponse.json(
         { error: 'Failed to add payment method', details: error.message },
         { status: 500 }
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/payment-methods:', error);
+    logger.error('Error in POST /api/payment-methods:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -223,7 +223,7 @@ export async function PATCH(request: NextRequest) {
         .eq('id', payment_method_id);
 
       if (error) {
-        Logger.error('Error removing payment method:', error);
+        logger.error('Error removing payment method:', error);
         return NextResponse.json(
           { error: 'Failed to remove payment method', details: error.message },
           { status: 500 }
@@ -258,7 +258,7 @@ export async function PATCH(request: NextRequest) {
         .single();
 
       if (error) {
-        Logger.error('Error updating payment method:', error);
+        logger.error('Error updating payment method:', error);
         return NextResponse.json(
           { error: 'Failed to update payment method', details: error.message },
           { status: 500 }
@@ -273,7 +273,7 @@ export async function PATCH(request: NextRequest) {
       { status: 400 }
     );
   } catch (error) {
-    Logger.error('Error in PATCH /api/payment-methods:', error);
+    logger.error('Error in PATCH /api/payment-methods:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

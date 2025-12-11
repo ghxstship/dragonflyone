@@ -32,6 +32,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_PROPOSALS } from '../../../lib/demo-data';
 
 interface Proposal {
   id: string;
@@ -46,13 +47,8 @@ interface Proposal {
   team: string[];
 }
 
-const mockProposals: Proposal[] = [
-  { id: "PROP-001", title: "Summer Festival 2025 Production", client: "Festival Productions", rfpId: "RFP-2024-045", value: 450000, status: "In Review", dueDate: "2024-12-01", version: 3, lastModified: "2024-11-24", team: ["John Smith", "Sarah Johnson"] },
-  { id: "PROP-002", title: "Corporate Gala AV Package", client: "Tech Corp", value: 125000, status: "Draft", dueDate: "2024-11-30", version: 1, lastModified: "2024-11-25", team: ["Mike Davis"] },
-  { id: "PROP-003", title: "Concert Series Production", client: "Live Nation", rfpId: "RFP-2024-042", value: 780000, status: "Submitted", dueDate: "2024-11-20", version: 5, lastModified: "2024-11-18", team: ["John Smith", "Emily Chen", "Robert Wilson"] },
-  { id: "PROP-004", title: "Theater Technical Services", client: "Broadway Inc", value: 95000, status: "Won", dueDate: "2024-11-15", version: 4, lastModified: "2024-11-14", team: ["Sarah Johnson"] },
-  { id: "PROP-005", title: "Sports Event Production", client: "Stadium Group", rfpId: "RFP-2024-038", value: 320000, status: "Lost", dueDate: "2024-11-10", version: 2, lastModified: "2024-11-08", team: ["Mike Davis", "Emily Chen"] },
-];
+const mockProposals = DEMO_PROPOSALS as unknown as Proposal[];
+
 
 export default function ProposalsPage() {
   const router = useRouter();

@@ -18,6 +18,7 @@ import {
   TableHead,
   TableCell,
 } from '@ghxstship/ui';
+import { DEMO_CREW_INVOICES } from '../../lib/demo-data';
 import {
   DollarSign,
   FileText,
@@ -39,54 +40,8 @@ interface Invoice {
   items: { description: string; quantity: number; rate: number }[];
 }
 
-const mockInvoices: Invoice[] = [
-  {
-    id: 'INV-2024-001',
-    production: 'Summer Music Festival',
-    amount: 12500,
-    date: '2024-12-01',
-    dueDate: '2024-12-31',
-    status: 'submitted',
-    items: [
-      { description: 'PA System Rental', quantity: 3, rate: 2500 },
-      { description: 'Monitor Package', quantity: 1, rate: 5000 },
-    ],
-  },
-  {
-    id: 'INV-2024-002',
-    production: 'Corporate Gala',
-    amount: 8500,
-    date: '2024-11-15',
-    dueDate: '2024-12-15',
-    status: 'approved',
-    items: [
-      { description: 'Wireless Microphones', quantity: 12, rate: 500 },
-      { description: 'Mixing Console', quantity: 1, rate: 2500 },
-    ],
-  },
-  {
-    id: 'INV-2024-003',
-    production: 'Tech Conference',
-    amount: 5000,
-    date: '2024-10-20',
-    dueDate: '2024-11-20',
-    status: 'paid',
-    items: [
-      { description: 'Presentation Audio', quantity: 1, rate: 5000 },
-    ],
-  },
-  {
-    id: 'INV-2024-004',
-    production: 'Trade Show',
-    amount: 3500,
-    date: '2024-09-01',
-    dueDate: '2024-10-01',
-    status: 'overdue',
-    items: [
-      { description: 'Speaker System', quantity: 1, rate: 3500 },
-    ],
-  },
-];
+const mockInvoices = DEMO_CREW_INVOICES as unknown as Invoice[];
+
 
 export default function MyInvoicesPage() {
   const [invoices] = useState(mockInvoices);

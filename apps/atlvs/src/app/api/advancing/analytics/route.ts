@@ -1,4 +1,4 @@
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/analytics/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
     const { data: advances, error, count } = await query;
 
     if (error) {
-      Logger.error('Error fetching advances for analytics:', error);
+      logger.error('Error fetching advances for analytics:', error);
       return NextResponse.json(
         { error: 'Failed to fetch analytics data', details: error.message },
         { status: 500 }
@@ -114,7 +114,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error('Error in analytics route:', error);
+    logger.error('Error in analytics route:', error);
     return NextResponse.json(
       { error: 'Internal server error', details: error.message },
       { status: 500 }

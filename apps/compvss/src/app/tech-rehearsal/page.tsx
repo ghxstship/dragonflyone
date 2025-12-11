@@ -40,7 +40,6 @@ import {
   DEMO_TECH_REHEARSAL_SESSIONS,
   DEMO_REHEARSAL_NOTES,
   type DemoTechRehearsalSession as TechRehearsalSession,
-  type DemoRehearsalNote as RehearsalNote,
 } from "../../lib/demo-data";
 
 const mockSessions = DEMO_TECH_REHEARSAL_SESSIONS;

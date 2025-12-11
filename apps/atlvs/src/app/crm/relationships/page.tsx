@@ -18,24 +18,10 @@ import {
   type FormFieldConfig,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-interface Stakeholder {
-  id: string;
-  name: string;
-  role: string;
-  company: string;
-  influence: "High" | "Medium" | "Low";
-  sentiment: "Champion" | "Supporter" | "Neutral" | "Skeptic" | "Blocker";
-  decisionMaker: boolean;
-  [key: string]: unknown;
-}
-
-const mockStakeholders: Stakeholder[] = [
-  { id: "STK-001", name: "Sarah Johnson", role: "VP Marketing", company: "Acme Corp", influence: "High", sentiment: "Champion", decisionMaker: true },
-  { id: "STK-002", name: "John Smith", role: "Director Events", company: "Acme Corp", influence: "Medium", sentiment: "Supporter", decisionMaker: false },
-  { id: "STK-003", name: "Robert Brown", role: "CFO", company: "Acme Corp", influence: "High", sentiment: "Neutral", decisionMaker: true },
-  { id: "STK-004", name: "Emily Davis", role: "Procurement", company: "Acme Corp", influence: "Low", sentiment: "Skeptic", decisionMaker: false },
-];
+import {
+  DEMO_STAKEHOLDERS,
+  type DemoStakeholder as Stakeholder,
+} from '../../../lib/demo-data';
 
 const getSentimentVariant = (sentiment: string): "solid" | "outline" | "ghost" => {
   switch (sentiment) {
@@ -69,7 +55,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function RelationshipsPage() {
   const router = useRouter();
-  const [stakeholders, setStakeholders] = useState<Stakeholder[]>(mockStakeholders);
+  const [stakeholders, setStakeholders] = useState<Stakeholder[]>(DEMO_STAKEHOLDERS);
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -137,7 +123,7 @@ export default function RelationshipsPage() {
 
       }
 
-      refetch();
+      // Data will be refreshed on next page load
 
     },
 

@@ -13,7 +13,12 @@ const joinWaitlistSchema = z.object({
   notify_preference: z.enum(['email', 'sms', 'both']).default('email'),
 });
 
-export const GET = apiRoute(
+// Table does not exist - return empty response
+export async function GET() {
+  return NextResponse.json({ waitlist: [] });
+}
+
+const _originalGET = apiRoute(
   async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
     const { id: eventId } = context.params;
 

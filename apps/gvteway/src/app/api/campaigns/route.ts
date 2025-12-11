@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRoute } from '@ghxstship/config/middleware';
@@ -271,7 +271,7 @@ async function buildAudienceQuery(supabase: ReturnType<typeof getServerSupabase>
   const { data, count, error } = await query;
   
   if (error) {
-    Logger.error('Error building audience:', error);
+    logger.error('Error building audience:', error);
     return { recipients: [], count: 0 };
   }
   

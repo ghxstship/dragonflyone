@@ -20,7 +20,6 @@ import {
 
 import {
   DEMO_DIRECTORY_ENTRIES,
-  type DemoDirectoryEntry as DirectoryEntry,
 } from '../../../lib/demo-data';
 
 const allSpecialties = ['Audio Engineer', 'FOH Mixer', 'System Tech', 'Lighting Designer', 'Programmer', 'Rigger', 'Head Rigger', 'Video Director', 'LED Tech', 'Stage Manager', 'Audio', 'Lighting', 'Video', 'Staging', 'Arena', 'Concert', 'Sports'];

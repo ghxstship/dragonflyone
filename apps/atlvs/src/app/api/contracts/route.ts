@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -36,12 +36,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('contracts')
-      .select(`
-        *,
-        vendor:vendors(id, name),
-        client:contacts(id, full_name),
-        owner:platform_users!owner_id(id, full_name)
-      `)
+      .select('*')
       .order('created_at', { ascending: false });
 
     // Apply filters
@@ -70,7 +65,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching contracts:', error);
+      logger.error('Error fetching contracts:', error);
       return NextResponse.json(
         { error: 'Failed to fetch contracts', details: error.message },
         { status: 500 }
@@ -96,7 +91,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/contracts:', error);
+    logger.error('Error in GET /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -136,7 +131,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating contract:', error);
+      logger.error('Error creating contract:', error);
       return NextResponse.json(
         { error: 'Failed to create contract', details: error.message },
         { status: 500 }
@@ -152,7 +147,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/contracts:', error);
+    logger.error('Error in POST /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -195,7 +190,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      Logger.error('Error updating contracts:', error);
+      logger.error('Error updating contracts:', error);
       return NextResponse.json(
         { error: 'Failed to update contracts', details: error.message },
         { status: 500 }
@@ -208,7 +203,7 @@ export async function PATCH(request: NextRequest) {
       contracts: data,
     });
   } catch (error) {
-    Logger.error('Error in PATCH /api/contracts:', error);
+    logger.error('Error in PATCH /api/contracts:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

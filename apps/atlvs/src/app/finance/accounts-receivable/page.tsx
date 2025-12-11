@@ -32,13 +32,10 @@ interface Invoice {
   [key: string]: unknown;
 }
 
-const mockInvoices: Invoice[] = [
-  { id: "INV-001", invoiceNumber: "INV-2024-0156", client: "TechCorp Events", clientEmail: "ap@techcorp.com", amount: 45000, dueDate: "2024-11-15", issueDate: "2024-10-15", status: "Overdue", paidAmount: 0, project: "Annual Conference", daysPastDue: 9 },
-  { id: "INV-002", invoiceNumber: "INV-2024-0157", client: "Festival Productions", clientEmail: "billing@festprod.com", amount: 125000, dueDate: "2024-11-30", issueDate: "2024-11-01", status: "Partial", paidAmount: 62500, project: "Summer Fest 2024" },
-  { id: "INV-003", invoiceNumber: "INV-2024-0158", client: "Corporate Events Inc", clientEmail: "accounts@corpevents.com", amount: 28500, dueDate: "2024-12-01", issueDate: "2024-11-01", status: "Sent", paidAmount: 0, project: "Holiday Gala" },
-  { id: "INV-004", invoiceNumber: "INV-2024-0159", client: "StartUp Ventures", clientEmail: "finance@startup.io", amount: 15000, dueDate: "2024-10-30", issueDate: "2024-10-01", status: "Overdue", paidAmount: 0, project: "Product Launch", daysPastDue: 25 },
-  { id: "INV-005", invoiceNumber: "INV-2024-0160", client: "Media Group LLC", clientEmail: "ap@mediagroup.com", amount: 67500, dueDate: "2024-11-20", issueDate: "2024-10-20", status: "Paid", paidAmount: 67500, project: "Awards Show" },
-];
+import { DEMO_AR_INVOICES } from '../../../lib/demo-data';
+
+const mockInvoices = DEMO_AR_INVOICES as Invoice[];
+
 
 const getStatusVariant = getBadgeVariant;
 

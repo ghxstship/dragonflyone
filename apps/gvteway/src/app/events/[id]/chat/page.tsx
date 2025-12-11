@@ -28,7 +28,6 @@ export default function EventChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [newMessage, setNewMessage] = useState('');
-  const [localError, setLocalError] = useState<string | null>(null);
   const [showRules, setShowRules] = useState(false);
 
   const {
@@ -100,7 +99,7 @@ export default function EventChatPage() {
               This chat has been archived. Messages are read-only.
             </Body>
             <Stack gap={3} className="max-h-panel-md overflow-y-auto">
-              {messages.map(message => (
+              {messages.map((message: ChatMessage) => (
                 <Stack key={message.id} direction="horizontal" gap={3}>
                   <Stack className="w-8 h-8 bg-ink-200 rounded-avatar flex-shrink-0 flex items-center justify-center">
                     <Body className="text-mono-xs">{message.user_name.charAt(0)}</Body>
@@ -146,7 +145,7 @@ export default function EventChatPage() {
 
         {error && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : String(error)}
           </Alert>
         )}
 

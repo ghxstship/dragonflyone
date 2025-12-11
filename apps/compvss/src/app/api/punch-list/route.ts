@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ items: data || [] });
   } catch (error) {
-    Logger.error("Error fetching punch list:", error);
+    logger.error("Error fetching punch list:", error);
     return NextResponse.json({ error: "Failed to fetch punch list" }, { status: 500 });
   }
 }
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ item: data });
   } catch (error) {
-    Logger.error("Error creating punch item:", error);
+    logger.error("Error creating punch item:", error);
     return NextResponse.json({ error: "Failed to create punch item" }, { status: 500 });
   }
 }
@@ -92,7 +92,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ item: data });
   } catch (error) {
-    Logger.error("Error updating punch item:", error);
+    logger.error("Error updating punch item:", error);
     return NextResponse.json({ error: "Failed to update punch item" }, { status: 500 });
   }
 }
@@ -110,7 +110,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error("Error deleting punch item:", error);
+    logger.error("Error deleting punch item:", error);
     return NextResponse.json({ error: "Failed to delete punch item" }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   // Handle OAuth errors
   if (error) {
-    Logger.error('OAuth error:', error, errorDescription);
+    logger.error('OAuth error:', error, errorDescription);
     return NextResponse.redirect(`${baseUrl}/auth/signin?error=${encodeURIComponent(errorDescription || error)}`);
   }
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
 
     if (exchangeError) {
-      Logger.error('Code exchange error:', exchangeError);
+      logger.error('Code exchange error:', exchangeError);
       return NextResponse.redirect(`${baseUrl}/auth/signin?error=${encodeURIComponent(exchangeError.message)}`);
     }
 
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         });
 
       if (createError) {
-        Logger.error('Failed to create platform user:', createError);
+        logger.error('Failed to create platform user:', createError);
       }
 
       // Log OAuth sign-up
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
     // Redirect to dashboard
     return NextResponse.redirect(`${baseUrl}/dashboard`);
   } catch (err) {
-    Logger.error('Callback error:', err);
+    logger.error('Callback error:', err);
     return NextResponse.redirect(`${baseUrl}/auth/signin?error=callback_failed`);
   }
 }

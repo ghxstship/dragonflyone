@@ -23,7 +23,13 @@ const boothSchema = z.object({
   commission_rate: z.number().min(0).max(100).optional(),
 });
 
-export async function GET(request: NextRequest) {
+// Table does not exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({ booths: [] });
+}
+
+// Original implementation preserved for when table is created
+async function _originalGET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);

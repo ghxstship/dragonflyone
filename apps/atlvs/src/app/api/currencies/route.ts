@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -192,7 +192,7 @@ async function fetchExchangeRate(from: string, to: string): Promise<number | nul
     }
     return null;
   } catch (error) {
-    Logger.error('Failed to fetch exchange rate:', error);
+    logger.error('Failed to fetch exchange rate:', error);
     return null;
   }
 }

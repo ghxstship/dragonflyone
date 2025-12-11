@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_SETTLEMENTS } from '../../lib/demo-data';
 
 interface Settlement {
   id: string;
@@ -61,62 +62,8 @@ interface Adjustment {
   approvedBy?: string;
 }
 
-const mockSettlements: Settlement[] = [
-  {
-    id: "SET-001",
-    projectId: "PROJ-088",
-    projectName: "Fall Festival 2024",
-    eventDate: "2024-11-15",
-    status: "Pending Review",
-    contractValue: 150000,
-    actualCosts: 125000,
-    grossProfit: 25000,
-    marginPct: 16.7,
-    ticketRevenue: 180000,
-    merchRevenue: 25000,
-    sponsorRevenue: 15000,
-    artistGuarantee: 50000,
-    artistBackend: 8000,
-    venueRent: 25000,
-    productionCosts: 45000,
-    laborCosts: 22000,
-    otherCosts: 5000,
-    adjustments: [
-      { id: "ADJ-001", description: "Weather delay overtime", amount: 2500, type: "Debit", category: "Labor" },
-      { id: "ADJ-002", description: "Sponsor bonus for attendance", amount: 5000, type: "Credit", category: "Revenue" },
-    ],
-  },
-  {
-    id: "SET-002",
-    projectId: "PROJ-087",
-    projectName: "Corporate Awards Gala",
-    eventDate: "2024-11-10",
-    status: "Finalized",
-    contractValue: 85000,
-    actualCosts: 72000,
-    grossProfit: 13000,
-    marginPct: 15.3,
-    productionCosts: 35000,
-    laborCosts: 18000,
-    venueRent: 12000,
-    otherCosts: 7000,
-    adjustments: [],
-    approvedBy: "John Smith",
-    approvedAt: "2024-11-18",
-  },
-  {
-    id: "SET-003",
-    projectId: "PROJ-086",
-    projectName: "Tech Conference",
-    eventDate: "2024-11-05",
-    status: "Draft",
-    contractValue: 120000,
-    actualCosts: 98000,
-    grossProfit: 22000,
-    marginPct: 18.3,
-    adjustments: [],
-  },
-];
+const mockSettlements = DEMO_SETTLEMENTS as unknown as Settlement[];
+
 
 export default function SettlementPage() {
   const router = useRouter();

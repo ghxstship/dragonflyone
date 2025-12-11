@@ -16,7 +16,6 @@ import {
   DEMO_ACTIVITY_LOGS,
   DEMO_PERMISSION_OPTIONS,
   type DemoCollaborator as Collaborator,
-  type DemoActivityLog as ActivityLog,
 } from "@/lib/demo-data";
 
 const mockCollaborators = DEMO_COLLABORATORS;

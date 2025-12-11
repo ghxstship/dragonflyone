@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         .range(offset, offset + limit - 1);
 
       if (empError) {
-        Logger.error('Error fetching employee payroll:', empError);
+        logger.error('Error fetching employee payroll:', empError);
         return NextResponse.json(
           { error: 'Failed to fetch employee payroll', details: empError.message },
           { status: 500 }
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
-      Logger.error('Error fetching payroll runs:', error);
+      logger.error('Error fetching payroll runs:', error);
       return NextResponse.json(
         { error: 'Failed to fetch payroll runs', details: error.message },
         { status: 500 }
@@ -132,7 +132,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ payroll_runs: data, summary, pagination });
   } catch (error) {
-    Logger.error('Error in GET /api/payroll:', error);
+    logger.error('Error in GET /api/payroll:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (runError) {
-      Logger.error('Error creating payroll run:', runError);
+      logger.error('Error creating payroll run:', runError);
       return NextResponse.json(
         { error: 'Failed to create payroll run', details: runError.message },
         { status: 500 }
@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
         .insert(payrollItems);
 
       if (itemsError) {
-        Logger.error('Error creating payroll items:', itemsError);
+        logger.error('Error creating payroll items:', itemsError);
       }
 
       // Update payroll run totals
@@ -279,7 +279,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/payroll:', error);
+    logger.error('Error in POST /api/payroll:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

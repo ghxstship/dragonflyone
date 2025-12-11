@@ -34,13 +34,9 @@ interface CommissionRecord {
   [key: string]: unknown;
 }
 
-const mockRecords: CommissionRecord[] = [
-  { id: "COM-001", salesRep: "John Smith", dealId: "DEAL-156", dealName: "TechCorp Annual Conference", client: "TechCorp Events", dealValue: 125000, commissionRate: 12, commissionAmount: 15000, status: "Approved", closeDate: "2024-11-15" },
-  { id: "COM-002", salesRep: "Jane Doe", dealId: "DEAL-157", dealName: "Festival Productions Partnership", client: "Festival Productions", dealValue: 85000, commissionRate: 15, commissionAmount: 12750, status: "Pending", closeDate: "2024-11-20" },
-  { id: "COM-003", salesRep: "John Smith", dealId: "DEAL-158", dealName: "Corporate Events Renewal", client: "Corporate Events Inc", dealValue: 45000, commissionRate: 5, commissionAmount: 2250, status: "Paid", closeDate: "2024-11-01", paymentDate: "2024-11-15" },
-  { id: "COM-004", salesRep: "Mike Johnson", dealId: "DEAL-159", dealName: "StartUp Launch Event", client: "StartUp Ventures", dealValue: 28000, commissionRate: 10, commissionAmount: 2800, status: "Disputed", closeDate: "2024-11-18" },
-  { id: "COM-005", salesRep: "Jane Doe", dealId: "DEAL-160", dealName: "Media Group Awards Show", client: "Media Group LLC", dealValue: 95000, commissionRate: 10, commissionAmount: 9500, status: "Approved", closeDate: "2024-11-22" },
-];
+import { DEMO_COMMISSION_RECORDS } from '../../../lib/demo-data';
+
+const mockRecords = DEMO_COMMISSION_RECORDS as CommissionRecord[];
 
 const getStatusVariant = getBadgeVariant;
 

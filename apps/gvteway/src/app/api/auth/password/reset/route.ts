@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       // Don't reveal if email exists or not
-      Logger.error('Password reset error:', error);
+      logger.error('Password reset error:', error);
     }
 
     // Always return success to prevent email enumeration
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Password reset error:', error);
+    logger.error('Password reset error:', error);
     return NextResponse.json(
       { error: 'Password reset request failed' },
       { status: 500 }

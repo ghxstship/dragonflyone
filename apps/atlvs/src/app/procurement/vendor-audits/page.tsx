@@ -34,28 +34,10 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-
-interface VendorAudit {
-  id: string;
-  vendorId: string;
-  vendorName: string;
-  category: string;
-  auditType: 'Quality' | 'Financial' | 'Compliance' | 'Performance';
-  scheduledDate: string;
-  completedDate?: string;
-  auditor: string;
-  score?: number;
-  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Overdue';
-  findings?: string[];
-}
-
-const mockAudits: VendorAudit[] = [
-  { id: 'AUD-001', vendorId: 'VND-101', vendorName: 'PRG', category: 'Audio Equipment', auditType: 'Quality', scheduledDate: '2024-12-15', auditor: 'John Smith', status: 'Scheduled' },
-  { id: 'AUD-002', vendorId: 'VND-102', vendorName: '4Wall Entertainment', category: 'Lighting', auditType: 'Performance', scheduledDate: '2024-11-20', completedDate: '2024-11-20', auditor: 'Sarah Johnson', score: 92, status: 'Completed', findings: ['Excellent delivery times', 'Minor documentation gaps'] },
-  { id: 'AUD-003', vendorId: 'VND-103', vendorName: 'Stageline', category: 'Staging', auditType: 'Compliance', scheduledDate: '2024-11-10', auditor: 'Mike Davis', status: 'Overdue' },
-  { id: 'AUD-004', vendorId: 'VND-104', vendorName: 'Meyer Sound', category: 'Audio Equipment', auditType: 'Financial', scheduledDate: '2024-11-25', auditor: 'Emily Chen', status: 'In Progress' },
-  { id: 'AUD-005', vendorId: 'VND-105', vendorName: 'Robe Lighting', category: 'Lighting', auditType: 'Quality', scheduledDate: '2024-10-15', completedDate: '2024-10-18', auditor: 'Chris Brown', score: 88, status: 'Completed', findings: ['Good product quality', 'Lead time improvements needed'] },
-];
+import {
+  DEMO_VENDOR_AUDITS,
+  type DemoVendorAudit as VendorAudit,
+} from '../../../lib/demo-data';
 
 export default function VendorAuditsPage() {
   const router = useRouter();
@@ -68,10 +50,10 @@ export default function VendorAuditsPage() {
   const [selectedAudit, setSelectedAudit] = useState<VendorAudit | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
-  const upcomingAudits = mockAudits.filter(a => a.status === 'Scheduled' || a.status === 'In Progress');
-  const overdueCount = mockAudits.filter(a => a.status === 'Overdue').length;
-  const completedCount = mockAudits.filter(a => a.status === 'Completed').length;
-  const avgScore = mockAudits.filter(a => a.score).reduce((sum, a) => sum + (a.score || 0), 0) / completedCount || 0;
+  const upcomingAudits = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Scheduled' || a.status === 'In Progress');
+  const overdueCount = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Overdue').length;
+  const completedCount = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Completed').length;
+  const avgScore = DEMO_VENDOR_AUDITS.filter(a => a.score).reduce((sum, a) => sum + (a.score || 0), 0) / completedCount || 0;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -90,10 +72,10 @@ export default function VendorAuditsPage() {
   };
 
   const filteredAudits = activeTab === 'upcoming' 
-    ? mockAudits.filter(a => a.status !== 'Completed')
+    ? DEMO_VENDOR_AUDITS.filter(a => a.status !== 'Completed')
     : activeTab === 'completed' 
-    ? mockAudits.filter(a => a.status === 'Completed')
-    : mockAudits;
+    ? DEMO_VENDOR_AUDITS.filter(a => a.status === 'Completed')
+    : DEMO_VENDOR_AUDITS;
 
   return (
     <AtlvsAppLayout>

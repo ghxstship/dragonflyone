@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -52,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Get SSO domains error:', error);
+    logger.error('Get SSO domains error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch SSO domains' },
       { status: 500 }
@@ -155,7 +155,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create SSO domain error:', error);
+    logger.error('Create SSO domain error:', error);
     return NextResponse.json(
       { error: 'Failed to create SSO domain' },
       { status: 500 }

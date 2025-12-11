@@ -1274,3 +1274,710 @@ export const DEMO_INVESTMENTS: DemoInvestment[] = [
   { id: '2', fund: 'Live Events Opportunity Fund', amount: 250000, ownership: 1.2, status: 'active', returns: 18500, lastDistribution: 'Q3 2024' },
   { id: '3', fund: 'Venue Acquisition Fund II', amount: 100000, ownership: 0.5, status: 'pending', returns: 0, lastDistribution: '-' },
 ];
+
+// =============================================================================
+// CRM STAKEHOLDERS (for crm/relationships page)
+// =============================================================================
+
+export interface DemoStakeholder {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  influence: 'High' | 'Medium' | 'Low';
+  sentiment: 'Champion' | 'Supporter' | 'Neutral' | 'Skeptic' | 'Blocker';
+  decisionMaker: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_STAKEHOLDERS: DemoStakeholder[] = [
+  { id: 'STK-001', name: 'Sarah Johnson', role: 'VP Marketing', company: 'Acme Corp', influence: 'High', sentiment: 'Champion', decisionMaker: true },
+  { id: 'STK-002', name: 'John Smith', role: 'Director Events', company: 'Acme Corp', influence: 'Medium', sentiment: 'Supporter', decisionMaker: false },
+  { id: 'STK-003', name: 'Robert Brown', role: 'CFO', company: 'Acme Corp', influence: 'High', sentiment: 'Neutral', decisionMaker: true },
+  { id: 'STK-004', name: 'Emily Davis', role: 'Procurement', company: 'Acme Corp', influence: 'Low', sentiment: 'Skeptic', decisionMaker: false },
+];
+
+// =============================================================================
+// DASHBOARD PROJECTS (for dashboard page)
+// =============================================================================
+
+export interface DemoDisplayProject {
+  id: string;
+  name: string;
+  client_id?: string;
+  status: string;
+  budget?: number;
+  actual_cost?: number;
+  health?: string;
+  manager_id?: string;
+  start_date?: string;
+  end_date?: string;
+  progress?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_DISPLAY_PROJECTS: DemoDisplayProject[] = [
+  { id: 'PRJ-2024-001', name: 'Ultra Music Festival 2025', client_id: 'Ultra Worldwide', status: 'In Progress', budget: 2500000, actual_cost: 1847520, health: 'On Track', manager_id: 'Sarah Martinez', start_date: '2024-10-01', end_date: '2025-03-30', progress: 68 },
+  { id: 'PRJ-2024-002', name: 'Formula 1 Miami GP', client_id: 'Formula One Group', status: 'Planning', budget: 3200000, actual_cost: 456000, health: 'At Risk', manager_id: 'Michael Chen', start_date: '2024-11-15', end_date: '2025-05-04', progress: 35 },
+  { id: 'PRJ-2024-003', name: 'Art Basel Miami Beach', client_id: 'MCH Group', status: 'Completed', budget: 950000, actual_cost: 925400, health: 'Completed', manager_id: 'Elena Rodriguez', start_date: '2024-08-01', end_date: '2024-12-08', progress: 100 },
+];
+
+// =============================================================================
+// VENDOR AUDITS (for procurement/vendor-audits page)
+// =============================================================================
+
+export interface DemoVendorAudit {
+  id: string;
+  vendorId: string;
+  vendorName: string;
+  category: string;
+  auditType: 'Quality' | 'Financial' | 'Compliance' | 'Performance';
+  scheduledDate: string;
+  completedDate?: string;
+  auditor: string;
+  score?: number;
+  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Overdue';
+  findings?: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_VENDOR_AUDITS: DemoVendorAudit[] = [
+  { id: 'AUD-001', vendorId: 'VND-101', vendorName: 'PRG', category: 'Audio Equipment', auditType: 'Quality', scheduledDate: '2024-12-15', auditor: 'John Smith', status: 'Scheduled' },
+  { id: 'AUD-002', vendorId: 'VND-102', vendorName: '4Wall Entertainment', category: 'Lighting', auditType: 'Performance', scheduledDate: '2024-11-20', completedDate: '2024-11-20', auditor: 'Sarah Johnson', score: 92, status: 'Completed', findings: ['Excellent delivery times', 'Minor documentation gaps'] },
+  { id: 'AUD-003', vendorId: 'VND-103', vendorName: 'Stageline', category: 'Staging', auditType: 'Compliance', scheduledDate: '2024-11-10', auditor: 'Mike Davis', status: 'Overdue' },
+  { id: 'AUD-004', vendorId: 'VND-104', vendorName: 'Meyer Sound', category: 'Audio Equipment', auditType: 'Financial', scheduledDate: '2024-11-25', auditor: 'Emily Chen', status: 'In Progress' },
+  { id: 'AUD-005', vendorId: 'VND-105', vendorName: 'Robe Lighting', category: 'Lighting', auditType: 'Quality', scheduledDate: '2024-10-15', completedDate: '2024-10-18', auditor: 'Chris Brown', score: 88, status: 'Completed', findings: ['Good product quality', 'Lead time improvements needed'] },
+];
+
+// =============================================================================
+// EMERGENCY PROCUREMENT (for procurement/emergency page)
+// =============================================================================
+
+export interface DemoEmergencyProcurement {
+  id: string;
+  requestor: string;
+  department: string;
+  description: string;
+  amount: number;
+  urgency: 'Critical' | 'High' | 'Medium';
+  reason: string;
+  vendor?: string;
+  requestDate: string;
+  approvedDate?: string;
+  status: 'Pending' | 'Approved' | 'Rejected' | 'Completed';
+  approver?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_EMERGENCY_PROCUREMENTS: DemoEmergencyProcurement[] = [
+  { id: 'EMG-001', requestor: 'John Smith', department: 'Production', description: 'Replacement audio console - DiGiCo SD12', amount: 45000, urgency: 'Critical', reason: 'Main console failed during load-in', vendor: 'PRG', requestDate: '2024-11-24', approvedDate: '2024-11-24', status: 'Completed', approver: 'Sarah Johnson' },
+  { id: 'EMG-002', requestor: 'Mike Davis', department: 'Lighting', description: 'Emergency lighting fixtures (12x Robe MegaPointe)', amount: 28000, urgency: 'High', reason: 'Client added last-minute production elements', requestDate: '2024-11-25', status: 'Pending' },
+  { id: 'EMG-003', requestor: 'Emily Chen', department: 'Video', description: 'LED wall panels replacement (20 panels)', amount: 15000, urgency: 'Critical', reason: 'Damaged panels discovered during setup', vendor: 'ROE Visual', requestDate: '2024-11-25', approvedDate: '2024-11-25', status: 'Approved', approver: 'Robert Chen' },
+];
+
+// =============================================================================
+// PURCHASE ORDERS (for procurement page)
+// =============================================================================
+
+export interface DemoPurchaseOrder {
+  id: string;
+  vendor: string;
+  description: string;
+  amount: number;
+  status: 'pending' | 'active' | 'completed' | 'approved';
+  requestedBy: string;
+  dueDate: string;
+  category: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_PURCHASE_ORDERS: DemoPurchaseOrder[] = [
+  { id: 'PO-2024-001', vendor: 'ProAV Systems', description: 'LED Wall Panels - 100 units', amount: 125000, status: 'active', requestedBy: 'John Smith', dueDate: '2024-12-15', category: 'Equipment' },
+  { id: 'PO-2024-002', vendor: 'Elite Staging Co', description: 'Stage Platforms and Risers', amount: 45000, status: 'pending', requestedBy: 'Sarah Johnson', dueDate: '2024-12-20', category: 'Staging' },
+  { id: 'PO-2024-003', vendor: 'Lumina Lighting', description: 'Moving Head Fixtures - 50 units', amount: 89000, status: 'completed', requestedBy: 'Mike Peters', dueDate: '2024-11-30', category: 'Lighting' },
+];
+
+// =============================================================================
+// PROCUREMENT CATEGORIES (for procurement/categories page)
+// =============================================================================
+
+export interface DemoProcurementCategory {
+  id: string;
+  name: string;
+  description: string;
+  parentId?: string;
+  spend: number;
+  vendors: number;
+  status: 'Active' | 'Inactive';
+  [key: string]: unknown;
+}
+
+export interface DemoSourcingStrategy {
+  id: string;
+  categoryId: string;
+  strategy: 'Single Source' | 'Multi Source' | 'Competitive Bid' | 'Preferred Vendor';
+  rationale: string;
+  reviewDate: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_PROCUREMENT_CATEGORIES: DemoProcurementCategory[] = [
+  { id: 'CAT-001', name: 'Audio Equipment', description: 'PA systems, microphones, mixing consoles', spend: 1250000, vendors: 12, status: 'Active' },
+  { id: 'CAT-002', name: 'Lighting', description: 'Moving heads, LED fixtures, control systems', spend: 890000, vendors: 8, status: 'Active' },
+  { id: 'CAT-003', name: 'Video', description: 'LED walls, projectors, media servers', spend: 1450000, vendors: 6, status: 'Active' },
+  { id: 'CAT-004', name: 'Staging', description: 'Platforms, risers, truss systems', spend: 650000, vendors: 5, status: 'Active' },
+];
+
+export const DEMO_SOURCING_STRATEGIES: DemoSourcingStrategy[] = [
+  { id: 'STR-001', categoryId: 'CAT-001', strategy: 'Multi Source', rationale: 'Maintain competitive pricing and availability', reviewDate: '2025-01-15' },
+  { id: 'STR-002', categoryId: 'CAT-002', strategy: 'Preferred Vendor', rationale: 'Quality consistency and technical support', reviewDate: '2025-02-01' },
+  { id: 'STR-003', categoryId: 'CAT-003', strategy: 'Single Source', rationale: 'Specialized equipment requirements', reviewDate: '2025-01-30' },
+];
+
+// =============================================================================
+// LOGISTICS SHIPMENTS (for procurement/logistics page)
+// =============================================================================
+
+export interface DemoShipment {
+  id: string;
+  poNumber: string;
+  vendor: string;
+  origin: string;
+  destination: string;
+  carrier: string;
+  trackingNumber?: string;
+  status: 'Pending' | 'In Transit' | 'Delivered' | 'Delayed';
+  estimatedDelivery: string;
+  actualDelivery?: string;
+  items: number;
+  weight?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SHIPMENTS: DemoShipment[] = [
+  { id: 'SHP-001', poNumber: 'PO-2024-001', vendor: 'ProAV Systems', origin: 'Los Angeles, CA', destination: 'Miami, FL', carrier: 'FedEx Freight', trackingNumber: '123456789', status: 'In Transit', estimatedDelivery: '2024-12-10', items: 100, weight: '2,500 lbs' },
+  { id: 'SHP-002', poNumber: 'PO-2024-002', vendor: 'Elite Staging Co', origin: 'Nashville, TN', destination: 'Miami, FL', carrier: 'XPO Logistics', status: 'Pending', estimatedDelivery: '2024-12-18', items: 25 },
+  { id: 'SHP-003', poNumber: 'PO-2024-003', vendor: 'Lumina Lighting', origin: 'Chicago, IL', destination: 'Miami, FL', carrier: 'Old Dominion', trackingNumber: '987654321', status: 'Delivered', estimatedDelivery: '2024-11-28', actualDelivery: '2024-11-27', items: 50, weight: '1,200 lbs' },
+];
+
+// =============================================================================
+// VENDOR SELECTION (for procurement/vendor-selection page)
+// =============================================================================
+
+export interface DemoVendorSelection {
+  id: string;
+  rfpId: string;
+  rfpTitle: string;
+  category: string;
+  vendors: { 
+    id?: string;
+    vendorName?: string;
+    name: string; 
+    bidAmount?: number;
+    price: number; 
+    technicalScore?: number;
+    priceScore?: number;
+    overallScore?: number;
+    score: number; 
+    rank?: number;
+    recommendation?: string;
+    status: string;
+  }[];
+  evaluationCriteria?: { name: string; weight: number; description: string }[];
+  approvers?: { id: string; name: string; role: string; status: string; approvedAt?: string; comments?: string }[];
+  dueDate: string;
+  createdAt?: string;
+  status: 'Open' | 'Evaluating' | 'Awarded' | 'Closed' | 'Pending Approval' | 'Approved' | 'Rejected';
+  selectedVendor?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_VENDOR_SELECTIONS: DemoVendorSelection[] = [
+  { 
+    id: 'SEL-001', 
+    rfpId: 'RFP-2024-015', 
+    rfpTitle: 'Audio Equipment Rental - Summer Festival', 
+    category: 'Audio', 
+    vendors: [
+      { id: 'V1', vendorName: 'PRG', name: 'PRG', bidAmount: 125000, price: 125000, technicalScore: 92, priceScore: 85, overallScore: 89, score: 92, rank: 1, recommendation: 'Recommended', status: 'Submitted' }, 
+      { id: 'V2', vendorName: 'Clair Global', name: 'Clair Global', bidAmount: 135000, price: 135000, technicalScore: 88, priceScore: 80, overallScore: 84, score: 88, rank: 2, recommendation: 'Acceptable', status: 'Submitted' }
+    ], 
+    evaluationCriteria: [
+      { name: 'Technical Capability', weight: 40, description: 'Equipment quality and technical expertise' },
+      { name: 'Price', weight: 30, description: 'Total cost and value' },
+      { name: 'Experience', weight: 30, description: 'Past performance and references' }
+    ],
+    approvers: [
+      { id: 'A1', name: 'John Smith', role: 'Procurement Manager', status: 'Pending' },
+      { id: 'A2', name: 'Sarah Johnson', role: 'Finance Director', status: 'Pending' }
+    ],
+    dueDate: '2024-12-01', 
+    createdAt: '2024-11-15',
+    status: 'Evaluating' 
+  },
+  { 
+    id: 'SEL-002', 
+    rfpId: 'RFP-2024-016', 
+    rfpTitle: 'LED Wall Installation', 
+    category: 'Video', 
+    vendors: [
+      { id: 'V3', vendorName: 'ROE Visual', name: 'ROE Visual', bidAmount: 180000, price: 180000, technicalScore: 95, priceScore: 88, overallScore: 92, score: 95, rank: 1, recommendation: 'Recommended', status: 'Submitted' }
+    ], 
+    evaluationCriteria: [
+      { name: 'Technical Capability', weight: 40, description: 'Equipment quality and technical expertise' },
+      { name: 'Price', weight: 30, description: 'Total cost and value' },
+      { name: 'Experience', weight: 30, description: 'Past performance and references' }
+    ],
+    approvers: [
+      { id: 'A1', name: 'John Smith', role: 'Procurement Manager', status: 'Approved', approvedAt: '2024-11-20' },
+      { id: 'A2', name: 'Sarah Johnson', role: 'Finance Director', status: 'Approved', approvedAt: '2024-11-21' }
+    ],
+    dueDate: '2024-11-25', 
+    createdAt: '2024-11-10',
+    status: 'Awarded', 
+    selectedVendor: 'ROE Visual' 
+  },
+];
+
+// =============================================================================
+// BUDGETS (for budgets page)
+// =============================================================================
+
+export interface DemoBudget {
+  id: string;
+  name: string;
+  category: string;
+  budgeted: number;
+  actual: number;
+  variance: number;
+  status: 'on-track' | 'over' | 'under';
+  period?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_BUDGETS: DemoBudget[] = [
+  { id: '1', name: 'Ultra Music Festival 2025', category: 'Events', budgeted: 2500000, actual: 2350000, variance: 150000, status: 'on-track' },
+  { id: '2', name: 'Operations & Overhead', category: 'Operations', budgeted: 450000, actual: 475000, variance: -25000, status: 'over' },
+  { id: '3', name: 'Marketing & Sales', category: 'Marketing', budgeted: 320000, actual: 298000, variance: 22000, status: 'on-track' },
+  { id: '4', name: 'Technology & Infrastructure', category: 'Technology', budgeted: 180000, actual: 195000, variance: -15000, status: 'over' },
+];
+
+// =============================================================================
+// PORTFOLIO PROJECTS (for portfolio page)
+// =============================================================================
+
+export interface DemoPortfolioProject {
+  id: string;
+  name: string;
+  client: string;
+  type: string;
+  date: string;
+  location: string;
+  budget: number;
+  status: 'Completed' | 'In Progress' | 'Upcoming';
+  highlights: string[];
+  metrics: { label: string; value: string }[];
+  testimonial?: { quote: string; author: string; role: string };
+  [key: string]: unknown;
+}
+
+export const DEMO_PORTFOLIO_PROJECTS: DemoPortfolioProject[] = [
+  { id: 'PRT-001', name: 'Summer Music Festival 2024', client: 'Festival Productions', type: 'Festival', date: '2024-07-15', location: 'Miami, FL', budget: 2500000, status: 'Completed', highlights: ['50,000+ attendees', '3 stages', '48 artists'], metrics: [{ label: 'Attendance', value: '52,000' }, { label: 'Revenue', value: '$4.2M' }], testimonial: { quote: 'Exceptional production quality', author: 'John Smith', role: 'Festival Director' } },
+  { id: 'PRT-002', name: 'Corporate Gala 2024', client: 'Tech Corp', type: 'Corporate', date: '2024-09-20', location: 'San Francisco, CA', budget: 450000, status: 'Completed', highlights: ['500 VIP guests', 'Live entertainment', 'Custom staging'], metrics: [{ label: 'Guest Satisfaction', value: '98%' }] },
+];
+
+// =============================================================================
+// MARKETING ATTRIBUTION (for marketing/attribution page)
+// =============================================================================
+
+export interface DemoMarketingSource {
+  id: string;
+  name: string;
+  channel: string;
+  leads: number;
+  conversions: number;
+  revenue: number;
+  cost: number;
+  roi: number;
+  [key: string]: unknown;
+}
+
+export interface DemoMarketingCampaign {
+  id: string;
+  name: string;
+  source: string;
+  startDate: string;
+  endDate: string;
+  budget: number;
+  spent: number;
+  leads: number;
+  conversions: number;
+  status: 'Active' | 'Completed' | 'Paused';
+  [key: string]: unknown;
+}
+
+export const DEMO_MARKETING_SOURCES: DemoMarketingSource[] = [
+  { id: 'SRC-001', name: 'Google Ads', channel: 'Paid Search', leads: 245, conversions: 32, revenue: 156000, cost: 12500, roi: 1148 },
+  { id: 'SRC-002', name: 'LinkedIn', channel: 'Social', leads: 189, conversions: 28, revenue: 142000, cost: 8900, roi: 1496 },
+  { id: 'SRC-003', name: 'Email Marketing', channel: 'Email', leads: 312, conversions: 45, revenue: 198000, cost: 2400, roi: 8150 },
+  { id: 'SRC-004', name: 'Referrals', channel: 'Organic', leads: 156, conversions: 38, revenue: 185000, cost: 0, roi: 0 },
+  { id: 'SRC-005', name: 'Trade Shows', channel: 'Events', leads: 89, conversions: 15, revenue: 78000, cost: 25000, roi: 212 },
+];
+
+export const DEMO_MARKETING_CAMPAIGNS: DemoMarketingCampaign[] = [
+  { id: 'CMP-001', name: 'Q4 Lead Gen', source: 'Google Ads', startDate: '2024-10-01', endDate: '2024-12-31', budget: 15000, spent: 8500, leads: 145, conversions: 18, status: 'Active' },
+  { id: 'CMP-002', name: 'Festival Season Push', source: 'LinkedIn', startDate: '2024-11-01', endDate: '2024-11-30', budget: 5000, spent: 3200, leads: 89, conversions: 12, status: 'Active' },
+  { id: 'CMP-003', name: 'Newsletter Promo', source: 'Email Marketing', startDate: '2024-11-15', endDate: '2024-11-22', budget: 500, spent: 500, leads: 67, conversions: 8, status: 'Completed' },
+];
+
+// =============================================================================
+// FINANCE - COMMISSIONS (for finance/commissions page)
+// =============================================================================
+
+export interface DemoCommissionRecord {
+  id: string;
+  salesRep: string;
+  dealId: string;
+  dealName: string;
+  client: string;
+  dealValue: number;
+  commissionRate: number;
+  commissionAmount: number;
+  status: 'Pending' | 'Approved' | 'Paid';
+  closeDate: string;
+  paymentDate?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_COMMISSION_RECORDS: DemoCommissionRecord[] = [
+  { id: 'COM-001', salesRep: 'John Smith', dealId: 'DEAL-156', dealName: 'TechCorp Annual Conference', client: 'TechCorp Events', dealValue: 125000, commissionRate: 12, commissionAmount: 15000, status: 'Approved', closeDate: '2024-11-15' },
+  { id: 'COM-002', salesRep: 'Jane Doe', dealId: 'DEAL-157', dealName: 'Festival Productions Partnership', client: 'Festival Productions', dealValue: 85000, commissionRate: 15, commissionAmount: 12750, status: 'Pending', closeDate: '2024-11-20' },
+  { id: 'COM-003', salesRep: 'John Smith', dealId: 'DEAL-158', dealName: 'Corporate Events Renewal', client: 'Corporate Events Inc', dealValue: 45000, commissionRate: 5, commissionAmount: 2250, status: 'Paid', closeDate: '2024-11-01', paymentDate: '2024-11-15' },
+];
+
+// =============================================================================
+// FINANCE - ACCOUNTS RECEIVABLE (for finance/accounts-receivable page)
+// =============================================================================
+
+export interface DemoARInvoice {
+  id: string;
+  invoiceNumber: string;
+  client: string;
+  clientEmail: string;
+  amount: number;
+  dueDate: string;
+  issueDate: string;
+  status: 'Sent' | 'Partial' | 'Paid' | 'Overdue';
+  paidAmount: number;
+  project: string;
+  daysPastDue?: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_AR_INVOICES: DemoARInvoice[] = [
+  { id: 'INV-001', invoiceNumber: 'INV-2024-0156', client: 'TechCorp Events', clientEmail: 'ap@techcorp.com', amount: 45000, dueDate: '2024-11-15', issueDate: '2024-10-15', status: 'Overdue', paidAmount: 0, project: 'Annual Conference', daysPastDue: 9 },
+  { id: 'INV-002', invoiceNumber: 'INV-2024-0157', client: 'Festival Productions', clientEmail: 'billing@festprod.com', amount: 125000, dueDate: '2024-11-30', issueDate: '2024-11-01', status: 'Partial', paidAmount: 62500, project: 'Summer Fest 2024' },
+  { id: 'INV-003', invoiceNumber: 'INV-2024-0158', client: 'Corporate Events Inc', clientEmail: 'accounts@corpevents.com', amount: 28500, dueDate: '2024-12-01', issueDate: '2024-11-01', status: 'Sent', paidAmount: 0, project: 'Holiday Gala' },
+];
+
+// =============================================================================
+// FINANCE - BANK RECONCILIATION (for finance/bank-reconciliation page)
+// =============================================================================
+
+export interface DemoBankTransaction {
+  id: string;
+  date: string;
+  description: string;
+  amount: number;
+  type: 'Credit' | 'Debit';
+  status: 'Matched' | 'Unmatched' | 'Pending';
+  matchedTo?: string;
+  bankAccount: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_BANK_TRANSACTIONS: DemoBankTransaction[] = [
+  { id: 'BNK-001', date: '2024-11-25', description: 'Wire Transfer - Client ABC', amount: 45000, type: 'Credit', status: 'Matched', matchedTo: 'INV-2024-089', bankAccount: 'Operating' },
+  { id: 'BNK-002', date: '2024-11-25', description: 'ACH Payment - Vendor XYZ', amount: -12500, type: 'Debit', status: 'Matched', matchedTo: 'PO-2024-156', bankAccount: 'Operating' },
+  { id: 'BNK-003', date: '2024-11-24', description: 'Check #4521', amount: -3200, type: 'Debit', status: 'Unmatched', bankAccount: 'Operating' },
+];
+
+// =============================================================================
+// DOCUMENTS (for documents page)
+// =============================================================================
+
+export interface DemoDocument {
+  id: string;
+  name: string;
+  type: string;
+  folder: string;
+  version: string;
+  size: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  status: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_DOCUMENTS: DemoDocument[] = [
+  { id: '1', name: 'Ultra Music Festival - Master Contract 2025', type: 'Contract', folder: 'Contracts', version: '3.2', size: '2.4 MB', uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-20', status: 'active' },
+  { id: '2', name: 'General Liability Insurance Policy', type: 'Insurance', folder: 'Compliance', version: '1.0', size: '1.1 MB', uploadedBy: 'Mike Peters', uploadedAt: '2024-11-15', status: 'active' },
+  { id: '3', name: 'Q4 2024 Financial Statements', type: 'Financial', folder: 'Finance', version: '2.1', size: '856 KB', uploadedBy: 'John Doe', uploadedAt: '2024-11-18', status: 'active' },
+];
+
+// =============================================================================
+// ASSETS (for assets page)
+// =============================================================================
+
+export interface DemoAsset {
+  id: string;
+  name: string;
+  category: string;
+  location: string;
+  status: 'Available' | 'In Use' | 'Maintenance' | 'Retired';
+  value: number;
+  condition: 'Excellent' | 'Good' | 'Fair' | 'Poor';
+  lastMaintenance: string;
+  nextMaintenance: string;
+  utilization: number;
+  projects: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSETS: DemoAsset[] = [
+  { id: 'AST-001', name: 'Meyer Sound LEO Family Line Array', category: 'Audio', location: 'Warehouse A - Bay 3', status: 'Available', value: 285000, condition: 'Excellent', lastMaintenance: '2024-10-15', nextMaintenance: '2025-01-15', utilization: 0.82, projects: 47 },
+  { id: 'AST-002', name: 'Robe MegaPointe Lighting Fixtures (24x)', category: 'Lighting', location: 'Warehouse A - Bay 1', status: 'In Use', value: 156000, condition: 'Good', lastMaintenance: '2024-09-20', nextMaintenance: '2024-12-20', utilization: 0.91, projects: 52 },
+  { id: 'AST-003', name: 'disguise gx 2c Media Server', category: 'Video', location: 'Tech Room 2', status: 'Maintenance', value: 48000, condition: 'Fair', lastMaintenance: '2024-11-18', nextMaintenance: '2024-12-01', utilization: 0.75, projects: 38 },
+];
+
+// =============================================================================
+// ASSET MAINTENANCE (for assets/maintenance page)
+// =============================================================================
+
+export interface DemoMaintenanceRecord {
+  id: string;
+  assetId: string;
+  assetName: string;
+  category: string;
+  type: 'Preventive' | 'Corrective' | 'Emergency';
+  status: 'Scheduled' | 'In Progress' | 'Completed' | 'Overdue';
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  scheduledDate: string;
+  completedDate?: string;
+  description: string;
+  technician: string;
+  vendor?: string;
+  cost?: number;
+  laborHours?: number;
+  notes?: string;
+  nextDue?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_MAINTENANCE_RECORDS: DemoMaintenanceRecord[] = [
+  { id: 'MNT-001', assetId: 'AST-001', assetName: 'Meyer Sound LEO Family Line Array', category: 'Audio', type: 'Preventive', status: 'Scheduled', priority: 'Medium', scheduledDate: '2025-01-15', description: 'Quarterly speaker driver inspection', technician: 'John Martinez', nextDue: '2025-04-15' },
+  { id: 'MNT-002', assetId: 'AST-002', assetName: 'Robe MegaPointe Lighting Fixtures', category: 'Lighting', type: 'Corrective', status: 'In Progress', priority: 'High', scheduledDate: '2024-11-20', description: 'Replace faulty gobo wheel motor', technician: 'Sarah Chen', vendor: 'Robe Lighting', cost: 1250, laborHours: 4 },
+  { id: 'MNT-003', assetId: 'AST-003', assetName: 'disguise gx 2c Media Server', category: 'Video', type: 'Preventive', status: 'Completed', priority: 'Medium', scheduledDate: '2024-11-18', completedDate: '2024-11-18', description: 'Annual system diagnostics', technician: 'Mike Thompson', cost: 450, laborHours: 3, notes: 'All tests passed', nextDue: '2025-11-18' },
+];
+
+// =============================================================================
+// ASSET SCAN HISTORY (for assets/scan page)
+// =============================================================================
+
+export interface DemoScanHistory {
+  id: string;
+  barcode: string;
+  asset_name: string;
+  action: 'check_in' | 'check_out' | 'inventory' | 'transfer';
+  scanned_by: string;
+  timestamp: string;
+  location: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SCAN_HISTORY: DemoScanHistory[] = [
+  { id: 'SCN-001', barcode: 'AST-001-LED', asset_name: 'LED Wall Panel Set A', action: 'check_out', scanned_by: 'John Martinez', timestamp: '2024-11-24T14:30:00Z', location: 'Warehouse A' },
+  { id: 'SCN-002', barcode: 'AST-002-AUD', asset_name: 'Meyer Sound Line Array', action: 'check_in', scanned_by: 'Sarah Chen', timestamp: '2024-11-24T12:15:00Z', location: 'Venue - Main Stage' },
+  { id: 'SCN-003', barcode: 'AST-003-LGT', asset_name: 'Lighting Console grandMA3', action: 'inventory', scanned_by: 'Mike Thompson', timestamp: '2024-11-24T10:00:00Z', location: 'Warehouse B' },
+];
+
+// =============================================================================
+// SERIALIZED COMPONENTS (for assets/serialized page)
+// =============================================================================
+
+export interface DemoSerializedComponent {
+  id: string;
+  serialNumber: string;
+  parentAssetId: string;
+  parentAssetName: string;
+  componentType: string;
+  manufacturer: string;
+  model: string;
+  purchaseDate: string;
+  warrantyExpiry: string;
+  status: 'Active' | 'Replaced' | 'Retired';
+  location: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SERIALIZED_COMPONENTS: DemoSerializedComponent[] = [
+  { id: 'COMP-001', serialNumber: 'SN-OSR-470W-2024-001', parentAssetId: 'AST-001', parentAssetName: 'Meyer Sound LEO Family Line Array', componentType: 'Speaker Driver', manufacturer: 'Meyer Sound', model: 'LEO-M', purchaseDate: '2024-01-15', warrantyExpiry: '2027-01-15', status: 'Active', location: 'Warehouse A - Bay 3' },
+  { id: 'COMP-002', serialNumber: 'SN-OSR-470W-2024-002', parentAssetId: 'AST-001', parentAssetName: 'Meyer Sound LEO Family Line Array', componentType: 'Amplifier Module', manufacturer: 'Meyer Sound', model: 'LEO-AMP', purchaseDate: '2024-01-15', warrantyExpiry: '2027-01-15', status: 'Active', location: 'Warehouse A - Bay 3' },
+];
+
+// =============================================================================
+// ASSET SPECIFICATIONS (for assets/specifications page)
+// =============================================================================
+
+export interface DemoAssetSpec {
+  id: string;
+  name: string;
+  category: string;
+  manufacturer: string;
+  model: string;
+  specifications: { key: string; value: string }[];
+  documents: { name: string; type: string; size: string }[];
+  [key: string]: unknown;
+}
+
+export const DEMO_ASSET_SPECS: DemoAssetSpec[] = [
+  { id: 'SPEC-001', name: 'Robe MegaPointe', category: 'Lighting', manufacturer: 'Robe', model: 'MegaPointe', specifications: [{ key: 'Power', value: '470W' }, { key: 'Lumens', value: '24,000' }, { key: 'Weight', value: '35 kg' }], documents: [{ name: 'User Manual', type: 'PDF', size: '12.5 MB' }] },
+];
+
+// =============================================================================
+// ANALYTICS DASHBOARDS (for analytics/dashboards page)
+// =============================================================================
+
+export interface DemoAnalyticsDashboard {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  lastViewed: string;
+  views: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_ANALYTICS_DASHBOARDS: DemoAnalyticsDashboard[] = [
+  { id: '1', name: 'Executive Overview', description: 'High-level KPIs and business metrics', type: 'Executive', lastViewed: '2024-11-25', views: 245 },
+  { id: '2', name: 'Sales Pipeline', description: 'Deal tracking and revenue forecasting', type: 'Sales', lastViewed: '2024-11-24', views: 189 },
+  { id: '3', name: 'Operations Dashboard', description: 'Project status and resource utilization', type: 'Operations', lastViewed: '2024-11-25', views: 156 },
+];
+
+// =============================================================================
+// ANALYTICS REPORTS (for analytics/reports page)
+// =============================================================================
+
+export interface DemoAnalyticsReport {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  lastRun: string;
+  schedule: string;
+  format: 'pdf' | 'excel' | 'csv';
+  [key: string]: unknown;
+}
+
+export const DEMO_ANALYTICS_REPORTS: DemoAnalyticsReport[] = [
+  { id: '1', name: 'Monthly Revenue Summary', description: 'Revenue breakdown by project and client', type: 'Financial', lastRun: '2024-11-01', schedule: 'Monthly', format: 'pdf' },
+  { id: '2', name: 'Project Status Report', description: 'Current status of all active projects', type: 'Operations', lastRun: '2024-11-25', schedule: 'Weekly', format: 'excel' },
+];
+
+// =============================================================================
+// SCHEDULED REPORTS (for reports/scheduled page)
+// =============================================================================
+
+export interface DemoScheduledReport {
+  id: string;
+  name: string;
+  type: string;
+  frequency: 'Daily' | 'Weekly' | 'Monthly' | 'Quarterly';
+  nextRun: string;
+  lastRun: string;
+  recipients: string[];
+  format: 'PDF' | 'Excel' | 'CSV';
+  status: 'Active' | 'Paused' | 'Error';
+  description?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_SCHEDULED_REPORTS: DemoScheduledReport[] = [
+  { id: 'RPT-001', name: 'Weekly Revenue Summary', type: 'Financial', frequency: 'Weekly', nextRun: '2024-12-02 08:00', lastRun: '2024-11-25 08:00', recipients: ['cfo@company.com', 'finance@company.com'], format: 'PDF', status: 'Active', description: 'Weekly revenue breakdown by project and client' },
+  { id: 'RPT-002', name: 'Daily Operations Dashboard', type: 'Operations', frequency: 'Daily', nextRun: '2024-11-26 06:00', lastRun: '2024-11-25 06:00', recipients: ['ops@company.com'], format: 'PDF', status: 'Active', description: 'Daily operational metrics and KPIs' },
+  { id: 'RPT-003', name: 'Monthly Sales Pipeline', type: 'Sales', frequency: 'Monthly', nextRun: '2024-12-01 09:00', lastRun: '2024-11-01 09:00', recipients: ['sales@company.com', 'vp-sales@company.com'], format: 'Excel', status: 'Active', description: 'Monthly sales pipeline and forecast' },
+];
+
+// =============================================================================
+// PROCUREMENT CATEGORY MANAGEMENT (for procurement/categories page)
+// =============================================================================
+
+export interface DemoProcurementCategoryFull {
+  id: string;
+  name: string;
+  parentCategory?: string;
+  spend: number;
+  vendors: number;
+  strategy: 'Strategic' | 'Leverage' | 'Bottleneck' | 'Non-Critical';
+  owner: string;
+  lastReview: string;
+  [key: string]: unknown;
+}
+
+export interface DemoProcurementSourcingStrategy {
+  id: string;
+  categoryId: string;
+  categoryName: string;
+  objective: string;
+  approach: string;
+  targetSavings: number;
+  status: 'Draft' | 'Active' | 'Under Review';
+  initiatives: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_PROCUREMENT_CATEGORIES_FULL: DemoProcurementCategoryFull[] = [
+  { id: 'CAT-001', name: 'Audio Equipment', parentCategory: 'Production Equipment', spend: 1250000, vendors: 12, strategy: 'Strategic', owner: 'John Smith', lastReview: '2024-10-15' },
+  { id: 'CAT-002', name: 'Lighting Equipment', parentCategory: 'Production Equipment', spend: 980000, vendors: 8, strategy: 'Strategic', owner: 'Sarah Johnson', lastReview: '2024-11-01' },
+  { id: 'CAT-003', name: 'Video Equipment', parentCategory: 'Production Equipment', spend: 750000, vendors: 6, strategy: 'Leverage', owner: 'Mike Davis', lastReview: '2024-09-20' },
+  { id: 'CAT-004', name: 'Staging & Rigging', parentCategory: 'Production Equipment', spend: 620000, vendors: 5, strategy: 'Bottleneck', owner: 'Emily Chen', lastReview: '2024-08-15' },
+  { id: 'CAT-005', name: 'Transportation', spend: 450000, vendors: 15, strategy: 'Leverage', owner: 'Chris Brown', lastReview: '2024-10-01' },
+  { id: 'CAT-006', name: 'Office Supplies', spend: 85000, vendors: 3, strategy: 'Non-Critical', owner: 'Amy Wilson', lastReview: '2024-07-01' },
+];
+
+export const DEMO_PROCUREMENT_SOURCING_STRATEGIES: DemoProcurementSourcingStrategy[] = [
+  { id: 'STR-001', categoryId: 'CAT-001', categoryName: 'Audio Equipment', objective: 'Consolidate vendors and negotiate volume discounts', approach: 'Preferred vendor program with 2-3 strategic partners', targetSavings: 15, status: 'Active', initiatives: ['RFP for L-Acoustics partnership', 'Volume commitment negotiation', 'Rental vs buy analysis'] },
+  { id: 'STR-002', categoryId: 'CAT-002', categoryName: 'Lighting Equipment', objective: 'Reduce lead times and improve availability', approach: 'Consignment inventory with key suppliers', targetSavings: 10, status: 'Active', initiatives: ['Consignment agreement with Robe', 'Safety stock optimization'] },
+];
+
+// =============================================================================
+// LOGISTICS SHIPMENTS FULL (for procurement/logistics page)
+// =============================================================================
+
+export interface DemoLogisticsShipment {
+  id: string;
+  projectId: string;
+  projectName: string;
+  origin: string;
+  destination: string;
+  carrier: string;
+  trackingNumber?: string;
+  shipDate: string;
+  expectedDelivery: string;
+  actualDelivery?: string;
+  status: 'Scheduled' | 'In Transit' | 'Delivered' | 'Delayed';
+  items: number;
+  weight: number;
+  cost: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_LOGISTICS_SHIPMENTS: DemoLogisticsShipment[] = [
+  { id: 'SHP-001', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Los Angeles, CA', destination: 'Las Vegas, NV', carrier: 'XPO Logistics', trackingNumber: 'XPO123456789', shipDate: '2024-11-22', expectedDelivery: '2024-11-24', status: 'In Transit', items: 45, weight: 12500, cost: 3500 },
+  { id: 'SHP-002', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Nashville, TN', destination: 'Las Vegas, NV', carrier: 'Old Dominion', trackingNumber: 'OD987654321', shipDate: '2024-11-21', expectedDelivery: '2024-11-25', status: 'In Transit', items: 28, weight: 8200, cost: 4200 },
+  { id: 'SHP-003', projectId: 'PROJ-090', projectName: 'Corporate Gala', origin: 'New York, NY', destination: 'Chicago, IL', carrier: 'FedEx Freight', shipDate: '2024-11-28', expectedDelivery: '2024-11-30', status: 'Scheduled', items: 15, weight: 3500, cost: 1800 },
+  { id: 'SHP-004', projectId: 'PROJ-088', projectName: 'Fall Festival', origin: 'Atlanta, GA', destination: 'Miami, FL', carrier: 'Estes Express', trackingNumber: 'EST456789012', shipDate: '2024-11-18', expectedDelivery: '2024-11-20', actualDelivery: '2024-11-20', status: 'Delivered', items: 32, weight: 9800, cost: 2900 },
+  { id: 'SHP-005', projectId: 'PROJ-089', projectName: 'Summer Fest 2024', origin: 'Dallas, TX', destination: 'Las Vegas, NV', carrier: 'YRC Freight', trackingNumber: 'YRC789012345', shipDate: '2024-11-20', expectedDelivery: '2024-11-23', status: 'Delayed', items: 22, weight: 6500, cost: 2800 },
+];
+

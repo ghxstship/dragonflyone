@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -101,7 +101,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error acknowledging handbook:', error);
+    logger.error('Error acknowledging handbook:', error);
     return NextResponse.json(
       { error: 'Failed to acknowledge handbook' },
       { status: 500 }
@@ -129,7 +129,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching acknowledgments:', error);
+    logger.error('Error fetching acknowledgments:', error);
     return NextResponse.json(
       { error: 'Failed to fetch acknowledgments' },
       { status: 500 }

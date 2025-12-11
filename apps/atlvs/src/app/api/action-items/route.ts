@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
@@ -96,10 +96,10 @@ export async function GET(request: NextRequest) {
     ]);
 
     if (tasksResult.error) {
-      Logger.error('Tasks query error:', tasksResult.error);
+      logger.error('Tasks query error:', tasksResult.error);
     }
     if (meetingItemsResult.error) {
-      Logger.error('Meeting items query error:', meetingItemsResult.error);
+      logger.error('Meeting items query error:', meetingItemsResult.error);
     }
 
     // Transform schedule tasks
@@ -153,7 +153,7 @@ export async function GET(request: NextRequest) {
       total: allItems.length,
     });
   } catch (error) {
-    Logger.error('Error fetching action items:', error);
+    logger.error('Error fetching action items:', error);
     return NextResponse.json(
       { error: 'Failed to fetch action items' },
       { status: 500 }

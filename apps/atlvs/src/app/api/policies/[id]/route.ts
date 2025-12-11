@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -71,7 +71,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    Logger.error('Error fetching policy:', error);
+    logger.error('Error fetching policy:', error);
     return NextResponse.json(
       { error: 'Failed to fetch policy' },
       { status: 500 }
@@ -130,7 +130,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating policy:', error);
+    logger.error('Error updating policy:', error);
     return NextResponse.json(
       { error: 'Failed to update policy' },
       { status: 500 }
@@ -154,7 +154,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error archiving policy:', error);
+    logger.error('Error archiving policy:', error);
     return NextResponse.json(
       { error: 'Failed to archive policy' },
       { status: 500 }

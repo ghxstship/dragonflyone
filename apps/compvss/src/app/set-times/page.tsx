@@ -27,6 +27,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_SET_TIMES } from '../../lib/demo-data';
 
 interface SetTime {
   id: string;
@@ -42,14 +43,8 @@ interface SetTime {
   notes?: string;
 }
 
-const mockSetTimes: SetTime[] = [
-  { id: "ST-001", artistName: "Opening Act", stage: "Main Stage", scheduledStart: "18:00", scheduledEnd: "18:45", actualStart: "18:02", actualEnd: "18:47", status: "Completed", setLength: 45, changeoverTime: 15 },
-  { id: "ST-002", artistName: "Support Band", stage: "Main Stage", scheduledStart: "19:00", scheduledEnd: "19:45", actualStart: "19:05", actualEnd: "19:50", status: "Completed", setLength: 45, changeoverTime: 20 },
-  { id: "ST-003", artistName: "Special Guest", stage: "Main Stage", scheduledStart: "20:10", scheduledEnd: "21:00", actualStart: "20:15", status: "On Stage", setLength: 50, changeoverTime: 20 },
-  { id: "ST-004", artistName: "Headliner", stage: "Main Stage", scheduledStart: "21:20", scheduledEnd: "23:00", status: "Upcoming", setLength: 100, changeoverTime: 0, notes: "Hard curfew at 23:00" },
-  { id: "ST-005", artistName: "DJ Set", stage: "Side Stage", scheduledStart: "17:00", scheduledEnd: "20:00", actualStart: "17:00", actualEnd: "20:05", status: "Completed", setLength: 180, changeoverTime: 0 },
-  { id: "ST-006", artistName: "Local Band", stage: "Side Stage", scheduledStart: "20:30", scheduledEnd: "21:30", status: "Upcoming", setLength: 60, changeoverTime: 30 },
-];
+const mockSetTimes = DEMO_SET_TIMES as unknown as SetTime[];
+
 
 export default function SetTimesPage() {
   const router = useRouter();

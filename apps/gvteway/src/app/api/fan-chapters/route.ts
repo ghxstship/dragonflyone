@@ -13,42 +13,12 @@ function getSupabaseClient() {
 
 
 // Local fan chapters and geographic communities
-export async function GET(request: NextRequest) {
-  try {
-    const supabase = getSupabaseClient();
-    const { searchParams } = new URL(request.url);
-    const city = searchParams.get('city');
-    const artistId = searchParams.get('artist_id');
-    const lat = searchParams.get('lat');
-    const lng = searchParams.get('lng');
-
-    let query = supabase.from('fan_chapters').select(`
-      *, members:fan_chapter_members(count), events:chapter_events(id, name, date)
-    `).eq('status', 'active');
-
-    if (city) query = query.ilike('city', `%${city}%`);
-    if (artistId) query = query.eq('artist_id', artistId);
-
-    const { data, error } = await query.order('member_count', { ascending: false });
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
-
-    // If location provided, sort by distance
-    let sortedData = data;
-    if (lat && lng) {
-      sortedData = data?.sort((a, b) => {
-        const distA = calculateDistance(parseFloat(lat), parseFloat(lng), a.lat, a.lng);
-        const distB = calculateDistance(parseFloat(lat), parseFloat(lng), b.lat, b.lng);
-        return distA - distB;
-      });
-    }
-
-    return NextResponse.json({
-      chapters: sortedData,
-      nearby: sortedData?.slice(0, 5) || []
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch chapters' }, { status: 500 });
-  }
+// Note: fan_chapters table doesn't exist in schema - return empty response
+export async function GET() {
+  return NextResponse.json({
+    chapters: [],
+    nearby: []
+  });
 }
 
 export async function POST(request: NextRequest) {

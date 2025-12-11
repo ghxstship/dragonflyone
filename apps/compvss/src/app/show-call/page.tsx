@@ -21,6 +21,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_SHOW_CALL_CREW } from '../../lib/demo-data';
 
 interface CrewMember {
   id: string;
@@ -33,16 +34,8 @@ interface CrewMember {
   phone: string;
 }
 
-const mockCrew: CrewMember[] = [
-  { id: "CRW-001", name: "John Martinez", role: "Production Manager", department: "Production", callTime: "08:00", status: "Checked In", checkedInAt: "07:45", phone: "+1 555-0101" },
-  { id: "CRW-002", name: "Sarah Chen", role: "Stage Manager", department: "Stage", callTime: "09:00", status: "Checked In", checkedInAt: "08:55", phone: "+1 555-0102" },
-  { id: "CRW-003", name: "Mike Thompson", role: "Technical Director", department: "Technical", callTime: "08:00", status: "Checked In", checkedInAt: "07:50", phone: "+1 555-0103" },
-  { id: "CRW-004", name: "Lisa Park", role: "Video Director", department: "Video", callTime: "10:00", status: "On Site", checkedInAt: "09:30", phone: "+1 555-0104" },
-  { id: "CRW-005", name: "Tom Wilson", role: "Audio Engineer", department: "Audio", callTime: "09:00", status: "Late", phone: "+1 555-0105" },
-  { id: "CRW-006", name: "Emily Davis", role: "Lighting Designer", department: "Lighting", callTime: "10:00", status: "Not Due", phone: "+1 555-0106" },
-  { id: "CRW-007", name: "Chris Brown", role: "Rigger", department: "Rigging", callTime: "07:00", status: "Checked In", checkedInAt: "06:45", phone: "+1 555-0107" },
-  { id: "CRW-008", name: "Alex Johnson", role: "Stagehand", department: "Stage", callTime: "08:00", status: "No Show", phone: "+1 555-0108" },
-];
+const mockCrew = DEMO_SHOW_CALL_CREW as unknown as CrewMember[];
+
 
 export default function ShowCallPage() {
   const router = useRouter();

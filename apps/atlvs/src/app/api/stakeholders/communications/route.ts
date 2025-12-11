@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
 
     // Emails sent via edge function via email service
     // For now, just log
-    Logger.info('Would send emails to:', stakeholders?.map(s => s.email));
+    logger.info('Would send emails to:', stakeholders?.map(s => s.email));
 
     return NextResponse.json({ communication }, { status: 201 });
   } catch (error) {

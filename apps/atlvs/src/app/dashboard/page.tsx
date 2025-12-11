@@ -89,61 +89,10 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
 };
 
 // Display project interface for unified typing
-interface DisplayProject {
-  id: string;
-  name: string;
-  client_id?: string;
-  status: string;
-  budget?: number;
-  actual_cost?: number;
-  health?: string;
-  manager_id?: string;
-  start_date?: string;
-  end_date?: string;
-  progress?: number;
-}
-
-const mockProjects: DisplayProject[] = [
-  {
-    id: "PRJ-2024-001",
-    name: "Ultra Music Festival 2025",
-    client_id: "Ultra Worldwide",
-    status: "In Progress",
-    budget: 2500000,
-    actual_cost: 1847520,
-    health: "On Track",
-    manager_id: "Sarah Martinez",
-    start_date: "2024-10-01",
-    end_date: "2025-03-30",
-    progress: 68,
-  },
-  {
-    id: "PRJ-2024-002",
-    name: "Formula 1 Miami GP",
-    client_id: "Formula One Group",
-    status: "Planning",
-    budget: 3200000,
-    actual_cost: 456000,
-    health: "At Risk",
-    manager_id: "Michael Chen",
-    start_date: "2024-11-15",
-    end_date: "2025-05-04",
-    progress: 35,
-  },
-  {
-    id: "PRJ-2024-003",
-    name: "Art Basel Miami Beach",
-    client_id: "MCH Group",
-    status: "Completed",
-    budget: 950000,
-    actual_cost: 925400,
-    health: "Completed",
-    manager_id: "Elena Rodriguez",
-    start_date: "2024-08-01",
-    end_date: "2024-12-08",
-    progress: 100,
-  },
-];
+import {
+  DEMO_DISPLAY_PROJECTS,
+  type DemoDisplayProject as DisplayProject,
+} from '../../lib/demo-data';
 
 const defaultKpis = [
   { label: "Active Projects", value: "12", trend: "+3", up: true },
@@ -184,7 +133,7 @@ export default function DashboardPage() {
   };
 
   // Use live projects or fall back to mock data
-  const displayProjects: DisplayProject[] = (projects as DisplayProject[]) || mockProjects;
+  const displayProjects: DisplayProject[] = (projects as unknown as DisplayProject[]) || DEMO_DISPLAY_PROJECTS;
 
   // Calculate KPIs from real data
   const kpisData = projects ? {

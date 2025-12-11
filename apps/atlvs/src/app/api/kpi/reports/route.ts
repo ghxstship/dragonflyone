@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       count: data?.length || 0
     });
   } catch (error) {
-    Logger.error('Error fetching KPI reports:', error);
+    logger.error('Error fetching KPI reports:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to fetch KPI reports' },
       { status: 500 }
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
       data
     });
   } catch (error) {
-    Logger.error('Error creating KPI report:', error);
+    logger.error('Error creating KPI report:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to create KPI report' },
       { status: 500 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data: exportData });
   } catch (error) {
-    Logger.error('Export data error:', error);
+    logger.error('Export data error:', error);
     return NextResponse.json(
       { error: 'Failed to export data' },
       { status: 500 }

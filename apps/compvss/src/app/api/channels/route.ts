@@ -11,17 +11,11 @@ export async function GET(request: NextRequest) {
     const department = searchParams.get('department');
     const projectId = searchParams.get('project_id');
 
+    // Use communications table which exists in the schema
     let query = supabase
-      .from('communication_channels')
-      .select(`
-        *,
-        members:channel_members(
-          id,
-          user:platform_users(id, first_name, last_name, role)
-        )
-      `)
-      .eq('is_active', true)
-      .order('name');
+      .from('communications')
+      .select('*')
+      .order('created_at', { ascending: false });
 
     if (type) {
       query = query.eq('type', type);
@@ -43,18 +37,10 @@ export async function GET(request: NextRequest) {
 
     const channels = data?.map(c => ({
       id: c.id,
-      name: c.name,
+      subject: c.subject,
       type: c.type,
-      department: c.department,
-      description: c.description,
-      members: c.members?.map((m: Record<string, unknown>) => ({
-        id: m.user?.id,
-        name: `${m.user?.first_name} ${m.user?.last_name}`,
-        role: m.user?.role,
-      })) || [],
-      is_active: c.is_active,
+      status: c.status,
       created_at: c.created_at,
-      unread_count: 0,
     })) || [];
 
     return NextResponse.json({ channels });

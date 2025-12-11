@@ -22,70 +22,21 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('deals')
-      .select(`
-        *,
-        events (
-          id,
-          title,
-          date,
-          venue,
-          image
-        ),
-        ticket_types (
-          id,
-          name,
-          price
-        )
-      `)
-      .eq('is_active', true)
-      .gte('expires_at', new Date().toISOString())
+      .select('*')
+      .order('created_at', { ascending: false })
       .limit(limit);
 
     if (type && type !== 'all') {
       query = query.eq('deal_type', type);
     }
 
-    // Apply sorting
-    switch (sort) {
-      case 'discount':
-        query = query.order('discount_percent', { ascending: false });
-        break;
-      case 'expiring':
-        query = query.order('expires_at', { ascending: true });
-        break;
-      case 'price':
-        query = query.order('deal_price', { ascending: true });
-        break;
-      case 'date':
-        query = query.order('events(date)', { ascending: true });
-        break;
-      default:
-        query = query.order('created_at', { ascending: false });
-    }
-
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const deals = data?.map(deal => ({
-      id: deal.id,
-      event_id: deal.event_id,
-      event_title: deal.events?.title,
-      event_date: deal.events?.date,
-      event_venue: deal.events?.venue,
-      event_image: deal.events?.image,
-      original_price: deal.original_price,
-      deal_price: deal.deal_price,
-      discount_percent: deal.discount_percent,
-      deal_type: deal.deal_type,
-      expires_at: deal.expires_at,
-      quantity_available: deal.quantity_available,
-      promo_code: deal.promo_code,
-    })) || [];
-
-    return NextResponse.json({ deals });
+    return NextResponse.json({ deals: data || [] });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal server error' },

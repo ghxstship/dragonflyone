@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Get production checklists error:', error);
+    logger.error('Get production checklists error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch checklists' },
       { status: 500 }
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Create production checklist error:', error);
+    logger.error('Create production checklist error:', error);
     return NextResponse.json(
       { error: 'Failed to create checklist' },
       { status: 500 }

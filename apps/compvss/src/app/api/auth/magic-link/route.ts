@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
-    Logger.error('Magic link error:', error);
+    logger.error('Magic link error:', error);
     return NextResponse.json({ error: 'Failed to send magic link' }, { status: 500 });
   }
 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      Logger.error('Error fetching timesheets:', error);
+      logger.error('Error fetching timesheets:', error);
       return NextResponse.json(
         { error: 'Failed to fetch timesheets', details: error.message },
         { status: 500 }
@@ -110,7 +110,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ timesheets: data, summary, pagination });
   } catch (error) {
-    Logger.error('Error in GET /api/timesheets:', error);
+    logger.error('Error in GET /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating timesheet:', error);
+      logger.error('Error creating timesheet:', error);
       return NextResponse.json(
         { error: 'Failed to create timesheet', details: error.message },
         { status: 500 }
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/timesheets:', error);
+    logger.error('Error in POST /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -265,7 +265,7 @@ export async function PATCH(request: NextRequest) {
       timesheets: data,
     });
   } catch (error) {
-    Logger.error('Error in PATCH /api/timesheets:', error);
+    logger.error('Error in PATCH /api/timesheets:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

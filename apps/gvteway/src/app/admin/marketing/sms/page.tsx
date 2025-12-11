@@ -16,7 +16,6 @@ import {
   DEMO_SMS_CAMPAIGNS,
   DEMO_AUDIENCE_SEGMENTS,
   type DemoSMSCampaign as SMSCampaign,
-  type DemoAudienceSegment as AudienceSegment,
 } from "@/lib/demo-data";
 
 const mockCampaigns = DEMO_SMS_CAMPAIGNS;

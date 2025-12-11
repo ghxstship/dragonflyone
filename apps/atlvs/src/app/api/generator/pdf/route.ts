@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import type { GeneratedBlueprint } from "../../../generator/types";
 
@@ -268,7 +268,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    Logger.error("PDF generation error:", error);
+    logger.error("PDF generation error:", error);
     return NextResponse.json(
       { error: "Failed to generate PDF" },
       { status: 500 }

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching risks:', error);
+      logger.error('Error fetching risks:', error);
       return NextResponse.json(
         { error: 'Failed to fetch risks', details: error.message },
         { status: 500 }
@@ -125,7 +125,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/risks:', error);
+    logger.error('Error in GET /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating risk:', error);
+      logger.error('Error creating risk:', error);
       return NextResponse.json(
         { error: 'Failed to create risk', details: error.message },
         { status: 500 }
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/risks:', error);
+    logger.error('Error in POST /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -214,7 +214,7 @@ export async function PATCH(request: NextRequest) {
       .select();
 
     if (error) {
-      Logger.error('Error updating risks:', error);
+      logger.error('Error updating risks:', error);
       return NextResponse.json(
         { error: 'Failed to update risks', details: error.message },
         { status: 500 }
@@ -227,7 +227,7 @@ export async function PATCH(request: NextRequest) {
       risks: data,
     });
   } catch (error) {
-    Logger.error('Error in PATCH /api/risks:', error);
+    logger.error('Error in PATCH /api/risks:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -35,6 +35,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_PUNCH_ITEMS } from '../../lib/demo-data';
 
 interface PunchItem {
   id: string;
@@ -54,13 +55,8 @@ interface PunchItem {
   notes?: string;
 }
 
-const mockPunchItems: PunchItem[] = [
-  { id: "PL-001", title: "Speaker angle adjustment needed", description: "Front fill speakers need 5 degree tilt adjustment for coverage", location: "Stage Left - FOH", department: "Audio", priority: "High", status: "Open", reportedBy: "John Martinez", reportedDate: "2024-11-24", dueDate: "2024-11-24" },
-  { id: "PL-002", title: "Truss bolt missing", description: "Missing safety bolt on upstage truss section 4", location: "Upstage Truss", department: "Rigging", priority: "Critical", status: "In Progress", assignedTo: "Mike Thompson", reportedBy: "Sarah Chen", reportedDate: "2024-11-24", dueDate: "2024-11-24", notes: "Replacement bolt sourced, installing now" },
-  { id: "PL-003", title: "LED panel pixel out", description: "Dead pixel cluster on video wall panel B-7", location: "Center Video Wall", department: "Video", priority: "Medium", status: "Open", reportedBy: "Lisa Park", reportedDate: "2024-11-24" },
-  { id: "PL-004", title: "Cable run needs gaff tape", description: "Audio snake crossing walkway needs to be taped down", location: "Stage Right Wing", department: "Audio", priority: "High", status: "Resolved", assignedTo: "Tom Wilson", reportedBy: "John Martinez", reportedDate: "2024-11-24", resolvedDate: "2024-11-24" },
-  { id: "PL-005", title: "Gobo focus soft", description: "Gobo projection on backdrop needs refocus", location: "Backdrop Center", department: "Lighting", priority: "Low", status: "Verified", assignedTo: "Sarah Chen", reportedBy: "Director", reportedDate: "2024-11-23", resolvedDate: "2024-11-24", verifiedBy: "Production Manager" },
-];
+const mockPunchItems = DEMO_PUNCH_ITEMS as unknown as PunchItem[];
+
 
 export default function PunchListPage() {
   const router = useRouter();

@@ -31,6 +31,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { DEMO_WIN_LOSS_RECORDS } from '../../../lib/demo-data';
 
 interface WinLossRecord {
   id: string;
@@ -45,13 +46,8 @@ interface WinLossRecord {
   lessons?: string;
 }
 
-const mockRecords: WinLossRecord[] = [
-  { id: "WL-001", opportunity: "Summer Festival 2025", client: "Festival Productions", value: 450000, result: "Won", closeDate: "2024-11-20", salesRep: "John Smith", reason: "Strong relationship, competitive pricing", lessons: "Early engagement with client was key" },
-  { id: "WL-002", opportunity: "Corporate Gala", client: "Tech Corp", value: 125000, result: "Won", closeDate: "2024-11-15", salesRep: "Sarah Johnson", reason: "Technical expertise, past performance" },
-  { id: "WL-003", opportunity: "Concert Series", client: "Live Nation", value: 780000, result: "Lost", competitor: "Competitor A", closeDate: "2024-11-10", salesRep: "John Smith", reason: "Price too high", lessons: "Need to be more competitive on large deals" },
-  { id: "WL-004", opportunity: "Theater Production", client: "Broadway Inc", value: 95000, result: "Won", closeDate: "2024-11-05", salesRep: "Mike Davis", reason: "Specialized theater experience" },
-  { id: "WL-005", opportunity: "Sports Event", client: "Stadium Group", value: 320000, result: "Lost", competitor: "Competitor B", closeDate: "2024-10-28", salesRep: "Emily Chen", reason: "Incumbent advantage", lessons: "Earlier relationship building needed" },
-];
+const mockRecords = DEMO_WIN_LOSS_RECORDS as unknown as WinLossRecord[];
+
 
 export default function WinLossPage() {
   const router = useRouter();

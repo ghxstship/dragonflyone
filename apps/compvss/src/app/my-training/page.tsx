@@ -14,6 +14,7 @@ import {
   H3,
   ProgressBar,
 } from '@ghxstship/ui';
+import { DEMO_TRAINING_MODULES } from '../../lib/demo-data';
 import {
   GraduationCap,
   CheckCircle,
@@ -35,58 +36,8 @@ interface TrainingModule {
   required: boolean;
 }
 
-const mockTraining: TrainingModule[] = [
-  {
-    id: '1',
-    name: 'Workplace Safety Fundamentals',
-    category: 'Safety',
-    duration: '2 hours',
-    progress: 100,
-    status: 'completed',
-    completedDate: '2024-11-15',
-    required: true,
-  },
-  {
-    id: '2',
-    name: 'Fire Safety and Emergency Procedures',
-    category: 'Safety',
-    duration: '1 hour',
-    progress: 60,
-    status: 'in_progress',
-    dueDate: '2024-12-31',
-    required: true,
-  },
-  {
-    id: '3',
-    name: 'Rigging Safety Awareness',
-    category: 'Technical',
-    duration: '3 hours',
-    progress: 0,
-    status: 'not_started',
-    dueDate: '2025-01-15',
-    required: true,
-  },
-  {
-    id: '4',
-    name: 'Customer Service Excellence',
-    category: 'Soft Skills',
-    duration: '1.5 hours',
-    progress: 100,
-    status: 'completed',
-    completedDate: '2024-10-20',
-    required: false,
-  },
-  {
-    id: '5',
-    name: 'Equipment Handling Best Practices',
-    category: 'Technical',
-    duration: '2 hours',
-    progress: 25,
-    status: 'in_progress',
-    dueDate: '2025-01-01',
-    required: false,
-  },
-];
+const mockTraining = DEMO_TRAINING_MODULES as unknown as TrainingModule[];
+
 
 export default function MyTrainingPage() {
   const [training] = useState(mockTraining);

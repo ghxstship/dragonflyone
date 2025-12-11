@@ -12,6 +12,11 @@ function getSupabaseClient() {
 
 
 
+// GET handler to check follow status
+export async function GET() {
+  return NextResponse.json({ following: false, followers: [] });
+}
+
 export async function POST(
   request: NextRequest,
   { params }: { params: { id: string } }

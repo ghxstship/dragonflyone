@@ -14,7 +14,6 @@ import {
   DEMO_MEDIA_ASSETS,
   DEMO_PRESS_RELEASES,
   type DemoMediaAsset as MediaAsset,
-  type DemoPressRelease as PressRelease,
 } from "@/lib/demo-data";
 
 const mockAssets = DEMO_MEDIA_ASSETS;

@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
     const { data: scenarios, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching scenarios:', error);
+      logger.error('Error fetching scenarios:', error);
       return NextResponse.json(
         { error: 'Failed to fetch scenarios', details: error.message },
         { status: 500 }
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
       summary,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/scenarios:', error);
+    logger.error('Error in GET /api/scenarios:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating scenario:', error);
+      logger.error('Error creating scenario:', error);
       return NextResponse.json(
         { error: 'Failed to create scenario', details: error.message },
         { status: 500 }
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/scenarios:', error);
+    logger.error('Error in POST /api/scenarios:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

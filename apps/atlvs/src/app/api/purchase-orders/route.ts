@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      Logger.error('Error fetching purchase orders:', error);
+      logger.error('Error fetching purchase orders:', error);
       return NextResponse.json(
         { error: 'Failed to fetch purchase orders', details: error.message },
         { status: 500 }
@@ -119,7 +119,7 @@ export async function GET(request: NextRequest) {
       pagination,
     });
   } catch (error) {
-    Logger.error('Error in GET /api/purchase-orders:', error);
+    logger.error('Error in GET /api/purchase-orders:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (poError) {
-      Logger.error('Error creating purchase order:', poError);
+      logger.error('Error creating purchase order:', poError);
       return NextResponse.json(
         { error: 'Failed to create purchase order', details: poError.message },
         { status: 500 }
@@ -206,7 +206,7 @@ export async function POST(request: NextRequest) {
         .insert(lineItemsToInsert);
 
       if (itemsError) {
-        Logger.error('Error adding line items:', itemsError);
+        logger.error('Error adding line items:', itemsError);
       }
 
       // Update PO totals
@@ -245,7 +245,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    Logger.error('Error in POST /api/purchase-orders:', error);
+    logger.error('Error in POST /api/purchase-orders:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

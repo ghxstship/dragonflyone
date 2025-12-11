@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       cues: cues || [],
     });
   } catch (error) {
-    Logger.error("Error fetching stage management data:", error);
+    logger.error("Error fetching stage management data:", error);
     return NextResponse.json(
       { error: "Failed to fetch stage management data" },
       { status: 500 }
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ data: result.data });
   } catch (error) {
-    Logger.error("Error in stage management:", error);
+    logger.error("Error in stage management:", error);
     return NextResponse.json(
       { error: "Failed to process request" },
       { status: 500 }
@@ -145,7 +145,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ data: result.data });
   } catch (error) {
-    Logger.error("Error updating stage management:", error);
+    logger.error("Error updating stage management:", error);
     return NextResponse.json(
       { error: "Failed to update" },
       { status: 500 }

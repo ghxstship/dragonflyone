@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { GeneratedBlueprint } from "../../../generator/types";
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       // If table doesn't exist, just return the blueprint ID as share ID
-      Logger.error("Failed to store shared blueprint:", error);
+      logger.error("Failed to store shared blueprint:", error);
       return NextResponse.json({
         shareId: blueprint.id,
         shareUrl: `${process.env.NEXT_PUBLIC_ATLVS_URL || ""}/generator/share/${blueprint.id}`,
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     });
   } catch (error) {
-    Logger.error("Share error:", error);
+    logger.error("Share error:", error);
     return NextResponse.json(
       { error: "Failed to create share link" },
       { status: 500 }
@@ -106,7 +106,7 @@ export async function GET(request: NextRequest) {
       blueprint: data.blueprint_data,
     });
   } catch (error) {
-    Logger.error("Get shared blueprint error:", error);
+    logger.error("Get shared blueprint error:", error);
     return NextResponse.json(
       { error: "Failed to retrieve blueprint" },
       { status: 500 }

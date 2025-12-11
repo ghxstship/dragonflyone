@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { GeneratedBlueprint } from "../../../generator/types";
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         .single();
 
       if (orgError) {
-        Logger.error("Failed to create organization:", orgError);
+        logger.error("Failed to create organization:", orgError);
         return NextResponse.json(
           { error: "Failed to create organization" },
           { status: 500 }
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (productionError) {
-      Logger.error("Failed to create production:", productionError);
+      logger.error("Failed to create production:", productionError);
       return NextResponse.json(
         { error: "Failed to create production" },
         { status: 500 }
@@ -187,7 +187,7 @@ export async function POST(request: NextRequest) {
       redirectUrl: `/projects/${production.id}`,
     });
   } catch (error) {
-    Logger.error("Export error:", error);
+    logger.error("Export error:", error);
     return NextResponse.json(
       { error: "Failed to export blueprint" },
       { status: 500 }

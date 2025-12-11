@@ -1,4 +1,4 @@
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/catalog/categories/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
@@ -20,7 +20,7 @@ export async function GET(_request: NextRequest) {
       .eq('enabled', true);
 
     if (error) {
-      Logger.error('Error fetching categories:', error);
+      logger.error('Error fetching categories:', error);
       return NextResponse.json(
         { error: 'Failed to fetch categories', details: error.message },
         { status: 500 }
@@ -54,7 +54,7 @@ export async function GET(_request: NextRequest) {
 
     return NextResponse.json({ data: categories });
   } catch (error) {
-    Logger.error('Unexpected error:', error);
+    logger.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'An unexpected error occurred' },
       { status: 500 }

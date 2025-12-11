@@ -23,47 +23,15 @@ import {
 import Link from 'next/link';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-const mockVendorData = {
-  companyName: 'Premier Audio Solutions',
-  activeContracts: 3,
-  pendingDeliveries: 2,
-  pendingInvoices: 1,
-  totalRevenue: 45000,
-};
+import {
+  DEMO_VENDOR_PORTAL_DATA,
+  DEMO_VENDOR_UPCOMING_DELIVERIES,
+  DEMO_VENDOR_RECENT_INVOICES,
+} from '../../lib/demo-data';
 
-const upcomingDeliveries = [
-  {
-    id: '1',
-    production: 'Summer Music Festival',
-    date: '2024-12-10',
-    items: 'Audio Equipment Package',
-    status: 'scheduled',
-  },
-  {
-    id: '2',
-    production: 'Corporate Gala',
-    date: '2024-12-15',
-    items: 'Speaker System',
-    status: 'confirmed',
-  },
-];
-
-const recentInvoices = [
-  {
-    id: 'INV-001',
-    production: 'Tech Conference',
-    amount: 12500,
-    status: 'paid',
-    date: '2024-11-20',
-  },
-  {
-    id: 'INV-002',
-    production: 'Summer Music Festival',
-    amount: 8500,
-    status: 'pending',
-    date: '2024-12-01',
-  },
-];
+const mockVendorData = DEMO_VENDOR_PORTAL_DATA;
+const upcomingDeliveries = DEMO_VENDOR_UPCOMING_DELIVERIES;
+const recentInvoices = DEMO_VENDOR_RECENT_INVOICES;
 
 export default function VendorPortalPage() {
   return (

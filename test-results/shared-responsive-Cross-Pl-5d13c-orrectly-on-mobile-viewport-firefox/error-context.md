@@ -1,0 +1,618 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "ATLVS" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - button "Open navigation" [ref=e7] [cursor=pointer]:
+          - paragraph [ref=e9]: Open navigation
+    - main [ref=e11]:
+      - generic [ref=e14]:
+        - generic [ref=e16]:
+          - generic [ref=e17]: FOR PRODUCTION PROFESSIONALS
+          - 'heading "WARNING: TITANS AT WORK." [level=1] [ref=e18]'
+          - paragraph [ref=e19]: Million-dollar builds. Impossible deadlines. Clients who want miracles. You don't flinch — and neither does your platform. This is where production titans operate.
+          - generic [ref=e20]:
+            - link "START FREE TRIAL" [ref=e21] [cursor=pointer]:
+              - /url: /auth/signup
+              - button "START FREE TRIAL" [ref=e22]:
+                - generic [ref=e23]: START FREE TRIAL
+            - link "WATCH DEMO" [ref=e24] [cursor=pointer]:
+              - /url: "#demo"
+              - button "WATCH DEMO" [ref=e25]:
+                - generic [ref=e26]: WATCH DEMO
+        - generic [ref=e27]:
+          - generic [ref=e28]: Trusted by industry leaders
+          - generic [ref=e29]:
+            - generic [ref=e30]: III POINTS
+            - generic [ref=e31]: SALVAGE CITY
+            - generic [ref=e32]: PATRON
+            - generic [ref=e33]: FORMULA 1 LAS VEGAS GRAND PRIX
+            - generic [ref=e34]: FACTORY TOWN
+            - generic [ref=e35]: OKEECHOBEE
+            - generic [ref=e36]: CARNIVAL CRUISE LINE
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - heading "NATIVE TO YOUR WORLD." [level=1] [ref=e41]
+          - paragraph [ref=e42]: Four verticals. One platform. Infinite possibilities.
+        - generic [ref=e43]:
+          - article [ref=e44]:
+            - img [ref=e46]
+            - heading "PRODUCTIONS" [level=3] [ref=e51]
+            - paragraph [ref=e52]: From intimate club shows to festivals that need their own zip code. We've seen it all, built it all.
+            - list [ref=e53]:
+              - listitem [ref=e54]: Festivals
+              - listitem [ref=e55]: Concerts
+              - listitem [ref=e56]: Tours
+              - listitem [ref=e57]: Live events
+            - link "Learn More →" [ref=e58] [cursor=pointer]:
+              - /url: /verticals/productions
+          - article [ref=e59]:
+            - img [ref=e61]
+            - heading "ACTIVATIONS" [level=3] [ref=e63]
+            - paragraph [ref=e64]: Brand experiences that make people forget they're being marketed to. The good kind of manipulation.
+            - list [ref=e65]:
+              - listitem [ref=e66]: Brand Experiences
+              - listitem [ref=e67]: Trade Shows
+              - listitem [ref=e68]: Product Launches
+              - listitem [ref=e69]: Pop-ups
+            - link "Learn More →" [ref=e70] [cursor=pointer]:
+              - /url: /verticals/activations
+          - article [ref=e71]:
+            - img [ref=e73]
+            - heading "INSTALLATIONS" [level=3] [ref=e79]
+            - paragraph [ref=e80]: Immersive environments that make people question reality. In a good way. Mostly.
+            - list [ref=e81]:
+              - listitem [ref=e82]: Art Installations
+              - listitem [ref=e83]: Immersive Experiences
+              - listitem [ref=e84]: Themed Environments
+              - listitem [ref=e85]: Retail & Hospitality Spaces
+            - link "Learn More →" [ref=e86] [cursor=pointer]:
+              - /url: /verticals/installations
+          - article [ref=e87]:
+            - img [ref=e89]
+            - heading "DESTINATIONS" [level=3] [ref=e92]
+            - paragraph [ref=e93]: Venues and properties where extraordinary things happen. Your passport to the places that matter.
+            - list [ref=e94]:
+              - listitem [ref=e95]: Entertainment & Sporting Venues
+              - listitem [ref=e96]: Hotels & Resorts
+              - listitem [ref=e97]: Cultural & Historical Landmarks
+              - listitem [ref=e98]: Educational Institutions
+            - link "Learn More →" [ref=e99] [cursor=pointer]:
+              - /url: /verticals/destinations
+      - generic [ref=e102]:
+        - heading "THE UNSPOKEN TRUTH..." [level=1] [ref=e103]
+        - generic [ref=e104]:
+          - article [ref=e105]:
+            - img [ref=e107]
+            - heading "SPREADSHEET PURGATORY" [level=3] [ref=e112]
+            - paragraph [ref=e113]: 47 spreadsheets, 3 Slack channels, and that one critical doc buried in someone's email from 2019. Sound familiar?
+          - article [ref=e114]:
+            - img [ref=e116]
+            - heading "TOOL SOUP" [level=3] [ref=e120]
+            - paragraph [ref=e121]: Crew in Slack. Budget in Sheets. Timeline in Asana. Sanity in... nowhere, actually.
+          - article [ref=e122]:
+            - img [ref=e124]
+            - heading "THE 2AM SPECIAL" [level=3] [ref=e127]
+            - paragraph [ref=e128]: Nothing says 'I love my job' like hunting for the updated call sheet at 2am the night before load-in.
+        - paragraph [ref=e129]: You didn't sign up for this job to become a professional spreadsheet wrangler. And yet, here we are.
+      - generic [ref=e132]:
+        - heading "FOUR PILLARS. ONE PLATFORM." [level=1] [ref=e133]
+        - generic [ref=e134]:
+          - article [ref=e135]:
+            - generic [ref=e138]: ONE SOURCE. NO DEBATE. Screenshot
+            - generic [ref=e139]:
+              - heading "ONE SOURCE. NO DEBATE." [level=3] [ref=e140]
+              - paragraph [ref=e141]: Your crew checks one place. Your vendors check one place. Your execs check one place. No more 'which spreadsheet?' No more 'did you see my Slack?' One truth. Every decision faster.
+              - list [ref=e142]:
+                - listitem [ref=e143]:
+                  - img [ref=e144]
+                  - generic [ref=e146]: Single database for projects, crew, gear, and budgets
+                - listitem [ref=e147]:
+                  - img [ref=e148]
+                  - generic [ref=e150]: Real-time sync — changes propagate instantly
+                - listitem [ref=e151]:
+                  - img [ref=e152]
+                  - generic [ref=e154]: Version history on everything, forever
+                - listitem [ref=e155]:
+                  - img [ref=e156]
+                  - generic [ref=e158]: Search across all data in milliseconds
+                - listitem [ref=e159]:
+                  - img [ref=e160]
+                  - generic [ref=e162]: Works offline, syncs when you're back
+              - generic [ref=e163]: "Replaces: Airtable, Notion, Google Sheets, Slack, Dropbox — and the 47 browser tabs haunting your dreams"
+          - article [ref=e164]:
+            - generic [ref=e167]: SITE TESTED. BOARDROOM APPROVED. Screenshot
+            - generic [ref=e168]:
+              - heading "SITE TESTED. BOARDROOM APPROVED." [level=3] [ref=e169]
+              - paragraph [ref=e170]: Built by people who've called shows, not just managed projects. We know load-in doesn't wait for approvals. We know budgets blow up at 2am. This is software that survives contact with reality.
+              - list [ref=e171]:
+                - listitem [ref=e172]:
+                  - img [ref=e173]
+                  - generic [ref=e175]: Production workflows, not generic project templates
+                - listitem [ref=e176]:
+                  - img [ref=e177]
+                  - generic [ref=e179]: Advancing, call sheets, and run-of-show built in
+                - listitem [ref=e180]:
+                  - img [ref=e181]
+                  - generic [ref=e183]: Gear tracking from warehouse to site to wrap
+                - listitem [ref=e184]:
+                  - img [ref=e185]
+                  - generic [ref=e187]: Crew scheduling with rates, certs, and availability
+                - listitem [ref=e188]:
+                  - img [ref=e189]
+                  - generic [ref=e191]: Budget tracking that handles change orders gracefully
+              - generic [ref=e192]: "Replaces: Monday, Asana, Smartsheet, Basecamp, ClickUp — and the PM who's never seen a load-in"
+          - article [ref=e193]:
+            - generic [ref=e196]: UNLIMITED SCALE. ZERO CATCH. Screenshot
+            - generic [ref=e197]:
+              - heading "UNLIMITED SCALE. ZERO CATCH." [level=3] [ref=e198]
+              - paragraph [ref=e199]: Same system for your first popup and your fiftieth festival. No migration when you grow. No consultant when you expand. No 'enterprise tier' when you succeed. Just more of what already works.
+              - list [ref=e200]:
+                - listitem [ref=e201]:
+                  - img [ref=e202]
+                  - generic [ref=e204]: Portfolio views across all your productions
+                - listitem [ref=e205]:
+                  - img [ref=e206]
+                  - generic [ref=e208]: Clone and template entire project structures
+                - listitem [ref=e209]:
+                  - img [ref=e210]
+                  - generic [ref=e212]: Roll-up reporting for execs and stakeholders
+                - listitem [ref=e213]:
+                  - img [ref=e214]
+                  - generic [ref=e216]: Multi-entity support for complex organizations
+                - listitem [ref=e217]:
+                  - img [ref=e218]
+                  - generic [ref=e220]: API access for custom integrations at any scale
+              - generic [ref=e221]: "Replaces: Wrike, Teamwork, Productive, Scoro, Kantata — and the 6-month 'enterprise migration' nobody asked for"
+          - article [ref=e222]:
+            - generic [ref=e225]: OPEN GUEST LIST. NO REGRETS. Screenshot
+            - generic [ref=e226]:
+              - heading "OPEN GUEST LIST. NO REGRETS." [level=3] [ref=e227]
+              - paragraph [ref=e228]: Invite your whole crew. Every vendor. All your clients. We don't meter collaboration. We don't charge per head. Your success shouldn't come with a surprise invoice.
+              - list [ref=e229]:
+                - listitem [ref=e230]:
+                  - img [ref=e231]
+                  - generic [ref=e233]: Unlimited internal team members
+                - listitem [ref=e234]:
+                  - img [ref=e235]
+                  - generic [ref=e237]: Unlimited external guests and vendors
+                - listitem [ref=e238]:
+                  - img [ref=e239]
+                  - generic [ref=e241]: Unlimited projects, records, and storage
+                - listitem [ref=e242]:
+                  - img [ref=e243]
+                  - generic [ref=e245]: Unlimited automations and integrations
+                - listitem [ref=e246]:
+                  - img [ref=e247]
+                  - generic [ref=e249]: 24/7/365 support included, not upsold
+              - generic [ref=e250]: "Replaces: LASSO, Salesforce, HubSpot, Jira, ServiceNow — and the finance call where you explain why you added 12 seats"
+      - generic [ref=e253]:
+        - heading "THE TOOLKIT WITHOUT MISSING TOOLS" [level=1] [ref=e254]
+        - generic [ref=e255]:
+          - article [ref=e256]:
+            - img [ref=e258]
+            - heading "CRM & PIPELINE" [level=3] [ref=e262]
+            - paragraph [ref=e263]: Track every lead, deal, and relationship. Pipeline stages built for live events — not SaaS sales. Know who's hot, who's cold, and who's about to close.
+          - article [ref=e264]:
+            - img [ref=e266]
+            - heading "PROPOSALS & ESTIMATES" [level=3] [ref=e270]
+            - paragraph [ref=e271]: Generate branded proposals in minutes, not hours. Line-item estimates, package options, and e-signatures. Win more deals, faster.
+          - article [ref=e272]:
+            - img [ref=e274]
+            - heading "CONTRACTS & AGREEMENTS" [level=3] [ref=e280]
+            - paragraph [ref=e281]: Templates for every deal type. Version control, approval workflows, and audit trails. Never lose a signed contract again.
+          - article [ref=e282]:
+            - img [ref=e284]
+            - heading "ADVANCING" [level=3] [ref=e287]
+            - paragraph [ref=e288]: Artist riders, venue specs, vendor coordination — advance every detail before boots hit the ground. No surprises on show day.
+          - article [ref=e289]:
+            - img [ref=e291]
+            - heading "BUDGET & FINANCE" [level=3] [ref=e294]
+            - paragraph [ref=e295]: Real-time budget tracking, PO management, invoice matching. Know when you're about to blow it, not after the wrap party.
+          - article [ref=e296]:
+            - img [ref=e298]
+            - heading "PRODUCTION SCHEDULE" [level=3] [ref=e303]
+            - paragraph [ref=e304]: Load-in, rehearsals, show days, strike — see everything at once. Drag, drop, done. Conflicts flagged before they become disasters.
+          - article [ref=e305]:
+            - img [ref=e307]
+            - heading "VENUE MANAGEMENT" [level=3] [ref=e313]
+            - paragraph [ref=e314]: Capacity, layouts, rigging points, power specs — every venue detail in one place. Site surveys, CADs, and contact sheets ready when you need them.
+          - article [ref=e315]:
+            - img [ref=e317]
+            - heading "VENDOR & PROCUREMENT" [level=3] [ref=e323]
+            - paragraph [ref=e324]: RFPs, bids, POs, and vendor scorecards. Compare quotes, track deliveries, and never chase a vendor for an invoice again.
+          - article [ref=e325]:
+            - img [ref=e327]
+            - heading "LOGISTICS & ROUTING" [level=3] [ref=e331]
+            - paragraph [ref=e332]: Tour routing, truck manifests, load plans, and shipping schedules. Get gear from A to B without the 3am panic calls.
+          - article [ref=e333]:
+            - img [ref=e335]
+            - heading "CALL SHEETS & RUN OF SHOW" [level=3] [ref=e342]
+            - paragraph [ref=e343]: Generate call sheets in seconds. Build run-of-show docs that actually stay current. Push updates to crew in real-time.
+          - article [ref=e344]:
+            - img [ref=e346]
+            - heading "CREW MANAGEMENT" [level=3] [ref=e351]
+            - paragraph [ref=e352]: Build your dream team, track availability, manage rates. Crew confirmations, check-ins, and time tracking in one place.
+          - article [ref=e353]:
+            - img [ref=e355]
+            - heading "INVENTORY & GEAR" [level=3] [ref=e360]
+            - paragraph [ref=e361]: Track every piece of gear from warehouse to site and back. QR scanning, maintenance logs, and 'who had the cables last?' solved forever.
+          - article [ref=e362]:
+            - img [ref=e364]
+            - heading "DOCUMENT HUB" [level=3] [ref=e370]
+            - paragraph [ref=e371]: Contracts, riders, tech specs, CADs — organized, versioned, and actually findable. Share with vendors without the email chaos.
+          - article [ref=e372]:
+            - img [ref=e374]
+            - heading "TALENT & HOSPITALITY" [level=3] [ref=e378]
+            - paragraph [ref=e379]: Green rooms, catering, transportation, per diems — keep your artists happy. Rider tracking and hospitality logs that actually work.
+          - article [ref=e380]:
+            - img [ref=e382]
+            - heading "TIME & LABOR" [level=3] [ref=e385]
+            - paragraph [ref=e386]: Clock in, clock out, overtime alerts, union breaks. Payroll-ready timesheets without the spreadsheet gymnastics.
+          - article [ref=e387]:
+            - img [ref=e389]
+            - heading "MOBILE & FIELD OPS" [level=3] [ref=e392]
+            - paragraph [ref=e393]: Full access from the field. Check-ins, time tracking, photo uploads, issue reporting — your crew stays connected, not tethered to a desk.
+          - article [ref=e394]:
+            - img [ref=e396]
+            - heading "REAL-TIME COLLABORATION" [level=3] [ref=e398]
+            - paragraph [ref=e399]: Comments, mentions, approvals — keep everyone in sync without the Slack spaghetti. One source of truth, zero 'did you see my message?'
+          - article [ref=e400]:
+            - img [ref=e402]
+            - heading "COMPLIANCE & SAFETY" [level=3] [ref=e404]
+            - paragraph [ref=e405]: Union rules, safety briefings, incident reporting, certifications — stay compliant without the headache. Audit trails included.
+          - article [ref=e406]:
+            - img [ref=e408]
+            - heading "COMMUNICATIONS HUB" [level=3] [ref=e414]
+            - paragraph [ref=e415]: Broadcast updates, emergency alerts, channel management. When things go sideways, everyone knows instantly. No more radio silence.
+          - article [ref=e416]:
+            - img [ref=e418]
+            - heading "INCIDENT MANAGEMENT" [level=3] [ref=e422]
+            - paragraph [ref=e423]: Log issues, assign owners, track resolution. From minor hiccups to major crises — nothing falls through the cracks.
+          - article [ref=e424]:
+            - img [ref=e426]
+            - heading "CREDENTIALS & ACCESS" [level=3] [ref=e432]
+            - paragraph [ref=e433]: Badges, wristbands, zone access, guest lists. Know who's where and who's allowed. Security without the clipboard chaos.
+          - article [ref=e434]:
+            - img [ref=e436]
+            - heading "ANALYTICS & REPORTS" [level=3] [ref=e441]
+            - paragraph [ref=e442]: Numbers that actually mean something. Wrap reports, crew utilization, budget variance — impress your stakeholders. Impress yourself.
+          - article [ref=e443]:
+            - img [ref=e445]
+            - heading "SETTLEMENT & RECONCILIATION" [level=3] [ref=e449]
+            - paragraph [ref=e450]: Close out shows with confidence. Artist settlements, vendor reconciliation, and final budgets — all the numbers, all in one place.
+          - article [ref=e451]:
+            - img [ref=e453]
+            - heading "POST-MORTEM & INSIGHTS" [level=3] [ref=e456]
+            - paragraph [ref=e457]: What worked? What didn't? Capture lessons learned, track KPIs across shows, and get smarter with every production.
+          - article [ref=e458]:
+            - img [ref=e460]
+            - heading "WORKFLOWS" [level=3] [ref=e465]
+            - paragraph [ref=e466]: Build custom workflows for any process. Approvals, handoffs, escalations — design the way your team actually works, not how software thinks you should.
+          - article [ref=e467]:
+            - img [ref=e469]
+            - heading "AUTOMATIONS" [level=3] [ref=e471]
+            - paragraph [ref=e472]: Auto-reminders, status updates, approval routing, notifications. Set it and forget it. Let the robots handle the boring stuff.
+          - article [ref=e473]:
+            - img [ref=e475]
+            - heading "AI & INTELLIGENCE" [level=3] [ref=e480]
+            - paragraph [ref=e481]: Smart scheduling, budget forecasting, anomaly detection, predictive insights. AI that actually understands production — not just buzzwords.
+          - article [ref=e482]:
+            - img [ref=e484]
+            - heading "INTEGRATIONS" [level=3] [ref=e486]
+            - paragraph [ref=e487]: Plays nice with Zapier, Make, n8n, QuickBooks, and whatever else you're already using. Your stack, your rules.
+          - article [ref=e488]:
+            - img [ref=e490]
+            - heading "PERMISSIONS & ROLES" [level=3] [ref=e493]
+            - paragraph [ref=e494]: Granular access control for every team, vendor, and client. See what you need, nothing you don't. Enterprise-grade security without the enterprise headache.
+          - article [ref=e495]:
+            - img [ref=e497]
+            - heading "WHITE-LABEL & PORTALS" [level=3] [ref=e501]
+            - paragraph [ref=e502]: Client portals, vendor dashboards, branded experiences. Your platform, your brand. Give stakeholders exactly what they need — nothing more.
+      - generic [ref=e506]:
+        - text: MEET YOUR NEW BEST FRIEND
+        - heading "COMPVSS" [level=1] [ref=e507]
+        - paragraph [ref=e508]: Where your extended crew actually gets stuff done
+        - paragraph [ref=e510]: ATLVS is mission control. COMPVSS is how you bring everyone else aboard without giving them the keys to the whole ship. Crew, vendors, freelancers — they get exactly what they need. Nothing more, nothing less.
+        - generic [ref=e511]:
+          - article [ref=e512]:
+            - img [ref=e514]
+            - heading "CREW" [level=3] [ref=e519]
+            - paragraph [ref=e520]: Your A-team gets their marching orders. No more 47 texts asking 'what time is call?'
+          - article [ref=e521]:
+            - img [ref=e523]
+            - heading "STAFF" [level=3] [ref=e528]
+            - paragraph [ref=e529]: Front-of-house to back-of-house. Everyone knows their lane.
+          - article [ref=e530]:
+            - img [ref=e532]
+            - heading "VENDORS" [level=3] [ref=e544]
+            - paragraph [ref=e545]: They deliver. You track. Nobody ghosts on a PO again.
+          - article [ref=e546]:
+            - img [ref=e548]
+            - heading "ARTISTS" [level=3] [ref=e552]
+            - paragraph [ref=e553]: Riders, hospitality, green room vibes. The talent stays happy.
+          - article [ref=e554]:
+            - img [ref=e556]
+            - heading "AGENTS" [level=3] [ref=e559]
+            - paragraph [ref=e560]: Their clients, your show. Visibility without the vulnerability.
+          - article [ref=e561]:
+            - img [ref=e563]
+            - heading "MEDIA" [level=3] [ref=e566]
+            - paragraph [ref=e567]: Credentials that work. Photo pits that don't become mosh pits.
+          - article [ref=e568]:
+            - img [ref=e570]
+            - heading "SPONSORS" [level=3] [ref=e574]
+            - paragraph [ref=e575]: Brand activations tracked. ROI proven. Renewals locked.
+          - article [ref=e576]:
+            - img [ref=e578]
+            - heading "PARTNERS" [level=3] [ref=e584]
+            - paragraph [ref=e585]: Co-productions without the co-dependency. Shared views, separate lanes.
+          - article [ref=e586]:
+            - img [ref=e588]
+            - heading "INDUSTRY" [level=3] [ref=e594]
+            - paragraph [ref=e595]: The right access for the right people. Networking without the chaos.
+          - article [ref=e596]:
+            - img [ref=e598]
+            - heading "INTERNS" [level=3] [ref=e602]
+            - paragraph [ref=e603]: Learning the ropes without tripping over them. Guided access, real experience.
+          - article [ref=e604]:
+            - img [ref=e606]
+            - heading "BRAND AMBASSADORS" [level=3] [ref=e610]
+            - paragraph [ref=e611]: Your street team, amplified. Track the hustle, reward the results.
+          - article [ref=e612]:
+            - img [ref=e614]
+            - heading "AFFILIATES" [level=3] [ref=e617]
+            - paragraph [ref=e618]: Every referral tracked. Every commission earned. No spreadsheet required.
+        - generic [ref=e619]:
+          - generic [ref=e620]:
+            - img [ref=e621]
+            - generic [ref=e623]: Included with Navigator and Aviator plans
+          - link "LEARN MORE ABOUT COMPVSS →" [ref=e624] [cursor=pointer]:
+            - /url: /compvss
+            - button "LEARN MORE ABOUT COMPVSS →" [ref=e625]:
+              - generic [ref=e626]: LEARN MORE ABOUT COMPVSS →
+      - generic [ref=e629]:
+        - heading "DON'T JUST TAKE OUR WORD FOR IT" [level=1] [ref=e630]
+        - article [ref=e631]:
+          - paragraph [ref=e632]: “ATLVS transformed how we manage our festival portfolio. What used to take 3 production managers and endless spreadsheets now runs from a single dashboard. We shipped 12 festivals last year with half the coordination overhead. My blood pressure has never been lower.”
+          - generic [ref=e633]: — PRODUCTION DIRECTOR, MAJOR FESTIVAL COMPANY
+        - generic [ref=e634]:
+          - generic [ref=e635]:
+            - heading "2,400+" [level=1] [ref=e636]
+            - generic [ref=e637]: Productions Managed
+          - generic [ref=e638]:
+            - heading "50M+" [level=1] [ref=e639]
+            - generic [ref=e640]: Attendees Served
+          - generic [ref=e641]:
+            - heading "$2.1B" [level=1] [ref=e642]
+            - generic [ref=e643]: Budgets Tracked
+          - generic [ref=e644]:
+            - heading "99.9%" [level=1] [ref=e645]
+            - generic [ref=e646]: Uptime SLA
+      - generic [ref=e649]:
+        - generic [ref=e650]:
+          - heading "MAKE YOUR MOVE" [level=1] [ref=e651]
+          - paragraph [ref=e652]: Annual plans get 2 months free. Because math.
+        - generic [ref=e653]:
+          - generic [ref=e654]:
+            - generic [ref=e655]:
+              - heading "DEVIATOR" [level=3] [ref=e656]
+              - generic [ref=e657]:
+                - heading "$49" [level=1] [ref=e658]
+                - generic [ref=e659]: /month
+              - paragraph [ref=e660]: Perfect for solo operators who like to keep things lean.
+              - generic [ref=e661]:
+                - generic [ref=e662]:
+                  - img [ref=e663]
+                  - generic [ref=e665]: ATLVS only
+                - generic [ref=e666]:
+                  - img [ref=e667]
+                  - generic [ref=e669]: 1 Seat included
+                - generic [ref=e670]:
+                  - img [ref=e671]
+                  - generic [ref=e673]: Unlimited Projects
+                - generic [ref=e674]:
+                  - img [ref=e675]
+                  - generic [ref=e677]: Unlimited Records
+                - generic [ref=e678]:
+                  - img [ref=e679]
+                  - generic [ref=e681]: Email Support
+                - generic [ref=e682]:
+                  - img [ref=e683]
+                  - generic [ref=e685]: 7-day data retention
+                - generic [ref=e686]:
+                  - img [ref=e687]
+                  - generic [ref=e689]: Community access
+            - link "START FREE" [ref=e690] [cursor=pointer]:
+              - /url: /auth/signup?plan=deviator
+              - button "START FREE" [ref=e691]:
+                - generic [ref=e692]: START FREE
+          - generic [ref=e693]:
+            - generic [ref=e694]: MOST POPULAR
+            - generic [ref=e695]:
+              - heading "NAVIGATOR" [level=3] [ref=e696]
+              - generic [ref=e697]:
+                - heading "$149" [level=1] [ref=e698]
+                - generic [ref=e699]: /month
+              - paragraph [ref=e700]: For teams who are done playing spreadsheet roulette.
+              - generic [ref=e701]:
+                - generic [ref=e702]:
+                  - img [ref=e703]
+                  - generic [ref=e705]: ATLVS + COMPVSS
+                - generic [ref=e706]:
+                  - img [ref=e707]
+                  - generic [ref=e709]: Unlimited Seats
+                - generic [ref=e710]:
+                  - img [ref=e711]
+                  - generic [ref=e713]: Unlimited Projects
+                - generic [ref=e714]:
+                  - img [ref=e715]
+                  - generic [ref=e717]: Unlimited Records
+                - generic [ref=e718]:
+                  - img [ref=e719]
+                  - generic [ref=e721]: Priority Support
+                - generic [ref=e722]:
+                  - img [ref=e723]
+                  - generic [ref=e725]: 90-day data retention
+                - generic [ref=e726]:
+                  - img [ref=e727]
+                  - generic [ref=e729]: API access
+                - generic [ref=e730]:
+                  - img [ref=e731]
+                  - generic [ref=e733]: Advanced analytics
+            - link "START TRIAL" [ref=e734] [cursor=pointer]:
+              - /url: /auth/signup?plan=navigator
+              - button "START TRIAL" [ref=e735]:
+                - generic [ref=e736]: START TRIAL
+          - generic [ref=e737]:
+            - generic [ref=e738]:
+              - heading "AVIATOR" [level=3] [ref=e739]
+              - generic [ref=e740]:
+                - heading "$399" [level=1] [ref=e741]
+                - generic [ref=e742]: /month
+              - paragraph [ref=e743]: The whole enchilada. For those who refuse to compromise.
+              - generic [ref=e744]:
+                - generic [ref=e745]:
+                  - img [ref=e746]
+                  - generic [ref=e748]: ATLVS + COMPVSS + GVTEWAY
+                - generic [ref=e749]:
+                  - img [ref=e750]
+                  - generic [ref=e752]: Unlimited Seats
+                - generic [ref=e753]:
+                  - img [ref=e754]
+                  - generic [ref=e756]: Unlimited Projects
+                - generic [ref=e757]:
+                  - img [ref=e758]
+                  - generic [ref=e760]: Unlimited Records
+                - generic [ref=e761]:
+                  - img [ref=e762]
+                  - generic [ref=e764]: Dedicated CSM
+                - generic [ref=e765]:
+                  - img [ref=e766]
+                  - generic [ref=e768]: Unlimited data retention
+                - generic [ref=e769]:
+                  - img [ref=e770]
+                  - generic [ref=e772]: Full API access
+                - generic [ref=e773]:
+                  - img [ref=e774]
+                  - generic [ref=e776]: SSO & advanced security
+                - generic [ref=e777]:
+                  - img [ref=e778]
+                  - generic [ref=e780]: Custom integrations
+            - link "START TRIAL" [ref=e781] [cursor=pointer]:
+              - /url: /auth/signup?plan=aviator
+              - button "START TRIAL" [ref=e782]:
+                - generic [ref=e783]: START TRIAL
+          - generic [ref=e784]:
+            - generic [ref=e785]:
+              - heading "ENTERPRISE" [level=3] [ref=e786]
+              - heading "Custom" [level=1] [ref=e788]
+              - paragraph [ref=e789]: For large organizations with complex production operations.
+              - generic [ref=e790]:
+                - generic [ref=e791]:
+                  - img [ref=e792]
+                  - generic [ref=e794]: Everything in Aviator
+                - generic [ref=e795]:
+                  - img [ref=e796]
+                  - generic [ref=e798]: Unlimited Seats
+                - generic [ref=e799]:
+                  - img [ref=e800]
+                  - generic [ref=e802]: White-label options
+                - generic [ref=e803]:
+                  - img [ref=e804]
+                  - generic [ref=e806]: On-premise deployment
+                - generic [ref=e807]:
+                  - img [ref=e808]
+                  - generic [ref=e810]: SLA guarantees
+                - generic [ref=e811]:
+                  - img [ref=e812]
+                  - generic [ref=e814]: On-site training
+                - generic [ref=e815]:
+                  - img [ref=e816]
+                  - generic [ref=e818]: Dedicated infrastructure
+                - generic [ref=e819]:
+                  - img [ref=e820]
+                  - generic [ref=e822]: Custom contracts
+            - link "CONTACT SALES" [ref=e823] [cursor=pointer]:
+              - /url: /contact
+              - button "CONTACT SALES" [ref=e824]:
+                - generic [ref=e825]: CONTACT SALES
+        - generic [ref=e826]: "All plans include: Unlimited Projects, Records, Integrations, Automations, and 24/7/365 Support"
+      - generic [ref=e829]:
+        - heading "READY TO STOP WINGING IT?" [level=1] [ref=e830]
+        - paragraph [ref=e831]: Join 2,400+ productions that traded chaos for clarity
+        - generic [ref=e832]:
+          - link "START FREE TRIAL" [ref=e833] [cursor=pointer]:
+            - /url: /auth/signup
+            - button "START FREE TRIAL" [ref=e834]:
+              - generic [ref=e835]: START FREE TRIAL
+          - link "SCHEDULE DEMO" [ref=e836] [cursor=pointer]:
+            - /url: /demo
+            - button "SCHEDULE DEMO" [ref=e837]:
+              - generic [ref=e838]: SCHEDULE DEMO
+        - generic [ref=e839]: No credit card required • 14-day free trial • Cancel anytime • Live in minutes, not months
+    - contentinfo [ref=e840]:
+      - generic [ref=e841]:
+        - heading "ATLVS" [level=1] [ref=e843]
+        - generic [ref=e844]:
+          - generic [ref=e845]:
+            - heading "Product" [level=3] [ref=e846]
+            - link "Features" [ref=e847] [cursor=pointer]:
+              - /url: /features
+            - link "Pricing" [ref=e848] [cursor=pointer]:
+              - /url: /pricing
+            - link "Integrations" [ref=e849] [cursor=pointer]:
+              - /url: /integrations
+            - link "Security" [ref=e850] [cursor=pointer]:
+              - /url: /security
+            - link "What's New" [ref=e851] [cursor=pointer]:
+              - /url: /changelog
+          - generic [ref=e852]:
+            - heading "Resources" [level=3] [ref=e853]
+            - link "Help Center" [ref=e854] [cursor=pointer]:
+              - /url: /help
+            - link "API Docs" [ref=e855] [cursor=pointer]:
+              - /url: /docs/api
+            - link "Blog" [ref=e856] [cursor=pointer]:
+              - /url: /blog
+            - link "Guides" [ref=e857] [cursor=pointer]:
+              - /url: /guides
+            - link "Case Studies" [ref=e858] [cursor=pointer]:
+              - /url: /case-studies
+            - link "Templates" [ref=e859] [cursor=pointer]:
+              - /url: /templates
+          - generic [ref=e860]:
+            - heading "Company" [level=3] [ref=e861]
+            - link "About" [ref=e862] [cursor=pointer]:
+              - /url: /about
+            - link "Careers" [ref=e863] [cursor=pointer]:
+              - /url: /careers
+            - link "Press" [ref=e864] [cursor=pointer]:
+              - /url: /press
+            - link "Partners" [ref=e865] [cursor=pointer]:
+              - /url: /partners
+            - link "Contact" [ref=e866] [cursor=pointer]:
+              - /url: /contact
+          - generic [ref=e867]:
+            - heading "Legal" [level=3] [ref=e868]
+            - link "Privacy" [ref=e869] [cursor=pointer]:
+              - /url: /legal/privacy
+            - link "Terms" [ref=e870] [cursor=pointer]:
+              - /url: /legal/terms
+            - link "Cookies" [ref=e871] [cursor=pointer]:
+              - /url: /legal/cookies
+            - link "Accessibility" [ref=e872] [cursor=pointer]:
+              - /url: /legal/accessibility
+            - link "Status" [ref=e873] [cursor=pointer]:
+              - /url: /status
+        - paragraph [ref=e875]: © 2025 GHXSTSHIP INDUSTRIES. ALL RIGHTS RESERVED.
+  - generic [ref=e876]:
+    - img [ref=e878]
+    - button "Open Tanstack query devtools" [ref=e927] [cursor=pointer]:
+      - img [ref=e928]
+  - alert [ref=e977]
+```

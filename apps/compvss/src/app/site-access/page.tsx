@@ -37,7 +37,6 @@ import {
 import {
   DEMO_ACCESS_POINTS,
   DEMO_VEHICLE_PASSES,
-  type DemoAccessPoint as AccessPoint,
   type DemoVehiclePass as VehiclePass,
 } from "../../lib/demo-data";
 

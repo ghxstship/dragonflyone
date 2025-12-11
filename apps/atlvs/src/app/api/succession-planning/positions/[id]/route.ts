@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -64,7 +64,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching key position:', error);
+    logger.error('Error fetching key position:', error);
     return NextResponse.json(
       { error: 'Failed to fetch key position' },
       { status: 500 }
@@ -106,7 +106,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating key position:', error);
+    logger.error('Error updating key position:', error);
     return NextResponse.json(
       { error: 'Failed to update key position' },
       { status: 500 }
@@ -130,7 +130,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error deleting key position:', error);
+    logger.error('Error deleting key position:', error);
     return NextResponse.json(
       { error: 'Failed to delete key position' },
       { status: 500 }

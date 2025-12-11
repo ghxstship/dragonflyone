@@ -29,7 +29,6 @@ import {
   DEMO_CHANNEL_MEMBERS,
   DEMO_MESSAGING_CHANNELS,
   DEMO_MESSAGES,
-  type DemoChannelMember as ChannelMember,
   type DemoMessagingChannel as Channel,
   type DemoMessage as Message,
 } from '../../lib/demo-data';

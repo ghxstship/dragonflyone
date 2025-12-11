@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 import { z } from 'zod';
@@ -42,7 +42,7 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    Logger.error('Error fetching user specialties:', error);
+    logger.error('Error fetching user specialties:', error);
     return NextResponse.json(
       { error: 'Failed to fetch user specialties' },
       { status: 500 }
@@ -101,7 +101,7 @@ export async function POST(
         { status: 400 }
       );
     }
-    Logger.error('Error adding user specialty:', error);
+    logger.error('Error adding user specialty:', error);
     return NextResponse.json(
       { error: 'Failed to add user specialty' },
       { status: 500 }
@@ -155,7 +155,7 @@ export async function PATCH(
         { status: 400 }
       );
     }
-    Logger.error('Error updating user specialty:', error);
+    logger.error('Error updating user specialty:', error);
     return NextResponse.json(
       { error: 'Failed to update user specialty' },
       { status: 500 }
@@ -189,7 +189,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    Logger.error('Error removing user specialty:', error);
+    logger.error('Error removing user specialty:', error);
     return NextResponse.json(
       { error: 'Failed to remove user specialty' },
       { status: 500 }

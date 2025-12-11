@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSupabase } from '@ghxstship/config';
 
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id);
 
     if (profileError) {
-      Logger.error('Profile update error:', profileError);
+      logger.error('Profile update error:', profileError);
       return NextResponse.json({ error: 'Failed to complete onboarding' }, { status: 500 });
     }
 
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       redirectTo: '/dashboard'
     });
   } catch (error) {
-    Logger.error('Complete onboarding error:', error);
+    logger.error('Complete onboarding error:', error);
     return NextResponse.json({ error: 'Failed to complete onboarding' }, { status: 500 });
   }
 }

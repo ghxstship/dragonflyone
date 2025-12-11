@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
 
-import { Logger } from '@ghxstship/config';
+import { logger } from '@ghxstship/config';
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import { z } from 'zod';
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      Logger.error('Error fetching incident reports:', error);
+      logger.error('Error fetching incident reports:', error);
       return NextResponse.json(
         { error: 'Failed to fetch incident reports', details: error.message },
         { status: 500 }
@@ -104,7 +104,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ incidents: data, summary });
   } catch (error) {
-    Logger.error('Error in GET /api/incident-reports:', error);
+    logger.error('Error in GET /api/incident-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      Logger.error('Error creating incident report:', error);
+      logger.error('Error creating incident report:', error);
       return NextResponse.json(
         { error: 'Failed to create incident report', details: error.message },
         { status: 500 }
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    Logger.error('Error in POST /api/incident-reports:', error);
+    logger.error('Error in POST /api/incident-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -233,7 +233,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true, incident: data });
   } catch (error) {
-    Logger.error('Error in PATCH /api/incident-reports:', error);
+    logger.error('Error in PATCH /api/incident-reports:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -13,7 +13,6 @@ import {
   DEMO_EVENT_FRIENDS,
   DEMO_MEETUP_SPOTS,
   type DemoEventFriend as Friend,
-  type DemoMeetupSpot as MeetupSpot,
 } from "@/lib/demo-data";
 
 const mockFriends = DEMO_EVENT_FRIENDS;
