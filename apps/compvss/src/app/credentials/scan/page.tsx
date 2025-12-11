@@ -107,9 +107,12 @@ export default function ScanCredentialPage() {
             <Stack direction="horizontal" gap={4} className="items-center">
               <Button
                 onClick={() => router.back()}
-                className="flex items-center gap-2 border-2 border-grey-600 bg-transparent px-4 py-2 text-white"
+                variant="outline"
+                size="sm"
+                inverted
+                icon={<ArrowLeft className="size-4" />}
+                iconPosition="left"
               >
-                <ArrowLeft className="size-4" />
                 Back
               </Button>
               <Stack gap={1}>
@@ -159,7 +162,8 @@ export default function ScanCredentialPage() {
                       <Button
                         onClick={handleManualScan}
                         disabled={!manualBadgeNumber || isScanning}
-                        className="border-2 border-primary bg-primary px-6 py-3 text-white disabled:opacity-50"
+                        variant="solid"
+                        size="md"
                       >
                         {isScanning ? 'Scanning...' : 'Verify'}
                       </Button>
@@ -176,8 +180,13 @@ export default function ScanCredentialPage() {
                       Camera-based QR scanning requires device camera access.
                       Use manual entry above or connect a barcode scanner.
                     </Body>
-                    <Button className="border-2 border-grey-600 bg-transparent px-6 py-3 text-grey-400">
-                      <Camera className="mr-2 size-4" />
+                    <Button
+                      variant="outline"
+                      size="md"
+                      inverted
+                      icon={<Camera className="size-4" />}
+                      iconPosition="left"
+                    >
                       Enable Camera
                     </Button>
                   </Stack>
@@ -226,7 +235,8 @@ export default function ScanCredentialPage() {
                       
                       <Button
                         onClick={() => setScanResult(null)}
-                        className="border-2 border-grey-300 bg-white px-6 py-2"
+                        variant="outline"
+                        size="sm"
                       >
                         Clear
                       </Button>

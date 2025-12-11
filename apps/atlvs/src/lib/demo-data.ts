@@ -1140,3 +1140,27 @@ export const DEMO_DASHBOARDS: DemoDashboard[] = [
   { id: 'DB-004', name: 'Sales Pipeline', description: 'Deal tracking and forecasting', widgetCount: 10, isDefault: false, createdAt: '2024-10-20', lastModified: '2024-11-22', status: 'Active' },
   { id: 'DB-005', name: 'HR Analytics', description: 'Workforce metrics', widgetCount: 5, isDefault: false, createdAt: '2024-10-15', lastModified: '2024-11-10', status: 'Active' },
 ];
+
+// =============================================================================
+// DATA SOURCES (for analytics/data-warehouse page)
+// =============================================================================
+
+export interface DemoDataSource {
+  id: string;
+  name: string;
+  type: 'Database' | 'API' | 'File' | 'Streaming';
+  status: 'Connected' | 'Syncing' | 'Error' | 'Disconnected';
+  lastSync: string;
+  recordCount: number;
+  syncFrequency: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_DATA_SOURCES: DemoDataSource[] = [
+  { id: 'SRC-001', name: 'ATLVS Production DB', type: 'Database', status: 'Connected', lastSync: '2024-11-25 10:30', recordCount: 2450000, syncFrequency: 'Real-time' },
+  { id: 'SRC-002', name: 'COMPVSS Events DB', type: 'Database', status: 'Connected', lastSync: '2024-11-25 10:30', recordCount: 1850000, syncFrequency: 'Real-time' },
+  { id: 'SRC-003', name: 'GVTEWAY Consumer DB', type: 'Database', status: 'Syncing', lastSync: '2024-11-25 10:15', recordCount: 3200000, syncFrequency: '15 min' },
+  { id: 'SRC-004', name: 'Stripe Payments API', type: 'API', status: 'Connected', lastSync: '2024-11-25 10:28', recordCount: 450000, syncFrequency: 'Hourly' },
+  { id: 'SRC-005', name: 'Salesforce CRM', type: 'API', status: 'Connected', lastSync: '2024-11-25 09:00', recordCount: 125000, syncFrequency: 'Daily' },
+  { id: 'SRC-006', name: 'Google Analytics', type: 'API', status: 'Error', lastSync: '2024-11-24 18:00', recordCount: 8500000, syncFrequency: 'Daily' },
+];

@@ -62,16 +62,20 @@ export default function SponsorshipDeckPage() {
               <Stack direction="horizontal" gap={2}>
                 <Button
                   onClick={handlePreview}
-                  className="flex items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                  variant="outline"
+                  size="sm"
+                  icon={<Eye className="size-4" />}
+                  iconPosition="left"
                 >
-                  <Eye className="size-4" />
                   Preview
                 </Button>
                 <Button
                   onClick={handleDownload}
-                  className="flex items-center gap-2 border-2 border-primary bg-primary px-4 py-2 text-white"
+                  variant="solid"
+                  size="sm"
+                  icon={<Download className="size-4" />}
+                  iconPosition="left"
                 >
-                  <Download className="size-4" />
                   Download
                 </Button>
               </Stack>
@@ -107,7 +111,7 @@ export default function SponsorshipDeckPage() {
                                   <Body className="text-body-sm text-grey-500">{slide.description}</Body>
                                 </Stack>
                               </Stack>
-                              <Button className="border-2 border-grey-200 bg-white p-2">
+                              <Button variant="outline" size="icon">
                                 <Edit className="size-4" />
                               </Button>
                             </Stack>
@@ -213,13 +217,17 @@ export default function SponsorshipDeckPage() {
                     <Stack gap={2}>
                       <Button
                         onClick={() => router.push('/sponsors/tiers')}
-                        className="w-full border-2 border-grey-300 bg-white px-4 py-2 text-left"
+                        variant="outline"
+                        size="sm"
+                        fullWidth
                       >
                         Edit Tiers
                       </Button>
                       <Button
                         onClick={() => router.push('/sponsors')}
-                        className="w-full border-2 border-grey-300 bg-white px-4 py-2 text-left"
+                        variant="outline"
+                        size="sm"
+                        fullWidth
                       >
                         View Sponsors
                       </Button>

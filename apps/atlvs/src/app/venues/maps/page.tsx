@@ -76,9 +76,11 @@ export default function VenueMapsPage() {
                 {selectedVenueId && (
                   <Button
                     onClick={() => {}}
-                    className="flex items-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                    variant="outline"
+                    size="sm"
+                    icon={<Download className="size-4" />}
+                    iconPosition="left"
                   >
-                    <Download className="size-4" />
                     Export Map
                   </Button>
                 )}
@@ -94,10 +96,10 @@ export default function VenueMapsPage() {
                       <Stack direction="horizontal" gap={4} className="items-center justify-between">
                         <H3>{selectedVenue.name} Layout</H3>
                         <Stack direction="horizontal" gap={2}>
-                          <Button className="border-2 border-grey-300 bg-white p-2">
+                          <Button variant="outline" size="icon">
                             <ZoomIn className="size-4" />
                           </Button>
-                          <Button className="border-2 border-grey-300 bg-white p-2">
+                          <Button variant="outline" size="icon">
                             <ZoomOut className="size-4" />
                           </Button>
                         </Stack>
@@ -139,7 +141,8 @@ export default function VenueMapsPage() {
                               <Body className="text-grey-500">No zones configured for this venue.</Body>
                               <Button
                                 onClick={() => router.push(`/venues/zones?venue=${selectedVenueId}`)}
-                                className="border-2 border-primary bg-primary px-4 py-2 text-white"
+                                variant="solid"
+                                size="sm"
                               >
                                 Add Zones
                               </Button>
@@ -172,7 +175,9 @@ export default function VenueMapsPage() {
                         </Stack>
                         <Button
                           onClick={() => router.push(`/venues/${selectedVenueId}`)}
-                          className="w-full border-2 border-grey-300 bg-white px-4 py-2"
+                          variant="outline"
+                          size="sm"
+                          fullWidth
                         >
                           View Details
                         </Button>
@@ -208,16 +213,22 @@ export default function VenueMapsPage() {
                       <Stack gap={2}>
                         <Button
                           onClick={() => router.push(`/venues/zones?venue=${selectedVenueId}`)}
-                          className="flex w-full items-center justify-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                          variant="outline"
+                          size="sm"
+                          fullWidth
+                          icon={<MapPin className="size-4" />}
+                          iconPosition="left"
                         >
-                          <MapPin className="size-4" />
                           Manage Zones
                         </Button>
                         <Button
                           onClick={() => router.push(`/venues/${selectedVenueId}`)}
-                          className="flex w-full items-center justify-center gap-2 border-2 border-grey-300 bg-white px-4 py-2"
+                          variant="outline"
+                          size="sm"
+                          fullWidth
+                          icon={<Building2 className="size-4" />}
+                          iconPosition="left"
                         >
-                          <Building2 className="size-4" />
                           Venue Details
                         </Button>
                       </Stack>
@@ -239,7 +250,8 @@ export default function VenueMapsPage() {
                   </Stack>
                   <Button
                     onClick={() => router.push('/venues')}
-                    className="border-2 border-grey-300 bg-white px-4 py-2"
+                    variant="outline"
+                    size="sm"
                   >
                     View All Venues
                   </Button>

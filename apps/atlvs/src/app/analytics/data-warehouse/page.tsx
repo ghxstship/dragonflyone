@@ -10,25 +10,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface DataSource {
-  id: string;
-  name: string;
-  type: 'Database' | 'API' | 'File' | 'Streaming';
-  status: 'Connected' | 'Syncing' | 'Error' | 'Disconnected';
-  lastSync: string;
-  recordCount: number;
-  syncFrequency: string;
-  [key: string]: unknown;
-}
-
-const mockData: DataSource[] = [
-  { id: 'SRC-001', name: 'ATLVS Production DB', type: 'Database', status: 'Connected', lastSync: '2024-11-25 10:30', recordCount: 2450000, syncFrequency: 'Real-time' },
-  { id: 'SRC-002', name: 'COMPVSS Events DB', type: 'Database', status: 'Connected', lastSync: '2024-11-25 10:30', recordCount: 1850000, syncFrequency: 'Real-time' },
-  { id: 'SRC-003', name: 'GVTEWAY Consumer DB', type: 'Database', status: 'Syncing', lastSync: '2024-11-25 10:15', recordCount: 3200000, syncFrequency: '15 min' },
-  { id: 'SRC-004', name: 'Stripe Payments API', type: 'API', status: 'Connected', lastSync: '2024-11-25 10:28', recordCount: 450000, syncFrequency: 'Hourly' },
-  { id: 'SRC-005', name: 'Salesforce CRM', type: 'API', status: 'Connected', lastSync: '2024-11-25 09:00', recordCount: 125000, syncFrequency: 'Daily' },
-  { id: 'SRC-006', name: 'Google Analytics', type: 'API', status: 'Error', lastSync: '2024-11-24 18:00', recordCount: 8500000, syncFrequency: 'Daily' },
-];
+import {
+  DEMO_DATA_SOURCES,
+  type DemoDataSource as DataSource,
+} from '../../../lib/demo-data';
 
 const formatRecords = (count: number) => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -61,7 +46,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DataWarehousePage() {
   const router = useRouter();
-  const [data] = useState<DataSource[]>(mockData);
+  const [data] = useState<DataSource[]>(DEMO_DATA_SOURCES);
   const [selected, setSelected] = useState<DataSource | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -133,7 +118,7 @@ export default function DataWarehousePage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
