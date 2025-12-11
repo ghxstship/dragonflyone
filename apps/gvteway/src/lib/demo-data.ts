@@ -951,3 +951,58 @@ export const DEMO_POS_MENU_ITEMS: DemoPOSMenuItem[] = [
   { id: 'M-007', name: 'Event T-Shirt', price: 35, category: 'Merch' },
   { id: 'M-008', name: 'Poster', price: 25, category: 'Merch' },
 ];
+
+// =============================================================================
+// ADMIN - EARLY BIRD PRICING (for admin/pricing/early-bird/page.tsx)
+// =============================================================================
+
+export interface DemoEarlyBirdCampaign {
+  id: string;
+  name: string;
+  eventId: string;
+  eventName: string;
+  discountType: 'Percentage' | 'Fixed Amount';
+  discountValue: number;
+  startDate: string;
+  endDate: string;
+  ticketLimit?: number;
+  ticketsSold: number;
+  status: 'Scheduled' | 'Active' | 'Ended' | 'Paused';
+  revenue: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_EARLY_BIRD_CAMPAIGNS: DemoEarlyBirdCampaign[] = [
+  { id: 'EB-001', name: 'Super Early Bird', eventId: 'EVT-001', eventName: 'Summer Fest 2024', discountType: 'Percentage', discountValue: 30, startDate: '2024-10-01', endDate: '2024-10-31', ticketLimit: 500, ticketsSold: 500, status: 'Ended', revenue: 26250 },
+  { id: 'EB-002', name: 'Early Bird', eventId: 'EVT-001', eventName: 'Summer Fest 2024', discountType: 'Percentage', discountValue: 20, startDate: '2024-11-01', endDate: '2024-11-30', ticketLimit: 1000, ticketsSold: 756, status: 'Active', revenue: 45360 },
+  { id: 'EB-003', name: 'Holiday Special', eventId: 'EVT-002', eventName: 'Winter Gala', discountType: 'Fixed Amount', discountValue: 25, startDate: '2024-12-01', endDate: '2024-12-15', ticketsSold: 0, status: 'Scheduled', revenue: 0 },
+  { id: 'EB-004', name: 'Flash Sale', eventId: 'EVT-001', eventName: 'Summer Fest 2024', discountType: 'Percentage', discountValue: 15, startDate: '2024-11-20', endDate: '2024-11-22', ticketLimit: 200, ticketsSold: 200, status: 'Ended', revenue: 12750 },
+];
+
+// =============================================================================
+// ADMIN - SALES REPORTING (for admin/sales-reporting/page.tsx)
+// =============================================================================
+
+export interface DemoSalesData {
+  id: string;
+  location: string;
+  location_type: 'venue' | 'booth' | 'online' | 'box_office';
+  date: string;
+  period: string;
+  transactions: number;
+  gross_sales: number;
+  refunds: number;
+  net_sales: number;
+  avg_transaction: number;
+  top_items: { name: string; quantity: number; revenue: number }[];
+  [key: string]: unknown;
+}
+
+export const DEMO_SALES_DATA: DemoSalesData[] = [
+  { id: 'SD-001', location: 'Main Bar', location_type: 'venue', date: '2024-11-24', period: '14:00-15:00', transactions: 89, gross_sales: 2450.50, refunds: 45.00, net_sales: 2405.50, avg_transaction: 27.03, top_items: [{ name: 'Beer', quantity: 156, revenue: 1248.00 }, { name: 'Cocktails', quantity: 67, revenue: 871.00 }] },
+  { id: 'SD-002', location: 'Main Bar', location_type: 'venue', date: '2024-11-24', period: '13:00-14:00', transactions: 72, gross_sales: 1980.25, refunds: 0, net_sales: 1980.25, avg_transaction: 27.50, top_items: [{ name: 'Beer', quantity: 134, revenue: 1072.00 }, { name: 'Wine', quantity: 45, revenue: 585.00 }] },
+  { id: 'SD-003', location: 'Merch Booth A', location_type: 'booth', date: '2024-11-24', period: '14:00-15:00', transactions: 45, gross_sales: 3825.00, refunds: 85.00, net_sales: 3740.00, avg_transaction: 83.11, top_items: [{ name: 'Tour T-Shirt', quantity: 32, revenue: 1440.00 }, { name: 'Hoodie', quantity: 18, revenue: 1530.00 }] },
+  { id: 'SD-004', location: 'Merch Booth B', location_type: 'booth', date: '2024-11-24', period: '14:00-15:00', transactions: 38, gross_sales: 2890.00, refunds: 0, net_sales: 2890.00, avg_transaction: 76.05, top_items: [{ name: 'Poster', quantity: 45, revenue: 1125.00 }, { name: 'Cap', quantity: 28, revenue: 980.00 }] },
+  { id: 'SD-005', location: 'Online Store', location_type: 'online', date: '2024-11-24', period: '14:00-15:00', transactions: 156, gross_sales: 8945.00, refunds: 250.00, net_sales: 8695.00, avg_transaction: 55.74, top_items: [{ name: 'Vinyl Album', quantity: 45, revenue: 1575.00 }, { name: 'Bundle Pack', quantity: 28, revenue: 2520.00 }] },
+  { id: 'SD-006', location: 'Box Office', location_type: 'box_office', date: '2024-11-24', period: '14:00-15:00', transactions: 234, gross_sales: 18720.00, refunds: 150.00, net_sales: 18570.00, avg_transaction: 79.36, top_items: [{ name: 'GA Ticket', quantity: 189, revenue: 14175.00 }, { name: 'VIP Ticket', quantity: 45, revenue: 4500.00 }] },
+];

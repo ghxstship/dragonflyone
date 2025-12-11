@@ -12,27 +12,12 @@ import {
   Kicker, ProgressBar,
 } from "@ghxstship/ui";
 
-interface EarlyBirdCampaign {
-  id: string;
-  name: string;
-  eventId: string;
-  eventName: string;
-  discountType: "Percentage" | "Fixed Amount";
-  discountValue: number;
-  startDate: string;
-  endDate: string;
-  ticketLimit?: number;
-  ticketsSold: number;
-  status: "Scheduled" | "Active" | "Ended" | "Paused";
-  revenue: number;
-}
+import {
+  DEMO_EARLY_BIRD_CAMPAIGNS,
+  type DemoEarlyBirdCampaign as EarlyBirdCampaign,
+} from "@/lib/demo-data";
 
-const mockCampaigns: EarlyBirdCampaign[] = [
-  { id: "EB-001", name: "Super Early Bird", eventId: "EVT-001", eventName: "Summer Fest 2024", discountType: "Percentage", discountValue: 30, startDate: "2024-10-01", endDate: "2024-10-31", ticketLimit: 500, ticketsSold: 500, status: "Ended", revenue: 26250 },
-  { id: "EB-002", name: "Early Bird", eventId: "EVT-001", eventName: "Summer Fest 2024", discountType: "Percentage", discountValue: 20, startDate: "2024-11-01", endDate: "2024-11-30", ticketLimit: 1000, ticketsSold: 756, status: "Active", revenue: 45360 },
-  { id: "EB-003", name: "Holiday Special", eventId: "EVT-002", eventName: "Winter Gala", discountType: "Fixed Amount", discountValue: 25, startDate: "2024-12-01", endDate: "2024-12-15", ticketsSold: 0, status: "Scheduled", revenue: 0 },
-  { id: "EB-004", name: "Flash Sale", eventId: "EVT-001", eventName: "Summer Fest 2024", discountType: "Percentage", discountValue: 15, startDate: "2024-11-20", endDate: "2024-11-22", ticketLimit: 200, ticketsSold: 200, status: "Ended", revenue: 12750 },
-];
+const mockCampaigns = DEMO_EARLY_BIRD_CAMPAIGNS;
 
 function EarlyBirdPageContent() {
   const router = useRouter();
