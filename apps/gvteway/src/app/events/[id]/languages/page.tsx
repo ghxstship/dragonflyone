@@ -10,38 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-interface Translation {
-  id: string;
-  language: string;
-  languageCode: string;
-  status: "Complete" | "In Progress" | "Not Started";
-  progress: number;
-  lastUpdated?: string;
-  translator?: string;
-}
+import {
+  DEMO_TRANSLATIONS,
+  DEMO_TRANSLATION_FIELDS,
+  type DemoTranslation as Translation,
+  type DemoTranslationField as TranslationField,
+} from "@/lib/demo-data";
 
-interface TranslationField {
-  field: string;
-  original: string;
-  translated?: string;
-  status: "Translated" | "Pending" | "Review";
-}
-
-const mockTranslations: Translation[] = [
-  { id: "TR-001", language: "Spanish", languageCode: "es", status: "Complete", progress: 100, lastUpdated: "2024-11-20", translator: "Maria Garcia" },
-  { id: "TR-002", language: "French", languageCode: "fr", status: "In Progress", progress: 65, lastUpdated: "2024-11-24", translator: "Jean Dupont" },
-  { id: "TR-003", language: "German", languageCode: "de", status: "In Progress", progress: 40, lastUpdated: "2024-11-23" },
-  { id: "TR-004", language: "Japanese", languageCode: "ja", status: "Not Started", progress: 0 },
-  { id: "TR-005", language: "Portuguese", languageCode: "pt", status: "Complete", progress: 100, lastUpdated: "2024-11-18", translator: "Carlos Silva" },
-];
-
-const mockFields: TranslationField[] = [
-  { field: "Event Title", original: "Summer Music Festival 2025", translated: "Festival de Música de Verano 2025", status: "Translated" },
-  { field: "Description", original: "Join us for three days of incredible live music featuring top artists from around the world.", translated: "Únete a nosotros para tres días de increíble música en vivo con los mejores artistas de todo el mundo.", status: "Translated" },
-  { field: "Venue Info", original: "Central Park, New York City", translated: "Central Park, Nueva York", status: "Translated" },
-  { field: "Ticket Info", original: "General Admission tickets include access to all stages.", status: "Pending" },
-  { field: "Safety Guidelines", original: "Please review our safety guidelines before attending.", status: "Review" },
-];
+const mockTranslations = DEMO_TRANSLATIONS;
+const mockFields = DEMO_TRANSLATION_FIELDS;
 
 function EventLanguagesPageContent() {
   const router = useRouter();

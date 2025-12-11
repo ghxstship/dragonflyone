@@ -10,52 +10,18 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert, Kicker,
 } from "@ghxstship/ui";
 
-interface AccessibilityService {
-  id: string;
-  name: string;
-  description: string;
-  available: boolean;
-  requiresRequest: boolean;
-  leadTime?: string;
-}
+import {
+  DEMO_EVENT_ACCESSIBILITY_SERVICES,
+  DEMO_AGE_RESTRICTION,
+  DEMO_EVENT_ACCESSIBILITY_REQUESTS,
+  type DemoEventAccessibilityService as AccessibilityService,
+  type DemoAgeRestriction as AgeRestriction,
+  type DemoEventAccessibilityRequest as AccessibilityRequest,
+} from "@/lib/demo-data";
 
-interface AgeRestriction {
-  type: "All Ages" | "18+" | "21+" | "Under 18 with Guardian";
-  description: string;
-  idRequired: boolean;
-  guardianRequired: boolean;
-}
-
-interface AccessibilityRequest {
-  id: string;
-  type: string;
-  status: "Pending" | "Approved" | "Denied";
-  requestDate: string;
-  notes?: string;
-}
-
-const mockServices: AccessibilityService[] = [
-  { id: "SVC-001", name: "Wheelchair Accessible Seating", description: "Designated wheelchair spaces with companion seating", available: true, requiresRequest: false },
-  { id: "SVC-002", name: "ASL Interpretation", description: "American Sign Language interpreters for performances", available: true, requiresRequest: true, leadTime: "7 days" },
-  { id: "SVC-003", name: "Audio Description", description: "Live audio description of visual elements", available: true, requiresRequest: true, leadTime: "5 days" },
-  { id: "SVC-004", name: "Assistive Listening Devices", description: "FM receivers and headsets available at venue", available: true, requiresRequest: false },
-  { id: "SVC-005", name: "Service Animal Accommodation", description: "Service animals welcome at all events", available: true, requiresRequest: false },
-  { id: "SVC-006", name: "Sensory-Friendly Performance", description: "Modified lighting and sound levels", available: false, requiresRequest: true },
-  { id: "SVC-007", name: "Large Print Programs", description: "Event programs in large print format", available: true, requiresRequest: true, leadTime: "3 days" },
-  { id: "SVC-008", name: "Accessible Parking", description: "Reserved accessible parking spaces near entrance", available: true, requiresRequest: false },
-];
-
-const mockAgeRestriction: AgeRestriction = {
-  type: "21+",
-  description: "This event is 21+ only. Valid government-issued photo ID required for entry.",
-  idRequired: true,
-  guardianRequired: false,
-};
-
-const mockRequests: AccessibilityRequest[] = [
-  { id: "REQ-001", type: "ASL Interpretation", status: "Approved", requestDate: "2024-11-15", notes: "Interpreter confirmed for main stage" },
-  { id: "REQ-002", type: "Wheelchair Seating", status: "Approved", requestDate: "2024-11-18" },
-];
+const mockServices = DEMO_EVENT_ACCESSIBILITY_SERVICES;
+const mockAgeRestriction = DEMO_AGE_RESTRICTION;
+const mockRequests = DEMO_EVENT_ACCESSIBILITY_REQUESTS;
 
 function AccessibilityPageContent() {
   const router = useRouter();

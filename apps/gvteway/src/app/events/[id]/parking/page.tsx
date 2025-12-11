@@ -10,43 +10,15 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Alert, Kicker,
 } from "@ghxstship/ui";
 
-interface ParkingOption {
-  id: string;
-  name: string;
-  type: "Standard" | "Premium" | "VIP" | "Accessible" | "Rideshare";
-  price: number;
-  distance: string;
-  walkTime: string;
-  spotsAvailable: number;
-  totalSpots: number;
-  features: string[];
-  address?: string;
-}
+import {
+  DEMO_PARKING_OPTIONS,
+  DEMO_TRANSPORT_OPTIONS,
+  type DemoParkingOption as ParkingOption,
+  type DemoTransportOption as TransportOption,
+} from "@/lib/demo-data";
 
-interface TransportOption {
-  id: string;
-  name: string;
-  type: "Shuttle" | "Public Transit" | "Rideshare Zone" | "Bike Parking";
-  description: string;
-  schedule?: string;
-  price?: number;
-  features: string[];
-}
-
-const mockParking: ParkingOption[] = [
-  { id: "PKG-001", name: "Main Lot A", type: "Standard", price: 25, distance: "0.2 miles", walkTime: "5 min", spotsAvailable: 450, totalSpots: 800, features: ["Paved", "Well-lit", "Security patrol"], address: "123 Main St" },
-  { id: "PKG-002", name: "Premium Lot B", type: "Premium", price: 45, distance: "0.1 miles", walkTime: "2 min", spotsAvailable: 85, totalSpots: 200, features: ["Closest to entrance", "Covered", "EV charging"], address: "125 Main St" },
-  { id: "PKG-003", name: "VIP Valet", type: "VIP", price: 75, distance: "At venue", walkTime: "0 min", spotsAvailable: 25, totalSpots: 50, features: ["Valet service", "Priority exit", "Complimentary wash"] },
-  { id: "PKG-004", name: "Accessible Parking", type: "Accessible", price: 25, distance: "0.05 miles", walkTime: "1 min", spotsAvailable: 30, totalSpots: 40, features: ["ADA compliant", "Level surface", "Close to accessible entrance"] },
-  { id: "PKG-005", name: "Rideshare Drop-off", type: "Rideshare", price: 0, distance: "0.1 miles", walkTime: "3 min", spotsAvailable: 999, totalSpots: 999, features: ["Designated zone", "Well-marked", "Safe pickup area"] },
-];
-
-const mockTransport: TransportOption[] = [
-  { id: "TRN-001", name: "Event Shuttle", type: "Shuttle", description: "Free shuttle from downtown transit hub", schedule: "Every 15 min starting 2 hours before event", price: 0, features: ["Free", "Air conditioned", "Wheelchair accessible"] },
-  { id: "TRN-002", name: "Metro Line", type: "Public Transit", description: "Blue Line to Convention Center Station", schedule: "Regular service, extra trains after event", price: 3, features: ["$3 each way", "5 min walk to venue", "Late service available"] },
-  { id: "TRN-003", name: "Uber/Lyft Zone", type: "Rideshare Zone", description: "Designated pickup and drop-off area", features: ["North side of venue", "Well-lit", "Security present"] },
-  { id: "TRN-004", name: "Bike Valet", type: "Bike Parking", description: "Free secure bike parking", features: ["Free", "Attended", "Helmet storage available"] },
-];
+const mockParking = DEMO_PARKING_OPTIONS;
+const mockTransport = DEMO_TRANSPORT_OPTIONS;
 
 function ParkingTransportPageContent() {
   const router = useRouter();

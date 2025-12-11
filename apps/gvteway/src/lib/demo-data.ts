@@ -394,3 +394,140 @@ export const DEMO_LEADERBOARD: DemoLeaderboard[] = [
   { rank: 4, userName: 'FestivalFreak', points: 12100, completedChallenges: 9 },
   { rank: 5, userName: 'VenueHopper', points: 11500, completedChallenges: 9 },
 ];
+
+// =============================================================================
+// EVENTS - ACCESSIBILITY (for events/[id]/accessibility/page.tsx)
+// =============================================================================
+
+export interface DemoEventAccessibilityService {
+  id: string;
+  name: string;
+  description: string;
+  available: boolean;
+  requiresRequest: boolean;
+  leadTime?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoAgeRestriction {
+  type: 'All Ages' | '18+' | '21+' | 'Under 18 with Guardian';
+  description: string;
+  idRequired: boolean;
+  guardianRequired: boolean;
+  [key: string]: unknown;
+}
+
+export interface DemoEventAccessibilityRequest {
+  id: string;
+  type: string;
+  status: 'Pending' | 'Approved' | 'Denied';
+  requestDate: string;
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_EVENT_ACCESSIBILITY_SERVICES: DemoEventAccessibilityService[] = [
+  { id: 'SVC-001', name: 'Wheelchair Accessible Seating', description: 'Designated wheelchair spaces with companion seating', available: true, requiresRequest: false },
+  { id: 'SVC-002', name: 'ASL Interpretation', description: 'American Sign Language interpreters for performances', available: true, requiresRequest: true, leadTime: '7 days' },
+  { id: 'SVC-003', name: 'Audio Description', description: 'Live audio description of visual elements', available: true, requiresRequest: true, leadTime: '5 days' },
+  { id: 'SVC-004', name: 'Assistive Listening Devices', description: 'FM receivers and headsets available at venue', available: true, requiresRequest: false },
+  { id: 'SVC-005', name: 'Service Animal Accommodation', description: 'Service animals welcome at all events', available: true, requiresRequest: false },
+  { id: 'SVC-006', name: 'Sensory-Friendly Performance', description: 'Modified lighting and sound levels', available: false, requiresRequest: true },
+  { id: 'SVC-007', name: 'Large Print Programs', description: 'Event programs in large print format', available: true, requiresRequest: true, leadTime: '3 days' },
+  { id: 'SVC-008', name: 'Accessible Parking', description: 'Reserved accessible parking spaces near entrance', available: true, requiresRequest: false },
+];
+
+export const DEMO_AGE_RESTRICTION: DemoAgeRestriction = {
+  type: '21+',
+  description: 'This event is 21+ only. Valid government-issued photo ID required for entry.',
+  idRequired: true,
+  guardianRequired: false,
+};
+
+export const DEMO_EVENT_ACCESSIBILITY_REQUESTS: DemoEventAccessibilityRequest[] = [
+  { id: 'REQ-001', type: 'ASL Interpretation', status: 'Approved', requestDate: '2024-11-15', notes: 'Interpreter confirmed for main stage' },
+  { id: 'REQ-002', type: 'Wheelchair Seating', status: 'Approved', requestDate: '2024-11-18' },
+];
+
+// =============================================================================
+// EVENTS - LANGUAGES (for events/[id]/languages/page.tsx)
+// =============================================================================
+
+export interface DemoTranslation {
+  id: string;
+  language: string;
+  languageCode: string;
+  status: 'Complete' | 'In Progress' | 'Not Started';
+  progress: number;
+  lastUpdated?: string;
+  translator?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoTranslationField {
+  field: string;
+  original: string;
+  translated?: string;
+  status: 'Translated' | 'Pending' | 'Review';
+  [key: string]: unknown;
+}
+
+export const DEMO_TRANSLATIONS: DemoTranslation[] = [
+  { id: 'TR-001', language: 'Spanish', languageCode: 'es', status: 'Complete', progress: 100, lastUpdated: '2024-11-20', translator: 'Maria Garcia' },
+  { id: 'TR-002', language: 'French', languageCode: 'fr', status: 'In Progress', progress: 65, lastUpdated: '2024-11-24', translator: 'Jean Dupont' },
+  { id: 'TR-003', language: 'German', languageCode: 'de', status: 'In Progress', progress: 40, lastUpdated: '2024-11-23' },
+  { id: 'TR-004', language: 'Japanese', languageCode: 'ja', status: 'Not Started', progress: 0 },
+  { id: 'TR-005', language: 'Portuguese', languageCode: 'pt', status: 'Complete', progress: 100, lastUpdated: '2024-11-18', translator: 'Carlos Silva' },
+];
+
+export const DEMO_TRANSLATION_FIELDS: DemoTranslationField[] = [
+  { field: 'Event Title', original: 'Summer Music Festival 2025', translated: 'Festival de Música de Verano 2025', status: 'Translated' },
+  { field: 'Description', original: 'Join us for three days of incredible live music featuring top artists from around the world.', translated: 'Únete a nosotros para tres días de increíble música en vivo con los mejores artistas de todo el mundo.', status: 'Translated' },
+  { field: 'Venue Info', original: 'Central Park, New York City', translated: 'Central Park, Nueva York', status: 'Translated' },
+  { field: 'Ticket Info', original: 'General Admission tickets include access to all stages.', status: 'Pending' },
+  { field: 'Safety Guidelines', original: 'Please review our safety guidelines before attending.', status: 'Review' },
+];
+
+// =============================================================================
+// EVENTS - PARKING (for events/[id]/parking/page.tsx)
+// =============================================================================
+
+export interface DemoParkingOption {
+  id: string;
+  name: string;
+  type: 'Standard' | 'Premium' | 'VIP' | 'Accessible' | 'Rideshare';
+  price: number;
+  distance: string;
+  walkTime: string;
+  spotsAvailable: number;
+  totalSpots: number;
+  features: string[];
+  address?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoTransportOption {
+  id: string;
+  name: string;
+  type: 'Shuttle' | 'Public Transit' | 'Rideshare Zone' | 'Bike Parking';
+  description: string;
+  schedule?: string;
+  price?: number;
+  features: string[];
+  [key: string]: unknown;
+}
+
+export const DEMO_PARKING_OPTIONS: DemoParkingOption[] = [
+  { id: 'PKG-001', name: 'Main Lot A', type: 'Standard', price: 25, distance: '0.2 miles', walkTime: '5 min', spotsAvailable: 450, totalSpots: 800, features: ['Paved', 'Well-lit', 'Security patrol'], address: '123 Main St' },
+  { id: 'PKG-002', name: 'Premium Lot B', type: 'Premium', price: 45, distance: '0.1 miles', walkTime: '2 min', spotsAvailable: 85, totalSpots: 200, features: ['Closest to entrance', 'Covered', 'EV charging'], address: '125 Main St' },
+  { id: 'PKG-003', name: 'VIP Valet', type: 'VIP', price: 75, distance: 'At venue', walkTime: '0 min', spotsAvailable: 25, totalSpots: 50, features: ['Valet service', 'Priority exit', 'Complimentary wash'] },
+  { id: 'PKG-004', name: 'Accessible Parking', type: 'Accessible', price: 25, distance: '0.05 miles', walkTime: '1 min', spotsAvailable: 30, totalSpots: 40, features: ['ADA compliant', 'Level surface', 'Close to accessible entrance'] },
+  { id: 'PKG-005', name: 'Rideshare Drop-off', type: 'Rideshare', price: 0, distance: '0.1 miles', walkTime: '3 min', spotsAvailable: 999, totalSpots: 999, features: ['Designated zone', 'Well-marked', 'Safe pickup area'] },
+];
+
+export const DEMO_TRANSPORT_OPTIONS: DemoTransportOption[] = [
+  { id: 'TRN-001', name: 'Event Shuttle', type: 'Shuttle', description: 'Free shuttle from downtown transit hub', schedule: 'Every 15 min starting 2 hours before event', price: 0, features: ['Free', 'Air conditioned', 'Wheelchair accessible'] },
+  { id: 'TRN-002', name: 'Metro Line', type: 'Public Transit', description: 'Blue Line to Convention Center Station', schedule: 'Regular service, extra trains after event', price: 3, features: ['$3 each way', '5 min walk to venue', 'Late service available'] },
+  { id: 'TRN-003', name: 'Uber/Lyft Zone', type: 'Rideshare Zone', description: 'Designated pickup and drop-off area', features: ['North side of venue', 'Well-lit', 'Security present'] },
+  { id: 'TRN-004', name: 'Bike Valet', type: 'Bike Parking', description: 'Free secure bike parking', features: ['Free', 'Attended', 'Helmet storage available'] },
+];
