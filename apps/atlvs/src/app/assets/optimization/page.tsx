@@ -9,29 +9,10 @@ import {
 } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-interface OptimizationRecommendation {
-  id: string;
-  type: 'underutilized' | 'overutilized' | 'maintenance_due' | 'replacement' | 'consolidation' | 'reallocation';
-  priority: 'high' | 'medium' | 'low';
-  asset_id: string;
-  asset_name: string;
-  category: string;
-  current_utilization: number;
-  target_utilization: number;
-  recommendation: string;
-  potential_savings: number;
-  action_items: string[];
-  status: 'pending' | 'in_progress' | 'implemented' | 'dismissed';
-  [key: string]: unknown;
-}
-
-const mockData: OptimizationRecommendation[] = [
-  { id: 'REC-001', type: 'underutilized', priority: 'high', asset_id: 'AST-001', asset_name: 'LED Wall Panel Set A', category: 'Video', current_utilization: 15, target_utilization: 60, recommendation: 'Consider rental pooling or sale. Asset has been idle for 85% of the quarter.', potential_savings: 25000, action_items: ['List on rental marketplace', 'Get appraisal for sale', 'Review upcoming project needs'], status: 'pending' },
-  { id: 'REC-002', type: 'overutilized', priority: 'medium', asset_id: 'AST-002', asset_name: 'Meyer Sound Line Array', category: 'Audio', current_utilization: 95, target_utilization: 75, recommendation: 'High demand asset. Consider purchasing additional units to reduce scheduling conflicts.', potential_savings: 15000, action_items: ['Request capital budget', 'Evaluate rental costs vs purchase', 'Review booking conflicts'], status: 'in_progress' },
-  { id: 'REC-003', type: 'maintenance_due', priority: 'high', asset_id: 'AST-003', asset_name: 'Lighting Console grandMA3', category: 'Lighting', current_utilization: 70, target_utilization: 70, recommendation: 'Preventive maintenance overdue by 30 days. Schedule service to avoid downtime.', potential_savings: 5000, action_items: ['Schedule maintenance window', 'Arrange backup console', 'Update service records'], status: 'pending' },
-  { id: 'REC-004', type: 'consolidation', priority: 'low', asset_id: 'AST-004', asset_name: 'Cable Inventory', category: 'Infrastructure', current_utilization: 40, target_utilization: 60, recommendation: 'Multiple cable types with low utilization. Consolidate to standard types.', potential_savings: 8000, action_items: ['Audit cable inventory', 'Identify redundant types', 'Create standardization plan'], status: 'pending' },
-  { id: 'REC-005', type: 'replacement', priority: 'medium', asset_id: 'AST-005', asset_name: 'PTZ Camera Set', category: 'Video', current_utilization: 65, target_utilization: 70, recommendation: 'Asset approaching end of life. Plan replacement within 6 months.', potential_savings: 12000, action_items: ['Research replacement models', 'Get quotes', 'Plan transition timeline'], status: 'pending' },
-];
+import {
+  DEMO_OPTIMIZATION_RECOMMENDATIONS,
+  type DemoOptimizationRecommendation as OptimizationRecommendation,
+} from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -58,7 +39,7 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AssetOptimizationPage() {
-  const [data, setData] = useState<OptimizationRecommendation[]>(mockData);
+  const [data, setData] = useState<OptimizationRecommendation[]>(DEMO_OPTIMIZATION_RECOMMENDATIONS);
   const [selected, setSelected] = useState<OptimizationRecommendation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -129,7 +110,7 @@ export default function AssetOptimizationPage() {
 
       }
 
-      refetch();
+      // Data refreshed after import
 
     },
 
