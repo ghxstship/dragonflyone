@@ -12,16 +12,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface POSTerminal {
-  id: string;
-  name: string;
-  location: string;
-  type: "Box Office" | "Concession" | "Merch" | "Mobile";
-  status: "Online" | "Offline" | "Busy";
-  lastTransaction?: string;
-  todaySales: number;
-  transactionCount: number;
-}
+import {
+  DEMO_POS_TERMINALS,
+  DEMO_POS_MENU_ITEMS,
+  type DemoPOSTerminal as POSTerminal,
+  type DemoPOSMenuItem,
+} from "@/lib/demo-data";
 
 interface CartItem {
   id: string;
@@ -31,24 +27,8 @@ interface CartItem {
   category: string;
 }
 
-const mockTerminals: POSTerminal[] = [
-  { id: "POS-001", name: "Box Office 1", location: "Main Entrance", type: "Box Office", status: "Online", lastTransaction: "2 min ago", todaySales: 12450, transactionCount: 89 },
-  { id: "POS-002", name: "Box Office 2", location: "Main Entrance", type: "Box Office", status: "Busy", lastTransaction: "Just now", todaySales: 15230, transactionCount: 102 },
-  { id: "POS-003", name: "Concession A", location: "Section A", type: "Concession", status: "Online", lastTransaction: "5 min ago", todaySales: 3420, transactionCount: 156 },
-  { id: "POS-004", name: "Merch Booth", location: "Main Concourse", type: "Merch", status: "Online", lastTransaction: "1 min ago", todaySales: 8750, transactionCount: 67 },
-  { id: "POS-005", name: "Mobile 1", location: "Roaming", type: "Mobile", status: "Offline", todaySales: 890, transactionCount: 12 },
-];
-
-const menuItems = [
-  { id: "M-001", name: "GA Ticket", price: 75, category: "Tickets" },
-  { id: "M-002", name: "VIP Ticket", price: 150, category: "Tickets" },
-  { id: "M-003", name: "Beer", price: 12, category: "Drinks" },
-  { id: "M-004", name: "Soda", price: 5, category: "Drinks" },
-  { id: "M-005", name: "Hot Dog", price: 8, category: "Food" },
-  { id: "M-006", name: "Pizza Slice", price: 10, category: "Food" },
-  { id: "M-007", name: "Event T-Shirt", price: 35, category: "Merch" },
-  { id: "M-008", name: "Poster", price: 25, category: "Merch" },
-];
+const mockTerminals = DEMO_POS_TERMINALS;
+const menuItems = DEMO_POS_MENU_ITEMS;
 
 function POSPageContent() {
   const router = useRouter();

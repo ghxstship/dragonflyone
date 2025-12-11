@@ -16,24 +16,12 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 
-interface FlaggedContent {
-  id: string;
-  type: "Comment" | "Review" | "Post" | "Photo";
-  content: string;
-  author: string;
-  reportedBy: string;
-  reason: string;
-  timestamp: string;
-  status: "Pending" | "Approved" | "Removed" | "Escalated";
-  [key: string]: unknown;
-}
+import {
+  DEMO_FLAGGED_CONTENT,
+  type DemoFlaggedContent as FlaggedContent,
+} from '@/lib/demo-data';
 
-const mockFlagged: FlaggedContent[] = [
-  { id: "FLAG-001", type: "Comment", content: "This event was terrible! Total waste of money...", author: "user123", reportedBy: "moderator", reason: "Spam/Inappropriate", timestamp: "2024-11-25 10:30", status: "Pending" },
-  { id: "FLAG-002", type: "Review", content: "Best concert ever! 10/10 would recommend to everyone!", author: "musicfan", reportedBy: "auto-filter", reason: "Suspicious activity", timestamp: "2024-11-25 09:15", status: "Pending" },
-  { id: "FLAG-003", type: "Post", content: "Selling tickets at half price! DM me now!", author: "ticketseller", reportedBy: "user456", reason: "Unauthorized sales", timestamp: "2024-11-24 18:45", status: "Removed" },
-  { id: "FLAG-004", type: "Photo", content: "[Image flagged for review]", author: "partygoer", reportedBy: "auto-filter", reason: "Potentially inappropriate", timestamp: "2024-11-24 16:20", status: "Approved" },
-];
+const mockFlagged = DEMO_FLAGGED_CONTENT;
 
 const getTypeIcon = (type: string) => {
   switch (type) {

@@ -12,35 +12,15 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-interface SMSCampaign {
-  id: string;
-  name: string;
-  message: string;
-  status: "Draft" | "Scheduled" | "Sending" | "Completed" | "Paused";
-  audienceSize: number;
-  sentCount: number;
-  deliveredCount: number;
-  clickCount: number;
-  scheduledDate?: string;
-  completedDate?: string;
-  eventId?: string;
-  eventName?: string;
-}
+import {
+  DEMO_SMS_CAMPAIGNS,
+  DEMO_AUDIENCE_SEGMENTS,
+  type DemoSMSCampaign as SMSCampaign,
+  type DemoAudienceSegment as AudienceSegment,
+} from "@/lib/demo-data";
 
-const mockCampaigns: SMSCampaign[] = [
-  { id: "SMS-001", name: "Early Bird Reminder", message: "Last chance! Early bird tickets for Summer Fest end tonight. Get 20% off: gvteway.com/sf24", status: "Completed", audienceSize: 15420, sentCount: 15420, deliveredCount: 14892, clickCount: 2134, completedDate: "2024-11-20", eventId: "EVT-001", eventName: "Summer Fest 2024" },
-  { id: "SMS-002", name: "VIP Upgrade Offer", message: "Exclusive offer! Upgrade to VIP for just $50 more. Limited availability: gvteway.com/vip", status: "Sending", audienceSize: 8500, sentCount: 4250, deliveredCount: 4102, clickCount: 523, eventId: "EVT-001", eventName: "Summer Fest 2024" },
-  { id: "SMS-003", name: "Event Reminder - 24hr", message: "See you tomorrow! Summer Fest gates open at 2PM. Don't forget your ticket: gvteway.com/mytickets", status: "Scheduled", audienceSize: 12000, sentCount: 0, deliveredCount: 0, clickCount: 0, scheduledDate: "2024-11-25T10:00:00Z", eventId: "EVT-001", eventName: "Summer Fest 2024" },
-  { id: "SMS-004", name: "Flash Sale Alert", message: "FLASH SALE! 30% off all remaining tickets for the next 2 hours only!", status: "Draft", audienceSize: 25000, sentCount: 0, deliveredCount: 0, clickCount: 0 },
-];
-
-const audienceSegments = [
-  { id: "SEG-001", name: "All Subscribers", count: 45000 },
-  { id: "SEG-002", name: "Past Attendees", count: 28000 },
-  { id: "SEG-003", name: "VIP Members", count: 3500 },
-  { id: "SEG-004", name: "Ticket Holders", count: 12000 },
-  { id: "SEG-005", name: "Cart Abandoners", count: 2800 },
-];
+const mockCampaigns = DEMO_SMS_CAMPAIGNS;
+const audienceSegments = DEMO_AUDIENCE_SEGMENTS;
 
 function SMSMarketingPageContent() {
   const router = useRouter();

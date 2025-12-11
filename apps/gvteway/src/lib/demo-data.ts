@@ -843,3 +843,111 @@ export const DEMO_CONTESTS: DemoContest[] = [
   { id: 'CNT-003', name: '#SummerFestVibes Challenge', type: 'Hashtag Challenge', eventId: 'EVT-001', eventName: 'Summer Fest 2024', prize: 'Exclusive Merch Bundle', prizeValue: 150, startDate: '2024-11-10', endDate: '2024-11-25', status: 'Active', entries: 892, platforms: ['TikTok', 'Instagram'] },
   { id: 'CNT-004', name: 'Holiday Sweepstakes', type: 'Sweepstakes', prize: 'Year of Free Concerts', prizeValue: 2000, startDate: '2024-12-01', endDate: '2024-12-25', status: 'Draft', entries: 0, platforms: ['Instagram', 'Twitter', 'Facebook'] },
 ];
+
+// =============================================================================
+// ADMIN - SMS MARKETING (for admin/marketing/sms/page.tsx)
+// =============================================================================
+
+export interface DemoSMSCampaign {
+  id: string;
+  name: string;
+  message: string;
+  status: 'Draft' | 'Scheduled' | 'Sending' | 'Completed' | 'Paused';
+  audienceSize: number;
+  sentCount: number;
+  deliveredCount: number;
+  clickCount: number;
+  scheduledDate?: string;
+  completedDate?: string;
+  eventId?: string;
+  eventName?: string;
+  [key: string]: unknown;
+}
+
+export interface DemoAudienceSegment {
+  id: string;
+  name: string;
+  count: number;
+  [key: string]: unknown;
+}
+
+export const DEMO_SMS_CAMPAIGNS: DemoSMSCampaign[] = [
+  { id: 'SMS-001', name: 'Early Bird Reminder', message: 'Last chance! Early bird tickets for Summer Fest end tonight. Get 20% off: gvteway.com/sf24', status: 'Completed', audienceSize: 15420, sentCount: 15420, deliveredCount: 14892, clickCount: 2134, completedDate: '2024-11-20', eventId: 'EVT-001', eventName: 'Summer Fest 2024' },
+  { id: 'SMS-002', name: 'VIP Upgrade Offer', message: 'Exclusive offer! Upgrade to VIP for just $50 more. Limited availability: gvteway.com/vip', status: 'Sending', audienceSize: 8500, sentCount: 4250, deliveredCount: 4102, clickCount: 523, eventId: 'EVT-001', eventName: 'Summer Fest 2024' },
+  { id: 'SMS-003', name: 'Event Reminder - 24hr', message: 'See you tomorrow! Summer Fest gates open at 2PM. Don\'t forget your ticket: gvteway.com/mytickets', status: 'Scheduled', audienceSize: 12000, sentCount: 0, deliveredCount: 0, clickCount: 0, scheduledDate: '2024-11-25T10:00:00Z', eventId: 'EVT-001', eventName: 'Summer Fest 2024' },
+  { id: 'SMS-004', name: 'Flash Sale Alert', message: 'FLASH SALE! 30% off all remaining tickets for the next 2 hours only!', status: 'Draft', audienceSize: 25000, sentCount: 0, deliveredCount: 0, clickCount: 0 },
+];
+
+export const DEMO_AUDIENCE_SEGMENTS: DemoAudienceSegment[] = [
+  { id: 'SEG-001', name: 'All Subscribers', count: 45000 },
+  { id: 'SEG-002', name: 'Past Attendees', count: 28000 },
+  { id: 'SEG-003', name: 'VIP Members', count: 3500 },
+  { id: 'SEG-004', name: 'Ticket Holders', count: 12000 },
+  { id: 'SEG-005', name: 'Cart Abandoners', count: 2800 },
+];
+
+// =============================================================================
+// ADMIN - MODERATION (for admin/moderation/page.tsx)
+// =============================================================================
+
+export interface DemoFlaggedContent {
+  id: string;
+  type: 'Comment' | 'Review' | 'Post' | 'Photo';
+  content: string;
+  author: string;
+  reportedBy: string;
+  reason: string;
+  timestamp: string;
+  status: 'Pending' | 'Approved' | 'Removed' | 'Escalated';
+  [key: string]: unknown;
+}
+
+export const DEMO_FLAGGED_CONTENT: DemoFlaggedContent[] = [
+  { id: 'FLAG-001', type: 'Comment', content: 'This event was terrible! Total waste of money...', author: 'user123', reportedBy: 'moderator', reason: 'Spam/Inappropriate', timestamp: '2024-11-25 10:30', status: 'Pending' },
+  { id: 'FLAG-002', type: 'Review', content: 'Best concert ever! 10/10 would recommend to everyone!', author: 'musicfan', reportedBy: 'auto-filter', reason: 'Suspicious activity', timestamp: '2024-11-25 09:15', status: 'Pending' },
+  { id: 'FLAG-003', type: 'Post', content: 'Selling tickets at half price! DM me now!', author: 'ticketseller', reportedBy: 'user456', reason: 'Unauthorized sales', timestamp: '2024-11-24 18:45', status: 'Removed' },
+  { id: 'FLAG-004', type: 'Photo', content: '[Image flagged for review]', author: 'partygoer', reportedBy: 'auto-filter', reason: 'Potentially inappropriate', timestamp: '2024-11-24 16:20', status: 'Approved' },
+];
+
+// =============================================================================
+// ADMIN - POS (for admin/pos/page.tsx)
+// =============================================================================
+
+export interface DemoPOSTerminal {
+  id: string;
+  name: string;
+  location: string;
+  type: 'Box Office' | 'Concession' | 'Merch' | 'Mobile';
+  status: 'Online' | 'Offline' | 'Busy';
+  lastTransaction?: string;
+  todaySales: number;
+  transactionCount: number;
+  [key: string]: unknown;
+}
+
+export interface DemoPOSMenuItem {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_POS_TERMINALS: DemoPOSTerminal[] = [
+  { id: 'POS-001', name: 'Box Office 1', location: 'Main Entrance', type: 'Box Office', status: 'Online', lastTransaction: '2 min ago', todaySales: 12450, transactionCount: 89 },
+  { id: 'POS-002', name: 'Box Office 2', location: 'Main Entrance', type: 'Box Office', status: 'Busy', lastTransaction: 'Just now', todaySales: 15230, transactionCount: 102 },
+  { id: 'POS-003', name: 'Concession A', location: 'Section A', type: 'Concession', status: 'Online', lastTransaction: '5 min ago', todaySales: 3420, transactionCount: 156 },
+  { id: 'POS-004', name: 'Merch Booth', location: 'Main Concourse', type: 'Merch', status: 'Online', lastTransaction: '1 min ago', todaySales: 8750, transactionCount: 67 },
+  { id: 'POS-005', name: 'Mobile 1', location: 'Roaming', type: 'Mobile', status: 'Offline', todaySales: 890, transactionCount: 12 },
+];
+
+export const DEMO_POS_MENU_ITEMS: DemoPOSMenuItem[] = [
+  { id: 'M-001', name: 'GA Ticket', price: 75, category: 'Tickets' },
+  { id: 'M-002', name: 'VIP Ticket', price: 150, category: 'Tickets' },
+  { id: 'M-003', name: 'Beer', price: 12, category: 'Drinks' },
+  { id: 'M-004', name: 'Soda', price: 5, category: 'Drinks' },
+  { id: 'M-005', name: 'Hot Dog', price: 8, category: 'Food' },
+  { id: 'M-006', name: 'Pizza Slice', price: 10, category: 'Food' },
+  { id: 'M-007', name: 'Event T-Shirt', price: 35, category: 'Merch' },
+  { id: 'M-008', name: 'Poster', price: 25, category: 'Merch' },
+];
