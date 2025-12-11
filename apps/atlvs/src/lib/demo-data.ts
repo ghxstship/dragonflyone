@@ -263,3 +263,28 @@ export const DEMO_CALENDAR_EVENTS: DemoCalendarEvent[] = [
   { id: 'CAL-002', title: 'Vendor Call - Sound Systems', start: '2024-12-16T14:00:00', end: '2024-12-16T14:30:00', type: 'call', attendees: ['Emily Park'] },
   { id: 'CAL-003', title: 'Site Visit - Madison Square Garden', start: '2024-12-18T09:00:00', end: '2024-12-18T12:00:00', type: 'event', location: 'MSG' },
 ];
+
+// =============================================================================
+// VENDOR CONTRACTS (for vendors/contracts page)
+// =============================================================================
+
+export interface DemoVendorContractFull {
+  id: string;
+  vendorName: string;
+  contractType: string;
+  startDate: string;
+  expiryDate: string;
+  value: number;
+  status: 'Active' | 'Expiring' | 'Expired' | 'Pending Renewal';
+  daysUntilExpiry: number;
+  autoRenew: boolean;
+  category: string;
+}
+
+export const DEMO_VENDOR_CONTRACTS_FULL: DemoVendorContractFull[] = [
+  { id: 'VC-001', vendorName: 'Audio House Inc', contractType: 'Master Services', startDate: '2023-01-01', expiryDate: '2025-01-01', value: 250000, status: 'Expiring', daysUntilExpiry: 37, autoRenew: false, category: 'Audio' },
+  { id: 'VC-002', vendorName: 'Lighting Solutions', contractType: 'Equipment Rental', startDate: '2024-03-01', expiryDate: '2025-03-01', value: 180000, status: 'Active', daysUntilExpiry: 96, autoRenew: true, category: 'Lighting' },
+  { id: 'VC-003', vendorName: 'Stage Builders Co', contractType: 'Preferred Vendor', startDate: '2023-06-01', expiryDate: '2024-11-30', value: 320000, status: 'Expired', daysUntilExpiry: -5, autoRenew: false, category: 'Staging' },
+  { id: 'VC-004', vendorName: 'Video Tech Pro', contractType: 'Master Services', startDate: '2024-01-01', expiryDate: '2025-12-31', value: 150000, status: 'Active', daysUntilExpiry: 402, autoRenew: true, category: 'Video' },
+  { id: 'VC-005', vendorName: 'Rigging Experts', contractType: 'Equipment Rental', startDate: '2024-06-01', expiryDate: '2024-12-15', value: 95000, status: 'Expiring', daysUntilExpiry: 20, autoRenew: false, category: 'Rigging' },
+];

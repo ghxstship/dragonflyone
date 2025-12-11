@@ -16,26 +16,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface VendorContract {
-  id: string;
-  vendorName: string;
-  contractType: string;
-  startDate: string;
-  expiryDate: string;
-  value: number;
-  status: "Active" | "Expiring" | "Expired" | "Pending Renewal";
-  daysUntilExpiry: number;
-  autoRenew: boolean;
-  category: string;
-}
-
-const mockContracts: VendorContract[] = [
-  { id: "VC-001", vendorName: "Audio House Inc", contractType: "Master Services", startDate: "2023-01-01", expiryDate: "2025-01-01", value: 250000, status: "Expiring", daysUntilExpiry: 37, autoRenew: false, category: "Audio" },
-  { id: "VC-002", vendorName: "Lighting Solutions", contractType: "Equipment Rental", startDate: "2024-03-01", expiryDate: "2025-03-01", value: 180000, status: "Active", daysUntilExpiry: 96, autoRenew: true, category: "Lighting" },
-  { id: "VC-003", vendorName: "Stage Builders Co", contractType: "Preferred Vendor", startDate: "2023-06-01", expiryDate: "2024-11-30", value: 320000, status: "Expired", daysUntilExpiry: -5, autoRenew: false, category: "Staging" },
-  { id: "VC-004", vendorName: "Video Tech Pro", contractType: "Master Services", startDate: "2024-01-01", expiryDate: "2025-12-31", value: 150000, status: "Active", daysUntilExpiry: 402, autoRenew: true, category: "Video" },
-  { id: "VC-005", vendorName: "Rigging Experts", contractType: "Equipment Rental", startDate: "2024-06-01", expiryDate: "2024-12-15", value: 95000, status: "Expiring", daysUntilExpiry: 20, autoRenew: false, category: "Rigging" },
-];
+import {
+  DEMO_VENDOR_CONTRACTS_FULL,
+  type DemoVendorContractFull as VendorContract,
+} from "../../../lib/demo-data";
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -73,7 +57,7 @@ const filters: ListPageFilter[] = [
 
 export default function VendorContractsPage() {
   const router = useRouter();
-  const [contracts] = useState<VendorContract[]>(mockContracts);
+  const [contracts] = useState<VendorContract[]>(DEMO_VENDOR_CONTRACTS_FULL);
   const [selectedContract, setSelectedContract] = useState<VendorContract | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
