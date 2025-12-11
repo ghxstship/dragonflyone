@@ -10,6 +10,7 @@ import {
 import "./globals.css";
 import { ErrorBoundary, NotificationProvider } from "@ghxstship/ui";
 import { Providers } from "./providers";
+import { ServiceWorkerRegistration } from "../components/service-worker-registration";
 
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
 const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas-neue" });
@@ -70,6 +71,7 @@ export default function RootLayout({
         <ErrorBoundary>
           <Providers>
             <NotificationProvider>
+              <ServiceWorkerRegistration />
               {children}
             </NotificationProvider>
           </Providers>

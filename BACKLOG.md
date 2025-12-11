@@ -16,7 +16,7 @@
 | P0 (Critical) | 0 (All completed) |
 | P1 (High) | 0 (All completed) |
 | P2 (Medium) | 0 (All completed - Mock Data Cleanup done) |
-| P3 (Low) | 2 (PWA Mobile Apps - XL effort, deferred) |
+| P3 (Low) | 2 (PWA Mobile Apps - Foundation complete, UI optimization remaining) |
 | Completed (Last 30 Days) | 91 |
 | Total Pages | 581 |
 | ATLVS Pages | 211 |
@@ -3201,11 +3201,11 @@ Add a floating action button for quick record creation, especially useful on mob
 
 ## P3 - Low Priority (Future Enhancements)
 
-### BACK-045: Mobile-Optimized Crew App
+### BACK-045: Mobile-Optimized Crew App (PWA)
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete (Foundation) |
 | **Priority** | P3 |
 | **Effort** | XL (2+ weeks) |
 | **App** | COMPVSS |
@@ -3213,19 +3213,48 @@ Add a floating action button for quick record creation, especially useful on mob
 **Description:**  
 PWA-optimized experience for crew members on mobile devices.
 
+**Completed Infrastructure:**
+- [x] PWA manifest with icons, shortcuts, and screenshots
+- [x] Service worker with offline caching (sw.js)
+- [x] Offline page (/offline)
+- [x] useOffline hook for offline state management
+- [x] IndexedDB for offline data storage
+- [x] Background sync for crew updates and timesheets
+- [x] Push notification support
+
+**Remaining (Mobile UI Optimization):**
+- [ ] Mobile-specific navigation patterns
+- [ ] Touch-optimized interactions
+- [ ] Responsive layouts for small screens
+
 ---
 
-### BACK-046: Mobile-Optimized Attendee App
+### BACK-046: Mobile-Optimized Attendee App (PWA)
 
 | Field | Value |
 |-------|-------|
-| **Status** | Not Started |
+| **Status** | Complete (Foundation) |
 | **Priority** | P3 |
 | **Effort** | XL (2+ weeks) |
 | **App** | GVTEWAY |
 
 **Description:**  
 PWA-optimized experience for attendees on mobile devices.
+
+**Completed Infrastructure:**
+- [x] PWA manifest with icons, shortcuts, and screenshots
+- [x] Service worker with offline caching (sw.js)
+- [x] Offline page (/offline)
+- [x] useOffline hook for offline state management
+- [x] IndexedDB for offline data storage
+- [x] Background sync for cart and wishlist
+- [x] Push notification support
+- [x] Service worker registration in app layout
+
+**Remaining (Mobile UI Optimization):**
+- [ ] Mobile-specific navigation patterns
+- [ ] Touch-optimized interactions
+- [ ] Responsive layouts for small screens
 
 ---
 
