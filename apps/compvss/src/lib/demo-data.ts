@@ -458,3 +458,39 @@ export const DEMO_MESSAGES: DemoMessage[] = [
   { id: 'MSG-002', channel_id: 'CH-001', sender: DEMO_CHANNEL_MEMBERS[1], content: 'Copy that, lighting ready when you are', timestamp: '2024-11-24T14:32:00Z', is_priority: false },
   { id: 'MSG-003', channel_id: 'CH-001', sender: DEMO_CHANNEL_MEMBERS[0], content: 'Starting soundcheck in 5', timestamp: '2024-11-24T14:35:00Z', is_priority: true },
 ];
+
+// =============================================================================
+// DELIVERIES (for deliveries/page.tsx)
+// =============================================================================
+
+export interface DemoDeliveryItem {
+  name: string;
+  quantity: number;
+  received?: number;
+}
+
+export interface DemoDelivery {
+  id: string;
+  vendor: string;
+  description: string;
+  trackingNumber?: string;
+  carrier?: string;
+  status: 'Scheduled' | 'In Transit' | 'Arrived' | 'Received' | 'Delayed';
+  scheduledDate: string;
+  scheduledTime: string;
+  actualArrival?: string;
+  receivedBy?: string;
+  accessPoint: string;
+  projectId: string;
+  items: DemoDeliveryItem[];
+  notes?: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_DELIVERIES: DemoDelivery[] = [
+  { id: 'DEL-001', vendor: 'PRG Lighting', description: 'Lighting fixtures and cables', trackingNumber: '1Z999AA10123456784', carrier: 'UPS Freight', status: 'In Transit', scheduledDate: '2024-11-24', scheduledTime: '10:00', accessPoint: 'Loading Dock 1', projectId: 'PROJ-089', items: [{ name: 'Robe MegaPointe', quantity: 24 }, { name: 'DMX Cable 50ft', quantity: 48 }] },
+  { id: 'DEL-002', vendor: 'Meyer Sound', description: 'Line array system', status: 'Scheduled', scheduledDate: '2024-11-24', scheduledTime: '14:00', accessPoint: 'Loading Dock 2', projectId: 'PROJ-089', items: [{ name: 'LEO-M Line Array', quantity: 12 }, { name: '1100-LFC Subwoofer', quantity: 8 }] },
+  { id: 'DEL-003', vendor: 'Stageline', description: 'Staging deck modules', trackingNumber: 'PRO123456', carrier: 'Company Truck', status: 'Arrived', scheduledDate: '2024-11-24', scheduledTime: '08:00', actualArrival: '08:15', accessPoint: 'Main Gate A', projectId: 'PROJ-089', items: [{ name: '4x8 Deck Module', quantity: 60 }, { name: 'Leg Assembly', quantity: 120 }] },
+  { id: 'DEL-004', vendor: 'Audio Systems Inc', description: 'Wireless microphone systems', trackingNumber: 'FX123456789', carrier: 'FedEx', status: 'Received', scheduledDate: '2024-11-23', scheduledTime: '11:00', actualArrival: '10:45', receivedBy: 'John Martinez', accessPoint: 'Loading Dock 1', projectId: 'PROJ-089', items: [{ name: 'Shure ULXD4Q', quantity: 4, received: 4 }, { name: 'ULXD2 Handheld', quantity: 8, received: 8 }] },
+  { id: 'DEL-005', vendor: 'Rigging Solutions', description: 'Chain motors and hardware', status: 'Delayed', scheduledDate: '2024-11-24', scheduledTime: '09:00', accessPoint: 'Loading Dock 2', projectId: 'PROJ-089', items: [{ name: 'CM Lodestar 1-Ton', quantity: 20 }], notes: 'Truck breakdown - ETA delayed 2 hours' },
+];

@@ -24,30 +24,10 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-interface Delivery {
-  id: string;
-  vendor: string;
-  description: string;
-  trackingNumber?: string;
-  carrier?: string;
-  status: "Scheduled" | "In Transit" | "Arrived" | "Received" | "Delayed";
-  scheduledDate: string;
-  scheduledTime: string;
-  actualArrival?: string;
-  receivedBy?: string;
-  accessPoint: string;
-  projectId: string;
-  items: { name: string; quantity: number; received?: number }[];
-  notes?: string;
-}
-
-const mockDeliveries: Delivery[] = [
-  { id: "DEL-001", vendor: "PRG Lighting", description: "Lighting fixtures and cables", trackingNumber: "1Z999AA10123456784", carrier: "UPS Freight", status: "In Transit", scheduledDate: "2024-11-24", scheduledTime: "10:00", accessPoint: "Loading Dock 1", projectId: "PROJ-089", items: [{ name: "Robe MegaPointe", quantity: 24 }, { name: "DMX Cable 50ft", quantity: 48 }] },
-  { id: "DEL-002", vendor: "Meyer Sound", description: "Line array system", status: "Scheduled", scheduledDate: "2024-11-24", scheduledTime: "14:00", accessPoint: "Loading Dock 2", projectId: "PROJ-089", items: [{ name: "LEO-M Line Array", quantity: 12 }, { name: "1100-LFC Subwoofer", quantity: 8 }] },
-  { id: "DEL-003", vendor: "Stageline", description: "Staging deck modules", trackingNumber: "PRO123456", carrier: "Company Truck", status: "Arrived", scheduledDate: "2024-11-24", scheduledTime: "08:00", actualArrival: "08:15", accessPoint: "Main Gate A", projectId: "PROJ-089", items: [{ name: "4x8 Deck Module", quantity: 60 }, { name: "Leg Assembly", quantity: 120 }] },
-  { id: "DEL-004", vendor: "Audio Systems Inc", description: "Wireless microphone systems", trackingNumber: "FX123456789", carrier: "FedEx", status: "Received", scheduledDate: "2024-11-23", scheduledTime: "11:00", actualArrival: "10:45", receivedBy: "John Martinez", accessPoint: "Loading Dock 1", projectId: "PROJ-089", items: [{ name: "Shure ULXD4Q", quantity: 4, received: 4 }, { name: "ULXD2 Handheld", quantity: 8, received: 8 }] },
-  { id: "DEL-005", vendor: "Rigging Solutions", description: "Chain motors and hardware", status: "Delayed", scheduledDate: "2024-11-24", scheduledTime: "09:00", accessPoint: "Loading Dock 2", projectId: "PROJ-089", items: [{ name: "CM Lodestar 1-Ton", quantity: 20 }], notes: "Truck breakdown - ETA delayed 2 hours" },
-];
+import {
+  DEMO_DELIVERIES,
+  type DemoDelivery as Delivery,
+} from "../../lib/demo-data";
 
 const columns: ListPageColumn<Delivery>[] = [
   { key: 'vendor', label: 'Vendor', accessor: 'vendor', sortable: true },
@@ -105,7 +85,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DeliveriesPage() {
   const router = useRouter();
-  const [deliveries, setDeliveries] = useState<Delivery[]>(mockDeliveries);
+  const [deliveries, setDeliveries] = useState<Delivery[]>(DEMO_DELIVERIES);
   const [loading] = useState(false);
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -115,7 +95,7 @@ export default function DeliveriesPage() {
   const [deliveryToDelete, setDeliveryToDelete] = useState<Delivery | null>(null);
 
   const refetch = useCallback(() => {
-    setDeliveries(mockDeliveries);
+    setDeliveries(DEMO_DELIVERIES);
   }, []);
 
   const rowActions: ListPageAction<Delivery>[] = [
