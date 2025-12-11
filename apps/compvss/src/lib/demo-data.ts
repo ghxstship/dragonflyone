@@ -521,3 +521,48 @@ export const DEMO_DRAWINGS: DemoDrawing[] = [
   { id: 'DWG-004', name: 'Rigging Plot', type: 'CAD', category: 'Rigging', project: 'Summer Fest 2024', version: 2, uploadedBy: 'Emily Chen', uploadedAt: '2024-11-21', size: '6.8 MB', status: 'Current', markups: 1 },
   { id: 'DWG-005', name: 'Site Plan', type: 'PDF', category: 'Site', project: 'Summer Fest 2024', version: 1, uploadedBy: 'John Smith', uploadedAt: '2024-11-20', size: '3.5 MB', status: 'Current', markups: 0 },
 ];
+
+// =============================================================================
+// EMERGENCY CONTACTS & PROCEDURES (for emergency/page.tsx)
+// =============================================================================
+
+export interface DemoEmergencyContact {
+  id: string;
+  name: string;
+  role: string;
+  phone: string;
+  email?: string;
+  priority: number;
+  category: 'Production' | 'Venue' | 'Medical' | 'Security' | 'Fire' | 'Police' | 'Management';
+  available: boolean;
+  [key: string]: unknown;
+}
+
+export const DEMO_EMERGENCY_CONTACTS: DemoEmergencyContact[] = [
+  { id: 'EC-001', name: 'John Martinez', role: 'Production Manager', phone: '+1 555-0101', email: 'john@company.com', priority: 1, category: 'Production', available: true },
+  { id: 'EC-002', name: 'Sarah Chen', role: 'Stage Manager', phone: '+1 555-0102', priority: 2, category: 'Production', available: true },
+  { id: 'EC-003', name: 'Mike Thompson', role: 'Technical Director', phone: '+1 555-0103', priority: 3, category: 'Production', available: true },
+  { id: 'EC-004', name: 'Venue Security', role: 'Security Lead', phone: '+1 555-0200', priority: 1, category: 'Security', available: true },
+  { id: 'EC-005', name: 'On-Site Medical', role: 'EMT Team Lead', phone: '+1 555-0300', priority: 1, category: 'Medical', available: true },
+  { id: 'EC-006', name: 'Tampa Fire Dept', role: 'Fire Marshal', phone: '911', priority: 1, category: 'Fire', available: true },
+  { id: 'EC-007', name: 'Tampa PD', role: 'Event Liaison', phone: '+1 555-0400', priority: 1, category: 'Police', available: true },
+  { id: 'EC-008', name: 'Venue Manager', role: 'Facility Contact', phone: '+1 555-0500', priority: 1, category: 'Venue', available: true },
+];
+
+export interface DemoEmergencyProcedure {
+  id: string;
+  type: 'Fire' | 'Medical' | 'Weather' | 'Security' | 'Evacuation' | 'Power Failure' | 'Crowd Control';
+  title: string;
+  steps: string[];
+  contacts: string[];
+  lastUpdated: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_EMERGENCY_PROCEDURES: DemoEmergencyProcedure[] = [
+  { id: 'EP-001', type: 'Fire', title: 'Fire Emergency Response', steps: ['Activate fire alarm', 'Call 911 immediately', 'Notify Production Manager', 'Begin evacuation per venue plan', 'Account for all crew members', 'Meet at designated assembly point'], contacts: ['Fire Marshal', 'Production Manager', 'Venue Manager'], lastUpdated: '2024-11-01' },
+  { id: 'EP-002', type: 'Medical', title: 'Medical Emergency Response', steps: ['Call for on-site medical team', 'Do not move injured person unless danger', 'Clear area around patient', 'Notify Production Manager', 'Document incident details', 'Follow up with incident report'], contacts: ['EMT Team Lead', 'Production Manager'], lastUpdated: '2024-11-01' },
+  { id: 'EP-003', type: 'Weather', title: 'Severe Weather Protocol', steps: ['Monitor weather alerts continuously', 'Notify all department heads at warning', 'Prepare for show hold at watch', 'Evacuate outdoor areas if lightning within 8 miles', 'Resume 30 minutes after last lightning'], contacts: ['Production Manager', 'Venue Manager', 'Security Lead'], lastUpdated: '2024-11-01' },
+  { id: 'EP-004', type: 'Evacuation', title: 'Full Venue Evacuation', steps: ['Announce evacuation via PA', 'Stop show immediately', 'House lights to full', 'Open all exit doors', 'Direct crowd to nearest exits', 'Account for all personnel'], contacts: ['Production Manager', 'Security Lead', 'Venue Manager'], lastUpdated: '2024-11-01' },
+  { id: 'EP-005', type: 'Power Failure', title: 'Power Failure Response', steps: ['Remain calm - emergency lights will activate', 'Notify Technical Director', 'Check generator status', 'Assess scope of outage', 'Communicate status to all departments', 'Prepare for show hold or cancellation'], contacts: ['Technical Director', 'Venue Manager', 'Production Manager'], lastUpdated: '2024-11-01' },
+];

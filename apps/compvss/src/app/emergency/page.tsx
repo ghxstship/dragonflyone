@@ -26,44 +26,12 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface EmergencyContact {
-  id: string;
-  name: string;
-  role: string;
-  phone: string;
-  email?: string;
-  priority: number;
-  category: "Production" | "Venue" | "Medical" | "Security" | "Fire" | "Police" | "Management";
-  available: boolean;
-}
-
-interface EmergencyProcedure {
-  id: string;
-  type: "Fire" | "Medical" | "Weather" | "Security" | "Evacuation" | "Power Failure" | "Crowd Control";
-  title: string;
-  steps: string[];
-  contacts: string[];
-  lastUpdated: string;
-}
-
-const mockContacts: EmergencyContact[] = [
-  { id: "EC-001", name: "John Martinez", role: "Production Manager", phone: "+1 555-0101", email: "john@company.com", priority: 1, category: "Production", available: true },
-  { id: "EC-002", name: "Sarah Chen", role: "Stage Manager", phone: "+1 555-0102", priority: 2, category: "Production", available: true },
-  { id: "EC-003", name: "Mike Thompson", role: "Technical Director", phone: "+1 555-0103", priority: 3, category: "Production", available: true },
-  { id: "EC-004", name: "Venue Security", role: "Security Lead", phone: "+1 555-0200", priority: 1, category: "Security", available: true },
-  { id: "EC-005", name: "On-Site Medical", role: "EMT Team Lead", phone: "+1 555-0300", priority: 1, category: "Medical", available: true },
-  { id: "EC-006", name: "Tampa Fire Dept", role: "Fire Marshal", phone: "911", priority: 1, category: "Fire", available: true },
-  { id: "EC-007", name: "Tampa PD", role: "Event Liaison", phone: "+1 555-0400", priority: 1, category: "Police", available: true },
-  { id: "EC-008", name: "Venue Manager", role: "Facility Contact", phone: "+1 555-0500", priority: 1, category: "Venue", available: true },
-];
-
-const mockProcedures: EmergencyProcedure[] = [
-  { id: "EP-001", type: "Fire", title: "Fire Emergency Response", steps: ["Activate fire alarm", "Call 911 immediately", "Notify Production Manager", "Begin evacuation per venue plan", "Account for all crew members", "Meet at designated assembly point"], contacts: ["Fire Marshal", "Production Manager", "Venue Manager"], lastUpdated: "2024-11-01" },
-  { id: "EP-002", type: "Medical", title: "Medical Emergency Response", steps: ["Call for on-site medical team", "Do not move injured person unless danger", "Clear area around patient", "Notify Production Manager", "Document incident details", "Follow up with incident report"], contacts: ["EMT Team Lead", "Production Manager"], lastUpdated: "2024-11-01" },
-  { id: "EP-003", type: "Weather", title: "Severe Weather Protocol", steps: ["Monitor weather alerts continuously", "Notify all department heads at warning", "Prepare for show hold at watch", "Evacuate outdoor areas if lightning within 8 miles", "Resume 30 minutes after last lightning"], contacts: ["Production Manager", "Venue Manager", "Security Lead"], lastUpdated: "2024-11-01" },
-  { id: "EP-004", type: "Evacuation", title: "Full Venue Evacuation", steps: ["Announce evacuation via PA", "Stop show immediately", "House lights to full", "Open all exit doors", "Direct crowd to nearest exits", "Account for all personnel"], contacts: ["Production Manager", "Security Lead", "Venue Manager"], lastUpdated: "2024-11-01" },
-  { id: "EP-005", type: "Power Failure", title: "Power Failure Response", steps: ["Remain calm - emergency lights will activate", "Notify Technical Director", "Check generator status", "Assess scope of outage", "Communicate status to all departments", "Prepare for show hold or cancellation"], contacts: ["Technical Director", "Venue Manager", "Production Manager"], lastUpdated: "2024-11-01" },
-];
+import {
+  DEMO_EMERGENCY_CONTACTS,
+  DEMO_EMERGENCY_PROCEDURES,
+  type DemoEmergencyContact as EmergencyContact,
+  type DemoEmergencyProcedure as EmergencyProcedure,
+} from "../../lib/demo-data";
 
 export default function EmergencyPage() {
   const router = useRouter();
@@ -98,21 +66,21 @@ export default function EmergencyPage() {
 
             {/* Quick Access Cards */}
             <Grid cols={3} gap={4}>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Medical") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Medical") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚑</Body>
                   <Body className="font-display">MEDICAL</Body>
                   <Body className="text-body-sm">Tap for procedure</Body>
                 </Stack>
               </Card>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Fire") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Fire") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🔥</Body>
                   <Body className="font-display">FIRE</Body>
                   <Body className="text-body-sm">Tap for procedure</Body>
                 </Stack>
               </Card>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(mockProcedures.find(p => p.type === "Evacuation") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Evacuation") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚨</Body>
                   <Body className="font-display">EVACUATION</Body>
@@ -137,7 +105,7 @@ export default function EmergencyPage() {
                         <Stack gap={3}>
                           <H3>{category}</H3>
                           <Grid cols={2} gap={3}>
-                            {mockContacts.filter(c => c.category === category).sort((a, b) => a.priority - b.priority).map((contact) => (
+                            {DEMO_EMERGENCY_CONTACTS.filter(c => c.category === category).sort((a, b) => a.priority - b.priority).map((contact) => (
                               <Card key={contact.id} className="p-3">
                                 <Stack direction="horizontal" className="items-start justify-between">
                                   <Stack gap={1}>
@@ -165,7 +133,7 @@ export default function EmergencyPage() {
 
                 <TabPanel active={isActive('procedures')}>
                   <Grid cols={2} gap={4} className="mt-6">
-                    {mockProcedures.map((procedure) => (
+                    {DEMO_EMERGENCY_PROCEDURES.map((procedure) => (
                       <Card key={procedure.id} className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedure)}>
                         <Stack gap={3}>
                           <Stack direction="horizontal" className="items-start justify-between">
