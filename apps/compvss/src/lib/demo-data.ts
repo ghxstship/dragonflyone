@@ -321,3 +321,28 @@ export const DEMO_BUILD_STRIKE_TASKS: DemoBuildStrikeTask[] = [
   { id: '5', task: 'Install monitors', area: 'Stage', assignedTo: 'Sound Team', status: 'pending', priority: 'medium' },
   { id: '6', task: 'Drape stage', area: 'Stage', assignedTo: 'Stage Team', status: 'pending', priority: 'low' },
 ];
+
+// =============================================================================
+// CASE STUDIES (for case-studies/page.tsx)
+// =============================================================================
+
+export interface DemoCaseStudy {
+  id: string;
+  title: string;
+  projectName: string;
+  type: 'Success' | 'Post-Mortem' | 'Lessons Learned';
+  category: string;
+  date: string;
+  author: string;
+  summary: string;
+  keyTakeaways: string[];
+  metrics?: { label: string; value: string }[];
+  [key: string]: unknown;
+}
+
+export const DEMO_CASE_STUDIES: DemoCaseStudy[] = [
+  { id: 'CS-001', title: 'Festival Stage Collapse Prevention', projectName: 'Summer Fest 2023', type: 'Success', category: 'Safety', date: '2024-02-15', author: 'Safety Team', summary: 'How early weather monitoring and proactive rigging inspection prevented a potential stage collapse during high winds.', keyTakeaways: ['Implement 48-hour weather monitoring', 'Daily rigging inspections during setup', 'Clear evacuation protocols'], metrics: [{ label: 'Wind Speed', value: '45 mph' }, { label: 'Response Time', value: '12 min' }] },
+  { id: 'CS-002', title: 'Audio System Failure Analysis', projectName: 'Arena Tour 2023', type: 'Post-Mortem', category: 'Technical', date: '2024-01-20', author: 'Audio Dept', summary: 'Root cause analysis of main PA failure during headliner set and improvements implemented.', keyTakeaways: ['Redundant amplifier racks', 'Pre-show stress testing', 'Backup system hot standby'], metrics: [{ label: 'Downtime', value: '8 min' }, { label: 'Affected', value: '15,000' }] },
+  { id: 'CS-003', title: 'Crew Scheduling Optimization', projectName: 'Corporate Gala', type: 'Lessons Learned', category: 'Operations', date: '2024-03-10', author: 'Ops Team', summary: 'How we reduced overtime by 30% through better advance planning and skill-based crew assignment.', keyTakeaways: ['Skill matrix for assignments', 'Buffer time between calls', 'Cross-training program'], metrics: [{ label: 'OT Reduction', value: '30%' }, { label: 'Cost Saved', value: '$45K' }] },
+  { id: 'CS-004', title: 'LED Wall Calibration Standards', projectName: 'Multiple Events', type: 'Success', category: 'Video', date: '2024-04-05', author: 'Video Dept', summary: 'Establishing company-wide LED calibration standards that improved client satisfaction scores.', keyTakeaways: ['Standardized color profiles', 'Pre-event calibration checklist', 'Client approval workflow'], metrics: [{ label: 'Satisfaction', value: '+25%' }, { label: 'Callbacks', value: '-60%' }] },
+];
