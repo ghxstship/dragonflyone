@@ -264,16 +264,18 @@ CREATE POLICY sso_configs_org_admin ON organization_sso_configs
   FOR ALL TO authenticated
   USING (
     organization_id IN (
-      SELECT organization_id FROM platform_users 
-      WHERE id = auth.uid() 
-      AND role IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
+      SELECT pu.organization_id FROM platform_users pu
+      JOIN user_roles ur ON ur.platform_user_id = pu.id
+      WHERE pu.id = auth.uid() 
+      AND ur.role_code IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     )
   )
   WITH CHECK (
     organization_id IN (
-      SELECT organization_id FROM platform_users 
-      WHERE id = auth.uid() 
-      AND role IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
+      SELECT pu.organization_id FROM platform_users pu
+      JOIN user_roles ur ON ur.platform_user_id = pu.id
+      WHERE pu.id = auth.uid() 
+      AND ur.role_code IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     )
   );
 
@@ -284,9 +286,10 @@ CREATE POLICY sso_domains_org_admin ON sso_domain_mappings
     sso_config_id IN (
       SELECT id FROM organization_sso_configs 
       WHERE organization_id IN (
-        SELECT organization_id FROM platform_users 
-        WHERE id = auth.uid() 
-        AND role IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
+        SELECT pu.organization_id FROM platform_users pu
+        JOIN user_roles ur ON ur.platform_user_id = pu.id
+        WHERE pu.id = auth.uid() 
+        AND ur.role_code IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
       )
     )
   );
@@ -302,9 +305,10 @@ CREATE POLICY sso_sessions_admin ON sso_sessions
     sso_config_id IN (
       SELECT id FROM organization_sso_configs 
       WHERE organization_id IN (
-        SELECT organization_id FROM platform_users 
-        WHERE id = auth.uid() 
-        AND role IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
+        SELECT pu.organization_id FROM platform_users pu
+        JOIN user_roles ur ON ur.platform_user_id = pu.id
+        WHERE pu.id = auth.uid() 
+        AND ur.role_code IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
       )
     )
   );
@@ -314,9 +318,10 @@ CREATE POLICY sso_audit_org_admin ON sso_audit_log
   FOR SELECT TO authenticated
   USING (
     organization_id IN (
-      SELECT organization_id FROM platform_users 
-      WHERE id = auth.uid() 
-      AND role IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
+      SELECT pu.organization_id FROM platform_users pu
+      JOIN user_roles ur ON ur.platform_user_id = pu.id
+      WHERE pu.id = auth.uid() 
+      AND ur.role_code IN ('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     )
   );
 
