@@ -1061,7 +1061,22 @@ Replace all 559 `as any` type casts across 339 files with proper TypeScript type
 | **Source** | Full Repo Audit - December 5, 2025 |
 
 **Description:**  
-Test coverage has been significantly improved with 90 test files covering 1479 tests for hooks and utilities.
+Test coverage has been significantly improved with 103 test files covering 1710 tests for hooks and utilities.
+
+**Latest Update (January 2025):**
+Added 12 new test files:
+- `apps/atlvs/src/hooks/__tests__/useContacts.test.ts` (15 tests)
+- `apps/atlvs/src/hooks/__tests__/useBudgets.test.ts` (17 tests)
+- `apps/atlvs/src/hooks/__tests__/useDocuments.test.ts` (15 tests)
+- `apps/atlvs/src/hooks/__tests__/useVenues.test.ts` (19 tests)
+- `apps/atlvs/src/hooks/__tests__/useSponsors.test.ts` (17 tests)
+- `apps/compvss/src/hooks/__tests__/useCrew.test.ts` (17 tests)
+- `apps/compvss/src/hooks/__tests__/usePermits.test.ts` (12 tests)
+- `apps/compvss/src/hooks/__tests__/useExpenses.test.ts` (10 tests)
+- `apps/gvteway/src/hooks/__tests__/useWishlist.test.ts` (12 tests)
+- `apps/gvteway/src/hooks/__tests__/useArtists.test.ts` (17 tests)
+- `apps/gvteway/src/hooks/__tests__/usePackages.test.ts` (11 tests)
+- `apps/gvteway/src/hooks/__tests__/useResale.test.ts` (14 tests)
 
 **Current Test Files (90 total):**
 - `apps/atlvs/src/hooks/__tests__/useProjects.test.ts`
