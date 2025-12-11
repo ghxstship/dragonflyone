@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -17,79 +17,21 @@ import {
   Kicker,
 } from '@ghxstship/ui';
 import Image from 'next/image';
-
-interface SetlistItem {
-  id: string;
-  order: number;
-  title: string;
-  artist?: string;
-  duration?: string;
-  notes?: string;
-  is_encore?: boolean;
-}
-
-interface ProgramSection {
-  id: string;
-  title: string;
-  start_time?: string;
-  description?: string;
-  items: SetlistItem[];
-}
-
-interface EventProgram {
-  event_id: string;
-  event_title: string;
-  event_date: string;
-  venue_name: string;
-  program_notes?: string;
-  sections: ProgramSection[];
-  performers: {
-    id: string;
-    name: string;
-    role?: string;
-    image?: string;
-    bio?: string;
-  }[];
-  sponsors?: {
-    name: string;
-    logo?: string;
-    tier: string;
-  }[];
-}
+import { useEventProgramData } from '@/hooks/useEventProgram';
 
 export default function EventProgramPage() {
   const router = useRouter();
   const params = useParams();
   const eventId = params.id as string;
 
-  const [program, setProgram] = useState<EventProgram | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { program, isLoading: loading, error } = useEventProgramData(eventId);
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
-  const fetchProgram = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/events/${eventId}/program`);
-      if (response.ok) {
-        const data = await response.json();
-        setProgram(data.program);
-        if (data.program?.sections?.length > 0) {
-          setActiveSection(data.program.sections[0].id);
-        }
-      } else {
-        setError('Program not available');
-      }
-    } catch (err) {
-      setError('Failed to load program');
-    } finally {
-      setLoading(false);
-    }
-  }, [eventId]);
-
   useEffect(() => {
-    fetchProgram();
-  }, [fetchProgram]);
+    if (program?.sections?.length > 0 && !activeSection) {
+      setActiveSection(program.sections[0].id);
+    }
+  }, [program, activeSection]);
 
   if (loading) {
     return <GvtewayLoadingLayout />;

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
@@ -14,54 +13,14 @@ import {
   ProjectCard,
   Kicker,
 } from '@ghxstship/ui';
-
-interface Event {
-  id: string;
-  title: string;
-  date: string;
-  venue: string;
-  category: string;
-  price?: number;
-  image?: string;
-}
-
-interface Collection {
-  id: string;
-  name: string;
-  description: string;
-  image?: string;
-  events: Event[];
-}
+import { useCollectionData } from '@/hooks/useCollections';
 
 export default function CollectionPage() {
   const params = useParams();
   const router = useRouter();
   const collectionId = params.id as string;
 
-  const [collection, setCollection] = useState<Collection | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCollection = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/collections/${collectionId}`);
-      if (response.ok) {
-        const data = await response.json();
-        setCollection(data.collection);
-      } else {
-        setError('Collection not found');
-      }
-    } catch (err) {
-      setError('Failed to load collection');
-    } finally {
-      setLoading(false);
-    }
-  }, [collectionId]);
-
-  useEffect(() => {
-    fetchCollection();
-  }, [fetchCollection]);
+  const { collection, isLoading: loading, error } = useCollectionData(collectionId);
 
   const handleEventClick = (eventId: string) => {
     router.push(`/events/${eventId}`);
