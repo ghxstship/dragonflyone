@@ -2318,7 +2318,7 @@ Use the existing `DataGrid` component for pages that need advanced table feature
 
 | Field | Value |
 |-------|-------|
-| **Status** | Blocked - Needs DB Migration |
+| **Status** | In Progress |
 | **Priority** | P0 |
 | **Effort** | M (3-5 days) |
 | **App** | All |
@@ -2327,10 +2327,12 @@ Use the existing `DataGrid` component for pages that need advanced table feature
 **Description:**  
 Connect the existing `SearchFilter` component's preset functionality to the `saved-filters.ts` backend. Users should be able to save, name, and quickly apply filter combinations.
 
-**Blocker:**
-- `saved_filters` and `saved_views` tables need to be created in the database
-- Run migration to create tables, then regenerate Supabase types
-- Hook infrastructure created: `packages/config/hooks/useSavedFilters.ts`
+**Progress:**
+- [x] Database migration created: `0045_saved_filters_views.sql`
+- [x] Hook infrastructure exists: `packages/config/hooks/useSavedFilters.ts`
+- [ ] Integrate useSavedFilters hook into ListPage component
+- [ ] Add preset dropdown UI to SearchFilter
+- [ ] Regenerate Supabase types after migration runs
 
 **Current State:**
 - `SearchFilter` exists: `packages/ui/src/molecules/search-filter.tsx`

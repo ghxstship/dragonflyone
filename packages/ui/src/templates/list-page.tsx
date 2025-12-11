@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useMemo } from "react";
 import clsx from "clsx";
-import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image } from "lucide-react";
+import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image, Filter, Save, Trash2, ChevronDown } from "lucide-react";
 import { DataGrid } from "../organisms/data-grid.js";
 import { ImportExportDialog, type ExportFormat, type ColumnConfig, type ImportTemplate } from "../organisms/import-export-dialog.js";
 import { BulkActionBar, type BulkAction } from "../molecules/bulk-action-bar.js";
@@ -210,6 +210,195 @@ export interface ListPageBulkAction {
   disabled?: boolean;
 }
 
+// =============================================================================
+// SAVED FILTERS DROPDOWN COMPONENT
+// =============================================================================
+
+interface SavedFilterPreset {
+  id: string;
+  name: string;
+  filters: Record<string, string | string[]>;
+  isDefault?: boolean;
+}
+
+interface SavedFiltersDropdownProps {
+  presets: SavedFilterPreset[];
+  activeFilters: Record<string, string | string[]>;
+  onSelect?: (preset: SavedFilterPreset) => void;
+  onSave?: (name: string, filters: Record<string, string | string[]>) => Promise<void>;
+  onDelete?: (id: string) => Promise<void>;
+  inverted?: boolean;
+}
+
+function SavedFiltersDropdown({
+  presets,
+  activeFilters,
+  onSelect,
+  onSave,
+  onDelete,
+  inverted = true,
+}: SavedFiltersDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showSaveInput, setShowSaveInput] = useState(false);
+  const [newPresetName, setNewPresetName] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setShowSaveInput(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSave = async () => {
+    if (!newPresetName.trim() || !onSave) return;
+    setIsSaving(true);
+    try {
+      await onSave(newPresetName.trim(), activeFilters);
+      setNewPresetName("");
+      setShowSaveInput(false);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!onDelete) return;
+    await onDelete(id);
+  };
+
+  const hasActiveFilters = Object.keys(activeFilters).length > 0;
+
+  const buttonClass = inverted
+    ? "bg-transparent text-grey-400 border-2 border-grey-700 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]"
+    : "bg-transparent text-grey-600 border-2 border-grey-300 hover:border-grey-500 transition-all duration-100 rounded-[var(--radius-button)]";
+
+  const dropdownClass = inverted
+    ? "bg-grey-900 border-2 border-grey-700 shadow-lg"
+    : "bg-white border-2 border-grey-200 shadow-lg";
+
+  return (
+    <div ref={dropdownRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={clsx("px-spacing-4 py-spacing-3 font-code text-mono-sm cursor-pointer flex items-center gap-gap-xs", buttonClass)}
+      >
+        <Filter className="size-4" />
+        Saved Filters
+        <ChevronDown className={clsx("size-3 transition-transform", isOpen && "rotate-180")} />
+      </button>
+
+      {isOpen && (
+        <div className={clsx("absolute top-full left-0 mt-1 min-w-[200px] z-50 rounded-lg overflow-hidden", dropdownClass)}>
+          {/* Preset List */}
+          {presets.length > 0 ? (
+            <div className="max-h-[200px] overflow-y-auto">
+              {presets.map((preset) => (
+                <div
+                  key={preset.id}
+                  onClick={() => {
+                    onSelect?.(preset);
+                    setIsOpen(false);
+                  }}
+                  className={clsx(
+                    "px-spacing-4 py-spacing-3 cursor-pointer flex items-center justify-between group",
+                    inverted ? "hover:bg-grey-800" : "hover:bg-grey-50"
+                  )}
+                >
+                  <span className="font-body text-body-sm">{preset.name}</span>
+                  {onDelete && (
+                    <button
+                      type="button"
+                      onClick={(e) => handleDelete(preset.id, e)}
+                      className={clsx(
+                        "opacity-0 group-hover:opacity-100 p-1 rounded transition-opacity",
+                        inverted ? "hover:bg-grey-700 text-grey-500" : "hover:bg-grey-200 text-grey-400"
+                      )}
+                    >
+                      <Trash2 className="size-3" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className={clsx("px-spacing-4 py-spacing-3 text-center", inverted ? "text-grey-500" : "text-grey-400")}>
+              <span className="font-body text-body-sm">No saved filters</span>
+            </div>
+          )}
+
+          {/* Divider */}
+          {onSave && (
+            <>
+              <div className={clsx("border-t", inverted ? "border-grey-700" : "border-grey-200")} />
+
+              {/* Save New Filter */}
+              {showSaveInput ? (
+                <div className="p-spacing-3 flex gap-gap-xs">
+                  <input
+                    type="text"
+                    value={newPresetName}
+                    onChange={(e) => setNewPresetName(e.target.value)}
+                    placeholder="Filter name..."
+                    className={clsx(
+                      "flex-1 px-spacing-2 py-spacing-1 font-body text-body-sm border rounded outline-none",
+                      inverted
+                        ? "bg-grey-800 text-white border-grey-600 focus:border-grey-500"
+                        : "bg-white text-black border-grey-300 focus:border-grey-400"
+                    )}
+                    onKeyDown={(e) => e.key === "Enter" && handleSave()}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={!newPresetName.trim() || isSaving}
+                    className={clsx(
+                      "px-spacing-2 py-spacing-1 rounded font-code text-mono-xs",
+                      inverted
+                        ? "bg-white text-black hover:bg-grey-200 disabled:opacity-50"
+                        : "bg-black text-white hover:bg-grey-800 disabled:opacity-50"
+                    )}
+                  >
+                    {isSaving ? "..." : "Save"}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowSaveInput(true)}
+                  disabled={!hasActiveFilters}
+                  className={clsx(
+                    "w-full px-spacing-4 py-spacing-3 font-code text-mono-sm flex items-center gap-gap-xs",
+                    hasActiveFilters
+                      ? inverted
+                        ? "hover:bg-grey-800 text-white"
+                        : "hover:bg-grey-50 text-black"
+                      : inverted
+                        ? "text-grey-600 cursor-not-allowed"
+                        : "text-grey-400 cursor-not-allowed"
+                  )}
+                >
+                  <Save className="size-4" />
+                  Save Current Filters
+                </button>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export interface ListPageProps<T> {
   /** Page title */
   title: string;
@@ -243,8 +432,16 @@ export interface ListPageProps<T> {
   createLabel?: string;
   /** Create handler */
   onCreate?: () => void;
-  /** Entity type for import/export (e.g., "crew", "assets") */
+  /** Entity type for import/export and saved filters (e.g., "crew", "assets") */
   entityType?: string;
+  /** Saved filter presets */
+  savedFilterPresets?: Array<{ id: string; name: string; filters: Record<string, string | string[]>; isDefault?: boolean }>;
+  /** Handler when a saved filter preset is selected */
+  onSavedFilterSelect?: (preset: { id: string; name: string; filters: Record<string, string | string[]> }) => void;
+  /** Handler to save current filters as a preset */
+  onSaveFilterPreset?: (name: string, filters: Record<string, string | string[]>) => Promise<void>;
+  /** Handler to delete a saved filter preset */
+  onDeleteFilterPreset?: (id: string) => Promise<void>;
   /** Import handler - receives file and field mapping */
   onImport?: (file: File, mapping: Record<string, string>) => Promise<void>;
   /** Import templates for field mapping */
@@ -334,6 +531,10 @@ export function ListPage<T>({
   createLabel = "Create New",
   onCreate,
   entityType,
+  savedFilterPresets = [],
+  onSavedFilterSelect,
+  onSaveFilterPreset,
+  onDeleteFilterPreset,
   onImport,
   importTemplates = [],
   importSampleFields = [],
@@ -739,6 +940,18 @@ export function ListPage<T>({
             <button onClick={clearFilters} className={clsx("px-spacing-4 py-spacing-3 font-code text-mono-sm bg-transparent border-none cursor-pointer underline", mutedTextClass)}>
               Clear ({activeFilterCount})
             </button>
+          )}
+          
+          {/* Saved Filter Presets */}
+          {(savedFilterPresets.length > 0 || onSaveFilterPreset) && (
+            <SavedFiltersDropdown
+              presets={savedFilterPresets}
+              activeFilters={activeFilters}
+              onSelect={onSavedFilterSelect}
+              onSave={onSaveFilterPreset}
+              onDelete={onDeleteFilterPreset}
+              inverted={inverted}
+            />
           )}
           
           {/* View Toggle - Auto-detected from columns */}
