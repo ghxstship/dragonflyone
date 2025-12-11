@@ -1,5 +1,4 @@
 
-
 > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
 > tsc -p tsconfig.json
 
