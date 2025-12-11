@@ -566,3 +566,42 @@ export const DEMO_EMERGENCY_PROCEDURES: DemoEmergencyProcedure[] = [
   { id: 'EP-004', type: 'Evacuation', title: 'Full Venue Evacuation', steps: ['Announce evacuation via PA', 'Stop show immediately', 'House lights to full', 'Open all exit doors', 'Direct crowd to nearest exits', 'Account for all personnel'], contacts: ['Production Manager', 'Security Lead', 'Venue Manager'], lastUpdated: '2024-11-01' },
   { id: 'EP-005', type: 'Power Failure', title: 'Power Failure Response', steps: ['Remain calm - emergency lights will activate', 'Notify Technical Director', 'Check generator status', 'Assess scope of outage', 'Communicate status to all departments', 'Prepare for show hold or cancellation'], contacts: ['Technical Director', 'Venue Manager', 'Production Manager'], lastUpdated: '2024-11-01' },
 ];
+
+// =============================================================================
+// PROJECT FILES (for files/page.tsx)
+// =============================================================================
+
+export interface DemoProjectFile {
+  id: string;
+  name: string;
+  type: 'PDF' | 'CAD' | 'Image' | 'Document' | 'Spreadsheet';
+  size: string;
+  project: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  version: number;
+  status: 'Current' | 'Archived';
+  [key: string]: unknown;
+}
+
+export const DEMO_PROJECT_FILES: DemoProjectFile[] = [
+  { id: 'FILE-001', name: 'Stage_Layout_v3.dwg', type: 'CAD', size: '4.2 MB', project: 'Summer Fest 2024', uploadedBy: 'John Smith', uploadedAt: '2024-11-24', version: 3, status: 'Current' },
+  { id: 'FILE-002', name: 'Audio_Plot.pdf', type: 'PDF', size: '1.8 MB', project: 'Summer Fest 2024', uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-23', version: 2, status: 'Current' },
+  { id: 'FILE-003', name: 'Lighting_Design.pdf', type: 'PDF', size: '3.5 MB', project: 'Summer Fest 2024', uploadedBy: 'Mike Davis', uploadedAt: '2024-11-22', version: 4, status: 'Current' },
+  { id: 'FILE-004', name: 'Budget_Tracker.xlsx', type: 'Spreadsheet', size: '256 KB', project: 'Corporate Gala', uploadedBy: 'Emily Chen', uploadedAt: '2024-11-24', version: 8, status: 'Current' },
+  { id: 'FILE-005', name: 'Site_Photos.zip', type: 'Image', size: '45 MB', project: 'Summer Fest 2024', uploadedBy: 'John Smith', uploadedAt: '2024-11-20', version: 1, status: 'Current' },
+];
+
+export interface DemoFileVersion {
+  version: number;
+  uploadedBy: string;
+  uploadedAt: string;
+  changes: string;
+  [key: string]: unknown;
+}
+
+export const DEMO_FILE_VERSIONS: DemoFileVersion[] = [
+  { version: 3, uploadedBy: 'John Smith', uploadedAt: '2024-11-24 14:30', changes: 'Updated stage dimensions per client feedback' },
+  { version: 2, uploadedBy: 'John Smith', uploadedAt: '2024-11-22 10:15', changes: 'Added rigging points' },
+  { version: 1, uploadedBy: 'Sarah Johnson', uploadedAt: '2024-11-20 09:00', changes: 'Initial upload' },
+];

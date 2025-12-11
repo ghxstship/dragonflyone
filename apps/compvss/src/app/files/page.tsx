@@ -29,45 +29,19 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface ProjectFile {
-  id: string;
-  name: string;
-  type: "PDF" | "CAD" | "Image" | "Document" | "Spreadsheet";
-  size: string;
-  project: string;
-  uploadedBy: string;
-  uploadedAt: string;
-  version: number;
-  status: "Current" | "Archived";
-}
-
-interface FileVersion {
-  version: number;
-  uploadedBy: string;
-  uploadedAt: string;
-  changes: string;
-}
-
-const mockFiles: ProjectFile[] = [
-  { id: "FILE-001", name: "Stage_Layout_v3.dwg", type: "CAD", size: "4.2 MB", project: "Summer Fest 2024", uploadedBy: "John Smith", uploadedAt: "2024-11-24", version: 3, status: "Current" },
-  { id: "FILE-002", name: "Audio_Plot.pdf", type: "PDF", size: "1.8 MB", project: "Summer Fest 2024", uploadedBy: "Sarah Johnson", uploadedAt: "2024-11-23", version: 2, status: "Current" },
-  { id: "FILE-003", name: "Lighting_Design.pdf", type: "PDF", size: "3.5 MB", project: "Summer Fest 2024", uploadedBy: "Mike Davis", uploadedAt: "2024-11-22", version: 4, status: "Current" },
-  { id: "FILE-004", name: "Budget_Tracker.xlsx", type: "Spreadsheet", size: "256 KB", project: "Corporate Gala", uploadedBy: "Emily Chen", uploadedAt: "2024-11-24", version: 8, status: "Current" },
-  { id: "FILE-005", name: "Site_Photos.zip", type: "Image", size: "45 MB", project: "Summer Fest 2024", uploadedBy: "John Smith", uploadedAt: "2024-11-20", version: 1, status: "Current" },
-];
-
-const mockVersions: FileVersion[] = [
-  { version: 3, uploadedBy: "John Smith", uploadedAt: "2024-11-24 14:30", changes: "Updated stage dimensions per client feedback" },
-  { version: 2, uploadedBy: "John Smith", uploadedAt: "2024-11-22 10:15", changes: "Added rigging points" },
-  { version: 1, uploadedBy: "Sarah Johnson", uploadedAt: "2024-11-20 09:00", changes: "Initial upload" },
-];
+import {
+  DEMO_PROJECT_FILES,
+  DEMO_FILE_VERSIONS,
+  type DemoProjectFile as ProjectFile,
+  type DemoFileVersion as FileVersion,
+} from "../../lib/demo-data";
 
 export default function FileSharingPage() {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<ProjectFile | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const totalFiles = mockFiles.length;
+  const totalFiles = DEMO_PROJECT_FILES.length;
   const totalSize = "54.8 MB";
 
   const getTypeIcon = (type: string) => {
@@ -100,8 +74,8 @@ export default function FileSharingPage() {
             <Grid cols={4} gap={6}>
               <StatCard value={totalFiles.toString()} label="Total Files" />
               <StatCard value={totalSize} label="Total Size" />
-              <StatCard value={new Set(mockFiles.map(f => f.project)).size.toString()} label="Projects" />
-              <StatCard value={mockFiles.filter(f => f.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
+              <StatCard value={new Set(DEMO_PROJECT_FILES.map(f => f.project)).size.toString()} label="Projects" />
+              <StatCard value={DEMO_PROJECT_FILES.filter(f => f.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
             </Grid>
 
             {/* Filters */}
@@ -132,7 +106,7 @@ export default function FileSharingPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockFiles.map((file) => (
+                  {DEMO_PROJECT_FILES.map((file) => (
                     <TableRow key={file.id}>
                       <TableCell>
                         <Stack direction="horizontal" gap={2}>
@@ -200,7 +174,7 @@ export default function FileSharingPage() {
               <Stack gap={2}>
                 <Body className="font-display">Version History</Body>
                 <Stack gap={2}>
-                  {mockVersions.map((v) => (
+                  {DEMO_FILE_VERSIONS.map((v) => (
                     <Card key={v.version} className="p-3">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>
