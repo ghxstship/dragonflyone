@@ -26,6 +26,7 @@ import {
   IconBox,
 } from "@ghxstship/ui";
 import NextLink from "next/link";
+import { useOnboardingData } from "@/hooks/useOnboarding";
 
 // =============================================================================
 // ONBOARDING PAGE - GVTEWAY User Setup Wizard
@@ -56,8 +57,9 @@ export default function OnboardingPage() {
   const router = useRouter();
   const { user: _user } = useAuthContext();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("profile");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [localError, setLocalError] = useState("");
+
+  const { saveProfile, saveInterests, savePreferences, completeOnboarding, isLoading, error } = useOnboardingData();
 
   const [profile, setProfile] = useState({
     firstName: "",
@@ -82,56 +84,32 @@ export default function OnboardingPage() {
   };
 
   const handleNext = async () => {
-    setLoading(true);
-    setError("");
+    setLocalError("");
     try {
-      const token = localStorage.getItem("ghxstship_access_token");
-      const headers: HeadersInit = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-
       if (currentStep === "profile") {
-        await fetch("/api/onboarding/profile", {
-          method: "POST",
-          headers,
-          body: JSON.stringify(profile),
-        });
+        await saveProfile(profile);
       } else if (currentStep === "interests") {
-        await fetch("/api/onboarding/interests", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ interests }),
-        });
+        await saveInterests(interests);
       } else if (currentStep === "preferences") {
-        await fetch("/api/onboarding/preferences", {
-          method: "POST",
-          headers,
-          body: JSON.stringify(preferences),
-        });
+        await savePreferences(preferences);
       }
       const nextIndex = currentStepIndex + 1;
       if (nextIndex < STEPS.length) setCurrentStep(STEPS[nextIndex].id);
-    } catch (err) {
-      setError("Failed to save. Please try again.");
-    } finally {
-      setLoading(false);
+    } catch {
+      setLocalError("Failed to save. Please try again.");
     }
   };
 
   const handleComplete = async () => {
-    setLoading(true);
     try {
-      const token = localStorage.getItem("ghxstship_access_token");
-      const headers: HeadersInit = { "Content-Type": "application/json" };
-      if (token) headers["Authorization"] = `Bearer ${token}`;
-
-      await fetch("/api/onboarding/complete", { method: "POST", headers });
+      await completeOnboarding();
       router.push("/");
-    } catch (err) {
-      setError("Failed to complete onboarding.");
-    } finally {
-      setLoading(false);
+    } catch {
+      setLocalError("Failed to complete onboarding.");
     }
   };
+
+  const displayError = localError || (error instanceof Error ? error.message : null);
 
   const handleSkip = () => {
     const nextIndex = currentStepIndex + 1;
@@ -232,7 +210,7 @@ export default function OnboardingPage() {
                 </Stack>
 
                 {/* Error Alert */}
-                {error && <Alert variant="error">{error}</Alert>}
+                {displayError && <Alert variant="error">{displayError}</Alert>}
 
                 {/* Profile Step */}
                 {currentStep === "profile" && (
@@ -405,11 +383,11 @@ export default function OnboardingPage() {
                       fullWidth
                       inverted
                       onClick={handleComplete}
-                      disabled={loading}
+                      disabled={isLoading}
                       icon={<ArrowRight className="size-4" />}
                       iconPosition="right"
                     >
-                      {loading ? "Starting..." : "Explore Events"}
+                      {isLoading ? "Starting..." : "Explore Events"}
                     </Button>
                   ) : (
                     <Stack
@@ -433,12 +411,12 @@ export default function OnboardingPage() {
                         variant="solid"
                         inverted
                         onClick={handleNext}
-                        disabled={loading}
+                        disabled={isLoading}
                         icon={<ArrowRight className="size-4" />}
                         iconPosition="right"
                         className="flex-1 sm:flex-none"
                       >
-                        {loading ? "Saving..." : "Continue"}
+                        {isLoading ? "Saving..." : "Continue"}
                       </Button>
                     </Stack>
                   )}
