@@ -119,7 +119,7 @@ export default function RegulationsPage() {
                     </Stack>
                     <Body>{reg.summary}</Body>
                     <Stack direction="horizontal" className="justify-between items-center">
-                      <Body className="text-body-sm">Updated: {reg.lastUpdated}</Body>
+                      <Body size="sm" className="">Updated: {reg.lastUpdated}</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" onClick={() => setSelectedRegulation(reg)}>View Details</Button>
                         <Button variant="ghost" size="sm">Download PDF</Button>
@@ -139,7 +139,7 @@ export default function RegulationsPage() {
                       <Stack gap={2} className="text-center">
                         <Body>{getCategoryIcon(cat)}</Body>
                         <Body>{cat}</Body>
-                        <Body className="text-body-sm">{mockRegulations.filter(r => r.category === cat).length} docs</Body>
+                        <Body size="sm" className="">{mockRegulations.filter(r => r.category === cat).length} docs</Body>
                       </Stack>
                     </Card>
                   ))}
@@ -167,11 +167,11 @@ export default function RegulationsPage() {
                 <Badge variant="outline">{selectedRegulation.jurisdiction}</Badge>
                 <Badge variant={getStatusVariant(selectedRegulation.status)}>{selectedRegulation.status}</Badge>
               </Stack>
-              <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedRegulation.lastUpdated}</Body></Stack>
-              <Stack gap={1}><Body className="text-body-sm">Summary</Body><Body>{selectedRegulation.summary}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Last Updated</Body><Body>{selectedRegulation.lastUpdated}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Summary</Body><Body>{selectedRegulation.summary}</Body></Stack>
               <Card>
                 <Stack gap={2}>
-                  <Body className="text-body-sm">Key Requirements</Body>
+                  <Body size="sm" className="">Key Requirements</Body>
                   <Stack gap={1}>
                     <Body>• Compliance documentation required</Body>
                     <Body>• Regular inspections and audits</Body>

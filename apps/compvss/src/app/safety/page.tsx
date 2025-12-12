@@ -118,15 +118,15 @@ export default function SafetyPage() {
                             {incident.severity.toUpperCase()}
                           </Badge>
                         </Stack>
-                        <Body className="text-body-sm">{incident.description}</Body>
-                        <Body className="text-body-sm">{incident.location}</Body>
+                        <Body size="sm" className="">{incident.description}</Body>
+                        <Body size="sm" className="">{incident.location}</Body>
                       </Stack>
                     </Stack>
-                    <Stack gap={2} direction="horizontal" className="mt-3 items-center justify-between text-body-sm">
-                      <Body className="text-body-sm">
+                    <Stack gap={2} direction="horizontal" className="mt-3 items-center justify-between">
+                      <Body size="sm" className="">
                         Reported by {incident.reported_by}
                       </Body>
-                      <Body className="text-body-sm">{new Date(incident.date).toLocaleDateString()}</Body>
+                      <Body size="sm" className="">{new Date(incident.date).toLocaleDateString()}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -140,22 +140,22 @@ export default function SafetyPage() {
                   <Stack key={idx} gap={2}>
                     <Stack gap={2} direction="horizontal" className="justify-between">
                       <Body className="font-display">{cert.name}</Body>
-                      <Body className="text-body-sm">
+                      <Body size="sm" className="">
                         {cert.current} certified
                       </Body>
                     </Stack>
                     <Grid cols={3} gap={2} className="text-center">
                       <Card>
-                        <Body className="font-display text-body-sm">{cert.expired}</Body>
-                        <Body className="text-body-sm">Expired</Body>
+                        <Body className="font-display">{cert.expired}</Body>
+                        <Body size="sm" className="">Expired</Body>
                       </Card>
                       <Card>
-                        <Body className="font-display text-body-sm">{cert.expiring}</Body>
-                        <Body className="text-body-sm">Expiring</Body>
+                        <Body className="font-display">{cert.expiring}</Body>
+                        <Body size="sm" className="">Expiring</Body>
                       </Card>
                       <Card>
-                        <Body className="font-display text-body-sm">{cert.current}</Body>
-                        <Body className="text-body-sm">Current</Body>
+                        <Body className="font-display">{cert.current}</Body>
+                        <Body size="sm" className="">Current</Body>
                       </Card>
                     </Grid>
                   </Stack>
@@ -176,7 +176,7 @@ export default function SafetyPage() {
                   <Stack className="items-center text-center">
                     <resource.icon className="mb-3 size-12" />
                     <H3 className="mb-2">{resource.title}</H3>
-                    <Body className="mb-4 text-body-sm">{resource.docs} documents</Body>
+                    <Body className="mb-4">{resource.docs} documents</Body>
                     <Button variant="outline" size="sm" onClick={() => router.push(`/safety/resources/${resource.title.toLowerCase().replace(' ', '-')}`)}>ACCESS</Button>
                   </Stack>
                 </Card>

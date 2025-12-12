@@ -282,7 +282,7 @@ export default function NewProductionPage() {
           <option value="">Select venue...</option>
           <option value="new">+ Add New Venue</option>
         </Select>
-        <Body className="text-body-sm text-grey-500">
+        <Body size="sm" className=" text-grey-500">
           Select an existing venue or create a new one
         </Body>
       </Stack>
@@ -419,8 +419,8 @@ export default function NewProductionPage() {
                 <Label className="font-weight-semibold">Dates</Label>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Opening: {formData.openingDate || 'TBD'}</Body>
-                <Body className="text-body-sm">Closing: {formData.closingDate || 'TBD'}</Body>
+                <Body size="sm" className="">Opening: {formData.openingDate || 'TBD'}</Body>
+                <Body size="sm" className="">Closing: {formData.closingDate || 'TBD'}</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -434,8 +434,8 @@ export default function NewProductionPage() {
                 <Label className="font-weight-semibold">Capacity</Label>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Per Show: {formData.capacityPerShow || 0}</Body>
-                <Body className="text-body-sm">Shows/Day: {formData.showsPerDay || 1}</Body>
+                <Body size="sm" className="">Per Show: {formData.capacityPerShow || 0}</Body>
+                <Body size="sm" className="">Shows/Day: {formData.showsPerDay || 1}</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -449,8 +449,8 @@ export default function NewProductionPage() {
                 <Label className="font-weight-semibold">Budget</Label>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Production: ${formData.productionBudget?.toLocaleString() || 0}</Body>
-                <Body className="text-body-sm">Weekly Ops: ${formData.operatingBudgetWeekly?.toLocaleString() || 0}</Body>
+                <Body size="sm" className="">Production: ${formData.productionBudget?.toLocaleString() || 0}</Body>
+                <Body size="sm" className="">Weekly Ops: ${formData.operatingBudgetWeekly?.toLocaleString() || 0}</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -464,8 +464,8 @@ export default function NewProductionPage() {
                 <Label className="font-weight-semibold">Revenue</Label>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Tickets: ${formData.ticketPriceMin} - ${formData.ticketPriceMax}</Body>
-                <Body className="text-body-sm">Projected: ${formData.projectedGross?.toLocaleString() || 0}</Body>
+                <Body size="sm" className="">Tickets: ${formData.ticketPriceMin} - ${formData.ticketPriceMax}</Body>
+                <Body size="sm" className="">Projected: ${formData.projectedGross?.toLocaleString() || 0}</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -501,7 +501,7 @@ export default function NewProductionPage() {
                     <Sparkles className="text-primary" size={24} />
                     <Stack gap={1}>
                       <Label className="font-weight-semibold">Start from AI Blueprint</Label>
-                      <Body className="text-body-sm text-grey-600">
+                      <Body size="sm" className=" text-grey-600">
                         Use the Experience Generator to create a production blueprint
                       </Body>
                     </Stack>

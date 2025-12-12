@@ -52,7 +52,7 @@ export default function ProductionExpensesPage() {
                   <Receipt size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{expense.description}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{expense.category} · {expense.date}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{expense.category} · {expense.date}</Body>
                   </Stack>
                 </Stack>
                 <Stack direction="horizontal" gap={4} className="items-center">

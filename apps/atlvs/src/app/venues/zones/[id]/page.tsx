@@ -168,21 +168,21 @@ export default function ZoneDetailPage() {
                       <H3>Zone Details</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Zone Type</Body>
+                          <Body size="sm" className=" text-grey-500">Zone Type</Body>
                           <Body>{zoneTypeLabels[zone.zone_type] || zone.zone_type}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Access Level</Body>
+                          <Body size="sm" className=" text-grey-500">Access Level</Body>
                           <Badge variant={accessLevelColors[zone.access_level] || 'ghost'}>
                             {accessLevelLabels[zone.access_level] || zone.access_level}
                           </Badge>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Capacity</Body>
+                          <Body size="sm" className=" text-grey-500">Capacity</Body>
                           <Body>{zone.capacity?.toLocaleString() || 'Not specified'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Square Footage</Body>
+                          <Body size="sm" className=" text-grey-500">Square Footage</Body>
                           <Body>{zone.square_footage?.toLocaleString() || 'Not specified'}</Body>
                         </Stack>
                       </Grid>
@@ -196,19 +196,19 @@ export default function ZoneDetailPage() {
                         <H3>Map Position</H3>
                         <Grid cols={4} gap={4}>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">X Position</Body>
+                            <Body size="sm" className=" text-grey-500">X Position</Body>
                             <Body>{zone.coordinates.x}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Y Position</Body>
+                            <Body size="sm" className=" text-grey-500">Y Position</Body>
                             <Body>{zone.coordinates.y}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Width</Body>
+                            <Body size="sm" className=" text-grey-500">Width</Body>
                             <Body>{zone.coordinates.width}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Height</Body>
+                            <Body size="sm" className=" text-grey-500">Height</Body>
                             <Body>{zone.coordinates.height}</Body>
                           </Stack>
                         </Grid>
@@ -226,7 +226,7 @@ export default function ZoneDetailPage() {
                     <H3>Venue</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Venue Name</Body>
+                        <Body size="sm" className=" text-grey-500">Venue Name</Body>
                         <Body>{zone.venue?.name || 'Not assigned'}</Body>
                       </Stack>
                       <Button
@@ -245,14 +245,14 @@ export default function ZoneDetailPage() {
                     <H3>Status</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Active Status</Body>
+                        <Body size="sm" className=" text-grey-500">Active Status</Body>
                         <Badge variant={zone.is_active ? 'success' : 'ghost'}>
                           {zone.is_active ? 'ACTIVE' : 'INACTIVE'}
                         </Badge>
                       </Stack>
                       {zone.parent_zone && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Parent Zone</Body>
+                          <Body size="sm" className=" text-grey-500">Parent Zone</Body>
                           <Body>{zone.parent_zone.name}</Body>
                         </Stack>
                       )}
@@ -266,11 +266,11 @@ export default function ZoneDetailPage() {
                     <H3>Timestamps</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Created</Body>
+                        <Body size="sm" className=" text-grey-500">Created</Body>
                         <Body>{new Date(zone.created_at).toLocaleString()}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Last Updated</Body>
+                        <Body size="sm" className=" text-grey-500">Last Updated</Body>
                         <Body>{new Date(zone.updated_at).toLocaleString()}</Body>
                       </Stack>
                     </Stack>

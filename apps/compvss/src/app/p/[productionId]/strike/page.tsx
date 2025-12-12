@@ -124,7 +124,7 @@ export default function ProductionStrikePage() {
                           <Checkbox checked={task.status === 'completed'} onChange={() => toggleTask(task.id)} />
                           <Stack gap={0}>
                             <Body className={task.status === 'completed' ? 'text-on-dark-muted line-through' : 'text-white'}>{task.task}</Body>
-                            <Body className="text-body-sm text-on-dark-muted">{task.crew}</Body>
+                            <Body size="sm" className=" text-on-dark-muted">{task.crew}</Body>
                           </Stack>
                         </Stack>
                         <Badge variant={task.status === 'completed' ? 'success' : task.status === 'in-progress' ? 'warning' : 'solid'}>

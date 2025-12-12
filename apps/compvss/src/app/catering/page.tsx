@@ -175,25 +175,25 @@ export default function CateringPage() {
                   <Grid cols={2} gap={4}>
                     <Card>
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Vegetarian</Body>
+                        <Body size="sm" className="">Vegetarian</Body>
                         <Body className="font-display">12</Body>
                       </Stack>
                     </Card>
                     <Card>
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Vegan</Body>
+                        <Body size="sm" className="">Vegan</Body>
                         <Body className="font-display">5</Body>
                       </Stack>
                     </Card>
                     <Card>
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Gluten-Free</Body>
+                        <Body size="sm" className="">Gluten-Free</Body>
                         <Body className="font-display">8</Body>
                       </Stack>
                     </Card>
                     <Card>
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Allergies</Body>
+                        <Body size="sm" className="">Allergies</Body>
                         <Body className="font-display">3</Body>
                       </Stack>
                     </Card>
@@ -211,7 +211,7 @@ export default function CateringPage() {
                           <Sunrise className="size-4" />
                           <Body className="font-display">Breakfast</Body>
                         </Stack>
-                        <Body className="text-body-sm">6:00 AM - 45 pax</Body>
+                        <Body size="sm" className="">6:00 AM - 45 pax</Body>
                       </Stack>
                     </Card>
                     <Card>
@@ -220,7 +220,7 @@ export default function CateringPage() {
                           <Sun className="size-4" />
                           <Body className="font-display">Lunch</Body>
                         </Stack>
-                        <Body className="text-body-sm">12:00 PM - 52 pax</Body>
+                        <Body size="sm" className="">12:00 PM - 52 pax</Body>
                       </Stack>
                     </Card>
                     <Card>
@@ -229,7 +229,7 @@ export default function CateringPage() {
                           <Moon className="size-4" />
                           <Body className="font-display">Dinner</Body>
                         </Stack>
-                        <Body className="text-body-sm">6:00 PM - 48 pax</Body>
+                        <Body size="sm" className="">6:00 PM - 48 pax</Body>
                       </Stack>
                     </Card>
                   </Stack>
@@ -289,19 +289,19 @@ export default function CateringPage() {
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{service.project_name}</Body>
+                        <Body size="sm" className="">{service.project_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="font-mono text-body-sm">{formatDate(service.service_date)}</Body>
+                        <Body className="font-mono">{formatDate(service.service_date)}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{service.location}</Body>
+                        <Body size="sm" className="">{service.location}</Body>
                       </TableCell>
                       <TableCell>
                         <Body className="font-mono">{service.headcount}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{service.vendor_name || "TBD"}</Body>
+                        <Body size="sm" className="">{service.vendor_name || "TBD"}</Body>
                       </TableCell>
                       <TableCell>
                         <Body className="font-mono">{formatCurrency(service.total_cost)}</Body>

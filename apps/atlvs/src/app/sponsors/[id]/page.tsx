@@ -230,10 +230,10 @@ export default function SponsorDetailPage() {
                                 <Stack gap={1}>
                                   <Body className="font-weight-semibold">{deliverable.title}</Body>
                                   {deliverable.description && (
-                                    <Body className="text-body-sm text-grey-500">{deliverable.description}</Body>
+                                    <Body size="sm" className=" text-grey-500">{deliverable.description}</Body>
                                   )}
                                   {deliverable.due_date && (
-                                    <Body className="text-body-sm text-grey-400">
+                                    <Body size="sm" className=" text-grey-400">
                                       Due: {new Date(deliverable.due_date).toLocaleDateString()}
                                     </Body>
                                   )}
@@ -277,7 +277,7 @@ export default function SponsorDetailPage() {
                         />
                       </Box>
                       <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                        <Body className="text-body-sm text-grey-500">
+                        <Body size="sm" className=" text-grey-500">
                           ${sponsor.amount_paid?.toLocaleString() || 0} of ${sponsor.contract_value?.toLocaleString() || 0}
                         </Body>
                         <Badge variant={paymentColors[sponsor.payment_status] || 'ghost'}>
@@ -297,12 +297,12 @@ export default function SponsorDetailPage() {
                     <H3>Contact Information</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Contact Name</Body>
+                        <Body size="sm" className=" text-grey-500">Contact Name</Body>
                         <Body>{sponsor.contact_name || 'Not provided'}</Body>
                       </Stack>
                       {sponsor.contact_email && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Email</Body>
+                          <Body size="sm" className=" text-grey-500">Email</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Mail className="size-4 text-grey-400" />
                             <Body>{sponsor.contact_email}</Body>
@@ -311,7 +311,7 @@ export default function SponsorDetailPage() {
                       )}
                       {sponsor.contact_phone && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Phone</Body>
+                          <Body size="sm" className=" text-grey-500">Phone</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Phone className="size-4 text-grey-400" />
                             <Body>{sponsor.contact_phone}</Body>
@@ -320,7 +320,7 @@ export default function SponsorDetailPage() {
                       )}
                       {sponsor.website_url && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Website</Body>
+                          <Body size="sm" className=" text-grey-500">Website</Body>
                           <a href={sponsor.website_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary">
                             <ExternalLink className="size-4" />
                             <Body>Visit Website</Body>
@@ -337,18 +337,18 @@ export default function SponsorDetailPage() {
                     <H3>Sponsor Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Tier</Body>
+                        <Body size="sm" className=" text-grey-500">Tier</Body>
                         <Body>{sponsor.tier?.name || 'No tier assigned'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Status</Body>
+                        <Body size="sm" className=" text-grey-500">Status</Body>
                         <Badge variant={statusColors[sponsor.status] || 'ghost'}>
                           {sponsor.status.toUpperCase()}
                         </Badge>
                       </Stack>
                       {sponsor.contract_signed_at && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Contract Signed</Body>
+                          <Body size="sm" className=" text-grey-500">Contract Signed</Body>
                           <Body>{new Date(sponsor.contract_signed_at).toLocaleDateString()}</Body>
                         </Stack>
                       )}

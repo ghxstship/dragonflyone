@@ -78,7 +78,7 @@ function FloorConfigPageContent() {
                   <Card className="h-96 bg-ink-100 border-2 border-ink-200 relative overflow-hidden">
                     <Stack className="absolute inset-0 items-center justify-center">
                       <Label className="text-ink-500">Interactive Floor Plan Editor</Label>
-                      <Body className="text-ink-600 text-body-sm">Drag and drop sections to configure layout</Body>
+                      <Body className="text-ink-600">Drag and drop sections to configure layout</Body>
                     </Stack>
                     <Card className="absolute top-4 left-4 w-32 h-20 bg-info-500/20 border-2 border-info-500 flex items-center justify-center">
                       <Label className="text-info-700 text-mono-xs">STAGE</Label>
@@ -98,7 +98,7 @@ function FloorConfigPageContent() {
                     <Card className="absolute bottom-4 left-4 right-4 h-32 border-2 flex items-center justify-center" style={{ '--section-bg': `${mockSections[0].color}20`, '--section-border': mockSections[0].color, backgroundColor: 'var(--section-bg)', borderColor: 'var(--section-border)' } as React.CSSProperties}>
                       <Stack gap={1} className="text-center">
                         <Label className="font-weight-bold">{mockSections[0].name}</Label>
-                        <Label className="text-body-sm">{mockSections[0].capacity.toLocaleString()} capacity</Label>
+                        <Label size="sm" className="">{mockSections[0].capacity.toLocaleString()} capacity</Label>
                       </Stack>
                     </Card>
                   </Card>

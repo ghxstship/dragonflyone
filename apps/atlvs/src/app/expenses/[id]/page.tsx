@@ -187,28 +187,28 @@ export default function ExpenseDetailPage() {
                       <H3>Expense Details</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Description</Body>
+                          <Body size="sm" className=" text-grey-500">Description</Body>
                           <Body>{expense.description}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Vendor</Body>
+                          <Body size="sm" className=" text-grey-500">Vendor</Body>
                           <Body>{expense.vendor_name || 'Not specified'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Amount</Body>
+                          <Body size="sm" className=" text-grey-500">Amount</Body>
                           <Body className="font-weight-semibold">{expense.currency || '$'}{expense.amount?.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Category</Body>
+                          <Body size="sm" className=" text-grey-500">Category</Body>
                           <Body>{expense.category?.name || 'Uncategorized'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Expense Date</Body>
+                          <Body size="sm" className=" text-grey-500">Expense Date</Body>
                           <Body>{new Date(expense.expense_date).toLocaleDateString()}</Body>
                         </Stack>
                         {expense.tags && expense.tags.length > 0 && (
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Tags</Body>
+                            <Body size="sm" className=" text-grey-500">Tags</Body>
                             <Stack direction="horizontal" gap={2}>
                               {expense.tags.map((tag, index) => (
                                 <Badge key={index}>{tag}</Badge>
@@ -258,14 +258,14 @@ export default function ExpenseDetailPage() {
                     <H3>Submission</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Submitted By</Body>
+                        <Body size="sm" className=" text-grey-500">Submitted By</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <User className="size-4 text-grey-400" />
                           <Body>{expense.submitter ? `${expense.submitter.first_name} ${expense.submitter.last_name}` : 'Unknown'}</Body>
                         </Stack>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Created</Body>
+                        <Body size="sm" className=" text-grey-500">Created</Body>
                         <Body>{new Date(expense.created_at).toLocaleString()}</Body>
                       </Stack>
                     </Stack>
@@ -279,7 +279,7 @@ export default function ExpenseDetailPage() {
                       <H3>Approval</H3>
                       <Stack gap={3}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Approved By</Body>
+                          <Body size="sm" className=" text-grey-500">Approved By</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <User className="size-4 text-grey-400" />
                             <Body>{expense.approver ? `${expense.approver.first_name} ${expense.approver.last_name}` : 'Unknown'}</Body>
@@ -287,7 +287,7 @@ export default function ExpenseDetailPage() {
                         </Stack>
                         {expense.approved_at && (
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Approved At</Body>
+                            <Body size="sm" className=" text-grey-500">Approved At</Body>
                             <Body>{new Date(expense.approved_at).toLocaleString()}</Body>
                           </Stack>
                         )}
@@ -304,19 +304,19 @@ export default function ExpenseDetailPage() {
                       <Stack gap={3}>
                         {expense.paid_at && (
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Paid At</Body>
+                            <Body size="sm" className=" text-grey-500">Paid At</Body>
                             <Body>{new Date(expense.paid_at).toLocaleString()}</Body>
                           </Stack>
                         )}
                         {expense.payment_method && (
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Payment Method</Body>
+                            <Body size="sm" className=" text-grey-500">Payment Method</Body>
                             <Body>{expense.payment_method}</Body>
                           </Stack>
                         )}
                         {expense.payment_reference && (
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Reference</Body>
+                            <Body size="sm" className=" text-grey-500">Reference</Body>
                             <Body>{expense.payment_reference}</Body>
                           </Stack>
                         )}

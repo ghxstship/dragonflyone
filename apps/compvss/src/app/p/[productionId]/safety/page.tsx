@@ -61,7 +61,7 @@ export default function ProductionSafetyPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Incidents</Body>
-                <Body className="text-body-sm text-grey-500">Report and track</Body>
+                <Body size="sm" className=" text-grey-500">Report and track</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -74,7 +74,7 @@ export default function ProductionSafetyPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Weather</Body>
-                <Body className="text-body-sm text-grey-500">Forecasts and alerts</Body>
+                <Body size="sm" className=" text-grey-500">Forecasts and alerts</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -87,7 +87,7 @@ export default function ProductionSafetyPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Risk Register</Body>
-                <Body className="text-body-sm text-grey-500">Risk assessment</Body>
+                <Body size="sm" className=" text-grey-500">Risk assessment</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -103,7 +103,7 @@ export default function ProductionSafetyPage() {
                 <div key={item.id} className={`flex items-center justify-between border-grey-200 p-4 ${index < recentItems.length - 1 ? "border-b" : ""}`}>
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{item.title}</Body>
-                    <Body className="text-body-sm text-grey-500">{item.type} · {item.date}</Body>
+                    <Body size="sm" className=" text-grey-500">{item.type} · {item.date}</Body>
                   </Stack>
                   <Badge variant={statusColors[item.status]}>{item.status.toUpperCase()}</Badge>
                 </div>

@@ -105,7 +105,7 @@ export default function ApiManagementPage() {
                         <Stack direction="horizontal" gap={4} className="items-center justify-between">
                           <Stack gap={1}>
                             <Body className="font-weight-semibold">{key.name}</Body>
-                            <Body className="text-body-sm text-grey-500">{key.key_prefix}...</Body>
+                            <Body size="sm" className=" text-grey-500">{key.key_prefix}...</Body>
                           </Stack>
                           <Badge variant={key.is_active ? 'success' : 'error'}>
                             {key.is_active ? 'ACTIVE' : 'REVOKED'}
@@ -143,7 +143,7 @@ export default function ApiManagementPage() {
                         <Stack direction="horizontal" gap={4} className="items-center justify-between">
                           <Stack gap={1}>
                             <Body className="font-weight-semibold">{webhook.name}</Body>
-                            <Body className="text-body-sm text-grey-500">{webhook.events.length} events</Body>
+                            <Body size="sm" className=" text-grey-500">{webhook.events.length} events</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2}>
                             {webhook.failure_count > 0 && (

@@ -59,10 +59,10 @@ export default function OfflinePage() {
                   <Stack gap={2}>
                     <Body className="font-display">Available Offline:</Body>
                     <Stack gap={1}>
-                      <Body className="text-body-sm">• View cached crew data</Body>
-                      <Body className="text-body-sm">• Access saved schedules</Body>
-                      <Body className="text-body-sm">• Log time entries (syncs when online)</Body>
-                      <Body className="text-body-sm">• View knowledge base articles</Body>
+                      <Body size="sm" className="">• View cached crew data</Body>
+                      <Body size="sm" className="">• Access saved schedules</Body>
+                      <Body size="sm" className="">• Log time entries (syncs when online)</Body>
+                      <Body size="sm" className="">• View knowledge base articles</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -71,10 +71,10 @@ export default function OfflinePage() {
                   <Stack gap={2}>
                     <Body className="font-display">Unavailable Offline:</Body>
                     <Stack gap={1}>
-                      <Body className="text-body-sm">• Real-time updates</Body>
-                      <Body className="text-body-sm">• New data fetching</Body>
-                      <Body className="text-body-sm">• File uploads</Body>
-                      <Body className="text-body-sm">• Live communications</Body>
+                      <Body size="sm" className="">• Real-time updates</Body>
+                      <Body size="sm" className="">• New data fetching</Body>
+                      <Body size="sm" className="">• File uploads</Body>
+                      <Body size="sm" className="">• Live communications</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -89,7 +89,7 @@ export default function OfflinePage() {
                 </Button>
               </Stack>
 
-              <Body className="text-body-sm">
+              <Body size="sm" className="">
                 Your data will automatically sync when you&apos;re back online.
               </Body>
             </Stack>

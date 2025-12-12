@@ -64,7 +64,7 @@ export default function CommunicationsPage() {
                           <Radio className="size-6" />
                           <Stack gap={1}>
                             <H3>{channel.name}</H3>
-                            <Body className="text-body-sm">{channel.frequency}</Body>
+                            <Body size="sm" className="">{channel.frequency}</Body>
                           </Stack>
                         </Stack>
                         <Badge variant={channel.priority === 'critical' ? 'solid' : 'outline'}>
@@ -72,9 +72,9 @@ export default function CommunicationsPage() {
                         </Badge>
                       </Stack>
                       <Stack gap={4} direction="horizontal" className="items-center justify-between">
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <Users className="size-4" />
-                          <Body className="text-body-sm">{channel.users} users</Body>
+                          <Body size="sm" className="">{channel.users} users</Body>
                         </Stack>
                         <Button variant="outline" size="sm" onClick={() => router.push(`/communications/channels/${channel.id}`)}>
                           {channel.status === 'active' ? 'JOIN' : 'STANDBY'}
@@ -93,10 +93,10 @@ export default function CommunicationsPage() {
                     <Card key={msg.id} className="p-6">
                       <Stack gap={4} direction="horizontal" className="mb-2 items-start justify-between">
                         <Badge variant="outline">{msg.channel}</Badge>
-                        <Body className="text-body-sm">{msg.timestamp}</Body>
+                        <Body size="sm" className="">{msg.timestamp}</Body>
                       </Stack>
                       <Body className="mb-1 font-display">{msg.sender}</Body>
-                      <Body className="text-body-sm">{msg.message}</Body>
+                      <Body size="sm" className="">{msg.message}</Body>
                     </Card>
                   ))}
                 </Stack>
@@ -123,7 +123,7 @@ export default function CommunicationsPage() {
                       <contact.icon className="size-6" />
                       <Stack gap={1}>
                         <Body className="font-display">{contact.name}</Body>
-                        <Body className="text-body-sm">{contact.number}</Body>
+                        <Body size="sm" className="">{contact.number}</Body>
                       </Stack>
                     </Stack>
                   </Card>

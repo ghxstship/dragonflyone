@@ -179,7 +179,7 @@ export default function CompvssDashboardPage() {
                 <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Summer Music Festival 2024</Body>
-                    <Body className="text-body-sm">
+                    <Body size="sm" className="">
                       Load-in: June 12 • Event: June 15-17 • Load-out: June 18
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -199,7 +199,7 @@ export default function CompvssDashboardPage() {
                 <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Corporate Product Launch</Body>
-                    <Body className="text-body-sm">
+                    <Body size="sm" className="">
                       Setup: June 10 • Event: June 11 • Strike: June 12
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -219,7 +219,7 @@ export default function CompvssDashboardPage() {
                 <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2}>
                     <Body className="font-display text-body-md">Theater Production: Hamilton</Body>
-                    <Body className="text-body-sm">
+                    <Body size="sm" className="">
                       Tech Week: June 8-13 • Opening: June 14 • Run: Through July
                     </Body>
                     <Stack gap={2} direction="horizontal">
@@ -262,9 +262,9 @@ export default function CompvssDashboardPage() {
 
               <Card className="p-6">
                 <H2 className="mb-4">RECENT ACTIVITY</H2>
-                <Stack gap={2} className="text-body-sm">
+                <Stack gap={2} size="sm" className="">
                   {recentActivity.map((activity) => (
-                    <Body key={activity.id} className="text-body-sm">
+                    <Body key={activity.id} size="sm" className="">
                       {activity.action}: {activity.detail}
                     </Body>
                   ))}

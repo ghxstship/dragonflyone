@@ -82,15 +82,15 @@ function BadgesPageContent() {
         <Card className="p-6 mb-8 bg-ink-950 text-white">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
-              <Body className="text-ink-600 text-body-sm">TOTAL BADGES</Body>
+              <Body className="text-ink-600">TOTAL BADGES</Body>
               <H2 className="text-white">{earnedBadges.length}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-ink-600 text-body-sm">FAN POINTS</Body>
+              <Body className="text-ink-600">FAN POINTS</Body>
               <H2 className="text-white">{currentPoints.toLocaleString()}</H2>
             </Stack>
             <Stack className="items-center">
-              <Body className="text-ink-600 text-body-sm">CURRENT TIER</Body>
+              <Body className="text-ink-600">CURRENT TIER</Body>
               <H2 className="text-white">
                 {fanTiers.find(t => t.is_current)?.name || 'New Fan'}
               </H2>
@@ -231,7 +231,7 @@ function BadgesPageContent() {
                         <Label className="text-ink-500 mb-2">PERKS</Label>
                         <Grid cols={2} gap={2}>
                           {tier.perks.map((perk, i) => (
-                            <Body key={i} className="text-body-sm">✓ {perk}</Body>
+                            <Body key={i} size="sm" className="">✓ {perk}</Body>
                           ))}
                         </Grid>
                       </Stack>

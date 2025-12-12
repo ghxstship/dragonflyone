@@ -167,17 +167,17 @@ export default function ExpenseCategoriesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Name</Body>
+            <Body size="sm" className=" text-grey-500">Name</Body>
             <Body>{selectedCategory.name}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedCategory.is_active ? 'success' : 'ghost'}>
               {selectedCategory.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Budget</Body>
+            <Body size="sm" className=" text-grey-500">Budget</Body>
             <Body>{selectedCategory.budget_amount ? `$${selectedCategory.budget_amount.toLocaleString()}` : 'Not set'}</Body>
           </Stack>
         </Grid>

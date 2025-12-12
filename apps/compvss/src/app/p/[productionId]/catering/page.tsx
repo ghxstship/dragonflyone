@@ -191,7 +191,7 @@ export default function CateringPage() {
                           <Body className="font-weight-semibold text-white">{meal.name}</Body>
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant="info">{mealTypeIcons[meal.mealType]}</Badge>
-                            <Body className="text-body-sm text-on-dark-muted">{meal.time} - {meal.location}</Body>
+                            <Body size="sm" className=" text-on-dark-muted">{meal.time} - {meal.location}</Body>
                           </Stack>
                         </Stack>
                         <Badge variant={statusVariants[meal.status]}>
@@ -269,19 +269,19 @@ export default function CateringPage() {
                   <H3 className="text-white mb-3">Dietary Summary</H3>
                   <Grid cols={2} gap={3}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Vegetarian</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Vegetarian</Body>
                       <Body className="font-weight-semibold text-white">{totalVegetarian} ({((totalVegetarian / totalHeadcount) * 100).toFixed(1)}%)</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Vegan</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Vegan</Body>
                       <Body className="font-weight-semibold text-white">{totalVegan} ({((totalVegan / totalHeadcount) * 100).toFixed(1)}%)</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Gluten-Free</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Gluten-Free</Body>
                       <Body className="font-weight-semibold text-white">{totalGlutenFree} ({((totalGlutenFree / totalHeadcount) * 100).toFixed(1)}%)</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Total Crew</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Total Crew</Body>
                       <Body className="font-weight-semibold text-white">{totalHeadcount}</Body>
                     </Stack>
                   </Grid>

@@ -274,7 +274,7 @@ function GiftCardsPageContent() {
             <Stack>
               <Card className={`sticky top-6 p-8 text-white ${GIFT_CARD_DESIGNS.find(d => d.id === selectedDesign)?.color || 'bg-black'}`}>
                 <Stack gap={4}>
-                  <Body className="text-body-sm text-white/60">GHXSTSHIP GIFT CARD</Body>
+                  <Body size="sm" className=" text-white/60">GHXSTSHIP GIFT CARD</Body>
                   <H2 className="text-h2-md text-white">
                     ${customAmount || selectedAmount}
                   </H2>
@@ -282,7 +282,7 @@ function GiftCardsPageContent() {
                     <Body className="text-white">To: {recipientName}</Body>
                   )}
                   {message && (
-                    <Body className="text-body-sm italic text-white/80">&quot;{message}&quot;</Body>
+                    <Body size="sm" className=" italic text-white/80">&quot;{message}&quot;</Body>
                   )}
                   <Body className="mt-4 text-mono-xs text-white/60">
                     Valid for tickets, merchandise, and experiences

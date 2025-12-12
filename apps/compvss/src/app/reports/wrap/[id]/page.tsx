@@ -167,15 +167,15 @@ export default function WrapReportDetailPage() {
                       <H3>Performance Metrics</H3>
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Avg Attendance</Body>
+                          <Body size="sm" className=" text-grey-500">Avg Attendance</Body>
                           <Body className="font-weight-semibold">{report.avg_attendance?.toLocaleString() || '—'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Peak Attendance</Body>
+                          <Body size="sm" className=" text-grey-500">Peak Attendance</Body>
                           <Body className="font-weight-semibold">{report.peak_attendance?.toLocaleString() || '—'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Capacity Utilization</Body>
+                          <Body size="sm" className=" text-grey-500">Capacity Utilization</Body>
                           <Body className="font-weight-semibold">{report.capacity_utilization ? `${report.capacity_utilization}%` : '—'}</Body>
                         </Stack>
                       </Grid>
@@ -249,25 +249,25 @@ export default function WrapReportDetailPage() {
                     <H3>Report Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Production</Body>
+                        <Body size="sm" className=" text-grey-500">Production</Body>
                         <Body>{report.production?.title || 'No production'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Submitted By</Body>
+                        <Body size="sm" className=" text-grey-500">Submitted By</Body>
                         <Body>{report.submitter ? `${report.submitter.first_name} ${report.submitter.last_name}` : 'Unknown'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Submitted At</Body>
+                        <Body size="sm" className=" text-grey-500">Submitted At</Body>
                         <Body>{report.submitted_at ? new Date(report.submitted_at).toLocaleString() : 'Not submitted'}</Body>
                       </Stack>
                       {report.reviewer && (
                         <>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Reviewed By</Body>
+                            <Body size="sm" className=" text-grey-500">Reviewed By</Body>
                             <Body>{report.reviewer.first_name} {report.reviewer.last_name}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Reviewed At</Body>
+                            <Body size="sm" className=" text-grey-500">Reviewed At</Body>
                             <Body>{report.reviewed_at ? new Date(report.reviewed_at).toLocaleString() : '—'}</Body>
                           </Stack>
                         </>
@@ -282,19 +282,19 @@ export default function WrapReportDetailPage() {
                     <H3>Incidents</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Total Incidents</Body>
+                        <Body size="sm" className=" text-grey-500">Total Incidents</Body>
                         <Body className="font-weight-semibold">{report.total_incidents}</Body>
                       </Stack>
                       {report.incident_summary && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Summary</Body>
-                          <Body className="text-body-sm">{report.incident_summary}</Body>
+                          <Body size="sm" className=" text-grey-500">Summary</Body>
+                          <Body size="sm" className="">{report.incident_summary}</Body>
                         </Stack>
                       )}
                       {report.safety_notes && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Safety Notes</Body>
-                          <Body className="text-body-sm">{report.safety_notes}</Body>
+                          <Body size="sm" className=" text-grey-500">Safety Notes</Body>
+                          <Body size="sm" className="">{report.safety_notes}</Body>
                         </Stack>
                       )}
                     </Stack>

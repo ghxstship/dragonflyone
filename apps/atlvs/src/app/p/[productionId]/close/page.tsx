@@ -164,7 +164,7 @@ export default function ProductionClosePage() {
                           <Body className={item.completed ? 'text-on-dark-muted line-through' : 'text-white'}>
                             {item.label}
                           </Body>
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             {item.description}
                           </Body>
                         </Stack>

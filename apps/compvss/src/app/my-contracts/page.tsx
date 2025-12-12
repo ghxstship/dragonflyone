@@ -104,11 +104,11 @@ export default function MyContractsPage() {
 
                   <Grid cols={4} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Contract Type</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Contract Type</Body>
                       <Body className="text-white">{contract.type}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Start Date</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Start Date</Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
                         <Calendar size={14} className="text-on-dark-muted" />
                         <Body className="text-white">
@@ -117,7 +117,7 @@ export default function MyContractsPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">End Date</Body>
+                      <Body size="sm" className=" text-on-dark-muted">End Date</Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
                         <Calendar size={14} className="text-on-dark-muted" />
                         <Body className="text-white">
@@ -126,7 +126,7 @@ export default function MyContractsPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Contract Value</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Contract Value</Body>
                       <Stack direction="horizontal" gap={1} className="items-center">
                         <DollarSign size={14} className="text-on-dark-muted" />
                         <Body className="text-white">${contract.value.toLocaleString()}</Body>

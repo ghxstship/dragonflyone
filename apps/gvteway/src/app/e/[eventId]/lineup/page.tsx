@@ -39,7 +39,7 @@ export default function EventLineupPage() {
                     <Body className="font-weight-bold text-white">{artist.name}</Body>
                     {artist.isHeadliner && <Star size={16} className="text-warning" />}
                   </Stack>
-                  <Body className="text-body-sm text-on-dark-muted">{artist.genre}</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{artist.genre}</Body>
                   <Badge variant="info">{artist.setTime}</Badge>
                 </Stack>
               </Stack>

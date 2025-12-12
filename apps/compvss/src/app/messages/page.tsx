@@ -72,16 +72,16 @@ export default function MessagesPage() {
                       <Card key={conv.id} className={`cursor-pointer border-b p-4 ${selectedConversation?.id === conv.id ? "bg-ink-100" : ""}`} onClick={() => setSelectedConversation(conv)}>
                         <Stack direction="horizontal" gap={3}>
                           <Card className="flex size-10 items-center justify-center rounded-avatar">
-                            <Body className="text-body-sm">{conv.participantName.charAt(0)}</Body>
+                            <Body size="sm" className="">{conv.participantName.charAt(0)}</Body>
                           </Card>
                           <Stack gap={1} className="flex-1">
                             <Stack direction="horizontal" className="justify-between">
                               <Body>{conv.participantName}</Body>
-                              <Body className="text-body-sm">{conv.timestamp}</Body>
+                              <Body size="sm" className="">{conv.timestamp}</Body>
                             </Stack>
-                            <Body className="text-body-sm">{conv.participantRole}</Body>
+                            <Body size="sm" className="">{conv.participantRole}</Body>
                             <Stack direction="horizontal" className="justify-between">
-                              <Body className="truncate text-body-sm">{conv.lastMessage}</Body>
+                              <Body className="truncate">{conv.lastMessage}</Body>
                               {conv.unread > 0 && <Badge variant="solid">{conv.unread}</Badge>}
                             </Stack>
                           </Stack>
@@ -99,11 +99,11 @@ export default function MessagesPage() {
                       <Stack direction="horizontal" className="items-center justify-between">
                         <Stack direction="horizontal" gap={3}>
                           <Card className="flex size-10 items-center justify-center rounded-avatar">
-                            <Body className="text-body-sm">{selectedConversation.participantName.charAt(0)}</Body>
+                            <Body size="sm" className="">{selectedConversation.participantName.charAt(0)}</Body>
                           </Card>
                           <Stack gap={0}>
                             <Body>{selectedConversation.participantName}</Body>
-                            <Body className="text-body-sm">
+                            <Body size="sm" className="">
                               {selectedConversation.online ? "Online" : "Offline"}
                             </Body>
                           </Stack>
@@ -116,9 +116,9 @@ export default function MessagesPage() {
                       {mockMessages.map((msg) => (
                         <Stack key={msg.id} className={msg.senderId === "me" ? "items-end" : "items-start"}>
                           <Card className={`max-w-xs p-3 ${msg.senderId === "me" ? "bg-primary-500" : ""}`}>
-                            <Body className="text-body-sm">{msg.content}</Body>
+                            <Body size="sm" className="">{msg.content}</Body>
                           </Card>
-                          <Body className="text-body-sm">{msg.timestamp}</Body>
+                          <Body size="sm" className="">{msg.timestamp}</Body>
                         </Stack>
                       ))}
                     </Stack>
@@ -132,7 +132,7 @@ export default function MessagesPage() {
                   </Stack>
                 ) : (
                   <Stack className="h-full items-center justify-center p-8">
-                    <Body className="text-body-sm">Select a conversation to start messaging</Body>
+                    <Body size="sm" className="">Select a conversation to start messaging</Body>
                   </Stack>
                 )}
               </Card>

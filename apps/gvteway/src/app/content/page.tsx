@@ -303,7 +303,7 @@ function ExclusiveContentPageContent() {
                 </Stack>
                 <H2>{selectedContent.title}</H2>
                 <Body className="text-ink-600">{selectedContent.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-body-sm text-ink-500">
+                <Stack direction="horizontal" gap={4} size="sm" className=" text-ink-500">
                   <Body>{selectedContent.event_name}</Body>
                   <Body>{new Date(selectedContent.release_date).toLocaleDateString()}</Body>
                   {selectedContent.duration && <Body>{selectedContent.duration}</Body>}

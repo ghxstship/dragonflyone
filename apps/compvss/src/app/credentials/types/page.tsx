@@ -162,7 +162,7 @@ export default function CredentialTypesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Code</Body>
+            <Body size="sm" className=" text-grey-500">Code</Body>
             <Box className="inline-flex">
               <Badge style={{ backgroundColor: selectedType.color, color: '#fff' }}>
                 {selectedType.code}
@@ -170,15 +170,15 @@ export default function CredentialTypesPage() {
             </Box>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Access Level</Body>
+            <Body size="sm" className=" text-grey-500">Access Level</Body>
             <Body>Level {selectedType.access_level}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Max Issued</Body>
+            <Body size="sm" className=" text-grey-500">Max Issued</Body>
             <Body>{selectedType.max_issued || 'Unlimited'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedType.is_active ? 'success' : 'ghost'}>
               {selectedType.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
@@ -192,11 +192,11 @@ export default function CredentialTypesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Photo Required</Body>
+            <Body size="sm" className=" text-grey-500">Photo Required</Body>
             <Body>{selectedType.requires_photo ? 'Yes' : 'No'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Background Check</Body>
+            <Body size="sm" className=" text-grey-500">Background Check</Body>
             <Body>{selectedType.requires_background_check ? 'Required' : 'Not Required'}</Body>
           </Stack>
         </Grid>

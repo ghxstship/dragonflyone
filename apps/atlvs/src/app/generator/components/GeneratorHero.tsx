@@ -155,7 +155,7 @@ export function GeneratorHero({
                     type="button"
                     onClick={() => handleQuickPrompt(prompt.seed)}
                     disabled={isGenerating}
-                    className="group inline-flex items-center gap-2 rounded-avatar border-2 border-grey-200 bg-white px-4 py-2 text-body-sm font-weight-medium text-grey-600 transition-all hover:-translate-y-0.5 hover:border-ink-950 hover:text-ink-950 hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
+                    className="group inline-flex items-center gap-2 rounded-avatar border-2 border-grey-200 bg-white px-4 py-2 font-weight-medium text-grey-600 transition-all hover:-translate-y-0.5 hover:border-ink-950 hover:text-ink-950 hover:shadow-sm disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <IconComponent className="size-4 text-grey-400 transition-colors group-hover:text-primary" />
                     {prompt.label}

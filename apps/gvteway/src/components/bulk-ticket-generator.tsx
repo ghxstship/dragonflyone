@@ -149,7 +149,7 @@ export default function BulkTicketGenerator({
         </Stack>
 
         <Card className="bg-ink-100 p-4">
-          <Label className="mb-2 text-body-sm font-weight-bold uppercase text-ink-700">Preview</Label>
+          <Label className="mb-2 font-weight-bold uppercase text-ink-700">Preview</Label>
           <Body className="text-ink-600">
             {selectedType && ticketTypes.find((t) => t.id === selectedType)
               ? `Ticket codes will be generated as: ${

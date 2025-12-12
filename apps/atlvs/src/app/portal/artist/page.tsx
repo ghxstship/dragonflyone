@@ -58,7 +58,7 @@ export default function ArtistPortalPage() {
                           <Body className="font-weight-semibold text-white">{booking.event}</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <MapPin size={14} className="text-on-dark-muted" />
-                            <Body className="text-body-sm text-on-dark-muted">{booking.venue}</Body>
+                            <Body size="sm" className=" text-on-dark-muted">{booking.venue}</Body>
                           </Stack>
                         </Stack>
                         <Badge variant={booking.status === 'confirmed' ? 'success' : booking.status === 'pending' ? 'warning' : 'info'}>
@@ -67,15 +67,15 @@ export default function ArtistPortalPage() {
                       </Stack>
                       <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Date</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Date</Body>
                           <Body className="text-white">{booking.date}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Set Time</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Set Time</Body>
                           <Body className="text-white">{booking.setTime}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Fee</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Fee</Body>
                           <Body className="font-weight-semibold text-white">${booking.fee.toLocaleString()}</Body>
                         </Stack>
                       </Stack>

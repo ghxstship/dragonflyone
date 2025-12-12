@@ -44,13 +44,13 @@ export default function ShowCallPage() {
                   <Phone size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{call.department}</Body>
-                    <Body className="text-body-sm text-grey-500">{call.location}</Body>
+                    <Body size="sm" className=" text-grey-500">{call.location}</Body>
                   </Stack>
                 </Stack>
                 <Stack direction="horizontal" gap={4} className="items-center">
                   <Stack direction="horizontal" gap={1} className="items-center">
                     <Users size={14} className="text-grey-400" />
-                    <Body className="text-body-sm">{call.headCount}</Body>
+                    <Body size="sm" className="">{call.headCount}</Body>
                   </Stack>
                   <Badge variant="info">{call.callTime}</Badge>
                 </Stack>

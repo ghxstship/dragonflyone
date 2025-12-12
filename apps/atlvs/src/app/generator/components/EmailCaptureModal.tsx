@@ -121,7 +121,7 @@ export function EmailCaptureModal({
                 <H3 className="font-display text-h4-md uppercase text-ink-950">
                   Get Your Blueprint PDF
                 </H3>
-                <Body className="text-body-sm text-grey-600">
+                <Body size="sm" className=" text-grey-600">
                   Enter your email to download the complete blueprint for{" "}
                   <Text className="font-weight-semibold">{blueprint.concept.name}</Text>
                 </Body>
@@ -180,7 +180,7 @@ export function EmailCaptureModal({
                   />
                   <label
                     htmlFor="marketing-consent"
-                    className="text-body-sm text-grey-600"
+                    size="sm" className=" text-grey-600"
                   >
                     Send me tips on immersive experience design and ATLVS updates
                   </label>
@@ -189,7 +189,7 @@ export function EmailCaptureModal({
 
               {/* Error Message */}
               {errorMessage && (
-                <Text className="text-body-sm text-error">{errorMessage}</Text>
+                <Text size="sm" className=" text-error">{errorMessage}</Text>
               )}
 
               {/* Submit Button */}

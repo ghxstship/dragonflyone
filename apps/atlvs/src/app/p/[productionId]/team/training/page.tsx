@@ -44,7 +44,7 @@ export default function TeamTrainingPage() {
                     </Box>
                     <Stack gap={1}>
                       <Body className="font-weight-medium text-white">{item.name}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">{item.completed}/{item.total} completed</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{item.completed}/{item.total} completed</Body>
                     </Stack>
                   </Stack>
                   {item.required && <Badge variant="error">REQUIRED</Badge>}

@@ -116,23 +116,23 @@ export default function BackgroundChecksPage() {
                       <TableCell>
                         <Stack gap={1}>
                           <Body>{check.employeeName}</Body>
-                          <Body className="text-body-sm">{check.employeeId}</Body>
+                          <Body size="sm" className="">{check.employeeId}</Body>
                         </Stack>
                       </TableCell>
                       <TableCell><Badge variant="outline">{check.department}</Badge></TableCell>
-                      <TableCell><Body className="text-body-sm">{check.checkType}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{check.checkType}</Body></TableCell>
                       <TableCell><Badge variant={check.status === "Completed" ? "solid" : "outline"}>{check.status}</Badge></TableCell>
-                      <TableCell><Body className="text-body-sm">{check.result || "-"}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{check.result || "-"}</Body></TableCell>
                       <TableCell>
                         {check.expiryDate ? (
                           <Stack gap={1}>
-                            <Body className="text-body-sm">{check.expiryDate}</Body>
-                            <Body className="text-body-sm">
+                            <Body size="sm" className="">{check.expiryDate}</Body>
+                            <Body size="sm" className="">
                               {check.daysUntilExpiry && check.daysUntilExpiry < 0 ? `${Math.abs(check.daysUntilExpiry)} days ago` : `${check.daysUntilExpiry} days`}
                             </Body>
                           </Stack>
                         ) : (
-                          <Body className="text-body-sm">-</Body>
+                          <Body size="sm" className="">-</Body>
                         )}
                       </TableCell>
                       <TableCell>
@@ -229,10 +229,10 @@ export default function BackgroundChecksPage() {
               <Stack gap={2}>
                 <Body className="font-display">Check Pricing</Body>
                 <Grid cols={2} gap={2}>
-                  <Body className="text-body-sm">Criminal: $25</Body>
-                  <Body className="text-body-sm">Employment: $35</Body>
-                  <Body className="text-body-sm">Education: $30</Body>
-                  <Body className="text-body-sm">Comprehensive: $75</Body>
+                  <Body size="sm" className="">Criminal: $25</Body>
+                  <Body size="sm" className="">Employment: $35</Body>
+                  <Body size="sm" className="">Education: $30</Body>
+                  <Body size="sm" className="">Comprehensive: $75</Body>
                 </Grid>
               </Stack>
             </Card>

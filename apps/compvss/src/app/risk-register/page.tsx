@@ -136,16 +136,16 @@ export default function RiskRegisterPage() {
                         <Grid cols={6} gap={4} className="items-center">
                           <Stack gap={1}>
                             <Body className="font-display">{risk.title}</Body>
-                            <Body className="text-body-sm">{risk.projectName}</Body>
+                            <Body size="sm" className="">{risk.projectName}</Body>
                           </Stack>
                           <Badge variant="outline">{risk.category}</Badge>
                           <Stack gap={1}>
-                            <Body className="text-body-sm">P: {risk.probability} / I: {risk.impact}</Body>
+                            <Body size="sm" className="">P: {risk.probability} / I: {risk.impact}</Body>
                           </Stack>
                           <Badge variant={risk.riskScore >= 12 ? "solid" : "outline"}>{risk.riskScore}</Badge>
                           <Stack gap={1}>
                             <Badge variant={getStatusVariant(risk.status)}>{risk.status}</Badge>
-                            <Body className="text-body-sm">{risk.owner}</Body>
+                            <Body size="sm" className="">{risk.owner}</Body>
                           </Stack>
                           <Button variant="ghost" size="sm" onClick={() => setSelectedRisk(risk)}>Details</Button>
                         </Grid>
@@ -160,31 +160,31 @@ export default function RiskRegisterPage() {
                     <H3>Risk Matrix</H3>
                     <Grid cols={6} gap={2}>
                       <Card className="p-2" />
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Low</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Medium</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">High</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Critical</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Impact →</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Low</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Medium</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">High</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Critical</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Impact →</Body></Card>
                       
-                      <Card className="p-2 text-center"><Body className="text-body-sm">High</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">High</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "High" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "High" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "High" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "High" && r.impact === "Critical").length}</Body></Card>
                       <Card className="p-2" />
                       
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Medium</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Probability ↑</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Medium</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Medium" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Probability ↑</Body></Card>
                       
-                      <Card className="p-2 text-center"><Body className="text-body-sm">Low</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Body></Card>
-                      <Card className="p-2 text-center"><Body className="text-body-sm">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">Low</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Low").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Medium").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Low" && r.impact === "High").length}</Body></Card>
+                      <Card className="p-2 text-center"><Body size="sm" className="">{activeRisks.filter(r => r.probability === "Low" && r.impact === "Critical").length}</Body></Card>
                       <Card className="p-2" />
                     </Grid>
                   </Stack>
@@ -210,50 +210,50 @@ export default function RiskRegisterPage() {
               <Body>{selectedRisk.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Category</Body>
+                  <Body size="sm" className="">Category</Body>
                   <Badge variant="outline">{selectedRisk.category}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Status</Body>
+                  <Body size="sm" className="">Status</Body>
                   <Badge variant={getStatusVariant(selectedRisk.status)}>{selectedRisk.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={3} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Probability</Body>
+                  <Body size="sm" className="">Probability</Body>
                   <Body>{selectedRisk.probability}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Impact</Body>
+                  <Body size="sm" className="">Impact</Body>
                   <Body>{selectedRisk.impact}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Risk Score</Body>
+                  <Body size="sm" className="">Risk Score</Body>
                   <Badge variant={selectedRisk.riskScore >= 12 ? "solid" : "outline"}>{selectedRisk.riskScore}</Badge>
                 </Stack>
               </Grid>
               <Stack gap={1}>
-                <Body className="text-body-sm">Owner</Body>
+                <Body size="sm" className="">Owner</Body>
                 <Body>{selectedRisk.owner}</Body>
               </Stack>
               {selectedRisk.mitigationPlan && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Mitigation Plan</Body>
+                  <Body size="sm" className="">Mitigation Plan</Body>
                   <Body>{selectedRisk.mitigationPlan}</Body>
                 </Stack>
               )}
               {selectedRisk.contingencyPlan && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Contingency Plan</Body>
+                  <Body size="sm" className="">Contingency Plan</Body>
                   <Body>{selectedRisk.contingencyPlan}</Body>
                 </Stack>
               )}
               {selectedRisk.triggers && selectedRisk.triggers.length > 0 && (
                 <Stack gap={2}>
-                  <Body className="text-body-sm">Triggers</Body>
+                  <Body size="sm" className="">Triggers</Body>
                   {selectedRisk.triggers.map((trigger, idx) => (
                     <Card key={idx} className="p-2">
-                      <Body className="text-body-sm">{trigger}</Body>
+                      <Body size="sm" className="">{trigger}</Body>
                     </Card>
                   ))}
                 </Stack>

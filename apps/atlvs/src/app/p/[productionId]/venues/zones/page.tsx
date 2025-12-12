@@ -42,7 +42,7 @@ export default function VenueZonesPage() {
                   <Layers size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{zone.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">Capacity: {zone.capacity}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">Capacity: {zone.capacity}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant="info">{zone.access}</Badge>

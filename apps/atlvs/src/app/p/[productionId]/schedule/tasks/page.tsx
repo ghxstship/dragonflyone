@@ -77,7 +77,7 @@ export default function ProductionTasksPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{task.title}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">
+                    <Body size="sm" className=" text-on-dark-muted">
                       Due: {new Date(task.dueDate).toLocaleDateString()} · {task.assignee}
                     </Body>
                   </Stack>

@@ -79,7 +79,7 @@ export default function TemplatesPage() {
                   <Card key={cat} onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}>
                     <Stack gap={1} className="text-center">
                       <Body>{cat}</Body>
-                      <Body className="text-body-sm">{count}</Body>
+                      <Body size="sm" className="">{count}</Body>
                     </Stack>
                   </Card>
                 );
@@ -102,21 +102,21 @@ export default function TemplatesPage() {
                       </Stack>
                       <Badge variant="outline">{template.fileType}</Badge>
                     </Stack>
-                    <Body className="text-body-sm">{template.description}</Body>
+                    <Body size="sm" className="">{template.description}</Body>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
                     </Stack>
                     <Grid cols={3} gap={2}>
                       <Stack gap={0}>
-                        <Body className="text-body-sm">Version</Body>
+                        <Body size="sm" className="">Version</Body>
                         <Body>v{template.version}</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm">Downloads</Body>
+                        <Body size="sm" className="">Downloads</Body>
                         <Body>{template.downloads}</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm">Size</Body>
+                        <Body size="sm" className="">Size</Body>
                         <Body>{template.size}</Body>
                       </Stack>
                     </Grid>
@@ -151,19 +151,19 @@ export default function TemplatesPage() {
               </Stack>
               <Body>{selectedTemplate.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedTemplate.lastUpdated}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Updated By</Body><Body>{selectedTemplate.updatedBy}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Last Updated</Body><Body>{selectedTemplate.lastUpdated}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Updated By</Body><Body>{selectedTemplate.updatedBy}</Body></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Downloads</Body><Body>{selectedTemplate.downloads}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">File Size</Body><Body>{selectedTemplate.size}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Downloads</Body><Body>{selectedTemplate.downloads}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">File Size</Body><Body>{selectedTemplate.size}</Body></Stack>
               </Grid>
               <Stack gap={2}>
-                <Body className="text-body-sm">Tags</Body>
+                <Body size="sm" className="">Tags</Body>
                 <Stack direction="horizontal" gap={2}>{selectedTemplate.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}</Stack>
               </Stack>
               <Card>
-                <Body className="text-body-sm">Document preview would display here</Body>
+                <Body size="sm" className="">Document preview would display here</Body>
               </Card>
             </Stack>
           )}
@@ -191,7 +191,7 @@ export default function TemplatesPage() {
               <Stack gap={2} className="text-center">
                 <Body>📄</Body>
                 <Body>Drop file here or click to upload</Body>
-                <Body className="text-body-sm">Supports PDF, DOCX, XLSX up to 25MB</Body>
+                <Body size="sm" className="">Supports PDF, DOCX, XLSX up to 25MB</Body>
               </Stack>
             </Card>
           </Stack>

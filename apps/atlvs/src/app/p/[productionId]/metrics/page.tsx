@@ -53,7 +53,7 @@ export default function ProductionMetricsPage() {
         <CardBody>
           <Stack gap={4}>
             <Body className="font-weight-bold text-white">Performance Summary</Body>
-            <Body className="text-body-sm text-on-dark-muted">
+            <Body size="sm" className=" text-on-dark-muted">
               This production is performing above expectations across all key metrics. 
               Attendance exceeded targets by 12%, revenue is 8% above budget, and customer 
               satisfaction remains high at 4.7/5. All safety protocols have been followed 

@@ -102,11 +102,11 @@ function FanClubPageContent() {
                         {club.benefits.slice(0, 3).map((benefit, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-body-sm">{benefit}</Label>
+                            <Label size="sm" className="">{benefit}</Label>
                           </Stack>
                         ))}
                         {club.benefits.length > 3 && (
-                          <Label className="text-ink-500 text-body-sm">+{club.benefits.length - 3} more</Label>
+                          <Label className="text-ink-500">+{club.benefits.length - 3} more</Label>
                         )}
                       </Stack>
                       <Grid cols={2} gap={2}>
@@ -135,7 +135,7 @@ function FanClubPageContent() {
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-weight-bold">{perk.title}</Body>
-                        <Label className="text-ink-600 text-body-sm">{perk.description}</Label>
+                        <Label className="text-ink-600">{perk.description}</Label>
                       </Stack>
                       <Stack gap={1}>
                         <Badge className={getPerkTypeColor(perk.type)}>{perk.type}</Badge>

@@ -162,7 +162,7 @@ export default function CreatorsPage() {
                 <Label size="xs" className="tracking-display text-ink-500">Feature</Label>
                 <H3 size="sm" className="mt-4">{card.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {card.bullets.map((item) => (
                     <ListItem key={item} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -200,7 +200,7 @@ export default function CreatorsPage() {
                     <Label size="xs" className="font-code tracking-display text-ink-500">{node.access}</Label>
                     <H3 size="sm">{node.label}</H3>
                   </Stack>
-                  <Stack className="text-right text-body-sm text-ink-400">
+                  <Stack className="text-right text-ink-400">
                     <Body>Capacity {node.capacity}</Body>
                     <Body>Available {node.availability}</Body>
                   </Stack>
@@ -210,7 +210,7 @@ export default function CreatorsPage() {
                   variant="inverse"
                 />
                 <Body size="sm" className="text-ink-400">Price band {node.priceRange}</Body>
-                <List className="text-body-sm text-ink-200">
+                <List size="sm" className=" text-ink-200">
                   {node.perks.map((perk) => (
                     <ListItem key={perk} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -231,7 +231,7 @@ export default function CreatorsPage() {
             description="Create GA, VIP, and premium tiers with custom pricing, fees, and inventory controls."
           />
           <Box className="overflow-x-auto border-2 border-ink-800">
-            <Table variant="dark" className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Ticket</TableHead>
@@ -277,7 +277,7 @@ export default function CreatorsPage() {
                 <Label size="xs" className="tracking-display text-ink-500">{tier.name}</Label>
                 <H3 className="mt-2 font-display text-h3-md text-white">{tier.price}</H3>
                 <Body size="sm" className="mt-2 text-ink-300">{tier.description}</Body>
-                <List className="mt-6 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-6 space-y-2 text-ink-200">
                   {tier.features.map((feature) => (
                     <ListItem key={feature} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -312,7 +312,7 @@ export default function CreatorsPage() {
               <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{card.description}</Body>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {card.bullets.map((bullet) => (
                     <ListItem key={bullet} className="flex gap-2">
                       <Text className="text-ink-500">{"//"}</Text>
@@ -336,7 +336,7 @@ export default function CreatorsPage() {
             {gvtewayCommerceLanes.map((lane) => (
               <Article key={lane.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{lane.title}</H3>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {lane.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -389,7 +389,7 @@ export default function CreatorsPage() {
             ))}
           </Grid>
           <Box className="overflow-x-auto border-2 border-ink-800">
-            <Table variant="dark" className="min-w-full text-left text-body-sm">
+            <Table variant="dark" className="min-w-full text-left">
               <TableHeader className="bg-ink-900 text-ink-500">
                 <TableRow>
                   <TableHead className="border-2 border-ink-800 px-4 py-3 uppercase tracking-kicker">Run</TableHead>
@@ -462,7 +462,7 @@ export default function CreatorsPage() {
                 <Label size="xs" className="font-code tracking-display text-ink-500">{program.title}</Label>
                 <H3 size="sm" className="mt-4">{program.title}</H3>
                 <Body size="sm" className="mt-3 text-ink-300">{program.description}</Body>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {program.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -483,7 +483,7 @@ export default function CreatorsPage() {
             {gvtewayIntegrationLinks.map((block) => (
               <Article key={block.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{block.title}</H3>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {block.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -505,7 +505,7 @@ export default function CreatorsPage() {
               <Article key={phase.phase} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{phase.phase}</Label>
                 <H3 size="sm" className="mt-4">{phase.focus}</H3>
-                <List className="mt-4 space-y-2 text-body-sm text-ink-200">
+                <List className="mt-4 space-y-2 text-ink-200">
                   {phase.bullets.map((bullet) => (
                     <ListItem key={bullet}>• {bullet}</ListItem>
                   ))}
@@ -519,7 +519,7 @@ export default function CreatorsPage() {
               title="Payment Infrastructure"
               description="Enterprise-grade payment processing with Stripe for secure, compliant transactions."
             />
-            <List className="space-y-4 text-body-sm text-ink-200">
+            <List className="space-y-4 text-ink-200">
               {gvtewayStripePlan.map((step) => (
                 <ListItem key={step.step} className="flex flex-col gap-2 border-2 border-ink-800 p-4">
                   <Text className="font-display text-h5-md uppercase text-white">{step.step}</Text>

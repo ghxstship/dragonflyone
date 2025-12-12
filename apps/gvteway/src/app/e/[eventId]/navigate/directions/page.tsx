@@ -23,7 +23,7 @@ export default function DirectionsPage() {
             <Stack gap={3} className="items-center text-center">
               <Car size={24} className="text-primary" />
               <Body className="font-weight-bold text-white">By Car</Body>
-              <Body className="text-body-sm text-on-dark-muted">Driving directions and routes</Body>
+              <Body size="sm" className=" text-on-dark-muted">Driving directions and routes</Body>
             </Stack>
           </CardBody>
         </Card>
@@ -32,7 +32,7 @@ export default function DirectionsPage() {
             <Stack gap={3} className="items-center text-center">
               <Train size={24} className="text-secondary" />
               <Body className="font-weight-bold text-white">Public Transit</Body>
-              <Body className="text-body-sm text-on-dark-muted">Bus and train options</Body>
+              <Body size="sm" className=" text-on-dark-muted">Bus and train options</Body>
             </Stack>
           </CardBody>
         </Card>
@@ -41,7 +41,7 @@ export default function DirectionsPage() {
             <Stack gap={3} className="items-center text-center">
               <Footprints size={24} className="text-accent" />
               <Body className="font-weight-bold text-white">Walking</Body>
-              <Body className="text-body-sm text-on-dark-muted">Walking routes nearby</Body>
+              <Body size="sm" className=" text-on-dark-muted">Walking routes nearby</Body>
             </Stack>
           </CardBody>
         </Card>

@@ -56,7 +56,7 @@ export default function ProductionDocumentsPage() {
                 </Box>
                 <Stack gap={1}>
                   <Body className="font-weight-medium text-white">{folder.name}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">{folder.count} files</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{folder.count} files</Body>
                 </Stack>
               </Stack>
             </CardBody>
@@ -75,7 +75,7 @@ export default function ProductionDocumentsPage() {
                     <FileText size={20} className="text-primary" />
                     <Stack gap={1}>
                       <Body className="font-weight-medium text-white">{file.name}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">{file.folder} · {file.size}</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{file.folder} · {file.size}</Body>
                     </Stack>
                   </Stack>
                   <Button variant="ghost" size="sm">

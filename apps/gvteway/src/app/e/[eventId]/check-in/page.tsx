@@ -132,7 +132,7 @@ export default function EventCheckInPage() {
                     <Search size={16} />
                   </Button>
                 </Stack>
-                <Body className="text-body-sm text-on-dark-muted">
+                <Body size="sm" className=" text-on-dark-muted">
                   Enter ticket ID, attendee name, or email to manually check in
                 </Body>
               </Stack>
@@ -190,14 +190,14 @@ export default function EventCheckInPage() {
                       )}
                       <Stack gap={0}>
                         <Body className="font-weight-semibold text-white">{scan.name}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className=" text-on-dark-muted">
                           {scan.ticketId} - {scan.ticketType}
                         </Body>
                       </Stack>
                     </Stack>
                     <Stack direction="horizontal" gap={4} className="items-center">
                       {getStatusBadge(scan.status)}
-                      <Body className="text-body-sm text-on-dark-muted">
+                      <Body size="sm" className=" text-on-dark-muted">
                         <Clock size={12} className="mr-1 inline" />
                         {scan.timestamp.toLocaleTimeString()}
                       </Body>

@@ -351,7 +351,7 @@ function BundlesPageContent() {
             </Field>
             <Stack gap={2}>
               <Label>Products to Include</Label>
-              <Body className="text-ink-500 text-body-sm">Select products to add to this bundle</Body>
+              <Body className="text-ink-500">Select products to add to this bundle</Body>
               <Button variant="outline" size="sm">Add Product</Button>
             </Stack>
             <Grid cols={2} gap={4}>

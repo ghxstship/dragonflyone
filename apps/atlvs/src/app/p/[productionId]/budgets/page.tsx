@@ -61,7 +61,7 @@ export default function ProductionBudgetsPage() {
               <Box key={cat.id} className={`flex items-center justify-between border-ink-700 p-4 ${index < categories.length - 1 ? "border-b" : ""}`}>
                 <Stack gap={1}>
                   <Body className="font-weight-medium text-white">{cat.name}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">
+                  <Body size="sm" className=" text-on-dark-muted">
                     ${cat.spent.toLocaleString()} of ${cat.budgeted.toLocaleString()}
                   </Body>
                 </Stack>

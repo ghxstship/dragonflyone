@@ -103,7 +103,7 @@ export default function VendorComparePage() {
             <Card>
               <Stack gap={4}>
                 <Stack direction="horizontal" className="justify-between items-center">
-                  <Body className="text-body-sm">Select vendors to compare (max 4)</Body>
+                  <Body size="sm" className="">Select vendors to compare (max 4)</Body>
                   <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                     <option value="All">All Categories</option>
                     <option value="Audio">Audio</option>
@@ -121,7 +121,7 @@ export default function VendorComparePage() {
                           {selectedVendors.includes(vendor.id) && <Badge variant="solid">✓</Badge>}
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
-                          <Body className={`text-body-sm ${getAvailabilityColor(vendor.availability)}`}>{vendor.availability}</Body>
+                          <Body size="sm" className={getAvailabilityColor(vendor.availability)}>{vendor.availability}</Body>
                           <Badge className={getPricingColor(vendor.pricing)}>{vendor.pricing}</Badge>
                         </Stack>
                       </Stack>
@@ -135,7 +135,7 @@ export default function VendorComparePage() {
               <Card>
                 <Stack gap={4}>
                   <Grid cols={4} gap={4}>
-                    <Body className="text-body-sm">Comparison</Body>
+                    <Body size="sm" className="">Comparison</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
                         <Body className="font-display">{vendor.name}</Body>
@@ -146,7 +146,7 @@ export default function VendorComparePage() {
 
                   {comparisonMetrics.map((metric) => (
                     <Grid key={metric.key} cols={4} gap={4}>
-                      <Body className="text-body-sm">{metric.label}</Body>
+                      <Body size="sm" className="">{metric.label}</Body>
                       {comparedVendors.slice(0, 3).map((vendor) => (
                         <Body key={vendor.id} className="text-center">
                           {metric.format(vendor)}
@@ -156,7 +156,7 @@ export default function VendorComparePage() {
                   ))}
 
                   <Grid cols={4} gap={4}>
-                    <Body className="text-body-sm">Certifications</Body>
+                    <Body size="sm" className="">Certifications</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
                         {vendor.certifications.map(cert => <Badge key={cert} variant="outline">{cert}</Badge>)}
@@ -165,7 +165,7 @@ export default function VendorComparePage() {
                   </Grid>
 
                   <Grid cols={4} gap={4}>
-                    <Body className="text-body-sm">Specialties</Body>
+                    <Body size="sm" className="">Specialties</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
                         {vendor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
@@ -174,17 +174,17 @@ export default function VendorComparePage() {
                   </Grid>
 
                   <Grid cols={4} gap={4}>
-                    <Body className="text-body-sm">Rating</Body>
+                    <Body size="sm" className="">Rating</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={2}>
                         <ProgressBar value={vendor.rating * 20} />
-                        <Body className="text-body-sm text-center">{vendor.reviews} reviews</Body>
+                        <Body size="sm" className=" text-center">{vendor.reviews} reviews</Body>
                       </Stack>
                     ))}
                   </Grid>
 
                   <Grid cols={4} gap={4}>
-                    <Body className="text-body-sm">Actions</Body>
+                    <Body size="sm" className="">Actions</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={2}>
                         <Button variant="solid" size="sm">Request Quote</Button>
@@ -198,7 +198,7 @@ export default function VendorComparePage() {
 
             {comparedVendors.length < 2 && (
               <Card>
-                <Body className="text-body-sm text-center">Select at least 2 vendors to compare</Body>
+                <Body size="sm" className=" text-center">Select at least 2 vendors to compare</Body>
               </Card>
             )}
 

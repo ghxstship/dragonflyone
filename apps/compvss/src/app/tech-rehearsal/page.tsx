@@ -120,18 +120,18 @@ export default function TechRehearsalPage() {
                           <Badge variant="outline">{session.type}</Badge>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Date</Body>
+                          <Body size="sm" className="">Date</Body>
                           <Body>{session.date}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Time</Body>
+                          <Body size="sm" className="">Time</Body>
                           <Body>{session.startTime} - {session.endTime}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Departments</Body>
+                          <Body size="sm" className="">Departments</Body>
                           <Stack direction="horizontal" gap={1} className="flex-wrap">
                             {session.departments.slice(0, 2).map(d => <Badge key={d} variant="outline">{d}</Badge>)}
-                            {session.departments.length > 2 && <Body className="text-body-sm">+{session.departments.length - 2}</Body>}
+                            {session.departments.length > 2 && <Body size="sm" className="">+{session.departments.length - 2}</Body>}
                           </Stack>
                         </Stack>
                         <Badge variant={getStatusVariant(session.status)}>{session.status}</Badge>
@@ -190,10 +190,10 @@ export default function TechRehearsalPage() {
                         </Stack>
                         <Stack gap={1} className="col-span-2">
                           <Body>{note.description}</Body>
-                          <Body className="text-body-sm">Logged at {note.timestamp}</Body>
+                          <Body size="sm" className="">Logged at {note.timestamp}</Body>
                         </Stack>
                         <Stack gap={2}>
-                          <Body className="text-body-sm">Assigned: {note.assignedTo || "Unassigned"}</Body>
+                          <Body size="sm" className="">Assigned: {note.assignedTo || "Unassigned"}</Body>
                           <Button variant="outline" size="sm">Mark Resolved</Button>
                         </Stack>
                       </Grid>
@@ -244,7 +244,7 @@ export default function TechRehearsalPage() {
         <ModalHeader><H3>Add Rehearsal Note</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            {selectedSession && <Body className="text-body-sm">{selectedSession.name}</Body>}
+            {selectedSession && <Body size="sm" className="">{selectedSession.name}</Body>}
             <Grid cols={2} gap={4}>
               <Select>
                 <option value="">Department...</option>
@@ -292,20 +292,20 @@ export default function TechRehearsalPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedSession.name}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Type</Body><Badge variant="outline">{selectedSession.type}</Badge></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Status</Body><Badge variant={getStatusVariant(selectedSession.status)}>{selectedSession.status}</Badge></Stack>
+                <Stack gap={1}><Body size="sm" className="">Type</Body><Badge variant="outline">{selectedSession.type}</Badge></Stack>
+                <Stack gap={1}><Body size="sm" className="">Status</Body><Badge variant={getStatusVariant(selectedSession.status)}>{selectedSession.status}</Badge></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Date</Body><Body>{selectedSession.date}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Time</Body><Body>{selectedSession.startTime} - {selectedSession.endTime}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Date</Body><Body>{selectedSession.date}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Time</Body><Body>{selectedSession.startTime} - {selectedSession.endTime}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Body className="text-body-sm">Location</Body><Body>{selectedSession.location}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Location</Body><Body>{selectedSession.location}</Body></Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">Departments</Body>
+                <Body size="sm" className="">Departments</Body>
                 <Stack direction="horizontal" gap={2}>{selectedSession.departments.map(d => <Badge key={d} variant="outline">{d}</Badge>)}</Stack>
               </Stack>
-              {selectedSession.notes && <Stack gap={1}><Body className="text-body-sm">Notes</Body><Body>{selectedSession.notes}</Body></Stack>}
-              <Stack gap={1}><Body className="text-body-sm">Issues Logged</Body><Body>{selectedSession.issues.toString()}</Body></Stack>
+              {selectedSession.notes && <Stack gap={1}><Body size="sm" className="">Notes</Body><Body>{selectedSession.notes}</Body></Stack>}
+              <Stack gap={1}><Body size="sm" className="">Issues Logged</Body><Body>{selectedSession.issues.toString()}</Body></Stack>
             </Stack>
           )}
         </ModalBody>

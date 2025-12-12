@@ -56,7 +56,7 @@ export default function InvestorPortalPage() {
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>
                           <Body className="font-weight-semibold text-white">{investment.fund}</Body>
-                          <Body className="text-body-sm text-on-dark-muted">{investment.ownership}% ownership stake</Body>
+                          <Body size="sm" className=" text-on-dark-muted">{investment.ownership}% ownership stake</Body>
                         </Stack>
                         <Badge variant={investment.status === 'active' ? 'success' : 'info'}>
                           {investment.status}
@@ -64,15 +64,15 @@ export default function InvestorPortalPage() {
                       </Stack>
                       <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Invested</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Invested</Body>
                           <Body className="font-weight-semibold text-white">${investment.amount.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Returns</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Returns</Body>
                           <Body className="text-white">${investment.returns.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Last Distribution</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Last Distribution</Body>
                           <Body className={investment.returns > 0 ? 'font-weight-semibold text-success' : 'text-on-dark-muted'}>
                             {investment.lastDistribution}
                           </Body>
@@ -94,26 +94,26 @@ export default function InvestorPortalPage() {
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Stack gap={0}>
                         <Body className="text-white">Summer Music Festival</Body>
-                        <Body className="text-body-sm text-on-dark-muted">Q4 Distribution</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Q4 Distribution</Body>
                       </Stack>
                       <Stack gap={0} className="text-right">
                         <Body className="font-weight-semibold text-white">$75,000</Body>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Calendar size={12} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Dec 15, 2024</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Dec 15, 2024</Body>
                         </Stack>
                       </Stack>
                     </Stack>
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Stack gap={0}>
                         <Body className="text-white">New Years Eve Concert</Body>
-                        <Body className="text-body-sm text-on-dark-muted">Final Settlement</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Final Settlement</Body>
                       </Stack>
                       <Stack gap={0} className="text-right">
                         <Body className="font-weight-semibold text-white">$195,000</Body>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Calendar size={12} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Jan 31, 2025</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Jan 31, 2025</Body>
                         </Stack>
                       </Stack>
                     </Stack>

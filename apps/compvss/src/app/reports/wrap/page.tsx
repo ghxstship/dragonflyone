@@ -188,19 +188,19 @@ export default function WrapReportsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Production</Body>
+            <Body size="sm" className=" text-grey-500">Production</Body>
             <Body>{selectedReport.production?.title || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Total Shows</Body>
+            <Body size="sm" className=" text-grey-500">Total Shows</Body>
             <Body>{selectedReport.total_shows}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Total Attendance</Body>
+            <Body size="sm" className=" text-grey-500">Total Attendance</Body>
             <Body>{selectedReport.total_attendance?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Total Revenue</Body>
+            <Body size="sm" className=" text-grey-500">Total Revenue</Body>
             <Body>${selectedReport.total_revenue?.toLocaleString()}</Body>
           </Stack>
         </Grid>
@@ -212,15 +212,15 @@ export default function WrapReportsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Revenue</Body>
+            <Body size="sm" className=" text-grey-500">Revenue</Body>
             <Body className="text-success">${selectedReport.total_revenue?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Expenses</Body>
+            <Body size="sm" className=" text-grey-500">Expenses</Body>
             <Body className="text-error">${selectedReport.total_expenses?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Net Profit</Body>
+            <Body size="sm" className=" text-grey-500">Net Profit</Body>
             <Body className={selectedReport.net_profit && selectedReport.net_profit >= 0 ? 'text-success' : 'text-error'}>
               ${Math.abs(selectedReport.net_profit || 0).toLocaleString()}
               {selectedReport.net_profit && selectedReport.net_profit < 0 ? ' (Loss)' : ''}

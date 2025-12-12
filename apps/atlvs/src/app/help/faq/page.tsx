@@ -241,9 +241,9 @@ export default function FaqPage() {
                     <category.icon className={`size-5 ${
                       activeCategory === category.id ? "text-primary" : "text-grey-500"
                     }`} />
-                    <Body className={`text-body-sm ${
+                    <Body size="sm" className={
                       activeCategory === category.id ? "font-weight-semibold text-primary" : "text-grey-700"
-                    }`}>
+                    }>
                       {category.label}
                     </Body>
                   </button>
@@ -254,13 +254,13 @@ export default function FaqPage() {
               <Card className="mt-4 border-2 border-grey-200 p-4">
                 <Stack gap={3}>
                   <Label size="xs" className="text-grey-500">QUICK LINKS</Label>
-                  <NextLink href="/help/docs" className="text-body-sm text-primary hover:underline">
+                  <NextLink href="/help/docs" size="sm" className=" text-primary hover:underline">
                     Documentation
                   </NextLink>
-                  <NextLink href="/help/tutorials" className="text-body-sm text-primary hover:underline">
+                  <NextLink href="/help/tutorials" size="sm" className=" text-primary hover:underline">
                     Video Tutorials
                   </NextLink>
-                  <NextLink href="/contact" className="text-body-sm text-primary hover:underline">
+                  <NextLink href="/contact" size="sm" className=" text-primary hover:underline">
                     Contact Support
                   </NextLink>
                 </Stack>

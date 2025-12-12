@@ -43,7 +43,7 @@ export default function EventReviewsPage() {
                   <Star key={star} size={16} className={star <= averageRating ? "fill-warning text-warning" : "text-on-dark-muted"} />
                 ))}
               </Stack>
-              <Body className="text-body-sm text-on-dark-muted">{reviews.length} reviews</Body>
+              <Body size="sm" className=" text-on-dark-muted">{reviews.length} reviews</Body>
             </Stack>
           </Stack>
         </CardBody>
@@ -61,7 +61,7 @@ export default function EventReviewsPage() {
                     </Box>
                     <Stack gap={1}>
                       <Body className="font-weight-medium text-white">{review.user}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">{review.date}</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{review.date}</Body>
                     </Stack>
                   </Stack>
                   <Stack direction="horizontal" gap={1}>

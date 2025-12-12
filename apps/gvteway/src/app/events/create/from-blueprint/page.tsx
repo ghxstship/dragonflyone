@@ -142,23 +142,23 @@ export default function CreateFromBlueprintPage() {
 
                       {/* XYZ Foundation Preview */}
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-white">XYZ Foundation</Body>
+                        <Body size="sm" className=" text-white">XYZ Foundation</Body>
                         <Stack gap={1}>
                           <Stack direction="horizontal" gap={2} className="items-start">
                             <Badge variant="success">X</Badge>
-                            <Body className="line-clamp-1 text-body-sm text-on-dark-muted">
+                            <Body className="line-clamp-1 text-on-dark-muted">
                               {blueprint.foundation.x}
                             </Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2} className="items-start">
                             <Badge variant="warning">Y</Badge>
-                            <Body className="line-clamp-1 text-body-sm text-on-dark-muted">
+                            <Body className="line-clamp-1 text-on-dark-muted">
                               {blueprint.foundation.y}
                             </Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2} className="items-start">
                             <Badge variant="info">Z</Badge>
-                            <Body className="line-clamp-1 text-body-sm text-on-dark-muted">
+                            <Body className="line-clamp-1 text-on-dark-muted">
                               {blueprint.foundation.z}
                             </Body>
                           </Stack>
@@ -169,23 +169,23 @@ export default function CreateFromBlueprintPage() {
                       <Stack direction="horizontal" gap={2} className="flex-wrap">
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Eye size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Sight</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Sight</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Music size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Sound</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Sound</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Utensils size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Taste</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Taste</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Hand size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Touch</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Touch</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={1} className="items-center">
                           <Palette size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">Smell</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Smell</Body>
                         </Stack>
                       </Stack>
 
@@ -218,7 +218,7 @@ export default function CreateFromBlueprintPage() {
                     <H3 className="text-white">Event Information</H3>
 
                     <Stack gap={2}>
-                      <Body className="text-body-sm text-on-dark-muted">Event Name</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Event Name</Body>
                       <Input
                         id="name"
                         value={eventDetails.name}
@@ -229,7 +229,7 @@ export default function CreateFromBlueprintPage() {
 
                     <Grid cols={2} gap={4}>
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-on-dark-muted">Start Date</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Start Date</Body>
                         <Input
                           id="startDate"
                           type="date"
@@ -238,7 +238,7 @@ export default function CreateFromBlueprintPage() {
                         />
                       </Stack>
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-on-dark-muted">End Date</Body>
+                        <Body size="sm" className=" text-on-dark-muted">End Date</Body>
                         <Input
                           id="endDate"
                           type="date"
@@ -249,7 +249,7 @@ export default function CreateFromBlueprintPage() {
                     </Grid>
 
                     <Stack gap={2}>
-                      <Body className="text-body-sm text-on-dark-muted">Venue</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Venue</Body>
                       <Input
                         id="venue"
                         value={eventDetails.venue}
@@ -260,7 +260,7 @@ export default function CreateFromBlueprintPage() {
 
                     <Grid cols={2} gap={4}>
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-on-dark-muted">Capacity</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Capacity</Body>
                         <Input
                           id="capacity"
                           type="number"
@@ -270,7 +270,7 @@ export default function CreateFromBlueprintPage() {
                         />
                       </Stack>
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-on-dark-muted">Base Ticket Price</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Base Ticket Price</Body>
                         <Input
                           id="ticketPrice"
                           type="number"
@@ -291,12 +291,12 @@ export default function CreateFromBlueprintPage() {
 
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Experience Type</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Experience Type</Body>
                         <Badge variant="info">{selectedBlueprint.experienceType}</Badge>
                       </Stack>
 
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Journey Phases</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Journey Phases</Body>
                         <Stack direction="horizontal" gap={1} className="flex-wrap">
                           {selectedBlueprint.journeyPhases.map((phase, index) => (
                             <Badge key={index} variant="success">
@@ -307,17 +307,17 @@ export default function CreateFromBlueprintPage() {
                       </Stack>
 
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Experiential (X)</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Experiential (X)</Body>
                         <Body className="text-white">{selectedBlueprint.foundation.x}</Body>
                       </Stack>
 
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Emotional (Y)</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Emotional (Y)</Body>
                         <Body className="text-white">{selectedBlueprint.foundation.y}</Body>
                       </Stack>
 
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Transformational (Z)</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Transformational (Z)</Body>
                         <Body className="text-white">{selectedBlueprint.foundation.z}</Body>
                       </Stack>
                     </Stack>

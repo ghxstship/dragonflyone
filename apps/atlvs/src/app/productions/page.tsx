@@ -59,7 +59,7 @@ export default function ProductionsPage() {
                 >
                   <Stack gap={1}>
                     <Body className="font-weight-bold text-white">{production.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">
+                    <Body size="sm" className=" text-on-dark-muted">
                       {production.venue} | {production.startDate} - {production.endDate}
                     </Body>
                   </Stack>

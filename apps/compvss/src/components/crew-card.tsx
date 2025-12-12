@@ -18,7 +18,7 @@ export function CrewCard({ member }: CrewCardProps) {
         <Stack>
           <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">{member.id}</Label>
           <H3 className="mt-1 font-display text-h5-md text-white">{member.name}</H3>
-          <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
+          <Body className="mt-1 text-ink-300">{member.role}</Body>
         </Stack>
         <Stack className="text-right">
           <Stack direction="horizontal" className="items-center gap-1">
@@ -28,7 +28,7 @@ export function CrewCard({ member }: CrewCardProps) {
         </Stack>
       </Stack>
       <Stack direction="horizontal" className="mt-4 items-center justify-between">
-        <Body className="text-body-sm text-ink-500">{member.department}</Body>
+        <Body size="sm" className="text-ink-500">{member.department}</Body>
         <Badge variant={member.availability === "Available" ? "solid" : "outline"}>
           {member.availability}
         </Badge>

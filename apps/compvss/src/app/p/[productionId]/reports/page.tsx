@@ -44,7 +44,7 @@ export default function ProductionReportsPage() {
                 </Box>
                 <Stack gap={1}>
                   <Body className="font-weight-bold">{report.name}</Body>
-                  <Body className="text-body-sm text-grey-500">{report.description}</Body>
+                  <Body size="sm" className=" text-grey-500">{report.description}</Body>
                 </Stack>
               </Stack>
             </CardBody>

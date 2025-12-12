@@ -178,7 +178,7 @@ export default function ReportsPage() {
                       <TableCell>
                         <Stack gap={0}>
                           <Body className="text-white">{report.name}</Body>
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             Format: {report.format.toUpperCase()}
                           </Body>
                         </Stack>

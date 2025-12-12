@@ -228,19 +228,19 @@ export default function CredentialsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Name</Body>
+            <Body className="text-grey-500">Name</Body>
             <Body>{selectedCredential.contact ? `${selectedCredential.contact.first_name} ${selectedCredential.contact.last_name}` : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Email</Body>
+            <Body className="text-grey-500">Email</Body>
             <Body>{selectedCredential.contact?.email || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Phone</Body>
+            <Body className="text-grey-500">Phone</Body>
             <Body>{selectedCredential.contact?.phone || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Badge Number</Body>
+            <Body className="text-grey-500">Badge Number</Body>
             <Body className="font-mono">{selectedCredential.badge_number}</Body>
           </Stack>
         </Grid>
@@ -252,21 +252,21 @@ export default function CredentialsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Credential Type</Body>
+            <Body className="text-grey-500">Credential Type</Body>
             <Body>{selectedCredential.credential_type?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Access Level</Body>
+            <Body className="text-grey-500">Access Level</Body>
             <Body>Level {selectedCredential.credential_type?.access_level || 0}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Status</Body>
+            <Body className="text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedCredential.status] || 'ghost'}>
               {selectedCredential.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-grey-500 text-body-sm">Expires</Body>
+            <Body className="text-grey-500">Expires</Body>
             <Body>{selectedCredential.expires_at ? new Date(selectedCredential.expires_at).toLocaleDateString() : 'Never'}</Body>
           </Stack>
         </Grid>

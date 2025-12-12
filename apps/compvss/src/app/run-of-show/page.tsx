@@ -72,10 +72,10 @@ export default function RunOfShowPage() {
                     </Stack>
                     <Stack gap={1} className="col-span-2">
                       <Body className="font-display">{cue.cue}</Body>
-                      <Body className="text-body-sm">{cue.department}</Body>
+                      <Body size="sm" className="">{cue.department}</Body>
                     </Stack>
                     <Stack gap={0} className="col-span-2">
-                      <Body className="text-body-sm">{cue.notes}</Body>
+                      <Body size="sm" className="">{cue.notes}</Body>
                     </Stack>
                     <Stack gap={2} direction="horizontal" className="justify-end">
                       {cue.status === 'pending' && (

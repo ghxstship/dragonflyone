@@ -250,10 +250,10 @@ export default function WatchPartiesPage() {
                         {getContentTypeBadge(party.content_type)}
                       </Stack>
                       <H3 className="mt-2">{party.title}</H3>
-                      <Body className="text-body-sm text-ink-600">
+                      <Body size="sm" className=" text-ink-600">
                         Hosted by {party.host_name}
                       </Body>
-                      <Stack direction="horizontal" gap={4} className="mt-2 text-body-sm text-ink-500">
+                      <Stack direction="horizontal" gap={4} className="mt-2 text-ink-500">
                         <Body>{party.attendees_count} watching</Body>
                         {party.chat_enabled && <Body>💬 Chat</Body>}
                         {party.video_enabled && <Body>📹 Video</Body>}
@@ -299,7 +299,7 @@ export default function WatchPartiesPage() {
                 <Stack className="p-4" gap={2}>
                   {getContentTypeBadge(party.content_type)}
                   <H3 className="line-clamp-1">{party.title}</H3>
-                  <Body className="text-body-sm text-ink-600">
+                  <Body size="sm" className=" text-ink-600">
                     Hosted by {party.host_name}
                   </Body>
                   <Body className="text-mono-xs text-ink-500">
@@ -460,7 +460,7 @@ export default function WatchPartiesPage() {
                 </Stack>
                 <H2>{selectedParty.title}</H2>
                 <Body className="text-ink-600">{selectedParty.description}</Body>
-                <Stack direction="horizontal" gap={4} className="text-body-sm text-ink-500">
+                <Stack direction="horizontal" gap={4} size="sm" className=" text-ink-500">
                   <Body>Hosted by {selectedParty.host_name}</Body>
                   <Body>{formatDate(selectedParty.scheduled_at)}</Body>
                   <Body>{selectedParty.attendees_count} joined</Body>

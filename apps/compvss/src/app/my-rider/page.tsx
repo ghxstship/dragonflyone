@@ -148,7 +148,7 @@ PREFERENCES:
                       </Stack>
                       <Stack gap={0}>
                         <H3 className="text-white">{section.title}</H3>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className=" text-on-dark-muted">
                           Last updated: {new Date(section.lastUpdated).toLocaleDateString()}
                         </Body>
                       </Stack>
@@ -160,7 +160,7 @@ PREFERENCES:
                     value={section.content}
                     onChange={(e) => handleContentChange(section.id, e.target.value)}
                     rows={12}
-                    className="font-mono text-body-sm"
+                    className="font-mono"
                   />
 
                   <Stack direction="horizontal" gap={2}>
@@ -196,7 +196,7 @@ PREFERENCES:
                     <FileText size={20} className="text-primary" />
                     <Stack gap={0}>
                       <Body className="text-white">Technical_Rider_2024.pdf</Body>
-                      <Body className="text-body-sm text-on-dark-muted">Uploaded Nov 1, 2024</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Uploaded Nov 1, 2024</Body>
                     </Stack>
                   </Stack>
                   <CheckCircle size={16} className="text-success" />
@@ -209,7 +209,7 @@ PREFERENCES:
                     <FileText size={20} className="text-primary" />
                     <Stack gap={0}>
                       <Body className="text-white">Stage_Plot.pdf</Body>
-                      <Body className="text-body-sm text-on-dark-muted">Uploaded Oct 15, 2024</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Uploaded Oct 15, 2024</Body>
                     </Stack>
                   </Stack>
                   <CheckCircle size={16} className="text-success" />
@@ -222,7 +222,7 @@ PREFERENCES:
                     <FileText size={20} className="text-primary" />
                     <Stack gap={0}>
                       <Body className="text-white">Input_List.pdf</Body>
-                      <Body className="text-body-sm text-on-dark-muted">Uploaded Oct 15, 2024</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Uploaded Oct 15, 2024</Body>
                     </Stack>
                   </Stack>
                   <CheckCircle size={16} className="text-success" />

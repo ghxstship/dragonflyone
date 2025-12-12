@@ -149,25 +149,25 @@ export default function SubcontractorsPage() {
                 <Grid cols={4} gap={4}>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Audio</Body>
+                      <Body size="sm" className="">Audio</Body>
                       <Body className="font-display">12</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Lighting</Body>
+                      <Body size="sm" className="">Lighting</Body>
                       <Body className="font-display">8</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Video</Body>
+                      <Body size="sm" className="">Video</Body>
                       <Body className="font-display">6</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Staging</Body>
+                      <Body size="sm" className="">Staging</Body>
                       <Body className="font-display">10</Body>
                     </Stack>
                   </Card>
@@ -222,17 +222,17 @@ export default function SubcontractorsPage() {
                       <TableCell>
                         <Stack gap={1}>
                           <Body className="font-display">{sub.company_name}</Body>
-                          <Body className="text-body-sm">{sub.email}</Body>
+                          <Body size="sm" className="">{sub.email}</Body>
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{sub.contact_name}</Body>
+                        <Body size="sm" className="">{sub.contact_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{sub.specialty}</Body>
+                        <Body size="sm" className="">{sub.specialty}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{sub.location}</Body>
+                        <Body size="sm" className="">{sub.location}</Body>
                       </TableCell>
                       <TableCell>
                         <Body>{renderRating(sub.rating)}</Body>

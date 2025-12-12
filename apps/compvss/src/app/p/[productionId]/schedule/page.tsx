@@ -50,7 +50,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Run of Show</Body>
-                <Body className="text-body-sm text-grey-500">Event timeline</Body>
+                <Body size="sm" className=" text-grey-500">Event timeline</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -63,7 +63,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Show Call</Body>
-                <Body className="text-body-sm text-grey-500">Call times</Body>
+                <Body size="sm" className=" text-grey-500">Call times</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -76,7 +76,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Build/Strike</Body>
-                <Body className="text-body-sm text-grey-500">Setup and teardown</Body>
+                <Body size="sm" className=" text-grey-500">Setup and teardown</Body>
               </Stack>
             </Stack>
           </CardBody>

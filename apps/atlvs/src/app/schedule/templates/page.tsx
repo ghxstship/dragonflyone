@@ -251,25 +251,25 @@ export default function TaskTemplatesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{taskTypeLabels[selectedTemplate.task_type] || selectedTemplate.task_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Default Priority</Body>
+            <Body size="sm" className=" text-grey-500">Default Priority</Body>
             <Badge variant={priorityColors[selectedTemplate.default_priority] || 'ghost'}>
               {selectedTemplate.default_priority.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Department</Body>
+            <Body size="sm" className=" text-grey-500">Department</Body>
             <Body>{selectedTemplate.department || 'Not specified'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Duration</Body>
+            <Body size="sm" className=" text-grey-500">Duration</Body>
             <Body>{selectedTemplate.default_duration_hours ? `${selectedTemplate.default_duration_hours} hours` : 'Not specified'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedTemplate.is_active ? 'success' : 'ghost'}>
               {selectedTemplate.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>

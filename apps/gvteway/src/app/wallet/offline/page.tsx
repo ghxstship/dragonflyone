@@ -135,19 +135,19 @@ export default function OfflineWalletPage() {
               <Stack gap={2}>
                 <Stack direction="horizontal" gap={2}>
                   <Label className="text-success-600">✓</Label>
-                  <Body className="text-body-sm">QR codes work without internet</Body>
+                  <Body size="sm" className="">QR codes work without internet</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Label className="text-success-600">✓</Label>
-                  <Body className="text-body-sm">Tickets cached for 48 hours</Body>
+                  <Body size="sm" className="">Tickets cached for 48 hours</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Label className="text-success-600">✓</Label>
-                  <Body className="text-body-sm">Automatic sync when online</Body>
+                  <Body size="sm" className="">Automatic sync when online</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Label className="text-warning-600">!</Label>
-                  <Body className="text-body-sm">Transfers require internet connection</Body>
+                  <Body size="sm" className="">Transfers require internet connection</Body>
                 </Stack>
               </Stack>
             </Stack>

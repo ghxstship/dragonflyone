@@ -122,7 +122,7 @@ export default function ProductionLostFoundPage() {
                         </Badge>
                       </Stack>
                       <Body className="text-white">{item.description}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">
+                      <Body size="sm" className=" text-on-dark-muted">
                         {item.category} - Found at {item.location}
                       </Body>
                     </Stack>

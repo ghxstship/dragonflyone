@@ -159,7 +159,7 @@ export default function MyRefundsPage() {
                     <Stack direction="horizontal" className="items-start justify-between">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{refund.eventName}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className="text-on-dark-muted">
                           {refund.orderNumber} - {refund.ticketType}
                         </Body>
                       </Stack>
@@ -173,17 +173,17 @@ export default function MyRefundsPage() {
                     <Stack gap={2} className="mt-3 border-t border-ink-700 pt-3">
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Request Date</Body>
+                          <Body size="sm" className="text-on-dark-muted">Request Date</Body>
                           <Body className="text-white">{new Date(refund.requestDate).toLocaleDateString()}</Body>
                         </Stack>
                         <Stack gap={0} className="flex-1 ml-8">
-                          <Body className="text-body-sm text-on-dark-muted">Reason</Body>
+                          <Body size="sm" className="text-on-dark-muted">Reason</Body>
                           <Body className="text-white">{refund.reason}</Body>
                         </Stack>
                       </Stack>
                       {refund.resolution && (
                         <Stack gap={1} className="mt-2 rounded-card bg-ink-800 p-3">
-                          <Body className="text-body-sm text-on-dark-muted">Resolution</Body>
+                          <Body size="sm" className="text-on-dark-muted">Resolution</Body>
                           <Body className="text-white">{refund.resolution}</Body>
                         </Stack>
                       )}

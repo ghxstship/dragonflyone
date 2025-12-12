@@ -128,7 +128,7 @@ export default function SettlementPage() {
                           <Stack direction="horizontal" className="items-start justify-between">
                             <Stack gap={1}>
                               <Body className="font-display">{settlement.projectName}</Body>
-                              <Body className="text-body-sm">Event Date: {settlement.eventDate}</Body>
+                              <Body size="sm" className="">Event Date: {settlement.eventDate}</Body>
                             </Stack>
                             <Badge variant={getStatusVariant(settlement.status)}>{settlement.status}</Badge>
                           </Stack>
@@ -136,25 +136,25 @@ export default function SettlementPage() {
                           <Grid cols={4} gap={4}>
                             <Card className="p-3">
                               <Stack gap={1}>
-                                <Body className="text-body-sm">Contract Value</Body>
+                                <Body size="sm" className="">Contract Value</Body>
                                 <Body className="font-display">${settlement.contractValue.toLocaleString()}</Body>
                               </Stack>
                             </Card>
                             <Card className="p-3">
                               <Stack gap={1}>
-                                <Body className="text-body-sm">Actual Costs</Body>
+                                <Body size="sm" className="">Actual Costs</Body>
                                 <Body className="font-display">${settlement.actualCosts.toLocaleString()}</Body>
                               </Stack>
                             </Card>
                             <Card className="p-3">
                               <Stack gap={1}>
-                                <Body className="text-body-sm">Gross Profit</Body>
+                                <Body size="sm" className="">Gross Profit</Body>
                                 <Body className="font-display">${settlement.grossProfit.toLocaleString()}</Body>
                               </Stack>
                             </Card>
                             <Card className="p-3">
                               <Stack gap={1}>
-                                <Body className="text-body-sm">Margin</Body>
+                                <Body size="sm" className="">Margin</Body>
                                 <Body className="font-display">{settlement.marginPct}%</Body>
                               </Stack>
                             </Card>
@@ -166,7 +166,7 @@ export default function SettlementPage() {
                               {settlement.adjustments.map((adj) => (
                                 <Card key={adj.id} className="p-2">
                                   <Stack direction="horizontal" className="justify-between">
-                                    <Body className="text-body-sm">{adj.description}</Body>
+                                    <Body size="sm" className="">{adj.description}</Body>
                                     <Badge variant={adj.type === "Credit" ? "solid" : "outline"}>
                                       {adj.type === "Credit" ? "+" : "-"}${adj.amount.toLocaleString()}
                                     </Badge>
@@ -206,11 +206,11 @@ export default function SettlementPage() {
               <Body className="font-display">{selectedSettlement.projectName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Event Date</Body>
+                  <Body size="sm" className="">Event Date</Body>
                   <Body>{selectedSettlement.eventDate}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Status</Body>
+                  <Body size="sm" className="">Status</Body>
                   <Badge variant={getStatusVariant(selectedSettlement.status)}>{selectedSettlement.status}</Badge>
                 </Stack>
               </Grid>
@@ -219,19 +219,19 @@ export default function SettlementPage() {
               <Grid cols={2} gap={2}>
                 {selectedSettlement.ticketRevenue && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Ticket Revenue</Body>
+                    <Body size="sm" className="">Ticket Revenue</Body>
                     <Body>${selectedSettlement.ticketRevenue.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.merchRevenue && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Merch Revenue</Body>
+                    <Body size="sm" className="">Merch Revenue</Body>
                     <Body>${selectedSettlement.merchRevenue.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.sponsorRevenue && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Sponsor Revenue</Body>
+                    <Body size="sm" className="">Sponsor Revenue</Body>
                     <Body>${selectedSettlement.sponsorRevenue.toLocaleString()}</Body>
                   </Stack>
                 )}
@@ -241,37 +241,37 @@ export default function SettlementPage() {
               <Grid cols={2} gap={2}>
                 {selectedSettlement.artistGuarantee && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Artist Guarantee</Body>
+                    <Body size="sm" className="">Artist Guarantee</Body>
                     <Body>${selectedSettlement.artistGuarantee.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.artistBackend && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Artist Backend</Body>
+                    <Body size="sm" className="">Artist Backend</Body>
                     <Body>${selectedSettlement.artistBackend.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.venueRent && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Venue Rent</Body>
+                    <Body size="sm" className="">Venue Rent</Body>
                     <Body>${selectedSettlement.venueRent.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.productionCosts && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Production</Body>
+                    <Body size="sm" className="">Production</Body>
                     <Body>${selectedSettlement.productionCosts.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.laborCosts && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Labor</Body>
+                    <Body size="sm" className="">Labor</Body>
                     <Body>${selectedSettlement.laborCosts.toLocaleString()}</Body>
                   </Stack>
                 )}
                 {selectedSettlement.otherCosts && (
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Other</Body>
+                    <Body size="sm" className="">Other</Body>
                     <Body>${selectedSettlement.otherCosts.toLocaleString()}</Body>
                   </Stack>
                 )}
@@ -280,15 +280,15 @@ export default function SettlementPage() {
               <Card className="mt-4 p-4">
                 <Grid cols={3} gap={4}>
                   <Stack gap={1}>
-                    <Body className="text-body-sm">Total Revenue</Body>
+                    <Body size="sm" className="">Total Revenue</Body>
                     <Body className="font-display">${selectedSettlement.contractValue.toLocaleString()}</Body>
                   </Stack>
                   <Stack gap={1}>
-                    <Body className="text-body-sm">Total Costs</Body>
+                    <Body size="sm" className="">Total Costs</Body>
                     <Body className="font-display">${selectedSettlement.actualCosts.toLocaleString()}</Body>
                   </Stack>
                   <Stack gap={1}>
-                    <Body className="text-body-sm">Net Profit</Body>
+                    <Body size="sm" className="">Net Profit</Body>
                     <Body className="font-display">${selectedSettlement.grossProfit.toLocaleString()}</Body>
                   </Stack>
                 </Grid>
@@ -296,7 +296,7 @@ export default function SettlementPage() {
 
               {selectedSettlement.approvedBy && (
                 <Stack gap={1} className="mt-4">
-                  <Body className="text-body-sm">Approved By</Body>
+                  <Body size="sm" className="">Approved By</Body>
                   <Body>{selectedSettlement.approvedBy} on {selectedSettlement.approvedAt}</Body>
                 </Stack>
               )}

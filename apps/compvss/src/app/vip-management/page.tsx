@@ -118,7 +118,7 @@ export default function VIPManagementPage() {
                         <TableCell>
                           <Stack gap={1}>
                             <Body className="font-display">{guest.name}</Body>
-                            <Body className="text-body-sm">{guest.email}</Body>
+                            <Body size="sm" className="">{guest.email}</Body>
                           </Stack>
                         </TableCell>
                         <TableCell><Badge variant="outline">{guest.passType}</Badge></TableCell>
@@ -146,7 +146,7 @@ export default function VIPManagementPage() {
                         <Stack gap={2}>
                           <Body>{zone.currentOccupancy} / {zone.maxCapacity}</Body>
                           <Card>
-                            <Body className="text-body-sm">{Math.round((zone.currentOccupancy / zone.maxCapacity) * 100)}% capacity</Body>
+                            <Body size="sm" className="">{Math.round((zone.currentOccupancy / zone.maxCapacity) * 100)}% capacity</Body>
                           </Card>
                         </Stack>
                       </Stack>
@@ -192,7 +192,7 @@ export default function VIPManagementPage() {
           {selectedGuest && (
             <Stack gap={4}>
               <Body className="font-display">{selectedGuest.name}</Body>
-              <Body className="text-body-sm">{selectedGuest.email}</Body>
+              <Body size="sm" className="">{selectedGuest.email}</Body>
               <Badge variant="outline">{selectedGuest.passType}</Badge>
               <Badge variant={getStatusVariant(selectedGuest.status)}>{selectedGuest.status}</Badge>
               {selectedGuest.notes && <Body>{selectedGuest.notes}</Body>}

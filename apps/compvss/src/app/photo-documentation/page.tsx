@@ -107,8 +107,8 @@ export default function PhotoDocumentationPage() {
                     return (
                       <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : getPhaseColor(phase)}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
                         <Stack gap={1} className="text-center">
-                          <Body className="text-body-sm">{phase}</Body>
-                          <Body className="text-body-sm">{count} sets</Body>
+                          <Body size="sm" className="">{phase}</Body>
+                          <Body size="sm" className="">{count} sets</Body>
                         </Stack>
                       </Card>
                     );
@@ -135,7 +135,7 @@ export default function PhotoDocumentationPage() {
                     <Card className="flex h-32 items-center justify-center">
                       <Stack gap={2} className="text-center">
                         <Body>📷</Body>
-                        <Body className="text-body-sm">{set.photoCount} photos</Body>
+                        <Body size="sm" className="">{set.photoCount} photos</Body>
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={3}>
@@ -145,14 +145,14 @@ export default function PhotoDocumentationPage() {
                       </Stack>
                       <Stack gap={1}>
                         <Body>{set.projectName}</Body>
-                        {set.description && <Body className="text-body-sm">{set.description}</Body>}
+                        {set.description && <Body size="sm" className="">{set.description}</Body>}
                       </Stack>
                       <Stack direction="horizontal" gap={1} className="flex-wrap">
                         {set.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">By {set.capturedBy}</Body>
-                        <Body className="text-body-sm">{new Date(set.capturedAt).toLocaleDateString()}</Body>
+                        <Body size="sm" className="">By {set.capturedBy}</Body>
+                        <Body size="sm" className="">{new Date(set.capturedAt).toLocaleDateString()}</Body>
                       </Stack>
                       <Button variant="outline" size="sm" onClick={() => setSelectedSet(set)}>View Set</Button>
                     </Stack>
@@ -184,20 +184,20 @@ export default function PhotoDocumentationPage() {
               {selectedSet.description && <Body>{selectedSet.description}</Body>}
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Photos</Body>
+                  <Body size="sm" className="">Photos</Body>
                   <Body>{selectedSet.photoCount}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Captured By</Body>
+                  <Body size="sm" className="">Captured By</Body>
                   <Body>{selectedSet.capturedBy}</Body>
                 </Stack>
               </Grid>
               <Stack gap={1}>
-                <Body className="text-body-sm">Date</Body>
+                <Body size="sm" className="">Date</Body>
                 <Body>{new Date(selectedSet.capturedAt).toLocaleString()}</Body>
               </Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">Tags</Body>
+                <Body size="sm" className="">Tags</Body>
                 <Stack direction="horizontal" gap={2}>{selectedSet.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}</Stack>
               </Stack>
               <Card className="p-4">
@@ -208,7 +208,7 @@ export default function PhotoDocumentationPage() {
                     </Card>
                   ))}
                 </Grid>
-                <Body className="mt-2 text-center text-body-sm">+{selectedSet.photoCount - 8} more</Body>
+                <Body className="mt-2 text-center">+{selectedSet.photoCount - 8} more</Body>
               </Card>
             </Stack>
           )}
@@ -239,7 +239,7 @@ export default function PhotoDocumentationPage() {
               <Stack gap={2}>
                 <Body className="text-h5-md">📷</Body>
                 <Body>Drop photos here or click to upload</Body>
-                <Body className="text-body-sm">Supports JPG, PNG, HEIC up to 50MB each</Body>
+                <Body size="sm" className="">Supports JPG, PNG, HEIC up to 50MB each</Body>
               </Stack>
             </Card>
           </Stack>

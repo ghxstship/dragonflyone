@@ -69,7 +69,7 @@ export default function BuildStrikePage() {
                   <Grid cols={4} gap={4} className="items-center">
                     <Stack gap={1} className="col-span-2">
                       <Body className="text-body-md font-display">{task.task}</Body>
-                      <Body className="text-body-sm">{task.area} • {task.assignedTo}</Body>
+                      <Body size="sm" className="">{task.area} • {task.assignedTo}</Body>
                     </Stack>
                     <Badge variant={task.priority === 'high' ? 'solid' : 'outline'}>
                       {task.priority.toUpperCase()}

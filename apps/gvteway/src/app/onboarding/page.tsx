@@ -155,7 +155,7 @@ export default function OnboardingPage() {
                     {STEPS.map((step, index) => (
                       <Stack key={step.id} direction="horizontal" className="items-center">
                         <Box
-                          className={`flex size-10 items-center justify-center border-2 text-body-sm ${
+                          className={`flex size-10 items-center justify-center border-2 ${
                             index <= currentStepIndex
                               ? "border-white bg-white text-black"
                               : "border-ink-700 bg-ink-900 text-on-dark-muted"

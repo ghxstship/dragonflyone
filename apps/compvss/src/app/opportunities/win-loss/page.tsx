@@ -108,7 +108,7 @@ export default function WinLossPage() {
                   <H3>Win Rate Trend</H3>
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">Current Period</Body>
+                      <Body size="sm" className="">Current Period</Body>
                       <Body className="font-mono">{winRate}%</Body>
                     </Stack>
                     <ProgressBar value={winRate} />
@@ -117,13 +117,13 @@ export default function WinLossPage() {
                     <Card>
                       <Stack className="text-center">
                         <Body className="font-mono">{wonRecords.length}</Body>
-                        <Body className="text-body-sm">Won</Body>
+                        <Body size="sm" className="">Won</Body>
                       </Stack>
                     </Card>
                     <Card>
                       <Stack className="text-center">
                         <Body className="font-mono">{lostRecords.length}</Body>
-                        <Body className="text-body-sm">Lost</Body>
+                        <Body size="sm" className="">Lost</Body>
                       </Stack>
                     </Card>
                   </Grid>
@@ -174,11 +174,11 @@ export default function WinLossPage() {
                 {filteredRecords.map((record) => (
                   <TableRow key={record.id}>
                     <TableCell><Body>{record.opportunity}</Body></TableCell>
-                    <TableCell><Body className="text-body-sm">{record.client}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{record.client}</Body></TableCell>
                     <TableCell><Body className="font-mono">{formatCurrency(record.value)}</Body></TableCell>
                     <TableCell><Badge variant={record.result === "Won" ? "solid" : "outline"}>{record.result}</Badge></TableCell>
-                    <TableCell><Body className="text-body-sm">{record.reason}</Body></TableCell>
-                    <TableCell><Body className="text-body-sm">{record.closeDate}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{record.reason}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{record.closeDate}</Body></TableCell>
                     <TableCell><Button variant="ghost" size="sm" onClick={() => setSelectedRecord(record)}>Details</Button></TableCell>
                   </TableRow>
                 ))}
@@ -202,16 +202,16 @@ export default function WinLossPage() {
               <Body className="font-display">{selectedRecord.opportunity}</Body>
               <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"}>{selectedRecord.result}</Badge>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Client</Body><Body>{selectedRecord.client}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Value</Body><Body className="font-mono">{formatCurrency(selectedRecord.value)}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Client</Body><Body>{selectedRecord.client}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Value</Body><Body className="font-mono">{formatCurrency(selectedRecord.value)}</Body></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Close Date</Body><Body>{selectedRecord.closeDate}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Sales Rep</Body><Body>{selectedRecord.salesRep}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Close Date</Body><Body>{selectedRecord.closeDate}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Sales Rep</Body><Body>{selectedRecord.salesRep}</Body></Stack>
               </Grid>
-              {selectedRecord.competitor && <Stack gap={1}><Body className="text-body-sm">Lost To</Body><Body>{selectedRecord.competitor}</Body></Stack>}
-              <Stack gap={1}><Body className="text-body-sm">Reason</Body><Body>{selectedRecord.reason}</Body></Stack>
-              {selectedRecord.lessons && <Stack gap={1}><Body className="text-body-sm">Lessons Learned</Body><Body>{selectedRecord.lessons}</Body></Stack>}
+              {selectedRecord.competitor && <Stack gap={1}><Body size="sm" className="">Lost To</Body><Body>{selectedRecord.competitor}</Body></Stack>}
+              <Stack gap={1}><Body size="sm" className="">Reason</Body><Body>{selectedRecord.reason}</Body></Stack>
+              {selectedRecord.lessons && <Stack gap={1}><Body size="sm" className="">Lessons Learned</Body><Body>{selectedRecord.lessons}</Body></Stack>}
             </Stack>
           )}
         </ModalBody>
@@ -225,7 +225,7 @@ export default function WinLossPage() {
         <ModalBody>
           <Stack gap={4}>
             <Stack gap={2}>
-              <Body className="text-body-sm">Win Factors</Body>
+              <Body size="sm" className="">Win Factors</Body>
               {Object.entries(winReasons).map(([reason, count], idx) => (
                 <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
@@ -236,7 +236,7 @@ export default function WinLossPage() {
               ))}
             </Stack>
             <Stack gap={2}>
-              <Body className="text-body-sm">Loss Factors</Body>
+              <Body size="sm" className="">Loss Factors</Body>
               {Object.entries(lossReasons).map(([reason, count], idx) => (
                 <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
@@ -247,12 +247,12 @@ export default function WinLossPage() {
               ))}
             </Stack>
             <Stack gap={2}>
-              <Body className="text-body-sm">Competitors</Body>
+              <Body size="sm" className="">Competitors</Body>
               {["Competitor A", "Competitor B"].map((comp, idx) => (
                 <Card key={idx}>
                   <Stack direction="horizontal" className="justify-between">
                     <Body>{comp}</Body>
-                    <Body className="text-body-sm">{lostRecords.filter(r => r.competitor === comp).length} wins against us</Body>
+                    <Body size="sm" className="">{lostRecords.filter(r => r.competitor === comp).length} wins against us</Body>
                   </Stack>
                 </Card>
               ))}

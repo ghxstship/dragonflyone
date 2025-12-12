@@ -157,23 +157,23 @@ export default function VenueDetailPage() {
                       <H3>Location</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Address</Body>
+                          <Body size="sm" className=" text-grey-500">Address</Body>
                           <Body>{venue.address || 'Not provided'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">City</Body>
+                          <Body size="sm" className=" text-grey-500">City</Body>
                           <Body>{venue.city || 'Not provided'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">State</Body>
+                          <Body size="sm" className=" text-grey-500">State</Body>
                           <Body>{venue.state || 'Not provided'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Country</Body>
+                          <Body size="sm" className=" text-grey-500">Country</Body>
                           <Body>{venue.country || 'Not provided'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Postal Code</Body>
+                          <Body size="sm" className=" text-grey-500">Postal Code</Body>
                           <Body>{venue.postal_code || 'Not provided'}</Body>
                         </Stack>
                       </Grid>
@@ -186,28 +186,28 @@ export default function VenueDetailPage() {
                       <H3>Schedule</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Contract Start</Body>
+                          <Body size="sm" className=" text-grey-500">Contract Start</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{venue.contract_start ? new Date(venue.contract_start).toLocaleDateString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Contract End</Body>
+                          <Body size="sm" className=" text-grey-500">Contract End</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{venue.contract_end ? new Date(venue.contract_end).toLocaleDateString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Load In</Body>
+                          <Body size="sm" className=" text-grey-500">Load In</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{venue.load_in_date ? new Date(venue.load_in_date).toLocaleDateString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Load Out</Body>
+                          <Body size="sm" className=" text-grey-500">Load Out</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{venue.load_out_date ? new Date(venue.load_out_date).toLocaleDateString() : 'Not set'}</Body>
@@ -244,7 +244,7 @@ export default function VenueDetailPage() {
                                     {zone.is_active ? 'ACTIVE' : 'INACTIVE'}
                                   </Badge>
                                 </Stack>
-                                <Body className="text-body-sm text-grey-500">
+                                <Body size="sm" className=" text-grey-500">
                                   {zoneTypeLabels[zone.zone_type] || zone.zone_type} | Capacity: {zone.capacity?.toLocaleString() || '—'}
                                 </Body>
                               </Stack>
@@ -269,12 +269,12 @@ export default function VenueDetailPage() {
                     <H3>Contact</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Contact Name</Body>
+                        <Body size="sm" className=" text-grey-500">Contact Name</Body>
                         <Body>{venue.contact_name || 'Not provided'}</Body>
                       </Stack>
                       {venue.contact_email && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Email</Body>
+                          <Body size="sm" className=" text-grey-500">Email</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Mail className="size-4 text-grey-400" />
                             <Body>{venue.contact_email}</Body>
@@ -283,7 +283,7 @@ export default function VenueDetailPage() {
                       )}
                       {venue.contact_phone && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Phone</Body>
+                          <Body size="sm" className=" text-grey-500">Phone</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Phone className="size-4 text-grey-400" />
                             <Body>{venue.contact_phone}</Body>
@@ -300,11 +300,11 @@ export default function VenueDetailPage() {
                     <H3>Financials</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Rental Cost</Body>
+                        <Body size="sm" className=" text-grey-500">Rental Cost</Body>
                         <Body className="font-weight-semibold">{venue.rental_cost ? `$${venue.rental_cost.toLocaleString()}` : 'Not set'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Deposit Amount</Body>
+                        <Body size="sm" className=" text-grey-500">Deposit Amount</Body>
                         <Body className="font-weight-semibold">{venue.deposit_amount ? `$${venue.deposit_amount.toLocaleString()}` : 'Not set'}</Body>
                       </Stack>
                     </Stack>

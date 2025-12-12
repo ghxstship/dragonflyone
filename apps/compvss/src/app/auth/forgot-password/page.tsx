@@ -107,7 +107,7 @@ export default function ForgotPasswordPage() {
                 {/* Back Link */}
                 <Stack className="text-center">
                   <NextLink href="/auth/signin">
-                    <Button variant="ghost" size="sm" className="text-muted hover:text-black">
+                    <Button variant="ghost" size="sm">
                       Back to Sign In
                     </Button>
                   </NextLink>

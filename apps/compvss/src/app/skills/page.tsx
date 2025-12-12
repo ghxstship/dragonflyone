@@ -236,7 +236,7 @@ export default function SkillsPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{member.status || member.availability || 'Active'}</Body>
+                        <Body size="sm" className="">{member.status || member.availability || 'Active'}</Body>
                       </TableCell>
                       <TableCell>
                         <Stack gap={2} direction="horizontal">

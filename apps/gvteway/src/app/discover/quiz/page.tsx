@@ -227,7 +227,7 @@ export default function DiscoveryQuizPage() {
                             </Badge>
                           </Stack>
                           <Body className="text-ink-600">{event.date}</Body>
-                          <Body className="text-ink-500 text-body-sm">{event.venue}</Body>
+                          <Body className="text-ink-500">{event.venue}</Body>
                         </Stack>
                       </Stack>
                     </Card>
@@ -366,5 +366,5 @@ export default function DiscoveryQuizPage() {
 }
 
 function Label({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <Body className={`text-body-sm font-weight-medium ${className || ''}`}>{children}</Body>;
+  return <Body size="sm" className={`font-weight-medium ${className || ''}`}>{children}</Body>;
 }

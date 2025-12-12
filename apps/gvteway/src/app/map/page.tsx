@@ -92,7 +92,7 @@ function MapViewContent() {
       <Stack className="absolute inset-0 flex items-center justify-center">
         <Stack className="text-center">
           <Body className="text-ink-500 mb-2">Interactive Map</Body>
-          <Body className="text-body-sm text-ink-600">
+          <Body size="sm" className=" text-ink-600">
             Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}
           </Body>
         </Stack>
@@ -277,8 +277,8 @@ function MapViewContent() {
                 <Stack gap={2}>
                   <Body className="font-weight-bold">{selectedEvent.title}</Body>
                   <Body className="text-ink-600">{selectedEvent.date}</Body>
-                  <Body className="text-ink-500 text-body-sm">{selectedEvent.venue}</Body>
-                  <Body className="text-ink-500 text-body-sm">{selectedEvent.city}</Body>
+                  <Body className="text-ink-500">{selectedEvent.venue}</Body>
+                  <Body className="text-ink-500">{selectedEvent.city}</Body>
                   <Stack direction="horizontal" className="justify-between items-center mt-4">
                     <Badge>{selectedEvent.category}</Badge>
                     <Body className="font-weight-bold">From ${selectedEvent.price_min}</Body>
@@ -309,7 +309,7 @@ function MapViewContent() {
                     className="p-3 border-2 border-ink-200 rounded cursor-pointer hover:bg-ink-50"
                     onClick={() => handleEventClick(event)}
                   >
-                    <Body className="font-weight-medium text-body-sm">{event.title}</Body>
+                    <Body className="font-weight-medium">{event.title}</Body>
                     <Body className="text-mono-xs text-ink-500">{event.date}</Body>
                     <Body className="text-mono-xs text-ink-600">{event.venue}</Body>
                   </Stack>

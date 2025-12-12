@@ -102,10 +102,10 @@ export default function GlossaryPage() {
                       <Body className="text-body-md font-display">{term.term}</Body>
                       <Badge variant="outline">{term.category}</Badge>
                     </Stack>
-                    <Body className="line-clamp-2 text-body-sm">{term.definition}</Body>
+                    <Body className="line-clamp-2">{term.definition}</Body>
                     {term.aliases && term.aliases.length > 0 && (
                       <Stack direction="horizontal" gap={2}>
-                        <Body className="text-body-sm">Also:</Body>
+                        <Body size="sm" className="">Also:</Body>
                         {term.aliases.slice(0, 2).map(alias => <Badge key={alias} variant="outline">{alias}</Badge>)}
                       </Stack>
                     )}

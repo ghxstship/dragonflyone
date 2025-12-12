@@ -177,7 +177,7 @@ export default function ChannelsPage() {
                                 <Badge variant="solid">{channel.unread_count}</Badge>
                               )}
                             </Stack>
-                            <Body className="text-body-sm">{channel.members.length} members</Body>
+                            <Body size="sm" className="">{channel.members.length} members</Body>
                           </Stack>
                           {getTypeBadge(channel.type)}
                         </Stack>
@@ -197,7 +197,7 @@ export default function ChannelsPage() {
                           <H3>{selectedChannel.name}</H3>
                           {getTypeBadge(selectedChannel.type)}
                         </Stack>
-                        <Body className="text-body-sm">{selectedChannel.description}</Body>
+                        <Body size="sm" className="">{selectedChannel.description}</Body>
                       </Stack>
                       <Button variant="outline" size="sm" onClick={() => setShowMembersModal(true)}>
                         {selectedChannel.members.length} Members
@@ -211,9 +211,9 @@ export default function ChannelsPage() {
                             <Stack direction="horizontal" className="justify-between items-center">
                               <Stack direction="horizontal" gap={2} className="items-center">
                                 <Body className="font-display">{message.sender.name}</Body>
-                                <Body className="text-body-sm">{message.sender.role}</Body>
+                                <Body size="sm" className="">{message.sender.role}</Body>
                               </Stack>
-                              <Body className="text-body-sm">
+                              <Body size="sm" className="">
                                 {new Date(message.timestamp).toLocaleTimeString()}
                               </Body>
                             </Stack>
@@ -315,7 +315,7 @@ export default function ChannelsPage() {
                 <Stack direction="horizontal" className="justify-between items-center">
                   <Stack gap={1}>
                     <Body>{member.name}</Body>
-                    <Body className="text-body-sm">{member.role}</Body>
+                    <Body size="sm" className="">{member.role}</Body>
                   </Stack>
                   <Badge variant={member.is_online ? 'solid' : 'outline'}>
                     {member.is_online ? 'Online' : 'Offline'}

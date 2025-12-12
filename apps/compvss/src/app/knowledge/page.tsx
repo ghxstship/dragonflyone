@@ -108,13 +108,13 @@ export default function KnowledgePage() {
                         </Stack>
                       </Stack>
                       <H3>{article.title}</H3>
-                      <Stack gap={4} direction="horizontal" className="text-body-sm">
+                      <Stack gap={4} direction="horizontal" size="sm" className="">
                         <Stack gap={1} direction="horizontal" className="items-center">
                           {article.type === 'Video' ? <Video className="size-4" /> : <FileText className="size-4" />}
-                          <Body className="text-body-sm">{article.type}</Body>
+                          <Body size="sm" className="">{article.type}</Body>
                         </Stack>
-                        <Body className="text-body-sm">{article.views.toLocaleString()} views</Body>
-                        <Body className="text-body-sm">Updated {new Date(article.lastUpdated).toLocaleDateString()}</Body>
+                        <Body size="sm" className="">{article.views.toLocaleString()} views</Body>
+                        <Body size="sm" className="">Updated {new Date(article.lastUpdated).toLocaleDateString()}</Body>
                       </Stack>
                       <Button variant="outline" size="sm" onClick={() => router.push(`/knowledge/${article.id}`)}>
                         {article.type === 'Video' ? 'WATCH' : 'READ'}
@@ -141,13 +141,13 @@ export default function KnowledgePage() {
                             {article.category}
                           </Badge>
                         </Stack>
-                        <Stack gap={4} direction="horizontal" className="text-body-sm">
-                          <Body className="text-body-sm">{article.views.toLocaleString()} views</Body>
+                        <Stack gap={4} direction="horizontal" size="sm" className="">
+                          <Body size="sm" className="">{article.views.toLocaleString()} views</Body>
                           <Stack gap={1} direction="horizontal" className="items-center">
                             <Star className="size-4" />
-                            <Body className="text-body-sm">{article.rating}</Body>
+                            <Body size="sm" className="">{article.rating}</Body>
                           </Stack>
-                          <Body className="text-body-sm">Updated {new Date(article.lastUpdated).toLocaleDateString()}</Body>
+                          <Body size="sm" className="">Updated {new Date(article.lastUpdated).toLocaleDateString()}</Body>
                         </Stack>
                       </Stack>
                       <Button variant="outline" size="sm" onClick={() => router.push(`/knowledge/${article.id}`)}>VIEW</Button>

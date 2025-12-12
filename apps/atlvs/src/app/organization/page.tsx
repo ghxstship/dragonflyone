@@ -41,7 +41,7 @@ export default function OrganizationPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Members</Body>
-                <Body className="text-body-sm text-on-dark-muted">Manage team members</Body>
+                <Body size="sm" className=" text-on-dark-muted">Manage team members</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -54,7 +54,7 @@ export default function OrganizationPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Billing</Body>
-                <Body className="text-body-sm text-on-dark-muted">Subscription and invoices</Body>
+                <Body size="sm" className=" text-on-dark-muted">Subscription and invoices</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -67,7 +67,7 @@ export default function OrganizationPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Security</Body>
-                <Body className="text-body-sm text-on-dark-muted">SSO and permissions</Body>
+                <Body size="sm" className=" text-on-dark-muted">SSO and permissions</Body>
               </Stack>
             </Stack>
           </CardBody>

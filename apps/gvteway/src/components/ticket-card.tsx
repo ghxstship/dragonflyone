@@ -45,8 +45,8 @@ export function TicketCard({
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack gap={1}>
             <H3>{eventTitle}</H3>
-            <Body className="text-body-sm font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
-            <Body className="text-body-sm text-ink-600">{venue}</Body>
+            <Body size="sm" className="font-mono">{new Date(eventDate).toLocaleDateString()}</Body>
+            <Body size="sm" className="text-ink-600">{venue}</Body>
           </Stack>
           <StatusBadge status={getStatusVariant(status)} size="sm">
             {status}
@@ -56,10 +56,10 @@ export function TicketCard({
         <Divider />
 
         <Stack gap={2}>
-          <Body className="text-body-sm">
+          <Body size="sm">
             <Label className="font-weight-bold">Type:</Label> {ticketType}
           </Body>
-          <Body className="text-body-sm">
+          <Body size="sm">
             <Label className="font-weight-bold">Quantity:</Label> {quantity}
           </Body>
           <Body className="text-mono-xs text-ink-500">ID: {id}</Body>

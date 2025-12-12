@@ -307,7 +307,7 @@ export default function PhotoGalleriesPage() {
                 />
               </Field>
 
-              <Body className="text-body-sm text-ink-500">
+              <Body size="sm" className=" text-ink-500">
                 By uploading, you agree to our content guidelines. Photos are reviewed before publishing.
               </Body>
 
@@ -344,10 +344,10 @@ export default function PhotoGalleriesPage() {
                   <Body>{selectedPhoto.caption}</Body>
                 )}
                 <Stack direction="horizontal" gap={4}>
-                  <Body className="text-body-sm text-ink-500">
+                  <Body size="sm" className=" text-ink-500">
                     by {selectedPhoto.uploaded_by_name}
                   </Body>
-                  <Body className="text-body-sm text-ink-500">
+                  <Body size="sm" className=" text-ink-500">
                     {new Date(selectedPhoto.created_at).toLocaleDateString()}
                   </Body>
                 </Stack>

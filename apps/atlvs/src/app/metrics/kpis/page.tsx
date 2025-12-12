@@ -92,25 +92,25 @@ export default function KPIsPage() {
                   <Card className="border-2 border-grey-200 p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold">{totalKPIs}</Body>
-                      <Body className="text-body-sm text-grey-500">Total KPIs</Body>
+                      <Body size="sm" className=" text-grey-500">Total KPIs</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-success p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-success">{onTrackCount}</Body>
-                      <Body className="text-body-sm text-grey-500">On Track</Body>
+                      <Body size="sm" className=" text-grey-500">On Track</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-warning p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-warning">{atRiskCount}</Body>
-                      <Body className="text-body-sm text-grey-500">At Risk</Body>
+                      <Body size="sm" className=" text-grey-500">At Risk</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-error p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-error">{offTrackCount}</Body>
-                      <Body className="text-body-sm text-grey-500">Off Track</Body>
+                      <Body size="sm" className=" text-grey-500">Off Track</Body>
                     </Stack>
                   </Card>
                 </Grid>
@@ -121,7 +121,7 @@ export default function KPIsPage() {
                   />
                 </Box>
                 <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                  <Body className="text-body-sm text-grey-500">
+                  <Body size="sm" className=" text-grey-500">
                     {onTrackCount} of {totalKPIs} KPIs on track
                   </Body>
                   <Badge variant={overallHealth >= 70 ? 'success' : overallHealth >= 50 ? 'warning' : 'error'}>
@@ -148,7 +148,7 @@ export default function KPIsPage() {
                               <Body className="font-weight-semibold">{kpi.name}</Body>
                               <Stack direction="horizontal" gap={2} className="items-baseline">
                                 <Body className="text-body-xl font-weight-bold">{kpi.value}{kpi.unit}</Body>
-                                <Body className="text-body-sm text-grey-500">of {kpi.target}{kpi.unit}</Body>
+                                <Body size="sm" className=" text-grey-500">of {kpi.target}{kpi.unit}</Body>
                               </Stack>
                             </Stack>
                             <Badge variant={kpiStatusColors[kpi.status]}>
@@ -165,7 +165,7 @@ export default function KPIsPage() {
                             {kpi.trend === 'up' && <TrendingUp className="size-4 text-success" />}
                             {kpi.trend === 'down' && <TrendingDown className="size-4 text-error" />}
                             {kpi.trend === 'stable' && <Minus className="size-4 text-grey-400" />}
-                            <Body className={`text-body-sm ${kpi.trend === 'up' ? 'text-success' : kpi.trend === 'down' ? 'text-error' : 'text-grey-500'}`}>
+                            <Body size="sm" className={kpi.trend === 'up' ? 'text-success' : kpi.trend === 'down' ? 'text-error' : 'text-grey-500'}>
                               {kpi.trend === 'up' ? '+' : kpi.trend === 'down' ? '-' : ''}{kpi.trendValue}% from last period
                             </Body>
                           </Stack>

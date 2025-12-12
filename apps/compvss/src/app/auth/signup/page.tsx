@@ -187,12 +187,12 @@ export default function SignUpPage() {
                     />
                     <Body size="sm" className="text-muted">
                       I agree to the{" "}
-                      <NextLink href="/legal/terms">
-                        <Button variant="ghost" size="sm" className="inline p-0">Terms of Service</Button>
+                      <NextLink href="/legal/terms" className="font-weight-medium text-black underline">
+                        Terms of Service
                       </NextLink>{" "}
                       and{" "}
-                      <NextLink href="/legal/privacy">
-                        <Button variant="ghost" size="sm" className="inline p-0">Privacy Policy</Button>
+                      <NextLink href="/legal/privacy" className="font-weight-medium text-black underline">
+                        Privacy Policy
                       </NextLink>
                     </Body>
                   </Stack>
@@ -223,7 +223,7 @@ export default function SignUpPage() {
               {/* Divider with text */}
               <Stack direction="horizontal" className="items-center gap-4">
                 <Divider className="flex-1" />
-                <Body className="text-body-sm">Or</Body>
+                <Body size="sm" className="text-muted">Or</Body>
                 <Divider className="flex-1" />
               </Stack>
 

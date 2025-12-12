@@ -40,7 +40,7 @@ export default function EventPhotosPage() {
                 <Box className="flex aspect-video items-center justify-center rounded bg-ink-800">
                   <ImageIcon size={48} className="text-on-dark-muted" />
                 </Box>
-                <Body className="text-body-sm text-on-dark-muted">{photo.caption}</Body>
+                <Body size="sm" className=" text-on-dark-muted">{photo.caption}</Body>
               </Stack>
             </CardBody>
           </Card>

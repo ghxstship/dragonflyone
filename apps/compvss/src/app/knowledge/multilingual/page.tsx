@@ -131,7 +131,7 @@ export default function MultilingualPage() {
                         <TableCell>
                           <Stack gap={0}>
                             <Body>{content.title}</Body>
-                            <Body className="text-body-sm">{content.id}</Body>
+                            <Body size="sm" className="">{content.id}</Body>
                           </Stack>
                         </TableCell>
                         <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
@@ -144,7 +144,7 @@ export default function MultilingualPage() {
                             ))}
                           </Stack>
                         </TableCell>
-                        <TableCell><Body className="text-body-sm">{content.lastUpdated}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{content.lastUpdated}</Body></TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm" onClick={() => setSelectedContent(content)}>Details</Button>
                         </TableCell>
@@ -163,17 +163,17 @@ export default function MultilingualPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Body className="font-display">{lang.nativeName}</Body>
-                          <Body className="text-body-sm">{lang.name}</Body>
+                          <Body size="sm" className="">{lang.name}</Body>
                         </Stack>
                         <Badge variant={lang.enabled ? 'solid' : 'outline'}>{lang.enabled ? 'Enabled' : 'Disabled'}</Badge>
                       </Stack>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Content Items</Body>
+                          <Body size="sm" className="">Content Items</Body>
                           <Body className="font-mono">{lang.contentCount}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Translators</Body>
+                          <Body size="sm" className="">Translators</Body>
                           <Body className="font-mono">{lang.translators}</Body>
                         </Stack>
                       </Grid>
@@ -222,10 +222,10 @@ export default function MultilingualPage() {
                     <H3>Translation Quality</H3>
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-body-sm">Review Required</Body>
+                        <Body size="sm" className="">Review Required</Body>
                         <Badge variant="solid">Enabled</Badge>
                       </Stack>
-                      <Body className="text-body-sm">All machine translations require human review before publishing</Body>
+                      <Body size="sm" className="">All machine translations require human review before publishing</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -243,12 +243,12 @@ export default function MultilingualPage() {
           {selectedContent && (
             <Stack gap={4}>
               <Stack gap={1}>
-                <Body className="text-body-sm">Content</Body>
+                <Body size="sm" className="">Content</Body>
                 <Body>{selectedContent.title}</Body>
               </Stack>
               <Badge variant="outline">{selectedContent.category}</Badge>
               <Stack gap={2}>
-                <Body className="text-body-sm">Translations</Body>
+                <Body size="sm" className="">Translations</Body>
                 {selectedContent.translations.map((t, idx) => (
                   <Card key={idx}>
                     <Stack gap={2}>

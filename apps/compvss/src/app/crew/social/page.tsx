@@ -89,7 +89,7 @@ export default function CrewSocialPage() {
                     <Card className="p-4">
                       <Stack direction="horizontal" gap={3}>
                         <Card className="flex size-10 items-center justify-center rounded-avatar">
-                          <Body className="text-body-sm">You</Body>
+                          <Body size="sm" className="">You</Body>
                         </Card>
                         <Input placeholder="Share an update with your crew..." className="flex-1" />
                         <Button variant="solid">Post</Button>
@@ -101,16 +101,16 @@ export default function CrewSocialPage() {
                           <Stack direction="horizontal" className="justify-between">
                             <Stack direction="horizontal" gap={3}>
                               <Card className="flex size-12 items-center justify-center rounded-avatar">
-                                <Body className="text-body-sm">{DEMO_CREW_SOCIAL_MEMBERS.find(c => c.id === post.authorId)?.avatar}</Body>
+                                <Body size="sm" className="">{DEMO_CREW_SOCIAL_MEMBERS.find(c => c.id === post.authorId)?.avatar}</Body>
                               </Card>
                               <Stack gap={0}>
                                 <Body>{post.authorName}</Body>
-                                <Body className="text-body-sm">{post.authorRole}</Body>
+                                <Body size="sm" className="">{post.authorRole}</Body>
                               </Stack>
                             </Stack>
                             <Stack direction="horizontal" gap={2}>
                               <Body className="text-h5-md">{getPostIcon(post.type)}</Body>
-                              <Body className="text-body-sm">{post.timestamp}</Body>
+                              <Body size="sm" className="">{post.timestamp}</Body>
                             </Stack>
                           </Stack>
                           <Body>{post.content}</Body>
@@ -135,11 +135,11 @@ export default function CrewSocialPage() {
                         {DEMO_CREW_SOCIAL_MEMBERS.filter(c => c.status === "Online").map((member) => (
                           <Stack key={member.id} direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedMember(member)}>
                             <Card className="flex size-8 items-center justify-center rounded-avatar">
-                              <Body className="text-body-sm">{member.avatar}</Body>
+                              <Body size="sm" className="">{member.avatar}</Body>
                             </Card>
                             <Stack gap={0}>
-                              <Body className="text-body-sm">{member.name}</Body>
-                              <Body className="text-body-sm">{member.role}</Body>
+                              <Body size="sm" className="">{member.name}</Body>
+                              <Body size="sm" className="">{member.role}</Body>
                             </Stack>
                           </Stack>
                         ))}
@@ -152,9 +152,9 @@ export default function CrewSocialPage() {
                           <Stack key={member.id} direction="horizontal" className="items-center justify-between">
                             <Stack direction="horizontal" gap={2}>
                               <Card className="flex size-8 items-center justify-center rounded-avatar">
-                                <Body className="text-body-sm">{member.avatar}</Body>
+                                <Body size="sm" className="">{member.avatar}</Body>
                               </Card>
-                              <Body className="text-body-sm">{member.name}</Body>
+                              <Body size="sm" className="">{member.name}</Body>
                             </Stack>
                             <Button variant="outline" size="sm">Connect</Button>
                           </Stack>
@@ -175,17 +175,17 @@ export default function CrewSocialPage() {
                         </Card>
                         <Stack gap={1}>
                           <Body>{member.name}</Body>
-                          <Body className="text-body-sm">{member.role}</Body>
+                          <Body size="sm" className="">{member.role}</Body>
                           <Badge variant="outline">{member.department}</Badge>
                         </Stack>
                         <Stack direction="horizontal" gap={4} className="justify-center">
                           <Stack gap={0}>
                             <Body className="font-display">{member.connections}</Body>
-                            <Body className="text-body-sm">Connections</Body>
+                            <Body size="sm" className="">Connections</Body>
                           </Stack>
                           <Stack gap={0}>
                             <Body className="font-display">{member.projects}</Body>
-                            <Body className="text-body-sm">Projects</Body>
+                            <Body size="sm" className="">Projects</Body>
                           </Stack>
                         </Stack>
                       </Stack>
@@ -215,7 +215,7 @@ export default function CrewSocialPage() {
                           </Card>
                           <Stack gap={1}>
                             <Body>{member.name}</Body>
-                            <Body className="text-body-sm">{member.role} • {member.department}</Body>
+                            <Body size="sm" className="">{member.role} • {member.department}</Body>
                           </Stack>
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
@@ -250,11 +250,11 @@ export default function CrewSocialPage() {
               <Grid cols={2} gap={4}>
                 <Card className="p-3 text-center">
                   <Body className="text-h6-md font-display">{selectedMember.connections}</Body>
-                  <Body className="text-body-sm">Connections</Body>
+                  <Body size="sm" className="">Connections</Body>
                 </Card>
                 <Card className="p-3 text-center">
                   <Body className="text-h6-md font-display">{selectedMember.projects}</Body>
-                  <Body className="text-body-sm">Projects</Body>
+                  <Body size="sm" className="">Projects</Body>
                 </Card>
               </Grid>
             </Stack>

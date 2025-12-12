@@ -44,7 +44,7 @@ export default function ProductionTemplatesPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{template.title}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{template.tasks} tasks · {template.category}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{template.tasks} tasks · {template.category}</Body>
                   </Stack>
                 </Stack>
                 <Button variant="outline" size="sm" onClick={() => router.push(`/p/${productionId}/schedule/tasks/new?template=${template.id}`)}>

@@ -93,7 +93,7 @@ export default function ShowCallPage() {
             <Stack direction="horizontal" className="items-start justify-between">
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
-                  <Body className="text-body-sm">Current Time</Body>
+                  <Body size="sm" className="">Current Time</Body>
                   <Body className="text-h5-md">
                     {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
                   </Body>
@@ -112,19 +112,19 @@ export default function ShowCallPage() {
               <Grid cols={4} gap={4}>
                 <Stack gap={1} className="text-center">
                   <Body className="text-h4-md font-display">{checkedInCount}</Body>
-                  <Body className="text-body-sm">Present</Body>
+                  <Body size="sm" className="">Present</Body>
                 </Stack>
                 <Stack gap={1} className="text-center">
                   <Body className="text-h4-md font-display">{lateCount}</Body>
-                  <Body className="text-body-sm">Late</Body>
+                  <Body size="sm" className="">Late</Body>
                 </Stack>
                 <Stack gap={1} className="text-center">
                   <Body className="text-h4-md font-display">{noShowCount}</Body>
-                  <Body className="text-body-sm">Missing</Body>
+                  <Body size="sm" className="">Missing</Body>
                 </Stack>
                 <Stack gap={1} className="text-center">
                   <Body className="text-h4-md font-display">{mockCrew.length}</Body>
-                  <Body className="text-body-sm">Total Crew</Body>
+                  <Body size="sm" className="">Total Crew</Body>
                 </Stack>
               </Grid>
             </Card>
@@ -146,14 +146,14 @@ export default function ShowCallPage() {
                       <Grid cols={3} gap={4} className="items-center">
                         <Stack gap={1}>
                           <Body className="font-display">{crew.name}</Body>
-                          <Body className="text-body-sm">{crew.role}</Body>
+                          <Body size="sm" className="">{crew.role}</Body>
                           <Badge variant="outline">{crew.department}</Badge>
                         </Stack>
                         <Stack gap={1} className="text-center">
-                          <Body className="text-body-sm">Call Time</Body>
+                          <Body size="sm" className="">Call Time</Body>
                           <Body>{crew.callTime}</Body>
                           {crew.checkedInAt && (
-                            <Body className="text-body-sm">In: {crew.checkedInAt}</Body>
+                            <Body size="sm" className="">In: {crew.checkedInAt}</Body>
                           )}
                         </Stack>
                         <Stack gap={2} className="items-end">

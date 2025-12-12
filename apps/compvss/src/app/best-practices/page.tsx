@@ -87,13 +87,13 @@ export default function BestPracticesPage() {
                       <Body className="font-display text-body-md">{practice.title}</Body>
                       <Badge variant="outline">{practice.discipline}</Badge>
                     </Stack>
-                    <Body className="text-body-sm">{practice.summary}</Body>
+                    <Body size="sm" className="">{practice.summary}</Body>
                     <Stack direction="horizontal" gap={2}>
                       {practice.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">{practice.author}</Body>
-                      <Body className="text-body-sm">⭐ {practice.rating} • {practice.views} views</Body>
+                      <Body size="sm" className="">{practice.author}</Body>
+                      <Body size="sm" className="">⭐ {practice.rating} • {practice.views} views</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -117,8 +117,8 @@ export default function BestPracticesPage() {
               </Stack>
               <Body>{selectedPractice.summary}</Body>
               <Stack direction="horizontal" className="justify-between">
-                <Body className="text-body-sm">{selectedPractice.author}</Body>
-                <Body className="text-body-sm">⭐ {selectedPractice.rating}</Body>
+                <Body size="sm" className="">{selectedPractice.author}</Body>
+                <Body size="sm" className="">⭐ {selectedPractice.rating}</Body>
               </Stack>
             </Stack>
           )}

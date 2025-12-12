@@ -70,21 +70,21 @@ export default function EmergencyPage() {
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚑</Body>
                   <Body className="font-display">MEDICAL</Body>
-                  <Body className="text-body-sm">Tap for procedure</Body>
+                  <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Fire") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🔥</Body>
                   <Body className="font-display">FIRE</Body>
-                  <Body className="text-body-sm">Tap for procedure</Body>
+                  <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Evacuation") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚨</Body>
                   <Body className="font-display">EVACUATION</Body>
-                  <Body className="text-body-sm">Tap for procedure</Body>
+                  <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
             </Grid>
@@ -110,8 +110,8 @@ export default function EmergencyPage() {
                                 <Stack direction="horizontal" className="items-start justify-between">
                                   <Stack gap={1}>
                                     <Body className="font-display">{contact.name}</Body>
-                                    <Body className="text-body-sm">{contact.role}</Body>
-                                    <Body className="text-body-sm">{contact.phone}</Body>
+                                    <Body size="sm" className="">{contact.role}</Body>
+                                    <Body size="sm" className="">{contact.phone}</Body>
                                   </Stack>
                                   <Stack gap={2}>
                                     <Badge variant={contact.available ? "solid" : "outline"}>
@@ -142,7 +142,7 @@ export default function EmergencyPage() {
                               <Body className="font-display">{procedure.title}</Body>
                             </Stack>
                           </Stack>
-                          <Body className="text-body-sm">{procedure.steps.length} steps • Updated {procedure.lastUpdated}</Body>
+                          <Body size="sm" className="">{procedure.steps.length} steps • Updated {procedure.lastUpdated}</Body>
                           <Button variant="outline" size="sm">View Procedure</Button>
                         </Stack>
                       </Card>
@@ -159,28 +159,28 @@ export default function EmergencyPage() {
                           <Stack gap={2}>
                             <Badge variant="solid">Primary</Badge>
                             <Body className="font-display">North Parking Lot - Section A</Body>
-                            <Body className="text-body-sm">Main assembly point for all personnel</Body>
+                            <Body size="sm" className="">Main assembly point for all personnel</Body>
                           </Stack>
                         </Card>
                         <Card className="p-4">
                           <Stack gap={2}>
                             <Badge variant="outline">Secondary</Badge>
                             <Body className="font-display">South Plaza - Near Loading Dock</Body>
-                            <Body className="text-body-sm">Alternate if primary is inaccessible</Body>
+                            <Body size="sm" className="">Alternate if primary is inaccessible</Body>
                           </Stack>
                         </Card>
                         <Card className="p-4">
                           <Stack gap={2}>
                             <Badge variant="outline">Medical Staging</Badge>
                             <Body className="font-display">East Entrance - Ambulance Bay</Body>
-                            <Body className="text-body-sm">Medical emergencies and triage</Body>
+                            <Body size="sm" className="">Medical emergencies and triage</Body>
                           </Stack>
                         </Card>
                         <Card className="p-4">
                           <Stack gap={2}>
                             <Badge variant="outline">Command Post</Badge>
                             <Body className="font-display">Production Office - Room 101</Body>
-                            <Body className="text-body-sm">Emergency coordination center</Body>
+                            <Body size="sm" className="">Emergency coordination center</Body>
                           </Stack>
                         </Card>
                       </Grid>
@@ -242,7 +242,7 @@ export default function EmergencyPage() {
           {selectedContact && (
             <Stack gap={4} className="text-center">
               <Body className="text-h6-md font-display">{selectedContact.name}</Body>
-              <Body className="text-body-sm">{selectedContact.role}</Body>
+              <Body size="sm" className="">{selectedContact.role}</Body>
               <Card className="p-4">
                 <Body className="text-h5-md">{selectedContact.phone}</Body>
               </Card>

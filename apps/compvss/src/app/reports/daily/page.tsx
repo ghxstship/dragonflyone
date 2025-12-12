@@ -196,19 +196,19 @@ export default function DailyReportsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Date</Body>
+            <Body size="sm" className=" text-grey-500">Date</Body>
             <Body>{new Date(selectedReport.report_date).toLocaleDateString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Show</Body>
+            <Body size="sm" className=" text-grey-500">Show</Body>
             <Body>{selectedReport.show?.title || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Attendance</Body>
+            <Body size="sm" className=" text-grey-500">Attendance</Body>
             <Body>{selectedReport.attendance?.toLocaleString() || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Revenue</Body>
+            <Body size="sm" className=" text-grey-500">Revenue</Body>
             <Body>{selectedReport.revenue ? `$${selectedReport.revenue.toLocaleString()}` : '—'}</Body>
           </Stack>
         </Grid>

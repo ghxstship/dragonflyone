@@ -88,30 +88,30 @@ export default function BidPortalPage() {
                           <Stack direction="horizontal" className="items-start justify-between">
                             <Stack gap={1}>
                               <Body className="text-body-md font-display">{bid.title}</Body>
-                              <Body className="text-body-sm">{bid.client}</Body>
+                              <Body size="sm" className="">{bid.client}</Body>
                             </Stack>
                             <Badge variant={bid.status === "Won" ? "solid" : "outline"}>{bid.status}</Badge>
                           </Stack>
-                          <Body className="text-body-sm">{bid.description}</Body>
+                          <Body size="sm" className="">{bid.description}</Body>
                           <Grid cols={4} gap={4}>
                             <Stack gap={1}>
-                              <Body className="text-body-sm font-display">Due</Body>
-                              <Body className="text-body-sm">{bid.dueDate}</Body>
+                              <Body size="sm" className=" font-display">Due</Body>
+                              <Body size="sm" className="">{bid.dueDate}</Body>
                             </Stack>
                             {bid.budget && (
                               <Stack gap={1}>
-                                <Body className="text-body-sm font-display">Budget</Body>
-                                <Body className="text-body-sm">{bid.budget}</Body>
+                                <Body size="sm" className=" font-display">Budget</Body>
+                                <Body size="sm" className="">{bid.budget}</Body>
                               </Stack>
                             )}
                             <Stack gap={1}>
-                              <Body className="text-body-sm font-display">Type</Body>
+                              <Body size="sm" className=" font-display">Type</Body>
                               <Badge variant="outline">{bid.type}</Badge>
                             </Stack>
                             {bid.bidAmount && (
                               <Stack gap={1}>
-                                <Body className="text-body-sm font-display">Our Bid</Body>
-                                <Body className="text-body-sm font-display">${bid.bidAmount.toLocaleString()}</Body>
+                                <Body size="sm" className=" font-display">Our Bid</Body>
+                                <Body size="sm" className=" font-display">${bid.bidAmount.toLocaleString()}</Body>
                               </Stack>
                             )}
                           </Grid>
@@ -143,7 +143,7 @@ export default function BidPortalPage() {
               <Input type="number" placeholder="Bid Amount ($)" />
               <Textarea placeholder="Proposal summary..." rows={4} />
               <Card className="cursor-pointer border-2 border-dashed p-4 text-center">
-                <Body className="text-body-sm">Drop files here to attach</Body>
+                <Body size="sm" className="">Drop files here to attach</Body>
               </Card>
             </Stack>
           )}
@@ -161,16 +161,16 @@ export default function BidPortalPage() {
           {selectedBid && (
             <Stack gap={4}>
               <Body className="text-body-md font-display">{selectedBid.title}</Body>
-              <Body className="text-body-sm">{selectedBid.client}</Body>
+              <Body size="sm" className="">{selectedBid.client}</Body>
               <Body>{selectedBid.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm font-display">Due</Body>
+                  <Body size="sm" className=" font-display">Due</Body>
                   <Body>{selectedBid.dueDate}</Body>
                 </Stack>
                 {selectedBid.budget && (
                   <Stack gap={1}>
-                    <Body className="text-body-sm font-display">Budget</Body>
+                    <Body size="sm" className=" font-display">Budget</Body>
                     <Body>{selectedBid.budget}</Body>
                   </Stack>
                 )}

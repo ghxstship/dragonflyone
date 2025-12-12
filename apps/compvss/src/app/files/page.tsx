@@ -114,13 +114,13 @@ export default function FileSharingPage() {
                         </Stack>
                       </TableCell>
                       <TableCell><Badge variant="outline">{file.type}</Badge></TableCell>
-                      <TableCell><Body className="text-body-sm">{file.project}</Body></TableCell>
-                      <TableCell><Body className="text-body-sm">{file.size}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{file.project}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{file.size}</Body></TableCell>
                       <TableCell><Badge variant="solid">v{file.version}</Badge></TableCell>
                       <TableCell>
                         <Stack gap={0}>
-                          <Body className="text-body-sm">{file.uploadedAt}</Body>
-                          <Body className="text-body-sm">{file.uploadedBy}</Body>
+                          <Body size="sm" className="">{file.uploadedAt}</Body>
+                          <Body size="sm" className="">{file.uploadedBy}</Body>
                         </Stack>
                       </TableCell>
                       <TableCell>
@@ -179,9 +179,9 @@ export default function FileSharingPage() {
                         <Stack gap={1}>
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant={v.version === selectedFile.version ? "solid" : "outline"}>v{v.version}</Badge>
-                            <Body className="text-body-sm">{v.uploadedAt}</Body>
+                            <Body size="sm" className="">{v.uploadedAt}</Body>
                           </Stack>
-                          <Body className="text-body-sm">{v.changes}</Body>
+                          <Body size="sm" className="">{v.changes}</Body>
                         </Stack>
                         <Button variant="ghost" size="sm">Download</Button>
                       </Stack>

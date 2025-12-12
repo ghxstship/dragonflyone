@@ -176,7 +176,7 @@ export default function MyDeliverablesPage() {
                         <Body className="font-weight-semibold text-white">{deliverable.name}</Body>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant="info">{deliverable.category}</Badge>
-                          <Body className="text-body-sm text-on-dark-muted">{deliverable.event}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">{deliverable.event}</Body>
                         </Stack>
                       </Stack>
                       <Badge variant={statusVariants[deliverable.status]}>
@@ -191,15 +191,15 @@ export default function MyDeliverablesPage() {
                       <ProgressBar value={deliverable.progress} />
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Due Date</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Due Date</Body>
                           <Body className="text-white">{new Date(deliverable.dueDate).toLocaleDateString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Assignee</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Assignee</Body>
                           <Body className="text-white">{deliverable.assignee}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Notes</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Notes</Body>
                           <Body className="text-white">{deliverable.notes}</Body>
                         </Stack>
                       </Stack>

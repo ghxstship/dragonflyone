@@ -122,11 +122,11 @@ export default function StakeholderPortalPage() {
                         </Stack>
                         <Stack gap={1} className="text-right">
                           <Badge variant="outline">{update.type}</Badge>
-                          <Body className="text-body-sm">{update.timestamp}</Body>
+                          <Body size="sm" className="">{update.timestamp}</Body>
                         </Stack>
                       </Stack>
                       <Body>{update.content}</Body>
-                      <Body className="text-body-sm">Posted by {update.author}</Body>
+                      <Body size="sm" className="">Posted by {update.author}</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -141,7 +141,7 @@ export default function StakeholderPortalPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Body className="font-display">{stakeholder.name}</Body>
-                          <Body className="text-body-sm">{stakeholder.organization}</Body>
+                          <Body size="sm" className="">{stakeholder.organization}</Body>
                         </Stack>
                         <Stack gap={1} className="text-right">
                           <Badge className={getRoleColor(stakeholder.role)}>{stakeholder.role}</Badge>
@@ -149,8 +149,8 @@ export default function StakeholderPortalPage() {
                         </Stack>
                       </Stack>
                       <Grid cols={2} gap={4}>
-                        <Stack gap={1}><Body className="text-body-sm">Access Level</Body><Body>{stakeholder.accessLevel}</Body></Stack>
-                        <Stack gap={1}><Body className="text-body-sm">Last Login</Body><Body>{stakeholder.lastLogin || "Never"}</Body></Stack>
+                        <Stack gap={1}><Body size="sm" className="">Access Level</Body><Body>{stakeholder.accessLevel}</Body></Stack>
+                        <Stack gap={1}><Body size="sm" className="">Last Login</Body><Body>{stakeholder.lastLogin || "Never"}</Body></Stack>
                       </Grid>
                       <Button variant="outline" size="sm" onClick={() => setSelectedStakeholder(stakeholder)}>Manage Access</Button>
                     </Stack>
@@ -168,7 +168,7 @@ export default function StakeholderPortalPage() {
                         <Body>📄</Body>
                         <Stack gap={1}>
                           <Body>{doc}</Body>
-                          <Body className="text-body-sm">Updated 2024-11-{20 + idx}</Body>
+                          <Body size="sm" className="">Updated 2024-11-{20 + idx}</Body>
                         </Stack>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
@@ -197,14 +197,14 @@ export default function StakeholderPortalPage() {
           {selectedStakeholder && (
             <Stack gap={4}>
               <Body>{selectedStakeholder.name}</Body>
-              <Body className="text-body-sm">{selectedStakeholder.organization}</Body>
+              <Body size="sm" className="">{selectedStakeholder.organization}</Body>
               <Select defaultValue={selectedStakeholder.accessLevel}>
                 <option value="Full">Full Access</option>
                 <option value="Limited">Limited Access</option>
                 <option value="View Only">View Only</option>
               </Select>
               <Stack gap={2}>
-                <Body className="text-body-sm">Project Access</Body>
+                <Body size="sm" className="">Project Access</Body>
                 {["Summer Fest 2024", "Corporate Gala"].map((proj, idx) => (
                   <Card key={idx}>
                     <Stack direction="horizontal" className="justify-between">

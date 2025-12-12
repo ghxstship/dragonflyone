@@ -56,7 +56,7 @@ export default function SettingsPage() {
               <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Email Notifications</Body>
-                  <Body className="text-body-sm text-ink-400">Receive updates via email</Body>
+                  <Body size="sm" className=" text-ink-400">Receive updates via email</Body>
                 </Stack>
                 <Switch
                   checked={notificationSettings.email}
@@ -66,7 +66,7 @@ export default function SettingsPage() {
               <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">SMS Notifications</Body>
-                  <Body className="text-body-sm text-ink-400">Receive urgent alerts via SMS</Body>
+                  <Body size="sm" className=" text-ink-400">Receive urgent alerts via SMS</Body>
                 </Stack>
                 <Switch
                   checked={notificationSettings.sms}
@@ -76,7 +76,7 @@ export default function SettingsPage() {
               <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Project Updates</Body>
-                  <Body className="text-body-sm text-ink-400">Get notified about project changes</Body>
+                  <Body size="sm" className=" text-ink-400">Get notified about project changes</Body>
                 </Stack>
                 <Switch
                   checked={notificationSettings.projectUpdates}
@@ -86,7 +86,7 @@ export default function SettingsPage() {
               <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Financial Alerts</Body>
-                  <Body className="text-body-sm text-ink-400">Budget and payment notifications</Body>
+                  <Body size="sm" className=" text-ink-400">Budget and payment notifications</Body>
                 </Stack>
                 <Switch
                   checked={notificationSettings.financialAlerts}
@@ -159,7 +159,7 @@ export default function SettingsPage() {
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/appearance')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-label">Customize Appearance</Body>
-                  <Body className="text-body-sm text-ink-400">Theme, colors, density, and typography</Body>
+                  <Body size="sm" className=" text-ink-400">Theme, colors, density, and typography</Body>
                 </Stack>
               </Button>
             </Stack>
@@ -170,19 +170,19 @@ export default function SettingsPage() {
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/password')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-label">Change Password</Body>
-                  <Body className="text-body-sm text-ink-400">Update your account password</Body>
+                  <Body size="sm" className=" text-ink-400">Update your account password</Body>
                 </Stack>
               </Button>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/2fa')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-label">Two-Factor Authentication</Body>
-                  <Body className="text-body-sm text-ink-400">Add an extra layer of security</Body>
+                  <Body size="sm" className=" text-ink-400">Add an extra layer of security</Body>
                 </Stack>
               </Button>
               <Button variant="outlineInk" fullWidth className="justify-start text-left" onClick={() => router.push('/settings/sessions')}>
                 <Stack gap={1}>
                   <Body className="font-heading uppercase tracking-label">Active Sessions</Body>
-                  <Body className="text-body-sm text-ink-400">Manage devices and active logins</Body>
+                  <Body size="sm" className=" text-ink-400">Manage devices and active logins</Body>
                 </Stack>
               </Button>
             </Stack>

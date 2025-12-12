@@ -162,7 +162,7 @@ export function ContactWizard() {
           <Stack gap={6}>
             <Stack>
               <H3 className="text-h5-md uppercase">{step.title}</H3>
-              <Body className="mt-2 text-body-sm text-ink-300">{step.description}</Body>
+              <Body className="mt-2 text-ink-300">{step.description}</Body>
             </Stack>
 
             <Stack gap={4}>

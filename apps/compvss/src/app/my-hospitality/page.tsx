@@ -152,7 +152,7 @@ export default function MyHospitalityPage() {
                             </Stack>
                             <Stack gap={0}>
                               <Body className="text-white">{request.event}</Body>
-                              <Body className="text-body-sm text-on-dark-muted">
+                              <Body size="sm" className=" text-on-dark-muted">
                                 {new Date(request.date).toLocaleDateString()} - {request.category}
                               </Body>
                             </Stack>
@@ -164,7 +164,7 @@ export default function MyHospitalityPage() {
 
                         {request.notes && (
                           <Stack className="rounded-card bg-ink-800 p-3">
-                            <Body className="text-body-sm text-on-dark-muted">
+                            <Body size="sm" className=" text-on-dark-muted">
                               Response: {request.notes}
                             </Body>
                           </Stack>

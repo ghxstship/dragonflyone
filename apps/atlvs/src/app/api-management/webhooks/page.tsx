@@ -45,7 +45,7 @@ const columns: ListPageColumn<WebhookType>[] = [
     label: 'URL', 
     accessor: 'url', 
     render: (value) => (
-      <Body className="max-w-xs truncate text-body-sm">{String(value)}</Body>
+      <Body className="max-w-xs truncate">{String(value)}</Body>
     )
   },
   { 
@@ -54,7 +54,7 @@ const columns: ListPageColumn<WebhookType>[] = [
     accessor: 'events', 
     render: (value) => {
       const events = value as string[];
-      return <Body className="text-body-sm">{events?.length || 0} events</Body>;
+      return <Body size="sm" className="">{events?.length || 0} events</Body>;
     }
   },
   { 
@@ -198,17 +198,17 @@ export default function WebhooksPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1} className="col-span-2">
-            <Body className="text-body-sm text-grey-500">Endpoint URL</Body>
-            <Body className="break-all font-mono text-body-sm">{selectedWebhook.url}</Body>
+            <Body size="sm" className=" text-grey-500">Endpoint URL</Body>
+            <Body className="break-all font-mono">{selectedWebhook.url}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedWebhook.is_active ? 'success' : 'error'}>
               {selectedWebhook.is_active ? 'ACTIVE' : 'DISABLED'}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Failures</Body>
+            <Body size="sm" className=" text-grey-500">Failures</Body>
             <Badge variant={selectedWebhook.failure_count > 0 ? 'warning' : 'ghost'}>
               {selectedWebhook.failure_count}
             </Badge>

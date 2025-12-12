@@ -122,11 +122,11 @@ export default function VenueMapsPage() {
                                   onClick={() => router.push(`/venues/zones/${zone.id}`)}
                                 >
                                   <Body className="text-center font-weight-semibold">{zone.name}</Body>
-                                  <Body className="text-body-sm text-grey-500">
+                                  <Body size="sm" className=" text-grey-500">
                                     {zoneTypeLabels[zone.zone_type]}
                                   </Body>
                                   {zone.capacity && (
-                                    <Body className="text-body-sm text-grey-500">
+                                    <Body size="sm" className=" text-grey-500">
                                       Cap: {zone.capacity.toLocaleString()}
                                     </Body>
                                   )}
@@ -162,15 +162,15 @@ export default function VenueMapsPage() {
                       <H3>Venue Info</H3>
                       <Stack gap={3}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Type</Body>
+                          <Body size="sm" className=" text-grey-500">Type</Body>
                           <Body>{selectedVenue.venue_type}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Capacity</Body>
+                          <Body size="sm" className=" text-grey-500">Capacity</Body>
                           <Body>{selectedVenue.capacity?.toLocaleString() || '—'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Square Footage</Body>
+                          <Body size="sm" className=" text-grey-500">Square Footage</Body>
                           <Body>{selectedVenue.square_footage?.toLocaleString() || '—'}</Body>
                         </Stack>
                         <Button
@@ -196,8 +196,8 @@ export default function VenueMapsPage() {
                               className="size-4 rounded-badge" 
                               style={{ backgroundColor: zoneTypeColors[type] }} 
                             />
-                            <Body className="text-body-sm">{label}</Body>
-                            <Body className="ml-auto text-body-sm text-grey-500">
+                            <Body size="sm" className="">{label}</Body>
+                            <Body className="ml-auto text-grey-500">
                               {zones?.filter(z => z.zone_type === type).length || 0}
                             </Body>
                           </Stack>

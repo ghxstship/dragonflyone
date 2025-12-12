@@ -151,28 +151,28 @@ export default function TaskDetailPage() {
                       <H3>Timeline</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Start Time</Body>
+                          <Body size="sm" className=" text-grey-500">Start Time</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Clock className="size-4 text-grey-400" />
                             <Body>{task.start_time ? new Date(task.start_time).toLocaleString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">End Time</Body>
+                          <Body size="sm" className=" text-grey-500">End Time</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Clock className="size-4 text-grey-400" />
                             <Body>{task.end_time ? new Date(task.end_time).toLocaleString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Due Date</Body>
+                          <Body size="sm" className=" text-grey-500">Due Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No due date'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Completed At</Body>
+                          <Body size="sm" className=" text-grey-500">Completed At</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <CheckCircle className="size-4 text-grey-400" />
                             <Body>{task.completed_at ? new Date(task.completed_at).toLocaleString() : 'Not completed'}</Body>
@@ -219,23 +219,23 @@ export default function TaskDetailPage() {
                     <H3>Task Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Type</Body>
+                        <Body size="sm" className=" text-grey-500">Type</Body>
                         <Body>{task.task_type.replace('_', ' ').toUpperCase()}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Priority</Body>
+                        <Body size="sm" className=" text-grey-500">Priority</Body>
                         <Badge variant={priorityColors[task.priority] || 'ghost'}>
                           {task.priority.toUpperCase()}
                         </Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Status</Body>
+                        <Body size="sm" className=" text-grey-500">Status</Body>
                         <Badge variant={statusColors[task.status] || 'ghost'}>
                           {task.status.replace('_', ' ').toUpperCase()}
                         </Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Department</Body>
+                        <Body size="sm" className=" text-grey-500">Department</Body>
                         <Body>{task.department || 'Not assigned'}</Body>
                       </Stack>
                     </Stack>
@@ -248,7 +248,7 @@ export default function TaskDetailPage() {
                     <H3>Assignment</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Assigned To</Body>
+                        <Body size="sm" className=" text-grey-500">Assigned To</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <User className="size-4 text-grey-400" />
                           <Body>{task.assignee ? `${task.assignee.first_name} ${task.assignee.last_name}` : 'Unassigned'}</Body>
@@ -256,7 +256,7 @@ export default function TaskDetailPage() {
                       </Stack>
                       {task.show && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Related Show</Body>
+                          <Body size="sm" className=" text-grey-500">Related Show</Body>
                           <Body>{task.show.title}</Body>
                         </Stack>
                       )}

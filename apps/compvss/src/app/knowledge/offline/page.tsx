@@ -125,9 +125,9 @@ export default function OfflineAccessPage() {
                     <TableRow key={content.id}>
                       <TableCell><Body>{content.title}</Body></TableCell>
                       <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
-                      <TableCell><Body className="font-mono text-body-sm">{content.size}</Body></TableCell>
+                      <TableCell><Body className="font-mono">{content.size}</Body></TableCell>
                       <TableCell><Badge variant="outline">{content.priority}</Badge></TableCell>
-                      <TableCell><Body className="text-body-sm">{content.lastSynced}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{content.lastSynced}</Body></TableCell>
                       <TableCell><Badge variant={getStatusVariant(content.status)}>{content.status}</Badge></TableCell>
                       <TableCell>
                         <Stack direction="horizontal" gap={2}>
@@ -149,21 +149,21 @@ export default function OfflineAccessPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Body className="font-display">{pkg.name}</Body>
-                          <Body className="text-body-sm">{pkg.description}</Body>
+                          <Body size="sm" className="">{pkg.description}</Body>
                         </Stack>
                         <Badge variant={pkg.downloaded ? 'solid' : 'outline'}>{pkg.downloaded ? 'Downloaded' : 'Available'}</Badge>
                       </Stack>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Content Items</Body>
+                          <Body size="sm" className="">Content Items</Body>
                           <Body className="font-mono">{pkg.contentCount}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Size</Body>
+                          <Body size="sm" className="">Size</Body>
                           <Body className="font-mono">{pkg.totalSize}</Body>
                         </Stack>
                       </Grid>
-                      <Body className="text-body-sm">Updated: {pkg.lastUpdated}</Body>
+                      <Body size="sm" className="">Updated: {pkg.lastUpdated}</Body>
                       <Button variant={pkg.downloaded ? 'outline' : 'solid'} size="sm" onClick={() => setSelectedPackage(pkg)}>
                         {pkg.downloaded ? 'Manage' : 'Download'}
                       </Button>
@@ -203,11 +203,11 @@ export default function OfflineAccessPage() {
                     <H3>Storage</H3>
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-body-sm">Used Space</Body>
+                        <Body size="sm" className="">Used Space</Body>
                         <Body className="font-mono">{totalSize}</Body>
                       </Stack>
                       <ProgressBar value={35} />
-                      <Body className="text-body-sm">35% of available offline storage used</Body>
+                      <Body size="sm" className="">35% of available offline storage used</Body>
                     </Stack>
                     <Stack gap={2}>
                       <Body>Storage Limit</Body>
@@ -224,7 +224,7 @@ export default function OfflineAccessPage() {
                 <Card>
                   <Stack gap={4}>
                     <H3>Priority Content</H3>
-                    <Body className="text-body-sm">High priority content is always kept up-to-date</Body>
+                    <Body size="sm" className="">High priority content is always kept up-to-date</Body>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       <Badge variant="solid">Safety Documents</Badge>
                       <Badge variant="solid">Emergency Procedures</Badge>
@@ -247,15 +247,15 @@ export default function OfflineAccessPage() {
             <Stack gap={4}>
               <Body>{selectedPackage.description}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Content Items</Body><Body className="font-mono">{selectedPackage.contentCount}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Total Size</Body><Body className="font-mono">{selectedPackage.totalSize}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Content Items</Body><Body className="font-mono">{selectedPackage.contentCount}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Total Size</Body><Body className="font-mono">{selectedPackage.totalSize}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Body className="text-body-sm">Last Updated</Body><Body>{selectedPackage.lastUpdated}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Last Updated</Body><Body>{selectedPackage.lastUpdated}</Body></Stack>
               {selectedPackage.downloaded && (
                 <Stack gap={2}>
-                  <Body className="text-body-sm">Download Status</Body>
+                  <Body size="sm" className="">Download Status</Body>
                   <ProgressBar value={100} />
-                  <Body className="text-body-sm">Fully downloaded and synced</Body>
+                  <Body size="sm" className="">Fully downloaded and synced</Body>
                 </Stack>
               )}
             </Stack>

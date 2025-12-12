@@ -229,19 +229,19 @@ export default function SponsorsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Company</Body>
+            <Body size="sm" className=" text-grey-500">Company</Body>
             <Body>{selectedSponsor.company_name}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Tier</Body>
+            <Body size="sm" className=" text-grey-500">Tier</Body>
             <Body>{selectedSponsor.tier?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Contact</Body>
+            <Body size="sm" className=" text-grey-500">Contact</Body>
             <Body>{selectedSponsor.contact_name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Email</Body>
+            <Body size="sm" className=" text-grey-500">Email</Body>
             <Body>{selectedSponsor.contact_email || '—'}</Body>
           </Stack>
         </Grid>
@@ -253,19 +253,19 @@ export default function SponsorsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Contract Value</Body>
+            <Body size="sm" className=" text-grey-500">Contract Value</Body>
             <Body>${selectedSponsor.contract_value?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Amount Paid</Body>
+            <Body size="sm" className=" text-grey-500">Amount Paid</Body>
             <Body>${selectedSponsor.amount_paid?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Outstanding</Body>
+            <Body size="sm" className=" text-grey-500">Outstanding</Body>
             <Body>${((selectedSponsor.contract_value || 0) - (selectedSponsor.amount_paid || 0)).toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Payment Status</Body>
+            <Body size="sm" className=" text-grey-500">Payment Status</Body>
             <Badge variant={paymentColors[selectedSponsor.payment_status] || 'ghost'}>
               {selectedSponsor.payment_status.toUpperCase()}
             </Badge>

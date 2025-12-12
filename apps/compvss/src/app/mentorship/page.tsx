@@ -100,26 +100,26 @@ export default function MentorshipPage() {
                         <Stack direction="horizontal" className="items-start justify-between">
                           <Stack gap={1}>
                             <Body className="font-display">{mentor.name}</Body>
-                            <Body className="text-body-sm">{mentor.role}</Body>
+                            <Body size="sm" className="">{mentor.role}</Body>
                           </Stack>
                           <Badge variant={mentor.availability === "Available" ? "solid" : "outline"}>{mentor.availability}</Badge>
                         </Stack>
                         <Grid cols={3} gap={4}>
                           <Stack gap={1}>
-                            <Body className="text-body-sm">Experience</Body>
+                            <Body size="sm" className="">Experience</Body>
                             <Body>{mentor.yearsExperience} years</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm">Rating</Body>
+                            <Body size="sm" className="">Rating</Body>
                             <Body>⭐ {mentor.rating}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm">Mentees</Body>
+                            <Body size="sm" className="">Mentees</Body>
                             <Body>{mentor.mentees}/{mentor.maxMentees}</Body>
                           </Stack>
                         </Grid>
                         <Stack gap={2}>
-                          <Body className="text-body-sm">Specialties</Body>
+                          <Body size="sm" className="">Specialties</Body>
                           <Stack direction="horizontal" gap={2} className="flex-wrap">
                             {mentor.specialties.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>)}
                           </Stack>
@@ -147,12 +147,12 @@ export default function MentorshipPage() {
                         </Stack>
                         <Stack gap={1}>
                           <Body>{program.description}</Body>
-                          <Body className="text-body-sm">{program.duration} • {program.modules} modules</Body>
+                          <Body size="sm" className="">{program.duration} • {program.modules} modules</Body>
                         </Stack>
                         <Stack gap={2}>
-                          <Body className="text-body-sm">Enrollment</Body>
+                          <Body size="sm" className="">Enrollment</Body>
                           <ProgressBar value={(program.enrolled / program.capacity) * 100} className="h-2" />
-                          <Body className="text-body-sm">{program.enrolled}/{program.capacity} enrolled</Body>
+                          <Body size="sm" className="">{program.enrolled}/{program.capacity} enrolled</Body>
                         </Stack>
                         <Button variant="solid" size="sm" onClick={() => setSelectedProgram(program)}>Enroll</Button>
                       </Grid>
@@ -175,7 +175,7 @@ export default function MentorshipPage() {
                       <Stack gap={3} className="text-center">
                         <Body className="text-h3-md">{resource.icon}</Body>
                         <Body className="font-display">{resource.title}</Body>
-                        <Body className="text-body-sm">{resource.desc}</Body>
+                        <Body size="sm" className="">{resource.desc}</Body>
                       </Stack>
                     </Card>
                   ))}
@@ -194,14 +194,14 @@ export default function MentorshipPage() {
           {selectedMentor && (
             <Stack gap={4}>
               <Body className="text-h6-md font-display">{selectedMentor.name}</Body>
-              <Body className="text-body-sm">{selectedMentor.role} • {selectedMentor.department}</Body>
+              <Body size="sm" className="">{selectedMentor.role} • {selectedMentor.department}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Experience</Body>
+                  <Body size="sm" className="">Experience</Body>
                   <Body>{selectedMentor.yearsExperience} years</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Rating</Body>
+                  <Body size="sm" className="">Rating</Body>
                   <Body>⭐ {selectedMentor.rating}</Body>
                 </Stack>
               </Grid>
@@ -212,7 +212,7 @@ export default function MentorshipPage() {
                 </Stack>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Current Mentees</Body>
+                <Body size="sm" className="">Current Mentees</Body>
                 <Body>{selectedMentor.mentees} of {selectedMentor.maxMentees} slots filled</Body>
               </Stack>
             </Stack>
@@ -230,7 +230,7 @@ export default function MentorshipPage() {
         <ModalHeader><H3>Request Mentorship</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            {selectedMentor && <Body className="text-body-sm">Requesting mentorship from {selectedMentor.name}</Body>}
+            {selectedMentor && <Body size="sm" className="">Requesting mentorship from {selectedMentor.name}</Body>}
             <Textarea placeholder="Introduce yourself and explain your goals..." rows={4} />
             <Select>
               <option value="">Your experience level...</option>
@@ -258,19 +258,19 @@ export default function MentorshipPage() {
               <Body>{selectedProgram.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Duration</Body>
+                  <Body size="sm" className=" text-ink-500">Duration</Body>
                   <Body className="font-display">{selectedProgram.duration}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Level</Body>
+                  <Body size="sm" className=" text-ink-500">Level</Body>
                   <Badge className={getLevelColor(selectedProgram.level)}>{selectedProgram.level}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Modules</Body>
+                  <Body size="sm" className=" text-ink-500">Modules</Body>
                   <Body className="font-display">{selectedProgram.modules} modules</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Availability</Body>
+                  <Body size="sm" className=" text-ink-500">Availability</Body>
                   <Body className="font-display">{selectedProgram.capacity - selectedProgram.enrolled} spots left</Body>
                 </Stack>
               </Grid>

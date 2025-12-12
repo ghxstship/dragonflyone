@@ -229,7 +229,7 @@ export default function GettingStartedPage() {
                     </Stack>
                     <Stack gap={1} className="flex-1">
                       <Body className="font-weight-semibold text-ink-950">{step.title}</Body>
-                      <Body className="text-body-sm text-grey-600">{step.description}</Body>
+                      <Body size="sm" className=" text-grey-600">{step.description}</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={4} className="items-center">
                       <Stack direction="horizontal" gap={1} className="items-center text-grey-500">
@@ -271,7 +271,7 @@ export default function GettingStartedPage() {
                         <guide.icon className="size-6 text-ink-950" />
                       </Stack>
                       <H3 size="sm" className="text-ink-950">{guide.title}</H3>
-                      <Body className="text-body-sm text-grey-600">{guide.description}</Body>
+                      <Body size="sm" className=" text-grey-600">{guide.description}</Body>
                       <Label size="xs" className="text-grey-500">{guide.articles} articles</Label>
                     </Stack>
                   </Card>
@@ -305,7 +305,7 @@ export default function GettingStartedPage() {
                       <guide.icon className="size-7 text-brand-pink" />
                     </Stack>
                     <H3 size="sm" className="text-white">{guide.role}</H3>
-                    <Body className="text-body-sm text-on-dark-muted">{guide.description}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{guide.description}</Body>
                     <NextLink href={`/help/docs?role=${guide.role.toLowerCase().replace(' ', '-')}`}>
                       <Button variant="outlineWhite" size="sm" icon={<ArrowRight />}>
                         View Guide

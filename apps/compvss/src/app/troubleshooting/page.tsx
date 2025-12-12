@@ -91,8 +91,8 @@ export default function TroubleshootingPage() {
                     </Stack>
                     <Body>Symptom: {guide.symptom}</Body>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">{guide.steps.length} steps</Body>
-                      <Body className="text-body-sm">{guide.views} views • {guide.helpful}% found helpful</Body>
+                      <Body size="sm" className="">{guide.steps.length} steps</Body>
+                      <Body size="sm" className="">{guide.views} views • {guide.helpful}% found helpful</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -111,11 +111,11 @@ export default function TroubleshootingPage() {
             <Stack gap={4}>
               <Badge variant="outline">{selectedGuide.category}</Badge>
               <Stack gap={1}>
-                <Body className="text-body-sm">Symptom</Body>
+                <Body size="sm" className="">Symptom</Body>
                 <Body>{selectedGuide.symptom}</Body>
               </Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">Troubleshooting Steps</Body>
+                <Body size="sm" className="">Troubleshooting Steps</Body>
                 {selectedGuide.steps.map((step, idx) => (
                   <Card key={idx}>
                     <Stack direction="horizontal" gap={3}>
@@ -126,7 +126,7 @@ export default function TroubleshootingPage() {
                 ))}
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Resolution</Body>
+                <Body size="sm" className="">Resolution</Body>
                 <Body>{selectedGuide.resolution}</Body>
               </Stack>
             </Stack>

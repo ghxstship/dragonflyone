@@ -134,8 +134,8 @@ export default function MyTrainingPage() {
                   {module.status !== 'not_started' && (
                     <Stack gap={2}>
                       <Stack direction="horizontal" className="items-center justify-between">
-                        <Body className="text-body-sm text-on-dark-muted">Progress</Body>
-                        <Body className="text-body-sm text-white">{module.progress}%</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Progress</Body>
+                        <Body size="sm" className=" text-white">{module.progress}%</Body>
                       </Stack>
                       <ProgressBar value={module.progress} max={100} />
                     </Stack>

@@ -158,19 +158,19 @@ export default function InvestorDetailPage() {
                       <H3>Investment Details</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Investment Amount</Body>
+                          <Body size="sm" className=" text-grey-500">Investment Amount</Body>
                           <Body className="font-weight-semibold">${investor.investment_amount?.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Ownership Percentage</Body>
+                          <Body size="sm" className=" text-grey-500">Ownership Percentage</Body>
                           <Body className="font-weight-semibold">{investor.ownership_percentage ? `${investor.ownership_percentage}%` : 'Not specified'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Investment Round</Body>
+                          <Body size="sm" className=" text-grey-500">Investment Round</Body>
                           <Body className="font-weight-semibold">{investor.round?.name || 'No round assigned'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Round Type</Body>
+                          <Body size="sm" className=" text-grey-500">Round Type</Body>
                           <Body className="font-weight-semibold">{investor.round?.round_type?.replace('_', ' ').toUpperCase() || '—'}</Body>
                         </Stack>
                       </Grid>
@@ -188,7 +188,7 @@ export default function InvestorDetailPage() {
                           </Box>
                           <Stack gap={0}>
                             <Body className="font-weight-semibold">Commitment</Body>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               {investor.commitment_date ? new Date(investor.commitment_date).toLocaleDateString() : 'Not yet committed'}
                             </Body>
                           </Stack>
@@ -199,7 +199,7 @@ export default function InvestorDetailPage() {
                           </Box>
                           <Stack gap={0}>
                             <Body className="font-weight-semibold">Funding Received</Body>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               {investor.funding_date ? new Date(investor.funding_date).toLocaleDateString() : 'Not yet funded'}
                             </Body>
                           </Stack>
@@ -236,12 +236,12 @@ export default function InvestorDetailPage() {
                     <H3>Contact Information</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Contact Name</Body>
+                        <Body size="sm" className=" text-grey-500">Contact Name</Body>
                         <Body>{investor.contact_name || 'Not provided'}</Body>
                       </Stack>
                       {investor.contact_email && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Email</Body>
+                          <Body size="sm" className=" text-grey-500">Email</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Mail className="size-4 text-grey-400" />
                             <Body>{investor.contact_email}</Body>
@@ -250,7 +250,7 @@ export default function InvestorDetailPage() {
                       )}
                       {investor.contact_phone && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Phone</Body>
+                          <Body size="sm" className=" text-grey-500">Phone</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Phone className="size-4 text-grey-400" />
                             <Body>{investor.contact_phone}</Body>
@@ -267,11 +267,11 @@ export default function InvestorDetailPage() {
                     <H3>Investor Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Type</Body>
+                        <Body size="sm" className=" text-grey-500">Type</Body>
                         <Body>{typeLabels[investor.investor_type] || investor.investor_type}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Status</Body>
+                        <Body size="sm" className=" text-grey-500">Status</Body>
                         <Badge variant={statusColors[investor.status] || 'ghost'}>
                           {investor.status.toUpperCase()}
                         </Badge>

@@ -49,7 +49,7 @@ export default function CuesPage() {
                 <Box className="flex-1">
                   <Body className="font-weight-medium text-white">{cue.name}</Body>
                 </Box>
-                <Body className="text-body-sm text-on-dark-muted">{cue.trigger}</Body>
+                <Body size="sm" className=" text-on-dark-muted">{cue.trigger}</Body>
                 <Badge variant={typeColors[cue.type]}>{cue.type.toUpperCase()}</Badge>
               </Box>
             ))}

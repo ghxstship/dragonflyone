@@ -185,23 +185,23 @@ export default function OrderHistoryPage() {
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
                         <Label className="text-ink-500 text-mono-xs">Order #</Label>
-                        <Body className="font-mono text-body-sm">{order.order_number}</Body>
+                        <Body className="font-mono">{order.order_number}</Body>
                       </Stack>
                       <Stack>
                         <Label className="text-ink-500 text-mono-xs">Date</Label>
-                        <Body className="text-body-sm">
+                        <Body size="sm" className="">
                           {new Date(order.created_at).toLocaleDateString()}
                         </Body>
                       </Stack>
                       <Stack>
                         <Label className="text-ink-500 text-mono-xs">Items</Label>
-                        <Body className="text-body-sm">{order.items.length}</Body>
+                        <Body size="sm" className="">{order.items.length}</Body>
                       </Stack>
                     </Stack>
                   </Stack>
                   <Stack className="items-end">
                     <H2>${order.total.toFixed(2)}</H2>
-                    <Body className="text-body-sm text-ink-500">{order.payment_method}</Body>
+                    <Body size="sm" className=" text-ink-500">{order.payment_method}</Body>
                   </Stack>
                 </Stack>
 

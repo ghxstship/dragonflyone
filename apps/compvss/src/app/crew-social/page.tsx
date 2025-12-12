@@ -176,13 +176,13 @@ export default function CrewSocialPage() {
                                 <Badge variant="solid">Online</Badge>
                               )}
                             </Stack>
-                            <Body className="text-body-sm">{member.role}</Body>
+                            <Body size="sm" className="">{member.role}</Body>
                           </Stack>
                           <Badge variant="outline">{member.department}</Badge>
                         </Stack>
 
                         {member.bio && (
-                          <Body className="text-body-sm">{member.bio}</Body>
+                          <Body size="sm" className="">{member.bio}</Body>
                         )}
 
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
@@ -192,7 +192,7 @@ export default function CrewSocialPage() {
                         </Stack>
 
                         <Stack direction="horizontal" className="justify-between items-center">
-                          <Body className="text-body-sm">
+                          <Body size="sm" className="">
                             {member.projects_count} projects • {member.connections.length} connections
                           </Body>
                           <Button variant="ghost" size="sm" onClick={(e) => {
@@ -231,8 +231,8 @@ export default function CrewSocialPage() {
                         )}
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Stack gap={1}>
-                            <Body className="text-body-sm">{photo.uploaded_by}</Body>
-                            <Body className="text-body-sm">{photo.project_name}</Body>
+                            <Body size="sm" className="">{photo.uploaded_by}</Body>
+                            <Body size="sm" className="">{photo.project_name}</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Button
@@ -269,8 +269,8 @@ export default function CrewSocialPage() {
                                 <Badge variant="solid">Online</Badge>
                               )}
                             </Stack>
-                            <Body className="text-body-sm">{member.role}</Body>
-                            <Body className="text-body-sm">{member.location}</Body>
+                            <Body size="sm" className="">{member.role}</Body>
+                            <Body size="sm" className="">{member.location}</Body>
                           </Stack>
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
@@ -312,7 +312,7 @@ export default function CrewSocialPage() {
                       <Badge variant="solid">Online</Badge>
                     )}
                   </Stack>
-                  <Body className="text-body-sm">{selectedMember.role}</Body>
+                  <Body size="sm" className="">{selectedMember.role}</Body>
                   <Badge variant="outline">{selectedMember.department}</Badge>
                 </Stack>
               </Stack>
@@ -323,17 +323,17 @@ export default function CrewSocialPage() {
 
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Location</Body>
+                  <Body size="sm" className="">Location</Body>
                   <Body>{selectedMember.location || 'Not specified'}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Member Since</Body>
+                  <Body size="sm" className="">Member Since</Body>
                   <Body>{new Date(selectedMember.joined_date).toLocaleDateString()}</Body>
                 </Stack>
               </Grid>
 
               <Stack gap={2}>
-                <Body className="text-body-sm">Skills</Body>
+                <Body size="sm" className="">Skills</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMember.skills.map(skill => (
                     <Badge key={skill} variant="outline">{skill}</Badge>
@@ -344,11 +344,11 @@ export default function CrewSocialPage() {
               <Grid cols={2} gap={4}>
                 <Card className="text-center">
                   <Body className="font-display">{selectedMember.projects_count}</Body>
-                  <Body className="text-body-sm">Projects</Body>
+                  <Body size="sm" className="">Projects</Body>
                 </Card>
                 <Card className="text-center">
                   <Body className="font-display">{selectedMember.connections.length}</Body>
-                  <Body className="text-body-sm">Connections</Body>
+                  <Body size="sm" className="">Connections</Body>
                 </Card>
               </Grid>
             </Stack>

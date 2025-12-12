@@ -398,7 +398,7 @@ export default function DashboardPage() {
                               {item.priority === 'critical' ? 'Critical' : item.priority === 'high' ? 'High' : 'Medium'}
                             </StatusBadge>
                           </Stack>
-                          <Body className="text-body-sm text-white">{item.title}</Body>
+                          <Body size="sm" className=" text-white">{item.title}</Body>
                           {item.due_date && (
                             <Body size="xs" className="font-mono text-grey-500">
                               Due: {new Date(item.due_date).toLocaleDateString()}

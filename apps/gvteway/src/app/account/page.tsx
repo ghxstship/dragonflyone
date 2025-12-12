@@ -55,7 +55,7 @@ export default function AccountPage() {
                     <Stack key={event.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{event.name}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{event.date} - {event.venue}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Badge variant="info">{event.ticketCount} tickets</Badge>
@@ -106,15 +106,15 @@ export default function AccountPage() {
                   <Stack gap={2}>
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Body className="text-white">Purchased 2 tickets</Body>
-                      <Body className="text-body-sm text-on-dark-muted">2 days ago</Body>
+                      <Body size="sm" className="text-on-dark-muted">2 days ago</Body>
                     </Stack>
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Body className="text-white">Saved New Years Eve Concert</Body>
-                      <Body className="text-body-sm text-on-dark-muted">5 days ago</Body>
+                      <Body size="sm" className="text-on-dark-muted">5 days ago</Body>
                     </Stack>
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Body className="text-white">Updated payment method</Body>
-                      <Body className="text-body-sm text-on-dark-muted">1 week ago</Body>
+                      <Body size="sm" className="text-on-dark-muted">1 week ago</Body>
                     </Stack>
                   </Stack>
                 </Stack>

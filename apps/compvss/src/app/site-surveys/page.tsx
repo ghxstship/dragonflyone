@@ -157,26 +157,26 @@ export default function SiteSurveysPage() {
                 <Grid cols={4} gap={4}>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Power/Electrical</Body>
-                      <Body className="text-body-sm">Main service, distro, generator access</Body>
+                      <Body size="sm" className="">Power/Electrical</Body>
+                      <Body size="sm" className="">Main service, distro, generator access</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Rigging Points</Body>
-                      <Body className="text-body-sm">Grid height, weight limits, motor positions</Body>
+                      <Body size="sm" className="">Rigging Points</Body>
+                      <Body size="sm" className="">Grid height, weight limits, motor positions</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Load-In Access</Body>
-                      <Body className="text-body-sm">Dock, doors, floor load, staging areas</Body>
+                      <Body size="sm" className="">Load-In Access</Body>
+                      <Body size="sm" className="">Dock, doors, floor load, staging areas</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">FOH/BOH</Body>
-                      <Body className="text-body-sm">Mix position, dressing rooms, green room</Body>
+                      <Body size="sm" className="">FOH/BOH</Body>
+                      <Body size="sm" className="">Mix position, dressing rooms, green room</Body>
                     </Stack>
                   </Card>
                 </Grid>
@@ -236,26 +236,26 @@ export default function SiteSurveysPage() {
                       <TableCell>
                         <Stack gap={1}>
                           <Body>{survey.venue_name}</Body>
-                          <Body className="text-body-sm">{survey.venue_address}</Body>
+                          <Body size="sm" className="">{survey.venue_address}</Body>
                         </Stack>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{survey.project_name}</Body>
+                        <Body size="sm" className="">{survey.project_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="font-mono text-body-sm">{formatDate(survey.survey_date)}</Body>
+                        <Body className="font-mono">{formatDate(survey.survey_date)}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{survey.surveyor_name}</Body>
+                        <Body size="sm" className="">{survey.surveyor_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className={`text-body-sm ${getAssessmentColor(survey.power_assessment)}`}>{survey.power_assessment || "—"}</Body>
+                        <Body size="sm" className={getAssessmentColor(survey.power_assessment)}>{survey.power_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className={`text-body-sm ${getAssessmentColor(survey.rigging_assessment)}`}>{survey.rigging_assessment || "—"}</Body>
+                        <Body size="sm" className={getAssessmentColor(survey.rigging_assessment)}>{survey.rigging_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className={`text-body-sm ${getAssessmentColor(survey.load_in_assessment)}`}>{survey.load_in_assessment || "—"}</Body>
+                        <Body size="sm" className={getAssessmentColor(survey.load_in_assessment)}>{survey.load_in_assessment || "—"}</Body>
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusVariant(survey.status)}>

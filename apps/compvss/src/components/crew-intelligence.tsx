@@ -68,12 +68,12 @@ export function CrewIntelligence() {
           <Article key={crew.name} variant="bordered" className="p-spacing-4">
             <Stack direction="horizontal" className="items-start justify-between gap-3">
               <Stack>
-                <Label className="text-body-sm uppercase tracking-kicker text-ink-500">{crew.role}</Label>
+                <Label size="xs" className="uppercase tracking-kicker text-ink-500">{crew.role}</Label>
                 <H4 className="text-h5-md">{crew.name}</H4>
               </Stack>
               <Label className="text-mono-xs uppercase tracking-kicker text-ink-400">{crew.availability}</Label>
             </Stack>
-            <Body className="mt-spacing-2 text-body-sm text-ink-300">{crew.location}</Body>
+            <Body className="mt-spacing-2 text-ink-300">{crew.location}</Body>
             <Link href={`mailto:${crew.contact}`} className="mt-spacing-2 inline-flex text-mono-xs uppercase tracking-kicker text-ink-200">
               {crew.contact}
             </Link>
@@ -95,7 +95,7 @@ export function CrewIntelligence() {
             <Article key={call.id} variant="bordered" className="p-spacing-4">
               <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">{call.department}</Label>
               <H4 className="text-h5-md">{call.location}</H4>
-              <Stack direction="horizontal" gap={6} className="mt-spacing-2 text-body-sm text-ink-300">
+              <Stack direction="horizontal" gap={6} className="mt-spacing-2 text-ink-300">
                 <Stack>
                   <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">Date</Label>
                   <Body>{call.date}</Body>
@@ -105,7 +105,7 @@ export function CrewIntelligence() {
                   <Body>{call.callTime}</Body>
                 </Stack>
               </Stack>
-              <Stack gap={1} className="mt-spacing-3 text-body-sm text-ink-200">
+              <Stack gap={1} className="mt-spacing-3 text-ink-200">
                 {call.crew.map((member) => (
                   <Body key={`${call.id}-${member}`}>• {member}</Body>
                 ))}

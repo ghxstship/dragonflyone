@@ -52,7 +52,7 @@ export default function EventTicketsPage() {
                   <Ticket size={24} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-bold text-white">{ticket.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">
+                    <Body size="sm" className=" text-on-dark-muted">
                       {ticket.available > 0 ? `${ticket.available} available` : "Sold out"}
                     </Body>
                   </Stack>

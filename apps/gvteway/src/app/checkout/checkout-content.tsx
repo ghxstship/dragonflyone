@@ -107,7 +107,7 @@ export default function CheckoutContent() {
                         <Stack gap={1} className="flex-1">
                           <H3>{item.event_title}</H3>
                           <Body className="text-ink-600">{item.ticket_type_name}</Body>
-                          <Body className="text-body-sm text-ink-500">Qty: {item.qty}</Body>
+                          <Body size="sm" className=" text-ink-500">Qty: {item.qty}</Body>
                         </Stack>
                         <Body className="font-weight-bold">${(item.price * item.qty).toFixed(2)}</Body>
                       </Stack>
@@ -222,7 +222,7 @@ export default function CheckoutContent() {
                 <Card className="p-6 bg-ink-100">
                   <Stack gap={2} direction="horizontal" className="items-center mb-2">
                     <Lock className="w-4 h-4" />
-                    <Body className="font-weight-bold text-body-sm">SECURE CHECKOUT</Body>
+                    <Body className="font-weight-bold">SECURE CHECKOUT</Body>
                   </Stack>
                   <Body className="text-mono-xs text-ink-600">Your payment information is encrypted and secure</Body>
                 </Card>

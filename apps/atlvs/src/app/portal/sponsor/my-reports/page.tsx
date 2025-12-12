@@ -155,7 +155,7 @@ export default function MyReportsPage() {
                         <Body className="font-weight-semibold text-white">{report.name}</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <Calendar size={14} className="text-grey-400" />
-                          <Body className="text-body-sm text-on-dark-muted">{report.period}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">{report.period}</Body>
                         </Stack>
                       </Stack>
                       <Stack direction="horizontal" gap={2} className="items-center">
@@ -170,19 +170,19 @@ export default function MyReportsPage() {
                     </Stack>
                     <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Impressions</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Impressions</Body>
                         <Body className="font-weight-semibold text-white">{(report.impressions / 1000000).toFixed(2)}M</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Engagements</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Engagements</Body>
                         <Body className="font-weight-semibold text-white">{(report.engagements / 1000).toFixed(1)}K</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">ROI</Body>
+                        <Body size="sm" className=" text-on-dark-muted">ROI</Body>
                         <Body className="font-weight-semibold text-white">{report.roi > 0 ? `${report.roi}x` : 'Pending'}</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Generated</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Generated</Body>
                         <Body className="text-white">{new Date(report.generatedAt).toLocaleDateString()}</Body>
                       </Stack>
                     </Stack>

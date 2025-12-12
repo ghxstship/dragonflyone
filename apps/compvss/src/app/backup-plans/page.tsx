@@ -100,12 +100,12 @@ export default function BackupPlansPage() {
                       <Badge variant={plan.status === "Active" ? "solid" : "outline"}>{plan.status}</Badge>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-display">Trigger Condition</Body>
-                      <Body className="text-body-sm">{plan.triggerCondition}</Body>
+                      <Body size="sm" className=" font-display">Trigger Condition</Body>
+                      <Body size="sm" className="">{plan.triggerCondition}</Body>
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">Owner: {plan.owner}</Body>
-                      <Body className="text-body-sm">Updated: {plan.lastUpdated}</Body>
+                      <Body size="sm" className="">Owner: {plan.owner}</Body>
+                      <Body size="sm" className="">Updated: {plan.lastUpdated}</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       <Button variant="outline" size="sm" onClick={() => setSelectedPlan(plan)}>View Steps</Button>
@@ -159,8 +159,8 @@ export default function BackupPlansPage() {
                 </Stack>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Body className="text-body-sm">Owner: {selectedPlan.owner}</Body>
-                <Body className="text-body-sm">Updated: {selectedPlan.lastUpdated}</Body>
+                <Body size="sm" className="">Owner: {selectedPlan.owner}</Body>
+                <Body size="sm" className="">Updated: {selectedPlan.lastUpdated}</Body>
               </Stack>
             </Stack>
           )}

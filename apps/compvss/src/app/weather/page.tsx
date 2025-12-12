@@ -125,12 +125,12 @@ export default function WeatherPage() {
                     <TableRow key={alert.id}>
                       <TableCell><Body className="font-mono">{alert.id}</Body></TableCell>
                       <TableCell><Body>{alert.event}</Body></TableCell>
-                      <TableCell><Body className="text-body-sm">{alert.location}</Body></TableCell>
-                      <TableCell><Body className="text-body-sm">{alert.alertType}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{alert.location}</Body></TableCell>
+                      <TableCell><Body size="sm" className="">{alert.alertType}</Body></TableCell>
                       <TableCell>
                         <Badge variant={alert.severity === "High" ? "solid" : "outline"}>{alert.severity}</Badge>
                       </TableCell>
-                      <TableCell><Body className="font-mono text-body-sm">{alert.validUntil}</Body></TableCell>
+                      <TableCell><Body className="font-mono">{alert.validUntil}</Body></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -142,19 +142,19 @@ export default function WeatherPage() {
               <Grid cols={3} gap={6}>
                 {forecasts.map((day: Forecast, idx: number) => (
                   <Card key={idx}>
-                    <Body className="font-mono text-body-sm">{day.date}</Body>
+                    <Body className="font-mono">{day.date}</Body>
                     <Stack gap={2} direction="horizontal" className="mt-4 items-baseline">
                       <Body className="font-display">{day.high}°</Body>
-                      <Body className="text-body-sm">/ {day.low}°</Body>
+                      <Body size="sm" className="">/ {day.low}°</Body>
                     </Stack>
-                    <Body className="mt-3 text-body-sm">{day.condition}</Body>
+                    <Body className="mt-3">{day.condition}</Body>
                     <Stack gap={2} className="mt-4 pt-4">
-                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                        <Body className="text-body-sm">Precipitation</Body>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body size="sm" className="">Precipitation</Body>
                         <Body>{day.precipitation}%</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                        <Body className="text-body-sm">Wind</Body>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body size="sm" className="">Wind</Body>
                         <Body>{day.wind} mph</Body>
                       </Stack>
                     </Stack>

@@ -265,7 +265,7 @@ export default function AssetScanPage() {
               <Card className="p-4 bg-ink-50 border-2">
                 <Stack gap={2}>
                   <Label className="text-ink-500">Instructions</Label>
-                  <Body className="text-body-sm text-ink-600">
+                  <Body size="sm" className=" text-ink-600">
                     1. Select scan mode above<br />
                     2. Scan barcode with scanner or enter manually<br />
                     3. Confirm action in popup<br />

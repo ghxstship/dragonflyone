@@ -191,7 +191,7 @@ export default function InvestorUpdatesPage() {
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant={typeVariants[update.type]}>{typeLabels[update.type]}</Badge>
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             {new Date(update.date).toLocaleDateString()}
                           </Body>
                         </Stack>

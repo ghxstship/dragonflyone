@@ -33,15 +33,15 @@ export default function ParkingPage() {
                   <Stack direction="horizontal" gap={4}>
                     <Stack direction="horizontal" gap={1} className="items-center">
                       <MapPin size={14} className="text-on-dark-muted" />
-                      <Body className="text-body-sm text-on-dark-muted">{lot.distance}</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{lot.distance}</Body>
                     </Stack>
                     <Stack direction="horizontal" gap={1} className="items-center">
                       <DollarSign size={14} className="text-on-dark-muted" />
-                      <Body className="text-body-sm text-on-dark-muted">{lot.price}</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{lot.price}</Body>
                     </Stack>
                   </Stack>
                 </Stack>
-                <Body className="text-body-sm text-success">{lot.spots}</Body>
+                <Body size="sm" className=" text-success">{lot.spots}</Body>
               </Stack>
             </CardBody>
           </Card>

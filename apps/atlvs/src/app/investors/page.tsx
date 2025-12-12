@@ -213,19 +213,19 @@ export default function InvestorsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Investor</Body>
+            <Body size="sm" className=" text-grey-500">Investor</Body>
             <Body>{selectedInvestor.name}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{typeLabels[selectedInvestor.investor_type] || selectedInvestor.investor_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Round</Body>
+            <Body size="sm" className=" text-grey-500">Round</Body>
             <Body>{selectedInvestor.round?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedInvestor.status] || 'ghost'}>
               {selectedInvestor.status.toUpperCase()}
             </Badge>
@@ -239,19 +239,19 @@ export default function InvestorsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Investment Amount</Body>
+            <Body size="sm" className=" text-grey-500">Investment Amount</Body>
             <Body>${selectedInvestor.investment_amount?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Ownership</Body>
+            <Body size="sm" className=" text-grey-500">Ownership</Body>
             <Body>{selectedInvestor.ownership_percentage ? `${selectedInvestor.ownership_percentage}%` : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Commitment Date</Body>
+            <Body size="sm" className=" text-grey-500">Commitment Date</Body>
             <Body>{selectedInvestor.commitment_date ? new Date(selectedInvestor.commitment_date).toLocaleDateString() : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Funding Date</Body>
+            <Body size="sm" className=" text-grey-500">Funding Date</Body>
             <Body>{selectedInvestor.funding_date ? new Date(selectedInvestor.funding_date).toLocaleDateString() : '—'}</Body>
           </Stack>
         </Grid>

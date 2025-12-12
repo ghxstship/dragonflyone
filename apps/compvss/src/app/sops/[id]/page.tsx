@@ -233,18 +233,18 @@ export default function SOPDetailPage() {
                               {step.warning && (
                                 <Box className="flex items-start gap-2 rounded-card border-2 border-warning bg-warning/10 p-3">
                                   <AlertTriangle className="size-5 shrink-0 text-warning" />
-                                  <Body className="text-body-sm text-warning">{step.warning}</Body>
+                                  <Body size="sm" className=" text-warning">{step.warning}</Body>
                                 </Box>
                               )}
 
                               {step.notes && (
-                                <Body className="text-body-sm text-grey-500">
+                                <Body size="sm" className=" text-grey-500">
                                   Note: {step.notes}
                                 </Body>
                               )}
 
                               {step.duration_minutes && (
-                                <Body className="text-body-sm text-grey-400">
+                                <Body size="sm" className=" text-grey-400">
                                   Estimated time: {step.duration_minutes} minutes
                                 </Body>
                               )}
@@ -269,19 +269,19 @@ export default function SOPDetailPage() {
                     <H3>Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Category</Body>
+                        <Body size="sm" className=" text-grey-500">Category</Body>
                         <Body>{sop.category?.name || 'Uncategorized'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Version</Body>
+                        <Body size="sm" className=" text-grey-500">Version</Body>
                         <Body>{sop.version}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Effective Date</Body>
+                        <Body size="sm" className=" text-grey-500">Effective Date</Body>
                         <Body>{sop.effective_date ? new Date(sop.effective_date).toLocaleDateString() : 'Not set'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Owner</Body>
+                        <Body size="sm" className=" text-grey-500">Owner</Body>
                         <Body>{sop.owner ? `${sop.owner.first_name} ${sop.owner.last_name}` : 'Not assigned'}</Body>
                       </Stack>
                     </Stack>
@@ -307,7 +307,7 @@ export default function SOPDetailPage() {
                       </Stack>
                       {sop.training_duration_minutes && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Training Duration</Body>
+                          <Body size="sm" className=" text-grey-500">Training Duration</Body>
                           <Body>{sop.training_duration_minutes} minutes</Body>
                         </Stack>
                       )}

@@ -47,7 +47,7 @@ export default function OfflinePage() {
                 </Link>
               </Stack>
 
-              <Body className="text-body-sm text-grey-500">
+              <Body size="sm" className=" text-grey-500">
                 Your saved tickets and recent activity are still available offline.
               </Body>
             </Stack>

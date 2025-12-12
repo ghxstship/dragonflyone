@@ -37,7 +37,7 @@ export default function MyTicketsPage() {
                       </Box>
                       <Stack gap={1}>
                         <Body className="font-weight-bold text-white">{ticket.type}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className=" text-on-dark-muted">
                           {ticket.quantity} ticket{ticket.quantity > 1 ? "s" : ""} · {ticket.orderNumber}
                         </Body>
                       </Stack>
@@ -72,7 +72,7 @@ export default function MyTicketsPage() {
               </Box>
               <Stack gap={2}>
                 <Body className="font-weight-bold text-white">No Tickets Yet</Body>
-                <Body className="text-body-sm text-on-dark-muted">You have not purchased tickets for this event</Body>
+                <Body size="sm" className=" text-on-dark-muted">You have not purchased tickets for this event</Body>
               </Stack>
               <Button variant="solid" onClick={() => router.push(`/e/${eventId}/tickets`)}>
                 Get Tickets

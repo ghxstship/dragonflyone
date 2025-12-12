@@ -87,12 +87,12 @@ export default function CaseStudiesPage() {
                     </Stack>
                     <Stack direction="horizontal" gap={2}>
                       <Badge variant="outline">{study.category}</Badge>
-                      <Body className="text-body-sm">{study.projectName}</Body>
+                      <Body size="sm" className="">{study.projectName}</Body>
                     </Stack>
-                    <Body className="text-body-sm">{study.summary}</Body>
+                    <Body size="sm" className="">{study.summary}</Body>
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">{study.author}</Body>
-                      <Body className="text-body-sm">{study.date}</Body>
+                      <Body size="sm" className="">{study.author}</Body>
+                      <Body size="sm" className="">{study.date}</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -128,7 +128,7 @@ export default function CaseStudiesPage() {
                   {selectedStudy.metrics.map((m, idx) => (
                     <Card key={idx} className="p-3 text-center">
                       <Body className="text-body-lg font-display">{m.value}</Body>
-                      <Body className="text-body-sm">{m.label}</Body>
+                      <Body size="sm" className="">{m.label}</Body>
                     </Card>
                   ))}
                 </Grid>
@@ -145,8 +145,8 @@ export default function CaseStudiesPage() {
                 ))}
               </Stack>
               <Stack direction="horizontal" className="justify-between">
-                <Body className="text-body-sm">{selectedStudy.author}</Body>
-                <Body className="text-body-sm">{selectedStudy.date}</Body>
+                <Body size="sm" className="">{selectedStudy.author}</Body>
+                <Body size="sm" className="">{selectedStudy.date}</Body>
               </Stack>
             </Stack>
           )}

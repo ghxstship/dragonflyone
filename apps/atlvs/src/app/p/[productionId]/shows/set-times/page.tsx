@@ -50,7 +50,7 @@ export default function SetTimesPage() {
                 </Box>
                 <Box className="flex-1">
                   <Body className="font-weight-medium text-white">{set.artist}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">{set.stage} · {set.start} - {set.end}</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{set.stage} · {set.start} - {set.end}</Body>
                 </Box>
                 <Badge variant={statusColors[set.status]}>{set.status.toUpperCase()}</Badge>
               </Box>

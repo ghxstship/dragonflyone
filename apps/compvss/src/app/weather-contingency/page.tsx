@@ -144,18 +144,18 @@ export default function WeatherContingencyPage() {
                           <Body className="font-display">{plan.projectName}</Body>
                           <Stack direction="horizontal" gap={2}>
                             <Badge variant="outline">{plan.venueType}</Badge>
-                            <Body className="text-body-sm">{plan.venue}</Body>
-                            <Body className="text-body-sm">•</Body>
-                            <Body className="text-body-sm">{plan.eventDate}</Body>
+                            <Body size="sm" className="">{plan.venue}</Body>
+                            <Body size="sm" className="">•</Body>
+                            <Body size="sm" className="">{plan.eventDate}</Body>
                           </Stack>
                         </Stack>
                         <Stack direction="horizontal" gap={4} className="items-center">
                           <Stack gap={1} className="text-right">
-                            <Body className="text-body-sm">Risk Level</Body>
+                            <Body size="sm" className="">Risk Level</Body>
                             <Badge variant={getRiskColor(plan.riskLevel)} className={getRiskBg(plan.riskLevel)}>{plan.riskLevel}</Badge>
                           </Stack>
                           <Stack gap={1} className="text-right">
-                            <Body className="text-body-sm">Status</Body>
+                            <Body size="sm" className="">Status</Body>
                             <Badge variant={getStatusVariant(plan.status)}>{plan.status}</Badge>
                           </Stack>
                         </Stack>
@@ -164,7 +164,7 @@ export default function WeatherContingencyPage() {
                       <Card>
                         <Stack direction="horizontal" className="justify-between items-center">
                           <Stack gap={1}>
-                            <Body className="text-body-sm">Current Conditions</Body>
+                            <Body size="sm" className="">Current Conditions</Body>
                             <Body>{plan.currentConditions}</Body>
                           </Stack>
                           <Button variant="ghost" size="sm">Refresh</Button>
@@ -172,7 +172,7 @@ export default function WeatherContingencyPage() {
                       </Card>
 
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Contingency Actions ({plan.contingencyPlans.length})</Body>
+                        <Body size="sm" className="">Contingency Actions ({plan.contingencyPlans.length})</Body>
                         <Grid cols={2} gap={2}>
                           {plan.contingencyPlans.map((action) => (
                             <Card key={action.id}>
@@ -181,9 +181,9 @@ export default function WeatherContingencyPage() {
                                   <Badge variant="outline">{action.trigger}</Badge>
                                   <Badge variant={getStatusVariant(action.status)}>{action.status}</Badge>
                                 </Stack>
-                                <Body className="text-body-sm">Threshold: {action.threshold}</Body>
+                                <Body size="sm" className="">Threshold: {action.threshold}</Body>
                                 <Body>{action.action}</Body>
-                                <Body className="text-body-sm">Responsible: {action.responsible}</Body>
+                                <Body size="sm" className="">Responsible: {action.responsible}</Body>
                               </Stack>
                             </Card>
                           ))}
@@ -215,16 +215,16 @@ export default function WeatherContingencyPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedPlan.projectName}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Venue</Body><Body>{selectedPlan.venue}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Type</Body><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>
+                <Stack gap={1}><Body size="sm" className="">Venue</Body><Body>{selectedPlan.venue}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Type</Body><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>
               </Grid>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Event Date</Body><Body>{selectedPlan.eventDate}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Risk Level</Body><Badge variant={getRiskColor(selectedPlan.riskLevel)} className={getRiskBg(selectedPlan.riskLevel)}>{selectedPlan.riskLevel}</Badge></Stack>
+                <Stack gap={1}><Body size="sm" className="">Event Date</Body><Body>{selectedPlan.eventDate}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Risk Level</Body><Badge variant={getRiskColor(selectedPlan.riskLevel)} className={getRiskBg(selectedPlan.riskLevel)}>{selectedPlan.riskLevel}</Badge></Stack>
               </Grid>
-              <Stack gap={1}><Body className="text-body-sm">Current Conditions</Body><Body>{selectedPlan.currentConditions}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Current Conditions</Body><Body>{selectedPlan.currentConditions}</Body></Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">All Contingency Actions</Body>
+                <Body size="sm" className="">All Contingency Actions</Body>
                 {selectedPlan.contingencyPlans.map((action) => (
                   <Card key={action.id}>
                     <Stack gap={1}>
@@ -233,7 +233,7 @@ export default function WeatherContingencyPage() {
                         <Badge variant={getStatusVariant(action.status)}>{action.status}</Badge>
                       </Stack>
                       <Body>{action.action}</Body>
-                      <Body className="text-body-sm">{action.responsible}</Body>
+                      <Body size="sm" className="">{action.responsible}</Body>
                     </Stack>
                   </Card>
                 ))}

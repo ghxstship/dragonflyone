@@ -159,7 +159,7 @@ export default function ContingencyDetailPage() {
                   <AlertTriangle className="size-6 text-error" />
                   <Stack gap={0}>
                     <Body className="font-weight-semibold text-error">Contingency Triggered</Body>
-                    <Body className="text-body-sm text-error">
+                    <Body size="sm" className=" text-error">
                       Triggered at: {contingency.triggered_at ? new Date(contingency.triggered_at).toLocaleString() : 'Unknown'}
                     </Body>
                   </Stack>
@@ -227,17 +227,17 @@ export default function ContingencyDetailPage() {
                     <H3>Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Category</Body>
+                        <Body size="sm" className=" text-grey-500">Category</Body>
                         <Body>{categoryLabels[contingency.category] || contingency.category}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Severity</Body>
+                        <Body size="sm" className=" text-grey-500">Severity</Body>
                         <Badge variant={severityColors[contingency.severity] || 'ghost'}>
                           {contingency.severity.toUpperCase()}
                         </Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Status</Body>
+                        <Body size="sm" className=" text-grey-500">Status</Body>
                         <Badge variant={statusColors[contingency.status] || 'ghost'}>
                           {contingency.status.toUpperCase()}
                         </Badge>
@@ -252,14 +252,14 @@ export default function ContingencyDetailPage() {
                     <H3>Ownership</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Primary Owner</Body>
+                        <Body size="sm" className=" text-grey-500">Primary Owner</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <User className="size-4 text-grey-400" />
                           <Body>{contingency.owner ? `${contingency.owner.first_name} ${contingency.owner.last_name}` : 'Unassigned'}</Body>
                         </Stack>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Backup Owner</Body>
+                        <Body size="sm" className=" text-grey-500">Backup Owner</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <User className="size-4 text-grey-400" />
                           <Body>{contingency.backup_owner ? `${contingency.backup_owner.first_name} ${contingency.backup_owner.last_name}` : 'Unassigned'}</Body>
@@ -276,7 +276,7 @@ export default function ContingencyDetailPage() {
                     <Stack gap={3}>
                       {contingency.triggered_at && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Triggered At</Body>
+                          <Body size="sm" className=" text-grey-500">Triggered At</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Clock className="size-4 text-error" />
                             <Body>{new Date(contingency.triggered_at).toLocaleString()}</Body>
@@ -285,7 +285,7 @@ export default function ContingencyDetailPage() {
                       )}
                       {contingency.resolved_at && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Resolved At</Body>
+                          <Body size="sm" className=" text-grey-500">Resolved At</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <CheckCircle className="size-4 text-success" />
                             <Body>{new Date(contingency.resolved_at).toLocaleString()}</Body>
@@ -306,7 +306,7 @@ export default function ContingencyDetailPage() {
                       <H3>Notification List</H3>
                       <Stack gap={2}>
                         {contingency.notification_list.map((contact, index) => (
-                          <Body key={index} className="text-body-sm">{contact}</Body>
+                          <Body key={index} size="sm" className="">{contact}</Body>
                         ))}
                       </Stack>
                     </Stack>

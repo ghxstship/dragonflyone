@@ -53,7 +53,7 @@ export function TaskBoard({ tasks, onUpdateTask }: TaskBoardProps) {
                   gap={2}
                 >
                   <H4>{task.title}</H4>
-                  <Body className="text-body-sm text-ink-600">
+                  <Body size="sm" className="text-ink-600">
                     Assigned to: {task.assignee}
                   </Body>
                   <Stack direction="horizontal" gap={2} className="items-center">

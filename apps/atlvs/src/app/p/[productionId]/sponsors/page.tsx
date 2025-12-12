@@ -70,7 +70,7 @@ export default function ProductionSponsorsPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{sponsor.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">${sponsor.value.toLocaleString()}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">${sponsor.value.toLocaleString()}</Body>
                   </Stack>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>

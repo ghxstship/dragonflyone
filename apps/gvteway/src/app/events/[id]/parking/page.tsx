@@ -109,11 +109,11 @@ function ParkingTransportPageContent() {
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-body-sm">{feature}</Label>
+                            <Label size="sm" className="">{feature}</Label>
                           </Stack>
                         ))}
                       </Stack>
-                      {option.address && <Label className="text-ink-500 text-body-sm">{option.address}</Label>}
+                      {option.address && <Label className="text-ink-500">{option.address}</Label>}
                       {option.type !== "Rideshare" && option.spotsAvailable > 0 && (
                         <Button variant="solid" onClick={() => { setSelectedParking(option); setShowReserveModal(true); }}>
                           Reserve Parking
@@ -161,7 +161,7 @@ function ParkingTransportPageContent() {
                         {option.features.map((feature, idx) => (
                           <Stack key={idx} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-body-sm">{feature}</Label>
+                            <Label size="sm" className="">{feature}</Label>
                           </Stack>
                         ))}
                       </Stack>
@@ -179,14 +179,14 @@ function ParkingTransportPageContent() {
                     <Stack gap={2} className="text-center">
                       <Label className="text-ink-500 text-h3-md">🗺️</Label>
                       <Label className="text-ink-500">Interactive map would display here</Label>
-                      <Label className="text-ink-600 text-body-sm">Showing parking lots, transit stops, and venue entrance</Label>
+                      <Label className="text-ink-600">Showing parking lots, transit stops, and venue entrance</Label>
                     </Stack>
                   </Card>
                   <Grid cols={4} gap={2}>
-                    <Card className="p-2 bg-info-100 text-center"><Label className="text-body-sm">🅿️ Parking</Label></Card>
-                    <Card className="p-2 bg-success-100 text-center"><Label className="text-body-sm">🚌 Shuttle</Label></Card>
-                    <Card className="p-2 bg-purple-100 text-center"><Label className="text-body-sm">🚇 Metro</Label></Card>
-                    <Card className="p-2 bg-warning-100 text-center"><Label className="text-body-sm">🚗 Rideshare</Label></Card>
+                    <Card className="p-2 bg-info-100 text-center"><Label size="sm" className="">🅿️ Parking</Label></Card>
+                    <Card className="p-2 bg-success-100 text-center"><Label size="sm" className="">🚌 Shuttle</Label></Card>
+                    <Card className="p-2 bg-purple-100 text-center"><Label size="sm" className="">🚇 Metro</Label></Card>
+                    <Card className="p-2 bg-warning-100 text-center"><Label size="sm" className="">🚗 Rideshare</Label></Card>
                   </Grid>
                 </Stack>
               </Card>

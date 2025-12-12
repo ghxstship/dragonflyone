@@ -239,23 +239,23 @@ export default function ScheduleTasksPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{selectedTask.task_type.replace('_', ' ').toUpperCase()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Priority</Body>
+            <Body size="sm" className=" text-grey-500">Priority</Body>
             <Badge variant={priorityColors[selectedTask.priority] || 'ghost'}>
               {selectedTask.priority.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedTask.status] || 'ghost'}>
               {selectedTask.status.replace('_', ' ').toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Department</Body>
+            <Body size="sm" className=" text-grey-500">Department</Body>
             <Body>{selectedTask.department || '—'}</Body>
           </Stack>
         </Grid>
@@ -267,11 +267,11 @@ export default function ScheduleTasksPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Assigned To</Body>
+            <Body size="sm" className=" text-grey-500">Assigned To</Body>
             <Body>{selectedTask.assignee ? `${selectedTask.assignee.first_name} ${selectedTask.assignee.last_name}` : 'Unassigned'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Due Date</Body>
+            <Body size="sm" className=" text-grey-500">Due Date</Body>
             <Body>{selectedTask.due_date ? new Date(selectedTask.due_date).toLocaleDateString() : 'No due date'}</Body>
           </Stack>
         </Grid>

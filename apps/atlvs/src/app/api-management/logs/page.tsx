@@ -43,7 +43,7 @@ const columns: ListPageColumn<ApiLog>[] = [
     key: 'endpoint', 
     label: 'Endpoint', 
     accessor: 'endpoint', 
-    render: (value) => <Body className="max-w-xs truncate font-mono text-body-sm">{String(value)}</Body>
+    render: (value) => <Body className="max-w-xs truncate font-mono">{String(value)}</Body>
   },
   { 
     key: 'status_code', 

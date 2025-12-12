@@ -66,7 +66,7 @@ export default function ProductionCompliancePage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{item.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{item.category} · Due {item.dueDate}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{item.category} · Due {item.dueDate}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[item.status]}>{item.status.toUpperCase()}</Badge>

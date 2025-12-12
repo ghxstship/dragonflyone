@@ -121,7 +121,7 @@ export default function ProductionIncidentsPage() {
                         {getStatusBadge(incident.status)}
                       </Stack>
                       <Body className="text-white">{incident.title}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">
+                      <Body size="sm" className=" text-on-dark-muted">
                         <Clock size={12} className="mr-1 inline" />{incident.reportedAt} by {incident.reportedBy}
                       </Body>
                     </Stack>

@@ -158,7 +158,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     <H3 className="mb-2 font-display text-h5-md uppercase text-ink-950">
                       {sense}
                     </H3>
-                    <Body className="mb-4 text-body-sm text-grey-600">
+                    <Body className="mb-4 text-grey-600">
                       {activation.primary}
                     </Body>
                     <Stack gap={1}>
@@ -202,7 +202,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 <Text className="mb-2 font-display text-body-md text-ink-950">
                   {blueprint.spatialTemporal.x.description}
                 </Text>
-                <Body className="text-body-sm text-grey-500">
+                <Body size="sm" className=" text-grey-500">
                   {blueprint.spatialTemporal.x.rationale}
                 </Body>
               </Card>
@@ -232,7 +232,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 <Text className="mb-2 font-display text-body-md text-ink-950">
                   {blueprint.spatialTemporal.y.description}
                 </Text>
-                <Body className="text-body-sm text-grey-500">
+                <Body size="sm" className=" text-grey-500">
                   {blueprint.spatialTemporal.y.rationale}
                 </Body>
               </Card>
@@ -262,7 +262,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 <Text className="mb-2 font-display text-body-md text-ink-950">
                   {blueprint.spatialTemporal.z.description}
                 </Text>
-                <Body className="text-body-sm text-grey-500">
+                <Body size="sm" className=" text-grey-500">
                   {blueprint.spatialTemporal.z.rationale}
                 </Body>
               </Card>
@@ -324,7 +324,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                           </Text>
                           <Stack gap={1}>
                             {phase.touchpoints.map((tp, i) => (
-                              <Text key={i} className="text-body-sm text-grey-600">
+                              <Text key={i} size="sm" className=" text-grey-600">
                                 {tp}
                               </Text>
                             ))}
@@ -336,7 +336,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                           </Text>
                           <Stack gap={1}>
                             {phase.technology.map((tech, i) => (
-                              <Text key={i} className="text-body-sm text-grey-600">
+                              <Text key={i} size="sm" className=" text-grey-600">
                                 {tech}
                               </Text>
                             ))}
@@ -360,7 +360,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                     One-Page Overview
                   </H3>
                 </Box>
-                <Body className="leading-body text-body-sm text-grey-600">
+                <Body className="leading-body text-grey-600">
                   {blueprint.documents.onePageOverview}
                 </Body>
               </Card>

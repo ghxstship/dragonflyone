@@ -229,7 +229,7 @@ export default function TutorialsPage() {
                   </Stack>
                   <Stack gap={3} className="p-4">
                     <H3 size="sm" className="text-ink-950">{tutorial.title}</H3>
-                    <Body className="text-body-sm text-grey-600">{tutorial.description}</Body>
+                    <Body size="sm" className=" text-grey-600">{tutorial.description}</Body>
                     <Stack direction="horizontal" gap={2} className="items-center text-grey-500">
                       <Play className="size-4" />
                       <Label size="xs">{tutorial.views.toLocaleString()} views</Label>
@@ -283,7 +283,7 @@ export default function TutorialsPage() {
                     </Stack>
                     <Stack gap={2} className="flex-1">
                       <Body className="font-weight-semibold text-ink-950">{tutorial.title}</Body>
-                      <Body className="text-body-sm text-grey-600">{tutorial.description}</Body>
+                      <Body size="sm" className=" text-grey-600">{tutorial.description}</Body>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Clock className="size-3 text-grey-400" />
                         <Label size="xs" className="text-grey-500">{tutorial.duration}</Label>
@@ -320,7 +320,7 @@ export default function TutorialsPage() {
                       <path.icon className="size-7 text-brand-pink" />
                     </Stack>
                     <H3 size="sm" className="text-white">{path.title}</H3>
-                    <Body className="text-body-sm text-on-dark-muted">{path.description}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{path.description}</Body>
                     <Stack direction="horizontal" gap={4}>
                       <Stack direction="horizontal" gap={1} className="items-center">
                         <Video className="size-4 text-on-dark-muted" />

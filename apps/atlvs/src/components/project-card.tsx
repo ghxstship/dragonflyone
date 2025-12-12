@@ -18,7 +18,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <Stack direction="horizontal" className="items-start justify-between">
           <Stack>
             <H3 className="text-white">{project.name}</H3>
-            <Body className="mt-spacing-1 text-body-sm text-ink-400">{project.client}</Body>
+            <Body className="mt-spacing-1 text-ink-400">{project.client}</Body>
           </Stack>
           <Badge
             variant={project.health === "On Track" ? "solid" : "outline"}

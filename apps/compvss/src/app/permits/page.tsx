@@ -165,25 +165,25 @@ export default function PermitsPage() {
                 <Grid cols={4} gap={4}>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Special Events</Body>
+                      <Body size="sm" className="">Special Events</Body>
                       <Body className="font-display">8</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Noise/Sound</Body>
+                      <Body size="sm" className="">Noise/Sound</Body>
                       <Body className="font-display">5</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Fire/Safety</Body>
+                      <Body size="sm" className="">Fire/Safety</Body>
                       <Body className="font-display">12</Body>
                     </Stack>
                   </Card>
                   <Card>
                     <Stack gap={2}>
-                      <Body className="text-body-sm">Street Closure</Body>
+                      <Body size="sm" className="">Street Closure</Body>
                       <Body className="font-display">3</Body>
                     </Stack>
                   </Card>
@@ -245,19 +245,19 @@ export default function PermitsPage() {
                         <Body className="font-mono">{permit.permit_number || "—"}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{permit.permit_type}</Body>
+                        <Body size="sm" className="">{permit.permit_type}</Body>
                       </TableCell>
                       <TableCell>
                         <Body>{permit.project_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{permit.venue_name}</Body>
+                        <Body size="sm" className="">{permit.venue_name}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="text-body-sm">{permit.jurisdiction}</Body>
+                        <Body size="sm" className="">{permit.jurisdiction}</Body>
                       </TableCell>
                       <TableCell>
-                        <Body className="font-mono text-body-sm">{permit.expiration_date ? formatDate(permit.expiration_date) : "—"}</Body>
+                        <Body className="font-mono">{permit.expiration_date ? formatDate(permit.expiration_date) : "—"}</Body>
                       </TableCell>
                       <TableCell>
                         <Body className="font-mono">{formatCurrency(permit.fee_amount)}</Body>

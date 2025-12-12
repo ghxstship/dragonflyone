@@ -131,7 +131,7 @@ export default function InsurancePolicyDetailPage() {
                     <Body className={`font-weight-semibold ${isExpired ? 'text-error' : 'text-warning'}`}>
                       {isExpired ? 'Policy Expired' : 'Policy Expiring Soon'}
                     </Body>
-                    <Body className={`text-body-sm ${isExpired ? 'text-error' : 'text-warning'}`}>
+                    <Body size="sm" className={isExpired ? 'text-error' : 'text-warning'}>
                       {isExpired 
                         ? `Expired on ${new Date(policy.expiration_date).toLocaleDateString()}`
                         : `Expires on ${new Date(policy.expiration_date).toLocaleDateString()}`
@@ -176,19 +176,19 @@ export default function InsurancePolicyDetailPage() {
                       <H3>Policy Details</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Policy Type</Body>
+                          <Body size="sm" className=" text-grey-500">Policy Type</Body>
                           <Body>{policyTypeLabels[policy.policy_type] || policy.policy_type}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Provider</Body>
+                          <Body size="sm" className=" text-grey-500">Provider</Body>
                           <Body>{policy.provider}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Policy Number</Body>
+                          <Body size="sm" className=" text-grey-500">Policy Number</Body>
                           <Body>{policy.policy_number}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Status</Body>
+                          <Body size="sm" className=" text-grey-500">Status</Body>
                           <Badge variant={statusColors[policy.status] || 'solid'}>
                             {policy.status.toUpperCase()}
                           </Badge>
@@ -203,15 +203,15 @@ export default function InsurancePolicyDetailPage() {
                       <H3>Coverage Details</H3>
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Coverage Amount</Body>
+                          <Body size="sm" className=" text-grey-500">Coverage Amount</Body>
                           <Body className="font-weight-semibold">${policy.coverage_amount?.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Deductible</Body>
+                          <Body size="sm" className=" text-grey-500">Deductible</Body>
                           <Body className="font-weight-semibold">{policy.deductible ? `$${policy.deductible.toLocaleString()}` : 'Not specified'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Premium</Body>
+                          <Body size="sm" className=" text-grey-500">Premium</Body>
                           <Body className="font-weight-semibold">{policy.premium ? `$${policy.premium.toLocaleString()}` : 'Not specified'}</Body>
                         </Stack>
                       </Grid>
@@ -224,14 +224,14 @@ export default function InsurancePolicyDetailPage() {
                       <H3>Policy Period</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Effective Date</Body>
+                          <Body size="sm" className=" text-grey-500">Effective Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{new Date(policy.effective_date).toLocaleDateString()}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Expiration Date</Body>
+                          <Body size="sm" className=" text-grey-500">Expiration Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className={`size-4 ${isExpired ? 'text-error' : isExpiringSoon ? 'text-warning' : 'text-grey-400'}`} />
                             <Body className={isExpired ? 'text-error' : isExpiringSoon ? 'text-warning' : ''}>
@@ -253,12 +253,12 @@ export default function InsurancePolicyDetailPage() {
                     <H3>Agent Contact</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Contact Name</Body>
+                        <Body size="sm" className=" text-grey-500">Contact Name</Body>
                         <Body>{policy.contact_name || 'Not provided'}</Body>
                       </Stack>
                       {policy.contact_email && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Email</Body>
+                          <Body size="sm" className=" text-grey-500">Email</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Mail className="size-4 text-grey-400" />
                             <Body>{policy.contact_email}</Body>
@@ -267,7 +267,7 @@ export default function InsurancePolicyDetailPage() {
                       )}
                       {policy.contact_phone && (
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Phone</Body>
+                          <Body size="sm" className=" text-grey-500">Phone</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Phone className="size-4 text-grey-400" />
                             <Body>{policy.contact_phone}</Body>

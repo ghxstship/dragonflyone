@@ -27,7 +27,7 @@ export default function EventServicesPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Lost & Found</Body>
-                <Body className="text-body-sm text-on-dark-muted">Report or find lost items</Body>
+                <Body size="sm" className=" text-on-dark-muted">Report or find lost items</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -40,7 +40,7 @@ export default function EventServicesPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Support Chat</Body>
-                <Body className="text-body-sm text-on-dark-muted">Get help from staff</Body>
+                <Body size="sm" className=" text-on-dark-muted">Get help from staff</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -53,7 +53,7 @@ export default function EventServicesPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Emergency Info</Body>
-                <Body className="text-body-sm text-on-dark-muted">Safety and emergency contacts</Body>
+                <Body size="sm" className=" text-on-dark-muted">Safety and emergency contacts</Body>
               </Stack>
             </Stack>
           </CardBody>

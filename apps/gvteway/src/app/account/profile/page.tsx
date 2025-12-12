@@ -92,7 +92,7 @@ export default function AccountProfilePage() {
                         <CreditCard size={20} />
                         <Stack gap={0}>
                           <Body className="text-white">Visa ending in 4242</Body>
-                          <Body className="text-body-sm text-on-dark-muted">Expires 12/25</Body>
+                          <Body size="sm" className="text-on-dark-muted">Expires 12/25</Body>
                         </Stack>
                       </Stack>
                       <Button variant="ghost" size="sm">Edit</Button>

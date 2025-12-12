@@ -154,7 +154,7 @@ export default function ToursContent() {
                                   day: 'numeric',
                                 })}
                               </Body>
-                              <Body className="text-body-sm text-ink-500">
+                              <Body size="sm" className=" text-ink-500">
                                 {new Date(date.date).toLocaleDateString('en-US', {
                                   weekday: 'short',
                                 })}
@@ -162,7 +162,7 @@ export default function ToursContent() {
                             </Stack>
                             <Stack>
                               <Body className="font-weight-medium">{date.city}, {date.state}</Body>
-                              <Body className="text-body-sm text-ink-500">{date.venue}</Body>
+                              <Body size="sm" className=" text-ink-500">{date.venue}</Body>
                             </Stack>
                           </Stack>
 

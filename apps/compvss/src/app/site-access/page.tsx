@@ -108,7 +108,7 @@ export default function SiteAccessPage() {
                         </Stack>
                         {point.currentVehicles !== undefined && (
                           <Stack gap={2}>
-                            <Body className="text-body-sm">Capacity: {point.currentVehicles}/{point.maxCapacity}</Body>
+                            <Body size="sm" className="">Capacity: {point.currentVehicles}/{point.maxCapacity}</Body>
                           </Stack>
                         )}
                         <Stack direction="horizontal" gap={2}>
@@ -140,17 +140,17 @@ export default function SiteAccessPage() {
                         <TableCell>
                           <Stack gap={1}>
                             <Badge variant="outline">{pass.vehicleType}</Badge>
-                            <Body className="text-body-sm">{pass.licensePlate}</Body>
+                            <Body size="sm" className="">{pass.licensePlate}</Body>
                           </Stack>
                         </TableCell>
                         <TableCell><Body>{pass.company}</Body></TableCell>
-                        <TableCell><Body className="text-body-sm">{pass.driver}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{pass.driver}</Body></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={1}>
                             {pass.accessPoints.slice(0, 2).map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}
                           </Stack>
                         </TableCell>
-                        <TableCell><Body className="text-body-sm">{new Date(pass.validUntil).toLocaleTimeString()}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{new Date(pass.validUntil).toLocaleTimeString()}</Body></TableCell>
                         <TableCell><Badge variant={getStatusVariant(pass.status)}>{pass.status}</Badge></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2}>
@@ -173,19 +173,19 @@ export default function SiteAccessPage() {
                         <Card key={pass.id} className="p-4">
                           <Grid cols={4} gap={4}>
                             <Stack gap={1}>
-                              <Body className="text-body-sm">Time</Body>
+                              <Body size="sm" className="">Time</Body>
                               <Body>{new Date(pass.validFrom).toLocaleTimeString()}</Body>
                             </Stack>
                             <Stack gap={1}>
-                              <Body className="text-body-sm">Company</Body>
+                              <Body size="sm" className="">Company</Body>
                               <Body>{pass.company}</Body>
                             </Stack>
                             <Stack gap={1}>
-                              <Body className="text-body-sm">Vehicle</Body>
+                              <Body size="sm" className="">Vehicle</Body>
                               <Body>{pass.vehicleType} - {pass.licensePlate}</Body>
                             </Stack>
                             <Stack gap={1}>
-                              <Body className="text-body-sm">Destination</Body>
+                              <Body size="sm" className="">Destination</Body>
                               <Body>{pass.accessPoints[1] || pass.accessPoints[0]}</Body>
                             </Stack>
                           </Grid>
@@ -239,24 +239,24 @@ export default function SiteAccessPage() {
             <Stack gap={4}>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Vehicle</Body>
+                  <Body size="sm" className="">Vehicle</Body>
                   <Body>{selectedPass.vehicleType}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">License</Body>
+                  <Body size="sm" className="">License</Body>
                   <Body>{selectedPass.licensePlate}</Body>
                 </Stack>
               </Grid>
               <Stack gap={1}>
-                <Body className="text-body-sm">Company</Body>
+                <Body size="sm" className="">Company</Body>
                 <Body>{selectedPass.company}</Body>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Driver</Body>
+                <Body size="sm" className="">Driver</Body>
                 <Body>{selectedPass.driver}</Body>
               </Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">Access Points</Body>
+                <Body size="sm" className="">Access Points</Body>
                 <Stack direction="horizontal" gap={2}>{selectedPass.accessPoints.map(ap => <Badge key={ap} variant="outline">{ap}</Badge>)}</Stack>
               </Stack>
             </Stack>

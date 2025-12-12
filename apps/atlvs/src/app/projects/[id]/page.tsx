@@ -183,7 +183,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               <H2 className="mb-4 text-white">Project Overview</H2>
               <Stack gap={4} className="text-ink-300">
                 <Body>{project.description}</Body>
-                <Grid gap={3} className="border-t-2 border-ink-800 pt-4 text-body-sm">
+                <Grid gap={3} className="border-t-2 border-ink-800 pt-4">
                   <Stack direction="horizontal" className="justify-between">
                     <Label className="text-ink-500">Venue:</Label>
                     <Body className="text-white">{project.venue}</Body>
@@ -232,7 +232,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
                 {team.map((member) => (
                   <Card key={member.name} className="border-2 border-ink-800 p-4">
                     <Body className="font-display text-body-md text-white">{member.name}</Body>
-                    <Body className="mt-1 text-body-sm text-ink-300">{member.role}</Body>
+                    <Body className="mt-1 text-ink-300">{member.role}</Body>
                     <Label className="mt-1 font-mono text-mono-xs uppercase tracking-label text-ink-500">
                       {member.department}
                     </Label>

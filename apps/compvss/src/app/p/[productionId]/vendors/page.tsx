@@ -110,10 +110,10 @@ export default function ProductionVendorsPage() {
                         </Stack>
                         <Body className="text-on-dark-muted">{vendor.category}</Body>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-white">{vendor.contact}</Body>
+                          <Body size="sm" className=" text-white">{vendor.contact}</Body>
                           <Stack direction="horizontal" gap={4}>
-                            <Body className="text-body-sm text-on-dark-muted"><Mail size={12} className="mr-1 inline" />{vendor.email}</Body>
-                            <Body className="text-body-sm text-on-dark-muted"><Phone size={12} className="mr-1 inline" />{vendor.phone}</Body>
+                            <Body size="sm" className=" text-on-dark-muted"><Mail size={12} className="mr-1 inline" />{vendor.email}</Body>
+                            <Body size="sm" className=" text-on-dark-muted"><Phone size={12} className="mr-1 inline" />{vendor.phone}</Body>
                           </Stack>
                         </Stack>
                         <Stack direction="horizontal" className="justify-between border-t border-ink-700 pt-3">

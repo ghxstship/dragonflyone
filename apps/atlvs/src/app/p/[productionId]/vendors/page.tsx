@@ -57,7 +57,7 @@ export default function ProductionVendorsPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{vendor.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{vendor.category} · Rating: {vendor.rating}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{vendor.category} · Rating: {vendor.rating}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[vendor.status]}>{vendor.status.toUpperCase()}</Badge>

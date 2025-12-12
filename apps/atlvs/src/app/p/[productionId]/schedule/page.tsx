@@ -159,7 +159,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Tasks</Body>
-                <Body className="text-body-sm text-on-dark-muted">{scheduleStats.totalTasks} total</Body>
+                <Body size="sm" className=" text-on-dark-muted">{scheduleStats.totalTasks} total</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -177,7 +177,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Contingencies</Body>
-                <Body className="text-body-sm text-on-dark-muted">Backup plans</Body>
+                <Body size="sm" className=" text-on-dark-muted">Backup plans</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -195,7 +195,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Templates</Body>
-                <Body className="text-body-sm text-on-dark-muted">Reusable tasks</Body>
+                <Body size="sm" className=" text-on-dark-muted">Reusable tasks</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -213,7 +213,7 @@ export default function ProductionSchedulePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Run of Show</Body>
-                <Body className="text-body-sm text-on-dark-muted">Event timeline</Body>
+                <Body size="sm" className=" text-on-dark-muted">Event timeline</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -243,7 +243,7 @@ export default function ProductionSchedulePage() {
                 >
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{task.title}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">
+                    <Body size="sm" className=" text-on-dark-muted">
                       Due: {new Date(task.dueDate).toLocaleDateString("en-US", {
                         month: "short",
                         day: "numeric",

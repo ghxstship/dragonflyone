@@ -59,7 +59,7 @@ export default function ProductionVenuesPage() {
                     </Box>
                     <Stack gap={1}>
                       <Body className="font-weight-bold text-white">{venue.name}</Body>
-                      <Body className="text-body-sm text-on-dark-muted">{venue.type} · Capacity: {venue.capacity}</Body>
+                      <Body size="sm" className=" text-on-dark-muted">{venue.type} · Capacity: {venue.capacity}</Body>
                     </Stack>
                   </Stack>
                   <Badge variant={statusColors[venue.status]}>{venue.status.toUpperCase()}</Badge>

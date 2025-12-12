@@ -69,7 +69,7 @@ export default function ProductionCrewPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{member.name}</Body>
-                    <Body className="text-body-sm text-grey-500">{member.role} · {member.department}</Body>
+                    <Body size="sm" className=" text-grey-500">{member.role} · {member.department}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[member.status]}>{member.status.toUpperCase()}</Badge>

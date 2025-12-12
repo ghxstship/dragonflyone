@@ -169,11 +169,11 @@ function InvestorDocumentsPageContent() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Document Type</Body>
+            <Body size="sm" className=" text-grey-500">Document Type</Body>
             <Body>{documentTypeLabels[selectedDocument.document_type] || selectedDocument.document_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedDocument.status] || 'ghost'}>
               {selectedDocument.status.toUpperCase()}
             </Badge>
@@ -188,13 +188,13 @@ function InvestorDocumentsPageContent() {
         <Stack gap={3}>
           <Stack direction="horizontal" gap={3} className="items-center">
             <Clock className="size-4 text-grey-400" />
-            <Body className="text-body-sm">
+            <Body size="sm" className="">
               Sent: {selectedDocument.sent_at ? new Date(selectedDocument.sent_at).toLocaleString() : 'Not sent'}
             </Body>
           </Stack>
           <Stack direction="horizontal" gap={3} className="items-center">
             <CheckCircle className="size-4 text-grey-400" />
-            <Body className="text-body-sm">
+            <Body size="sm" className="">
               Signed: {selectedDocument.signed_at ? new Date(selectedDocument.signed_at).toLocaleString() : 'Not signed'}
             </Body>
           </Stack>

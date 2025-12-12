@@ -29,7 +29,7 @@ export default function ProductionShowsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Run of Show</Body>
-                <Body className="text-body-sm text-on-dark-muted">Event timeline and sequence</Body>
+                <Body size="sm" className=" text-on-dark-muted">Event timeline and sequence</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -42,7 +42,7 @@ export default function ProductionShowsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Cues</Body>
-                <Body className="text-body-sm text-on-dark-muted">Lighting, audio, and video cues</Body>
+                <Body size="sm" className=" text-on-dark-muted">Lighting, audio, and video cues</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -55,7 +55,7 @@ export default function ProductionShowsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Set Times</Body>
-                <Body className="text-body-sm text-on-dark-muted">Artist and act schedules</Body>
+                <Body size="sm" className=" text-on-dark-muted">Artist and act schedules</Body>
               </Stack>
             </Stack>
           </CardBody>

@@ -170,7 +170,7 @@ export default function ProductionLoadInPage() {
                             <Body className={task.status === 'completed' ? 'text-on-dark-muted line-through' : 'text-white'}>
                               {task.task}
                             </Body>
-                            <Body className="text-body-sm text-on-dark-muted">
+                            <Body size="sm" className=" text-on-dark-muted">
                               {task.assignee} - {task.scheduledTime}
                             </Body>
                           </Stack>

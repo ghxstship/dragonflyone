@@ -114,7 +114,7 @@ export default function MetricsPage() {
                     <Card key={kpi.id} className="border-2 border-grey-200 p-4">
                       <Stack gap={3}>
                         <Stack direction="horizontal" gap={2} className="items-center justify-between">
-                          <Body className="text-body-sm text-grey-500">{categoryLabels[kpi.category]}</Body>
+                          <Body size="sm" className=" text-grey-500">{categoryLabels[kpi.category]}</Body>
                           <Badge variant={kpiStatusColors[kpi.status]}>
                             {kpi.status.replace('_', ' ').toUpperCase()}
                           </Badge>
@@ -123,7 +123,7 @@ export default function MetricsPage() {
                           <Body className="font-weight-semibold">{kpi.name}</Body>
                           <Stack direction="horizontal" gap={2} className="items-baseline">
                             <Body className="text-body-lg font-weight-bold">{kpi.value}{kpi.unit}</Body>
-                            <Body className="text-body-sm text-grey-500">/ {kpi.target}{kpi.unit}</Body>
+                            <Body size="sm" className=" text-grey-500">/ {kpi.target}{kpi.unit}</Body>
                           </Stack>
                         </Stack>
                         <Box className="h-2 overflow-hidden bg-grey-200 rounded-badge">
@@ -149,19 +149,19 @@ export default function MetricsPage() {
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Budget</Body>
+                      <Body size="sm" className=" text-grey-500">Total Budget</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.totalBudget || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Spent</Body>
+                      <Body size="sm" className=" text-grey-500">Total Spent</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.totalSpent || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Sponsor Revenue</Body>
+                      <Body size="sm" className=" text-grey-500">Sponsor Revenue</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.sponsorRevenue || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Investment Raised</Body>
+                      <Body size="sm" className=" text-grey-500">Investment Raised</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.totalRaised || 0).toLocaleString()}</Body>
                     </Stack>
                   </Grid>
@@ -177,19 +177,19 @@ export default function MetricsPage() {
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Tasks</Body>
+                      <Body size="sm" className=" text-grey-500">Total Tasks</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalTasks || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Completed</Body>
+                      <Body size="sm" className=" text-grey-500">Completed</Body>
                       <Body className="text-body-lg font-weight-bold text-success">{metrics?.tasksCompleted || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Critical Tasks</Body>
+                      <Body size="sm" className=" text-grey-500">Critical Tasks</Body>
                       <Body className="text-body-lg font-weight-bold text-error">{metrics?.criticalTasks || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Completion Rate</Body>
+                      <Body size="sm" className=" text-grey-500">Completion Rate</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.taskCompletionRate || 0}%</Body>
                     </Stack>
                   </Grid>
@@ -205,19 +205,19 @@ export default function MetricsPage() {
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Permits</Body>
+                      <Body size="sm" className=" text-grey-500">Total Permits</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalPermits || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Approved</Body>
+                      <Body size="sm" className=" text-grey-500">Approved</Body>
                       <Body className="text-body-lg font-weight-bold text-success">{metrics?.permitsApproved || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Expiring Soon</Body>
+                      <Body size="sm" className=" text-grey-500">Expiring Soon</Body>
                       <Body className="text-body-lg font-weight-bold text-warning">{metrics?.permitsExpiringSoon || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Insurance Coverage</Body>
+                      <Body size="sm" className=" text-grey-500">Insurance Coverage</Body>
                       <Body className="text-body-lg font-weight-bold">${((metrics?.insuranceCoverage || 0) / 1000000).toFixed(1)}M</Body>
                     </Stack>
                   </Grid>
@@ -233,19 +233,19 @@ export default function MetricsPage() {
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Venues</Body>
+                      <Body size="sm" className=" text-grey-500">Total Venues</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalVenues || 0}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Capacity</Body>
+                      <Body size="sm" className=" text-grey-500">Total Capacity</Body>
                       <Body className="text-body-lg font-weight-bold">{(metrics?.totalCapacity || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Venues Cost</Body>
+                      <Body size="sm" className=" text-grey-500">Venues Cost</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.venuesCost || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Sponsors</Body>
+                      <Body size="sm" className=" text-grey-500">Total Sponsors</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalSponsors || 0}</Body>
                     </Stack>
                   </Grid>

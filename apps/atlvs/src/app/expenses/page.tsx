@@ -234,19 +234,19 @@ export default function ExpensesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Vendor</Body>
+            <Body size="sm" className=" text-grey-500">Vendor</Body>
             <Body>{selectedExpense.vendor_name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Category</Body>
+            <Body size="sm" className=" text-grey-500">Category</Body>
             <Body>{selectedExpense.category?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Amount</Body>
+            <Body size="sm" className=" text-grey-500">Amount</Body>
             <Body>${selectedExpense.amount?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedExpense.status] || 'solid'}>
               {selectedExpense.status.toUpperCase()}
             </Badge>

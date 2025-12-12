@@ -178,19 +178,19 @@ export default function SponsorTiersPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Level</Body>
+            <Body size="sm" className=" text-grey-500">Level</Body>
             <Body>{selectedTier.level}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Price</Body>
+            <Body size="sm" className=" text-grey-500">Price</Body>
             <Body>${selectedTier.price?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Max Sponsors</Body>
+            <Body size="sm" className=" text-grey-500">Max Sponsors</Body>
             <Body>{selectedTier.max_sponsors || 'Unlimited'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Current Sponsors</Body>
+            <Body size="sm" className=" text-grey-500">Current Sponsors</Body>
             <Body>{sponsorCounts[selectedTier.id] || 0}</Body>
           </Stack>
         </Grid>

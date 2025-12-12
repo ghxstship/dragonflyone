@@ -119,7 +119,7 @@ function DesignSystemPageContent() {
                   <Card key={p.title} className="border-2 border-ink-700 bg-ink-900 p-6">
                     <div className="mb-4 text-ink-400">{p.icon}</div>
                     <H4 className="mb-2 text-ink-50">{p.title}</H4>
-                    <Body className="text-body-sm text-ink-400">{p.desc}</Body>
+                    <Body size="sm" className=" text-ink-400">{p.desc}</Body>
                   </Card>
                 ))}
               </Grid>

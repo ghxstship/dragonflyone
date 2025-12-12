@@ -236,7 +236,7 @@ export default function GiftTicketsContent() {
                         onChange={(e) => setFormData({ ...formData, delivery_date: e.target.value })}
                         min={new Date().toISOString().split('T')[0]}
                       />
-                      <Body className="text-body-sm text-ink-500 mt-1">
+                      <Body size="sm" className=" text-ink-500 mt-1">
                         Leave empty to send immediately
                       </Body>
                     </Field>
@@ -287,8 +287,8 @@ export default function GiftTicketsContent() {
                 <Stack gap={4}>
                   <Stack gap={2}>
                     <Body className="font-weight-bold">{selectedEvent.title}</Body>
-                    <Body className="text-body-sm text-ink-600">{selectedEvent.date}</Body>
-                    <Body className="text-body-sm text-ink-600">{selectedEvent.venue}</Body>
+                    <Body size="sm" className=" text-ink-600">{selectedEvent.date}</Body>
+                    <Body size="sm" className=" text-ink-600">{selectedEvent.venue}</Body>
                   </Stack>
 
                   <Stack className="border-t-2 border-ink-200 pt-4">
@@ -319,13 +319,13 @@ export default function GiftTicketsContent() {
             <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">GIFT POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Gift tickets are non-refundable
                 </Body>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Recipient can transfer tickets once
                 </Body>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Gift expires if not claimed within 30 days
                 </Body>
               </Stack>

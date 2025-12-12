@@ -80,7 +80,7 @@ const columns: ListPageColumn<InvestmentRound>[] = [
       return (
         <Stack gap={1}>
           <Body>${raised.toLocaleString()}</Body>
-          <Body className="text-body-sm text-grey-500">{percentage}% of target</Body>
+          <Body size="sm" className=" text-grey-500">{percentage}% of target</Body>
         </Stack>
       );
     }
@@ -222,17 +222,17 @@ export default function InvestmentRoundsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{roundTypeLabels[selectedRound.round_type] || selectedRound.round_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedRound.status] || 'ghost'}>
               {selectedRound.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Investors</Body>
+            <Body size="sm" className=" text-grey-500">Investors</Body>
             <Body>{investorCounts[selectedRound.id] || 0}</Body>
           </Stack>
         </Grid>
@@ -244,19 +244,19 @@ export default function InvestmentRoundsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Target Amount</Body>
+            <Body size="sm" className=" text-grey-500">Target Amount</Body>
             <Body>${selectedRound.target_amount?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Raised Amount</Body>
+            <Body size="sm" className=" text-grey-500">Raised Amount</Body>
             <Body>${selectedRound.raised_amount?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Minimum Investment</Body>
+            <Body size="sm" className=" text-grey-500">Minimum Investment</Body>
             <Body>${selectedRound.minimum_investment?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Progress</Body>
+            <Body size="sm" className=" text-grey-500">Progress</Body>
             <Box className="h-2 overflow-hidden rounded-badge bg-grey-200">
               <Box 
                 className="h-full bg-success" 
@@ -273,11 +273,11 @@ export default function InvestmentRoundsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Open Date</Body>
+            <Body size="sm" className=" text-grey-500">Open Date</Body>
             <Body>{selectedRound.open_date ? new Date(selectedRound.open_date).toLocaleDateString() : 'Not set'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Close Date</Body>
+            <Body size="sm" className=" text-grey-500">Close Date</Body>
             <Body>{selectedRound.close_date ? new Date(selectedRound.close_date).toLocaleDateString() : 'Not set'}</Body>
           </Stack>
         </Grid>

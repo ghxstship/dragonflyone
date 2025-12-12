@@ -53,7 +53,7 @@ const columns: ListPageColumn<SOPTrainingRecord>[] = [
     render: (_, row) => row.user ? (
       <Stack gap={0}>
         <Body className="font-weight-semibold">{row.user.first_name} {row.user.last_name}</Body>
-        <Body className="text-body-sm text-grey-500">{row.user.email}</Body>
+        <Body size="sm" className=" text-grey-500">{row.user.email}</Body>
       </Stack>
     ) : '—'
   },

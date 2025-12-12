@@ -213,21 +213,21 @@ export default function InsurancePage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{policyTypeLabels[selectedPolicy.policy_type] || selectedPolicy.policy_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedPolicy.status] || 'ghost'}>
               {selectedPolicy.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Provider</Body>
+            <Body size="sm" className=" text-grey-500">Provider</Body>
             <Body>{selectedPolicy.provider}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Policy Number</Body>
+            <Body size="sm" className=" text-grey-500">Policy Number</Body>
             <Body>{selectedPolicy.policy_number}</Body>
           </Stack>
         </Grid>
@@ -239,11 +239,11 @@ export default function InsurancePage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Coverage Amount</Body>
+            <Body size="sm" className=" text-grey-500">Coverage Amount</Body>
             <Body>${selectedPolicy.coverage_amount?.toLocaleString()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Deductible</Body>
+            <Body size="sm" className=" text-grey-500">Deductible</Body>
             <Body>{selectedPolicy.deductible ? `$${selectedPolicy.deductible.toLocaleString()}` : '—'}</Body>
           </Stack>
         </Grid>

@@ -157,7 +157,7 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{goal.name}</H3>
-                        <Body className="text-ink-600 text-body-sm">{goal.description}</Body>
+                        <Body className="text-ink-600">{goal.description}</Body>
                       </Stack>
                       {getStatusBadge(goal.status)}
                     </Stack>
@@ -200,7 +200,7 @@ export default function StrategicAlignmentPage() {
                     <Stack direction="horizontal" className="justify-between items-start mb-4">
                       <Stack gap={1}>
                         <H3>{project.name}</H3>
-                        <Body className="text-ink-600 text-body-sm">
+                        <Body className="text-ink-600">
                           Budget: ${project.budget?.toLocaleString() || 0}
                         </Body>
                       </Stack>
@@ -220,7 +220,7 @@ export default function StrategicAlignmentPage() {
                           })}
                         </Stack>
                       ) : (
-                        <Body className="text-body-sm text-ink-400">No goals aligned</Body>
+                        <Body size="sm" className=" text-ink-400">No goals aligned</Body>
                       )}
                     </Stack>
                     <Button
@@ -321,7 +321,7 @@ export default function StrategicAlignmentPage() {
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Stack gap={1}>
                           <Body className="font-weight-bold">{goal.name}</Body>
-                          <Body className="text-body-sm text-ink-600">{goal.category}</Body>
+                          <Body size="sm" className=" text-ink-600">{goal.category}</Body>
                         </Stack>
                         {selectedProject.aligned_goals?.includes(goal.id) && (
                           <Badge className="bg-black text-white">Selected</Badge>

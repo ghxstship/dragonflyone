@@ -150,7 +150,7 @@ export default function DesignSystemPage() {
                   <Card key={principle.title} className="border-2 border-ink-700 bg-ink-900 p-6">
                     <div className="mb-4 text-ink-400">{principle.icon}</div>
                     <H4 className="mb-2 text-ink-50">{principle.title}</H4>
-                    <Body className="text-body-sm text-ink-400">{principle.desc}</Body>
+                    <Body size="sm" className=" text-ink-400">{principle.desc}</Body>
                   </Card>
                 ))}
               </Grid>
@@ -184,22 +184,22 @@ export default function DesignSystemPage() {
                 <div className="flex flex-col items-center gap-2">
                   <div className="size-20 rounded-button border-2 border-ink-50 bg-ink-800" />
                   <Label className="text-ink-400">rounded-button</Label>
-                  <Body className="text-body-sm text-ink-500">4px</Body>
+                  <Body size="sm" className=" text-ink-500">4px</Body>
                 </div>
                 <div className="flex flex-col items-center gap-2">
                   <div className="size-20 rounded-card border-2 border-ink-50 bg-ink-800" />
                   <Label className="text-ink-400">rounded-card</Label>
-                  <Body className="text-body-sm text-ink-500">8px</Body>
+                  <Body size="sm" className=" text-ink-500">8px</Body>
                 </div>
                 <div className="flex flex-col items-center gap-2">
                   <div className="size-20 rounded-modal border-2 border-ink-50 bg-ink-800" />
                   <Label className="text-ink-400">rounded-modal</Label>
-                  <Body className="text-body-sm text-ink-500">16px</Body>
+                  <Body size="sm" className=" text-ink-500">16px</Body>
                 </div>
                 <div className="flex flex-col items-center gap-2">
                   <div className="size-20 rounded-badge border-2 border-ink-50 bg-ink-800" />
                   <Label className="text-ink-400">rounded-badge</Label>
-                  <Body className="text-body-sm text-ink-500">2px</Body>
+                  <Body size="sm" className=" text-ink-500">2px</Body>
                 </div>
               </Grid>
 
@@ -209,19 +209,19 @@ export default function DesignSystemPage() {
               <Grid cols={4} gap={6}>
                 <div className="border-2 border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border (1px)</Label>
-                  <Body className="text-body-sm text-ink-500">Subtle dividers</Body>
+                  <Body size="sm" className=" text-ink-500">Subtle dividers</Body>
                 </div>
                 <div className="border-2 border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border-2 (2px)</Label>
-                  <Body className="text-body-sm text-ink-500">Standard interactive</Body>
+                  <Body size="sm" className=" text-ink-500">Standard interactive</Body>
                 </div>
                 <div className="border-thick border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border-thick (3px)</Label>
-                  <Body className="text-body-sm text-ink-500">Emphasis</Body>
+                  <Body size="sm" className=" text-ink-500">Emphasis</Body>
                 </div>
                 <div className="border-heavy border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border-heavy (4px)</Label>
-                  <Body className="text-body-sm text-ink-500">Maximum impact</Body>
+                  <Body size="sm" className=" text-ink-500">Maximum impact</Body>
                 </div>
               </Grid>
             </Section>
@@ -261,7 +261,7 @@ export default function DesignSystemPage() {
                       style={{ backgroundColor: color.hex }}
                     />
                     <H4 className="text-ink-50">{color.name}</H4>
-                    <Body className="text-body-sm text-ink-500">{color.hex}</Body>
+                    <Body size="sm" className=" text-ink-500">{color.hex}</Body>
                   </Card>
                 ))}
               </Grid>
@@ -279,7 +279,7 @@ export default function DesignSystemPage() {
                       style={{ backgroundColor: color.hex }}
                     />
                     <H4 className="text-ink-50">{color.name}</H4>
-                    <Body className="text-body-sm text-ink-500">{color.hex}</Body>
+                    <Body size="sm" className=" text-ink-500">{color.hex}</Body>
                   </Card>
                 ))}
               </Grid>
@@ -362,7 +362,7 @@ export default function DesignSystemPage() {
                   <Body className="text-ink-500">Standard body text</Body>
                 </div>
                 <div className="border-b border-ink-800 pb-4">
-                  <Body className="text-body-sm text-ink-50">Body Small - 14px</Body>
+                  <Body size="sm" className=" text-ink-50">Body Small - 14px</Body>
                   <Body className="text-ink-500">Secondary text, captions</Body>
                 </div>
                 <div>
@@ -698,17 +698,17 @@ export default function DesignSystemPage() {
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-2 text-ink-400">transition-fast</Label>
                   <Body className="text-ink-500">100ms ease-in-out</Body>
-                  <Body className="text-body-sm text-ink-600">Micro-interactions</Body>
+                  <Body size="sm" className=" text-ink-600">Micro-interactions</Body>
                 </Card>
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-2 text-ink-400">transition-base</Label>
                   <Body className="text-ink-500">200ms ease-in-out</Body>
-                  <Body className="text-body-sm text-ink-600">Standard transitions</Body>
+                  <Body size="sm" className=" text-ink-600">Standard transitions</Body>
                 </Card>
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-2 text-ink-400">transition-slow</Label>
                   <Body className="text-ink-500">300ms ease-in-out</Body>
-                  <Body className="text-body-sm text-ink-600">Page transitions</Body>
+                  <Body size="sm" className=" text-ink-600">Page transitions</Body>
                 </Card>
               </Grid>
             </Section>

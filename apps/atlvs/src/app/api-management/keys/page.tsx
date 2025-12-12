@@ -47,7 +47,7 @@ const columns: ListPageColumn<ApiKey>[] = [
     accessor: 'key_prefix', 
     render: (value) => (
       <Stack direction="horizontal" gap={2} className="items-center">
-        <Body className="font-mono text-body-sm">{String(value)}...</Body>
+        <Body className="font-mono">{String(value)}...</Body>
         <Copy className="size-3 cursor-pointer text-grey-400" />
       </Stack>
     )
@@ -58,7 +58,7 @@ const columns: ListPageColumn<ApiKey>[] = [
     accessor: 'permissions', 
     render: (value) => {
       const perms = value as string[];
-      return <Body className="text-body-sm">{perms?.length || 0} permissions</Body>;
+      return <Body size="sm" className="">{perms?.length || 0} permissions</Body>;
     }
   },
   { 
@@ -171,21 +171,21 @@ export default function ApiKeysPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Key Prefix</Body>
+            <Body size="sm" className=" text-grey-500">Key Prefix</Body>
             <Body className="font-mono">{selectedKey.key_prefix}...</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedKey.is_active ? 'success' : 'error'}>
               {selectedKey.is_active ? 'ACTIVE' : 'REVOKED'}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Rate Limit</Body>
+            <Body size="sm" className=" text-grey-500">Rate Limit</Body>
             <Body>{selectedKey.rate_limit ? `${selectedKey.rate_limit}/hour` : 'Unlimited'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Expires</Body>
+            <Body size="sm" className=" text-grey-500">Expires</Body>
             <Body>{selectedKey.expires_at ? new Date(selectedKey.expires_at).toLocaleDateString() : 'Never'}</Body>
           </Stack>
         </Grid>

@@ -124,13 +124,13 @@ export default function MyCredentialsPage() {
 
                   <Stack direction="horizontal" gap={6} className="items-center">
                     <Stack gap={0} className="text-right">
-                      <Body className="text-body-sm text-on-dark-muted">Issued</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Issued</Body>
                       <Body className="text-white">
                         {new Date(credential.issueDate).toLocaleDateString()}
                       </Body>
                     </Stack>
                     <Stack gap={0} className="text-right">
-                      <Body className="text-body-sm text-on-dark-muted">Expires</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Expires</Body>
                       <Body className={credential.status === 'expired' ? 'text-error' : 'text-white'}>
                         {new Date(credential.expiryDate).toLocaleDateString()}
                       </Body>

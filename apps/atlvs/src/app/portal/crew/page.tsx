@@ -54,7 +54,7 @@ export default function CrewPortalPage() {
                     <Stack key={assignment.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{assignment.production}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{assignment.role} - {assignment.dates}</Body>
+                        <Body size="sm" className=" text-on-dark-muted">{assignment.role} - {assignment.dates}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Body className="text-white">${assignment.rate}/day</Body>

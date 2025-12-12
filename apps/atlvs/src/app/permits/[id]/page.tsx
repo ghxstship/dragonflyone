@@ -133,7 +133,7 @@ export default function PermitDetailPage() {
                     <Body className={`font-weight-semibold ${isExpired ? 'text-error' : 'text-warning'}`}>
                       {isExpired ? 'Permit Expired' : 'Permit Expiring Soon'}
                     </Body>
-                    <Body className={`text-body-sm ${isExpired ? 'text-error' : 'text-warning'}`}>
+                    <Body size="sm" className={isExpired ? 'text-error' : 'text-warning'}>
                       {isExpired 
                         ? `Expired on ${new Date(permit.expiration_date!).toLocaleDateString()}`
                         : `Expires on ${new Date(permit.expiration_date!).toLocaleDateString()}`
@@ -178,19 +178,19 @@ export default function PermitDetailPage() {
                       <H3>Permit Details</H3>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Permit Type</Body>
+                          <Body size="sm" className=" text-grey-500">Permit Type</Body>
                           <Body>{permitTypeLabels[permit.permit_type] || permit.permit_type}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Issuing Authority</Body>
+                          <Body size="sm" className=" text-grey-500">Issuing Authority</Body>
                           <Body>{permit.issuing_authority}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Permit Number</Body>
+                          <Body size="sm" className=" text-grey-500">Permit Number</Body>
                           <Body>{permit.permit_number || 'Not assigned'}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Cost</Body>
+                          <Body size="sm" className=" text-grey-500">Cost</Body>
                           <Body>{permit.cost ? `$${permit.cost.toLocaleString()}` : 'Not specified'}</Body>
                         </Stack>
                       </Grid>
@@ -203,21 +203,21 @@ export default function PermitDetailPage() {
                       <H3>Timeline</H3>
                       <Grid cols={3} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Application Date</Body>
+                          <Body size="sm" className=" text-grey-500">Application Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <Calendar className="size-4 text-grey-400" />
                             <Body>{permit.application_date ? new Date(permit.application_date).toLocaleDateString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Approval Date</Body>
+                          <Body size="sm" className=" text-grey-500">Approval Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <CheckCircle className="size-4 text-grey-400" />
                             <Body>{permit.approval_date ? new Date(permit.approval_date).toLocaleDateString() : 'Not set'}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm text-grey-500">Expiration Date</Body>
+                          <Body size="sm" className=" text-grey-500">Expiration Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
                             <AlertTriangle className={`size-4 ${isExpired ? 'text-error' : isExpiringSoon ? 'text-warning' : 'text-grey-400'}`} />
                             <Body className={isExpired ? 'text-error' : isExpiringSoon ? 'text-warning' : ''}>
@@ -266,7 +266,7 @@ export default function PermitDetailPage() {
                     <H3>Status</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Current Status</Body>
+                        <Body size="sm" className=" text-grey-500">Current Status</Body>
                         <Badge variant={statusColors[permit.status] || 'ghost'}>
                           {permit.status.toUpperCase()}
                         </Badge>

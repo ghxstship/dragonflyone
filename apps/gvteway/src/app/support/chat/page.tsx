@@ -146,9 +146,9 @@ function SupportChatContent() {
                       {getStatusBadge(conv.status)}
                     </Stack>
                     {conv.event_title && (
-                      <Body className={`text-body-sm ${
+                      <Body size="sm" className={
                         activeConversation?.id === conv.id ? 'text-ink-600' : 'text-ink-500'
-                      }`}>
+                      }>
                         {conv.event_title}
                       </Body>
                     )}
@@ -175,7 +175,7 @@ function SupportChatContent() {
                     <Stack>
                       <H3>{activeConversation.subject}</H3>
                       {activeConversation.event_title && (
-                        <Body className="text-body-sm text-ink-500">
+                        <Body size="sm" className=" text-ink-500">
                           Re: {activeConversation.event_title}
                         </Body>
                       )}
@@ -193,7 +193,7 @@ function SupportChatContent() {
                       }`}
                     >
                       {message.sender === 'system' ? (
-                        <Body className="text-center text-ink-500 text-body-sm py-2">
+                        <Body className="text-center text-ink-500 py-2">
                           {message.content}
                         </Body>
                       ) : (

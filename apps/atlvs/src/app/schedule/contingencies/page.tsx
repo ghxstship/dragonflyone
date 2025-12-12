@@ -240,23 +240,23 @@ export default function ContingenciesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Category</Body>
+            <Body size="sm" className=" text-grey-500">Category</Body>
             <Body>{categoryLabels[selectedContingency.category] || selectedContingency.category}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Severity</Body>
+            <Body size="sm" className=" text-grey-500">Severity</Body>
             <Badge variant={severityColors[selectedContingency.severity] || 'ghost'}>
               {selectedContingency.severity.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedContingency.status] || 'ghost'}>
               {selectedContingency.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Owner</Body>
+            <Body size="sm" className=" text-grey-500">Owner</Body>
             <Body>{selectedContingency.owner ? `${selectedContingency.owner.first_name} ${selectedContingency.owner.last_name}` : 'Unassigned'}</Body>
           </Stack>
         </Grid>

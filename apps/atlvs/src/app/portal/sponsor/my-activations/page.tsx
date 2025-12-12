@@ -169,7 +169,7 @@ export default function MyActivationsPage() {
                     <Stack direction="horizontal" className="items-start justify-between">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{activation.name}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{activation.event}</Body>
+                        <Body size="sm" className=" text-on-dark-muted">{activation.event}</Body>
                       </Stack>
                       <Badge variant={statusVariants[activation.status]}>
                         {activation.status.charAt(0).toUpperCase() + activation.status.slice(1)}

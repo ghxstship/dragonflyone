@@ -203,29 +203,29 @@ export default function DailyReportDetailPage() {
                     <H3>Report Details</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Report Date</Body>
+                        <Body size="sm" className=" text-grey-500">Report Date</Body>
                         <Body>{new Date(report.report_date).toLocaleDateString()}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Show</Body>
+                        <Body size="sm" className=" text-grey-500">Show</Body>
                         <Body>{report.show?.title || 'No show assigned'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Submitted By</Body>
+                        <Body size="sm" className=" text-grey-500">Submitted By</Body>
                         <Body>{report.submitter ? `${report.submitter.first_name} ${report.submitter.last_name}` : 'Unknown'}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Submitted At</Body>
+                        <Body size="sm" className=" text-grey-500">Submitted At</Body>
                         <Body>{report.submitted_at ? new Date(report.submitted_at).toLocaleString() : 'Not submitted'}</Body>
                       </Stack>
                       {report.reviewer && (
                         <>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Reviewed By</Body>
+                            <Body size="sm" className=" text-grey-500">Reviewed By</Body>
                             <Body>{report.reviewer.first_name} {report.reviewer.last_name}</Body>
                           </Stack>
                           <Stack gap={1}>
-                            <Body className="text-body-sm text-grey-500">Reviewed At</Body>
+                            <Body size="sm" className=" text-grey-500">Reviewed At</Body>
                             <Body>{report.reviewed_at ? new Date(report.reviewed_at).toLocaleString() : '—'}</Body>
                           </Stack>
                         </>
@@ -243,7 +243,7 @@ export default function DailyReportDetailPage() {
                         {Object.entries(report.department_notes).map(([dept, note]) => (
                           <Stack key={dept} gap={1}>
                             <Body className="font-weight-semibold">{dept}</Body>
-                            <Body className="text-body-sm text-grey-600">{note}</Body>
+                            <Body size="sm" className=" text-grey-600">{note}</Body>
                           </Stack>
                         ))}
                       </Stack>
@@ -260,7 +260,7 @@ export default function DailyReportDetailPage() {
                         {report.action_items.map((item, index) => (
                           <Stack key={index} direction="horizontal" gap={2} className="items-start">
                             <Box className="mt-1 size-2 shrink-0 rounded-avatar bg-primary" />
-                            <Body className="text-body-sm">{item}</Body>
+                            <Body size="sm" className="">{item}</Body>
                           </Stack>
                         ))}
                       </Stack>

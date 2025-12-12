@@ -53,7 +53,7 @@ export default function ProductionMarketingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Social Media</Body>
-                <Body className="text-body-sm text-on-dark-muted">Manage social campaigns</Body>
+                <Body size="sm" className=" text-on-dark-muted">Manage social campaigns</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -66,7 +66,7 @@ export default function ProductionMarketingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Email Marketing</Body>
-                <Body className="text-body-sm text-on-dark-muted">Email campaigns and lists</Body>
+                <Body size="sm" className=" text-on-dark-muted">Email campaigns and lists</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -79,7 +79,7 @@ export default function ProductionMarketingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Press & PR</Body>
-                <Body className="text-body-sm text-on-dark-muted">Media relations</Body>
+                <Body size="sm" className=" text-on-dark-muted">Media relations</Body>
               </Stack>
             </Stack>
           </CardBody>

@@ -38,7 +38,7 @@ export default function ProductionSettingsPage() {
                 </Box>
                 <Stack gap={1}>
                   <Body className="font-weight-bold text-white">{section.name}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">{section.description}</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{section.description}</Body>
                 </Stack>
               </Stack>
             </CardBody>
@@ -55,7 +55,7 @@ export default function ProductionSettingsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Danger Zone</Body>
-                <Body className="text-body-sm text-on-dark-muted">Archive or delete this production</Body>
+                <Body size="sm" className=" text-on-dark-muted">Archive or delete this production</Body>
               </Stack>
             </Stack>
             <Button variant="destructive" size="sm">Archive Production</Button>

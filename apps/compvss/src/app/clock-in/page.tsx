@@ -224,7 +224,7 @@ export default function ClockInPage() {
                           {entry.location && (
                             <Stack direction="horizontal" gap={1} className="items-center">
                               <MapPin size={12} className="text-on-dark-muted" />
-                              <Body className="text-body-sm text-on-dark-muted">{entry.location}</Body>
+                              <Body size="sm" className=" text-on-dark-muted">{entry.location}</Body>
                             </Stack>
                           )}
                           <Body className="text-white">

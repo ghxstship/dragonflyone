@@ -39,7 +39,7 @@ export default function SearchPage() {
             />
             {debouncedQuery && (
               <Stack gap={4}>
-                <Body className="font-mono text-body-sm uppercase tracking-label text-ink-400">
+                <Body className="font-mono uppercase tracking-label text-ink-400">
                   {results.length} {results.length === 1 ? "Result" : "Results"}
                 </Body>
                 {results.map((result) => (

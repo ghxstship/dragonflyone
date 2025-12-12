@@ -97,7 +97,7 @@ function ReputationPageContent() {
                   <Body className="text-h3-md">{currentLevel.icon}</Body>
                 </Stack>
                 <Stack>
-                  <Body className="text-ink-600 text-body-sm">LEVEL {currentLevel.level}</Body>
+                  <Body className="text-ink-600">LEVEL {currentLevel.level}</Body>
                   <H2 className="text-white">{currentLevel.name}</H2>
                   <Body className="text-h5-md font-weight-bold text-white">
                     {stats?.total_karma.toLocaleString() || 0} karma
@@ -112,18 +112,18 @@ function ReputationPageContent() {
                       style={{ '--progress-width': `${progressToNext}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                     />
                   </Stack>
-                  <Body className="text-ink-600 text-body-sm mt-2">
+                  <Body className="text-ink-600 mt-2">
                     {nextLevel.min - (stats?.total_karma || 0)} karma to {nextLevel.name}
                   </Body>
                 </Stack>
               )}
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-ink-600 text-body-sm">RANK</Body>
+              <Body className="text-ink-600">RANK</Body>
               <H2 className="text-white">Top {stats?.rank_percentile || 50}%</H2>
             </Stack>
             <Stack className="items-center justify-center border-l border-white/20">
-              <Body className="text-ink-600 text-body-sm">HELPFUL VOTES</Body>
+              <Body className="text-ink-600">HELPFUL VOTES</Body>
               <H2 className="text-white">{stats?.helpful_votes || 0}</H2>
             </Stack>
           </Grid>
@@ -181,19 +181,19 @@ function ReputationPageContent() {
               <Grid cols={2} gap={4}>
                 <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-weight-bold">{stats?.reviews_count || 0}</Body>
-                  <Body className="text-ink-500 text-body-sm">Reviews</Body>
+                  <Body className="text-ink-500">Reviews</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-weight-bold">{stats?.answers_count || 0}</Body>
-                  <Body className="text-ink-500 text-body-sm">Answers</Body>
+                  <Body className="text-ink-500">Answers</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-weight-bold">{stats?.events_attended || 0}</Body>
-                  <Body className="text-ink-500 text-body-sm">Events</Body>
+                  <Body className="text-ink-500">Events</Body>
                 </Card>
                 <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-weight-bold">{stats?.helpful_votes || 0}</Body>
-                  <Body className="text-ink-500 text-body-sm">Helpful Votes</Body>
+                  <Body className="text-ink-500">Helpful Votes</Body>
                 </Card>
               </Grid>
             </Card>

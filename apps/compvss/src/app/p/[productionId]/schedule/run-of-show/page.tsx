@@ -54,7 +54,7 @@ export default function RunOfShowPage() {
                 <div className="flex-1">
                   <Body className="font-weight-medium">{item.item}</Body>
                 </div>
-                <Body className="text-body-sm text-grey-500">{item.duration}</Body>
+                <Body size="sm" className=" text-grey-500">{item.duration}</Body>
                 <Badge variant={typeColors[item.type]}>{item.type.toUpperCase()}</Badge>
               </div>
             ))}

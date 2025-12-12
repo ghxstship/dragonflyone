@@ -49,7 +49,7 @@ export default function EventSeatingPage() {
                   <MapPin size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{section.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{section.available} of {section.total} available</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{section.available} of {section.total} available</Body>
                   </Stack>
                 </Stack>
                 <Body className="font-weight-bold text-white">${section.price}</Body>

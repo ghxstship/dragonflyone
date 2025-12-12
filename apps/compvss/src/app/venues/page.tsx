@@ -39,19 +39,19 @@ export default function VenuesPage() {
                   <Stack gap={4}>
                     <Stack gap={2}>
                       <H3>{venue.name}</H3>
-                      <Body className="text-body-sm">{venue.city}</Body>
+                      <Body size="sm" className="">{venue.city}</Body>
                     </Stack>
                     <Stack gap={2}>
-                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                        <Body className="text-body-sm">Capacity:</Body>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body size="sm" className="">Capacity:</Body>
                         <Body className="font-mono">{venue.capacity.toLocaleString()}</Body>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                        <Body className="text-body-sm">Type:</Body>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body size="sm" className="">Type:</Body>
                         <Badge variant="outline">{venue.type}</Badge>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="justify-between text-body-sm">
-                        <Body className="text-body-sm">Status:</Body>
+                      <Stack gap={2} direction="horizontal" className="justify-between">
+                        <Body size="sm" className="">Status:</Body>
                         <Badge variant={venue.status === "Available" ? "solid" : "outline"}>{venue.status}</Badge>
                       </Stack>
                     </Stack>

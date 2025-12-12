@@ -50,7 +50,7 @@ export default function CredentialsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Zone Access</Body>
-                <Body className="text-body-sm text-grey-500">Manage access zones</Body>
+                <Body size="sm" className=" text-grey-500">Manage access zones</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -63,7 +63,7 @@ export default function CredentialsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Scan Credentials</Body>
-                <Body className="text-body-sm text-grey-500">Check-in and verify</Body>
+                <Body size="sm" className=" text-grey-500">Check-in and verify</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -76,7 +76,7 @@ export default function CredentialsPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold">Reports</Body>
-                <Body className="text-body-sm text-grey-500">Access analytics</Body>
+                <Body size="sm" className=" text-grey-500">Access analytics</Body>
               </Stack>
             </Stack>
           </CardBody>

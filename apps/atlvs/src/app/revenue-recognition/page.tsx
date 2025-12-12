@@ -167,7 +167,7 @@ export default function RevenueRecognitionPage() {
                   >
                     <Stack gap={1}>
                       <Label className="font-weight-semibold">{entry.description}</Label>
-                      <Body className="text-body-sm text-ink-500">
+                      <Body size="sm" className=" text-ink-500">
                         {formatDate(entry.recognition_date)}
                       </Body>
                     </Stack>
@@ -261,7 +261,7 @@ export default function RevenueRecognitionPage() {
                   {/* Milestones for milestone-based rules */}
                   {rule.revenue_type === 'milestone' && rule.milestones && rule.milestones.length > 0 && (
                     <Stack gap={2} className="pt-4 border-t border-ink-200">
-                      <Label className="text-body-sm font-weight-semibold">
+                      <Label size="sm" className=" font-weight-semibold">
                         Milestones
                       </Label>
                       <Stack direction="horizontal" gap={3} className="flex-wrap">
@@ -309,7 +309,7 @@ export default function RevenueRecognitionPage() {
                     >
                       <Stack gap={1}>
                         <Body className="font-weight-semibold">{entry.description}</Body>
-                        <Label className="text-body-sm text-ink-500">
+                        <Label size="sm" className=" text-ink-500">
                           {formatDate(entry.recognition_date)}
                         </Label>
                       </Stack>
@@ -336,7 +336,7 @@ export default function RevenueRecognitionPage() {
               <Body className="text-ink-600">
                 Configure a new revenue recognition rule to automate revenue scheduling.
               </Body>
-              <Body className="text-ink-500 text-body-sm">
+              <Body className="text-ink-500">
                 Form fields would include: Rule Name, Recognition Method (straight-line, milestone, percentage-of-completion), 
                 Contract Reference, Total Amount, Recognition Period, and Schedule Parameters.
               </Body>

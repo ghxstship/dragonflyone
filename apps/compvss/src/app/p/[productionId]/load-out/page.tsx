@@ -130,7 +130,7 @@ export default function ProductionLoadOutPage() {
                           <Checkbox checked={task.status === 'completed'} onChange={() => toggleTaskStatus(task.id)} />
                           <Stack gap={0}>
                             <Body className={task.status === 'completed' ? 'text-on-dark-muted line-through' : 'text-white'}>{task.task}</Body>
-                            <Body className="text-body-sm text-on-dark-muted">{task.assignee}</Body>
+                            <Body size="sm" className=" text-on-dark-muted">{task.assignee}</Body>
                           </Stack>
                         </Stack>
                         <Badge variant={task.status === 'completed' ? 'success' : task.status === 'in-progress' ? 'warning' : 'solid'}>

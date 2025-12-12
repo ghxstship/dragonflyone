@@ -107,7 +107,7 @@ export default function ExpenseReportsPage() {
                       <Box key={category.id} className="flex flex-col gap-2">
                         <Stack direction="horizontal" gap={4} className="items-center justify-between">
                           <Body className="font-weight-semibold">{category.name}</Body>
-                          <Body className="text-body-sm text-grey-500">${category.totalAmount.toLocaleString()}</Body>
+                          <Body size="sm" className=" text-grey-500">${category.totalAmount.toLocaleString()}</Body>
                         </Stack>
                         {category.budget_amount && (
                           <>
@@ -117,7 +117,7 @@ export default function ExpenseReportsPage() {
                                 style={{ width: `${Math.min(100, category.budgetUsed)}%` }} 
                               />
                             </Box>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               {category.budgetUsed}% of ${category.budget_amount.toLocaleString()} budget
                             </Body>
                           </>
@@ -144,10 +144,10 @@ export default function ExpenseReportsPage() {
                               className="size-3 rounded-avatar" 
                               style={{ backgroundColor: item.color }} 
                             />
-                            <Body className="text-body-sm text-grey-500">{item.status}</Body>
+                            <Body size="sm" className=" text-grey-500">{item.status}</Body>
                           </Stack>
                           <Body className="text-body-lg font-weight-bold">{item.count}</Body>
-                          <Body className="text-body-sm text-grey-500">${item.amount.toLocaleString()}</Body>
+                          <Body size="sm" className=" text-grey-500">${item.amount.toLocaleString()}</Body>
                         </Stack>
                       </Card>
                     ))}
@@ -166,7 +166,7 @@ export default function ExpenseReportsPage() {
                     />
                   </Box>
                   <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                    <Body className="text-body-sm text-grey-500">
+                    <Body size="sm" className=" text-grey-500">
                       {stats?.approved || 0} approved + {stats?.paid || 0} paid of {stats?.total || 0} total
                     </Body>
                     <Badge variant="success">{approvalRate}%</Badge>
@@ -186,8 +186,8 @@ export default function ExpenseReportsPage() {
                     ].map((item) => (
                       <Stack key={item.month} gap={1}>
                         <Stack direction="horizontal" className="items-center justify-between">
-                          <Body className="text-body-sm text-grey-600">{item.month}</Body>
-                          <Body className="text-body-sm font-weight-semibold">${item.amount.toLocaleString()}</Body>
+                          <Body size="sm" className=" text-grey-600">{item.month}</Body>
+                          <Body size="sm" className=" font-weight-semibold">${item.amount.toLocaleString()}</Body>
                         </Stack>
                         <Box className="h-2 overflow-hidden rounded-badge bg-grey-200">
                           <Box 
@@ -198,7 +198,7 @@ export default function ExpenseReportsPage() {
                       </Stack>
                     ))}
                   </Stack>
-                  <Body className="text-body-sm text-grey-500">
+                  <Body size="sm" className=" text-grey-500">
                     Total Q4: ${(45000 + 62000 + 38000).toLocaleString()}
                   </Body>
                 </Stack>

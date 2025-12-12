@@ -377,20 +377,20 @@ export default function DirectoryPage() {
                       </Stack>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-display">{item.role || 'N/A'}</Body>
-                      <Body className="text-body-sm" variant="muted">{item.department || ''}</Body>
+                      <Body size="sm" className=" font-display">{item.role || 'N/A'}</Body>
+                      <Body size="sm" className="" variant="muted">{item.department || ''}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-display">Languages</Body>
-                      <Body className="text-body-sm" variant="muted">
+                      <Body size="sm" className=" font-display">Languages</Body>
+                      <Body size="sm" className="" variant="muted">
                         {Array.isArray(item.languages) 
                           ? item.languages.join(', ') 
                           : item.languages || 'English'}
                       </Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm font-display">Skills</Body>
-                      <Body className="text-body-sm" variant="muted">
+                      <Body size="sm" className=" font-display">Skills</Body>
+                      <Body size="sm" className="" variant="muted">
                         {Array.isArray(item.skills) 
                           ? item.skills.slice(0, 3).join(', ')
                           : item.specialty || 'N/A'}

@@ -207,21 +207,21 @@ function VenueZonesPageContent() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Venue</Body>
+            <Body size="sm" className=" text-grey-500">Venue</Body>
             <Body>{selectedZone.venue?.name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{zoneTypeLabels[selectedZone.zone_type] || selectedZone.zone_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Access Level</Body>
+            <Body size="sm" className=" text-grey-500">Access Level</Body>
             <Badge variant={accessLevelColors[selectedZone.access_level] || 'ghost'}>
               {accessLevelLabels[selectedZone.access_level] || selectedZone.access_level}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedZone.is_active ? 'success' : 'ghost'}>
               {selectedZone.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>
@@ -235,11 +235,11 @@ function VenueZonesPageContent() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Capacity</Body>
+            <Body size="sm" className=" text-grey-500">Capacity</Body>
             <Body>{selectedZone.capacity?.toLocaleString() || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Square Footage</Body>
+            <Body size="sm" className=" text-grey-500">Square Footage</Body>
             <Body>{selectedZone.square_footage?.toLocaleString() || '—'}</Body>
           </Stack>
         </Grid>

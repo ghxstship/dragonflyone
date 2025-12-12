@@ -106,12 +106,12 @@ export default function ProjectsPage() {
                         <Body>Crew: {project.crew_count} assigned</Body>
                       )}
                       {project.start_date && (
-                        <Body className="text-body-sm">
+                        <Body size="sm" className="">
                           Start: {new Date(project.start_date).toLocaleDateString()}
                         </Body>
                       )}
                       {project.event_date && (
-                        <Body className="text-body-sm">
+                        <Body size="sm" className="">
                           Event: {new Date(project.event_date).toLocaleDateString()}
                         </Body>
                       )}

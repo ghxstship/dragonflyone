@@ -114,19 +114,19 @@ export default function MyAssignmentsPage() {
 
                   <Grid cols={4} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Department</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Department</Body>
                       <Body className="text-white">{assignment.department}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Role</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Role</Body>
                       <Body className="text-white">{assignment.role}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Day Rate</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Day Rate</Body>
                       <Body className="text-white">${assignment.rate}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-on-dark-muted">Response Deadline</Body>
+                      <Body size="sm" className=" text-on-dark-muted">Response Deadline</Body>
                       <Body className="text-white">
                         {new Date(assignment.deadline).toLocaleDateString()}
                       </Body>

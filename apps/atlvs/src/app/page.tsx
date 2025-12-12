@@ -163,7 +163,7 @@ export default function Home() {
                   {vertical.icon === "MapPin" && <MapPin className="h-6 w-6 text-ink-950" />}
                 </Box>
                 <H3 className="font-display text-h5-md uppercase tracking-label text-ink-950">{vertical.title}</H3>
-                <Body className="mt-3 flex-1 text-body-sm text-grey-600">{vertical.description}</Body>
+                <Body className="mt-3 flex-1 text-grey-600">{vertical.description}</Body>
                 <List className="mt-4 space-y-1">
                   {vertical.features.map((feature) => (
                     <ListItem key={feature} className="font-mono text-mono-xs uppercase tracking-label text-grey-500">{feature}</ListItem>
@@ -193,7 +193,7 @@ export default function Home() {
                   {problem.icon === "clock" && <Clock className="h-6 w-6 text-grey-400" />}
                 </Box>
                 <H3 className="font-display text-h5-md uppercase tracking-label text-white">{problem.title}</H3>
-                <Body className="mt-3 text-body-sm text-grey-400">{problem.description}</Body>
+                <Body className="mt-3 text-grey-400">{problem.description}</Body>
               </Article>
             ))}
           </Grid>
@@ -222,7 +222,7 @@ export default function Home() {
                     {pillar.features.map((feature) => (
                       <ListItem key={feature} className="flex items-start gap-3">
                         <Check className="h-4 w-4 flex-shrink-0 text-brand-pink" />
-                        <Text className="text-body-sm text-grey-700">{feature}</Text>
+                        <Text size="sm" className=" text-grey-700">{feature}</Text>
                       </ListItem>
                     ))}
                   </List>
@@ -280,7 +280,7 @@ export default function Home() {
                   })()}
                 </Box>
                 <H3 className="font-display text-h6-md uppercase tracking-label text-ink-950">{feature.title}</H3>
-                <Body className="mt-2 text-body-sm text-grey-600">{feature.description}</Body>
+                <Body className="mt-2 text-grey-600">{feature.description}</Body>
               </Article>
             ))}
           </Grid>
@@ -295,7 +295,7 @@ export default function Home() {
             <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
             <Body className="mt-4 text-body-md text-grey-400 sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>
             <Box className="my-6 h-px bg-grey-700 sm:my-8" />
-            <Body className="max-w-3xl text-body-sm text-grey-300 sm:text-body-md">{atlvsCompvssSection.description}</Body>
+            <Body className="max-w-3xl text-grey-300 sm:text-body-md">{atlvsCompvssSection.description}</Body>
             <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
               {atlvsCompvssSection.features.map((feature) => (
                 <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-3 sm:p-4">
@@ -315,7 +315,7 @@ export default function Home() {
                     {feature.icon === "Link" && <LinkIcon className="h-5 w-5 text-brand-cyan" />}
                   </Box>
                   <H3 className="font-display text-h6-md uppercase tracking-label text-white">{feature.title}</H3>
-                  <Body className="mt-2 text-body-sm text-grey-400">{feature.description}</Body>
+                  <Body className="mt-2 text-grey-400">{feature.description}</Body>
                 </Article>
               ))}
             </Grid>

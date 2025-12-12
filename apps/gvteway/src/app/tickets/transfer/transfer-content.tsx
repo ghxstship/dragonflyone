@@ -143,7 +143,7 @@ export default function TicketTransferContent() {
                             : 'border-ink-300'
                         }`}>
                           {selectedTicket === ticket.id && (
-                            <Body className="text-white text-center text-body-sm">✓</Body>
+                            <Body className="text-white text-center">✓</Body>
                           )}
                         </Stack>
                       </Stack>
@@ -215,16 +215,16 @@ export default function TicketTransferContent() {
             <Card className="p-6 bg-ink-50">
               <H3 className="mb-4">TRANSFER POLICY</H3>
               <Stack gap={2}>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Transfers are final and cannot be undone
                 </Body>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • The recipient will receive an email to claim the ticket
                 </Body>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Original ticket will be invalidated after transfer
                 </Body>
-                <Body className="text-body-sm text-ink-600">
+                <Body size="sm" className=" text-ink-600">
                   • Some events may restrict ticket transfers
                 </Body>
               </Stack>

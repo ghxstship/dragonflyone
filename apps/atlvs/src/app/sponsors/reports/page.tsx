@@ -117,8 +117,8 @@ export default function SponsorReportsPage() {
                         <Badge>{tier.name}</Badge>
                         <Box className="flex-1">
                           <Box className="mb-1 flex items-center justify-between">
-                            <Body className="text-body-sm">{tier.count} sponsors</Body>
-                            <Body className="text-body-sm text-grey-500">${tier.totalValue.toLocaleString()}</Body>
+                            <Body size="sm" className="">{tier.count} sponsors</Body>
+                            <Body size="sm" className=" text-grey-500">${tier.totalValue.toLocaleString()}</Body>
                           </Box>
                           <Box className="h-2 overflow-hidden rounded-badge bg-grey-200">
                             <Box 
@@ -149,7 +149,7 @@ export default function SponsorReportsPage() {
                         />
                         <Stack gap={0}>
                           <Body className="font-weight-semibold">{item.count}</Body>
-                          <Body className="text-body-sm text-grey-500">{item.status}</Body>
+                          <Body size="sm" className=" text-grey-500">{item.status}</Body>
                         </Stack>
                       </Stack>
                     ))}
@@ -173,7 +173,7 @@ export default function SponsorReportsPage() {
                         />
                         <Stack gap={0}>
                           <Body className="font-weight-semibold">{item.count}</Body>
-                          <Body className="text-body-sm text-grey-500">{item.status}</Body>
+                          <Body size="sm" className=" text-grey-500">{item.status}</Body>
                         </Stack>
                       </Stack>
                     ))}
@@ -192,18 +192,18 @@ export default function SponsorReportsPage() {
                     />
                   </Box>
                   <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                    <Body className="text-body-sm text-grey-500">
+                    <Body size="sm" className=" text-grey-500">
                       ${(stats?.totalPaid || 0).toLocaleString()} collected of ${(stats?.totalValue || 0).toLocaleString()}
                     </Body>
                     <Badge variant="success">{collectionRate}%</Badge>
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Paid in Full</Body>
+                      <Body size="sm" className=" text-grey-500">Paid in Full</Body>
                       <Body className="font-weight-semibold">{stats?.paidInFull || 0} sponsors</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Overdue</Body>
+                      <Body size="sm" className=" text-grey-500">Overdue</Body>
                       <Body className="font-weight-semibold text-error">{stats?.overdue || 0} sponsors</Body>
                     </Stack>
                   </Grid>

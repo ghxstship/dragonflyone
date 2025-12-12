@@ -219,7 +219,7 @@ function UniversalSearchContent() {
                         <Body className="text-ink-600">{result.subtitle}</Body>
                       )}
                       {result.metadata && (
-                        <Body className="text-body-sm text-ink-500">{result.metadata}</Body>
+                        <Body size="sm" className=" text-ink-500">{result.metadata}</Body>
                       )}
                       {result.tags && result.tags.length > 0 && (
                         <Stack direction="horizontal" gap={1} className="flex-wrap mt-2">

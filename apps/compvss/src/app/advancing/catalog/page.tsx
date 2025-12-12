@@ -164,7 +164,7 @@ export default function CatalogPage() {
             {/* Subcategory Pills - Show when category is selected */}
             {selectedCategory && subcategories.length > 0 && (
               <Stack gap={2}>
-                <Body className="text-body-sm">SUBCATEGORIES:</Body>
+                <Body size="sm" className="">SUBCATEGORIES:</Body>
                 <Stack direction="horizontal" className="flex-wrap gap-2">
                   <Badge
                     variant={!selectedSubcategory ? 'solid' : 'outline'}
@@ -215,7 +215,7 @@ export default function CatalogPage() {
                   <Stack direction="horizontal" className="mb-3 items-start justify-between">
                     <Stack direction="horizontal" gap={2} className="items-center">
                       <Package className="size-4" />
-                      <Body className="text-body-sm">
+                      <Body size="sm" className="">
                         {item.item_id}
                       </Body>
                     </Stack>
@@ -236,14 +236,14 @@ export default function CatalogPage() {
                   </Stack>
 
                   {item.specifications && (
-                    <Body className="mb-3 line-clamp-2 text-body-sm">
+                    <Body className="mb-3 line-clamp-2">
                       {item.specifications}
                     </Body>
                   )}
 
                   <Stack direction="horizontal" gap={1}>
-                    <Body className="text-body-sm">Unit:</Body>
-                    <Body className="font-display text-body-sm">{item.standard_unit}</Body>
+                    <Body size="sm" className="">Unit:</Body>
+                    <Body className="font-display">{item.standard_unit}</Body>
                   </Stack>
 
                   {item.common_variations && item.common_variations.length > 0 && (
@@ -273,7 +273,7 @@ export default function CatalogPage() {
 
           {/* Results Summary */}
           {effectiveData && (
-            <Body className="mt-8 text-center text-body-sm">
+            <Body className="mt-8 text-center">
               Showing {effectiveData.items?.length || 0} of {effectiveData.total} items
               {selectedCategory && ` in ${selectedCategory}`}
             </Body>

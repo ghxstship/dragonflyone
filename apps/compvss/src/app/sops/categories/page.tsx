@@ -148,15 +148,15 @@ export default function SOPCategoriesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Name</Body>
+            <Body size="sm" className=" text-grey-500">Name</Body>
             <Body>{selectedCategory.name}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Sort Order</Body>
+            <Body size="sm" className=" text-grey-500">Sort Order</Body>
             <Body>{selectedCategory.sort_order}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={selectedCategory.is_active ? 'success' : 'solid'}>
               {selectedCategory.is_active ? 'ACTIVE' : 'INACTIVE'}
             </Badge>

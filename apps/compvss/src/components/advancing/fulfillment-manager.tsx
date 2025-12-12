@@ -155,7 +155,7 @@ export function FulfillmentManager({ requestId, onSuccess }: FulfillmentManagerP
                 <TableRow key={item.id}>
                   <TableCell>
                     <Body>{item.item_name}</Body>
-                    <Body className="text-body-sm text-ink-500">
+                    <Body size="sm" className="text-ink-500">
                       {item.unit}
                     </Body>
                   </TableCell>

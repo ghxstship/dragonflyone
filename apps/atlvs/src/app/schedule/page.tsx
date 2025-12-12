@@ -103,7 +103,7 @@ export default function SchedulePage() {
                   </Box>
                   <Stack gap={1}>
                     <H3>Tasks</H3>
-                    <Body className="text-body-sm text-grey-500">{taskStats?.total || 0} total tasks</Body>
+                    <Body size="sm" className=" text-grey-500">{taskStats?.total || 0} total tasks</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -117,7 +117,7 @@ export default function SchedulePage() {
                   </Box>
                   <Stack gap={1}>
                     <H3>Contingencies</H3>
-                    <Body className="text-body-sm text-grey-500">{contingencyStats?.total || 0} plans</Body>
+                    <Body size="sm" className=" text-grey-500">{contingencyStats?.total || 0} plans</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -131,7 +131,7 @@ export default function SchedulePage() {
                   </Box>
                   <Stack gap={1}>
                     <H3>Templates</H3>
-                    <Body className="text-body-sm text-grey-500">Reusable task templates</Body>
+                    <Body size="sm" className=" text-grey-500">Reusable task templates</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -145,7 +145,7 @@ export default function SchedulePage() {
                   </Box>
                   <Stack gap={1}>
                     <H3>Blocked</H3>
-                    <Body className="text-body-sm text-grey-500">{taskStats?.blocked || 0} blocked tasks</Body>
+                    <Body size="sm" className=" text-grey-500">{taskStats?.blocked || 0} blocked tasks</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -176,7 +176,7 @@ export default function SchedulePage() {
                         >
                           <Stack gap={1}>
                             <Body className="font-weight-semibold">{task.title}</Body>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               Due: {task.due_date ? new Date(task.due_date).toLocaleDateString() : 'No date'}
                             </Body>
                           </Stack>
@@ -223,7 +223,7 @@ export default function SchedulePage() {
                         >
                           <Stack gap={1}>
                             <Body className="font-weight-semibold">{contingency.title}</Body>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               {contingency.category.charAt(0).toUpperCase() + contingency.category.slice(1)}
                             </Body>
                           </Stack>
@@ -255,31 +255,31 @@ export default function SchedulePage() {
                   <Card className="border-2 border-grey-200 p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold">{taskStats?.pending || 0}</Body>
-                      <Body className="text-body-sm text-grey-500">Pending</Body>
+                      <Body size="sm" className=" text-grey-500">Pending</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-warning p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-warning">{taskStats?.inProgress || 0}</Body>
-                      <Body className="text-body-sm text-grey-500">In Progress</Body>
+                      <Body size="sm" className=" text-grey-500">In Progress</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-success p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-success">{taskStats?.completed || 0}</Body>
-                      <Body className="text-body-sm text-grey-500">Completed</Body>
+                      <Body size="sm" className=" text-grey-500">Completed</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-error p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-error">{taskStats?.blocked || 0}</Body>
-                      <Body className="text-body-sm text-grey-500">Blocked</Body>
+                      <Body size="sm" className=" text-grey-500">Blocked</Body>
                     </Stack>
                   </Card>
                   <Card className="border-2 border-error p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold text-error">{taskStats?.critical || 0}</Body>
-                      <Body className="text-body-sm text-grey-500">Critical</Body>
+                      <Body size="sm" className=" text-grey-500">Critical</Body>
                     </Stack>
                   </Card>
                 </Grid>

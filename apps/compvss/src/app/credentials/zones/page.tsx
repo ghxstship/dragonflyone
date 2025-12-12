@@ -198,21 +198,21 @@ export default function ZonesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Code</Body>
+            <Body size="sm" className=" text-grey-500">Code</Body>
             <Badge style={{ backgroundColor: selectedZone.color || zoneTypeColors[selectedZone.zone_type], color: '#fff' }}>
               {selectedZone.code}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{selectedZone.zone_type.replace('_', ' ').toUpperCase()}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Access Level</Body>
+            <Body size="sm" className=" text-grey-500">Access Level</Body>
             <Body>Level {selectedZone.access_level}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Capacity</Body>
+            <Body size="sm" className=" text-grey-500">Capacity</Body>
             <Body>{selectedZone.capacity || 'Unlimited'}</Body>
           </Stack>
         </Grid>
@@ -267,7 +267,7 @@ export default function ZonesPage() {
                       </Badge>
                       <Stack gap={0}>
                         <Body className="font-weight-semibold">{zone.name}</Body>
-                        <Body className="text-body-sm text-grey-500">Level {zone.access_level}</Body>
+                        <Body size="sm" className=" text-grey-500">Level {zone.access_level}</Body>
                       </Stack>
                     </Stack>
                     <Select

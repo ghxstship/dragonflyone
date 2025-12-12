@@ -251,7 +251,7 @@ function UGCPageContent() {
                             <Stack className="w-full h-full flex items-center justify-center text-mono-xs">👤</Stack>
                           )}
                         </Stack>
-                        <Body className="text-body-sm font-weight-bold truncate">{post.author_name}</Body>
+                        <Body size="sm" className=" font-weight-bold truncate">{post.author_name}</Body>
                       </Stack>
                       {post.caption && (
                         <Body className="text-mono-xs text-ink-600 line-clamp-2">{post.caption}</Body>
@@ -335,7 +335,7 @@ function UGCPageContent() {
                       </Stack>
                       <Body className="text-h6-md font-weight-bold">#{campaign.hashtag}</Body>
                       {campaign.event_name && (
-                        <Body className="text-body-sm text-ink-600">{campaign.event_name}</Body>
+                        <Body size="sm" className=" text-ink-600">{campaign.event_name}</Body>
                       )}
                       <Body className="text-mono-xs text-ink-500">
                         {new Date(campaign.start_date).toLocaleDateString()}
@@ -403,7 +403,7 @@ function UGCPageContent() {
                     </Stack>
                     <Body className="font-weight-bold">{post.author_name}</Body>
                     {post.caption && (
-                      <Body className="text-body-sm text-ink-600 line-clamp-2">{post.caption}</Body>
+                      <Body size="sm" className=" text-ink-600 line-clamp-2">{post.caption}</Body>
                     )}
                   </Stack>
                 </Card>
@@ -451,7 +451,7 @@ function UGCPageContent() {
                   </Stack>
                   <Stack>
                     <Body className="font-weight-bold">{selectedPost.author_name}</Body>
-                    <Body className="text-body-sm text-ink-500">@{selectedPost.author_handle}</Body>
+                    <Body size="sm" className=" text-ink-500">@{selectedPost.author_handle}</Body>
                   </Stack>
                   {getPlatformBadge(selectedPost.platform)}
                 </Stack>
@@ -476,7 +476,7 @@ function UGCPageContent() {
                   <Body>🔄 {formatNumber(selectedPost.shares)}</Body>
                 </Stack>
                 {selectedPost.event_name && (
-                  <Body className="text-body-sm text-ink-500">
+                  <Body size="sm" className=" text-ink-500">
                     Event: {selectedPost.event_name}
                   </Body>
                 )}

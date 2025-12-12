@@ -51,7 +51,7 @@ export default function EventProgramPage() {
                 </Box>
                 <Stack gap={0} className="flex-1">
                   <Body className="font-weight-medium text-white">{item.title}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">{item.stage}</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{item.stage}</Body>
                 </Stack>
                 <Badge variant={typeColors[item.type]}>{item.type.toUpperCase()}</Badge>
               </Stack>

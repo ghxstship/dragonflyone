@@ -125,7 +125,7 @@ export default function MyInvestmentsPage() {
                         <Body className="font-weight-semibold text-white">{investment.name}</Body>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant="info">{typeLabels[investment.type]}</Badge>
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             Invested: {new Date(investment.date).toLocaleDateString()}
                           </Body>
                         </Stack>
@@ -144,21 +144,21 @@ export default function MyInvestmentsPage() {
                       <ProgressBar value={Math.min(investment.returnRate, 100)} />
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Amount Invested</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Amount Invested</Body>
                           <Body className="font-weight-semibold text-white">${investment.amount.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Current Value</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Current Value</Body>
                           <Body className="font-weight-semibold text-white">${investment.currentValue.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Gain/Loss</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Gain/Loss</Body>
                           <Body className={investment.currentValue >= investment.amount ? 'text-success' : 'text-error'}>
                             {investment.currentValue >= investment.amount ? '+' : ''}${(investment.currentValue - investment.amount).toLocaleString()}
                           </Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Next Distribution</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Next Distribution</Body>
                           <Body className="text-white">
                             {investment.nextDistribution ? new Date(investment.nextDistribution).toLocaleDateString() : 'N/A'}
                           </Body>

@@ -95,7 +95,7 @@ export default function AvailabilityPage() {
                 <Card className="col-span-2 border-b p-3">
                   <Grid cols={6} gap={2}>
                     {weekDays.slice(0, 6).map((day) => (
-                      <Body key={day} className="text-center text-body-sm">{day}</Body>
+                      <Body key={day} className="text-center">{day}</Body>
                     ))}
                   </Grid>
                 </Card>
@@ -104,26 +104,26 @@ export default function AvailabilityPage() {
                     <Card className="border-b border-r p-3">
                       <Stack direction="horizontal" gap={3} className="cursor-pointer" onClick={() => setSelectedCrew(crew)}>
                         <Card className="flex size-10 items-center justify-center rounded-avatar">
-                          <Body className="text-body-sm">{crew.avatar}</Body>
+                          <Body size="sm" className="">{crew.avatar}</Body>
                         </Card>
                         <Stack gap={0}>
                           <Body>{crew.name}</Body>
-                          <Body className="text-body-sm">{crew.role}</Body>
+                          <Body size="sm" className="">{crew.role}</Body>
                         </Stack>
                       </Stack>
                     </Card>
                     <Card className="border-b border-r p-3">
                       <Stack gap={1}>
                         <Badge variant={crew.status === "Available" ? "solid" : "outline"}>{crew.status}</Badge>
-                        {crew.currentProject && <Body className="text-body-sm">{crew.currentProject}</Body>}
-                        {crew.nextAvailable && <Body className="text-body-sm">Back: {crew.nextAvailable}</Body>}
+                        {crew.currentProject && <Body size="sm" className="">{crew.currentProject}</Body>}
+                        {crew.nextAvailable && <Body size="sm" className="">Back: {crew.nextAvailable}</Body>}
                       </Stack>
                     </Card>
                     <Card className="col-span-2 border-b p-3">
                       <Grid cols={6} gap={2}>
                         {crew.weekAvailability.slice(0, 6).map((available, idx) => (
                           <Card key={idx} className="flex h-8 items-center justify-center rounded-card">
-                            <Body className="text-body-sm">{available ? "✓" : "—"}</Body>
+                            <Body size="sm" className="">{available ? "✓" : "—"}</Body>
                           </Card>
                         ))}
                       </Grid>
@@ -137,19 +137,19 @@ export default function AvailabilityPage() {
               <Stack direction="horizontal" gap={6} className="justify-center">
                 <Stack direction="horizontal" gap={2}>
                   <Card className="size-4 rounded-card bg-success-500" />
-                  <Body className="text-body-sm">Available</Body>
+                  <Body size="sm" className="">Available</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Card className="size-4 rounded-card bg-warning-500" />
-                  <Body className="text-body-sm">Tentative</Body>
+                  <Body size="sm" className="">Tentative</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Card className="size-4 rounded-card bg-error-500" />
-                  <Body className="text-body-sm">Busy</Body>
+                  <Body size="sm" className="">Busy</Body>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>
                   <Card className="size-4 rounded-card bg-ink-500" />
-                  <Body className="text-body-sm">Unavailable</Body>
+                  <Body size="sm" className="">Unavailable</Body>
                 </Stack>
               </Stack>
             </Card>
@@ -196,9 +196,9 @@ export default function AvailabilityPage() {
                 <Grid cols={6} gap={2}>
                   {weekDays.slice(0, 6).map((day, idx) => (
                     <Stack key={day} gap={1} className="text-center">
-                      <Body className="text-body-sm">{day}</Body>
+                      <Body size="sm" className="">{day}</Body>
                       <Card className="flex h-8 items-center justify-center rounded-card">
-                        <Body className="text-body-sm">{selectedCrew.weekAvailability[idx] ? "✓" : "—"}</Body>
+                        <Body size="sm" className="">{selectedCrew.weekAvailability[idx] ? "✓" : "—"}</Body>
                       </Card>
                     </Stack>
                   ))}

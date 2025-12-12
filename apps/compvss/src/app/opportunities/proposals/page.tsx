@@ -132,12 +132,12 @@ export default function ProposalsPage() {
                     <TableCell>
                       <Stack gap={1}>
                         <Body>{proposal.title}</Body>
-                        {proposal.rfpId && <Body className="text-body-sm">{proposal.rfpId}</Body>}
+                        {proposal.rfpId && <Body size="sm" className="">{proposal.rfpId}</Body>}
                       </Stack>
                     </TableCell>
-                    <TableCell><Body className="text-body-sm">{proposal.client}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{proposal.client}</Body></TableCell>
                     <TableCell><Body className="font-display">{formatCurrency(proposal.value)}</Body></TableCell>
-                    <TableCell><Body className="text-body-sm">{proposal.dueDate}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{proposal.dueDate}</Body></TableCell>
                     <TableCell><Badge variant="outline">v{proposal.version}</Badge></TableCell>
                     <TableCell><Badge variant={getStatusVariant(proposal.status)}>{proposal.status}</Badge></TableCell>
                     <TableCell>
@@ -171,27 +171,27 @@ export default function ProposalsPage() {
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Client</Body>
+                  <Body size="sm" className="">Client</Body>
                   <Body>{selectedProposal.client}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Value</Body>
+                  <Body size="sm" className="">Value</Body>
                   <Body className="font-display">{formatCurrency(selectedProposal.value)}</Body>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Due Date</Body>
+                  <Body size="sm" className="">Due Date</Body>
                   <Body>{selectedProposal.dueDate}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Last Modified</Body>
+                  <Body size="sm" className="">Last Modified</Body>
                   <Body>{selectedProposal.lastModified}</Body>
                 </Stack>
               </Grid>
               {selectedProposal.rfpId && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">RFP Reference</Body>
+                  <Body size="sm" className="">RFP Reference</Body>
                   <Body>{selectedProposal.rfpId}</Body>
                 </Stack>
               )}
@@ -209,7 +209,7 @@ export default function ProposalsPage() {
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={1}>
                           <Badge variant={idx === 0 ? "solid" : "outline"}>v{selectedProposal.version - idx}</Badge>
-                          <Body className="text-body-sm">{idx === 0 ? "Current" : `${idx + 1} revision(s) ago`}</Body>
+                          <Body size="sm" className="">{idx === 0 ? "Current" : `${idx + 1} revision(s) ago`}</Body>
                         </Stack>
                         <Button variant="ghost" size="sm">View</Button>
                       </Stack>

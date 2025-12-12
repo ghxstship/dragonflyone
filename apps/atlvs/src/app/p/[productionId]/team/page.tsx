@@ -67,7 +67,7 @@ export default function ProductionTeamPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{member.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{member.role} · {member.department}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{member.role} · {member.department}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[member.status]}>{member.status.toUpperCase()}</Badge>

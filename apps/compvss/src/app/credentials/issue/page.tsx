@@ -116,7 +116,7 @@ export default function IssueCredentialPage() {
                                 {type.code}
                               </Badge>
                               <Body className="font-weight-semibold">{type.name}</Body>
-                              <Body className="text-body-sm text-grey-500">Level {type.access_level}</Body>
+                              <Body size="sm" className=" text-grey-500">Level {type.access_level}</Body>
                             </Stack>
                           </Card>
                         ))}
@@ -150,7 +150,7 @@ export default function IssueCredentialPage() {
                             <Stack direction="horizontal" gap={3} className="items-center justify-between">
                               <Stack gap={0}>
                                 <Body className="font-weight-semibold">{contact.first_name} {contact.last_name}</Body>
-                                <Body className="text-body-sm text-grey-500">{contact.email}</Body>
+                                <Body size="sm" className=" text-grey-500">{contact.email}</Body>
                               </Stack>
                               {selectedContactId === contact.id && (
                                 <Badge variant="success">Selected</Badge>
@@ -214,7 +214,7 @@ export default function IssueCredentialPage() {
                     
                     {selectedType ? (
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-grey-500">Credential Type</Body>
+                        <Body size="sm" className=" text-grey-500">Credential Type</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <Badge style={{ backgroundColor: selectedType.color, color: '#fff' }}>
                             {selectedType.code}
@@ -228,9 +228,9 @@ export default function IssueCredentialPage() {
 
                     {selectedContact ? (
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-grey-500">Holder</Body>
+                        <Body size="sm" className=" text-grey-500">Holder</Body>
                         <Body className="font-weight-semibold">{selectedContact.first_name} {selectedContact.last_name}</Body>
-                        <Body className="text-body-sm text-grey-500">{selectedContact.email}</Body>
+                        <Body size="sm" className=" text-grey-500">{selectedContact.email}</Body>
                       </Stack>
                     ) : (
                       <Body className="text-grey-400">Select a contact</Body>
@@ -238,7 +238,7 @@ export default function IssueCredentialPage() {
 
                     {badgeNumber && (
                       <Stack gap={2}>
-                        <Body className="text-body-sm text-grey-500">Badge Number</Body>
+                        <Body size="sm" className=" text-grey-500">Badge Number</Body>
                         <Body className="font-mono font-weight-semibold">{badgeNumber}</Body>
                       </Stack>
                     )}
@@ -247,14 +247,14 @@ export default function IssueCredentialPage() {
                       <Box className="rounded border-2 border-dashed border-warning bg-warning/10 p-3">
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <Camera className="size-4 text-warning" />
-                          <Body className="text-body-sm text-warning">Photo required for this credential type</Body>
+                          <Body size="sm" className=" text-warning">Photo required for this credential type</Body>
                         </Stack>
                       </Box>
                     )}
 
                     {selectedType?.requires_background_check && (
                       <Box className="rounded border-2 border-dashed border-error bg-error/10 p-3">
-                        <Body className="text-body-sm text-error">Background check required</Body>
+                        <Body size="sm" className=" text-error">Background check required</Body>
                       </Box>
                     )}
 

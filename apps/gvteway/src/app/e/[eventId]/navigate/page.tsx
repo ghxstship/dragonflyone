@@ -27,7 +27,7 @@ export default function EventNavigatePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Directions</Body>
-                <Body className="text-body-sm text-on-dark-muted">Get directions to venue</Body>
+                <Body size="sm" className=" text-on-dark-muted">Get directions to venue</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -40,7 +40,7 @@ export default function EventNavigatePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Parking</Body>
-                <Body className="text-body-sm text-on-dark-muted">Find parking options</Body>
+                <Body size="sm" className=" text-on-dark-muted">Find parking options</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -53,7 +53,7 @@ export default function EventNavigatePage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Accessibility</Body>
-                <Body className="text-body-sm text-on-dark-muted">Accessibility information</Body>
+                <Body size="sm" className=" text-on-dark-muted">Accessibility information</Body>
               </Stack>
             </Stack>
           </CardBody>

@@ -54,12 +54,12 @@ export default function VendorPortalPage() {
                     <Stack key={contract.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{contract.production}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{contract.service}</Body>
+                        <Body size="sm" className=" text-on-dark-muted">{contract.service}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={3} className="items-center">
                         <Stack gap={0} className="text-right">
                           <Body className="font-weight-semibold text-white">${contract.value.toLocaleString()}</Body>
-                          <Body className="text-body-sm text-on-dark-muted">Due: {contract.dueDate}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Due: {contract.dueDate}</Body>
                         </Stack>
                         <Badge variant={contract.status === 'active' ? 'success' : contract.status === 'pending' ? 'warning' : 'info'}>
                           {contract.status}

@@ -54,11 +54,11 @@ export default function AccountTicketsPage() {
                       <H3 className="text-white">{ticket.eventName}</H3>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Calendar size={14} className="text-on-dark-muted" />
-                        <Body className="text-body-sm text-on-dark-muted">{ticket.eventDate}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{ticket.eventDate}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <MapPin size={14} className="text-on-dark-muted" />
-                        <Body className="text-body-sm text-on-dark-muted">{ticket.venue}</Body>
+                        <Body size="sm" className="text-on-dark-muted">{ticket.venue}</Body>
                       </Stack>
                     </Stack>
                     <Badge variant={ticket.status === 'active' ? 'success' : ticket.status === 'used' ? 'info' : 'warning'}>
@@ -68,24 +68,24 @@ export default function AccountTicketsPage() {
 
                   <Stack direction="horizontal" className="justify-between border-t border-ink-700 pt-3">
                     <Stack gap={0}>
-                      <Body className="text-body-sm text-on-dark-muted">Ticket Type</Body>
+                      <Body size="sm" className="text-on-dark-muted">Ticket Type</Body>
                       <Body className="font-weight-semibold text-white">{ticket.ticketType}</Body>
                     </Stack>
                     {ticket.section && (
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Section</Body>
+                        <Body size="sm" className="text-on-dark-muted">Section</Body>
                         <Body className="text-white">{ticket.section}</Body>
                       </Stack>
                     )}
                     {ticket.row && (
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Row</Body>
+                        <Body size="sm" className="text-on-dark-muted">Row</Body>
                         <Body className="text-white">{ticket.row}</Body>
                       </Stack>
                     )}
                     {ticket.seat && (
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Seat</Body>
+                        <Body size="sm" className="text-on-dark-muted">Seat</Body>
                         <Body className="text-white">{ticket.seat}</Body>
                       </Stack>
                     )}

@@ -70,7 +70,7 @@ export default function EventBoxOfficePage() {
             colorScheme="on-dark"
           />
           <Stack direction="horizontal" gap={2} className="items-center">
-            <Body className="text-body-sm text-on-dark-muted">
+            <Body size="sm" className=" text-on-dark-muted">
               <Clock size={14} className="mr-1 inline" />
               Updated {lastUpdated.toLocaleTimeString()}
             </Body>
@@ -125,19 +125,19 @@ export default function EventBoxOfficePage() {
                     </Stack>
                     <Grid cols={2} gap={4}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Price</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Price</Body>
                         <Body className="font-weight-semibold text-white">${tier.price}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Revenue</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Revenue</Body>
                         <Body className="font-weight-semibold text-white">${tier.revenue.toLocaleString()}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Sold</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Sold</Body>
                         <Body className="font-weight-semibold text-white">{tier.sold} / {tier.capacity}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-on-dark-muted">Available</Body>
+                        <Body size="sm" className=" text-on-dark-muted">Available</Body>
                         <Body className={`font-weight-semibold ${tier.available <= 10 ? 'text-error' : 'text-white'}`}>
                           {tier.available}
                         </Body>

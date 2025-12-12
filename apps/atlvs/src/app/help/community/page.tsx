@@ -224,7 +224,7 @@ export default function CommunityPage() {
                       </Stack>
                       <Stack gap={1} className="flex-1">
                         <Body className="font-weight-semibold text-ink-950">{category.title}</Body>
-                        <Body className="text-body-sm text-grey-600">{category.description}</Body>
+                        <Body size="sm" className=" text-grey-600">{category.description}</Body>
                       </Stack>
                     </Stack>
                     <Stack direction="horizontal" gap={4} className="text-grey-500">
@@ -340,7 +340,7 @@ export default function CommunityPage() {
                           <Users className="size-5 text-grey-500" />
                         </Stack>
                         <Stack gap={0} className="flex-1">
-                          <Body className="text-body-sm font-weight-semibold text-ink-950">{contributor.name}</Body>
+                          <Body size="sm" className=" font-weight-semibold text-ink-950">{contributor.name}</Body>
                           <Label size="xs" className="text-grey-500">{contributor.role}</Label>
                         </Stack>
                         <Badge 

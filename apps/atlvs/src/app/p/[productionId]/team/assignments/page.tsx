@@ -45,7 +45,7 @@ export default function TeamAssignmentsPage() {
                   <UserCheck size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{item.task}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{item.assignee} · {item.date}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{item.assignee} · {item.date}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[item.status]}>{item.status.replace("_", " ").toUpperCase()}</Badge>

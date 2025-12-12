@@ -66,15 +66,15 @@ export default function SponsorPortalPage() {
                       </Stack>
                       <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Investment</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Investment</Body>
                           <Body className="font-weight-semibold text-white">${sponsorship.value.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Impressions</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Impressions</Body>
                           <Body className="text-white">{sponsorship.impressions > 0 ? `${(sponsorship.impressions / 1000000).toFixed(1)}M` : '-'}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body className="text-body-sm text-on-dark-muted">Engagement</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Engagement</Body>
                           <Body className="text-white">{sponsorship.engagement > 0 ? `${sponsorship.engagement}%` : '-'}</Body>
                         </Stack>
                       </Stack>

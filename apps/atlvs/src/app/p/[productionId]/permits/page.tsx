@@ -72,7 +72,7 @@ export default function ProductionPermitsPage() {
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-on-dark-muted">Valid</Body>
-                      <Body className="text-body-sm text-white">
+                      <Body size="sm" className=" text-white">
                         <Calendar size={12} className="mr-1 inline" />
                         {permit.issueDate} - {permit.expiryDate}
                       </Body>
@@ -80,7 +80,7 @@ export default function ProductionPermitsPage() {
                     {permit.notes && (
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <AlertTriangle size={14} className="text-warning" />
-                        <Body className="text-body-sm text-warning">{permit.notes}</Body>
+                        <Body size="sm" className=" text-warning">{permit.notes}</Body>
                       </Stack>
                     )}
                   </Stack>

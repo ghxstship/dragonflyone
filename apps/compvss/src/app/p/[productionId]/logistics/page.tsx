@@ -40,7 +40,7 @@ export default function ProductionLogisticsPage() {
                 </Box>
                 <Stack gap={1}>
                   <Body className="font-weight-bold">{section.name}</Body>
-                  <Body className="text-body-sm text-grey-500">{section.description}</Body>
+                  <Body size="sm" className=" text-grey-500">{section.description}</Body>
                 </Stack>
               </Stack>
             </CardBody>

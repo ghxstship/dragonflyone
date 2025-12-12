@@ -119,19 +119,19 @@ export default function BidDecisionPage() {
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-display">{opp.title}</Body>
-                        <Body className="text-body-sm">{opp.client}</Body>
+                        <Body size="sm" className="">{opp.client}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Value</Body>
+                        <Body size="sm" className="">Value</Body>
                         <Body className="font-mono">{formatCurrency(opp.value)}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Due Date</Body>
+                        <Body size="sm" className="">Due Date</Body>
                         <Body>{opp.dueDate}</Body>
                       </Stack>
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="justify-between">
-                          <Body className="text-body-sm">Score</Body>
+                          <Body size="sm" className="">Score</Body>
                           <Body className="font-mono">{score}/100</Body>
                         </Stack>
                         <ProgressBar value={score} />
@@ -162,18 +162,18 @@ export default function BidDecisionPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedOpp.title}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Client</Body><Body>{selectedOpp.client}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Value</Body><Body className="font-mono">{formatCurrency(selectedOpp.value)}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Client</Body><Body>{selectedOpp.client}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Value</Body><Body className="font-mono">{formatCurrency(selectedOpp.value)}</Body></Stack>
               </Grid>
-              <Stack gap={1}><Body className="text-body-sm">Due Date</Body><Body>{selectedOpp.dueDate}</Body></Stack>
+              <Stack gap={1}><Body size="sm" className="">Due Date</Body><Body>{selectedOpp.dueDate}</Body></Stack>
               <Stack gap={3}>
-                <Body className="text-body-sm">Scoring Criteria</Body>
+                <Body size="sm" className="">Scoring Criteria</Body>
                 {selectedOpp.criteria.map((criterion, idx) => (
                   <Stack key={idx} gap={2}>
                     <Stack direction="horizontal" className="justify-between">
                       <Body>{criterion.name}</Body>
                       <Stack direction="horizontal" gap={2}>
-                        <Body className="text-body-sm">Weight: {criterion.weight}%</Body>
+                        <Body size="sm" className="">Weight: {criterion.weight}%</Body>
                         <Body className="font-mono">{criterion.score}/10</Body>
                       </Stack>
                     </Stack>
@@ -184,14 +184,14 @@ export default function BidDecisionPage() {
               <Card>
                 <Stack gap={2}>
                   <Stack direction="horizontal" className="justify-between">
-                    <Body className="text-body-sm">Overall Score</Body>
+                    <Body size="sm" className="">Overall Score</Body>
                     <Body className="font-mono">
                       {selectedOpp.score || calculateScore(selectedOpp.criteria)}/100
                     </Body>
                   </Stack>
                   {selectedOpp.recommendation && (
                     <Stack direction="horizontal" className="justify-between">
-                      <Body className="text-body-sm">Recommendation</Body>
+                      <Body size="sm" className="">Recommendation</Body>
                       <Badge variant={getStatusVariant(selectedOpp.recommendation)}>{selectedOpp.recommendation}</Badge>
                     </Stack>
                   )}

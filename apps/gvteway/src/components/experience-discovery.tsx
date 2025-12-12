@@ -153,7 +153,7 @@ export function ExperienceDiscovery() {
             placeholder="Search artists, venues, cities, vibes"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            className="font-code text-body-sm uppercase tracking-label"
+            className="font-code uppercase tracking-label"
           />
           <Stack direction="horizontal" gap={3} className="flex-wrap">
             {priceFilters.map((price) => (
@@ -204,7 +204,7 @@ export function ExperienceDiscovery() {
       </Grid>
 
       <Stack direction="horizontal" gap={4} className="flex-col border-2 border-ink-800 p-4 lg:flex-row lg:items-center lg:justify-between">
-        <Stack direction="horizontal" gap={4} className="flex-wrap text-body-sm text-ink-300">
+        <Stack direction="horizontal" gap={4} className="flex-wrap text-ink-300">
           <Stat label="Matches" value={stats.matches.toString()} />
           <Stat label="Saved Filters" value={stats.saved.toString()} />
           <Stat label="Friends attending" value={stats.friends.toString()} />
@@ -219,11 +219,11 @@ export function ExperienceDiscovery() {
       </Stack>
 
       {error ? (
-        <Body className="text-body-sm text-error-400">{error}</Body>
+        <Body size="sm" className="text-error-400">{error}</Body>
       ) : null}
 
       {isLoading ? (
-        <Body className="text-body-sm uppercase tracking-kicker text-ink-400">Loading events…</Body>
+        <Body size="sm" className="uppercase tracking-kicker text-ink-400">Loading events…</Body>
       ) : (
         <Grid cols={3} gap={6} className="md:grid-cols-2 xl:grid-cols-3">
           {events.map((event) => (
@@ -233,7 +233,7 @@ export function ExperienceDiscovery() {
                 <Body>{new Date(event.startDate).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</Body>
               </Stack>
               <H3 className="mt-3 text-h5-md uppercase text-white">{event.title}</H3>
-              <Body className="text-body-sm text-ink-400">{event.headliner}</Body>
+              <Body size="sm" className="text-ink-400">{event.headliner}</Body>
               <Stack direction="horizontal" gap={2} className="mt-4 flex-wrap text-[0.6rem] uppercase tracking-label text-ink-400">
                 {event.genres.map((genre: string) => (
                   <Badge key={genre} variant="outline">
@@ -249,7 +249,7 @@ export function ExperienceDiscovery() {
                   </Badge>
                 ))}
               </Stack>
-              <Stack gap={2} className="mt-4 text-body-sm text-ink-300">
+              <Stack gap={2} className="mt-4 text-ink-300">
                 <Body>Friends attending: {event.friendsAttending}</Body>
                 <Body>Distance: {event.distanceMiles} mi</Body>
                 <Body>Tour stops: {event.tourStops.join(" · ")}</Body>

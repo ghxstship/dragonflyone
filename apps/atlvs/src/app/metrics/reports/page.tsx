@@ -143,7 +143,7 @@ export default function MetricsReportsPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <DollarSign className="size-5 text-grey-500" />
-                    <Body className="text-body-sm text-grey-500">Budget Status</Body>
+                    <Body size="sm" className=" text-grey-500">Budget Status</Body>
                   </Stack>
                   <Body className="text-body-lg font-weight-bold">{metrics?.budgetUtilization || 0}% Used</Body>
                 </Stack>
@@ -152,7 +152,7 @@ export default function MetricsReportsPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <TrendingUp className="size-5 text-grey-500" />
-                    <Body className="text-body-sm text-grey-500">Task Completion</Body>
+                    <Body size="sm" className=" text-grey-500">Task Completion</Body>
                   </Stack>
                   <Body className="text-body-lg font-weight-bold">{metrics?.taskCompletionRate || 0}%</Body>
                 </Stack>
@@ -161,7 +161,7 @@ export default function MetricsReportsPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Users className="size-5 text-grey-500" />
-                    <Body className="text-body-sm text-grey-500">Sponsors</Body>
+                    <Body size="sm" className=" text-grey-500">Sponsors</Body>
                   </Stack>
                   <Body className="text-body-lg font-weight-bold">{metrics?.totalSponsors || 0}</Body>
                 </Stack>
@@ -170,7 +170,7 @@ export default function MetricsReportsPage() {
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Calendar className="size-5 text-grey-500" />
-                    <Body className="text-body-sm text-grey-500">Days to Event</Body>
+                    <Body size="sm" className=" text-grey-500">Days to Event</Body>
                   </Stack>
                   <Body className="text-body-lg font-weight-bold">{metrics?.daysUntilEvent || 0}</Body>
                 </Stack>
@@ -196,10 +196,10 @@ export default function MetricsReportsPage() {
                                 {frequencyLabels[report.frequency]}
                               </Badge>
                             </Stack>
-                            <Body className="text-body-sm text-grey-600">{report.description}</Body>
+                            <Body size="sm" className=" text-grey-600">{report.description}</Body>
                           </Stack>
                           <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               Last generated: {report.lastGenerated ? new Date(report.lastGenerated).toLocaleDateString() : 'Never'}
                             </Body>
                             <Button
@@ -227,40 +227,40 @@ export default function MetricsReportsPage() {
                 </Body>
                 <Grid cols={2} gap={4}>
                   <Stack gap={2}>
-                    <Body className="text-body-sm font-weight-semibold">Date Range</Body>
+                    <Body size="sm" className=" font-weight-semibold">Date Range</Body>
                     <Stack direction="horizontal" gap={2}>
                       <Button
                         onClick={() => {}}
-                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2"
                       >
                         Start Date
                       </Button>
                       <Button
                         onClick={() => {}}
-                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                        className="flex-1 border-2 border-grey-300 bg-white px-3 py-2"
                       >
                         End Date
                       </Button>
                     </Stack>
                   </Stack>
                   <Stack gap={2}>
-                    <Body className="text-body-sm font-weight-semibold">Report Type</Body>
+                    <Body size="sm" className=" font-weight-semibold">Report Type</Body>
                     <Button
                       onClick={() => {}}
-                      className="border-2 border-grey-300 bg-white px-3 py-2 text-body-sm"
+                      className="border-2 border-grey-300 bg-white px-3 py-2"
                     >
                       Select Report Type
                     </Button>
                   </Stack>
                 </Grid>
                 <Stack gap={2}>
-                  <Body className="text-body-sm font-weight-semibold">Include Metrics</Body>
+                  <Body size="sm" className=" font-weight-semibold">Include Metrics</Body>
                   <Grid cols={3} gap={2}>
                     {['Budget vs Actual', 'Task Completion', 'Sponsor Revenue', 'Expense Breakdown', 'Team Performance', 'Timeline Status'].map((metric) => (
                       <Button
                         key={metric}
                         onClick={() => {}}
-                        className="border-2 border-grey-200 bg-grey-50 px-3 py-2 text-body-sm hover:border-primary hover:bg-primary/5"
+                        className="border-2 border-grey-200 bg-grey-50 px-3 py-2 hover:border-primary hover:bg-primary/5"
                       >
                         {metric}
                       </Button>
@@ -268,7 +268,7 @@ export default function MetricsReportsPage() {
                   </Grid>
                 </Stack>
                 <Stack direction="horizontal" gap={4} className="items-center justify-between pt-4">
-                  <Body className="text-body-sm text-grey-500">
+                  <Body size="sm" className=" text-grey-500">
                     Select options above to generate your custom report
                   </Body>
                   <Button

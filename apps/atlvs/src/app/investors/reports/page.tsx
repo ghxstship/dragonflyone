@@ -123,10 +123,10 @@ export default function InvestorReportsPage() {
                           />
                         </Box>
                         <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                          <Body className="text-body-sm text-grey-500">
+                          <Body size="sm" className=" text-grey-500">
                             ${round.raised_amount?.toLocaleString()} of ${round.target_amount?.toLocaleString()}
                           </Body>
-                          <Body className="text-body-sm text-grey-500">{round.progress}%</Body>
+                          <Body size="sm" className=" text-grey-500">{round.progress}%</Body>
                         </Stack>
                       </Box>
                     ))}
@@ -150,7 +150,7 @@ export default function InvestorReportsPage() {
                             style={{ backgroundColor: item.color }} 
                           />
                           <Body className="text-body-lg font-weight-bold">{item.count}</Body>
-                          <Body className="text-body-sm text-grey-500">{item.status}</Body>
+                          <Body size="sm" className=" text-grey-500">{item.status}</Body>
                         </Stack>
                       </Card>
                     ))}
@@ -167,7 +167,7 @@ export default function InvestorReportsPage() {
                       <Card key={item.type} className="border-2 border-grey-200 p-4 text-center">
                         <Stack gap={2}>
                           <Body className="text-body-lg font-weight-bold">{item.count}</Body>
-                          <Body className="text-body-sm text-grey-500">{item.type}</Body>
+                          <Body size="sm" className=" text-grey-500">{item.type}</Body>
                         </Stack>
                       </Card>
                     ))}
@@ -186,18 +186,18 @@ export default function InvestorReportsPage() {
                     />
                   </Box>
                   <Stack direction="horizontal" gap={4} className="items-center justify-between">
-                    <Body className="text-body-sm text-grey-500">
+                    <Body size="sm" className=" text-grey-500">
                       ${(stats?.totalFunded || 0).toLocaleString()} funded of ${(stats?.totalCommitted || 0).toLocaleString()} committed
                     </Body>
                     <Badge variant="success">{fundingRate}%</Badge>
                   </Stack>
                   <Grid cols={2} gap={4}>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Target</Body>
+                      <Body size="sm" className=" text-grey-500">Total Target</Body>
                       <Body className="font-weight-semibold">${(stats?.totalTarget || 0).toLocaleString()}</Body>
                     </Stack>
                     <Stack gap={1}>
-                      <Body className="text-body-sm text-grey-500">Total Raised</Body>
+                      <Body size="sm" className=" text-grey-500">Total Raised</Body>
                       <Body className="font-weight-semibold">${(stats?.totalRaised || 0).toLocaleString()}</Body>
                     </Stack>
                   </Grid>

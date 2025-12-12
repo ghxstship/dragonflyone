@@ -107,16 +107,16 @@ export default function SoundcheckPage() {
                     <Stack gap={1}>
                       <Badge variant="solid">NOW SOUNDCHECKING</Badge>
                       <Body className="text-h5-md font-display">{inProgress.artistName}</Body>
-                      <Body className="text-body-sm">{inProgress.stage} • Engineer: {inProgress.engineer}</Body>
+                      <Body size="sm" className="">{inProgress.stage} • Engineer: {inProgress.engineer}</Body>
                     </Stack>
                     <Stack gap={2} className="text-right">
-                      <Body className="text-body-sm">Started: {inProgress.actualStart}</Body>
-                      <Body className="text-body-sm">Scheduled End: {inProgress.scheduledEnd}</Body>
+                      <Body size="sm" className="">Started: {inProgress.actualStart}</Body>
+                      <Body size="sm" className="">Scheduled End: {inProgress.scheduledEnd}</Body>
                       <Button variant="solid" onClick={() => setSelectedSlot(inProgress)}>Complete Soundcheck</Button>
                     </Stack>
                   </Stack>
                   <Stack gap={2}>
-                    <Body className="text-body-sm">Requirements:</Body>
+                    <Body size="sm" className="">Requirements:</Body>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {inProgress.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
                     </Stack>
@@ -154,17 +154,17 @@ export default function SoundcheckPage() {
                           <Badge variant="outline">{slot.stage}</Badge>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body size="sm" className="">Scheduled</Body>
                           <Body>{slot.scheduledStart} - {slot.scheduledEnd}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Actual</Body>
+                          <Body size="sm" className="">Actual</Body>
                           <Body>
                             {slot.actualStart || "--:--"} - {slot.actualEnd || "--:--"}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Engineer</Body>
+                          <Body size="sm" className="">Engineer</Body>
                           <Body>{slot.engineer || "-"}</Body>
                         </Stack>
                         <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
@@ -191,7 +191,7 @@ export default function SoundcheckPage() {
                             <Stack direction="horizontal" className="items-center justify-between">
                               <Stack gap={1}>
                                 <Body>{slot.artistName}</Body>
-                                <Body className="text-body-sm">{slot.scheduledStart} - {slot.scheduledEnd}</Body>
+                                <Body size="sm" className="">{slot.scheduledStart} - {slot.scheduledEnd}</Body>
                               </Stack>
                               <Badge variant={getStatusVariant(slot.status)}>{slot.status}</Badge>
                             </Stack>
@@ -221,43 +221,43 @@ export default function SoundcheckPage() {
               <Body className="font-display">{selectedSlot.artistName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Stage</Body>
+                  <Body size="sm" className="">Stage</Body>
                   <Body>{selectedSlot.stage}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Status</Body>
+                  <Body size="sm" className="">Status</Body>
                   <Badge variant={getStatusVariant(selectedSlot.status)}>{selectedSlot.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Scheduled</Body>
+                  <Body size="sm" className="">Scheduled</Body>
                   <Body>{selectedSlot.scheduledStart} - {selectedSlot.scheduledEnd}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Duration</Body>
+                  <Body size="sm" className="">Duration</Body>
                   <Body>{selectedSlot.duration} min</Body>
                 </Stack>
               </Grid>
               {(selectedSlot.actualStart || selectedSlot.actualEnd) && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Actual</Body>
+                  <Body size="sm" className="">Actual</Body>
                   <Body>{selectedSlot.actualStart || "--:--"} - {selectedSlot.actualEnd || "--:--"}</Body>
                 </Stack>
               )}
               <Stack gap={1}>
-                <Body className="text-body-sm">Engineer</Body>
+                <Body size="sm" className="">Engineer</Body>
                 <Body>{selectedSlot.engineer || "Not assigned"}</Body>
               </Stack>
               <Stack gap={2}>
-                <Body className="text-body-sm">Requirements</Body>
+                <Body size="sm" className="">Requirements</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedSlot.requirements.map((req, idx) => <Badge key={idx} variant="outline">{req}</Badge>)}
                 </Stack>
               </Stack>
               {selectedSlot.notes && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Notes</Body>
+                  <Body size="sm" className="">Notes</Body>
                   <Body>{selectedSlot.notes}</Body>
                 </Stack>
               )}

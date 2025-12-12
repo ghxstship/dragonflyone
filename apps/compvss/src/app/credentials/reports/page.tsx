@@ -110,8 +110,8 @@ export default function CredentialReportsPage() {
                         </Badge>
                         <Box className="flex-1">
                           <Box className="mb-1 flex items-center justify-between">
-                            <Body className="text-body-sm">{type.name}</Body>
-                            <Body className="text-body-sm text-grey-500">{type.count}</Body>
+                            <Body size="sm" className="">{type.name}</Body>
+                            <Body size="sm" className=" text-grey-500">{type.count}</Body>
                           </Box>
                           <Box className="h-2 overflow-hidden rounded-avatar bg-grey-200">
                             <Box 
@@ -164,9 +164,9 @@ export default function CredentialReportsPage() {
                       >
                         <Stack gap={0}>
                           <Body className="font-weight-medium">{activity.action}</Body>
-                          <Body className="font-mono text-body-sm text-grey-500">{activity.badge}</Body>
+                          <Body className="font-mono text-grey-500">{activity.badge}</Body>
                         </Stack>
-                        <Body className="text-body-sm text-grey-400">{activity.time}</Body>
+                        <Body size="sm" className=" text-grey-400">{activity.time}</Body>
                       </Box>
                     ))}
                   </Stack>

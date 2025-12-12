@@ -113,7 +113,7 @@ export default function StageManagementPage() {
                               <Body className="font-weight-bold">{stage.name}</Body>
                               <Badge variant={stage.status === 'Active' ? 'success' : 'warning'}>{stage.status}</Badge>
                             </div>
-                            <div className="flex gap-4 text-body-sm text-muted">
+                            <div className="flex gap-4 text-muted">
                               <span className="flex items-center gap-1">
                                 <Layout size={14} /> {stage.type}
                               </span>

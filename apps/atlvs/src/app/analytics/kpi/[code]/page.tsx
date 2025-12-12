@@ -165,12 +165,12 @@ export default function KPIDetailPage() {
         {latestValue !== null && (
           <Grid cols={4} className="mb-8">
             <Card className="p-6 bg-info-50">
-              <Body className="text-body-sm text-ink-600 mb-2">CURRENT VALUE</Body>
+              <Body size="sm" className=" text-ink-600 mb-2">CURRENT VALUE</Body>
               <H2 className="text-info-700">
                 {latestValue.toFixed(2)}{getUnitDisplay(kpi.unit)}
               </H2>
               {change !== null && (
-                <Body className={`text-body-sm mt-2 ${change >= 0 ? 'text-success-600' : 'text-error-600'}`}>
+                <Body size="sm" className={`mt-2 ${change >= 0 ? 'text-success-600' : 'text-error-600'}`}>
                   {change >= 0 ? '↑' : '↓'} {Math.abs(change).toFixed(1)}% from previous
                 </Body>
               )}
@@ -178,12 +178,12 @@ export default function KPIDetailPage() {
 
             {kpi.targetValue && (
               <Card className="p-6">
-                <Body className="text-body-sm text-ink-600 mb-2">TARGET VALUE</Body>
+                <Body size="sm" className=" text-ink-600 mb-2">TARGET VALUE</Body>
                 <H3 className="text-ink-900">
                   {kpi.targetValue}{getUnitDisplay(kpi.unit)}
                 </H3>
                 {latestValue && (
-                  <Body className="text-body-sm mt-2 text-ink-600">
+                  <Body size="sm" className=" mt-2 text-ink-600">
                     {((latestValue / kpi.targetValue) * 100).toFixed(0)}% of target
                   </Body>
                 )}
@@ -192,7 +192,7 @@ export default function KPIDetailPage() {
 
             {kpi.warningThreshold && (
               <Card className="p-6 bg-warning-50">
-                <Body className="text-body-sm text-ink-600 mb-2">WARNING THRESHOLD</Body>
+                <Body size="sm" className=" text-ink-600 mb-2">WARNING THRESHOLD</Body>
                 <H3 className="text-warning-700">
                   {kpi.warningThreshold}{getUnitDisplay(kpi.unit)}
                 </H3>
@@ -201,7 +201,7 @@ export default function KPIDetailPage() {
 
             {kpi.criticalThreshold && (
               <Card className="p-6 bg-error-50">
-                <Body className="text-body-sm text-ink-600 mb-2">CRITICAL THRESHOLD</Body>
+                <Body size="sm" className=" text-ink-600 mb-2">CRITICAL THRESHOLD</Body>
                 <H3 className="text-error-700">
                   {kpi.criticalThreshold}{getUnitDisplay(kpi.unit)}
                 </H3>
@@ -243,7 +243,7 @@ export default function KPIDetailPage() {
         <Grid cols={2} className="mb-8">
           <Card className="p-6">
             <H3 className="mb-4">CALCULATION METHOD</H3>
-            <Body className="font-mono text-body-sm bg-ink-50 p-4 rounded">
+            <Body className="font-mono bg-ink-50 p-4 rounded">
               {kpi.calculation}
             </Body>
           </Card>
@@ -253,12 +253,12 @@ export default function KPIDetailPage() {
             <Stack gap={3}>
               {kpi.dataSources.map((source, idx) => (
                 <Card key={idx} className="bg-ink-50 p-3 rounded">
-                  <Body className="font-weight-bold text-body-sm">Table: {source.table}</Body>
-                  <Body className="text-body-sm text-ink-600">
+                  <Body className="font-weight-bold">Table: {source.table}</Body>
+                  <Body size="sm" className=" text-ink-600">
                     Fields: {source.fields.join(', ')}
                   </Body>
                   {source.filters && source.filters.length > 0 && (
-                    <Body className="text-body-sm text-ink-500 mt-1">
+                    <Body size="sm" className=" text-ink-500 mt-1">
                       Filters: {source.filters.join(', ')}
                     </Body>
                   )}

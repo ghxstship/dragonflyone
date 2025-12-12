@@ -148,7 +148,7 @@ export default function ProductionAdvancingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Allocations</Body>
-                <Body className="text-body-sm text-on-dark-muted">Assign resources</Body>
+                <Body size="sm" className=" text-on-dark-muted">Assign resources</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -166,7 +166,7 @@ export default function ProductionAdvancingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Fulfillment</Body>
-                <Body className="text-body-sm text-on-dark-muted">Track delivery</Body>
+                <Body size="sm" className=" text-on-dark-muted">Track delivery</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -184,7 +184,7 @@ export default function ProductionAdvancingPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">History</Body>
-                <Body className="text-body-sm text-on-dark-muted">Past requests</Body>
+                <Body size="sm" className=" text-on-dark-muted">Past requests</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -210,7 +210,7 @@ export default function ProductionAdvancingPage() {
                 >
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{request.items}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">
+                    <Body size="sm" className=" text-on-dark-muted">
                       {request.requester} - {request.type} - {request.submitted}
                     </Body>
                   </Stack>

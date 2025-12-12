@@ -217,21 +217,21 @@ export default function VenuesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{venueTypeLabels[selectedVenue.venue_type] || selectedVenue.venue_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedVenue.status] || 'ghost'}>
               {selectedVenue.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Location</Body>
+            <Body size="sm" className=" text-grey-500">Location</Body>
             <Body>{selectedVenue.city && selectedVenue.state ? `${selectedVenue.city}, ${selectedVenue.state}` : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Capacity</Body>
+            <Body size="sm" className=" text-grey-500">Capacity</Body>
             <Body>{selectedVenue.capacity?.toLocaleString() || '—'}</Body>
           </Stack>
         </Grid>
@@ -243,11 +243,11 @@ export default function VenuesPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Contact Name</Body>
+            <Body size="sm" className=" text-grey-500">Contact Name</Body>
             <Body>{selectedVenue.contact_name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Email</Body>
+            <Body size="sm" className=" text-grey-500">Email</Body>
             <Body>{selectedVenue.contact_email || '—'}</Body>
           </Stack>
         </Grid>

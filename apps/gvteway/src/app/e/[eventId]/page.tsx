@@ -72,7 +72,7 @@ export default function EventOverviewPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Buy Tickets</Body>
-                <Body className="text-body-sm text-on-dark-muted">{eventDetails.ticketsAvailable} available</Body>
+                <Body size="sm" className=" text-on-dark-muted">{eventDetails.ticketsAvailable} available</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -85,7 +85,7 @@ export default function EventOverviewPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Program</Body>
-                <Body className="text-body-sm text-on-dark-muted">Event schedule</Body>
+                <Body size="sm" className=" text-on-dark-muted">Event schedule</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -98,7 +98,7 @@ export default function EventOverviewPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Lineup</Body>
-                <Body className="text-body-sm text-on-dark-muted">{eventDetails.lineup.length} artists</Body>
+                <Body size="sm" className=" text-on-dark-muted">{eventDetails.lineup.length} artists</Body>
               </Stack>
             </Stack>
           </CardBody>
@@ -111,7 +111,7 @@ export default function EventOverviewPage() {
               </Box>
               <Stack gap={1}>
                 <Body className="font-weight-bold text-white">Friends</Body>
-                <Body className="text-body-sm text-on-dark-muted">Who is going</Body>
+                <Body size="sm" className=" text-on-dark-muted">Who is going</Body>
               </Stack>
             </Stack>
           </CardBody>

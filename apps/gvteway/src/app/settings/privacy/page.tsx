@@ -187,7 +187,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-weight-medium">Show Activity</Body>
-                    <Body className="text-body-sm text-ink-500">Let others see your recent activity</Body>
+                    <Body size="sm" className=" text-ink-500">Let others see your recent activity</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_activity}
@@ -198,7 +198,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-weight-medium">Show Events Attended</Body>
-                    <Body className="text-body-sm text-ink-500">Display events on your profile</Body>
+                    <Body size="sm" className=" text-ink-500">Display events on your profile</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_events_attended}
@@ -209,7 +209,7 @@ export default function PrivacySettingsPage() {
                 <Stack direction="horizontal" className="justify-between items-center py-2">
                   <Stack>
                     <Body className="font-weight-medium">Show Reviews</Body>
-                    <Body className="text-body-sm text-ink-500">Display your reviews publicly</Body>
+                    <Body size="sm" className=" text-ink-500">Display your reviews publicly</Body>
                   </Stack>
                   <Switch
                     checked={settings.show_reviews}
@@ -296,7 +296,7 @@ export default function PrivacySettingsPage() {
                         <Body className="font-weight-medium">{report.reported_user_name}</Body>
                         {getStatusBadge(report.status)}
                       </Stack>
-                      <Body className="text-body-sm text-ink-600">{report.reason}</Body>
+                      <Body size="sm" className=" text-ink-600">{report.reason}</Body>
                       <Body className="text-mono-xs text-ink-600 mt-2">
                         {new Date(report.created_at).toLocaleDateString()}
                       </Body>

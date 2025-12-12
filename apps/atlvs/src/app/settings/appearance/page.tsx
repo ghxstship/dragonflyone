@@ -92,7 +92,7 @@ export default function AppearanceSettingsPage() {
                 >
                   <Stack gap={1} className="text-left">
                     <Body className="font-heading uppercase tracking-label text-white">Default</Body>
-                    <Body className="text-body-sm text-ink-400">Standard appearance</Body>
+                    <Body size="sm" className=" text-ink-400">Standard appearance</Body>
                   </Stack>
                 </Button>
                 <Button
@@ -102,7 +102,7 @@ export default function AppearanceSettingsPage() {
                 >
                   <Stack gap={1} className="text-left">
                     <Body className="font-heading uppercase tracking-label text-white">Compact</Body>
-                    <Body className="text-body-sm text-ink-400">Dense information view</Body>
+                    <Body size="sm" className=" text-ink-400">Dense information view</Body>
                   </Stack>
                 </Button>
                 <Button
@@ -112,7 +112,7 @@ export default function AppearanceSettingsPage() {
                 >
                   <Stack gap={1} className="text-left">
                     <Body className="font-heading uppercase tracking-label text-white">Comfortable</Body>
-                    <Body className="text-body-sm text-ink-400">Relaxed spacing</Body>
+                    <Body size="sm" className=" text-ink-400">Relaxed spacing</Body>
                   </Stack>
                 </Button>
                 <Button
@@ -122,7 +122,7 @@ export default function AppearanceSettingsPage() {
                 >
                   <Stack gap={1} className="text-left">
                     <Body className="font-heading uppercase tracking-label text-white">High Contrast</Body>
-                    <Body className="text-body-sm text-ink-400">Enhanced visibility</Body>
+                    <Body size="sm" className=" text-ink-400">Enhanced visibility</Body>
                   </Stack>
                 </Button>
               </Grid>
@@ -180,7 +180,7 @@ export default function AppearanceSettingsPage() {
                       className="size-8 rounded-avatar border-2 border-ink-600"
                       style={{ backgroundColor: option.color }}
                     />
-                    <Body className="text-body-sm text-white">{option.label}</Body>
+                    <Body size="sm" className=" text-white">{option.label}</Body>
                     {settings.accentColor === option.value && (
                       <Badge variant="solid">Active</Badge>
                     )}
@@ -208,7 +208,7 @@ export default function AppearanceSettingsPage() {
                       <Body className="font-heading uppercase tracking-label text-white">
                         {option.label}
                       </Body>
-                      <Body className="text-body-sm text-ink-400">{option.description}</Body>
+                      <Body size="sm" className=" text-ink-400">{option.description}</Body>
                     </Stack>
                     {settings.density === option.value && (
                       <Badge variant="solid">Selected</Badge>
@@ -260,7 +260,7 @@ export default function AppearanceSettingsPage() {
                 <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                   <Stack gap={1}>
                     <Body className="text-white">Enable Animations</Body>
-                    <Body className="text-body-sm text-ink-400">
+                    <Body size="sm" className=" text-ink-400">
                       Show transitions and micro-interactions
                     </Body>
                   </Stack>
@@ -272,7 +272,7 @@ export default function AppearanceSettingsPage() {
                 <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                   <Stack gap={1}>
                     <Body className="text-white">Reduced Motion</Body>
-                    <Body className="text-body-sm text-ink-400">
+                    <Body size="sm" className=" text-ink-400">
                       Minimize motion for accessibility
                     </Body>
                   </Stack>
@@ -290,7 +290,7 @@ export default function AppearanceSettingsPage() {
                 <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
                   <Stack gap={1}>
                     <Body className="text-white">Collapse Sidebar by Default</Body>
-                    <Body className="text-body-sm text-ink-400">
+                    <Body size="sm" className=" text-ink-400">
                       Start with a minimized sidebar for more content space
                     </Body>
                   </Stack>

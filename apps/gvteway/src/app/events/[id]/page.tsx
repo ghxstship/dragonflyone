@@ -128,11 +128,11 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <H3 className="mb-4 text-white">Event Info</H3>
                 <Stack gap={3}>
                   <Stack>
-                    <Label className="text-ink-500 text-body-sm">Capacity</Label>
+                    <Label className="text-ink-500">Capacity</Label>
                     <Body className="text-white">{event.capacity} attendees</Body>
                   </Stack>
                   <Stack>
-                    <Label className="text-ink-500 text-body-sm">Genre</Label>
+                    <Label className="text-ink-500">Genre</Label>
                     <Badge>{event.genre}</Badge>
                   </Stack>
                 </Stack>
@@ -142,7 +142,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6}>
               <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">Event Details</H3>
-                <Stack gap={3} className="text-body-sm">
+                <Stack gap={3} size="sm" className="">
                   <Stack>
                     <Label className="text-ink-500">Date</Label>
                     <Body className="mt-1 text-white">{new Date(event.event_date).toLocaleDateString()}</Body>

@@ -51,7 +51,7 @@ export default function ProductionContractsPage() {
                   <FileCheck size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{contract.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{contract.party} · ${contract.value.toLocaleString()}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{contract.party} · ${contract.value.toLocaleString()}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[contract.status]}>{contract.status.toUpperCase()}</Badge>

@@ -226,7 +226,7 @@ export default function ScanCredentialPage() {
                             <Body className="font-weight-semibold">
                               {scanResult.credential.contact?.first_name} {scanResult.credential.contact?.last_name}
                             </Body>
-                            <Body className="text-body-sm text-grey-500">
+                            <Body size="sm" className=" text-grey-500">
                               {scanResult.credential.credential_type?.name} - Level {scanResult.credential.credential_type?.access_level}
                             </Body>
                           </Stack>
@@ -266,7 +266,7 @@ export default function ScanCredentialPage() {
                                 <XCircle className="size-5 text-error" />
                               )}
                               <Stack gap={0}>
-                                <Body className="font-mono text-body-sm text-white">
+                                <Body className="font-mono text-white">
                                   {scan.credential?.badge_number || 'Unknown'}
                                 </Body>
                                 <Body className="text-body-xs text-grey-400">

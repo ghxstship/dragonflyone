@@ -224,7 +224,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
 
       {/* Results Count */}
       <Container className="py-spacing-4">
-        <Body variant="muted" className="text-body-sm">
+        <Body variant="muted" size="sm">
           {filteredJobs.length} {filteredJobs.length === 1 ? 'opportunity' : 'opportunities'} found
         </Body>
       </Container>
@@ -256,9 +256,9 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   {/* Header */}
                   <Stack direction="horizontal" className="justify-between items-start">
                     <Stack gap={1} className="flex-1">
-                      <H3 className="text-body-sm">{job.title}</H3>
+                      <H3 size="sm">{job.title}</H3>
                       {job.company && (
-                        <Body className="text-body-sm" variant="muted">{job.company}</Body>
+                        <Body size="sm" variant="muted">{job.company}</Body>
                       )}
                     </Stack>
                     <Button
@@ -288,20 +288,20 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
                   <Stack gap={2}>
                     <Stack direction="horizontal" gap={2} className="items-center">
                       <MapPin className="w-spacing-4 h-spacing-4 text-ink-500" />
-                      <Body className="text-body-sm">{job.location}</Body>
+                      <Body size="sm">{job.location}</Body>
                     </Stack>
                     
                     {(job.salary || job.rate) && (
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <DollarSign className="w-spacing-4 h-spacing-4 text-ink-500" />
-                        <Body className="text-body-sm">{job.salary || job.rate}</Body>
+                        <Body size="sm">{job.salary || job.rate}</Body>
                       </Stack>
                     )}
 
                     {job.date && (
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Clock className="w-spacing-4 h-spacing-4 text-ink-500" />
-                        <Body className="text-body-sm">
+                        <Body size="sm">
                           {new Date(job.date).toLocaleDateString()}
                           {job.duration && ` • ${job.duration}`}
                         </Body>

@@ -195,19 +195,19 @@ function SponsorFulfillmentPageContent() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Sponsor</Body>
+            <Body size="sm" className=" text-grey-500">Sponsor</Body>
             <Body>{selectedDeliverable.sponsor_name}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Tier</Body>
+            <Body size="sm" className=" text-grey-500">Tier</Body>
             <Body>{selectedDeliverable.tier_name || '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Due Date</Body>
+            <Body size="sm" className=" text-grey-500">Due Date</Body>
             <Body>{selectedDeliverable.due_date ? new Date(selectedDeliverable.due_date).toLocaleDateString() : 'No due date'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedDeliverable.status] || 'ghost'}>
               {selectedDeliverable.status.replace('_', ' ').toUpperCase()}
             </Badge>

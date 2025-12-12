@@ -95,7 +95,7 @@ export default function VendorPortalPage() {
                         <Body className="text-white">{delivery.production}</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <Calendar size={12} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             {new Date(delivery.date).toLocaleDateString()}
                           </Body>
                         </Stack>
@@ -134,7 +134,7 @@ export default function VendorPortalPage() {
                     >
                       <Stack gap={1}>
                         <Body className="text-white">{invoice.id}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{invoice.production}</Body>
+                        <Body size="sm" className=" text-on-dark-muted">{invoice.production}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={3} className="items-center">
                         <Body className="text-white">${invoice.amount.toLocaleString()}</Body>

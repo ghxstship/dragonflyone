@@ -117,7 +117,7 @@ export default function SchedulePage() {
                       <Stack gap={2} direction="horizontal" className="items-start justify-between">
                         <Stack gap={2}>
                           <H3>{item.title}</H3>
-                          <Body className="font-mono text-body-sm">
+                          <Body className="font-mono">
                             {formatTime(item.start_time)} - {formatTime(item.end_time)}
                           </Body>
                         </Stack>
@@ -125,14 +125,14 @@ export default function SchedulePage() {
                           <Badge variant={getStatusVariant(item.status)}>
                             {item.status?.replace('_', ' ').toUpperCase()}
                           </Badge>
-                          <Body className="font-mono text-body-sm">
+                          <Body className="font-mono">
                             {item.assignments?.length || 0} crew
                           </Body>
                         </Stack>
                       </Stack>
 
                       <ProgressBar value={getProgress(item)} size="lg" />
-                      <Body className="font-mono text-body-sm">
+                      <Body className="font-mono">
                         {getProgress(item)}% complete
                       </Body>
                     </Stack>

@@ -134,7 +134,7 @@ export default function MyDeliveriesPage() {
 
                         <Grid cols={2} gap={4}>
                           <Stack gap={2}>
-                            <Body className="text-body-sm text-on-dark-muted">Items</Body>
+                            <Body size="sm" className=" text-on-dark-muted">Items</Body>
                             <Stack gap={1}>
                               {delivery.items.map((item, idx) => (
                                 <Stack key={idx} direction="horizontal" gap={2} className="items-center">
@@ -145,7 +145,7 @@ export default function MyDeliveriesPage() {
                             </Stack>
                           </Stack>
                           <Stack gap={2}>
-                            <Body className="text-body-sm text-on-dark-muted">Site Contact</Body>
+                            <Body size="sm" className=" text-on-dark-muted">Site Contact</Body>
                             <Body className="text-white">{delivery.contactName}</Body>
                             <Body className="text-on-dark-muted">{delivery.contactPhone}</Body>
                           </Stack>

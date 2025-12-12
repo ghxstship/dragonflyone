@@ -85,7 +85,7 @@ export default function TicketTrackingPage() {
               }`}
             >
               {step.status === 'completed' ? (
-                <Body className="text-white text-body-sm">✓</Body>
+                <Body className="text-white">✓</Body>
               ) : step.status === 'current' ? (
                 <Stack className="w-3 h-3 bg-white rounded-avatar" />
               ) : (
@@ -104,7 +104,7 @@ export default function TicketTrackingPage() {
             <Body className={`font-weight-medium ${step.status === 'pending' ? 'text-ink-600' : ''}`}>
               {step.title}
             </Body>
-            <Body className={`text-body-sm ${step.status === 'pending' ? 'text-ink-600' : 'text-ink-600'}`}>
+            <Body size="sm" className={step.status === 'pending' ? 'text-ink-600' : 'text-ink-600'}>
               {step.description}
             </Body>
             {step.timestamp && (
@@ -204,18 +204,18 @@ export default function TicketTrackingPage() {
                     <Stack direction="horizontal" gap={4} className="mt-2">
                       <Stack>
                         <Label className="text-ink-500 text-mono-xs">Method</Label>
-                        <Body className="text-body-sm">{getDeliveryMethodLabel(delivery.delivery_method)}</Body>
+                        <Body size="sm" className="">{getDeliveryMethodLabel(delivery.delivery_method)}</Body>
                       </Stack>
                       {delivery.tracking_number && (
                         <Stack>
                           <Label className="text-ink-500 text-mono-xs">Tracking</Label>
-                          <Body className="text-body-sm font-mono">{delivery.tracking_number}</Body>
+                          <Body size="sm" className=" font-mono">{delivery.tracking_number}</Body>
                         </Stack>
                       )}
                       {delivery.estimated_delivery && (
                         <Stack>
                           <Label className="text-ink-500 text-mono-xs">Est. Delivery</Label>
-                          <Body className="text-body-sm">{delivery.estimated_delivery}</Body>
+                          <Body size="sm" className="">{delivery.estimated_delivery}</Body>
                         </Stack>
                       )}
                     </Stack>

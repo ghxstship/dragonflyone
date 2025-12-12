@@ -103,7 +103,7 @@ export default function SetTimesPage() {
             <Stack direction="horizontal" className="items-start justify-between">
               <Card className="p-4">
                 <Stack gap={1} className="text-center">
-                  <Body className="text-body-sm">Current Time</Body>
+                  <Body size="sm" className="">Current Time</Body>
                   <Body className="text-h5-md">
                     {currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
                   </Body>
@@ -125,11 +125,11 @@ export default function SetTimesPage() {
                     <Stack gap={1}>
                       <Badge variant="solid">NOW ON STAGE</Badge>
                       <Body className="text-h5-md font-display">{onStage[0].artistName}</Body>
-                      <Body className="text-body-sm">{onStage[0].stage}</Body>
+                      <Body size="sm" className="">{onStage[0].stage}</Body>
                     </Stack>
                     <Stack gap={2} className="text-right">
-                      <Body className="text-body-sm">Started: {onStage[0].actualStart}</Body>
-                      <Body className="text-body-sm">Scheduled End: {onStage[0].scheduledEnd}</Body>
+                      <Body size="sm" className="">Started: {onStage[0].actualStart}</Body>
+                      <Body size="sm" className="">Scheduled End: {onStage[0].scheduledEnd}</Body>
                       <Button variant="solid" onClick={() => { setSelectedSet(onStage[0]); setShowStartModal(true); }}>End Set</Button>
                     </Stack>
                   </Stack>
@@ -154,17 +154,17 @@ export default function SetTimesPage() {
                           <Badge variant="outline">{set.stage}</Badge>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body size="sm" className="">Scheduled</Body>
                           <Body>{set.scheduledStart} - {set.scheduledEnd}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Actual</Body>
+                          <Body size="sm" className="">Actual</Body>
                           <Body>
                             {set.actualStart || "--:--"} - {set.actualEnd || "--:--"}
                           </Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Set Length</Body>
+                          <Body size="sm" className="">Set Length</Body>
                           <Body>{set.setLength} min</Body>
                         </Stack>
                         <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
@@ -195,7 +195,7 @@ export default function SetTimesPage() {
                               <Stack direction="horizontal" className="items-center justify-between">
                                 <Stack gap={1}>
                                   <Body>{set.artistName}</Body>
-                                  <Body className="text-body-sm">{set.scheduledStart} - {set.scheduledEnd}</Body>
+                                  <Body size="sm" className="">{set.scheduledStart} - {set.scheduledEnd}</Body>
                                 </Stack>
                                 <Badge variant={getStatusVariant(set.status)}>{set.status}</Badge>
                               </Stack>
@@ -221,13 +221,13 @@ export default function SetTimesPage() {
                             <Grid cols={4} gap={4} className="items-center">
                               <Body>{set.artistName}</Body>
                               <Stack gap={1}>
-                                <Body className="text-body-sm">Start Variance</Body>
+                                <Body size="sm" className="">Start Variance</Body>
                                 <Body>
                                   {startVar !== null ? (startVar > 0 ? `+${startVar}` : startVar) : "--"} min
                                 </Body>
                               </Stack>
                               <Stack gap={1}>
-                                <Body className="text-body-sm">End Variance</Body>
+                                <Body size="sm" className="">End Variance</Body>
                                 <Body>
                                   {endVar !== null ? (endVar > 0 ? `+${endVar}` : endVar) : "--"} min
                                 </Body>
@@ -260,37 +260,37 @@ export default function SetTimesPage() {
               <Body className="font-display">{selectedSet.artistName}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Stage</Body>
+                  <Body size="sm" className="">Stage</Body>
                   <Body>{selectedSet.stage}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Status</Body>
+                  <Body size="sm" className="">Status</Body>
                   <Badge variant={getStatusVariant(selectedSet.status)}>{selectedSet.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Scheduled</Body>
+                  <Body size="sm" className="">Scheduled</Body>
                   <Body>{selectedSet.scheduledStart} - {selectedSet.scheduledEnd}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Actual</Body>
+                  <Body size="sm" className="">Actual</Body>
                   <Body>{selectedSet.actualStart || "--:--"} - {selectedSet.actualEnd || "--:--"}</Body>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Set Length</Body>
+                  <Body size="sm" className="">Set Length</Body>
                   <Body>{selectedSet.setLength} min</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Changeover</Body>
+                  <Body size="sm" className="">Changeover</Body>
                   <Body>{selectedSet.changeoverTime} min</Body>
                 </Stack>
               </Grid>
               {selectedSet.notes && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Notes</Body>
+                  <Body size="sm" className="">Notes</Body>
                   <Body>{selectedSet.notes}</Body>
                 </Stack>
               )}

@@ -150,7 +150,7 @@ export default function DashboardsPage() {
                                 <Star size={14} className="fill-warning text-warning" />
                               )}
                             </Stack>
-                            <Body className="text-body-sm text-on-dark-muted">
+                            <Body size="sm" className=" text-on-dark-muted">
                               {dashboard.description}
                             </Body>
                           </Stack>
@@ -158,17 +158,17 @@ export default function DashboardsPage() {
 
                         <Stack direction="horizontal" gap={2} className="items-center">
                           {getVisibilityBadge(dashboard.visibility)}
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">
                             {dashboard.widgets} widgets
                           </Body>
                         </Stack>
 
                         <Stack direction="horizontal" className="items-center justify-between">
                           <Stack gap={0}>
-                            <Body className="text-body-sm text-on-dark-muted">
+                            <Body size="sm" className=" text-on-dark-muted">
                               Owner: {dashboard.owner}
                             </Body>
-                            <Body className="text-body-sm text-on-dark-muted">
+                            <Body size="sm" className=" text-on-dark-muted">
                               {dashboard.views.toLocaleString()} views
                             </Body>
                           </Stack>

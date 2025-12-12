@@ -46,7 +46,7 @@ export default function TimekeepingPage() {
                   <Users size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{entry.name}</Body>
-                    <Body className="text-body-sm text-grey-500">
+                    <Body size="sm" className=" text-grey-500">
                       {entry.clockIn} - {entry.clockOut}
                     </Body>
                   </Stack>

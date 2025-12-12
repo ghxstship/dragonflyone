@@ -114,25 +114,25 @@ export default function SocialAmplificationPage() {
                         <Badge variant={getStatusVariant(artist.status)}>{artist.status}</Badge>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Total Followers</Body>
+                        <Body size="sm" className="">Total Followers</Body>
                         <Body className="text-h6-md">{formatNumber(artist.followers)}</Body>
                       </Stack>
                       <Stack gap={2}>
-                        <Body className="text-body-sm">Platforms</Body>
+                        <Body size="sm" className="">Platforms</Body>
                         {artist.platforms.map((p) => (
                           <Stack key={p.name} direction="horizontal" className="justify-between">
-                            <Body className="text-body-sm">{p.name}</Body>
-                            <Body className="text-body-sm">{formatNumber(p.followers)}</Body>
+                            <Body size="sm" className="">{p.name}</Body>
+                            <Body size="sm" className="">{formatNumber(p.followers)}</Body>
                           </Stack>
                         ))}
                       </Stack>
                       <Grid cols={2} gap={4}>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Scheduled</Body>
+                          <Body size="sm" className="">Scheduled</Body>
                           <Body>{artist.scheduledPosts} posts</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Engagement</Body>
+                          <Body size="sm" className="">Engagement</Body>
                           <Body>{artist.engagement}%</Body>
                         </Stack>
                       </Grid>
@@ -150,18 +150,18 @@ export default function SocialAmplificationPage() {
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>
                         <Body className="font-display">{campaign.name}</Body>
-                        <Body className="text-body-sm">{campaign.eventName}</Body>
+                        <Body size="sm" className="">{campaign.eventName}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Artists</Body>
+                        <Body size="sm" className="">Artists</Body>
                         <Body>{campaign.artists.length}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Duration</Body>
-                        <Body className="text-body-sm">{campaign.startDate} - {campaign.endDate}</Body>
+                        <Body size="sm" className="">Duration</Body>
+                        <Body size="sm" className="">{campaign.startDate} - {campaign.endDate}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm">Reach</Body>
+                        <Body size="sm" className="">Reach</Body>
                         <Body>{formatNumber(campaign.reach)}</Body>
                       </Stack>
                       <Badge variant={getStatusVariant(campaign.status)}>{campaign.status}</Badge>
@@ -179,7 +179,7 @@ export default function SocialAmplificationPage() {
                     <Stack gap={2} className="text-center">
                       <Body className="text-h3-md">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Body>
                       <Body>{item}</Body>
-                      <Body className="text-body-sm">{Math.floor(Math.random() * 20) + 5} items</Body>
+                      <Body size="sm" className="">{Math.floor(Math.random() * 20) + 5} items</Body>
                     </Stack>
                   </Card>
                 ))}
@@ -205,7 +205,7 @@ export default function SocialAmplificationPage() {
                 <Badge variant={getStatusVariant(selectedArtist.status)}>{selectedArtist.status}</Badge>
               </Stack>
               <Stack gap={1}>
-                <Body className="text-body-sm">Total Reach</Body>
+                <Body size="sm" className="">Total Reach</Body>
                 <Body className="text-h5-md">{formatNumber(selectedArtist.followers)}</Body>
               </Stack>
               <Stack gap={2}>
@@ -215,7 +215,7 @@ export default function SocialAmplificationPage() {
                     <Stack direction="horizontal" className="items-center justify-between">
                       <Stack gap={0}>
                         <Body>{p.name}</Body>
-                        <Body className="text-body-sm">{p.handle}</Body>
+                        <Body size="sm" className="">{p.handle}</Body>
                       </Stack>
                       <Body>{formatNumber(p.followers)}</Body>
                     </Stack>
@@ -224,11 +224,11 @@ export default function SocialAmplificationPage() {
               </Stack>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Scheduled Posts</Body>
+                  <Body size="sm" className="">Scheduled Posts</Body>
                   <Body>{selectedArtist.scheduledPosts}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Avg Engagement</Body>
+                  <Body size="sm" className="">Avg Engagement</Body>
                   <Body>{selectedArtist.engagement}%</Body>
                 </Stack>
               </Grid>
@@ -273,27 +273,27 @@ export default function SocialAmplificationPage() {
             <Stack gap={4}>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Event</Body>
+                  <Body size="sm" className=" text-ink-500">Event</Body>
                   <Body className="font-display">{selectedCampaign.event}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Status</Body>
+                  <Body size="sm" className=" text-ink-500">Status</Body>
                   <Badge variant={getStatusVariant(selectedCampaign.status)}>{selectedCampaign.status}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Artists</Body>
+                  <Body size="sm" className=" text-ink-500">Artists</Body>
                   <Body className="font-display">{selectedCampaign.artists}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Total Reach</Body>
+                  <Body size="sm" className=" text-ink-500">Total Reach</Body>
                   <Body className="font-display">{formatNumber(selectedCampaign.reach)}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Posts</Body>
+                  <Body size="sm" className=" text-ink-500">Posts</Body>
                   <Body className="font-display">{selectedCampaign.posts}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm text-ink-500">Engagement</Body>
+                  <Body size="sm" className=" text-ink-500">Engagement</Body>
                   <Body className="font-display">{selectedCampaign.engagement}</Body>
                 </Stack>
               </Grid>

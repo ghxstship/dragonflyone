@@ -80,7 +80,7 @@ export default function ProductionInsurancePage() {
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body className="text-on-dark-muted">Period</Body>
-                      <Body className="text-body-sm text-white">
+                      <Body size="sm" className=" text-white">
                         <Calendar size={12} className="mr-1 inline" />
                         {policy.startDate} - {policy.endDate}
                       </Body>

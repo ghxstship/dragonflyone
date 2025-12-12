@@ -58,7 +58,7 @@ export default function BuildStrikePage() {
                   )}
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{task.task}</Body>
-                    <Body className="text-body-sm text-grey-500">{task.duration}</Body>
+                    <Body size="sm" className=" text-grey-500">{task.duration}</Body>
                   </Stack>
                 </Stack>
                 <Stack direction="horizontal" gap={2}>

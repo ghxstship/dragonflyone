@@ -62,7 +62,7 @@ export default function ProductionAdvancingPage() {
                   <FastForward size={20} className="text-primary" />
                   <Stack gap={1}>
                     <Body className="font-weight-medium">{advance.title}</Body>
-                    <Body className="text-body-sm text-grey-500">{advance.artist} · Due {advance.dueDate}</Body>
+                    <Body size="sm" className=" text-grey-500">{advance.artist} · Due {advance.dueDate}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={statusColors[advance.status]}>{advance.status.toUpperCase()}</Badge>

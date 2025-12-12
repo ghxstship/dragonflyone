@@ -52,7 +52,7 @@ export default function ProductionContingenciesPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{item.title}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{item.category}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{item.category}</Body>
                   </Stack>
                 </Stack>
                 <Badge variant={severityColors[item.severity]}>{item.severity.toUpperCase()}</Badge>

@@ -128,7 +128,7 @@ export default function MySchedulePage() {
                         <Body className="font-weight-bold text-white">
                           {new Date(item.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
                         </Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className=" text-on-dark-muted">
                           {item.startTime} - {item.endTime}
                         </Body>
                       </Stack>
@@ -136,14 +136,14 @@ export default function MySchedulePage() {
                         <Body className="font-weight-bold text-white">{item.production}</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
                           <MapPin size={14} className="text-on-dark-muted" />
-                          <Body className="text-body-sm text-on-dark-muted">{item.venue}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">{item.venue}</Body>
                         </Stack>
                       </Stack>
                     </Stack>
                     <Stack direction="horizontal" gap={4} className="items-center">
                       <Stack gap={0} className="text-right">
                         <Body className="text-white">{item.department}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">{item.role}</Body>
+                        <Body size="sm" className=" text-on-dark-muted">{item.role}</Body>
                       </Stack>
                       {getStatusBadge(item.status)}
                     </Stack>

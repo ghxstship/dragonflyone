@@ -119,7 +119,7 @@ export default function ProductionWeatherPage() {
                         {getConditionIcon(day.condition)}
                         <Stack gap={1}>
                           <Body className="font-weight-bold text-white">{day.tempHigh}°</Body>
-                          <Body className="text-body-sm text-on-dark-muted">{day.tempLow}°</Body>
+                          <Body size="sm" className=" text-on-dark-muted">{day.tempLow}°</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={2}>
                           <Badge variant={day.precipitation > 30 ? 'warning' : 'info'}>{day.precipitation}%</Badge>

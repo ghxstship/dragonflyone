@@ -109,17 +109,17 @@ export default function ChannelsPage() {
                         <Body className="text-h5-md">{getTypeIcon(channel.type)}</Body>
                         <Stack gap={1}>
                           <Body className="font-display">{channel.name}</Body>
-                          <Body className="text-body-sm">{channel.department}</Body>
+                          <Body size="sm" className="">{channel.department}</Body>
                         </Stack>
                       </Stack>
                       <Stack gap={1} className="text-right">
                         <Badge variant="outline">{channel.type}</Badge>
-                        {channel.frequency && <Body className="text-body-sm">{channel.frequency}</Body>}
+                        {channel.frequency && <Body size="sm" className="">{channel.frequency}</Body>}
                       </Stack>
                     </Stack>
-                    <Body className="text-body-sm">{channel.description}</Body>
+                    <Body size="sm" className="">{channel.description}</Body>
                     <Stack direction="horizontal" className="items-center justify-between">
-                      <Body className="text-body-sm">{channel.members} members</Body>
+                      <Body size="sm" className="">{channel.members} members</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" onClick={() => setSelectedChannel(channel)}>Manage</Button>
                         <Button variant="solid" size="sm">Join</Button>
@@ -167,11 +167,11 @@ export default function ChannelsPage() {
                 <Stack direction="horizontal" gap={2}>
                   {["JS", "MK", "AL", "RB", "TC"].map((initials, idx) => (
                     <Card key={idx} className="flex size-10 items-center justify-center rounded-avatar">
-                      <Body className="text-body-sm">{initials}</Body>
+                      <Body size="sm" className="">{initials}</Body>
                     </Card>
                   ))}
                   <Card className="flex size-10 items-center justify-center rounded-avatar">
-                    <Body className="text-body-sm">+{selectedChannel.members - 5}</Body>
+                    <Body size="sm" className="">+{selectedChannel.members - 5}</Body>
                   </Card>
                 </Stack>
               </Stack>

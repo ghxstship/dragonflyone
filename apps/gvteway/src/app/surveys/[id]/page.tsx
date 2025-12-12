@@ -89,8 +89,8 @@ export default function SurveyPage() {
         return (
           <Stack gap={2}>
             <Stack direction="horizontal" className="justify-between">
-              <Body className="text-body-sm text-ink-500">{question.min_label || '1'}</Body>
-              <Body className="text-body-sm text-ink-500">{question.max_label || '10'}</Body>
+              <Body size="sm" className=" text-ink-500">{question.min_label || '1'}</Body>
+              <Body size="sm" className=" text-ink-500">{question.max_label || '10'}</Body>
             </Stack>
             <Stack direction="horizontal" gap={1}>
               {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
@@ -290,7 +290,7 @@ export default function SurveyPage() {
                 </Box>
               )}
               <Body className="font-weight-bold">{survey.event_title}</Body>
-              <Body className="text-ink-600 text-body-sm">{survey.event_date}</Body>
+              <Body className="text-ink-600">{survey.event_date}</Body>
 
               <Stack className="mt-6 pt-4 border-t border-ink-200">
                 <H3 className="mb-2">PROGRESS</H3>
@@ -300,7 +300,7 @@ export default function SurveyPage() {
                     style={{ '--progress-width': `${(Object.keys(answers).length / survey.questions.length) * 100}%`, width: 'var(--progress-width)' } as React.CSSProperties}
                   />
                 </Stack>
-                <Body className="text-body-sm text-ink-500 mt-2">
+                <Body size="sm" className=" text-ink-500 mt-2">
                   {Object.keys(answers).length} of {survey.questions.length} answered
                 </Body>
               </Stack>

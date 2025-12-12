@@ -106,7 +106,7 @@ export default function EventChatPage() {
                   </Stack>
                   <Stack>
                     <Stack direction="horizontal" gap={2} className="items-center">
-                      <Body className="font-weight-medium text-body-sm">{message.user_name}</Body>
+                      <Body className="font-weight-medium">{message.user_name}</Body>
                       <Body className="text-mono-xs text-ink-600">{formatTime(message.created_at)}</Body>
                     </Stack>
                     <Body className="text-ink-600">{message.content}</Body>
@@ -154,7 +154,7 @@ export default function EventChatPage() {
             <H3 className="mb-2">CHAT RULES</H3>
             <Stack gap={1}>
               {chatRoom.rules.map((rule, index) => (
-                <Body key={index} className="text-body-sm">• {rule}</Body>
+                <Body key={index} size="sm" className="">• {rule}</Body>
               ))}
             </Stack>
           </Card>
@@ -227,7 +227,7 @@ export default function EventChatPage() {
             <Card className="p-4">
               <H3 className="mb-4">EVENT INFO</H3>
               <Stack gap={2}>
-                <Body className="text-body-sm text-ink-600">{chatRoom.event_date}</Body>
+                <Body size="sm" className=" text-ink-600">{chatRoom.event_date}</Body>
                 <Button
                   variant="outline"
                   size="sm"

@@ -132,14 +132,14 @@ export default function EventProgramPage() {
                               )}
                             </Body>
                             {item.artist && (
-                              <Body className="text-body-sm text-ink-500">{item.artist}</Body>
+                              <Body size="sm" className=" text-ink-500">{item.artist}</Body>
                             )}
                             {item.notes && (
                               <Body className="text-mono-xs text-ink-600 mt-1">{item.notes}</Body>
                             )}
                           </Stack>
                           {item.duration && (
-                            <Body className="text-body-sm text-ink-600">{item.duration}</Body>
+                            <Body size="sm" className=" text-ink-600">{item.duration}</Body>
                           )}
                         </Stack>
                       ))}
@@ -169,7 +169,7 @@ export default function EventProgramPage() {
                       <Stack>
                         <Body className="font-weight-medium">{performer.name}</Body>
                         {performer.role && (
-                          <Body className="text-body-sm text-ink-500">{performer.role}</Body>
+                          <Body size="sm" className=" text-ink-500">{performer.role}</Body>
                         )}
                       </Stack>
                     </Stack>
@@ -195,7 +195,7 @@ export default function EventProgramPage() {
                         </Figure>
                       )}
                       <Stack>
-                        <Body className="text-body-sm">{sponsor.name}</Body>
+                        <Body size="sm" className="">{sponsor.name}</Body>
                         <Body className="text-mono-xs text-ink-600">{sponsor.tier}</Body>
                       </Stack>
                     </Stack>

@@ -143,7 +143,7 @@ export default function MobileJobSearchPage() {
                         <Stack direction="horizontal" className="justify-between">
                           <Stack gap={1}>
                             <Body className="font-display">{job.title}</Body>
-                            <Body className="text-body-sm">{job.company}</Body>
+                            <Body size="sm" className="">{job.company}</Body>
                           </Stack>
                           <Stack gap={1} className="text-right">
                             <Badge className={getTypeColor(job.type)}>{job.type}</Badge>
@@ -151,8 +151,8 @@ export default function MobileJobSearchPage() {
                           </Stack>
                         </Stack>
                         <Stack direction="horizontal" gap={4}>
-                          <Body className="text-body-sm">{job.location}</Body>
-                          <Body className="text-body-sm">{job.posted}</Body>
+                          <Body size="sm" className="">{job.location}</Body>
+                          <Body size="sm" className="">{job.posted}</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={2} className="flex-wrap">
                           {job.skills.slice(0, 3).map((skill, idx) => (
@@ -186,7 +186,7 @@ export default function MobileJobSearchPage() {
                         <Stack direction="horizontal" className="justify-between">
                           <Stack gap={1}>
                             <Body className="font-display">{job.title}</Body>
-                            <Body className="text-body-sm">{job.company} • {job.location}</Body>
+                            <Body size="sm" className="">{job.company} • {job.location}</Body>
                           </Stack>
                           <Body className="font-mono">{job.rate}</Body>
                         </Stack>
@@ -214,7 +214,7 @@ export default function MobileJobSearchPage() {
                         <Stack direction="horizontal" className="justify-between">
                           <Stack gap={1}>
                             <Body className="font-display">{job.title}</Body>
-                            <Body className="text-body-sm">{job.company} • {job.location}</Body>
+                            <Body size="sm" className="">{job.company} • {job.location}</Body>
                           </Stack>
                           <Badge variant="solid">Applied</Badge>
                         </Stack>
@@ -240,7 +240,7 @@ export default function MobileJobSearchPage() {
           {selectedJob && (
             <Stack gap={4}>
               <Stack gap={1}>
-                <Body className="text-body-sm">Company</Body>
+                <Body size="sm" className="">Company</Body>
                 <Body>{selectedJob.company}</Body>
               </Stack>
               <Stack direction="horizontal" gap={2}>
@@ -248,14 +248,14 @@ export default function MobileJobSearchPage() {
                 <Body className="font-mono">{selectedJob.rate}</Body>
               </Stack>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Body className="text-body-sm">Location</Body><Body>{selectedJob.location}</Body></Stack>
-                <Stack gap={1}><Body className="text-body-sm">Posted</Body><Body>{selectedJob.posted}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Location</Body><Body>{selectedJob.location}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Posted</Body><Body>{selectedJob.posted}</Body></Stack>
               </Grid>
               {selectedJob.deadline && (
-                <Stack gap={1}><Body className="text-body-sm">Application Deadline</Body><Body>{selectedJob.deadline}</Body></Stack>
+                <Stack gap={1}><Body size="sm" className="">Application Deadline</Body><Body>{selectedJob.deadline}</Body></Stack>
               )}
               <Stack gap={2}>
-                <Body className="text-body-sm">Required Skills</Body>
+                <Body size="sm" className="">Required Skills</Body>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedJob.skills.map((skill, idx) => (
                     <Badge key={idx} variant="outline">{skill}</Badge>
@@ -282,7 +282,7 @@ export default function MobileJobSearchPage() {
               <Input placeholder="Add a brief message..." />
             </Stack>
             <Stack gap={2}>
-              <Body className="text-body-sm">Attached Documents</Body>
+              <Body size="sm" className="">Attached Documents</Body>
               <Card>
                 <Stack direction="horizontal" className="justify-between">
                   <Body>Resume_2024.pdf</Body>
@@ -291,7 +291,7 @@ export default function MobileJobSearchPage() {
               </Card>
             </Stack>
             <Stack gap={2}>
-              <Body className="text-body-sm">Availability</Body>
+              <Body size="sm" className="">Availability</Body>
               <Select>
                 <option value="immediate">Immediately</option>
                 <option value="2weeks">2 Weeks Notice</option>

@@ -141,8 +141,8 @@ export default function TimekeepingPage() {
                   <TableRow key={entry.id}>
                     <TableCell><Body className="font-mono">{entry.id.substring(0, 8).toUpperCase()}</Body></TableCell>
                     <TableCell><Body>{entry.user?.full_name || entry.user?.email || 'Unknown'}</Body></TableCell>
-                    <TableCell><Body className="text-body-sm">{entry.project?.name || 'Unassigned'}</Body></TableCell>
-                    <TableCell><Body className="font-mono text-body-sm">{new Date(entry.date).toLocaleDateString()}</Body></TableCell>
+                    <TableCell><Body size="sm" className="">{entry.project?.name || 'Unassigned'}</Body></TableCell>
+                    <TableCell><Body className="font-mono">{new Date(entry.date).toLocaleDateString()}</Body></TableCell>
                     <TableCell><Body className="font-mono">{entry.hours_regular}h</Body></TableCell>
                     <TableCell><Body className="font-mono">{entry.hours_overtime}h</Body></TableCell>
                     <TableCell>

@@ -145,7 +145,7 @@ export default function MyTransfersPage() {
                     <Stack direction="horizontal" className="items-start justify-between">
                       <Stack gap={1}>
                         <Body className="font-weight-semibold text-white">{transfer.eventName}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className="text-on-dark-muted">
                           {transfer.orderNumber} - {transfer.ticketType} x{transfer.quantity}
                         </Body>
                       </Stack>
@@ -160,17 +160,17 @@ export default function MyTransfersPage() {
                     </Stack>
                     <Stack direction="horizontal" className="mt-3 justify-between border-t border-ink-700 pt-3">
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className="text-on-dark-muted">
                           {transfer.direction === 'sent' ? 'Sent To' : 'Received From'}
                         </Body>
                         <Body className="text-white">{transfer.otherParty}</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Date</Body>
+                        <Body size="sm" className="text-on-dark-muted">Date</Body>
                         <Body className="text-white">{new Date(transfer.date).toLocaleDateString()}</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Body className="text-body-sm text-on-dark-muted">Tickets</Body>
+                        <Body size="sm" className="text-on-dark-muted">Tickets</Body>
                         <Body className="text-white">{transfer.quantity}</Body>
                       </Stack>
                     </Stack>

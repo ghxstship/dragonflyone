@@ -94,7 +94,7 @@ function AccessibilityPageContent() {
                           {service.available ? "Available" : "Not Available"}
                         </Badge>
                       </Stack>
-                      <Body className="text-ink-600 text-body-sm">{service.description}</Body>
+                      <Body className="text-ink-600">{service.description}</Body>
                       {service.requiresRequest && service.leadTime && (
                         <Label size="xs" className="text-ink-500">Requires {service.leadTime} advance notice</Label>
                       )}
@@ -205,7 +205,7 @@ function AccessibilityPageContent() {
             {selectedService ? (
               <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                 <Body className="font-weight-bold">{selectedService.name}</Body>
-                <Label className="text-ink-600 text-body-sm">{selectedService.description}</Label>
+                <Label className="text-ink-600">{selectedService.description}</Label>
               </Card>
             ) : (
               <Select>

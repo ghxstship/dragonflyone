@@ -28,7 +28,7 @@ export default function EventChatPage() {
         />
         <Stack direction="horizontal" gap={2} className="items-center">
           <Users size={16} className="text-on-dark-muted" />
-          <Body className="text-body-sm text-on-dark-muted">42 people online</Body>
+          <Body size="sm" className=" text-on-dark-muted">42 people online</Body>
         </Stack>
       </Stack>
 
@@ -43,7 +43,7 @@ export default function EventChatPage() {
                 <Stack gap={1} className="flex-1">
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Body className="font-weight-medium text-white">{msg.user}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{msg.time}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{msg.time}</Body>
                   </Stack>
                   <Body className="text-on-dark-muted">{msg.message}</Body>
                 </Stack>

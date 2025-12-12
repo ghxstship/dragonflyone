@@ -106,7 +106,7 @@ export default function DrawingsPage() {
                         <Badge variant="outline">{drawing.type}</Badge>
                       </Stack>
                       <Stack direction="horizontal" className="justify-between">
-                        <Body className="text-body-sm">{drawing.size}</Body>
+                        <Body size="sm" className="">{drawing.size}</Body>
                         {drawing.markups > 0 && <Badge variant="outline">{drawing.markups} markups</Badge>}
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
@@ -131,10 +131,10 @@ export default function DrawingsPage() {
                       </Stack>
                       <Badge variant="outline">{drawing.type}</Badge>
                       <Badge variant="solid">v{drawing.version}</Badge>
-                      <Body className="text-body-sm">{drawing.size}</Body>
+                      <Body size="sm" className="">{drawing.size}</Body>
                       <Stack gap={0}>
-                        <Body className="text-body-sm">{drawing.uploadedAt}</Body>
-                        <Body className="text-body-sm">{drawing.uploadedBy}</Body>
+                        <Body size="sm" className="">{drawing.uploadedAt}</Body>
+                        <Body size="sm" className="">{drawing.uploadedBy}</Body>
                       </Stack>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" onClick={() => setSelectedDrawing(drawing)}>View</Button>
@@ -194,7 +194,7 @@ export default function DrawingsPage() {
                 <Stack gap={2}>
                   <Body className="font-display">Active Markups ({selectedDrawing.markups})</Body>
                   <Card className="p-3">
-                    <Body className="text-body-sm">View markups and comments in the drawing viewer</Body>
+                    <Body size="sm" className="">View markups and comments in the drawing viewer</Body>
                   </Card>
                 </Stack>
               )}
@@ -217,7 +217,7 @@ export default function DrawingsPage() {
               <Stack gap={2}>
                 <Body className="text-h3-md">📐</Body>
                 <Body>Drag and drop CAD files here</Body>
-                <Body className="text-body-sm">Supports: DWG, VWX, SKP, PDF</Body>
+                <Body size="sm" className="">Supports: DWG, VWX, SKP, PDF</Body>
                 <Button variant="outline">Browse Files</Button>
               </Stack>
             </Card>

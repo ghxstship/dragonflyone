@@ -157,12 +157,12 @@ export default function PunchListPage() {
                         <Grid cols={6} gap={4} className="items-center">
                           <Stack gap={1}>
                             <Body className="font-display">{item.title}</Body>
-                            <Body className="text-body-sm">{item.location}</Body>
+                            <Body size="sm" className="">{item.location}</Body>
                           </Stack>
                           <Badge variant="outline">{item.department}</Badge>
                           <Badge variant={getPriorityVariant(item.priority)}>{item.priority}</Badge>
                           <Badge variant={getStatusVariant(item.status)}>{item.status}</Badge>
-                          <Body className="text-body-sm">{item.assignedTo || "Unassigned"}</Body>
+                          <Body size="sm" className="">{item.assignedTo || "Unassigned"}</Body>
                           <Stack direction="horizontal" gap={2}>
                             <Button variant="ghost" size="sm" onClick={() => setSelectedItem(item)}>Details</Button>
                             {item.status === "Open" && <Button variant="outline" size="sm">Assign</Button>}
@@ -191,12 +191,12 @@ export default function PunchListPage() {
                         <TableCell>
                           <Stack gap={1}>
                             <Body>{item.title}</Body>
-                            <Body className="text-body-sm">{item.location}</Body>
+                            <Body size="sm" className="">{item.location}</Body>
                           </Stack>
                         </TableCell>
                         <TableCell><Badge variant="outline">{item.department}</Badge></TableCell>
-                        <TableCell><Body className="text-body-sm">{item.assignedTo}</Body></TableCell>
-                        <TableCell><Body className="text-body-sm">{item.resolvedDate}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{item.assignedTo}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{item.resolvedDate}</Body></TableCell>
                         <TableCell>
                           {item.status === "Verified" 
                             ? <Badge variant="solid">✓ {item.verifiedBy}</Badge>
@@ -266,37 +266,37 @@ export default function PunchListPage() {
               <Body>{selectedItem.description}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Location</Body>
+                  <Body size="sm" className="">Location</Body>
                   <Body>{selectedItem.location}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Department</Body>
+                  <Body size="sm" className="">Department</Body>
                   <Badge variant="outline">{selectedItem.department}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Priority</Body>
+                  <Body size="sm" className="">Priority</Body>
                   <Badge variant={getPriorityVariant(selectedItem.priority)}>{selectedItem.priority}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Status</Body>
+                  <Body size="sm" className="">Status</Body>
                   <Badge variant={getStatusVariant(selectedItem.status)}>{selectedItem.status}</Badge>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Reported By</Body>
+                  <Body size="sm" className="">Reported By</Body>
                   <Body>{selectedItem.reportedBy}</Body>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Assigned To</Body>
+                  <Body size="sm" className="">Assigned To</Body>
                   <Body>{selectedItem.assignedTo || "Unassigned"}</Body>
                 </Stack>
               </Grid>
               {selectedItem.notes && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Notes</Body>
+                  <Body size="sm" className="">Notes</Body>
                   <Body>{selectedItem.notes}</Body>
                 </Stack>
               )}

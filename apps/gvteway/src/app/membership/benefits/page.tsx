@@ -87,15 +87,15 @@ function MemberBenefitsPageContent() {
                         <Label className="text-ink-500">/{tier.billingCycle === "Monthly" ? "mo" : "yr"}</Label>
                       </Stack>
                       <Stack gap={2}>
-                        <Label className="text-ink-500 text-body-sm">BENEFITS</Label>
+                        <Label className="text-ink-500">BENEFITS</Label>
                         {tier.benefits.slice(0, 4).map((benefit) => (
                           <Stack key={benefit.id} direction="horizontal" gap={2}>
                             <Label className="text-success-600">✓</Label>
-                            <Label className="text-body-sm">{benefit.name}</Label>
+                            <Label size="sm" className="">{benefit.name}</Label>
                           </Stack>
                         ))}
                         {tier.benefits.length > 4 && (
-                          <Label className="text-ink-500 text-body-sm">+{tier.benefits.length - 4} more benefits</Label>
+                          <Label className="text-ink-500">+{tier.benefits.length - 4} more benefits</Label>
                         )}
                       </Stack>
                       <Button variant="outline" onClick={() => setSelectedTier(tier)}>Edit Tier</Button>
@@ -123,7 +123,7 @@ function MemberBenefitsPageContent() {
                       <Grid cols={4} gap={2}>
                         {category.options.map((option) => (
                           <Card key={option} className="p-2 border-2 border-ink-200 text-center cursor-pointer hover:border-black">
-                            <Label className="text-body-sm">{option}</Label>
+                            <Label size="sm" className="">{option}</Label>
                           </Card>
                         ))}
                       </Grid>
@@ -167,7 +167,7 @@ function MemberBenefitsPageContent() {
                           <Card className="h-2 w-24 bg-ink-200 rounded-avatar overflow-hidden">
                             <Card className="h-full bg-black rounded-avatar" style={{ '--progress-width': `${benefit.usage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
                           </Card>
-                          <Label className="font-mono text-body-sm w-12 text-right">{benefit.usage}%</Label>
+                          <Label className="font-mono w-12 text-right">{benefit.usage}%</Label>
                         </Stack>
                       </Stack>
                     ))}

@@ -206,18 +206,18 @@ export default function OpportunitiesPage() {
                           {rfp.status === 'closing_soon' ? 'CLOSING SOON' : 'OPEN'}
                         </Badge>
                       </Stack>
-                      <Body className="text-body-sm">{rfp.client}</Body>
+                      <Body size="sm" className="">{rfp.client}</Body>
                       
                       <Grid cols={3} gap={4}>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <DollarSign className="size-4" />
                           <Body>{rfp.budget}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <MapPin className="size-4" />
                           <Body>{rfp.location}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <Clock className="size-4" />
                           <Body>Due {new Date(rfp.deadline).toLocaleDateString()}</Body>
                         </Stack>
@@ -247,15 +247,15 @@ export default function OpportunitiesPage() {
                       </Stack>
                       
                       <Grid cols={3} gap={4} className="mt-4">
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <MapPin className="size-4" />
                           <Body>{job.location}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <DollarSign className="size-4" />
                           <Body>{job.salary}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <Clock className="size-4" />
                           <Body>Posted {new Date(job.posted).toLocaleDateString()}</Body>
                         </Stack>
@@ -281,20 +281,20 @@ export default function OpportunitiesPage() {
                       <H2 className="mb-4">{gig.title}</H2>
                       
                       <Grid cols={4} gap={4}>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <Clock className="size-4" />
                           <Body>{new Date(gig.date).toLocaleDateString()}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <MapPin className="size-4" />
                           <Body>{gig.location}</Body>
                         </Stack>
-                        <Stack gap={2} direction="horizontal" className="items-center text-body-sm">
+                        <Stack gap={2} direction="horizontal" className="items-center">
                           <DollarSign className="size-4" />
                           <Body>{gig.rate}</Body>
                         </Stack>
                         <Stack>
-                          <Body className="text-body-sm">Duration: {gig.duration}</Body>
+                          <Body size="sm" className="">Duration: {gig.duration}</Body>
                         </Stack>
                       </Grid>
                     </Stack>
@@ -314,7 +314,7 @@ export default function OpportunitiesPage() {
             {selectedOpportunity?.type === 'rfp' ? 'Submit Bid' : 'Apply Now'}
           </H3>
           {selectedOpportunity && (
-            <Body className="mt-2 text-body-sm">{selectedOpportunity.title}</Body>
+            <Body className="mt-2">{selectedOpportunity.title}</Body>
           )}
         </ModalHeader>
         <ModalBody>

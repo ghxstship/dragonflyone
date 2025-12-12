@@ -121,15 +121,15 @@ export default function QACheckpointsPage() {
                           </Stack>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Assignee</Body>
+                          <Body size="sm" className="">Assignee</Body>
                           <Body>{checkpoint.assignee || "Unassigned"}</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Items</Body>
+                          <Body size="sm" className="">Items</Body>
                           <Body>{checkpoint.items.filter(i => i.checked).length}/{checkpoint.items.length} complete</Body>
                         </Stack>
                         <Stack gap={1}>
-                          <Body className="text-body-sm">Status</Body>
+                          <Body size="sm" className="">Status</Body>
                           <Badge variant={getStatusVariant(checkpoint.status)}>{checkpoint.status}</Badge>
                         </Stack>
                         <Stack direction="horizontal" gap={2} className="justify-end">
@@ -162,11 +162,11 @@ export default function QACheckpointsPage() {
               <Body className="font-display">{selectedCheckpoint.name}</Body>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Department</Body>
+                  <Body size="sm" className="">Department</Body>
                   <Badge variant="outline">{selectedCheckpoint.department}</Badge>
                 </Stack>
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Phase</Body>
+                  <Body size="sm" className="">Phase</Body>
                   <Badge variant="outline">{selectedCheckpoint.phase}</Badge>
                 </Stack>
               </Grid>
@@ -186,7 +186,7 @@ export default function QACheckpointsPage() {
               </Stack>
               {selectedCheckpoint.notes && (
                 <Stack gap={1}>
-                  <Body className="text-body-sm">Notes</Body>
+                  <Body size="sm" className="">Notes</Body>
                   <Body>{selectedCheckpoint.notes}</Body>
                 </Stack>
               )}

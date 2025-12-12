@@ -230,7 +230,7 @@ export default function DocsPage() {
                             <H3 size="sm" className="text-ink-950">{category.title}</H3>
                             <Badge variant="outline" size="sm">{category.articles} articles</Badge>
                           </Stack>
-                          <Body className="text-body-sm text-grey-600">{category.description}</Body>
+                          <Body size="sm" className=" text-grey-600">{category.description}</Body>
                         </Stack>
                       </Stack>
                       <Stack gap={2}>
@@ -321,7 +321,7 @@ export default function DocsPage() {
                     <Code className="size-6 text-primary" />
                     <H3 size="sm" className="text-ink-950">API Documentation</H3>
                   </Stack>
-                  <Body className="text-body-sm text-grey-600">
+                  <Body size="sm" className=" text-grey-600">
                     Building on ATLVS? Check out our comprehensive API reference with 
                     authentication guides, endpoint documentation, and code examples.
                   </Body>

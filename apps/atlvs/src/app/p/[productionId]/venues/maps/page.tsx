@@ -45,7 +45,7 @@ export default function VenueMapsPage() {
                   </Box>
                   <Stack gap={1}>
                     <Body className="font-weight-medium text-white">{map.name}</Body>
-                    <Body className="text-body-sm text-on-dark-muted">{map.type} · Updated {map.updated}</Body>
+                    <Body size="sm" className=" text-on-dark-muted">{map.type} · Updated {map.updated}</Body>
                   </Stack>
                 </Stack>
                 <Button variant="outline" size="sm">

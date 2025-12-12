@@ -36,7 +36,7 @@ export default function EventEntryInfoPage() {
                 </Box>
                 <Stack gap={2} className="flex-1">
                   <Body className="font-weight-bold text-white">{section.title}</Body>
-                  <Body className="text-body-sm text-on-dark-muted">{section.description}</Body>
+                  <Body size="sm" className=" text-on-dark-muted">{section.description}</Body>
                 </Stack>
               </Stack>
             </CardBody>

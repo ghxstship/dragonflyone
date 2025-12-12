@@ -213,21 +213,21 @@ export default function PermitsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Type</Body>
+            <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{permitTypeLabels[selectedPermit.permit_type] || selectedPermit.permit_type}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Status</Body>
+            <Body size="sm" className=" text-grey-500">Status</Body>
             <Badge variant={statusColors[selectedPermit.status] || 'ghost'}>
               {selectedPermit.status.toUpperCase()}
             </Badge>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Authority</Body>
+            <Body size="sm" className=" text-grey-500">Authority</Body>
             <Body>{selectedPermit.issuing_authority}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Permit Number</Body>
+            <Body size="sm" className=" text-grey-500">Permit Number</Body>
             <Body>{selectedPermit.permit_number || '—'}</Body>
           </Stack>
         </Grid>
@@ -239,11 +239,11 @@ export default function PermitsPage() {
       content: (
         <Grid cols={2} gap={4}>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Application Date</Body>
+            <Body size="sm" className=" text-grey-500">Application Date</Body>
             <Body>{selectedPermit.application_date ? new Date(selectedPermit.application_date).toLocaleDateString() : '—'}</Body>
           </Stack>
           <Stack gap={1}>
-            <Body className="text-body-sm text-grey-500">Expiration Date</Body>
+            <Body size="sm" className=" text-grey-500">Expiration Date</Body>
             <Body>{selectedPermit.expiration_date ? new Date(selectedPermit.expiration_date).toLocaleDateString() : '—'}</Body>
           </Stack>
         </Grid>

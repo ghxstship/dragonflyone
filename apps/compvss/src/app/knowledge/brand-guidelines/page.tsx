@@ -104,7 +104,7 @@ export default function BrandGuidelinesPage() {
                           <Body>{asset.name}</Body>
                           <Badge variant="outline">{asset.type}</Badge>
                         </Stack>
-                        {asset.format && <Body className="text-body-sm">{asset.format}</Body>}
+                        {asset.format && <Body size="sm" className="">{asset.format}</Body>}
                         <Button variant="outline" size="sm" onClick={() => setSelectedAsset(asset)}>View</Button>
                       </Stack>
                     </Card>
@@ -137,24 +137,24 @@ export default function BrandGuidelinesPage() {
                     <Card className="h-32 bg-black" />
                     <Stack className="p-4" gap={2}>
                       <Body>Primary Black</Body>
-                      <Body className="text-body-sm">#000000</Body>
-                      <Body className="text-body-sm">RGB: 0, 0, 0</Body>
+                      <Body size="sm" className="">#000000</Body>
+                      <Body size="sm" className="">RGB: 0, 0, 0</Body>
                     </Stack>
                   </Card>
                   <Card className="overflow-hidden">
                     <Card className="h-32 bg-white border-b" />
                     <Stack className="p-4" gap={2}>
                       <Body>Primary White</Body>
-                      <Body className="text-body-sm">#FFFFFF</Body>
-                      <Body className="text-body-sm">RGB: 255, 255, 255</Body>
+                      <Body size="sm" className="">#FFFFFF</Body>
+                      <Body size="sm" className="">RGB: 255, 255, 255</Body>
                     </Stack>
                   </Card>
                   <Card className="overflow-hidden">
                     <Card className="h-32 bg-primary-500" />
                     <Stack className="p-4" gap={2}>
                       <Body>Accent Blue</Body>
-                      <Body className="text-body-sm">#3B82F6</Body>
-                      <Body className="text-body-sm">RGB: 59, 130, 246</Body>
+                      <Body size="sm" className="">#3B82F6</Body>
+                      <Body size="sm" className="">RGB: 59, 130, 246</Body>
                     </Stack>
                   </Card>
                 </Grid>
@@ -168,7 +168,7 @@ export default function BrandGuidelinesPage() {
                         <Badge variant="outline">Display</Badge>
                         <H3>Inter Bold - Headlines</H3>
                       </Stack>
-                      <Body className="text-body-sm">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Body>
+                      <Body size="sm" className="">Use for main headlines, hero text, and primary titles. Sizes: 48px, 36px, 24px</Body>
                     </Stack>
                   </Card>
                   <Card className="p-6">
@@ -177,16 +177,16 @@ export default function BrandGuidelinesPage() {
                         <Badge variant="outline">Body</Badge>
                         <Body>Inter Regular - Body Text</Body>
                       </Stack>
-                      <Body className="text-body-sm">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Body>
+                      <Body size="sm" className="">Use for paragraphs, descriptions, and general content. Sizes: 16px, 14px</Body>
                     </Stack>
                   </Card>
                   <Card className="p-6">
                     <Stack gap={4}>
                       <Stack gap={2}>
                         <Badge variant="outline">Labels</Badge>
-                        <Body className="text-body-sm">Inter Medium - Labels & Captions</Body>
+                        <Body size="sm" className="">Inter Medium - Labels & Captions</Body>
                       </Stack>
-                      <Body className="text-body-sm">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Body>
+                      <Body size="sm" className="">Use for labels, captions, and supporting text. Sizes: 12px, 10px</Body>
                     </Stack>
                   </Card>
                 </Stack>

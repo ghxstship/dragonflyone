@@ -108,7 +108,7 @@ export default function SponsorshipDeckPage() {
                                 </Box>
                                 <Stack gap={0}>
                                   <Body className="font-weight-semibold">{slide.title}</Body>
-                                  <Body className="text-body-sm text-grey-500">{slide.description}</Body>
+                                  <Body size="sm" className=" text-grey-500">{slide.description}</Body>
                                 </Stack>
                               </Stack>
                               <Button variant="outline" size="icon">
@@ -137,7 +137,7 @@ export default function SponsorshipDeckPage() {
                                 <Body className="text-body-lg font-weight-bold text-primary">
                                   ${tier.price?.toLocaleString()}
                                 </Body>
-                                <Body className="text-body-sm text-grey-500">
+                                <Body size="sm" className=" text-grey-500">
                                   {tier.benefits?.length || 0} benefits included
                                 </Body>
                               </Stack>
@@ -189,21 +189,21 @@ export default function SponsorshipDeckPage() {
                     <H3>Current Stats</H3>
                     <Stack gap={3}>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Active Tiers</Body>
+                        <Body size="sm" className=" text-grey-500">Active Tiers</Body>
                         <Body className="font-weight-semibold">{tiers?.filter(t => t.is_active).length || 0}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Total Potential Value</Body>
+                        <Body size="sm" className=" text-grey-500">Total Potential Value</Body>
                         <Body className="font-weight-semibold">
                           ${(tiers?.reduce((sum, t) => sum + (t.price || 0), 0) || 0).toLocaleString()}
                         </Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Confirmed Sponsors</Body>
+                        <Body size="sm" className=" text-grey-500">Confirmed Sponsors</Body>
                         <Body className="font-weight-semibold">{stats?.confirmed || 0}</Body>
                       </Stack>
                       <Stack gap={1}>
-                        <Body className="text-body-sm text-grey-500">Confirmed Value</Body>
+                        <Body size="sm" className=" text-grey-500">Confirmed Value</Body>
                         <Body className="font-weight-semibold">${(stats?.totalValue || 0).toLocaleString()}</Body>
                       </Stack>
                     </Stack>

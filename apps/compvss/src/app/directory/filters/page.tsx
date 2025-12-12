@@ -90,7 +90,7 @@ export default function DirectoryFiltersPage() {
                       {allLanguages.map(lang => (
                         <Stack key={lang} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleLanguage(lang)}>
                           <Card className={`size-4 rounded-badge border-2 ${selectedLanguages.includes(lang) ? 'bg-primary-500' : ''}`} />
-                          <Body className="text-body-sm">{lang}</Body>
+                          <Body size="sm" className="">{lang}</Body>
                         </Stack>
                       ))}
                     </Stack>
@@ -102,7 +102,7 @@ export default function DirectoryFiltersPage() {
                       {allSpecialties.slice(0, 10).map(spec => (
                         <Stack key={spec} direction="horizontal" gap={2} className="cursor-pointer" onClick={() => toggleSpecialty(spec)}>
                           <Card className={`size-4 rounded-badge border-2 ${selectedSpecialties.includes(spec) ? 'bg-primary-500' : ''}`} />
-                          <Body className="text-body-sm">{spec}</Body>
+                          <Body size="sm" className="">{spec}</Body>
                         </Stack>
                       ))}
                     </Stack>
@@ -110,7 +110,7 @@ export default function DirectoryFiltersPage() {
 
                   <Stack direction="horizontal" gap={2} className="cursor-pointer" onClick={() => setAvailableOnly(!availableOnly)}>
                     <Card className={`size-4 rounded-badge border-2 ${availableOnly ? 'bg-primary-500' : ''}`} />
-                    <Body className="text-body-sm">Available Only</Body>
+                    <Body size="sm" className="">Available Only</Body>
                   </Stack>
 
                   <Button variant="outline" size="sm" onClick={() => { setSelectedLanguages([]); setSelectedSpecialties([]); setTypeFilter('All'); setAvailableOnly(false); }}>
@@ -145,11 +145,11 @@ export default function DirectoryFiltersPage() {
                             {entry.specialties.slice(0, 3).map(spec => (
                               <Badge key={spec} variant="outline">{spec}</Badge>
                             ))}
-                            {entry.specialties.length > 3 && <Body className="text-body-sm">+{entry.specialties.length - 3} more</Body>}
+                            {entry.specialties.length > 3 && <Body size="sm" className="">+{entry.specialties.length - 3} more</Body>}
                           </Stack>
                           <Stack direction="horizontal" gap={4}>
-                            <Body className="text-body-sm">{entry.location}</Body>
-                            <Body className="text-body-sm">Languages: {entry.languages.join(', ')}</Body>
+                            <Body size="sm" className="">{entry.location}</Body>
+                            <Body size="sm" className="">Languages: {entry.languages.join(', ')}</Body>
                           </Stack>
                         </Stack>
                         <Stack gap={2} className="text-right">

@@ -92,8 +92,8 @@ export default function ArtistPortalPage() {
                       <Stack gap={1}>
                         <Body className="text-white">{show.event}</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Body className="text-body-sm text-on-dark-muted">{show.venue}</Body>
-                          <Body className="text-body-sm text-on-dark-muted">
+                          <Body size="sm" className=" text-on-dark-muted">{show.venue}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">
                             {new Date(show.date).toLocaleDateString()} at {show.time}
                           </Body>
                         </Stack>
@@ -132,7 +132,7 @@ export default function ArtistPortalPage() {
                     >
                       <Stack gap={1}>
                         <Body className="text-white">{rider.category}</Body>
-                        <Body className="text-body-sm text-on-dark-muted">
+                        <Body size="sm" className=" text-on-dark-muted">
                           Updated: {new Date(rider.lastUpdated).toLocaleDateString()}
                         </Body>
                       </Stack>
