@@ -43,7 +43,12 @@ export async function GET(request: NextRequest) {
     if (platform) query = query.contains('platforms', [platform]);
 
     const { data: posts, error } = await query;
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ posts: [], by_date: {} });
+      }
+      throw error;
+    }
 
     // Group by date for calendar view
     interface ContentPost { scheduled_at: string; [key: string]: unknown }
@@ -145,10 +150,19 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ post: null });
+      }
+      throw error;
+    }
     return NextResponse.json({ post: data });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ post: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 

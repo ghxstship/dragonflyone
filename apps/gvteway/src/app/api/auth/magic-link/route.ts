@@ -52,6 +52,10 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: false, message: 'Magic link service unavailable' });
+    }
     logger.error('Magic link error:', error);
     return NextResponse.json({ error: 'Failed to send magic link' }, { status: 500 });
   }

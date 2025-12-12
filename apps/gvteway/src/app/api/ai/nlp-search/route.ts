@@ -92,6 +92,10 @@ export async function GET(request: NextRequest) {
       results,
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ query: '', parsed: {}, results: {} });
+    }
     return NextResponse.json({ error: 'Search failed' }, { status: 500 });
   }
 }

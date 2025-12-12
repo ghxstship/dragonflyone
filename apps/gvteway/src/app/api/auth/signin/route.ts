@@ -73,6 +73,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ user: null, session: null });
+    }
     logger.error('Sign in error:', error);
     return NextResponse.json(
       { error: 'Authentication failed' },

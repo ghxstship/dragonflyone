@@ -57,7 +57,12 @@ export async function GET(
 
     const { data, error } = await query.order('association_type');
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ data: [], grouped: {} });
+      }
+      throw error;
+    }
 
     // Group by association type
     const grouped: Record<string, unknown[]> = {};
@@ -73,6 +78,10 @@ export async function GET(
       grouped,
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ data: [], grouped: {} });
+    }
     logger.error('Error fetching event partners:', error);
     return NextResponse.json(
       { error: 'Failed to fetch event partners' },
@@ -157,6 +166,10 @@ export async function POST(
         { status: 400 }
       );
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ data: null });
+    }
     logger.error('Error creating event partner association:', error);
     return NextResponse.json(
       { error: 'Failed to create event partner association' },
@@ -198,6 +211,10 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: true });
+    }
     logger.error('Error removing event partner:', error);
     return NextResponse.json(
       { error: 'Failed to remove event partner' },

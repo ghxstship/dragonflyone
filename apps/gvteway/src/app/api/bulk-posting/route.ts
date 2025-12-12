@@ -34,7 +34,12 @@ export async function GET(request: NextRequest) {
         .order('created_at', { ascending: false })
         .limit(50);
 
-      if (error) throw error;
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ posts: [] });
+        }
+        throw error;
+      }
       return NextResponse.json({ posts });
     }
 
@@ -52,7 +57,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ posts: [] });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 

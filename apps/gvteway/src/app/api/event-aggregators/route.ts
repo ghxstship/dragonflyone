@@ -47,13 +47,22 @@ export async function GET(request: NextRequest) {
         .select('*')
         .eq('event_id', eventId);
 
-      if (error) throw error;
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ listings: [] });
+        }
+        throw error;
+      }
       return NextResponse.json({ listings });
     }
 
     return NextResponse.json({ error: 'event_id required' }, { status: 400 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ listings: [] });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -174,10 +183,19 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ listing: null });
+      }
+      throw error;
+    }
     return NextResponse.json({ listing });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ listing: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 

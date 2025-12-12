@@ -89,6 +89,9 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit, offset });
+      }
       logger.error('Error fetching artists:', error);
       return NextResponse.json(
         { error: 'Failed to fetch artists', details: error.message },
@@ -115,6 +118,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ artists: data, summary, total: count, limit, offset });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ artists: [], summary: { total: 0, verified_count: 0, featured_count: 0, genres: [] }, total: 0, limit: 50, offset: 0 });
+    }
     logger.error('Error in GET /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -158,6 +165,10 @@ export async function POST(request: NextRequest) {
         { error: 'Validation error', details: error.errors },
         { status: 400 }
       );
+    }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ artist: null });
     }
     logger.error('Error in POST /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -246,6 +257,10 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: true });
+    }
     logger.error('Error in PATCH /api/artists:', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

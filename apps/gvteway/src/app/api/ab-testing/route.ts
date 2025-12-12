@@ -129,7 +129,11 @@ export async function GET(request: NextRequest) {
     // ab_tests table doesn't exist in schema - return empty response
     return NextResponse.json({ tests: [] });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ tests: [] });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -241,7 +245,11 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ test: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 

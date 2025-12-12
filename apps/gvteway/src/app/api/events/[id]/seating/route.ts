@@ -41,6 +41,9 @@ export const GET = apiRoute(
       .single();
 
     if (error && error.code !== 'PGRST116') {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ seating: null });
+      }
       return NextResponse.json(
         { error: 'Failed to fetch seating', message: error.message },
         { status: 500 }

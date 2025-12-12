@@ -109,7 +109,11 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ error: 'event_id or fan_club_id required' }, { status: 400 });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ has_access: false, access_windows: [] });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -175,7 +179,11 @@ export async function POST(request: NextRequest) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Validation failed', details: error.errors }, { status: 400 });
     }
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ access_window: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -195,7 +203,11 @@ export async function PATCH(request: NextRequest) {
     if (error) throw error;
     return NextResponse.json({ access_window: window });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ access_window: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -215,6 +227,10 @@ export async function DELETE(request: NextRequest) {
     if (error) throw error;
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: true });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }

@@ -99,7 +99,10 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.limit(200);
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ events: [], clusters: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Filter by location and transform

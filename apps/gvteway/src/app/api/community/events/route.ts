@@ -77,6 +77,9 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ events: [], summary: { total: 0, by_status: {}, by_type: {}, total_attendees: 0, this_week: 0 } });
+      }
       logger.error('Error fetching community events:', error);
       return NextResponse.json(
         { error: 'Failed to fetch community events', details: error.message },

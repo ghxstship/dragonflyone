@@ -30,11 +30,18 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const supabase = getSupabaseClient();
     const { data, error } = await supabase.from('gvteway_events').select('*').eq('id', params.id).single();
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ event: null });
+      }
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Event not found' }, { status: 404 });
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
     return NextResponse.json({ event: data });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ event: null });
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -46,12 +53,19 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const payload = updateEventSchema.parse(body);
     const { data, error } = await supabase.from('gvteway_events').update(payload).eq('id', params.id).select().single();
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ event: null });
+      }
       if (error.code === 'PGRST116') return NextResponse.json({ error: 'Event not found' }, { status: 404 });
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
     return NextResponse.json({ event: data });
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: error.issues }, { status: 422 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ event: null });
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -60,9 +74,18 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   try {
     const supabase = getSupabaseClient();
     const { error } = await supabase.from('gvteway_events').delete().eq('id', params.id);
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ success: true });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: true });
+    }
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

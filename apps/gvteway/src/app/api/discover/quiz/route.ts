@@ -68,7 +68,10 @@ export async function POST(request: NextRequest) {
     const { data: events, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ results: { categories: [], genres: [], price_range: '', vibe: '', recommended_events: [] } });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Score and filter events
@@ -138,6 +141,10 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ results: { categories: [], genres: [], price_range: '', vibe: '', recommended_events: [] } });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

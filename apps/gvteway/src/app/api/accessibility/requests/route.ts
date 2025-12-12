@@ -39,7 +39,10 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ requests: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     interface AccessibilityEventInfo { title?: string; date?: string }
@@ -59,6 +62,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ requests });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ requests: [] });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -115,6 +122,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ request: data }, { status: 201 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ request: null });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

@@ -32,7 +32,12 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ campaigns: [], active: [], featured: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     // Calculate totals
     interface Donation { amount: number }

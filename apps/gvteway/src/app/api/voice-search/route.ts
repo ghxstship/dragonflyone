@@ -44,7 +44,12 @@ export async function POST(request: NextRequest) {
     }
 
     const { data: events, error } = await query.limit(20);
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ transcript, parsed_query: parsed, results: [], suggestions: [], audio_source: audio_url ? 'url' : 'transcript' });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({
       transcript,

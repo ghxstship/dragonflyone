@@ -56,6 +56,10 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ ambassador_status: [], available_programs: [], stats: { total_referrals: 0, total_earnings: 0, pending_earnings: 0 } });
+    }
     return NextResponse.json({ error: 'Failed to fetch ambassador data' }, { status: 500 });
   }
 }

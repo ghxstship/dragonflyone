@@ -28,13 +28,22 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('type', type);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ experiences: [], types: ['venue_preview', 'artist_filter', 'seat_view', 'stage_view', 'merch_preview'] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({
       experiences: data,
       types: ['venue_preview', 'artist_filter', 'seat_view', 'stage_view', 'merch_preview']
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ experiences: [], types: [] });
+    }
     return NextResponse.json({ error: 'Failed to fetch AR experiences' }, { status: 500 });
   }
 }

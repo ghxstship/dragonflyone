@@ -48,7 +48,10 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ parties: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     interface HostInfo { first_name?: string; last_name?: string; avatar_url?: string }

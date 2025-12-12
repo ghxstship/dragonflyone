@@ -38,6 +38,9 @@ export async function POST(
       .single();
 
     if (partyError || !party) {
+      if (partyError?.message?.includes('does not exist') || partyError?.code === '42P01') {
+        return NextResponse.json({ success: false, message: 'Watch party system not available' });
+      }
       return NextResponse.json({ error: 'Watch party not found' }, { status: 404 });
     }
 

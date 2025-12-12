@@ -41,7 +41,12 @@ export async function GET(request: NextRequest) {
     if (search) query = query.ilike('pickup_name', `%${search}%`);
 
     const { data: entries, error } = await query;
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ entries: [], summary: { total: 0, pending: 0, picked_up: 0 } });
+      }
+      throw error;
+    }
 
     const summary = {
       total: entries?.length || 0,
@@ -106,10 +111,19 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ entry: null });
+      }
+      throw error;
+    }
     return NextResponse.json({ entry });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ entry: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 

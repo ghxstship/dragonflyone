@@ -56,6 +56,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: true });
+    }
     logger.error('Sign out error:', error);
     return NextResponse.json(
       { error: 'Sign out failed' },

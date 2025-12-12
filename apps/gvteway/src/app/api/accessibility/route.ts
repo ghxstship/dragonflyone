@@ -34,7 +34,10 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (error) {
-        return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ event_accessibility: null, venue_accessibility: null, services_available: ['wheelchair_seating', 'asl_interpretation', 'audio_description', 'assistive_listening', 'service_animal_relief', 'accessible_parking', 'companion_seating', 'sensory_friendly'] });
+        }
+        return NextResponse.json({ error: error.message }, { status: 500 });
       }
 
       // Fetch venue accessibility features
@@ -74,7 +77,10 @@ export async function GET(request: NextRequest) {
           .order('created_at', { ascending: false });
 
         if (error) {
-          return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+          if (error.message?.includes('does not exist') || error.code === '42P01') {
+            return NextResponse.json({ requests: [] });
+          }
+          return NextResponse.json({ error: error.message }, { status: 500 });
         }
 
         return NextResponse.json({ requests });

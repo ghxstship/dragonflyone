@@ -40,6 +40,10 @@ export async function GET(request: NextRequest) {
       }))
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ content: [] });
+    }
     return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
   }
 }
@@ -78,6 +82,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ content: null });
+    }
     return NextResponse.json({ error: 'Failed to process' }, { status: 500 });
   }
 }

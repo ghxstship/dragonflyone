@@ -32,10 +32,19 @@ export async function GET(request: NextRequest) {
     if (status) query = query.eq("status", status);
 
     const { data, error } = await query;
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ campaigns: [] });
+      }
+      throw error;
+    }
 
     return NextResponse.json({ campaigns: data || [] });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ campaigns: [] });
+    }
     logger.error("Error fetching early bird campaigns:", error);
     return NextResponse.json({ error: "Failed to fetch campaigns" }, { status: 500 });
   }
@@ -68,10 +77,19 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ campaign: null });
+      }
+      throw error;
+    }
 
     return NextResponse.json({ campaign: data });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ campaign: null });
+    }
     logger.error("Error creating early bird campaign:", error);
     return NextResponse.json({ error: "Failed to create campaign" }, { status: 500 });
   }
@@ -95,10 +113,19 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ campaign: null });
+      }
+      throw error;
+    }
 
     return NextResponse.json({ campaign: data });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ campaign: null });
+    }
     logger.error("Error updating early bird campaign:", error);
     return NextResponse.json({ error: "Failed to update campaign" }, { status: 500 });
   }

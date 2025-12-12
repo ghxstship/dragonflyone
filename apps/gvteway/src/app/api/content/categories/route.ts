@@ -22,7 +22,10 @@ export async function GET(_request: NextRequest) {
       .lte('release_date', new Date().toISOString());
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ categories: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Count by type

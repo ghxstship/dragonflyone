@@ -56,7 +56,10 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ polls: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Get user's votes if authenticated
@@ -107,6 +110,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ polls });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ polls: [] });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

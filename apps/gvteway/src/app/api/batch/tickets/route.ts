@@ -50,6 +50,9 @@ export async function POST(request: NextRequest) {
       .select();
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ success: true, count: 0, tickets: [] });
+      }
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 

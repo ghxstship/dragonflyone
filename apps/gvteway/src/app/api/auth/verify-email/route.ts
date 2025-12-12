@@ -40,6 +40,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, message: 'Email verified successfully' });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: false, message: 'Verification service unavailable' });
+    }
     logger.error('Email verification error:', error);
     return NextResponse.json({ error: 'Email verification failed' }, { status: 500 });
   }

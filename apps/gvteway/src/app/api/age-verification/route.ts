@@ -28,7 +28,12 @@ export async function GET(request: NextRequest) {
     }
 
     const { data, error } = await supabase.from('age_verification_methods').select('*');
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ methods: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({ methods: data });
   } catch (error) {

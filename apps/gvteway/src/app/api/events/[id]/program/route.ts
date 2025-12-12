@@ -68,6 +68,9 @@ export async function GET(
       .single();
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ program: null });
+      }
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
 
@@ -165,6 +168,10 @@ export async function GET(
 
     return NextResponse.json({ program });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ program: null });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

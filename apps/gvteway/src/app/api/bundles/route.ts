@@ -36,6 +36,9 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ bundles: [] });
+      }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -54,6 +57,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ bundles });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ bundles: [] });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -120,6 +127,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ bundle }, { status: 201 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ bundle: null });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -162,6 +173,10 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ bundle: data });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ bundle: null });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

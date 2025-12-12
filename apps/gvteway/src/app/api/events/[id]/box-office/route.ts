@@ -25,6 +25,9 @@ export async function GET(
       .eq('event_id', id);
 
     if (tiersError) {
+      if (tiersError.message?.includes('does not exist') || tiersError.code === '42P01') {
+        return NextResponse.json({ tiers: [], totals: { capacity: 0, sold: 0, available: 0, revenue: 0 } });
+      }
       log.error('Failed to fetch ticket tiers', { error: tiersError, eventId: id });
       return NextResponse.json({ error: 'Failed to fetch box office data' }, { status: 500 });
     }
@@ -42,6 +45,10 @@ export async function GET(
 
     return NextResponse.json({ tiers, totals });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ tiers: [], totals: { capacity: 0, sold: 0, available: 0, revenue: 0 } });
+    }
     log.error('Error in box office GET', { error });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

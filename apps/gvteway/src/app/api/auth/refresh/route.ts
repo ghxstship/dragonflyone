@@ -56,6 +56,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ session: null });
+    }
     logger.error('Refresh error:', error);
     return NextResponse.json(
       { error: 'Session refresh failed' },

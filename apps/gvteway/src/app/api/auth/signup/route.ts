@@ -105,6 +105,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ user: null, message: 'Registration system unavailable' });
+    }
     logger.error('Sign up error:', error);
     return NextResponse.json(
       { error: 'Registration failed' },

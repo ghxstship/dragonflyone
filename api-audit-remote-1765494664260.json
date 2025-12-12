@@ -1,0 +1,4609 @@
+[
+  {
+    "app": "gvteway",
+    "supabaseEnv": "remote",
+    "totalEndpoints": 639,
+    "passed": 515,
+    "failed": 124,
+    "results": [
+      {
+        "endpoint": "ab-testing",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 6577
+      },
+      {
+        "endpoint": "ab-testing",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 171
+      },
+      {
+        "endpoint": "ab-testing",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 191
+      },
+      {
+        "endpoint": "abandoned-cart",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 281
+      },
+      {
+        "endpoint": "abandoned-cart",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 172
+      },
+      {
+        "endpoint": "abandoned-cart",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 191
+      },
+      {
+        "endpoint": "accessibility",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 1322
+      },
+      {
+        "endpoint": "accessibility",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "accessibility",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 175
+      },
+      {
+        "endpoint": "accessibility/requests",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 290
+      },
+      {
+        "endpoint": "accessibility/requests",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 202
+      },
+      {
+        "endpoint": "activity/feed",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 278
+      },
+      {
+        "endpoint": "ad-campaigns",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 311
+      },
+      {
+        "endpoint": "ad-campaigns",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 263
+      },
+      {
+        "endpoint": "ad-campaigns",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 222,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "admin/payouts",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 8844
+      },
+      {
+        "endpoint": "admin/payouts",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 174
+      },
+      {
+        "endpoint": "admin/promo-codes",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 395
+      },
+      {
+        "endpoint": "admin/promo-codes",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "admin/promo-codes/test-id",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 369
+      },
+      {
+        "endpoint": "admin/promo-codes/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 2954,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "admin/promo-codes/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 276,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "admin/reconciliation",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 426
+      },
+      {
+        "endpoint": "admin/reconciliation",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 145
+      },
+      {
+        "endpoint": "admin/refunds",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 379
+      },
+      {
+        "endpoint": "advanced-search",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 394
+      },
+      {
+        "endpoint": "advanced-search",
+        "method": "POST",
+        "status": 200,
+        "success": true,
+        "responseTime": 147
+      },
+      {
+        "endpoint": "age-restrictions",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 345
+      },
+      {
+        "endpoint": "age-restrictions",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 179
+      },
+      {
+        "endpoint": "age-restrictions",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 220,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "age-verification",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 348
+      },
+      {
+        "endpoint": "age-verification",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 204
+      },
+      {
+        "endpoint": "ai-recommendations",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 403
+      },
+      {
+        "endpoint": "ai/nlp-search",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 1347
+      },
+      {
+        "endpoint": "ai/nlp-search",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 174
+      },
+      {
+        "endpoint": "ai/recommendations",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 386
+      },
+      {
+        "endpoint": "ai/recommendations",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 162
+      },
+      {
+        "endpoint": "ambassador-program",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 377
+      },
+      {
+        "endpoint": "ambassador-program",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 173
+      },
+      {
+        "endpoint": "anti-scalping",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 390
+      },
+      {
+        "endpoint": "anti-scalping",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 153
+      },
+      {
+        "endpoint": "anti-scalping",
+        "method": "PUT",
+        "status": 200,
+        "success": true,
+        "responseTime": 182
+      },
+      {
+        "endpoint": "approval-workflows",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 387
+      },
+      {
+        "endpoint": "approval-workflows",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 160
+      },
+      {
+        "endpoint": "ar-experiences",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 387
+      },
+      {
+        "endpoint": "ar-experiences",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 164
+      },
+      {
+        "endpoint": "artist-amplification",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 454
+      },
+      {
+        "endpoint": "artist-amplification",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 154
+      },
+      {
+        "endpoint": "artist-amplification",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 199,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "artists",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1673
+      },
+      {
+        "endpoint": "artists",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 132
+      },
+      {
+        "endpoint": "artists",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 159
+      },
+      {
+        "endpoint": "artists/test-id/follow",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 388
+      },
+      {
+        "endpoint": "artists/test-id/follow",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 268,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "artists/test-id/follow/status",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 388
+      },
+      {
+        "endpoint": "auth/callback",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1205
+      },
+      {
+        "endpoint": "auth/magic-link",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 359
+      },
+      {
+        "endpoint": "auth/me",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 413
+      },
+      {
+        "endpoint": "auth/mfa",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 2676
+      },
+      {
+        "endpoint": "auth/mfa",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 131
+      },
+      {
+        "endpoint": "auth/oauth/test-id",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 478
+      },
+      {
+        "endpoint": "auth/password/reset",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 479
+      },
+      {
+        "endpoint": "auth/password/update",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 463
+      },
+      {
+        "endpoint": "auth/refresh",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 490
+      },
+      {
+        "endpoint": "auth/signin",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 527
+      },
+      {
+        "endpoint": "auth/signout",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 523
+      },
+      {
+        "endpoint": "auth/signup",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 519
+      },
+      {
+        "endpoint": "auth/verify-email",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 518
+      },
+      {
+        "endpoint": "auth/verify-email",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 216
+      },
+      {
+        "endpoint": "batch/tickets",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 827
+      },
+      {
+        "endpoint": "bulk-posting",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 598
+      },
+      {
+        "endpoint": "bulk-posting",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 228
+      },
+      {
+        "endpoint": "bundle-deals",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 1716,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "bundle-deals",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 147
+      },
+      {
+        "endpoint": "bundle-deals",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 171,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "bundle-deals",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "bundles",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 424
+      },
+      {
+        "endpoint": "bundles",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 178
+      },
+      {
+        "endpoint": "bundles",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 157
+      },
+      {
+        "endpoint": "campaigns",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 510
+      },
+      {
+        "endpoint": "campaigns",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 177
+      },
+      {
+        "endpoint": "campaigns",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 188
+      },
+      {
+        "endpoint": "campaigns",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 255
+      },
+      {
+        "endpoint": "capacity",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1416
+      },
+      {
+        "endpoint": "capacity",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "capacity",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 181
+      },
+      {
+        "endpoint": "capacity",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 181
+      },
+      {
+        "endpoint": "cashless-payments",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 493
+      },
+      {
+        "endpoint": "cashless-payments",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 182
+      },
+      {
+        "endpoint": "charity-campaigns",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 541,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "charity-campaigns",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 134
+      },
+      {
+        "endpoint": "checkout",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 558
+      },
+      {
+        "endpoint": "checkout",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 175
+      },
+      {
+        "endpoint": "checkout/session",
+        "method": "POST",
+        "status": 422,
+        "success": true,
+        "responseTime": 635
+      },
+      {
+        "endpoint": "collections",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 533,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "collections",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 147
+      },
+      {
+        "endpoint": "collections/test-id",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 550
+      },
+      {
+        "endpoint": "collections/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 276,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "collections/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 298,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "comment-moderation",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 494
+      },
+      {
+        "endpoint": "comment-moderation",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 175
+      },
+      {
+        "endpoint": "comment-moderation",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 215
+      },
+      {
+        "endpoint": "community",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 598
+      },
+      {
+        "endpoint": "community",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 146
+      },
+      {
+        "endpoint": "community",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 145
+      },
+      {
+        "endpoint": "community-analytics",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 529
+      },
+      {
+        "endpoint": "community-challenges",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 583,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "community-challenges",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 453
+      },
+      {
+        "endpoint": "community/events",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 643,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "community/events",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 204
+      },
+      {
+        "endpoint": "community/events",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 371
+      },
+      {
+        "endpoint": "community/forums",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1765
+      },
+      {
+        "endpoint": "community/forums",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 152,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "community/groups",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 579
+      },
+      {
+        "endpoint": "community/groups",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 124
+      },
+      {
+        "endpoint": "community/polls",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 2800,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "community/polls/test-id/vote",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 566
+      },
+      {
+        "endpoint": "content-calendar",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 531
+      },
+      {
+        "endpoint": "content-calendar",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 133
+      },
+      {
+        "endpoint": "content-calendar",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 126,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "content-calendar",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 155
+      },
+      {
+        "endpoint": "content-optimization",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 442
+      },
+      {
+        "endpoint": "content-optimization",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 163,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "content/categories",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 507,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "content/exclusive",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 563,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "content/exclusive",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 149
+      },
+      {
+        "endpoint": "contest-giveaway",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 562
+      },
+      {
+        "endpoint": "contest-giveaway",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 129
+      },
+      {
+        "endpoint": "contests",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 543
+      },
+      {
+        "endpoint": "contests",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "contests",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 125
+      },
+      {
+        "endpoint": "crisis-management",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 626
+      },
+      {
+        "endpoint": "crisis-management",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 119
+      },
+      {
+        "endpoint": "crisis-management",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 132,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "cron/event-notifications",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 476
+      },
+      {
+        "endpoint": "cron/loyalty-points",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1417
+      },
+      {
+        "endpoint": "cron/ticket-reminders",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 740
+      },
+      {
+        "endpoint": "currency-pricing",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 496
+      },
+      {
+        "endpoint": "currency-pricing",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "deals",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1506
+      },
+      {
+        "endpoint": "deals",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 296,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "dietary-notifications",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 3852
+      },
+      {
+        "endpoint": "dietary-notifications",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 156
+      },
+      {
+        "endpoint": "digital-wallet",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 516
+      },
+      {
+        "endpoint": "digital-wallet",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "directions/parking",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 533
+      },
+      {
+        "endpoint": "directions/route",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 534
+      },
+      {
+        "endpoint": "directions/transport",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 475
+      },
+      {
+        "endpoint": "directions/venue",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 516
+      },
+      {
+        "endpoint": "discounts/verify",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 448
+      },
+      {
+        "endpoint": "discounts/verify",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "discover/quiz",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 473,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "early-access",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 511
+      },
+      {
+        "endpoint": "early-access",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "early-bird",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 593,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "early-bird",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 174,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "early-bird",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 189,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "early-bird",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "event-aggregators",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 830
+      },
+      {
+        "endpoint": "event-aggregators",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 133
+      },
+      {
+        "endpoint": "event-aggregators",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 206,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "event-aggregators",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 211
+      },
+      {
+        "endpoint": "event-collaboration",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 585
+      },
+      {
+        "endpoint": "event-collaboration",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 141
+      },
+      {
+        "endpoint": "event-parking",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 609
+      },
+      {
+        "endpoint": "event-parking",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 173
+      },
+      {
+        "endpoint": "event-parking",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 198,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "event-parking",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 195
+      },
+      {
+        "endpoint": "events",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 623
+      },
+      {
+        "endpoint": "events",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 226
+      },
+      {
+        "endpoint": "events/create",
+        "method": "POST",
+        "status": 201,
+        "success": true,
+        "responseTime": 541
+      },
+      {
+        "endpoint": "events/enhanced",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1476
+      },
+      {
+        "endpoint": "events/enhanced",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 157
+      },
+      {
+        "endpoint": "events/map",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 478,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/nearby",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 527
+      },
+      {
+        "endpoint": "events/templates",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 465
+      },
+      {
+        "endpoint": "events/templates",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 146
+      },
+      {
+        "endpoint": "events/test-id",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 537,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 254,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 259,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/box-office",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 1642,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/chat",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 606,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/chat",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 267,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/entry-info",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 579
+      },
+      {
+        "endpoint": "events/test-id/partners",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 820,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/partners",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 294,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/partners",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 320,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/program",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 657
+      },
+      {
+        "endpoint": "events/test-id/qr-checkin",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1615
+      },
+      {
+        "endpoint": "events/test-id/qr-checkin",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 280,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/seating",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 700,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/seating",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 284,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/seating",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 314,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "events/test-id/tickets/generate",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 668
+      },
+      {
+        "endpoint": "events/test-id/waitlist",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 564
+      },
+      {
+        "endpoint": "events/test-id/waitlist",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 299,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "exclusive-content",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 664
+      },
+      {
+        "endpoint": "exclusive-content",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 148
+      },
+      {
+        "endpoint": "experience-discovery",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 585
+      },
+      {
+        "endpoint": "experience-discovery",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 132
+      },
+      {
+        "endpoint": "experiences",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 560,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "experiences",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 132
+      },
+      {
+        "endpoint": "fan-chapters",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 533
+      },
+      {
+        "endpoint": "fan-club-access",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 479
+      },
+      {
+        "endpoint": "fan-club-access",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 132
+      },
+      {
+        "endpoint": "fan-club-access",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 130,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "fan-club-access",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 141
+      },
+      {
+        "endpoint": "fan-clubs",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 457
+      },
+      {
+        "endpoint": "fan-clubs",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 118
+      },
+      {
+        "endpoint": "fan-content",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 558,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "fan-content",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 136
+      },
+      {
+        "endpoint": "fan-mentorship",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 482
+      },
+      {
+        "endpoint": "fan-mentorship",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "fan-profiles",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 484
+      },
+      {
+        "endpoint": "fan-profiles",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 131
+      },
+      {
+        "endpoint": "fan-profiles",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "fan-spotlight",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 450,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "fan-spotlight",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 120
+      },
+      {
+        "endpoint": "fan-spotlight",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "favorites",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 442
+      },
+      {
+        "endpoint": "favorites",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 133
+      },
+      {
+        "endpoint": "favorites",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "follows",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 551
+      },
+      {
+        "endpoint": "follows",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 421
+      },
+      {
+        "endpoint": "follows",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 194
+      },
+      {
+        "endpoint": "follows",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 244
+      },
+      {
+        "endpoint": "friends",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 762
+      },
+      {
+        "endpoint": "friends",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 234
+      },
+      {
+        "endpoint": "friends/location",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 620
+      },
+      {
+        "endpoint": "friends/location",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 198
+      },
+      {
+        "endpoint": "friends/meetups",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 2675
+      },
+      {
+        "endpoint": "friends/meetups",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "friends/meetups",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "ga-floor-config",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 522
+      },
+      {
+        "endpoint": "ga-floor-config",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 124
+      },
+      {
+        "endpoint": "ga-floor-config",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 147,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "gamification",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 464
+      },
+      {
+        "endpoint": "gamification",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 171
+      },
+      {
+        "endpoint": "gift-cards",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 450
+      },
+      {
+        "endpoint": "gift-cards",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 118
+      },
+      {
+        "endpoint": "gift-cards",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 120
+      },
+      {
+        "endpoint": "gift-cards/my-cards",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 458
+      },
+      {
+        "endpoint": "gift-cards/purchase",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 470
+      },
+      {
+        "endpoint": "gift-cards/redeem",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 567
+      },
+      {
+        "endpoint": "gift-registry",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 577
+      },
+      {
+        "endpoint": "gift-registry",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 147
+      },
+      {
+        "endpoint": "gift-registry",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 130,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "gift-registry",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 199
+      },
+      {
+        "endpoint": "group-organizer",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 644
+      },
+      {
+        "endpoint": "group-organizer",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "group-organizer",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 140,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "groups",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 692
+      },
+      {
+        "endpoint": "groups",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "groups",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "guest-chat",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 482
+      },
+      {
+        "endpoint": "guest-chat",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "health",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 1435
+      },
+      {
+        "endpoint": "influencer-affiliates",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 639
+      },
+      {
+        "endpoint": "influencer-affiliates",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 182
+      },
+      {
+        "endpoint": "influencer-affiliates",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 176,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "influencer-tracking",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 525
+      },
+      {
+        "endpoint": "influencer-tracking",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 147
+      },
+      {
+        "endpoint": "influencer-tracking",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 129
+      },
+      {
+        "endpoint": "instagram-templates",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 557
+      },
+      {
+        "endpoint": "instagram-templates",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 149
+      },
+      {
+        "endpoint": "instagram-templates",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "integrations/iot",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 586
+      },
+      {
+        "endpoint": "integrations/iot",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 124
+      },
+      {
+        "endpoint": "integrations/live-streaming",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 517
+      },
+      {
+        "endpoint": "integrations/live-streaming",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 123
+      },
+      {
+        "endpoint": "integrations/marketing-sync",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 535
+      },
+      {
+        "endpoint": "integrations/marketing-sync",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 179
+      },
+      {
+        "endpoint": "integrations/marketing-sync",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 158
+      },
+      {
+        "endpoint": "integrations/payment-gateways",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 446
+      },
+      {
+        "endpoint": "integrations/payment-gateways",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 139
+      },
+      {
+        "endpoint": "integrations/social-media",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 504
+      },
+      {
+        "endpoint": "integrations/social-media",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 151
+      },
+      {
+        "endpoint": "integrations/streaming",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 511
+      },
+      {
+        "endpoint": "integrations/streaming",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 159
+      },
+      {
+        "endpoint": "integrations/ticket-revenue",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 596
+      },
+      {
+        "endpoint": "inventory-alerts",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 643
+      },
+      {
+        "endpoint": "inventory-alerts",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 157
+      },
+      {
+        "endpoint": "inventory-sync",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 501
+      },
+      {
+        "endpoint": "inventory-sync",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 217
+      },
+      {
+        "endpoint": "landing-pages",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 559
+      },
+      {
+        "endpoint": "landing-pages",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 173,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "landing-pages",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 174,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "landing-pages",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 129
+      },
+      {
+        "endpoint": "limited-releases",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 485,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "limited-releases",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "live-social-feed",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 478
+      },
+      {
+        "endpoint": "live-social-feed",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 204
+      },
+      {
+        "endpoint": "live-tweet-wall",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 568
+      },
+      {
+        "endpoint": "live-tweet-wall",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 212
+      },
+      {
+        "endpoint": "live-tweet-wall",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 263,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "local-partnerships",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 688,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "local-partnerships",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 150
+      },
+      {
+        "endpoint": "local-partnerships",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 353,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "local-partnerships",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 197
+      },
+      {
+        "endpoint": "lost-found",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 751,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "lost-found",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 214
+      },
+      {
+        "endpoint": "lost-found",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 238
+      },
+      {
+        "endpoint": "loyalty",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 643
+      },
+      {
+        "endpoint": "loyalty",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 209
+      },
+      {
+        "endpoint": "loyalty-rewards",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 598
+      },
+      {
+        "endpoint": "loyalty-rewards",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 221
+      },
+      {
+        "endpoint": "marketing-analytics",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 752
+      },
+      {
+        "endpoint": "marketing/campaigns",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 665
+      },
+      {
+        "endpoint": "marketing/campaigns",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 180
+      },
+      {
+        "endpoint": "marketing/lists",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 732
+      },
+      {
+        "endpoint": "marketing/lists",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 316
+      },
+      {
+        "endpoint": "marketing/templates",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 805
+      },
+      {
+        "endpoint": "marketing/templates",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 204
+      },
+      {
+        "endpoint": "match/events",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 815
+      },
+      {
+        "endpoint": "match/interests",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 748
+      },
+      {
+        "endpoint": "match/interests",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 198
+      },
+      {
+        "endpoint": "match/users",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 732
+      },
+      {
+        "endpoint": "media-kit",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 1836
+      },
+      {
+        "endpoint": "media-kit",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 131
+      },
+      {
+        "endpoint": "media-kit",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "media-kit",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 140
+      },
+      {
+        "endpoint": "member-benefits",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 762,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "member-benefits",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 153
+      },
+      {
+        "endpoint": "member-benefits",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 173,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "member-benefits",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 154
+      },
+      {
+        "endpoint": "member-directory",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 614
+      },
+      {
+        "endpoint": "member-directory",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 164
+      },
+      {
+        "endpoint": "memberships",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1635
+      },
+      {
+        "endpoint": "memberships",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "memberships/subscribe",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 574
+      },
+      {
+        "endpoint": "memory-book",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 782
+      },
+      {
+        "endpoint": "memory-book",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 149
+      },
+      {
+        "endpoint": "merch/catalog",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 567,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "merchandise",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 555
+      },
+      {
+        "endpoint": "merchandise",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 136
+      },
+      {
+        "endpoint": "merchandise",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 194
+      },
+      {
+        "endpoint": "merchandise",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 188
+      },
+      {
+        "endpoint": "messages/conversations",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 582
+      },
+      {
+        "endpoint": "messages/conversations",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "messages/conversations/test-id",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1529
+      },
+      {
+        "endpoint": "messages/conversations/test-id",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 1981,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "messaging",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 536
+      },
+      {
+        "endpoint": "messaging",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 129
+      },
+      {
+        "endpoint": "messaging",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 118
+      },
+      {
+        "endpoint": "mobile-ticket-delivery",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 456
+      },
+      {
+        "endpoint": "mobile-ticket-delivery",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "mobile-ticket-delivery",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 126,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "multi-language",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 473
+      },
+      {
+        "endpoint": "multi-language",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "multi-language-events",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 475
+      },
+      {
+        "endpoint": "multi-language-events",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "music-integration",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 503
+      },
+      {
+        "endpoint": "music-integration",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 157
+      },
+      {
+        "endpoint": "nft-tickets",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 567
+      },
+      {
+        "endpoint": "nft-tickets",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 123
+      },
+      {
+        "endpoint": "nft-tickets",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 179
+      },
+      {
+        "endpoint": "nft-tickets",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 167
+      },
+      {
+        "endpoint": "notifications",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 534
+      },
+      {
+        "endpoint": "notifications",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 153
+      },
+      {
+        "endpoint": "notifications",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "notifications",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 151
+      },
+      {
+        "endpoint": "offline-tickets",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 489
+      },
+      {
+        "endpoint": "offline-tickets",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 136
+      },
+      {
+        "endpoint": "onboarding/complete",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 565
+      },
+      {
+        "endpoint": "onboarding/interests",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 551
+      },
+      {
+        "endpoint": "onboarding/preferences",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 532
+      },
+      {
+        "endpoint": "onboarding/profile",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 543
+      },
+      {
+        "endpoint": "orders",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 2784
+      },
+      {
+        "endpoint": "orders",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 176
+      },
+      {
+        "endpoint": "orders/history",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 681
+      },
+      {
+        "endpoint": "orders/revenue-sync",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 541
+      },
+      {
+        "endpoint": "orders/test-id",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 492,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "orders/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 293,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "paid-advertising",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 454
+      },
+      {
+        "endpoint": "paid-advertising",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 125
+      },
+      {
+        "endpoint": "partners",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 565,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "partners",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 144
+      },
+      {
+        "endpoint": "partners/test-id",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 567,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "partners/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 405,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "partners/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 263,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "partners/test-id/offers",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 528,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "partners/test-id/offers",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 275,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "payment-methods",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 495
+      },
+      {
+        "endpoint": "payment-methods",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 123
+      },
+      {
+        "endpoint": "payment-methods",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "payment-plans",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 478
+      },
+      {
+        "endpoint": "payment-plans",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 131
+      },
+      {
+        "endpoint": "payment-plans",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 1225
+      },
+      {
+        "endpoint": "payments",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 474
+      },
+      {
+        "endpoint": "payments",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 161
+      },
+      {
+        "endpoint": "payments",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 141
+      },
+      {
+        "endpoint": "photo-booth",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 562
+      },
+      {
+        "endpoint": "photo-booth",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 121
+      },
+      {
+        "endpoint": "photo-booth",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 113
+      },
+      {
+        "endpoint": "photos/feed",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 463,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "photos/galleries",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 533,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "photos/galleries",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 123
+      },
+      {
+        "endpoint": "photos/test-id/like",
+        "method": "POST",
+        "status": 404,
+        "success": true,
+        "responseTime": 1565
+      },
+      {
+        "endpoint": "pos-terminal",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 635
+      },
+      {
+        "endpoint": "pos-terminal",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 176
+      },
+      {
+        "endpoint": "pos-terminal",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 158,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "preorders",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 520,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "preorders",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 125
+      },
+      {
+        "endpoint": "preorders",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "press-media-kit",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 491
+      },
+      {
+        "endpoint": "press-media-kit",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 126
+      },
+      {
+        "endpoint": "price-alerts",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 523
+      },
+      {
+        "endpoint": "price-alerts",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "price-alerts/test-id",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 548
+      },
+      {
+        "endpoint": "price-alerts/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 266,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "pricing/dynamic",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 550
+      },
+      {
+        "endpoint": "pricing/dynamic",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 136
+      },
+      {
+        "endpoint": "pricing/dynamic",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 184
+      },
+      {
+        "endpoint": "print-at-home",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 471
+      },
+      {
+        "endpoint": "print-at-home",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 149
+      },
+      {
+        "endpoint": "privacy/cookies",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 502
+      },
+      {
+        "endpoint": "privacy/cookies",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 125
+      },
+      {
+        "endpoint": "product-customization",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 488
+      },
+      {
+        "endpoint": "product-customization",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 172
+      },
+      {
+        "endpoint": "product-customization",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 261,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "product-customization",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 132
+      },
+      {
+        "endpoint": "product-variants",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 518
+      },
+      {
+        "endpoint": "product-variants",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 165
+      },
+      {
+        "endpoint": "product-variants",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 125
+      },
+      {
+        "endpoint": "profile",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 500
+      },
+      {
+        "endpoint": "profile",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "profile",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 142
+      },
+      {
+        "endpoint": "promo-codes",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 518
+      },
+      {
+        "endpoint": "promo-codes",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 136
+      },
+      {
+        "endpoint": "promo-codes",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "promo-codes",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 164
+      },
+      {
+        "endpoint": "qa-sessions",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 529,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "qa-sessions",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "qa-sessions/questions/test-id/upvote",
+        "method": "POST",
+        "status": 404,
+        "success": true,
+        "responseTime": 545
+      },
+      {
+        "endpoint": "qa-sessions/test-id/questions",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 624,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "qa-sessions/test-id/questions",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 297,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "queuing",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 550
+      },
+      {
+        "endpoint": "queuing",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 146
+      },
+      {
+        "endpoint": "queuing",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 142
+      },
+      {
+        "endpoint": "receipts",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 490
+      },
+      {
+        "endpoint": "receipts",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 172,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "recommendations",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 623,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "referrals",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 545
+      },
+      {
+        "endpoint": "referrals",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 140
+      },
+      {
+        "endpoint": "referrals",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 131
+      },
+      {
+        "endpoint": "refunds",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 518
+      },
+      {
+        "endpoint": "refunds",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "related-events",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 562
+      },
+      {
+        "endpoint": "related-events",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 193
+      },
+      {
+        "endpoint": "retargeting-pixels",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 606
+      },
+      {
+        "endpoint": "retargeting-pixels",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "retargeting-pixels",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 166,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "retargeting-pixels",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 203
+      },
+      {
+        "endpoint": "reviews",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 729,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "reviews",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 464
+      },
+      {
+        "endpoint": "reviews",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 202
+      },
+      {
+        "endpoint": "rewards",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 1636
+      },
+      {
+        "endpoint": "rewards",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 177
+      },
+      {
+        "endpoint": "rfid-wristbands",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 738,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "rfid-wristbands",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 163
+      },
+      {
+        "endpoint": "rfid-wristbands",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 215
+      },
+      {
+        "endpoint": "sales-reporting",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 708
+      },
+      {
+        "endpoint": "saved-searches",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 738
+      },
+      {
+        "endpoint": "saved-searches",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 189
+      },
+      {
+        "endpoint": "saved-searches/test-id",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 743
+      },
+      {
+        "endpoint": "saved-searches/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 323,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "saved-searches/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 262,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "search",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 552
+      },
+      {
+        "endpoint": "search/universal",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 502
+      },
+      {
+        "endpoint": "seat-upgrades",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 570
+      },
+      {
+        "endpoint": "seat-upgrades",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "secondary-market",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 530
+      },
+      {
+        "endpoint": "secondary-market",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 134
+      },
+      {
+        "endpoint": "secondary-market",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 173
+      },
+      {
+        "endpoint": "sentiment-alerts",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 703
+      },
+      {
+        "endpoint": "sentiment-alerts",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 164
+      },
+      {
+        "endpoint": "sentiment-alerts",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 177,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "series-management",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 581
+      },
+      {
+        "endpoint": "series-management",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 201
+      },
+      {
+        "endpoint": "shoppable-posts",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 572,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "shoppable-posts",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 145
+      },
+      {
+        "endpoint": "shoppable-posts",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 138,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "shoppable-posts",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "similar-events",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 635
+      },
+      {
+        "endpoint": "sms-campaigns",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 655,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "sms-campaigns",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 212,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "sms-campaigns",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 230,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "sms-campaigns",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 205
+      },
+      {
+        "endpoint": "social",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 681
+      },
+      {
+        "endpoint": "social",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 179
+      },
+      {
+        "endpoint": "social",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 227
+      },
+      {
+        "endpoint": "social",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 171
+      },
+      {
+        "endpoint": "social-commerce",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 2857
+      },
+      {
+        "endpoint": "social-commerce",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 150
+      },
+      {
+        "endpoint": "social-content-scheduler",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 673
+      },
+      {
+        "endpoint": "social-content-scheduler",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 174
+      },
+      {
+        "endpoint": "social-graph",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 567
+      },
+      {
+        "endpoint": "social-graph",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "social-inbox",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 519
+      },
+      {
+        "endpoint": "social-inbox",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 121
+      },
+      {
+        "endpoint": "social-inbox",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 152,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social-listening",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 591
+      },
+      {
+        "endpoint": "social-listening",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 178
+      },
+      {
+        "endpoint": "social-proof",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 571
+      },
+      {
+        "endpoint": "social-proof",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 194,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social-proof",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 192,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social-takeover",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 543
+      },
+      {
+        "endpoint": "social-takeover",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 156
+      },
+      {
+        "endpoint": "social-takeover",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 137,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social/affiliate",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 526
+      },
+      {
+        "endpoint": "social/affiliate",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 123
+      },
+      {
+        "endpoint": "social/posts",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 542,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social/posts",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 133
+      },
+      {
+        "endpoint": "social/shops",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 723,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "social/shops",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 1009
+      },
+      {
+        "endpoint": "split-payment",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 656
+      },
+      {
+        "endpoint": "split-payment",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 185
+      },
+      {
+        "endpoint": "sponsor-branding",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 719
+      },
+      {
+        "endpoint": "sponsor-branding",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "streaming",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 582,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "streaming",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 139
+      },
+      {
+        "endpoint": "streaming",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 114
+      },
+      {
+        "endpoint": "streaming",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 137
+      },
+      {
+        "endpoint": "subscription-box",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 585
+      },
+      {
+        "endpoint": "subscription-box",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 127
+      },
+      {
+        "endpoint": "subscription-box",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 166,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "support/conversations",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 469
+      },
+      {
+        "endpoint": "support/conversations",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 154
+      },
+      {
+        "endpoint": "support/conversations/test-id/messages",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 1645
+      },
+      {
+        "endpoint": "surveys/test-id",
+        "method": "GET",
+        "status": 404,
+        "success": true,
+        "responseTime": 616
+      },
+      {
+        "endpoint": "surveys/test-id/responses",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 459
+      },
+      {
+        "endpoint": "tax-calculation",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 528
+      },
+      {
+        "endpoint": "tax-calculation",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 160
+      },
+      {
+        "endpoint": "third-party-listings",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 502
+      },
+      {
+        "endpoint": "third-party-listings",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 121
+      },
+      {
+        "endpoint": "ticket-insurance",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 547
+      },
+      {
+        "endpoint": "ticket-insurance",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 140
+      },
+      {
+        "endpoint": "ticket-insurance",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 154
+      },
+      {
+        "endpoint": "tickets",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 619
+      },
+      {
+        "endpoint": "tickets",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 129
+      },
+      {
+        "endpoint": "tickets/addons",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 501
+      },
+      {
+        "endpoint": "tickets/addons",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 142
+      },
+      {
+        "endpoint": "tickets/addons",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 141
+      },
+      {
+        "endpoint": "tickets/deliveries",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 483
+      },
+      {
+        "endpoint": "tickets/enhanced",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 525
+      },
+      {
+        "endpoint": "tickets/enhanced",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 144
+      },
+      {
+        "endpoint": "tickets/gift",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 633
+      },
+      {
+        "endpoint": "tickets/gift",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 135
+      },
+      {
+        "endpoint": "tickets/test-id",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 606,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "tickets/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 301,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "tickets/track",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 525
+      },
+      {
+        "endpoint": "tickets/transfer",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 589
+      },
+      {
+        "endpoint": "tickets/transfer",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 227
+      },
+      {
+        "endpoint": "tickets/transfer",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 225
+      },
+      {
+        "endpoint": "tickets/transfer",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 184
+      },
+      {
+        "endpoint": "tiktok-challenges",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 641
+      },
+      {
+        "endpoint": "tiktok-challenges",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 179
+      },
+      {
+        "endpoint": "tiktok-challenges",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 208,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "tips-gratuity",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 612
+      },
+      {
+        "endpoint": "tips-gratuity",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 333,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "tourism-partnerships",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 518
+      },
+      {
+        "endpoint": "tourism-partnerships",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 174
+      },
+      {
+        "endpoint": "tours",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 561
+      },
+      {
+        "endpoint": "travel-packages",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 639
+      },
+      {
+        "endpoint": "travel-packages",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 149
+      },
+      {
+        "endpoint": "ugc-campaigns",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 538
+      },
+      {
+        "endpoint": "ugc-campaigns",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 143
+      },
+      {
+        "endpoint": "ugc/campaigns",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 551,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "ugc/campaigns",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "ugc/hashtags",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 509
+      },
+      {
+        "endpoint": "ugc/posts",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 502,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "urgency-tactics",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 561
+      },
+      {
+        "endpoint": "urgency-tactics",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 195,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "user/badges",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 587
+      },
+      {
+        "endpoint": "user/blocked",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 562
+      },
+      {
+        "endpoint": "user/blocked",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 165
+      },
+      {
+        "endpoint": "user/events",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 499
+      },
+      {
+        "endpoint": "user/favorites",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 511
+      },
+      {
+        "endpoint": "user/favorites",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 153
+      },
+      {
+        "endpoint": "user/favorites/test-id",
+        "method": "DELETE",
+        "status": 401,
+        "success": true,
+        "responseTime": 591
+      },
+      {
+        "endpoint": "user/notification-preferences",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 616
+      },
+      {
+        "endpoint": "user/notification-preferences",
+        "method": "PUT",
+        "status": 401,
+        "success": true,
+        "responseTime": 196
+      },
+      {
+        "endpoint": "user/profile",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 814
+      },
+      {
+        "endpoint": "user/profile",
+        "method": "PUT",
+        "status": 200,
+        "success": true,
+        "responseTime": 247
+      },
+      {
+        "endpoint": "user/reports",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 966
+      },
+      {
+        "endpoint": "user/reports",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 250
+      },
+      {
+        "endpoint": "user/reputation",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 628
+      },
+      {
+        "endpoint": "user/settings",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 652
+      },
+      {
+        "endpoint": "user/settings",
+        "method": "PUT",
+        "status": 200,
+        "success": true,
+        "responseTime": 166
+      },
+      {
+        "endpoint": "vendor-booths",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 630,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "vendor-booths",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 216
+      },
+      {
+        "endpoint": "vendor-booths",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 230,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "vendor-booths",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 198
+      },
+      {
+        "endpoint": "venue-maps",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 599
+      },
+      {
+        "endpoint": "venue-maps",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 335
+      },
+      {
+        "endpoint": "venue-maps",
+        "method": "PATCH",
+        "status": 401,
+        "success": true,
+        "responseTime": 190
+      },
+      {
+        "endpoint": "venues",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 747
+      },
+      {
+        "endpoint": "venues",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 172
+      },
+      {
+        "endpoint": "venues/test-id",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 629,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 1329,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 277,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id/follow",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 538
+      },
+      {
+        "endpoint": "venues/test-id/follow",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 311,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id/follow",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 340,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id/follow/status",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 483
+      },
+      {
+        "endpoint": "venues/test-id/map",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 1595,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "venues/test-id/map",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 265,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "video-promo",
+        "method": "GET",
+        "status": 401,
+        "success": true,
+        "responseTime": 1545
+      },
+      {
+        "endpoint": "video-promo",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 160
+      },
+      {
+        "endpoint": "vip-zones",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 510
+      },
+      {
+        "endpoint": "vip-zones",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 134
+      },
+      {
+        "endpoint": "vip-zones",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 181,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "vip-zones",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 142
+      },
+      {
+        "endpoint": "visual-search",
+        "method": "POST",
+        "status": 200,
+        "success": true,
+        "responseTime": 478
+      },
+      {
+        "endpoint": "voice-search",
+        "method": "POST",
+        "status": 500,
+        "success": false,
+        "responseTime": 693,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "vr-experiences",
+        "method": "GET",
+        "status": 200,
+        "success": true,
+        "responseTime": 540
+      },
+      {
+        "endpoint": "vr-experiences",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 124
+      },
+      {
+        "endpoint": "waitlist",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 617
+      },
+      {
+        "endpoint": "waitlist",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 206
+      },
+      {
+        "endpoint": "waitlist",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 164
+      },
+      {
+        "endpoint": "waitlist",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 130
+      },
+      {
+        "endpoint": "wallet",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 738
+      },
+      {
+        "endpoint": "wallet",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 138
+      },
+      {
+        "endpoint": "watch-parties",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 601,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "watch-parties",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 158
+      },
+      {
+        "endpoint": "watch-parties/test-id/join",
+        "method": "POST",
+        "status": 401,
+        "success": true,
+        "responseTime": 504
+      },
+      {
+        "endpoint": "watch-parties/test-id/join",
+        "method": "DELETE",
+        "status": 500,
+        "success": false,
+        "responseTime": 357,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "weather-policies",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 595
+      },
+      {
+        "endpoint": "weather-policies",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 203
+      },
+      {
+        "endpoint": "weather-policies",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 147,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "webhooks/stripe",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 596
+      },
+      {
+        "endpoint": "will-call",
+        "method": "GET",
+        "status": 500,
+        "success": false,
+        "responseTime": 499,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "will-call",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 128
+      },
+      {
+        "endpoint": "will-call",
+        "method": "PATCH",
+        "status": 500,
+        "success": false,
+        "responseTime": 153,
+        "error": "HTTP 500"
+      },
+      {
+        "endpoint": "will-call",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 163
+      },
+      {
+        "endpoint": "wishlist",
+        "method": "GET",
+        "status": 400,
+        "success": true,
+        "responseTime": 1768
+      },
+      {
+        "endpoint": "wishlist",
+        "method": "POST",
+        "status": 400,
+        "success": true,
+        "responseTime": 199
+      },
+      {
+        "endpoint": "wishlist",
+        "method": "PATCH",
+        "status": 400,
+        "success": true,
+        "responseTime": 168
+      },
+      {
+        "endpoint": "wishlist",
+        "method": "DELETE",
+        "status": 400,
+        "success": true,
+        "responseTime": 206
+      }
+    ],
+    "timestamp": "2025-12-11T23:11:04.259Z"
+  }
+]

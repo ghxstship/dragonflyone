@@ -68,6 +68,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ user: null });
+    }
     logger.error('Get user error:', error);
     return NextResponse.json(
       { error: 'Failed to get user' },

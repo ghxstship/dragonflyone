@@ -35,7 +35,12 @@ export async function GET(request: NextRequest) {
         .select('*')
         .order('category');
 
-      if (error) throw error;
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ templates: [] });
+        }
+        throw error;
+      }
       return NextResponse.json({ templates });
     }
 
@@ -46,7 +51,12 @@ export async function GET(request: NextRequest) {
         .in('status', ['active', 'monitoring'])
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ crises: [] });
+        }
+        throw error;
+      }
       return NextResponse.json({ crises });
     }
 
@@ -58,11 +68,20 @@ export async function GET(request: NextRequest) {
     if (eventId) query = query.eq('event_id', eventId);
 
     const { data: crises, error } = await query;
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ crises: [] });
+      }
+      throw error;
+    }
 
     return NextResponse.json({ crises });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ crises: [] });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -175,9 +194,18 @@ export async function PATCH(request: NextRequest) {
       .select()
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ crisis: null });
+      }
+      throw error;
+    }
     return NextResponse.json({ crisis: data });
   } catch (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ crisis: null });
+    }
+    return NextResponse.json({ error: msg || 'Internal server error' }, { status: 500 });
   }
 }

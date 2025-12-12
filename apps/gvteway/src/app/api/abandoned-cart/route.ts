@@ -27,7 +27,12 @@ export async function GET(request: NextRequest) {
       *, items:cart_items(*, product:products(id, name, price, images))
     `).eq('user_id', user.id).eq('status', 'abandoned');
 
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ abandoned_carts: [], recovery_offers: [] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({
       abandoned_carts: carts,

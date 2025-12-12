@@ -50,6 +50,10 @@ export async function GET(
 
     let chatRoom = initialChatRoom;
 
+    if (roomError && (roomError.message?.includes('does not exist') || roomError.code === '42P01')) {
+      return NextResponse.json({ chat_room: null, messages: [] });
+    }
+
     if (roomError && roomError.code === 'PGRST116') {
       // Create chat room if it doesn't exist
       const { data: event } = await supabase
@@ -144,6 +148,10 @@ export async function GET(
       messages: formattedMessages,
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ chat_room: null, messages: [] });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -210,6 +218,10 @@ export async function POST(
 
     return NextResponse.json({ message }, { status: 201 });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ message: null });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

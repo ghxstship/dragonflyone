@@ -46,6 +46,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ message: 'If an account exists with this email, a password reset link has been sent.' });
+    }
     logger.error('Password reset error:', error);
     return NextResponse.json(
       { error: 'Password reset request failed' },

@@ -43,6 +43,9 @@ export async function POST(
       .single();
 
     if (pollError || !poll) {
+      if (pollError?.message?.includes('does not exist') || pollError?.code === '42P01') {
+        return NextResponse.json({ success: false, message: 'Poll system not available' });
+      }
       return NextResponse.json({ error: 'Poll not found' }, { status: 404 });
     }
 
@@ -84,6 +87,10 @@ export async function POST(
 
     return NextResponse.json({ success: true });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ success: false, message: 'Poll system not available' });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

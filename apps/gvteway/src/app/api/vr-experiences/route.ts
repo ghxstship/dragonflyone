@@ -28,7 +28,12 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('type', type);
 
     const { data, error } = await query;
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ experiences: [], types: ['venue_tour', 'backstage_access', 'concert_replay', 'meet_greet', '360_video'] });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
     return NextResponse.json({
       experiences: data,

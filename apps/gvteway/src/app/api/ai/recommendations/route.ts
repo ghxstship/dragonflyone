@@ -334,6 +334,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ featured: featured || [] });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ featured: [] });
+    }
     return NextResponse.json({ error: 'Failed to generate recommendations' }, { status: 500 });
   }
 }

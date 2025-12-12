@@ -283,6 +283,10 @@ export async function GET(request: NextRequest) {
       limit,
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ query: '', results: {}, page: 1, limit: 20 });
+    }
     return NextResponse.json({ error: 'Search failed' }, { status: 500 });
   }
 }
@@ -369,6 +373,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ error: 'Invalid filters', details: error.errors }, { status: 400 });
+    }
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ filters: {}, results: {} });
     }
     return NextResponse.json({ error: 'Search failed' }, { status: 500 });
   }

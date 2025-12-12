@@ -119,6 +119,10 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ data: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+    }
     logger.error('Get experiences error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch experiences' },

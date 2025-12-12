@@ -38,7 +38,10 @@ export async function GET(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ venue: null, map_data: null, sections: [], amenities: [], parking: [], features: { has_360_view: false, has_interactive_map: false, has_ar_preview: false } });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Fetch sections and amenities
@@ -114,7 +117,10 @@ export async function POST(
       .single();
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ map_data: null });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     // Update sections if provided
