@@ -123,16 +123,42 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: paymentError.message }, { status: 500 });
     }
 
-    // In production, create Stripe PaymentIntent here
-    // const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-    // const paymentIntent = await stripe.paymentIntents.create({...});
+    // Create Stripe PaymentIntent
+    let clientSecret: string;
+    let stripePaymentIntentId: string | null = null;
 
-    // For now, return mock client secret
-    const mockClientSecret = `pi_${Date.now()}_secret_${Math.random().toString(36).substr(2, 9)}`;
+    if (process.env.STRIPE_SECRET_KEY) {
+      const Stripe = (await import('stripe')).default;
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+      
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(validated.amount * 100), // Convert to cents
+        currency: validated.currency,
+        metadata: {
+          order_id: validated.order_id,
+          payment_id: payment.id,
+          user_id: user.id,
+        },
+        automatic_payment_methods: { enabled: true },
+      });
+
+      clientSecret = paymentIntent.client_secret!;
+      stripePaymentIntentId = paymentIntent.id;
+
+      // Update payment with Stripe ID
+      await supabase
+        .from('payments')
+        .update({ stripe_payment_intent_id: stripePaymentIntentId })
+        .eq('id', payment.id);
+    } else {
+      // Fallback for development without Stripe
+      clientSecret = `pi_dev_${Date.now()}_secret_${Math.random().toString(36).substr(2, 9)}`;
+    }
 
     return NextResponse.json({
       payment_id: payment.id,
-      client_secret: mockClientSecret,
+      client_secret: clientSecret,
+      stripe_payment_intent_id: stripePaymentIntentId,
       amount: validated.amount,
       currency: validated.currency,
     }, { status: 201 });
