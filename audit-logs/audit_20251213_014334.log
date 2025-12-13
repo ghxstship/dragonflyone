@@ -1,0 +1,76 @@
+=== Audit Report - Sat Dec 13 01:43:34 EST 2025 ===
+
+--- LINT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: atlvs, compvss, gvteway
+• Running lint in 3 packages
+• Remote caching disabled
+compvss:lint: cache miss, executing a21de0341efbae25
+gvteway:lint: cache miss, executing 04d7d50a4032978f
+atlvs:lint: cache miss, executing d0f3ce51b0554d46
+atlvs:lint: 
+atlvs:lint: > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:lint: > next lint --max-warnings 9999
+atlvs:lint: 
+gvteway:lint: 
+gvteway:lint: > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:lint: > next lint --max-warnings 9999
+gvteway:lint: 
+compvss:lint: 
+compvss:lint: > compvss@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:lint: > next lint --max-warnings 9999
+compvss:lint: 
+compvss:lint: ✔ No ESLint warnings or errors
+gvteway:lint: ✔ No ESLint warnings or errors
+
+--- TYPESCRIPT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: @ghxstship/config, @ghxstship/ui
+• Running build in 2 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    135ms >>> FULL TURBO
+
+
+--- BUILD VERIFICATION ---
+turbo 2.6.1
+
+• Packages in scope: atlvs
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+atlvs:build: cache miss, executing 2d7c46729ffe16cc
+atlvs:build: 
+atlvs:build: > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:build: > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
+atlvs:build: 
+atlvs:build:  ⚠ Linting is disabled.
+atlvs:build:   ▲ Next.js 14.2.34
+atlvs:build:   - Environments: .env.local
+atlvs:build: 
+atlvs:build:    Creating an optimized production build ...
+atlvs:build:    Using tsconfig file: tsconfig.build.json
+atlvs:build: <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/cache/webpack/server-production/1.pack_' -> '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/cache/webpack/server-production/1.pack'

@@ -104,23 +104,23 @@ export default defineConfig({
       testMatch: '**/*.perf.spec.ts',
     },
   ],
-  webServer: [
+  webServer: process.env.SKIP_WEBSERVER ? undefined : [
     {
       command: 'pnpm --filter atlvs dev',
       url: 'http://localhost:3001',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120000,
     },
     {
       command: 'pnpm --filter compvss dev',
       url: 'http://localhost:3002',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120000,
     },
     {
       command: 'pnpm --filter gvteway dev',
       url: 'http://localhost:3000',
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: true,
       timeout: 120000,
     },
   ],

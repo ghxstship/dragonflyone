@@ -1,0 +1,1563 @@
+=== Audit Report - Sat Dec 13 01:21:58 EST 2025 ===
+
+--- LINT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: atlvs, compvss, gvteway
+• Running lint in 3 packages
+• Remote caching disabled
+atlvs:lint: cache miss, executing 21ad166152369b96
+gvteway:lint: cache miss, executing 769f1e873e2c9fb8
+compvss:lint: cache miss, executing 39e6e74c4df09a25
+gvteway:lint: 
+gvteway:lint: > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:lint: > next lint --max-warnings 9999
+gvteway:lint: 
+atlvs:lint: 
+atlvs:lint: > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:lint: > next lint --max-warnings 9999
+atlvs:lint: 
+compvss:lint: 
+compvss:lint: > compvss@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:lint: > next lint --max-warnings 9999
+compvss:lint: 
+compvss:lint: ✔ No ESLint warnings or errors
+gvteway:lint: 
+gvteway:lint: ./src/app/events/[id]/map/page.tsx
+gvteway:lint: 164:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+--- TYPESCRIPT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: @ghxstship/config, @ghxstship/ui
+• Running build in 2 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    123ms >>> FULL TURBO
+
+
+--- BUILD VERIFICATION ---
+turbo 2.6.1
+
+• Packages in scope: atlvs
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+atlvs:build: cache miss, executing ad1c1a0569863ad4
+atlvs:build: 
+atlvs:build: > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:build: > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
+atlvs:build: 
+atlvs:build:  ⚠ Linting is disabled.
+atlvs:build:   ▲ Next.js 14.2.34
+atlvs:build:   - Environments: .env.local
+atlvs:build: 
+atlvs:build:    Creating an optimized production build ...
+atlvs:build:    Using tsconfig file: tsconfig.build.json
+atlvs:build: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+atlvs:build:  ⚠ Compiled with warnings
+atlvs:build: 
+atlvs:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+atlvs:build: A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+atlvs:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+atlvs:build: 
+atlvs:build: Import trace for requested module:
+atlvs:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+atlvs:build: 
+atlvs:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+atlvs:build: A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+atlvs:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+atlvs:build: 
+atlvs:build: Import trace for requested module:
+atlvs:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+atlvs:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+atlvs:build: 
+atlvs:build:    Skipping validation of types
+atlvs:build:    Collecting page data ...
+atlvs:build:  ⚠ Using edge runtime on a page currently disables static generation for that page
+atlvs:build:    Generating static pages (0/154) ...
+atlvs:build:    Generating static pages (38/154) 
+atlvs:build:    Generating static pages (76/154) 
+atlvs:build:    Generating static pages (115/154) 
+atlvs:build:  ✓ Generating static pages (154/154)
+atlvs:build:    Finalizing page optimization ...
+atlvs:build:    Collecting build traces ...
+atlvs:build: 
+atlvs:build: Route (app)                                        Size     First Load JS
+atlvs:build: ┌ ƒ /                                              134 B           795 kB
+atlvs:build: ├ ○ /_not-found                                    136 B           795 kB
+atlvs:build: ├ ƒ /about                                         134 B           795 kB
+atlvs:build: ├ ○ /action-items                                  2.04 kB         797 kB
+atlvs:build: ├ ○ /admin/batch-operations                        1.96 kB         797 kB
+atlvs:build: ├ ○ /admin/users                                   2.28 kB         797 kB
+atlvs:build: ├ ○ /advances                                      2.04 kB         797 kB
+atlvs:build: ├ ƒ /advances/[id]                                 2.27 kB         797 kB
+atlvs:build: ├ ○ /advancing                                     2.1 kB          797 kB
+atlvs:build: ├ ƒ /advancing/requests/[id]                       1.49 kB         797 kB
+atlvs:build: ├ ○ /alignment                                     3.35 kB         798 kB
+atlvs:build: ├ ○ /analytics                                     1.39 kB         796 kB
+atlvs:build: ├ ○ /analytics/client-retention                    1.95 kB         797 kB
+atlvs:build: ├ ○ /analytics/dashboard-builder                   1.96 kB         797 kB
+atlvs:build: ├ ○ /analytics/dashboards                          1.2 kB          796 kB
+atlvs:build: ├ ○ /analytics/data-warehouse                      2.02 kB         797 kB
+atlvs:build: ├ ○ /analytics/kpi                                 2.88 kB         798 kB
+atlvs:build: ├ ƒ /analytics/kpi/[code]                          1.99 kB         797 kB
+atlvs:build: ├ ○ /analytics/reports                             1.33 kB         796 kB
+atlvs:build: ├ ○ /api-management                                1.47 kB         797 kB
+atlvs:build: ├ ○ /api-management/keys                           2.22 kB         797 kB
+atlvs:build: ├ ○ /api-management/logs                           1.57 kB         797 kB
+atlvs:build: ├ ○ /api-management/webhooks                       2.35 kB         797 kB
+atlvs:build: ├ ƒ /api/account-health                            0 B                0 B
+atlvs:build: ├ ƒ /api/accounts-payable                          0 B                0 B
+atlvs:build: ├ ƒ /api/accounts-receivable                       0 B                0 B
+atlvs:build: ├ ƒ /api/action-items                              0 B                0 B
+atlvs:build: ├ ƒ /api/admin/notification-routing                0 B                0 B
+atlvs:build: ├ ƒ /api/advances                                  0 B                0 B
+atlvs:build: ├ ƒ /api/advances/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/advances/[id]/approve                     0 B                0 B
+atlvs:build: ├ ƒ /api/advances/[id]/reject                      0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/analytics                       0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/batch                           0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/catalog                         0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/catalog/[id]                    0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/catalog/categories              0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/from-template                   0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/requests                        0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/requests/[id]                   0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/requests/[id]/approve           0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/requests/[id]/fulfill           0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/requests/[id]/reject            0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates                       0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates/[id]                  0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates/[id]/favorite         0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates/[id]/items            0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates/[id]/items/[itemId]   0 B                0 B
+atlvs:build: ├ ƒ /api/advancing/templates/from-advance          0 B                0 B
+atlvs:build: ├ ƒ /api/ai/asset-maintenance                      0 B                0 B
+atlvs:build: ├ ƒ /api/ai/competitive-intelligence               0 B                0 B
+atlvs:build: ├ ƒ /api/ai/demand-forecasting                     0 B                0 B
+atlvs:build: ├ ƒ /api/ai/financial-forecasting                  0 B                0 B
+atlvs:build: ├ ƒ /api/ai/portfolio-planning                     0 B                0 B
+atlvs:build: ├ ƒ /api/ai/predictive-analytics                   0 B                0 B
+atlvs:build: ├ ƒ /api/ai/resource-optimization                  0 B                0 B
+atlvs:build: ├ ƒ /api/alignment                                 0 B                0 B
+atlvs:build: ├ ƒ /api/alignment/metrics                         0 B                0 B
+atlvs:build: ├ ƒ /api/analytics                                 0 B                0 B
+atlvs:build: ├ ƒ /api/analytics/advanced-dashboard              0 B                0 B
+atlvs:build: ├ ƒ /api/analytics/cross-platform                  0 B                0 B
+atlvs:build: ├ ƒ /api/analytics/dashboard                       0 B                0 B
+atlvs:build: ├ ƒ /api/analytics/predictions                     0 B                0 B
+atlvs:build: ├ ƒ /api/analytics/predictive                      0 B                0 B
+atlvs:build: ├ ƒ /api/anomaly-detection                         0 B                0 B
+atlvs:build: ├ ƒ /api/app-store                                 0 B                0 B
+atlvs:build: ├ ƒ /api/asset-analytics                           0 B                0 B
+atlvs:build: ├ ƒ /api/asset-checkout                            0 B                0 B
+atlvs:build: ├ ƒ /api/asset-damage                              0 B                0 B
+atlvs:build: ├ ƒ /api/asset-insurance                           0 B                0 B
+atlvs:build: ├ ƒ /api/asset-lifecycle                           0 B                0 B
+atlvs:build: ├ ƒ /api/asset-location                            0 B                0 B
+atlvs:build: ├ ƒ /api/asset-maintenance                         0 B                0 B
+atlvs:build: ├ ƒ /api/asset-maintenance/schedule                0 B                0 B
+atlvs:build: ├ ƒ /api/asset-specs                               0 B                0 B
+atlvs:build: ├ ƒ /api/asset-tracking                            0 B                0 B
+atlvs:build: ├ ƒ /api/asset-utilization                         0 B                0 B
+atlvs:build: ├ ƒ /api/assets                                    0 B                0 B
+atlvs:build: ├ ƒ /api/assets/[id]                               0 B                0 B
+atlvs:build: ├ ƒ /api/assets/depreciation                       0 B                0 B
+atlvs:build: ├ ƒ /api/assets/optimization                       0 B                0 B
+atlvs:build: ├ ƒ /api/assets/scan                               0 B                0 B
+atlvs:build: ├ ƒ /api/assets/tracking                           0 B                0 B
+atlvs:build: ├ ƒ /api/audit-findings                            0 B                0 B
+atlvs:build: ├ ƒ /api/auth/callback                             0 B                0 B
+atlvs:build: ├ ƒ /api/auth/invite                               0 B                0 B
+atlvs:build: ├ ƒ /api/auth/magic-link                           0 B                0 B
+atlvs:build: ├ ƒ /api/auth/me                                   0 B                0 B
+atlvs:build: ├ ƒ /api/auth/mfa                                  0 B                0 B
+atlvs:build: ├ ƒ /api/auth/oauth/[provider]                     0 B                0 B
+atlvs:build: ├ ƒ /api/auth/password/reset                       0 B                0 B
+atlvs:build: ├ ƒ /api/auth/password/update                      0 B                0 B
+atlvs:build: ├ ƒ /api/auth/refresh                              0 B                0 B
+atlvs:build: ├ ƒ /api/auth/signin                               0 B                0 B
+atlvs:build: ├ ƒ /api/auth/signout                              0 B                0 B
+atlvs:build: ├ ƒ /api/auth/signup                               0 B                0 B
+atlvs:build: ├ ƒ /api/auth/verify-email                         0 B                0 B
+atlvs:build: ├ ƒ /api/automated-insights                        0 B                0 B
+atlvs:build: ├ ƒ /api/availability                              0 B                0 B
+atlvs:build: ├ ƒ /api/background-checks                         0 B                0 B
+atlvs:build: ├ ƒ /api/bad-debt                                  0 B                0 B
+atlvs:build: ├ ƒ /api/bank-reconciliation                       0 B                0 B
+atlvs:build: ├ ƒ /api/batch                                     0 B                0 B
+atlvs:build: ├ ƒ /api/batch/operations                          0 B                0 B
+atlvs:build: ├ ƒ /api/benchmarking                              0 B                0 B
+atlvs:build: ├ ƒ /api/benefits                                  0 B                0 B
+atlvs:build: ├ ƒ /api/bi-integration                            0 B                0 B
+atlvs:build: ├ ƒ /api/bid-comparison                            0 B                0 B
+atlvs:build: ├ ƒ /api/blanket-po                                0 B                0 B
+atlvs:build: ├ ƒ /api/budget-variance                           0 B                0 B
+atlvs:build: ├ ƒ /api/budgets                                   0 B                0 B
+atlvs:build: ├ ƒ /api/business-continuity                       0 B                0 B
+atlvs:build: ├ ƒ /api/calendar-integration                      0 B                0 B
+atlvs:build: ├ ƒ /api/calibration-schedules                     0 B                0 B
+atlvs:build: ├ ƒ /api/calibration-schedules/[id]                0 B                0 B
+atlvs:build: ├ ƒ /api/calibration-schedules/[id]/record         0 B                0 B
+atlvs:build: ├ ƒ /api/capacity-planning                         0 B                0 B
+atlvs:build: ├ ƒ /api/cash-flow                                 0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/effective                         0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/organization                      0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/organization/[id]                 0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/organization/[id]/lock            0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/organization/[id]/unlock          0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/organization/duplicate            0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/permissions                       0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/permissions/[id]                  0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/permissions/check                 0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/visibility                        0 B                0 B
+atlvs:build: ├ ƒ /api/catalog/visibility/[id]                   0 B                0 B
+atlvs:build: ├ ƒ /api/churn-analysis                            0 B                0 B
+atlvs:build: ├ ƒ /api/client-onboarding                         0 B                0 B
+atlvs:build: ├ ƒ /api/cohort-analysis                           0 B                0 B
+atlvs:build: ├ ƒ /api/commissions                               0 B                0 B
+atlvs:build: ├ ƒ /api/communication-history                     0 B                0 B
+atlvs:build: ├ ƒ /api/compensation-planning                     0 B                0 B
+atlvs:build: ├ ƒ /api/compliance                                0 B                0 B
+atlvs:build: ├ ƒ /api/compliance-training                       0 B                0 B
+atlvs:build: ├ ƒ /api/compliance/regional                       0 B                0 B
+atlvs:build: ├ ƒ /api/contacts                                  0 B                0 B
+atlvs:build: ├ ƒ /api/contacts/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/contract-negotiation                      0 B                0 B
+atlvs:build: ├ ƒ /api/contracts                                 0 B                0 B
+atlvs:build: ├ ƒ /api/contracts/[id]                            0 B                0 B
+atlvs:build: ├ ƒ /api/cost-allocation                           0 B                0 B
+atlvs:build: ├ ƒ /api/credential-alerts                         0 B                0 B
+atlvs:build: ├ ƒ /api/credentials                               0 B                0 B
+atlvs:build: ├ ƒ /api/credit-card-reconciliation                0 B                0 B
+atlvs:build: ├ ƒ /api/crew-mobile                               0 B                0 B
+atlvs:build: ├ ƒ /api/crm                                       0 B                0 B
+atlvs:build: ├ ƒ /api/crm/pipeline-forecasting                  0 B                0 B
+atlvs:build: ├ ƒ /api/cron/cleanup-sessions                     0 B                0 B
+atlvs:build: ├ ƒ /api/cron/sync-ledger                          0 B                0 B
+atlvs:build: ├ ƒ /api/cross-platform/compvss-sync               0 B                0 B
+atlvs:build: ├ ƒ /api/cross-platform/gvteway-sync               0 B                0 B
+atlvs:build: ├ ƒ /api/currencies                                0 B                0 B
+atlvs:build: ├ ƒ /api/damage-reports                            0 B                0 B
+atlvs:build: ├ ƒ /api/dashboard-builder                         0 B                0 B
+atlvs:build: ├ ƒ /api/data-export                               0 B                0 B
+atlvs:build: ├ ƒ /api/data-warehouse/bi-keys                    0 B                0 B
+atlvs:build: ├ ƒ /api/data-warehouse/connections                0 B                0 B
+atlvs:build: ├ ƒ /api/data-warehouse/exports                    0 B                0 B
+atlvs:build: ├ ƒ /api/data-warehouse/pipelines                  0 B                0 B
+atlvs:build: ├ ƒ /api/deals                                     0 B                0 B
+atlvs:build: ├ ƒ /api/deals/[id]                                0 B                0 B
+atlvs:build: ├ ƒ /api/deals/handoff                             0 B                0 B
+atlvs:build: ├ ƒ /api/deferred-revenue                          0 B                0 B
+atlvs:build: ├ ƒ /api/departments                               0 B                0 B
+atlvs:build: ├ ƒ /api/departments/[id]                          0 B                0 B
+atlvs:build: ├ ƒ /api/documents                                 0 B                0 B
+atlvs:build: ├ ƒ /api/documents/e-signature                     0 B                0 B
+atlvs:build: ├ ƒ /api/email-integration                         0 B                0 B
+atlvs:build: ├ ƒ /api/emergency-contacts                        0 B                0 B
+atlvs:build: ├ ƒ /api/employees                                 0 B                0 B
+atlvs:build: ├ ƒ /api/employees/[id]                            0 B                0 B
+atlvs:build: ├ ƒ /api/enterprise/data-residency                 0 B                0 B
+atlvs:build: ├ ƒ /api/enterprise/white-label                    0 B                0 B
+atlvs:build: ├ ƒ /api/equipment-certifications                  0 B                0 B
+atlvs:build: ├ ƒ /api/equipment-certifications/[id]             0 B                0 B
+atlvs:build: ├ ƒ /api/equipment-certifications/[id]/renew       0 B                0 B
+atlvs:build: ├ ƒ /api/expenses                                  0 B                0 B
+atlvs:build: ├ ƒ /api/expenses/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/expenses/[id]/approve                     0 B                0 B
+atlvs:build: ├ ƒ /api/finance/enhanced                          0 B                0 B
+atlvs:build: ├ ƒ /api/fixed-assets                              0 B                0 B
+atlvs:build: ├ ƒ /api/freelancers                               0 B                0 B
+atlvs:build: ├ ƒ /api/generator/analytics                       0 B                0 B
+atlvs:build: ├ ƒ /api/generator/capture-lead                    0 B                0 B
+atlvs:build: ├ ƒ /api/generator/export                          0 B                0 B
+atlvs:build: ├ ƒ /api/generator/generate                        0 B                0 B
+atlvs:build: ├ ƒ /api/generator/pdf                             0 B                0 B
+atlvs:build: ├ ƒ /api/generator/share                           0 B                0 B
+atlvs:build: ├ ƒ /api/governance                                0 B                0 B
+atlvs:build: ├ ƒ /api/grants                                    0 B                0 B
+atlvs:build: ├ ƒ /api/handbook                                  0 B                0 B
+atlvs:build: ├ ƒ /api/handbook/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/handbook/[id]/acknowledge                 0 B                0 B
+atlvs:build: ├ ƒ /api/health                                    0 B                0 B
+atlvs:build: ├ ƒ /api/incident-reports                          0 B                0 B
+atlvs:build: ├ ƒ /api/insurance-coi                             0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/analytics                    0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/crm-sync                     0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/deal-to-project              0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/erp-sync                     0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/hr-systems                   0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/payroll                      0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/slack-teams                  0 B                0 B
+atlvs:build: ├ ƒ /api/integrations/stripe-reconciliation        0 B                0 B
+atlvs:build: ├ ƒ /api/intercompany                              0 B                0 B
+atlvs:build: ├ ƒ /api/invoices                                  0 B                0 B
+atlvs:build: ├ ƒ /api/invoices/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/ip-tracking                               0 B                0 B
+atlvs:build: ├ ƒ /api/job-costing                               0 B                0 B
+atlvs:build: ├ ƒ /api/kpi                                       0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/[code]                                0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/data                                  0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/reports                               0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/reports/[id]                          0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/reports/[id]/duplicate                0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/reports/[id]/favorite                 0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/reports/favorites                     0 B                0 B
+atlvs:build: ├ ƒ /api/kpi/trend/[code]                          0 B                0 B
+atlvs:build: ├ ƒ /api/labor-compliance                          0 B                0 B
+atlvs:build: ├ ƒ /api/late-payments                             0 B                0 B
+atlvs:build: ├ ƒ /api/lead-scoring                              0 B                0 B
+atlvs:build: ├ ƒ /api/leads/scoring                             0 B                0 B
+atlvs:build: ├ ƒ /api/ledger-accounts                           0 B                0 B
+atlvs:build: ├ ƒ /api/ledger-entries                            0 B                0 B
+atlvs:build: ├ ƒ /api/maintenance-history                       0 B                0 B
+atlvs:build: ├ ƒ /api/make/modules                              0 B                0 B
+atlvs:build: ├ ƒ /api/marketing-attribution                     0 B                0 B
+atlvs:build: ├ ƒ /api/mass-email                                0 B                0 B
+atlvs:build: ├ ƒ /api/meeting-notes                             0 B                0 B
+atlvs:build: ├ ƒ /api/meetings                                  0 B                0 B
+atlvs:build: ├ ƒ /api/metrics                                   0 B                0 B
+atlvs:build: ├ ƒ /api/multi-entity                              0 B                0 B
+atlvs:build: ├ ƒ /api/n8n/nodes                                 0 B                0 B
+atlvs:build: ├ ƒ /api/nda                                       0 B                0 B
+atlvs:build: ├ ƒ /api/nl-query                                  0 B                0 B
+atlvs:build: ├ ƒ /api/notifications/unified                     0 B                0 B
+atlvs:build: ├ ƒ /api/nps                                       0 B                0 B
+atlvs:build: ├ ƒ /api/nps-surveys                               0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding                                0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding/complete                       0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding/organization                   0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding/preferences                    0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding/profile                        0 B                0 B
+atlvs:build: ├ ƒ /api/onboarding/role                           0 B                0 B
+atlvs:build: ├ ƒ /api/opportunities                             0 B                0 B
+atlvs:build: ├ ƒ /api/opportunity-tracking                      0 B                0 B
+atlvs:build: ├ ƒ /api/organizations                             0 B                0 B
+atlvs:build: ├ ƒ /api/organizations/[id]                        0 B                0 B
+atlvs:build: ├ ƒ /api/payment-processing                        0 B                0 B
+atlvs:build: ├ ƒ /api/payroll                                   0 B                0 B
+atlvs:build: ├ ƒ /api/payroll/[id]                              0 B                0 B
+atlvs:build: ├ ƒ /api/payroll/entries                           0 B                0 B
+atlvs:build: ├ ƒ /api/payroll/periods                           0 B                0 B
+atlvs:build: ├ ƒ /api/payroll/providers                         0 B                0 B
+atlvs:build: ├ ƒ /api/pcard                                     0 B                0 B
+atlvs:build: ├ ƒ /api/performance                               0 B                0 B
+atlvs:build: ├ ƒ /api/platform-users                            0 B                0 B
+atlvs:build: ├ ƒ /api/po-receiving                              0 B                0 B
+atlvs:build: ├ ƒ /api/policies                                  0 B                0 B
+atlvs:build: ├ ƒ /api/policies/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/policies/[id]/acknowledge                 0 B                0 B
+atlvs:build: ├ ƒ /api/predictive-analytics                      0 B                0 B
+atlvs:build: ├ ƒ /api/preferred-vendors                         0 B                0 B
+atlvs:build: ├ ƒ /api/privacy/consent                           0 B                0 B
+atlvs:build: ├ ƒ /api/privacy/delete                            0 B                0 B
+atlvs:build: ├ ƒ /api/privacy/dsr                               0 B                0 B
+atlvs:build: ├ ƒ /api/privacy/export                            0 B                0 B
+atlvs:build: ├ ƒ /api/procurement/automation                    0 B                0 B
+atlvs:build: ├ ƒ /api/productions                               0 B                0 B
+atlvs:build: ├ ƒ /api/productions/[productionId]/close          0 B                0 B
+atlvs:build: ├ ƒ /api/productions/[productionId]/wrap-report    0 B                0 B
+atlvs:build: ├ ƒ /api/productions/from-blueprint                0 B                0 B
+atlvs:build: ├ ƒ /api/profit-sharing                            0 B                0 B
+atlvs:build: ├ ƒ /api/project-dependencies                      0 B                0 B
+atlvs:build: ├ ƒ /api/projects                                  0 B                0 B
+atlvs:build: ├ ƒ /api/projects/[id]                             0 B                0 B
+atlvs:build: ├ ƒ /api/projects/enhanced                         0 B                0 B
+atlvs:build: ├ ƒ /api/pto-balances                              0 B                0 B
+atlvs:build: ├ ƒ /api/purchase-orders                           0 B                0 B
+atlvs:build: ├ ƒ /api/purchase-orders/[id]                      0 B                0 B
+atlvs:build: ├ ƒ /api/purchase-orders/[id]/approve              0 B                0 B
+atlvs:build: ├ ƒ /api/quick-links                               0 B                0 B
+atlvs:build: ├ ƒ /api/quotes                                    0 B                0 B
+atlvs:build: ├ ƒ /api/quotes/[id]                               0 B                0 B
+atlvs:build: ├ ƒ /api/quotes/[id]/convert                       0 B                0 B
+atlvs:build: ├ ƒ /api/ratings                                   0 B                0 B
+atlvs:build: ├ ƒ /api/referral-program                          0 B                0 B
+atlvs:build: ├ ƒ /api/referral-tracking                         0 B                0 B
+atlvs:build: ├ ƒ /api/rental-equipment                          0 B                0 B
+atlvs:build: ├ ƒ /api/reports                                   0 B                0 B
+atlvs:build: ├ ƒ /api/reports/generate                          0 B                0 B
+atlvs:build: ├ ƒ /api/resource-optimization                     0 B                0 B
+atlvs:build: ├ ƒ /api/resource-utilization                      0 B                0 B
+atlvs:build: ├ ƒ /api/retainers                                 0 B                0 B
+atlvs:build: ├ ƒ /api/retrospectives                            0 B                0 B
+atlvs:build: ├ ƒ /api/revenue-recognition                       0 B                0 B
+atlvs:build: ├ ƒ /api/rfp                                       0 B                0 B
+atlvs:build: ├ ƒ /api/risks                                     0 B                0 B
+atlvs:build: ├ ƒ /api/sales-forecast                            0 B                0 B
+atlvs:build: ├ ƒ /api/scenarios                                 0 B                0 B
+atlvs:build: ├ ƒ /api/scheduled-reports                         0 B                0 B
+atlvs:build: ├ ƒ /api/search                                    0 B                0 B
+atlvs:build: ├ ƒ /api/serialized-components                     0 B                0 B
+atlvs:build: ├ ƒ /api/serialized-components/[id]                0 B                0 B
+atlvs:build: ├ ƒ /api/serialized-components/[id]/service        0 B                0 B
+atlvs:build: ├ ƒ /api/serialized-components/[id]/transfer       0 B                0 B
+atlvs:build: ├ ƒ /api/shift-scheduling                          0 B                0 B
+atlvs:build: ├ ƒ /api/skills-matrix                             0 B                0 B
+atlvs:build: ├ ƒ /api/spend-analytics                           0 B                0 B
+atlvs:build: ├ ƒ /api/sso/domains                               0 B                0 B
+atlvs:build: ├ ƒ /api/sso/oidc/login                            0 B                0 B
+atlvs:build: ├ ƒ /api/sso/providers                             0 B                0 B
+atlvs:build: ├ ƒ /api/sso/saml/login                            0 B                0 B
+atlvs:build: ├ ƒ /api/stakeholder-hub                           0 B                0 B
+atlvs:build: ├ ƒ /api/stakeholders                              0 B                0 B
+atlvs:build: ├ ƒ /api/stakeholders/communications               0 B                0 B
+atlvs:build: ├ ƒ /api/status                                    0 B                0 B
+atlvs:build: ├ ƒ /api/strategic-alignment                       0 B                0 B
+atlvs:build: ├ ƒ /api/strategic-goals                           0 B                0 B
+atlvs:build: ├ ƒ /api/succession-planning                       0 B                0 B
+atlvs:build: ├ ƒ /api/succession-planning/candidates            0 B                0 B
+atlvs:build: ├ ƒ /api/succession-planning/positions             0 B                0 B
+atlvs:build: ├ ƒ /api/succession-planning/positions/[id]        0 B                0 B
+atlvs:build: ├ ƒ /api/succession-planning/talent-pools          0 B                0 B
+atlvs:build: ├ ƒ /api/talent-acquisition                        0 B                0 B
+atlvs:build: ├ ƒ /api/task-management                           0 B                0 B
+atlvs:build: ├ ƒ /api/tax/compliance                            0 B                0 B
+atlvs:build: ├ ƒ /api/territory-management                      0 B                0 B
+atlvs:build: ├ ƒ /api/time-off                                  0 B                0 B
+atlvs:build: ├ ƒ /api/timesheets                                0 B                0 B
+atlvs:build: ├ ƒ /api/training                                  0 B                0 B
+atlvs:build: ├ ƒ /api/trend-analysis                            0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-compliance                         0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-contracts                          0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-onboarding                         0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-payment-terms                      0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-portal                             0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-scorecards                         0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-scoring                            0 B                0 B
+atlvs:build: ├ ƒ /api/vendor-selection                          0 B                0 B
+atlvs:build: ├ ƒ /api/vendors                                   0 B                0 B
+atlvs:build: ├ ƒ /api/vendors/[id]                              0 B                0 B
+atlvs:build: ├ ƒ /api/venue-booking                             0 B                0 B
+atlvs:build: ├ ƒ /api/workers-comp                              0 B                0 B
+atlvs:build: ├ ƒ /api/workflow-automation                       0 B                0 B
+atlvs:build: ├ ƒ /api/workflows                                 0 B                0 B
+atlvs:build: ├ ƒ /api/workflows/[id]/execute                    0 B                0 B
+atlvs:build: ├ ƒ /api/workflows/automation                      0 B                0 B
+atlvs:build: ├ ƒ /api/workforce-productivity                    0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/actions                            0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/analytics                          0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/oauth/authorize                    0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/oauth/token                        0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/search                             0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/triggers                           0 B                0 B
+atlvs:build: ├ ƒ /api/zapier/webhooks                           0 B                0 B
+atlvs:build: ├ ○ /assets                                        2.58 kB         798 kB
+atlvs:build: ├ ○ /assets/calibration                            1.81 kB         797 kB
+atlvs:build: ├ ○ /assets/damage-reports                         2.02 kB         797 kB
+atlvs:build: ├ ○ /assets/idle-analysis                          1.95 kB         797 kB
+atlvs:build: ├ ○ /assets/kits                                   2.13 kB         797 kB
+atlvs:build: ├ ○ /assets/maintenance                            2.29 kB         797 kB
+atlvs:build: ├ ○ /assets/optimization                           2.1 kB          797 kB
+atlvs:build: ├ ○ /assets/performance                            1.83 kB         797 kB
+atlvs:build: ├ ○ /assets/rentals                                2 kB            797 kB
+atlvs:build: ├ ○ /assets/scan                                   2.41 kB         797 kB
+atlvs:build: ├ ○ /assets/serialized                             2.48 kB         798 kB
+atlvs:build: ├ ○ /assets/specifications                         2.14 kB         797 kB
+atlvs:build: ├ ○ /assets/storage                                1.82 kB         797 kB
+atlvs:build: ├ ○ /assets/tracking                               1.93 kB         797 kB
+atlvs:build: ├ ○ /assets/utilization                            1.89 kB         797 kB
+atlvs:build: ├ ○ /audit                                         2.02 kB         797 kB
+atlvs:build: ├ ○ /auth/forgot-password                          1.25 kB         796 kB
+atlvs:build: ├ ○ /auth/magic-link                               1.31 kB         796 kB
+atlvs:build: ├ ○ /auth/reset-password                           1.34 kB         796 kB
+atlvs:build: ├ ○ /auth/signin                                   588 B           796 kB
+atlvs:build: ├ ○ /auth/signup                                   1.91 kB         797 kB
+atlvs:build: ├ ○ /auth/verify-email                             938 B           796 kB
+atlvs:build: ├ ○ /billing                                       2.36 kB         797 kB
+atlvs:build: ├ ƒ /blog                                          134 B           795 kB
+atlvs:build: ├ ○ /budgets                                       2.29 kB         797 kB
+atlvs:build: ├ ƒ /careers                                       134 B           795 kB
+atlvs:build: ├ ƒ /case-studies                                  134 B           795 kB
+atlvs:build: ├ ƒ /changelog                                     134 B           795 kB
+atlvs:build: ├ ○ /compliance                                    2.17 kB         797 kB
+atlvs:build: ├ ƒ /contact                                       136 B           795 kB
+atlvs:build: ├ ○ /contacts                                      2.19 kB         797 kB
+atlvs:build: ├ ○ /contacts/relationships                        2.56 kB         798 kB
+atlvs:build: ├ ○ /contracts                                     2.66 kB         798 kB
+atlvs:build: ├ ○ /crm                                           1.88 kB         797 kB
+atlvs:build: ├ ○ /crm/calendar                                  2.29 kB         797 kB
+atlvs:build: ├ ○ /crm/email-integration                         1.8 kB          797 kB
+atlvs:build: ├ ○ /crm/lead-scoring                              2.14 kB         797 kB
+atlvs:build: ├ ○ /crm/relationships                             1.89 kB         797 kB
+atlvs:build: ├ ○ /crm/tasks                                     2.49 kB         798 kB
+atlvs:build: ├ ○ /dashboard                                     6.3 kB          801 kB
+atlvs:build: ├ ○ /deals                                         2.16 kB         797 kB
+atlvs:build: ├ ƒ /demo                                          134 B           795 kB
+atlvs:build: ├ ○ /design-system                                 5.14 kB         800 kB
+atlvs:build: ├ ƒ /docs/api                                      134 B           795 kB
+atlvs:build: ├ ○ /documents                                     2.24 kB         797 kB
+atlvs:build: ├ ○ /employees                                     2.56 kB         798 kB
+atlvs:build: ├ ○ /expenses                                      2.59 kB         798 kB
+atlvs:build: ├ ƒ /expenses/[id]                                 2.19 kB         797 kB
+atlvs:build: ├ ○ /expenses/categories                           2.02 kB         797 kB
+atlvs:build: ├ ○ /expenses/reports                              1.86 kB         797 kB
+atlvs:build: ├ ƒ /features                                      134 B           795 kB
+atlvs:build: ├ ○ /finance                                       2.16 kB         797 kB
+atlvs:build: ├ ○ /finance/accounts-receivable                   2 kB            797 kB
+atlvs:build: ├ ○ /finance/bank-reconciliation                   1.82 kB         797 kB
+atlvs:build: ├ ○ /finance/commissions                           2.12 kB         797 kB
+atlvs:build: ├ ○ /finance/credit-cards                          1.86 kB         797 kB
+atlvs:build: ├ ƒ /generator                                     3.4 kB          798 kB
+atlvs:build: ├ ƒ /generator/share/[id]                          1.05 kB         796 kB
+atlvs:build: ├ ƒ /generator/share/[id]/opengraph-image          0 B                0 B
+atlvs:build: ├ ○ /governance                                    2.36 kB         797 kB
+atlvs:build: ├ ƒ /guides                                        134 B           795 kB
+atlvs:build: ├ ƒ /help                                          134 B           795 kB
+atlvs:build: ├ ƒ /help/community                                134 B           795 kB
+atlvs:build: ├ ƒ /help/docs                                     134 B           795 kB
+atlvs:build: ├ ○ /help/faq                                      4.03 kB         799 kB
+atlvs:build: ├ ƒ /help/getting-started                          134 B           795 kB
+atlvs:build: ├ ƒ /help/tutorials                                134 B           795 kB
+atlvs:build: ├ ○ /insurance                                     2.58 kB         798 kB
+atlvs:build: ├ ƒ /insurance/[id]                                1.95 kB         797 kB
+atlvs:build: ├ ○ /integrations                                  1.62 kB         797 kB
+atlvs:build: ├ ○ /investors                                     2.45 kB         798 kB
+atlvs:build: ├ ƒ /investors/[id]                                2.05 kB         797 kB
+atlvs:build: ├ ○ /investors/documents                           2.07 kB         797 kB
+atlvs:build: ├ ○ /investors/reports                             1.79 kB         797 kB
+atlvs:build: ├ ○ /investors/rounds                              2.31 kB         797 kB
+atlvs:build: ├ ○ /invoices                                      2.79 kB         798 kB
+atlvs:build: ├ ○ /ip-tracking                                   2.59 kB         798 kB
+atlvs:build: ├ ○ /leads/scoring                                 3.27 kB         798 kB
+atlvs:build: ├ ƒ /legal/accessibility                           134 B           795 kB
+atlvs:build: ├ ƒ /legal/cookies                                 134 B           795 kB
+atlvs:build: ├ ƒ /legal/privacy                                 136 B           795 kB
+atlvs:build: ├ ƒ /legal/terms                                   136 B           795 kB
+atlvs:build: ├ ○ /marketing/attribution                         1.92 kB         797 kB
+atlvs:build: ├ ○ /metrics                                       1.93 kB         797 kB
+atlvs:build: ├ ○ /metrics/kpis                                  1.61 kB         797 kB
+atlvs:build: ├ ○ /metrics/reports                               1.96 kB         797 kB
+atlvs:build: ├ ○ /notifications                                 2.08 kB         797 kB
+atlvs:build: ├ ○ /offline                                       1.15 kB         636 kB
+atlvs:build: ├ ○ /okrs                                          2.09 kB         797 kB
+atlvs:build: ├ ○ /onboarding                                    3.65 kB         799 kB
+atlvs:build: ├ ○ /organization                                  966 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/advancing                    1.65 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/advancing/allocations        730 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/advancing/fulfillment        727 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/advancing/history            740 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/alignment                    731 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/assets                       1.76 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/budgets                      1.29 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/close                        1.86 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/compliance                   1.25 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/contracts                    1.06 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/documents                    1.25 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/expenses                     1.1 kB          796 kB
+atlvs:build: ├ ƒ /p/[productionId]/insurance                    1.55 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/investors                    975 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/investors/documents          723 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/investors/reports            721 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/investors/rounds             732 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/invoices                     1.03 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/marketing                    1.13 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/metrics                      1.1 kB          796 kB
+atlvs:build: ├ ƒ /p/[productionId]/overview                     1.96 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/permits                      1.57 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/procurement                  985 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/procurement/purchase-orders  766 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/procurement/quotes           708 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/procurement/rfps             763 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/reconciliation               1.7 kB          797 kB
+atlvs:build: ├ ƒ /p/[productionId]/schedule                     1.72 kB         797 kB
+atlvs:build: ├ ƒ /p/[productionId]/schedule/contingencies       1.04 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/schedule/tasks               1.3 kB          796 kB
+atlvs:build: ├ ƒ /p/[productionId]/schedule/templates           1.01 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/settings                     1.04 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/shows                        861 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/shows/cues                   945 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/shows/run-of-show            1.04 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/shows/set-times              995 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/sponsors                     1.25 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/stakeholders                 762 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/team                         1.22 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/team/assignments             983 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/team/training                972 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/vendors                      1.11 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/venues                       1.08 kB         796 kB
+atlvs:build: ├ ƒ /p/[productionId]/venues/maps                  946 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/venues/zones                 890 B           796 kB
+atlvs:build: ├ ƒ /p/[productionId]/wrap                         1.36 kB         796 kB
+atlvs:build: ├ ƒ /partners                                      134 B           795 kB
+atlvs:build: ├ ○ /partnerships                                  1.99 kB         797 kB
+atlvs:build: ├ ○ /payroll                                       2.76 kB         798 kB
+atlvs:build: ├ ○ /performance                                   2.44 kB         797 kB
+atlvs:build: ├ ○ /permits                                       2.47 kB         798 kB
+atlvs:build: ├ ƒ /permits/[id]                                  1.89 kB         797 kB
+atlvs:build: ├ ○ /pipeline                                      2.02 kB         797 kB
+atlvs:build: ├ ○ /portal/artist                                 1.35 kB         796 kB
+atlvs:build: ├ ○ /portal/crew                                   1.25 kB         796 kB
+atlvs:build: ├ ○ /portal/investor                               1.38 kB         796 kB
+atlvs:build: ├ ○ /portal/investor/investor-updates              1.99 kB         797 kB
+atlvs:build: ├ ○ /portal/investor/my-investments                1.51 kB         797 kB
+atlvs:build: ├ ○ /portal/sponsor                                1.37 kB         796 kB
+atlvs:build: ├ ○ /portal/sponsor/my-activations                 1.62 kB         797 kB
+atlvs:build: ├ ○ /portal/sponsor/my-deliverables                1.67 kB         797 kB
+atlvs:build: ├ ○ /portal/sponsor/my-reports                     1.73 kB         797 kB
+atlvs:build: ├ ○ /portal/vendor                                 1.27 kB         796 kB
+atlvs:build: ├ ○ /portfolio                                     2.28 kB         797 kB
+atlvs:build: ├ ƒ /press                                         134 B           795 kB
+atlvs:build: ├ ƒ /pricing                                       134 B           795 kB
+atlvs:build: ├ ○ /procurement                                   2.72 kB         798 kB
+atlvs:build: ├ ○ /procurement/categories                        2.3 kB          797 kB
+atlvs:build: ├ ○ /procurement/emergency                         2.22 kB         797 kB
+atlvs:build: ├ ○ /procurement/logistics                         2.17 kB         797 kB
+atlvs:build: ├ ○ /procurement/vendor-audits                     2.09 kB         797 kB
+atlvs:build: ├ ○ /procurement/vendor-selection                  2.36 kB         797 kB
+atlvs:build: ├ ○ /productions                                   1.09 kB         796 kB
+atlvs:build: ├ ○ /productions/new                               2.74 kB         798 kB
+atlvs:build: ├ ○ /profile                                       2.07 kB         797 kB
+atlvs:build: ├ ○ /projects                                      2.59 kB         798 kB
+atlvs:build: ├ ƒ /projects/[id]                                 2.59 kB         798 kB
+atlvs:build: ├ ○ /quick-links                                   2.56 kB         798 kB
+atlvs:build: ├ ○ /quotes                                        2.4 kB          797 kB
+atlvs:build: ├ ○ /reports                                       2.33 kB         797 kB
+atlvs:build: ├ ○ /reports/scheduled                             1.84 kB         797 kB
+atlvs:build: ├ ○ /revenue-recognition                           2.75 kB         798 kB
+atlvs:build: ├ ○ /rfp                                           2.51 kB         798 kB
+atlvs:build: ├ ○ /risks                                         2.15 kB         797 kB
+atlvs:build: ├ ○ /scenarios                                     2.91 kB         798 kB
+atlvs:build: ├ ○ /schedule                                      1.82 kB         797 kB
+atlvs:build: ├ ○ /schedule/contingencies                        2.42 kB         797 kB
+atlvs:build: ├ ƒ /schedule/contingencies/[id]                   2 kB            797 kB
+atlvs:build: ├ ○ /schedule/tasks                                2.33 kB         797 kB
+atlvs:build: ├ ƒ /schedule/tasks/[id]                           1.79 kB         797 kB
+atlvs:build: ├ ○ /schedule/templates                            2.65 kB         798 kB
+atlvs:build: ├ ƒ /security                                      134 B           795 kB
+atlvs:build: ├ ○ /settings                                      1.66 kB         797 kB
+atlvs:build: ├ ○ /settings/appearance                           3.42 kB         798 kB
+atlvs:build: ├ ○ /sponsors                                      2.56 kB         798 kB
+atlvs:build: ├ ƒ /sponsors/[id]                                 2.66 kB         798 kB
+atlvs:build: ├ ○ /sponsors/deck                                 1.99 kB         797 kB
+atlvs:build: ├ ○ /sponsors/fulfillment                          2.09 kB         797 kB
+atlvs:build: ├ ○ /sponsors/reports                              1.82 kB         797 kB
+atlvs:build: ├ ○ /sponsors/tiers                                2.15 kB         797 kB
+atlvs:build: ├ ○ /stakeholders                                  2.7 kB          798 kB
+atlvs:build: ├ ƒ /status                                        134 B           795 kB
+atlvs:build: ├ ○ /subsidiaries                                  2.4 kB          797 kB
+atlvs:build: ├ ○ /taxes                                         2.35 kB         797 kB
+atlvs:build: ├ ƒ /templates                                     133 B           795 kB
+atlvs:build: ├ ○ /training                                      2.53 kB         798 kB
+atlvs:build: ├ ○ /vendors                                       2.69 kB         798 kB
+atlvs:build: ├ ○ /vendors/contracts                             1.83 kB         797 kB
+atlvs:build: ├ ○ /vendors/rate-cards                            1.97 kB         797 kB
+atlvs:build: ├ ○ /venues                                        2.52 kB         798 kB
+atlvs:build: ├ ƒ /venues/[id]                                   2.03 kB         797 kB
+atlvs:build: ├ ○ /venues/maps                                   1.89 kB         797 kB
+atlvs:build: ├ ○ /venues/zones                                  2.59 kB         798 kB
+atlvs:build: ├ ƒ /venues/zones/[id]                             1.65 kB         797 kB
+atlvs:build: ├ ƒ /verticals/activations                         134 B           795 kB
+atlvs:build: ├ ƒ /verticals/destinations                        134 B           795 kB
+atlvs:build: ├ ƒ /verticals/installations                       134 B           795 kB
+atlvs:build: ├ ƒ /verticals/productions                         133 B           795 kB
+atlvs:build: ├ ○ /workforce                                     2.34 kB         797 kB
+atlvs:build: ├ ○ /workforce/background-checks                   2.23 kB         797 kB
+atlvs:build: ├ ○ /workforce/compensation                        1.67 kB         797 kB
+atlvs:build: ├ ○ /workforce/handbook                            2.61 kB         798 kB
+atlvs:build: ├ ○ /workforce/labor-laws                          1.91 kB         797 kB
+atlvs:build: ├ ○ /workforce/referrals                           2.09 kB         797 kB
+atlvs:build: ├ ○ /workforce/succession                          1.68 kB         797 kB
+atlvs:build: ├ ○ /workforce/union-compliance                    1.92 kB         797 kB
+atlvs:build: └ ○ /workforce/union-rules                         1.89 kB         797 kB
+atlvs:build: + First Load JS shared by all                      635 kB
+atlvs:build:   ├ chunks/lib-6968dda47f174720.js                 633 kB
+atlvs:build:   └ other shared chunks (total)                    2 kB
+atlvs:build: 
+atlvs:build: 
+atlvs:build: ƒ Middleware                                       74.1 kB
+atlvs:build: 
+atlvs:build: ○  (Static)   prerendered as static content
+atlvs:build: ƒ  (Dynamic)  server-rendered on demand
+atlvs:build: 
+
+ Tasks:    3 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    1m5.426s 
+
+turbo 2.6.1
+
+• Packages in scope: compvss
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+compvss:build: cache miss, executing 567c1374a3cb6f1e
+compvss:build: 
+compvss:build: > compvss@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+compvss:build: 
+compvss:build:   ▲ Next.js 14.2.34
+compvss:build:   - Environments: .env.local
+compvss:build:   - Experiments (use with caution):
+compvss:build:     · missingSuspenseWithCSRBailout
+compvss:build: 
+compvss:build:    Creating an optimized production build ...
+compvss:build:  ✓ Compiled successfully
+compvss:build:    Skipping validation of types
+compvss:build:    Skipping linting
+compvss:build:    Collecting page data ...
+compvss:build:  ⚠ Using edge runtime on a page currently disables static generation for that page
+compvss:build:    Generating static pages (0/121) ...
+compvss:build:  ⚠ Entire page "/bid-portal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at c (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/bid-portal/page.js:1:2457)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/advancing" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/advancing/page.js:1:4814)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:    Generating static pages (30/121) 
+compvss:build:  ⚠ Entire page "/communications/channels" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/communications/channels/page.js:1:2648)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/emergency" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/emergency/page.js:1:2439)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/knowledge/offline" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/offline/page.js:1:2523)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/knowledge/multilingual" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/multilingual/page.js:1:2553)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/crew-social" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/crew-social/page.js:1:2673)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:    Generating static pages (60/121) 
+compvss:build:  ⚠ Entire page "/opportunities/proposals" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/proposals/page.js:1:2560)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/opportunities/win-loss" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/win-loss/page.js:1:2554)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/mentorship" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/mentorship/page.js:1:2463)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/knowledge/brand-guidelines" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/brand-guidelines/page.js:1:2643)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/opportunities/bid-decision" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/bid-decision/page.js:1:2578)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/punch-list" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/punch-list/page.js:1:2464)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/photo-documentation" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/photo-documentation/page.js:1:2582)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/opportunities" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/page.js:1:2507)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/risk-register" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/risk-register/page.js:1:2482)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/opportunities/mobile" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/mobile/page.js:1:2530)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/qa-checkpoints" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/qa-checkpoints/page.js:1:2487)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:    Generating static pages (90/121) 
+compvss:build:  ⚠ Entire page "/site-access" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/site-access/page.js:1:2467)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/soundcheck" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at o (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/soundcheck/page.js:1:2452)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/social-amplification" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/social-amplification/page.js:1:2523)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/set-times" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at o (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/set-times/page.js:1:2446)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/settlement" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/settlement/page.js:1:2464)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/stakeholder-portal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/stakeholder-portal/page.js:1:2505)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/show-call" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/show-call/page.js:1:2458)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/vip-management" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/vip-management/page.js:1:2484)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/tech-rehearsal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at x (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/tech-rehearsal/page.js:1:2479)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/weather-contingency" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+compvss:build:     at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/weather-contingency/page.js:1:2517)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:  ⚠ Entire page "/sops/acknowledgments" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/acknowledgments/page.js:1:3419)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:  ⚠ Entire page "/sops/training" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+compvss:build:     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:676431)
+compvss:build:     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/6939.js:41:687416)
+compvss:build:     at w (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/sops/training/page.js:1:4071)
+compvss:build:     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+compvss:build:     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+compvss:build:     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+compvss:build:  ✓ Generating static pages (121/121)
+compvss:build:    Finalizing page optimization ...
+compvss:build:    Collecting build traces ...
+compvss:build: 
+compvss:build: Route (app)                                             Size     First Load JS
+compvss:build: ┌ ƒ /                                                   148 B          87.9 kB
+compvss:build: ├ ○ /_not-found                                         148 B          87.9 kB
+compvss:build: ├ ○ /advancing                                          2.79 kB         633 kB
+compvss:build: ├ ƒ /advancing/[id]                                     3.45 kB         633 kB
+compvss:build: ├ ○ /advancing/catalog                                  3.6 kB          472 kB
+compvss:build: ├ ○ /advancing/new                                      3.59 kB         633 kB
+compvss:build: ├ ƒ /api/advancing                                      0 B                0 B
+compvss:build: ├ ƒ /api/advancing/[id]                                 0 B                0 B
+compvss:build: ├ ƒ /api/advancing/[id]/fulfill                         0 B                0 B
+compvss:build: ├ ƒ /api/advancing/catalog                              0 B                0 B
+compvss:build: ├ ƒ /api/ai/scheduling                                  0 B                0 B
+compvss:build: ├ ƒ /api/application-tracking                           0 B                0 B
+compvss:build: ├ ƒ /api/artists                                        0 B                0 B
+compvss:build: ├ ƒ /api/assets                                         0 B                0 B
+compvss:build: ├ ƒ /api/assets/[id]                                    0 B                0 B
+compvss:build: ├ ƒ /api/audience-flow                                  0 B                0 B
+compvss:build: ├ ƒ /api/audio-lines                                    0 B                0 B
+compvss:build: ├ ƒ /api/auth/callback                                  0 B                0 B
+compvss:build: ├ ƒ /api/auth/invite                                    0 B                0 B
+compvss:build: ├ ƒ /api/auth/magic-link                                0 B                0 B
+compvss:build: ├ ƒ /api/auth/me                                        0 B                0 B
+compvss:build: ├ ƒ /api/auth/mfa                                       0 B                0 B
+compvss:build: ├ ƒ /api/auth/oauth/[provider]                          0 B                0 B
+compvss:build: ├ ƒ /api/auth/password/reset                            0 B                0 B
+compvss:build: ├ ƒ /api/auth/password/update                           0 B                0 B
+compvss:build: ├ ƒ /api/auth/refresh                                   0 B                0 B
+compvss:build: ├ ƒ /api/auth/signin                                    0 B                0 B
+compvss:build: ├ ƒ /api/auth/signout                                   0 B                0 B
+compvss:build: ├ ƒ /api/auth/signup                                    0 B                0 B
+compvss:build: ├ ƒ /api/auth/verify-email                              0 B                0 B
+compvss:build: ├ ƒ /api/availability                                   0 B                0 B
+compvss:build: ├ ƒ /api/background-checks                              0 B                0 B
+compvss:build: ├ ƒ /api/batch                                          0 B                0 B
+compvss:build: ├ ƒ /api/best-practices                                 0 B                0 B
+compvss:build: ├ ƒ /api/bid-decision                                   0 B                0 B
+compvss:build: ├ ƒ /api/bid-submission                                 0 B                0 B
+compvss:build: ├ ƒ /api/bookmarks                                      0 B                0 B
+compvss:build: ├ ƒ /api/budget/forecast                                0 B                0 B
+compvss:build: ├ ƒ /api/cable-runs                                     0 B                0 B
+compvss:build: ├ ƒ /api/candidate-communication                        0 B                0 B
+compvss:build: ├ ƒ /api/case-studies                                   0 B                0 B
+compvss:build: ├ ƒ /api/catering                                       0 B                0 B
+compvss:build: ├ ƒ /api/catering-vendors                               0 B                0 B
+compvss:build: ├ ƒ /api/certifications                                 0 B                0 B
+compvss:build: ├ ƒ /api/change-orders                                  0 B                0 B
+compvss:build: ├ ƒ /api/channels                                       0 B                0 B
+compvss:build: ├ ƒ /api/chat/messages                                  0 B                0 B
+compvss:build: ├ ƒ /api/chat/presence                                  0 B                0 B
+compvss:build: ├ ƒ /api/chat/rooms                                     0 B                0 B
+compvss:build: ├ ƒ /api/client-requirements                            0 B                0 B
+compvss:build: ├ ƒ /api/client-walkthrough                             0 B                0 B
+compvss:build: ├ ƒ /api/code-regulations                               0 B                0 B
+compvss:build: ├ ƒ /api/collaboration/comments                         0 B                0 B
+compvss:build: ├ ƒ /api/collaborative-proposals                        0 B                0 B
+compvss:build: ├ ƒ /api/credential-badges                              0 B                0 B
+compvss:build: ├ ƒ /api/crew                                           0 B                0 B
+compvss:build: ├ ƒ /api/crew-availability                              0 B                0 B
+compvss:build: ├ ƒ /api/crew-calls                                     0 B                0 B
+compvss:build: ├ ƒ /api/crew-manifest                                  0 B                0 B
+compvss:build: ├ ƒ /api/crew-mobile                                    0 B                0 B
+compvss:build: ├ ƒ /api/crew-performance                               0 B                0 B
+compvss:build: ├ ƒ /api/crew-ratings                                   0 B                0 B
+compvss:build: ├ ƒ /api/crew-rehire                                    0 B                0 B
+compvss:build: ├ ƒ /api/crew-settlement                                0 B                0 B
+compvss:build: ├ ƒ /api/crew-social/activity                           0 B                0 B
+compvss:build: ├ ƒ /api/crew-social/connections                        0 B                0 B
+compvss:build: ├ ƒ /api/crew-social/kudos                              0 B                0 B
+compvss:build: ├ ƒ /api/crew-social/photos                             0 B                0 B
+compvss:build: ├ ƒ /api/crew-social/roster                             0 B                0 B
+compvss:build: ├ ƒ /api/crew/[id]                                      0 B                0 B
+compvss:build: ├ ƒ /api/crew/assign                                    0 B                0 B
+compvss:build: ├ ƒ /api/crew/enhanced                                  0 B                0 B
+compvss:build: ├ ƒ /api/critical-path                                  0 B                0 B
+compvss:build: ├ ƒ /api/cron/crew-notifications                        0 B                0 B
+compvss:build: ├ ƒ /api/cron/sync-equipment                            0 B                0 B
+compvss:build: ├ ƒ /api/cross-platform/gvteway-sync                    0 B                0 B
+compvss:build: ├ ƒ /api/damage-assessment                              0 B                0 B
+compvss:build: ├ ƒ /api/debrief-scheduling                             0 B                0 B
+compvss:build: ├ ƒ /api/deliveries                                     0 B                0 B
+compvss:build: ├ ƒ /api/delivery-tracking                              0 B                0 B
+compvss:build: ├ ƒ /api/department-groups                              0 B                0 B
+compvss:build: ├ ƒ /api/department-groups/[id]                         0 B                0 B
+compvss:build: ├ ƒ /api/department-groups/[id]/members                 0 B                0 B
+compvss:build: ├ ƒ /api/direct-messaging                               0 B                0 B
+compvss:build: ├ ƒ /api/directory/languages                            0 B                0 B
+compvss:build: ├ ƒ /api/directory/search                               0 B                0 B
+compvss:build: ├ ƒ /api/directory/specialties                          0 B                0 B
+compvss:build: ├ ƒ /api/emergency-contacts                             0 B                0 B
+compvss:build: ├ ƒ /api/emergency-directory                            0 B                0 B
+compvss:build: ├ ƒ /api/emergency-procedures                           0 B                0 B
+compvss:build: ├ ƒ /api/encore-management                              0 B                0 B
+compvss:build: ├ ƒ /api/equipment                                      0 B                0 B
+compvss:build: ├ ƒ /api/equipment-manuals                              0 B                0 B
+compvss:build: ├ ƒ /api/equipment-return                               0 B                0 B
+compvss:build: ├ ƒ /api/equipment-specs                                0 B                0 B
+compvss:build: ├ ƒ /api/faq-database                                   0 B                0 B
+compvss:build: ├ ƒ /api/file-management                                0 B                0 B
+compvss:build: ├ ƒ /api/final-inspection                               0 B                0 B
+compvss:build: ├ ƒ /api/freelancer-marketplace                         0 B                0 B
+compvss:build: ├ ƒ /api/ground-plans                                   0 B                0 B
+compvss:build: ├ ƒ /api/guest-artist                                   0 B                0 B
+compvss:build: ├ ƒ /api/health                                         0 B                0 B
+compvss:build: ├ ƒ /api/i18n/locales                                   0 B                0 B
+compvss:build: ├ ƒ /api/i18n/translations                              0 B                0 B
+compvss:build: ├ ƒ /api/incidents                                      0 B                0 B
+compvss:build: ├ ƒ /api/industry-associations                          0 B                0 B
+compvss:build: ├ ƒ /api/industry-glossary                              0 B                0 B
+compvss:build: ├ ƒ /api/integrations/drone                             0 B                0 B
+compvss:build: ├ ƒ /api/integrations/project-to-event                  0 B                0 B
+compvss:build: ├ ƒ /api/internship-programs                            0 B                0 B
+compvss:build: ├ ƒ /api/interview-scheduling                           0 B                0 B
+compvss:build: ├ ƒ /api/issue-tracking                                 0 B                0 B
+compvss:build: ├ ƒ /api/issues                                         0 B                0 B
+compvss:build: ├ ƒ /api/knowledge-base                                 0 B                0 B
+compvss:build: ├ ƒ /api/language-filter                                0 B                0 B
+compvss:build: ├ ƒ /api/learning-paths                                 0 B                0 B
+compvss:build: ├ ƒ /api/lighting-focus                                 0 B                0 B
+compvss:build: ├ ƒ /api/load-in-out                                    0 B                0 B
+compvss:build: ├ ƒ /api/load-out                                       0 B                0 B
+compvss:build: ├ ƒ /api/maintenance/schedule                           0 B                0 B
+compvss:build: ├ ƒ /api/marketplace                                    0 B                0 B
+compvss:build: ├ ƒ /api/marketplace/opportunities                      0 B                0 B
+compvss:build: ├ ƒ /api/meal-breaks                                    0 B                0 B
+compvss:build: ├ ƒ /api/medical-coordination                           0 B                0 B
+compvss:build: ├ ƒ /api/merch-coordination                             0 B                0 B
+compvss:build: ├ ƒ /api/mobile-jobs                                    0 B                0 B
+compvss:build: ├ ƒ /api/multilingual                                   0 B                0 B
+compvss:build: ├ ƒ /api/multilingual-content                           0 B                0 B
+compvss:build: ├ ƒ /api/notifications                                  0 B                0 B
+compvss:build: ├ ƒ /api/offer-letters                                  0 B                0 B
+compvss:build: ├ ƒ /api/offline-access                                 0 B                0 B
+compvss:build: ├ ƒ /api/onboarding-workflow                            0 B                0 B
+compvss:build: ├ ƒ /api/onboarding/complete                            0 B                0 B
+compvss:build: ├ ƒ /api/onboarding/organization                        0 B                0 B
+compvss:build: ├ ƒ /api/onboarding/preferences                         0 B                0 B
+compvss:build: ├ ƒ /api/onboarding/profile                             0 B                0 B
+compvss:build: ├ ƒ /api/onboarding/role                                0 B                0 B
+compvss:build: ├ ƒ /api/opportunities                                  0 B                0 B
+compvss:build: ├ ƒ /api/opportunities/[id]/share                       0 B                0 B
+compvss:build: ├ ƒ /api/opportunity-alerts                             0 B                0 B
+compvss:build: ├ ƒ /api/opportunity-analytics                          0 B                0 B
+compvss:build: ├ ƒ /api/overtime-calc                                  0 B                0 B
+compvss:build: ├ ƒ /api/partnership-opportunities                      0 B                0 B
+compvss:build: ├ ƒ /api/pdf-generation                                 0 B                0 B
+compvss:build: ├ ƒ /api/per-diem                                       0 B                0 B
+compvss:build: ├ ƒ /api/performance-capture                            0 B                0 B
+compvss:build: ├ ƒ /api/permit-authorities                             0 B                0 B
+compvss:build: ├ ƒ /api/permits                                        0 B                0 B
+compvss:build: ├ ƒ /api/photo-documentation                            0 B                0 B
+compvss:build: ├ ƒ /api/portfolios                                     0 B                0 B
+compvss:build: ├ ƒ /api/post-event-reporting                           0 B                0 B
+compvss:build: ├ ƒ /api/post-production                                0 B                0 B
+compvss:build: ├ ƒ /api/post-show                                      0 B                0 B
+compvss:build: ├ ƒ /api/power-distribution                             0 B                0 B
+compvss:build: ├ ƒ /api/product-datasheets                             0 B                0 B
+compvss:build: ├ ƒ /api/production                                     0 B                0 B
+compvss:build: ├ ƒ /api/production-book                                0 B                0 B
+compvss:build: ├ ƒ /api/production-docs/checklists                     0 B                0 B
+compvss:build: ├ ƒ /api/production-docs/notes                          0 B                0 B
+compvss:build: ├ ƒ /api/production-docs/photos                         0 B                0 B
+compvss:build: ├ ƒ /api/production-meetings                            0 B                0 B
+compvss:build: ├ ƒ /api/production-templates                           0 B                0 B
+compvss:build: ├ ƒ /api/projects                                       0 B                0 B
+compvss:build: ├ ƒ /api/projects/[id]                                  0 B                0 B
+compvss:build: ├ ƒ /api/projects/create                                0 B                0 B
+compvss:build: ├ ƒ /api/projects/publish                               0 B                0 B
+compvss:build: ├ ƒ /api/proposal-templates                             0 B                0 B
+compvss:build: ├ ƒ /api/proximity-search                               0 B                0 B
+compvss:build: ├ ƒ /api/punch-list                                     0 B                0 B
+compvss:build: ├ ƒ /api/qa-checkpoints                                 0 B                0 B
+compvss:build: ├ ƒ /api/rate-cards                                     0 B                0 B
+compvss:build: ├ ƒ /api/ratings                                        0 B                0 B
+compvss:build: ├ ƒ /api/rehire-notes                                   0 B                0 B
+compvss:build: ├ ƒ /api/resources/allocate                             0 B                0 B
+compvss:build: ├ ƒ /api/resume-database                                0 B                0 B
+compvss:build: ├ ƒ /api/reviews-ratings                                0 B                0 B
+compvss:build: ├ ƒ /api/rigging-calc                                   0 B                0 B
+compvss:build: ├ ƒ /api/risk-detection                                 0 B                0 B
+compvss:build: ├ ƒ /api/risk-register                                  0 B                0 B
+compvss:build: ├ ƒ /api/run-of-show                                    0 B                0 B
+compvss:build: ├ ƒ /api/run-of-show/[id]                               0 B                0 B
+compvss:build: ├ ƒ /api/run-of-show/[id]/cues                          0 B                0 B
+compvss:build: ├ ƒ /api/run-of-show/[id]/cues/[cueId]                  0 B                0 B
+compvss:build: ├ ƒ /api/run-of-show/cue-system                         0 B                0 B
+compvss:build: ├ ƒ /api/safety-compliance                              0 B                0 B
+compvss:build: ├ ƒ /api/safety/incidents                               0 B                0 B
+compvss:build: ├ ƒ /api/salary-transparency                            0 B                0 B
+compvss:build: ├ ƒ /api/schedule                                       0 B                0 B
+compvss:build: ├ ƒ /api/search                                         0 B                0 B
+compvss:build: ├ ƒ /api/set-changes                                    0 B                0 B
+compvss:build: ├ ƒ /api/settlement-calc                                0 B                0 B
+compvss:build: ├ ƒ /api/share/[code]                                   0 B                0 B
+compvss:build: ├ ƒ /api/show-reports                                   0 B                0 B
+compvss:build: ├ ƒ /api/show-timing                                    0 B                0 B
+compvss:build: ├ ƒ /api/site-restoration                               0 B                0 B
+compvss:build: ├ ƒ /api/site-surveys                                   0 B                0 B
+compvss:build: ├ ƒ /api/social-sharing                                 0 B                0 B
+compvss:build: ├ ƒ /api/sound-monitoring                               0 B                0 B
+compvss:build: ├ ƒ /api/soundcheck                                     0 B                0 B
+compvss:build: ├ ƒ /api/spec-sheets                                    0 B                0 B
+compvss:build: ├ ƒ /api/stage-management                               0 B                0 B
+compvss:build: ├ ƒ /api/staging-areas                                  0 B                0 B
+compvss:build: ├ ƒ /api/stakeholder-portal                             0 B                0 B
+compvss:build: ├ ƒ /api/subcontractor-opportunities                    0 B                0 B
+compvss:build: ├ ƒ /api/subcontractors                                 0 B                0 B
+compvss:build: ├ ƒ /api/talent-pool                                    0 B                0 B
+compvss:build: ├ ƒ /api/technical-escalation                           0 B                0 B
+compvss:build: ├ ƒ /api/technical-rehearsal                            0 B                0 B
+compvss:build: ├ ƒ /api/technical-rehearsals                           0 B                0 B
+compvss:build: ├ ƒ /api/technical-riders                               0 B                0 B
+compvss:build: ├ ƒ /api/template-library                               0 B                0 B
+compvss:build: ├ ƒ /api/timekeeping                                    0 B                0 B
+compvss:build: ├ ƒ /api/training                                       0 B                0 B
+compvss:build: ├ ƒ /api/training-videos                                0 B                0 B
+compvss:build: ├ ƒ /api/transportation-providers                       0 B                0 B
+compvss:build: ├ ƒ /api/travel                                         0 B                0 B
+compvss:build: ├ ƒ /api/troubleshooting                                0 B                0 B
+compvss:build: ├ ƒ /api/union-compliance                               0 B                0 B
+compvss:build: ├ ƒ /api/union-directory                                0 B                0 B
+compvss:build: ├ ƒ /api/union-rules                                    0 B                0 B
+compvss:build: ├ ƒ /api/user-contributions                             0 B                0 B
+compvss:build: ├ ƒ /api/users/[id]/languages                           0 B                0 B
+compvss:build: ├ ƒ /api/users/[id]/specialties                         0 B                0 B
+compvss:build: ├ ƒ /api/vendor-compare                                 0 B                0 B
+compvss:build: ├ ƒ /api/vendor-documentation                           0 B                0 B
+compvss:build: ├ ƒ /api/vendor-hub                                     0 B                0 B
+compvss:build: ├ ƒ /api/venues                                         0 B                0 B
+compvss:build: ├ ƒ /api/verified-badges                                0 B                0 B
+compvss:build: ├ ƒ /api/version-control                                0 B                0 B
+compvss:build: ├ ƒ /api/video-interviews                               0 B                0 B
+compvss:build: ├ ƒ /api/video-io                                       0 B                0 B
+compvss:build: ├ ƒ /api/waste-disposal                                 0 B                0 B
+compvss:build: ├ ƒ /api/weather                                        0 B                0 B
+compvss:build: ├ ƒ /api/weather-contingency                            0 B                0 B
+compvss:build: ├ ƒ /api/win-loss-tracking                              0 B                0 B
+compvss:build: ├ ○ /artist-portal                                      4.88 kB         481 kB
+compvss:build: ├ ○ /artists                                            3.98 kB         655 kB
+compvss:build: ├ ○ /auth/forgot-password                               3.8 kB          384 kB
+compvss:build: ├ ○ /auth/magic-link                                    3.86 kB         384 kB
+compvss:build: ├ ○ /auth/reset-password                                3.91 kB         384 kB
+compvss:build: ├ ○ /auth/signin                                        980 B           628 kB
+compvss:build: ├ ○ /auth/signup                                        3.76 kB         384 kB
+compvss:build: ├ ○ /auth/verify-email                                  3.58 kB         384 kB
+compvss:build: ├ ○ /availability                                       3.54 kB         655 kB
+compvss:build: ├ ○ /background-checks                                  3.88 kB         655 kB
+compvss:build: ├ ○ /backup-plans                                       2.8 kB          472 kB
+compvss:build: ├ ○ /best-practices                                     2.35 kB         471 kB
+compvss:build: ├ ○ /bid-portal                                         2.59 kB         471 kB
+compvss:build: ├ ○ /build-strike                                       2.1 kB          471 kB
+compvss:build: ├ ○ /case-studies                                       2.4 kB          471 kB
+compvss:build: ├ ○ /catering                                           4.12 kB         451 kB
+compvss:build: ├ ○ /certifications                                     4.25 kB         656 kB
+compvss:build: ├ ○ /channels                                           3.25 kB         472 kB
+compvss:build: ├ ○ /clock-in                                           3.06 kB         450 kB
+compvss:build: ├ ○ /communications                                     2.82 kB         472 kB
+compvss:build: ├ ○ /communications/channels                            2.92 kB         472 kB
+compvss:build: ├ ○ /credentials                                        3.29 kB         635 kB
+compvss:build: ├ ○ /credentials/issue                                  2.74 kB         635 kB
+compvss:build: ├ ○ /credentials/reports                                2.12 kB         634 kB
+compvss:build: ├ ○ /credentials/scan                                   2.89 kB         635 kB
+compvss:build: ├ ○ /credentials/types                                  2.72 kB         635 kB
+compvss:build: ├ ○ /credentials/zones                                  3.08 kB         635 kB
+compvss:build: ├ ○ /crew                                               4.45 kB         656 kB
+compvss:build: ├ ○ /crew-social                                        3.42 kB         655 kB
+compvss:build: ├ ○ /crew/assign                                        2.42 kB         471 kB
+compvss:build: ├ ○ /crew/background-checks                             3 kB            472 kB
+compvss:build: ├ ○ /crew/social                                        2.97 kB         472 kB
+compvss:build: ├ ○ /dashboard                                          3.29 kB         633 kB
+compvss:build: ├ ○ /deliveries                                         4.44 kB         656 kB
+compvss:build: ├ ○ /directory                                          3.99 kB         634 kB
+compvss:build: ├ ○ /directory/availability                             2.77 kB         472 kB
+compvss:build: ├ ○ /directory/filters                                  2.66 kB         471 kB
+compvss:build: ├ ○ /drawings                                           3.05 kB         472 kB
+compvss:build: ├ ○ /emergency                                          2.97 kB         472 kB
+compvss:build: ├ ○ /equipment                                          4.24 kB         634 kB
+compvss:build: ├ ○ /expenses                                           4.53 kB         634 kB
+compvss:build: ├ ○ /files                                              2.78 kB         472 kB
+compvss:build: ├ ○ /glossary                                           2.64 kB         471 kB
+compvss:build: ├ ○ /incidents                                          3.81 kB         634 kB
+compvss:build: ├ ○ /integrations                                       2.65 kB         654 kB
+compvss:build: ├ ○ /issues                                             3.75 kB         655 kB
+compvss:build: ├ ○ /knowledge                                          3.06 kB         450 kB
+compvss:build: ├ ○ /knowledge/brand-guidelines                         2.9 kB          472 kB
+compvss:build: ├ ○ /knowledge/multilingual                             2.99 kB         472 kB
+compvss:build: ├ ○ /knowledge/offline                                  3.12 kB         472 kB
+compvss:build: ├ ○ /knowledge/regulations                              2.76 kB         471 kB
+compvss:build: ├ ○ /logistics                                          3.58 kB         633 kB
+compvss:build: ├ ○ /maintenance                                        3.75 kB         633 kB
+compvss:build: ├ ○ /mentorship                                         3.43 kB         472 kB
+compvss:build: ├ ○ /messages                                           2.42 kB         471 kB
+compvss:build: ├ ○ /my-assignments                                     2.38 kB         471 kB
+compvss:build: ├ ○ /my-contracts                                       2.64 kB         471 kB
+compvss:build: ├ ○ /my-credentials                                     2.59 kB         471 kB
+compvss:build: ├ ○ /my-deliveries                                      2.78 kB         472 kB
+compvss:build: ├ ○ /my-hospitality                                     2.98 kB         472 kB
+compvss:build: ├ ○ /my-invoices                                        2.69 kB         471 kB
+compvss:build: ├ ○ /my-rider                                           3.47 kB         451 kB
+compvss:build: ├ ○ /my-schedule                                        2.61 kB         471 kB
+compvss:build: ├ ○ /my-timesheets                                      2.59 kB         471 kB
+compvss:build: ├ ○ /my-training                                        2.54 kB         471 kB
+compvss:build: ├ ○ /notifications                                      3.28 kB         633 kB
+compvss:build: ├ ○ /offline                                            1.05 kB         374 kB
+compvss:build: ├ ○ /onboarding                                         5.26 kB         632 kB
+compvss:build: ├ ○ /opportunities                                      3.68 kB         451 kB
+compvss:build: ├ ○ /opportunities/bid-decision                         2.67 kB         471 kB
+compvss:build: ├ ○ /opportunities/mobile                               3.28 kB         472 kB
+compvss:build: ├ ○ /opportunities/proposals                            3.08 kB         472 kB
+compvss:build: ├ ○ /opportunities/win-loss                             2.88 kB         472 kB
+compvss:build: ├ ƒ /p/[productionId]/advancing                         2.29 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/advancing/templates               2.68 kB         622 kB
+compvss:build: ├ ƒ /p/[productionId]/catering                          3.43 kB         451 kB
+compvss:build: ├ ƒ /p/[productionId]/communication                     2.11 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/communication/channels            1.78 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/communication/messages            1.83 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/communication/stakeholder-portal  1.89 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/credentials                       2.33 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/crew                              2.37 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/crew/timekeeping                  1.95 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents                         2.23 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents/backup-plans            1.81 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents/files                   1.88 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents/sops                    1.77 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents/spec-sheets             1.8 kB          378 kB
+compvss:build: ├ ƒ /p/[productionId]/documents/templates               1.93 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/expenses                          3.17 kB         654 kB
+compvss:build: ├ ƒ /p/[productionId]/incidents                         3.3 kB          655 kB
+compvss:build: ├ ƒ /p/[productionId]/load-in                           3.31 kB         633 kB
+compvss:build: ├ ƒ /p/[productionId]/load-out                          3.14 kB         633 kB
+compvss:build: ├ ƒ /p/[productionId]/logistics                         2.63 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/lost-found                        3.21 kB         655 kB
+compvss:build: ├ ƒ /p/[productionId]/operations                        2.31 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/overview                          3.64 kB         380 kB
+compvss:build: ├ ƒ /p/[productionId]/quality                           2.25 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/quality/issues                    1.77 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/quality/punch-list                1.78 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/quality/qa-checkpoints            1.78 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/quality/troubleshooting           1.82 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/reports                           2.23 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/safety                            2.74 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule                          2.25 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/build-strike             2.1 kB          378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/run-of-show              1.9 kB          378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/set-times                1.74 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/show-call                2 kB            378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/soundcheck               1.83 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/schedule/tech-rehearsal           1.81 kB         378 kB
+compvss:build: ├ ƒ /p/[productionId]/settings                          2.51 kB         379 kB
+compvss:build: ├ ƒ /p/[productionId]/settlement                        2.85 kB         654 kB
+compvss:build: ├ ƒ /p/[productionId]/strike                            3.22 kB         633 kB
+compvss:build: ├ ƒ /p/[productionId]/vendors                           3.02 kB         654 kB
+compvss:build: ├ ƒ /p/[productionId]/weather                           3.23 kB         655 kB
+compvss:build: ├ ƒ /p/[productionId]/wrap                              2.85 kB         633 kB
+compvss:build: ├ ○ /permits                                            3.44 kB         451 kB
+compvss:build: ├ ○ /photo-documentation                                3.21 kB         472 kB
+compvss:build: ├ ○ /profile                                            3.31 kB         633 kB
+compvss:build: ├ ○ /projects                                           2.51 kB         632 kB
+compvss:build: ├ ○ /projects/new                                       2.52 kB         450 kB
+compvss:build: ├ ○ /punch-list                                         3.22 kB         472 kB
+compvss:build: ├ ○ /qa-checkpoints                                     2.85 kB         472 kB
+compvss:build: ├ ○ /reports/daily                                      2.47 kB         635 kB
+compvss:build: ├ ƒ /reports/daily/[id]                                 2.08 kB         634 kB
+compvss:build: ├ ○ /reports/wrap                                       2.54 kB         635 kB
+compvss:build: ├ ƒ /reports/wrap/[id]                                  2.51 kB         635 kB
+compvss:build: ├ ○ /risk-register                                      3.3 kB          472 kB
+compvss:build: ├ ○ /run-of-show                                        2.76 kB         654 kB
+compvss:build: ├ ○ /safety                                             3.41 kB         633 kB
+compvss:build: ├ ○ /schedule                                           2.91 kB         633 kB
+compvss:build: ├ ○ /set-times                                          3.23 kB         472 kB
+compvss:build: ├ ○ /settings                                           2.38 kB         449 kB
+compvss:build: ├ ○ /settlement                                         3.21 kB         472 kB
+compvss:build: ├ ○ /show-call                                          2.62 kB         471 kB
+compvss:build: ├ ○ /site-access                                        3.01 kB         472 kB
+compvss:build: ├ ○ /site-surveys                                       3.51 kB         451 kB
+compvss:build: ├ ○ /skills                                             3.29 kB         633 kB
+compvss:build: ├ ○ /social-amplification                               3.24 kB         472 kB
+compvss:build: ├ ○ /sops                                               4.97 kB         635 kB
+compvss:build: ├ ƒ /sops/[id]                                          4.94 kB         635 kB
+compvss:build: ├ ○ /sops/acknowledgments                               3.71 kB         633 kB
+compvss:build: ├ ○ /sops/categories                                    4.39 kB         634 kB
+compvss:build: ├ ○ /sops/training                                      4.56 kB         634 kB
+compvss:build: ├ ○ /soundcheck                                         3.23 kB         472 kB
+compvss:build: ├ ○ /spec-sheets                                        2.48 kB         471 kB
+compvss:build: ├ ○ /stage-management                                   2.94 kB         450 kB
+compvss:build: ├ ○ /stakeholder-portal                                 3.12 kB         472 kB
+compvss:build: ├ ○ /subcontractors                                     3.33 kB         450 kB
+compvss:build: ├ ○ /tech-rehearsal                                     3.44 kB         472 kB
+compvss:build: ├ ○ /templates                                          2.81 kB         472 kB
+compvss:build: ├ ○ /timekeeping                                        2.97 kB         633 kB
+compvss:build: ├ ○ /travel                                             3.8 kB          634 kB
+compvss:build: ├ ○ /troubleshooting                                    2.32 kB         471 kB
+compvss:build: ├ ○ /vendor-portal                                      4.86 kB         480 kB
+compvss:build: ├ ○ /vendors/compare                                    2.69 kB         471 kB
+compvss:build: ├ ○ /venues                                             1.86 kB         449 kB
+compvss:build: ├ ○ /vip-management                                     2.73 kB         471 kB
+compvss:build: ├ ○ /weather                                            2.77 kB         450 kB
+compvss:build: └ ○ /weather-contingency                                3.06 kB         472 kB
+compvss:build: + First Load JS shared by all                           87.7 kB
+compvss:build:   ├ chunks/26fe0b10-d33d795dc99cbfe7.js                 53.6 kB
+compvss:build:   ├ chunks/4142-3f71e49f9aa5f383.js                     31.9 kB
+compvss:build:   └ other shared chunks (total)                         2.14 kB
+compvss:build: 
+compvss:build: 
+compvss:build: ƒ Middleware                                            73.7 kB
+compvss:build: 
+compvss:build: ○  (Static)   prerendered as static content
+compvss:build: ƒ  (Dynamic)  server-rendered on demand
+compvss:build: 
+
+ Tasks:    3 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    41.757s 
+
+turbo 2.6.1
+
+• Packages in scope: gvteway
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+gvteway:build: cache miss, executing 641b21eed330838f
+gvteway:build: 
+gvteway:build: > gvteway@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+gvteway:build: 
+gvteway:build:   ▲ Next.js 14.2.34
+gvteway:build:   - Environments: .env.local
+gvteway:build:   - Experiments (use with caution):
+gvteway:build:     · cpus
+gvteway:build: 
+gvteway:build:    Creating an optimized production build ...
+gvteway:build: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+gvteway:build:  ⚠ Compiled with warnings
+gvteway:build: 
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+gvteway:build: A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+gvteway:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+gvteway:build: 
+gvteway:build: Import trace for requested module:
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+gvteway:build: 
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+gvteway:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+gvteway:build: 
+gvteway:build: Import trace for requested module:
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+gvteway:build: 
+gvteway:build:  ✓ Compiled successfully
+gvteway:build:    Skipping validation of types
+gvteway:build:    Skipping linting
+gvteway:build:    Collecting page data ...
+gvteway:build: unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+gvteway:build:     at getPagePath (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:94:15)
+gvteway:build:     at requirePage (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:99:22)
+gvteway:build:     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:72:65
+gvteway:build:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+gvteway:build:     at async Promise.all (index 0)
+gvteway:build:     at async loadComponentsImpl (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:71:33)
+gvteway:build:     at async Object.hasCustomGetInitialProps (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js:1274:24) {
+gvteway:build:   type: 'PageNotFoundError',
+gvteway:build:   code: 'ENOENT'
+gvteway:build: }
+gvteway:build:  ELIFECYCLE  Command failed with exit code 1.
+gvteway:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+gvteway#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    43.669s 
+Failed:    gvteway#build
+
+ ERROR  run failed: command  exited (1)
+
+--- SUMMARY ---
+STATUS: ERRORS FOUND - Remediation required

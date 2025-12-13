@@ -1,0 +1,247 @@
+=== Audit Report - Sat Dec 13 01:36:27 EST 2025 ===
+
+--- LINT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: atlvs, compvss, gvteway
+• Running lint in 3 packages
+• Remote caching disabled
+atlvs:lint: cache miss, executing 8ff243fdb853f1d5
+compvss:lint: cache miss, executing ab93c613e18f55fc
+gvteway:lint: cache miss, executing 8d7122feb9910ced
+compvss:lint: 
+compvss:lint: > compvss@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:lint: > next lint --max-warnings 9999
+compvss:lint: 
+atlvs:lint: 
+atlvs:lint: > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:lint: > next lint --max-warnings 9999
+atlvs:lint: 
+gvteway:lint: 
+gvteway:lint: > gvteway@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:lint: > next lint --max-warnings 9999
+gvteway:lint: 
+compvss:lint: ✔ No ESLint warnings or errors
+gvteway:lint: ✔ No ESLint warnings or errors
+
+--- TYPESCRIPT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: @ghxstship/config, @ghxstship/ui
+• Running build in 2 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    100ms >>> FULL TURBO
+
+
+--- BUILD VERIFICATION ---
+turbo 2.6.1
+
+• Packages in scope: atlvs
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+atlvs:build: cache miss, executing adc2ba8486b0da79
+atlvs:build: 
+atlvs:build: > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:build: > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
+atlvs:build: 
+atlvs:build:  ⚠ Linting is disabled.
+atlvs:build:   ▲ Next.js 14.2.34
+atlvs:build:   - Environments: .env.local
+atlvs:build: 
+atlvs:build:    Creating an optimized production build ...
+atlvs:build:    Using tsconfig file: tsconfig.build.json
+atlvs:build:  ✓ Compiled successfully
+atlvs:build:    Skipping validation of types
+atlvs:build:    Collecting page data ...
+atlvs:build: unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+atlvs:build:     at getPagePath (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:94:15)
+atlvs:build:     at requirePage (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:99:22)
+atlvs:build:     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:72:65
+atlvs:build:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+atlvs:build:     at async Promise.all (index 0)
+atlvs:build:     at async loadComponentsImpl (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:71:33)
+atlvs:build:     at async Object.hasCustomGetInitialProps (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js:1274:24) {
+atlvs:build:   type: 'PageNotFoundError',
+atlvs:build:   code: 'ENOENT'
+atlvs:build: }
+atlvs:build:  ELIFECYCLE  Command failed with exit code 1.
+atlvs:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+atlvs#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    35.954s 
+Failed:    atlvs#build
+
+ ERROR  run failed: command  exited (1)
+turbo 2.6.1
+
+• Packages in scope: compvss
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+compvss:build: cache miss, executing d2df2484e7fb331e
+compvss:build: 
+compvss:build: > compvss@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+compvss:build: 
+compvss:build:   ▲ Next.js 14.2.34
+compvss:build:   - Environments: .env.local
+compvss:build:   - Experiments (use with caution):
+compvss:build:     · missingSuspenseWithCSRBailout
+compvss:build: 
+compvss:build:    Creating an optimized production build ...
+compvss:build:  ✓ Compiled successfully
+compvss:build:    Skipping validation of types
+compvss:build:    Skipping linting
+compvss:build:    Collecting page data ...
+compvss:build: unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+compvss:build:     at getPagePath (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:94:15)
+compvss:build:     at requirePage (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:99:22)
+compvss:build:     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:72:65
+compvss:build:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+compvss:build:     at async Promise.all (index 0)
+compvss:build:     at async loadComponentsImpl (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:71:33)
+compvss:build:     at async Object.hasCustomGetInitialProps (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js:1274:24) {
+compvss:build:   type: 'PageNotFoundError',
+compvss:build:   code: 'ENOENT'
+compvss:build: }
+compvss:build:  ELIFECYCLE  Command failed with exit code 1.
+compvss:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+compvss#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    31.678s 
+Failed:    compvss#build
+
+ ERROR  run failed: command  exited (1)
+turbo 2.6.1
+
+• Packages in scope: gvteway
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+gvteway:build: cache miss, executing 3177875aa80f4968
+gvteway:build: 
+gvteway:build: > gvteway@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+gvteway:build: 
+gvteway:build:   ▲ Next.js 14.2.34
+gvteway:build:   - Environments: .env.local
+gvteway:build:   - Experiments (use with caution):
+gvteway:build:     · cpus
+gvteway:build: 
+gvteway:build:    Creating an optimized production build ...
+gvteway:build: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+gvteway:build:  ⚠ Compiled with warnings
+gvteway:build: 
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+gvteway:build: A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+gvteway:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+gvteway:build: 
+gvteway:build: Import trace for requested module:
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+gvteway:build: 
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+gvteway:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+gvteway:build: 
+gvteway:build: Import trace for requested module:
+gvteway:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+gvteway:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+gvteway:build: 
+gvteway:build:  ✓ Compiled successfully
+gvteway:build:    Skipping validation of types
+gvteway:build:    Skipping linting
+gvteway:build:    Collecting page data ...
+gvteway:build: unhandledRejection Error: Cannot find module './29908.js'
+gvteway:build: Require stack:
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/webpack-runtime.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/pages/_document.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/worker.js
+gvteway:build: - /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/jest-worker/processChild.js
+gvteway:build:     at Function.<anonymous> (node:internal/modules/cjs/loader:1225:15)
+gvteway:build:     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require-hook.js:55:36
+gvteway:build:     at Function._load (node:internal/modules/cjs/loader:1055:27)
+gvteway:build:     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+gvteway:build:     at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+gvteway:build:     at Module.<anonymous> (node:internal/modules/cjs/loader:1311:12)
+gvteway:build:     at mod.require (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require-hook.js:65:28)
+gvteway:build:     at require (node:internal/modules/helpers:136:16)
+gvteway:build:     at __webpack_require__.f.require (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/webpack-runtime.js:203:28)
+gvteway:build:     at /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/webpack-runtime.js:116:40 {
+gvteway:build:   type: 'Error',
+gvteway:build:   code: 'MODULE_NOT_FOUND',
+gvteway:build:   requireStack: [
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/webpack-runtime.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/pages/_document.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/worker.js',
+gvteway:build:     '/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/jest-worker/processChild.js'
+gvteway:build:   ]
+gvteway:build: }
+gvteway:build:  ELIFECYCLE  Command failed with exit code 1.
+gvteway:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+gvteway#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    53.403s 
+Failed:    gvteway#build
+
+ ERROR  run failed: command  exited (1)
+
+--- SUMMARY ---
+STATUS: ERRORS FOUND - Remediation required

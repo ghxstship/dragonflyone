@@ -1,0 +1,725 @@
+=== Audit Report - Sat Dec 13 01:29:43 EST 2025 ===
+
+--- LINT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: atlvs, compvss, gvteway
+• Running lint in 3 packages
+• Remote caching disabled
+compvss:lint: cache hit, replaying logs dfd05452289d04b5
+compvss:lint: 
+compvss:lint: > compvss@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:lint: > next lint --max-warnings 9999
+compvss:lint: 
+compvss:lint: ✔ No ESLint warnings or errors
+atlvs:lint: cache miss, executing 0ce46a1bba742f38
+
+--- TYPESCRIPT CHECK ---
+turbo 2.6.1
+
+• Packages in scope: @ghxstship/config, @ghxstship/ui
+• Running build in 2 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+
+ Tasks:    2 successful, 2 total
+Cached:    2 cached, 2 total
+  Time:    117ms >>> FULL TURBO
+
+
+--- BUILD VERIFICATION ---
+turbo 2.6.1
+
+• Packages in scope: atlvs
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+atlvs:build: cache miss, executing d1f734c840be899c
+atlvs:build: 
+atlvs:build: > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
+atlvs:build: > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
+atlvs:build: 
+atlvs:build:  ⚠ Linting is disabled.
+atlvs:build:   ▲ Next.js 14.2.34
+atlvs:build:   - Environments: .env.local
+atlvs:build: 
+atlvs:build:    Creating an optimized production build ...
+atlvs:build:    Using tsconfig file: tsconfig.build.json
+atlvs:build:  ✓ Compiled successfully
+atlvs:build:    Skipping validation of types
+atlvs:build:    Collecting page data ...
+atlvs:build:  ⚠ Using edge runtime on a page currently disables static generation for that page
+atlvs:build:    Generating static pages (0/154) ...
+atlvs:build:    Generating static pages (38/154) 
+atlvs:build:    Generating static pages (76/154) 
+atlvs:build:    Generating static pages (115/154) 
+atlvs:build:  ✓ Generating static pages (154/154)
+atlvs:build: 
+atlvs:build: > Build error occurred
+atlvs:build: Error: ENOENT: no such file or directory, rename '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/export/500.html' -> '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/500.html'
+atlvs:build:     at async Object.rename (node:internal/fs/promises:783:10)
+atlvs:build:     at async /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/index.js:1873:33
+atlvs:build:     at async Span.traceAsyncFn (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/trace/trace.js:154:20)
+atlvs:build:     at async /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/index.js:1924:25
+atlvs:build:     at async Span.traceAsyncFn (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/trace/trace.js:154:20)
+atlvs:build:     at async /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/index.js:1546:17
+atlvs:build:     at async Span.traceAsyncFn (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/trace/trace.js:154:20)
+atlvs:build:     at async build (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/index.js:368:9) {
+atlvs:build:   errno: -2,
+atlvs:build:   code: 'ENOENT',
+atlvs:build:   syscall: 'rename',
+atlvs:build:   path: '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/export/500.html',
+atlvs:build:   dest: '/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs/.next/server/pages/500.html'
+atlvs:build: }
+atlvs:build:  ELIFECYCLE  Command failed with exit code 1.
+atlvs:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+atlvs#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/atlvs) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    30.916s 
+Failed:    atlvs#build
+
+ ERROR  run failed: command  exited (1)
+turbo 2.6.1
+
+• Packages in scope: compvss
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+compvss:build: cache miss, executing 0652a4073577cfa8
+compvss:build: 
+compvss:build: > compvss@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/compvss
+compvss:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+compvss:build: 
+compvss:build:   ▲ Next.js 14.2.34
+compvss:build:   - Environments: .env.local
+compvss:build:   - Experiments (use with caution):
+compvss:build:     · missingSuspenseWithCSRBailout
+compvss:build: 
+compvss:build:    Creating an optimized production build ...
+compvss:build: <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+compvss:build:  ⚠ Compiled with warnings
+compvss:build: 
+compvss:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+compvss:build: A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+compvss:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+compvss:build: 
+compvss:build: Import trace for requested module:
+compvss:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+compvss:build: ../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+compvss:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+compvss:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+compvss:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+compvss:build: 
+compvss:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+compvss:build: A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+compvss:build: Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+compvss:build: 
+compvss:build: Import trace for requested module:
+compvss:build: ../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+compvss:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+compvss:build: ../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+compvss:build: 
+compvss:build:  ✓ Compiled successfully
+compvss:build:    Skipping validation of types
+compvss:build:    Skipping linting
+compvss:build:    Collecting page data ...
+compvss:build: unhandledRejection Error [PageNotFoundError]: Cannot find module for page: /_document
+compvss:build:     at getPagePath (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:94:15)
+compvss:build:     at requirePage (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/require.js:99:22)
+compvss:build:     at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:72:65
+compvss:build:     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+compvss:build:     at async Promise.all (index 0)
+compvss:build:     at async loadComponentsImpl (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/load-components.js:71:33)
+compvss:build:     at async Object.hasCustomGetInitialProps (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/build/utils.js:1274:24) {
+compvss:build:   type: 'PageNotFoundError',
+compvss:build:   code: 'ENOENT'
+compvss:build: }
+compvss:build:  ELIFECYCLE  Command failed with exit code 1.
+compvss:build: ERROR: command finished with error: command (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+compvss#build: command (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss) /Users/julianclarkson/Library/pnpm/.tools/@pnpm+macos-arm64/9.0.0/bin/pnpm run build exited (1)
+
+ Tasks:    2 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    35.238s 
+Failed:    compvss#build
+
+ ERROR  run failed: command  exited (1)
+turbo 2.6.1
+
+• Packages in scope: gvteway
+• Running build in 1 packages
+• Remote caching disabled
+@ghxstship/config:build: cache hit, replaying logs 698dc45755f2779b
+@ghxstship/config:build: 
+@ghxstship/config:build: > @ghxstship/config@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/config
+@ghxstship/config:build: > tsc -p tsconfig.json
+@ghxstship/config:build: 
+@ghxstship/ui:build: cache hit, replaying logs ca10119b37d86480
+@ghxstship/ui:build: 
+@ghxstship/ui:build: > @ghxstship/ui@0.0.1 build /Users/julianclarkson/Documents/Dragonflyone/packages/ui
+@ghxstship/ui:build: > tsc -p tsconfig.json
+@ghxstship/ui:build: 
+gvteway:build: cache miss, executing 2e3bdb3a993b67b6
+gvteway:build: 
+gvteway:build: > gvteway@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
+gvteway:build: > NODE_OPTIONS='--max-old-space-size=8192' next build
+gvteway:build: 
+gvteway:build:   ▲ Next.js 14.2.34
+gvteway:build:   - Environments: .env.local
+gvteway:build:   - Experiments (use with caution):
+gvteway:build:     · cpus
+gvteway:build: 
+gvteway:build:    Creating an optimized production build ...
+gvteway:build:  ✓ Compiled successfully
+gvteway:build:    Skipping validation of types
+gvteway:build:    Skipping linting
+gvteway:build:    Collecting page data ...
+gvteway:build:  ⚠ Using edge runtime on a page currently disables static generation for that page
+gvteway:build:    Generating static pages (0/138) ...
+gvteway:build:    Generating static pages (34/138) 
+gvteway:build:    Generating static pages (68/138) 
+gvteway:build:    Generating static pages (103/138) 
+gvteway:build:  ✓ Generating static pages (138/138)
+gvteway:build:    Finalizing page optimization ...
+gvteway:build:    Collecting build traces ...
+gvteway:build: 
+gvteway:build: Route (app)                                   Size     First Load JS
+gvteway:build: ┌ ƒ /                                         8.55 kB         464 kB
+gvteway:build: ├ ○ /_not-found                               143 B          87.8 kB
+gvteway:build: ├ ○ /accessibility                            3.39 kB         471 kB
+gvteway:build: ├ ○ /accessibility/request                    5.35 kB         454 kB
+gvteway:build: ├ ○ /account                                  4.63 kB         480 kB
+gvteway:build: ├ ○ /account/my-refunds                       2.86 kB         452 kB
+gvteway:build: ├ ○ /account/my-transfers                     2.83 kB         452 kB
+gvteway:build: ├ ○ /account/orders                           2.12 kB         470 kB
+gvteway:build: ├ ○ /account/profile                          2.81 kB         452 kB
+gvteway:build: ├ ○ /account/tickets                          2.43 kB         470 kB
+gvteway:build: ├ ○ /activity                                 3.23 kB         458 kB
+gvteway:build: ├ ○ /admin/anti-scalping                      4.31 kB         472 kB
+gvteway:build: ├ ○ /admin/content-calendar                   2.61 kB         471 kB
+gvteway:build: ├ ○ /admin/contests                           3.91 kB         651 kB
+gvteway:build: ├ ○ /admin/integrations                       4.53 kB         453 kB
+gvteway:build: ├ ○ /admin/inventory-sync                     3.25 kB         651 kB
+gvteway:build: ├ ○ /admin/marketing/sms                      3.63 kB         472 kB
+gvteway:build: ├ ○ /admin/moderation                         2.85 kB         471 kB
+gvteway:build: ├ ○ /admin/pos                                3.31 kB         471 kB
+gvteway:build: ├ ○ /admin/pos/cashless                       4.75 kB         473 kB
+gvteway:build: ├ ○ /admin/pricing/early-bird                 3.46 kB         471 kB
+gvteway:build: ├ ○ /admin/promo-codes                        5.97 kB         634 kB
+gvteway:build: ├ ○ /admin/sales-reporting                    3.3 kB          651 kB
+gvteway:build: ├ ○ /admin/will-call                          5.53 kB         634 kB
+gvteway:build: ├ ƒ /api/ab-testing                           0 B                0 B
+gvteway:build: ├ ƒ /api/abandoned-cart                       0 B                0 B
+gvteway:build: ├ ƒ /api/accessibility                        0 B                0 B
+gvteway:build: ├ ƒ /api/accessibility/requests               0 B                0 B
+gvteway:build: ├ ƒ /api/activity/feed                        0 B                0 B
+gvteway:build: ├ ƒ /api/ad-campaigns                         0 B                0 B
+gvteway:build: ├ ƒ /api/admin/payouts                        0 B                0 B
+gvteway:build: ├ ƒ /api/admin/promo-codes                    0 B                0 B
+gvteway:build: ├ ƒ /api/admin/promo-codes/[id]               0 B                0 B
+gvteway:build: ├ ƒ /api/admin/reconciliation                 0 B                0 B
+gvteway:build: ├ ƒ /api/admin/refunds                        0 B                0 B
+gvteway:build: ├ ƒ /api/advanced-search                      0 B                0 B
+gvteway:build: ├ ƒ /api/age-restrictions                     0 B                0 B
+gvteway:build: ├ ƒ /api/age-verification                     0 B                0 B
+gvteway:build: ├ ƒ /api/ai-recommendations                   0 B                0 B
+gvteway:build: ├ ƒ /api/ai/nlp-search                        0 B                0 B
+gvteway:build: ├ ƒ /api/ai/recommendations                   0 B                0 B
+gvteway:build: ├ ƒ /api/ambassador-program                   0 B                0 B
+gvteway:build: ├ ƒ /api/anti-scalping                        0 B                0 B
+gvteway:build: ├ ƒ /api/approval-workflows                   0 B                0 B
+gvteway:build: ├ ƒ /api/ar-experiences                       0 B                0 B
+gvteway:build: ├ ƒ /api/artist-amplification                 0 B                0 B
+gvteway:build: ├ ƒ /api/artists                              0 B                0 B
+gvteway:build: ├ ƒ /api/artists/[id]/follow                  0 B                0 B
+gvteway:build: ├ ƒ /api/artists/[id]/follow/status           0 B                0 B
+gvteway:build: ├ ƒ /api/auth/callback                        0 B                0 B
+gvteway:build: ├ ƒ /api/auth/magic-link                      0 B                0 B
+gvteway:build: ├ ƒ /api/auth/me                              0 B                0 B
+gvteway:build: ├ ƒ /api/auth/mfa                             0 B                0 B
+gvteway:build: ├ ƒ /api/auth/oauth/[provider]                0 B                0 B
+gvteway:build: ├ ƒ /api/auth/password/reset                  0 B                0 B
+gvteway:build: ├ ƒ /api/auth/password/update                 0 B                0 B
+gvteway:build: ├ ƒ /api/auth/refresh                         0 B                0 B
+gvteway:build: ├ ƒ /api/auth/signin                          0 B                0 B
+gvteway:build: ├ ƒ /api/auth/signout                         0 B                0 B
+gvteway:build: ├ ƒ /api/auth/signup                          0 B                0 B
+gvteway:build: ├ ƒ /api/auth/verify-email                    0 B                0 B
+gvteway:build: ├ ƒ /api/batch/tickets                        0 B                0 B
+gvteway:build: ├ ƒ /api/bulk-posting                         0 B                0 B
+gvteway:build: ├ ƒ /api/bundle-deals                         0 B                0 B
+gvteway:build: ├ ƒ /api/bundles                              0 B                0 B
+gvteway:build: ├ ƒ /api/campaigns                            0 B                0 B
+gvteway:build: ├ ƒ /api/capacity                             0 B                0 B
+gvteway:build: ├ ƒ /api/cashless-payments                    0 B                0 B
+gvteway:build: ├ ƒ /api/charity-campaigns                    0 B                0 B
+gvteway:build: ├ ƒ /api/checkout                             0 B                0 B
+gvteway:build: ├ ƒ /api/checkout/session                     0 B                0 B
+gvteway:build: ├ ƒ /api/collections                          0 B                0 B
+gvteway:build: ├ ƒ /api/collections/[id]                     0 B                0 B
+gvteway:build: ├ ƒ /api/comment-moderation                   0 B                0 B
+gvteway:build: ├ ƒ /api/community                            0 B                0 B
+gvteway:build: ├ ƒ /api/community-analytics                  0 B                0 B
+gvteway:build: ├ ƒ /api/community-challenges                 0 B                0 B
+gvteway:build: ├ ƒ /api/community/events                     0 B                0 B
+gvteway:build: ├ ƒ /api/community/forums                     0 B                0 B
+gvteway:build: ├ ƒ /api/community/groups                     0 B                0 B
+gvteway:build: ├ ƒ /api/community/polls                      0 B                0 B
+gvteway:build: ├ ƒ /api/community/polls/[id]/vote            0 B                0 B
+gvteway:build: ├ ƒ /api/content-calendar                     0 B                0 B
+gvteway:build: ├ ƒ /api/content-optimization                 0 B                0 B
+gvteway:build: ├ ƒ /api/content/categories                   0 B                0 B
+gvteway:build: ├ ƒ /api/content/exclusive                    0 B                0 B
+gvteway:build: ├ ƒ /api/contest-giveaway                     0 B                0 B
+gvteway:build: ├ ƒ /api/contests                             0 B                0 B
+gvteway:build: ├ ƒ /api/crisis-management                    0 B                0 B
+gvteway:build: ├ ƒ /api/cron/event-notifications             0 B                0 B
+gvteway:build: ├ ƒ /api/cron/loyalty-points                  0 B                0 B
+gvteway:build: ├ ƒ /api/cron/ticket-reminders                0 B                0 B
+gvteway:build: ├ ƒ /api/currency-pricing                     0 B                0 B
+gvteway:build: ├ ƒ /api/deals                                0 B                0 B
+gvteway:build: ├ ƒ /api/dietary-notifications                0 B                0 B
+gvteway:build: ├ ƒ /api/digital-wallet                       0 B                0 B
+gvteway:build: ├ ƒ /api/directions/parking                   0 B                0 B
+gvteway:build: ├ ƒ /api/directions/route                     0 B                0 B
+gvteway:build: ├ ƒ /api/directions/transport                 0 B                0 B
+gvteway:build: ├ ƒ /api/directions/venue                     0 B                0 B
+gvteway:build: ├ ƒ /api/discounts/verify                     0 B                0 B
+gvteway:build: ├ ƒ /api/discover/quiz                        0 B                0 B
+gvteway:build: ├ ƒ /api/early-access                         0 B                0 B
+gvteway:build: ├ ƒ /api/early-bird                           0 B                0 B
+gvteway:build: ├ ƒ /api/event-aggregators                    0 B                0 B
+gvteway:build: ├ ƒ /api/event-collaboration                  0 B                0 B
+gvteway:build: ├ ƒ /api/event-parking                        0 B                0 B
+gvteway:build: ├ ƒ /api/events                               0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]                          0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/box-office               0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/chat                     0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/entry-info               0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/partners                 0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/program                  0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/qr-checkin               0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/seating                  0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/tickets/generate         0 B                0 B
+gvteway:build: ├ ƒ /api/events/[id]/waitlist                 0 B                0 B
+gvteway:build: ├ ƒ /api/events/create                        0 B                0 B
+gvteway:build: ├ ƒ /api/events/enhanced                      0 B                0 B
+gvteway:build: ├ ƒ /api/events/map                           0 B                0 B
+gvteway:build: ├ ƒ /api/events/nearby                        0 B                0 B
+gvteway:build: ├ ƒ /api/events/templates                     0 B                0 B
+gvteway:build: ├ ƒ /api/exclusive-content                    0 B                0 B
+gvteway:build: ├ ƒ /api/experience-discovery                 0 B                0 B
+gvteway:build: ├ ƒ /api/experiences                          0 B                0 B
+gvteway:build: ├ ƒ /api/fan-chapters                         0 B                0 B
+gvteway:build: ├ ƒ /api/fan-club-access                      0 B                0 B
+gvteway:build: ├ ƒ /api/fan-clubs                            0 B                0 B
+gvteway:build: ├ ƒ /api/fan-content                          0 B                0 B
+gvteway:build: ├ ƒ /api/fan-mentorship                       0 B                0 B
+gvteway:build: ├ ƒ /api/fan-profiles                         0 B                0 B
+gvteway:build: ├ ƒ /api/fan-spotlight                        0 B                0 B
+gvteway:build: ├ ƒ /api/favorites                            0 B                0 B
+gvteway:build: ├ ƒ /api/follows                              0 B                0 B
+gvteway:build: ├ ƒ /api/friends                              0 B                0 B
+gvteway:build: ├ ƒ /api/friends/location                     0 B                0 B
+gvteway:build: ├ ƒ /api/friends/meetups                      0 B                0 B
+gvteway:build: ├ ƒ /api/ga-floor-config                      0 B                0 B
+gvteway:build: ├ ƒ /api/gamification                         0 B                0 B
+gvteway:build: ├ ƒ /api/gift-cards                           0 B                0 B
+gvteway:build: ├ ƒ /api/gift-cards/my-cards                  0 B                0 B
+gvteway:build: ├ ƒ /api/gift-cards/purchase                  0 B                0 B
+gvteway:build: ├ ƒ /api/gift-cards/redeem                    0 B                0 B
+gvteway:build: ├ ƒ /api/gift-registry                        0 B                0 B
+gvteway:build: ├ ƒ /api/group-organizer                      0 B                0 B
+gvteway:build: ├ ƒ /api/groups                               0 B                0 B
+gvteway:build: ├ ƒ /api/guest-chat                           0 B                0 B
+gvteway:build: ├ ƒ /api/health                               0 B                0 B
+gvteway:build: ├ ƒ /api/influencer-affiliates                0 B                0 B
+gvteway:build: ├ ƒ /api/influencer-tracking                  0 B                0 B
+gvteway:build: ├ ƒ /api/instagram-templates                  0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/iot                     0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/live-streaming          0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/marketing-sync          0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/payment-gateways        0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/social-media            0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/streaming               0 B                0 B
+gvteway:build: ├ ƒ /api/integrations/ticket-revenue          0 B                0 B
+gvteway:build: ├ ƒ /api/inventory-alerts                     0 B                0 B
+gvteway:build: ├ ƒ /api/inventory-sync                       0 B                0 B
+gvteway:build: ├ ƒ /api/landing-pages                        0 B                0 B
+gvteway:build: ├ ƒ /api/limited-releases                     0 B                0 B
+gvteway:build: ├ ƒ /api/live-social-feed                     0 B                0 B
+gvteway:build: ├ ƒ /api/live-tweet-wall                      0 B                0 B
+gvteway:build: ├ ƒ /api/local-partnerships                   0 B                0 B
+gvteway:build: ├ ƒ /api/lost-found                           0 B                0 B
+gvteway:build: ├ ƒ /api/loyalty                              0 B                0 B
+gvteway:build: ├ ƒ /api/loyalty-rewards                      0 B                0 B
+gvteway:build: ├ ƒ /api/marketing-analytics                  0 B                0 B
+gvteway:build: ├ ƒ /api/marketing/campaigns                  0 B                0 B
+gvteway:build: ├ ƒ /api/marketing/lists                      0 B                0 B
+gvteway:build: ├ ƒ /api/marketing/templates                  0 B                0 B
+gvteway:build: ├ ƒ /api/match/events                         0 B                0 B
+gvteway:build: ├ ƒ /api/match/interests                      0 B                0 B
+gvteway:build: ├ ƒ /api/match/users                          0 B                0 B
+gvteway:build: ├ ƒ /api/media-kit                            0 B                0 B
+gvteway:build: ├ ƒ /api/member-benefits                      0 B                0 B
+gvteway:build: ├ ƒ /api/member-directory                     0 B                0 B
+gvteway:build: ├ ƒ /api/memberships                          0 B                0 B
+gvteway:build: ├ ƒ /api/memberships/subscribe                0 B                0 B
+gvteway:build: ├ ƒ /api/memory-book                          0 B                0 B
+gvteway:build: ├ ƒ /api/merch/catalog                        0 B                0 B
+gvteway:build: ├ ƒ /api/merchandise                          0 B                0 B
+gvteway:build: ├ ƒ /api/messages/conversations               0 B                0 B
+gvteway:build: ├ ƒ /api/messages/conversations/[id]          0 B                0 B
+gvteway:build: ├ ƒ /api/messaging                            0 B                0 B
+gvteway:build: ├ ƒ /api/mobile-ticket-delivery               0 B                0 B
+gvteway:build: ├ ƒ /api/multi-language                       0 B                0 B
+gvteway:build: ├ ƒ /api/multi-language-events                0 B                0 B
+gvteway:build: ├ ƒ /api/music-integration                    0 B                0 B
+gvteway:build: ├ ƒ /api/nft-tickets                          0 B                0 B
+gvteway:build: ├ ƒ /api/notifications                        0 B                0 B
+gvteway:build: ├ ƒ /api/offline-tickets                      0 B                0 B
+gvteway:build: ├ ƒ /api/onboarding/complete                  0 B                0 B
+gvteway:build: ├ ƒ /api/onboarding/interests                 0 B                0 B
+gvteway:build: ├ ƒ /api/onboarding/preferences               0 B                0 B
+gvteway:build: ├ ƒ /api/onboarding/profile                   0 B                0 B
+gvteway:build: ├ ƒ /api/orders                               0 B                0 B
+gvteway:build: ├ ƒ /api/orders/[id]                          0 B                0 B
+gvteway:build: ├ ƒ /api/orders/history                       0 B                0 B
+gvteway:build: ├ ƒ /api/orders/revenue-sync                  0 B                0 B
+gvteway:build: ├ ƒ /api/paid-advertising                     0 B                0 B
+gvteway:build: ├ ƒ /api/partners                             0 B                0 B
+gvteway:build: ├ ƒ /api/partners/[id]                        0 B                0 B
+gvteway:build: ├ ƒ /api/partners/[id]/offers                 0 B                0 B
+gvteway:build: ├ ƒ /api/payment-methods                      0 B                0 B
+gvteway:build: ├ ƒ /api/payment-plans                        0 B                0 B
+gvteway:build: ├ ƒ /api/payments                             0 B                0 B
+gvteway:build: ├ ƒ /api/photo-booth                          0 B                0 B
+gvteway:build: ├ ƒ /api/photos/[id]/like                     0 B                0 B
+gvteway:build: ├ ƒ /api/photos/feed                          0 B                0 B
+gvteway:build: ├ ƒ /api/photos/galleries                     0 B                0 B
+gvteway:build: ├ ƒ /api/pos-terminal                         0 B                0 B
+gvteway:build: ├ ƒ /api/preorders                            0 B                0 B
+gvteway:build: ├ ƒ /api/press-media-kit                      0 B                0 B
+gvteway:build: ├ ƒ /api/price-alerts                         0 B                0 B
+gvteway:build: ├ ƒ /api/price-alerts/[id]                    0 B                0 B
+gvteway:build: ├ ƒ /api/pricing/dynamic                      0 B                0 B
+gvteway:build: ├ ƒ /api/print-at-home                        0 B                0 B
+gvteway:build: ├ ƒ /api/privacy/cookies                      0 B                0 B
+gvteway:build: ├ ƒ /api/product-customization                0 B                0 B
+gvteway:build: ├ ƒ /api/product-variants                     0 B                0 B
+gvteway:build: ├ ƒ /api/profile                              0 B                0 B
+gvteway:build: ├ ƒ /api/promo-codes                          0 B                0 B
+gvteway:build: ├ ƒ /api/qa-sessions                          0 B                0 B
+gvteway:build: ├ ƒ /api/qa-sessions/[id]/questions           0 B                0 B
+gvteway:build: ├ ƒ /api/qa-sessions/questions/[id]/upvote    0 B                0 B
+gvteway:build: ├ ƒ /api/queuing                              0 B                0 B
+gvteway:build: ├ ƒ /api/receipts                             0 B                0 B
+gvteway:build: ├ ƒ /api/recommendations                      0 B                0 B
+gvteway:build: ├ ƒ /api/referrals                            0 B                0 B
+gvteway:build: ├ ƒ /api/refunds                              0 B                0 B
+gvteway:build: ├ ƒ /api/related-events                       0 B                0 B
+gvteway:build: ├ ƒ /api/retargeting-pixels                   0 B                0 B
+gvteway:build: ├ ƒ /api/reviews                              0 B                0 B
+gvteway:build: ├ ƒ /api/rewards                              0 B                0 B
+gvteway:build: ├ ƒ /api/rfid-wristbands                      0 B                0 B
+gvteway:build: ├ ƒ /api/sales-reporting                      0 B                0 B
+gvteway:build: ├ ƒ /api/saved-searches                       0 B                0 B
+gvteway:build: ├ ƒ /api/saved-searches/[id]                  0 B                0 B
+gvteway:build: ├ ƒ /api/search                               0 B                0 B
+gvteway:build: ├ ƒ /api/search/universal                     0 B                0 B
+gvteway:build: ├ ƒ /api/seat-upgrades                        0 B                0 B
+gvteway:build: ├ ƒ /api/secondary-market                     0 B                0 B
+gvteway:build: ├ ƒ /api/sentiment-alerts                     0 B                0 B
+gvteway:build: ├ ƒ /api/series-management                    0 B                0 B
+gvteway:build: ├ ƒ /api/shoppable-posts                      0 B                0 B
+gvteway:build: ├ ƒ /api/similar-events                       0 B                0 B
+gvteway:build: ├ ƒ /api/sms-campaigns                        0 B                0 B
+gvteway:build: ├ ƒ /api/social                               0 B                0 B
+gvteway:build: ├ ƒ /api/social-commerce                      0 B                0 B
+gvteway:build: ├ ƒ /api/social-content-scheduler             0 B                0 B
+gvteway:build: ├ ƒ /api/social-graph                         0 B                0 B
+gvteway:build: ├ ƒ /api/social-inbox                         0 B                0 B
+gvteway:build: ├ ƒ /api/social-listening                     0 B                0 B
+gvteway:build: ├ ƒ /api/social-proof                         0 B                0 B
+gvteway:build: ├ ƒ /api/social-takeover                      0 B                0 B
+gvteway:build: ├ ƒ /api/social/affiliate                     0 B                0 B
+gvteway:build: ├ ƒ /api/social/posts                         0 B                0 B
+gvteway:build: ├ ƒ /api/social/shops                         0 B                0 B
+gvteway:build: ├ ƒ /api/split-payment                        0 B                0 B
+gvteway:build: ├ ƒ /api/sponsor-branding                     0 B                0 B
+gvteway:build: ├ ƒ /api/streaming                            0 B                0 B
+gvteway:build: ├ ƒ /api/subscription-box                     0 B                0 B
+gvteway:build: ├ ƒ /api/support/conversations                0 B                0 B
+gvteway:build: ├ ƒ /api/support/conversations/[id]/messages  0 B                0 B
+gvteway:build: ├ ƒ /api/surveys/[id]                         0 B                0 B
+gvteway:build: ├ ƒ /api/surveys/[id]/responses               0 B                0 B
+gvteway:build: ├ ƒ /api/tax-calculation                      0 B                0 B
+gvteway:build: ├ ƒ /api/third-party-listings                 0 B                0 B
+gvteway:build: ├ ƒ /api/ticket-insurance                     0 B                0 B
+gvteway:build: ├ ƒ /api/tickets                              0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/[id]                         0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/addons                       0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/deliveries                   0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/enhanced                     0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/gift                         0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/track                        0 B                0 B
+gvteway:build: ├ ƒ /api/tickets/transfer                     0 B                0 B
+gvteway:build: ├ ƒ /api/tiktok-challenges                    0 B                0 B
+gvteway:build: ├ ƒ /api/tips-gratuity                        0 B                0 B
+gvteway:build: ├ ƒ /api/tourism-partnerships                 0 B                0 B
+gvteway:build: ├ ƒ /api/tours                                0 B                0 B
+gvteway:build: ├ ƒ /api/travel-packages                      0 B                0 B
+gvteway:build: ├ ƒ /api/ugc-campaigns                        0 B                0 B
+gvteway:build: ├ ƒ /api/ugc/campaigns                        0 B                0 B
+gvteway:build: ├ ƒ /api/ugc/hashtags                         0 B                0 B
+gvteway:build: ├ ƒ /api/ugc/posts                            0 B                0 B
+gvteway:build: ├ ƒ /api/urgency-tactics                      0 B                0 B
+gvteway:build: ├ ƒ /api/user/badges                          0 B                0 B
+gvteway:build: ├ ƒ /api/user/blocked                         0 B                0 B
+gvteway:build: ├ ƒ /api/user/events                          0 B                0 B
+gvteway:build: ├ ƒ /api/user/favorites                       0 B                0 B
+gvteway:build: ├ ƒ /api/user/favorites/[id]                  0 B                0 B
+gvteway:build: ├ ƒ /api/user/notification-preferences        0 B                0 B
+gvteway:build: ├ ƒ /api/user/profile                         0 B                0 B
+gvteway:build: ├ ƒ /api/user/reports                         0 B                0 B
+gvteway:build: ├ ƒ /api/user/reputation                      0 B                0 B
+gvteway:build: ├ ƒ /api/user/settings                        0 B                0 B
+gvteway:build: ├ ƒ /api/vendor-booths                        0 B                0 B
+gvteway:build: ├ ƒ /api/venue-maps                           0 B                0 B
+gvteway:build: ├ ƒ /api/venues                               0 B                0 B
+gvteway:build: ├ ƒ /api/venues/[id]                          0 B                0 B
+gvteway:build: ├ ƒ /api/venues/[id]/follow                   0 B                0 B
+gvteway:build: ├ ƒ /api/venues/[id]/follow/status            0 B                0 B
+gvteway:build: ├ ƒ /api/venues/[id]/map                      0 B                0 B
+gvteway:build: ├ ƒ /api/video-promo                          0 B                0 B
+gvteway:build: ├ ƒ /api/vip-zones                            0 B                0 B
+gvteway:build: ├ ƒ /api/visual-search                        0 B                0 B
+gvteway:build: ├ ƒ /api/voice-search                         0 B                0 B
+gvteway:build: ├ ƒ /api/vr-experiences                       0 B                0 B
+gvteway:build: ├ ƒ /api/waitlist                             0 B                0 B
+gvteway:build: ├ ƒ /api/wallet                               0 B                0 B
+gvteway:build: ├ ƒ /api/watch-parties                        0 B                0 B
+gvteway:build: ├ ƒ /api/watch-parties/[id]/join              0 B                0 B
+gvteway:build: ├ ƒ /api/weather-policies                     0 B                0 B
+gvteway:build: ├ ƒ /api/webhooks/stripe                      0 B                0 B
+gvteway:build: ├ ƒ /api/will-call                            0 B                0 B
+gvteway:build: ├ ƒ /api/wishlist                             0 B                0 B
+gvteway:build: ├ ○ /apply                                    8.67 kB         464 kB
+gvteway:build: ├ ○ /apply/confirmation                       4.46 kB         460 kB
+gvteway:build: ├ ○ /artists                                  3.19 kB         638 kB
+gvteway:build: ├ ƒ /artists/[id]                             3.96 kB         638 kB
+gvteway:build: ├ ○ /auth/forgot-password                     6.36 kB         390 kB
+gvteway:build: ├ ○ /auth/magic-link                          6.58 kB         391 kB
+gvteway:build: ├ ○ /auth/reset-password                      6.64 kB         391 kB
+gvteway:build: ├ ○ /auth/signin                              3.15 kB         622 kB
+gvteway:build: ├ ○ /auth/signup                              7.04 kB         391 kB
+gvteway:build: ├ ○ /auth/verify-email                        3.95 kB         385 kB
+gvteway:build: ├ ○ /browse                                   3.35 kB         621 kB
+gvteway:build: ├ ○ /calendar                                 3.29 kB         632 kB
+gvteway:build: ├ ○ /cart                                     5.86 kB         634 kB
+gvteway:build: ├ ○ /checkout                                 4 kB            632 kB
+gvteway:build: ├ ○ /checkout/currency                        3.37 kB         471 kB
+gvteway:build: ├ ƒ /collections/[id]                         2.26 kB         451 kB
+gvteway:build: ├ ○ /community                                3.97 kB         453 kB
+gvteway:build: ├ ○ /community/challenges                     3.11 kB         471 kB
+gvteway:build: ├ ○ /community/fan-content                    2.97 kB         471 kB
+gvteway:build: ├ ○ /community/guidelines                     4.13 kB         453 kB
+gvteway:build: ├ ○ /community/polls                          4.95 kB         454 kB
+gvteway:build: ├ ○ /confirmation                             2.87 kB         452 kB
+gvteway:build: ├ ○ /content                                  5.49 kB         461 kB
+gvteway:build: ├ ƒ /creators                                 2.29 kB         380 kB
+gvteway:build: ├ ○ /dashboard                                4.64 kB         633 kB
+gvteway:build: ├ ○ /deals                                    3.55 kB         452 kB
+gvteway:build: ├ ○ /design-system                            4.55 kB         453 kB
+gvteway:build: ├ ○ /destinations                             3.16 kB         452 kB
+gvteway:build: ├ ○ /directions                               5.94 kB         634 kB
+gvteway:build: ├ ○ /discover                                 3.68 kB         453 kB
+gvteway:build: ├ ○ /discover/quiz                            4.47 kB         460 kB
+gvteway:build: ├ ƒ /e/[eventId]                              2.58 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/box-office                   6.16 kB         455 kB
+gvteway:build: ├ ƒ /e/[eventId]/chat                         1.93 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/check-in                     3.49 kB         475 kB
+gvteway:build: ├ ƒ /e/[eventId]/credentials                  3.02 kB         455 kB
+gvteway:build: ├ ƒ /e/[eventId]/engage                       2.04 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/engage/challenges            664 B           378 kB
+gvteway:build: ├ ƒ /e/[eventId]/engage/polls                 655 B           378 kB
+gvteway:build: ├ ƒ /e/[eventId]/engage/qa                    1.42 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/engage/ugc                   1.44 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/entry-info                   2.49 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/friends                      1.99 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/lineup                       1.91 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/map                          2 kB            380 kB
+gvteway:build: ├ ƒ /e/[eventId]/my-tickets                   2.26 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/navigate                     2.16 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/navigate/accessibility       2.09 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/navigate/directions          2.08 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/navigate/parking             1.75 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/photos                       1.72 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/program                      1.95 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/refunds                      5.92 kB         455 kB
+gvteway:build: ├ ƒ /e/[eventId]/reviews                      2.19 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/scan                         3.23 kB         455 kB
+gvteway:build: ├ ƒ /e/[eventId]/seating                      1.88 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/services                     1.86 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/services/emergency           2.03 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/services/lost-found          1.42 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/services/support             663 B           378 kB
+gvteway:build: ├ ƒ /e/[eventId]/settlement                   6 kB            455 kB
+gvteway:build: ├ ƒ /e/[eventId]/shop                         1.96 kB         379 kB
+gvteway:build: ├ ƒ /e/[eventId]/ticket                       2.03 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/tickets                      2.06 kB         380 kB
+gvteway:build: ├ ƒ /e/[eventId]/will-call                    5.85 kB         455 kB
+gvteway:build: ├ ○ /events                                   2.67 kB         637 kB
+gvteway:build: ├ ƒ /events/[id]                              1.83 kB         636 kB
+gvteway:build: ├ ƒ /events/[id]/accessibility                3.31 kB         471 kB
+gvteway:build: ├ ƒ /events/[id]/chat                         4.49 kB         460 kB
+gvteway:build: ├ ƒ /events/[id]/engage                       4.37 kB         453 kB
+gvteway:build: ├ ƒ /events/[id]/entry-info                   3.56 kB         452 kB
+gvteway:build: ├ ƒ /events/[id]/floor-config                 3.57 kB         472 kB
+gvteway:build: ├ ƒ /events/[id]/friends                      2.43 kB         470 kB
+gvteway:build: ├ ƒ /events/[id]/landing-builder              4.2 kB          472 kB
+gvteway:build: ├ ƒ /events/[id]/languages                    3.31 kB         471 kB
+gvteway:build: ├ ƒ /events/[id]/map                          2.71 kB         458 kB
+gvteway:build: ├ ƒ /events/[id]/parking                      3.45 kB         471 kB
+gvteway:build: ├ ƒ /events/[id]/photo-booth                  3.07 kB         471 kB
+gvteway:build: ├ ƒ /events/[id]/program                      2.25 kB         457 kB
+gvteway:build: ├ ƒ /events/[id]/rfid                         2.99 kB         631 kB
+gvteway:build: ├ ƒ /events/[id]/seating                      3.44 kB         452 kB
+gvteway:build: ├ ƒ /events/[id]/services                     4 kB            453 kB
+gvteway:build: ├ ƒ /events/[id]/social-wall                  3.19 kB         471 kB
+gvteway:build: ├ ƒ /events/[id]/ticket                       3.42 kB         452 kB
+gvteway:build: ├ ƒ /events/[id]/waitlist                     5.11 kB         454 kB
+gvteway:build: ├ ○ /events/clone                             3.35 kB         471 kB
+gvteway:build: ├ ○ /events/compare                           1.91 kB         457 kB
+gvteway:build: ├ ○ /events/create                            4.25 kB         453 kB
+gvteway:build: ├ ○ /events/create/collaboration              3.28 kB         471 kB
+gvteway:build: ├ ○ /events/create/from-blueprint             3.92 kB         472 kB
+gvteway:build: ├ ○ /events/templates                         2.49 kB         471 kB
+gvteway:build: ├ ○ /experiences                              3.7 kB          638 kB
+gvteway:build: ├ ○ /fan-club                                 3.15 kB         471 kB
+gvteway:build: ├ ○ /fan-club/exclusive-access                3.43 kB         471 kB
+gvteway:build: ├ ○ /fan-clubs                                5.25 kB         454 kB
+gvteway:build: ├ ○ /favorites                                5.4 kB          454 kB
+gvteway:build: ├ ○ /forums                                   3.26 kB         471 kB
+gvteway:build: ├ ○ /friends                                  5.16 kB         460 kB
+gvteway:build: ├ ○ /gift-cards                               5.87 kB         455 kB
+gvteway:build: ├ ○ /groups                                   4.88 kB         454 kB
+gvteway:build: ├ ○ /help                                     2.85 kB         452 kB
+gvteway:build: ├ ○ /login                                    4.17 kB         441 kB
+gvteway:build: ├ ○ /lost-found                               4.38 kB         460 kB
+gvteway:build: ├ ○ /map                                      3.02 kB         458 kB
+gvteway:build: ├ ○ /marketing/ab-testing                     3.39 kB         471 kB
+gvteway:build: ├ ○ /marketing/analytics                      3.25 kB         471 kB
+gvteway:build: ├ ○ /marketing/early-bird                     3.5 kB          472 kB
+gvteway:build: ├ ○ /marketing/influencers                    2.91 kB         471 kB
+gvteway:build: ├ ○ /marketing/media-kit                      3.45 kB         471 kB
+gvteway:build: ├ ○ /marketing/pixels                         3.51 kB         472 kB
+gvteway:build: ├ ○ /match                                    5.16 kB         640 kB
+gvteway:build: ├ ○ /membership                               6.46 kB         462 kB
+gvteway:build: ├ ○ /membership/benefits                      3.45 kB         471 kB
+gvteway:build: ├ ○ /merch                                    2.79 kB         631 kB
+gvteway:build: ├ ƒ /merch/[artistId]                         4.8 kB          460 kB
+gvteway:build: ├ ○ /merch/bundles                            3.79 kB         472 kB
+gvteway:build: ├ ○ /messages                                 4.96 kB         460 kB
+gvteway:build: ├ ○ /moderate                                 1.9 kB          470 kB
+gvteway:build: ├ ○ /my-events                                4.91 kB         460 kB
+gvteway:build: ├ ○ /nearby                                   3.67 kB         453 kB
+gvteway:build: ├ ○ /new-events                               3.07 kB         452 kB
+gvteway:build: ├ ○ /notifications                            5.44 kB         454 kB
+gvteway:build: ├ ○ /offline                                  4.3 kB          460 kB
+gvteway:build: ├ ○ /onboarding                               6.78 kB         626 kB
+gvteway:build: ├ ○ /orders                                   3.04 kB         631 kB
+gvteway:build: ├ ○ /orders/history                           5.4 kB          454 kB
+gvteway:build: ├ ○ /packages                                 3.56 kB         452 kB
+gvteway:build: ├ ○ /photos                                   4.78 kB         460 kB
+gvteway:build: ├ ○ /price-alerts                             5.1 kB          454 kB
+gvteway:build: ├ ○ /profile                                  5.54 kB         454 kB
+gvteway:build: ├ ○ /profile/badges                           5.55 kB         454 kB
+gvteway:build: ├ ○ /profile/reputation                       4.66 kB         454 kB
+gvteway:build: ├ ○ /qa-sessions                              4.92 kB         460 kB
+gvteway:build: ├ ○ /referrals                                3.31 kB         632 kB
+gvteway:build: ├ ○ /resale                                   6.02 kB         634 kB
+gvteway:build: ├ ○ /reviews                                  2.42 kB         451 kB
+gvteway:build: ├ ○ /reviews/new                              4.07 kB         459 kB
+gvteway:build: ├ ○ /rewards                                  5.88 kB         634 kB
+gvteway:build: ├ ○ /saved-searches                           5.69 kB         455 kB
+gvteway:build: ├ ○ /search                                   1.8 kB          470 kB
+gvteway:build: ├ ○ /search/universal                         2.25 kB         457 kB
+gvteway:build: ├ ○ /settings                                 5.04 kB         454 kB
+gvteway:build: ├ ○ /settings/language                        2.79 kB         471 kB
+gvteway:build: ├ ○ /settings/notifications                   5.8 kB          455 kB
+gvteway:build: ├ ○ /settings/privacy                         5 kB            640 kB
+gvteway:build: ├ ○ /shop/shoppable                           3.14 kB         471 kB
+gvteway:build: ├ ○ /sitemap.xml                              0 B                0 B
+gvteway:build: ├ ○ /social                                   3.39 kB         452 kB
+gvteway:build: ├ ○ /social/crisis-management                 3.57 kB         472 kB
+gvteway:build: ├ ○ /social/inbox                             3 kB            471 kB
+gvteway:build: ├ ○ /social/sentiment                         3.21 kB         471 kB
+gvteway:build: ├ ○ /social/story-templates                   2.42 kB         470 kB
+gvteway:build: ├ ○ /social/tiktok-challenges                 2.91 kB         471 kB
+gvteway:build: ├ ○ /support/chat                             5.42 kB         454 kB
+gvteway:build: ├ ƒ /surveys/[id]                             4.37 kB         459 kB
+gvteway:build: ├ ○ /tickets                                  3.06 kB         631 kB
+gvteway:build: ├ ○ /tickets/anti-scalping                    3.29 kB         471 kB
+gvteway:build: ├ ○ /tickets/gift                             5.83 kB         455 kB
+gvteway:build: ├ ○ /tickets/groups                           3.58 kB         472 kB
+gvteway:build: ├ ○ /tickets/print-at-home                    3 kB            471 kB
+gvteway:build: ├ ○ /tickets/tracking                         5 kB            454 kB
+gvteway:build: ├ ○ /tickets/transfer                         4.5 kB          387 kB
+gvteway:build: ├ ○ /tickets/urgency                          3.7 kB          472 kB
+gvteway:build: ├ ○ /tours                                    2.18 kB         457 kB
+gvteway:build: ├ ○ /ugc                                      5.53 kB         461 kB
+gvteway:build: ├ ○ /venues                                   2.78 kB         631 kB
+gvteway:build: ├ ƒ /venues/[id]                              3.97 kB         459 kB
+gvteway:build: ├ ○ /wallet                                   3.23 kB         452 kB
+gvteway:build: ├ ○ /wallet/offline                           2.8 kB          471 kB
+gvteway:build: ├ ○ /watch-parties                            5.57 kB         461 kB
+gvteway:build: └ ○ /wishlist                                 5.4 kB          454 kB
+gvteway:build: + First Load JS shared by all                 87.7 kB
+gvteway:build:   ├ chunks/26fe0b10-d33d795dc99cbfe7.js       53.6 kB
+gvteway:build:   ├ chunks/4142-3f71e49f9aa5f383.js           31.9 kB
+gvteway:build:   └ other shared chunks (total)               2.14 kB
+gvteway:build: 
+gvteway:build: 
+gvteway:build: ƒ Middleware                                  73.8 kB
+gvteway:build: 
+gvteway:build: ○  (Static)   prerendered as static content
+gvteway:build: ƒ  (Dynamic)  server-rendered on demand
+gvteway:build: 
+
+ Tasks:    3 successful, 3 total
+Cached:    2 cached, 3 total
+  Time:    33.015s 
+
+
+--- SUMMARY ---
+STATUS: ERRORS FOUND - Remediation required
