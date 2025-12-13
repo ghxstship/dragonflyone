@@ -67,7 +67,7 @@ export async function handleDealToProjectHandoff(params: DealToProjectHandoff) {
     if (params.autoCreateProject && deal.status === 'won') {
       const projectCode = `PROJ-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`;
       
-      const { data: newProject, error: projectError } = await (supabase as any)
+      const { data: newProject, error: projectError } = await supabase
         .from('projects')
         .insert({
           organization_id: deal.organization_id,

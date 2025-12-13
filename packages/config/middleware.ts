@@ -50,7 +50,7 @@ const PLATFORM_ROLE_PERMISSIONS: Record<PlatformRole, Permission[]> = {
 /**
  * Authentication middleware - validates JWT and attaches user to request
  */
-export async function withAuth(request: NextRequest) {
+export async function withAuth(_request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
   const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
@@ -188,17 +188,18 @@ export function withRateLimit(
 /**
  * Request validation middleware using Zod schemas
  */
-export function withValidation<T>(schema: any) {
+export function withValidation<T>(schema: { parse: (data: unknown) => T }) {
   return async (request: NextRequest) => {
     try {
       const body = await request.json();
       const validated = schema.parse(body);
       return { validated };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const zodError = error as { errors?: unknown[]; message?: string };
       return NextResponse.json(
         {
           error: 'Validation failed',
-          details: error.errors || error.message,
+          details: zodError.errors || zodError.message,
         },
         { status: 400 }
       );
@@ -211,7 +212,7 @@ export function withValidation<T>(schema: any) {
  */
 export async function withAudit(
   request: NextRequest,
-  userData: any,
+  userData: { user?: { id: string } } | null,
   action: string,
   resource: string
 ) {
@@ -220,15 +221,16 @@ export async function withAudit(
   const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (supabase as any).from('audit_logs').insert({
-      user_id: userData?.user?.id,
+      user_id: userData?.user?.id ?? null,
       action,
-      resource,
-      resource_id: request.nextUrl.pathname.split('/').pop(),
+      resource_type: resource,
+      resource_id: request.nextUrl.pathname.split('/').pop() ?? null,
       ip_address: request.headers.get('x-forwarded-for'),
       user_agent: request.headers.get('user-agent'),
-      timestamp: new Date().toISOString(),
-    } as any);
+      created_at: new Date().toISOString(),
+    });
   } catch (error) {
     console.error('Audit log error:', error);
   }
@@ -296,7 +298,9 @@ export function withSecurityHeaders() {
 /**
  * Compose multiple middleware functions
  */
-export function compose(...middlewares: Function[]) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function compose(...middlewares: ((...args: unknown[]) => Promise<unknown>)[]) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return async (request: NextRequest, ...args: any[]) => {
     for (const middleware of middlewares) {
       const result = await middleware(request, ...args);
@@ -315,17 +319,17 @@ export function compose(...middlewares: Function[]) {
  * API route wrapper with common middleware
  */
 export function apiRoute(
-  handler: (request: NextRequest, context: any) => Promise<NextResponse>,
+  handler: (request: NextRequest, context: Record<string, unknown>) => Promise<NextResponse>,
   options: {
     auth?: boolean;
     roles?: PlatformRole[];
     permission?: Permission;
     rateLimit?: { maxRequests: number; windowMs: number };
-    validation?: any;
+    validation?: { parse: (data: unknown) => unknown };
     audit?: { action: string; resource: string };
   } = {}
 ) {
-  return async (request: NextRequest, context: any = {}) => {
+  return async (request: NextRequest, context: Record<string, unknown> = {}) => {
     try {
       // Rate limiting
       if (options.rateLimit) {
@@ -383,12 +387,13 @@ export function apiRoute(
 
       // Apply security headers
       return withSecurityHeaders()(response);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('API route error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       return NextResponse.json(
         {
           error: 'Internal server error',
-          message: error.message,
+          message: errorMessage,
         },
         { status: 500 }
       );

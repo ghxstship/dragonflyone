@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type WidgetType =
   | 'kpi_card'
@@ -29,8 +29,8 @@ export interface WidgetConfig {
   size: WidgetSize;
   position: { x: number; y: number };
   data_source: string;
-  filters?: Record<string, any>;
-  settings?: Record<string, any>;
+  filters?: Record<string, unknown>;
+  settings?: Record<string, unknown>;
   refresh_interval?: number; // seconds
 }
 
@@ -51,7 +51,7 @@ export interface WidgetDataSource {
   id: string;
   name: string;
   type: 'query' | 'function' | 'api';
-  config: Record<string, any>;
+  config: Record<string, unknown>;
 }
 
 /**
@@ -108,8 +108,9 @@ export class DashboardManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -127,15 +128,15 @@ export class DashboardManager {
       return [];
     }
 
-    return data.map((d: any) => ({
+    return data.map((d) => ({
       id: d.id,
       user_id: d.user_id,
       name: d.name,
-      description: d.description,
-      is_default: d.is_default,
-      is_public: d.is_public,
-      layout: d.layout,
-      widgets: d.widgets,
+      description: d.description ?? undefined,
+      is_default: d.is_default ?? false,
+      is_public: d.is_public ?? false,
+      layout: (d.layout ?? 'grid') as 'grid' | 'flex' | 'custom',
+      widgets: (d.widgets ?? []) as WidgetConfig[],
       created_at: d.created_at,
       updated_at: d.updated_at,
     }));
@@ -209,8 +210,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -233,7 +235,7 @@ export class DashboardManager {
         return { success: false, error: 'Dashboard not found' };
       }
 
-      const widgetIndex = dashboard.widgets.findIndex((w: any) => w.id === widgetId);
+      const widgetIndex = (dashboard.widgets as WidgetConfig[]).findIndex((w) => w.id === widgetId);
       if (widgetIndex === -1) {
         return { success: false, error: 'Widget not found' };
       }
@@ -255,8 +257,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -278,7 +281,7 @@ export class DashboardManager {
         return { success: false, error: 'Dashboard not found' };
       }
 
-      const updatedWidgets = dashboard.widgets.filter((w: any) => w.id !== widgetId);
+      const updatedWidgets = (dashboard.widgets as WidgetConfig[]).filter((w) => w.id !== widgetId);
 
       const { error: updateError } = await this.supabase
         .from('dashboard_widgets')
@@ -290,8 +293,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -314,7 +318,7 @@ export class DashboardManager {
       }
 
       // Reorder based on provided order
-      const widgetMap = new Map(dashboard.widgets.map((w: any) => [w.id, w]));
+      const widgetMap = new Map((dashboard.widgets as WidgetConfig[]).map((w) => [w.id, w]));
       const reorderedWidgets = widgetOrder
         .map((id) => widgetMap.get(id))
         .filter(Boolean);
@@ -329,8 +333,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -361,8 +366,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -417,8 +423,9 @@ export class DashboardManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -452,8 +459,9 @@ export class DashboardManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -472,15 +480,15 @@ export class DashboardManager {
       return [];
     }
 
-    return data.map((d: any) => ({
+    return data.map((d) => ({
       id: d.id,
       user_id: d.user_id,
       name: d.name,
-      description: d.description,
-      is_default: d.is_default,
-      is_public: d.is_public,
-      layout: d.layout,
-      widgets: d.widgets,
+      description: d.description ?? undefined,
+      is_default: d.is_default ?? false,
+      is_public: d.is_public ?? false,
+      layout: (d.layout ?? 'grid') as 'grid' | 'flex' | 'custom',
+      widgets: (d.widgets ?? []) as WidgetConfig[],
       created_at: d.created_at,
       updated_at: d.updated_at,
     }));
@@ -499,8 +507,8 @@ export class WidgetDataFetcher {
    */
   async fetchWidgetData(
     dataSource: string,
-    filters?: Record<string, any>
-  ): Promise<any> {
+    filters?: Record<string, unknown>
+  ): Promise<unknown> {
     try {
       // Parse data source (format: "table:field" or "function:name")
       const [sourceType, sourceName] = dataSource.split(':');
@@ -523,8 +531,8 @@ export class WidgetDataFetcher {
    */
   private async fetchTableData(
     tableName: string,
-    filters?: Record<string, any>
-  ): Promise<any> {
+    filters?: Record<string, unknown>
+  ): Promise<unknown> {
     let query = this.supabase.from(tableName).select('*');
 
     // Apply filters
@@ -548,8 +556,8 @@ export class WidgetDataFetcher {
    */
   private async fetchFunctionData(
     functionName: string,
-    params?: Record<string, any>
-  ): Promise<any> {
+    params?: Record<string, unknown>
+  ): Promise<unknown> {
     const { data, error } = await this.supabase.rpc(functionName, params);
 
     if (error) {

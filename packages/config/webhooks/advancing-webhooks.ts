@@ -8,8 +8,8 @@ import type { ProductionAdvance, AdvanceStatus, ProductionAdvanceItem } from '..
 export interface WebhookPayload {
   event: string;
   timestamp: string;
-  data: Record<string, any>;
-  metadata?: Record<string, any>;
+  data: Record<string, unknown>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface AdvanceWebhookPayload extends WebhookPayload {

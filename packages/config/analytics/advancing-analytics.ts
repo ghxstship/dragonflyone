@@ -94,7 +94,7 @@ export function trackRequestStatusChange(
   requestId: string,
   oldStatus: AdvanceStatus,
   newStatus: AdvanceStatus,
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 ): void {
   if (typeof window === 'undefined') return;
 
@@ -211,7 +211,7 @@ declare global {
     gtag?: (
       command: string,
       eventName: string,
-      params?: Record<string, any>
+      params?: Record<string, unknown>
     ) => void;
   }
 }

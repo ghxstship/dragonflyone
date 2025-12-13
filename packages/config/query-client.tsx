@@ -131,7 +131,7 @@ export const queryPresets = {
   infinite: {
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 30,
-    getNextPageParam: (lastPage: any) => lastPage.nextCursor,
-    getPreviousPageParam: (firstPage: any) => firstPage.prevCursor,
+    getNextPageParam: (lastPage: { nextCursor?: string }) => lastPage.nextCursor,
+    getPreviousPageParam: (firstPage: { prevCursor?: string }) => firstPage.prevCursor,
   },
 };

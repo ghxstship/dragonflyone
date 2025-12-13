@@ -35,40 +35,42 @@ export class RealtimeManager {
       return channelName;
     }
 
-    const channel = (this.supabase as any)
-      .channel(channelName)
-      .on(
-        'postgres_changes',
-        {
-          event: config.event || '*',
-          schema: config.schema || 'public',
-          table: config.table,
-          filter: config.filter,
-        },
-        (payload: any) => {
-          switch (payload.eventType) {
-            case 'INSERT':
-              callbacks.onInsert?.(payload.new as Tables[T]['Row']);
-              break;
-            case 'UPDATE':
-              callbacks.onUpdate?.({
-                old: payload.old as Tables[T]['Row'],
-                new: payload.new as Tables[T]['Row'],
-              });
-              break;
-            case 'DELETE':
-              callbacks.onDelete?.(payload.old as Tables[T]['Row']);
-              break;
-          }
+    // Create channel and set up subscription
+    const channel = this.supabase.channel(channelName);
+    
+    // Subscribe to postgres changes with proper typing
+    channel.on(
+      'postgres_changes' as 'system', // Type assertion needed for Supabase overload
+      {
+        event: config.event || '*',
+        schema: config.schema || 'public',
+        table: config.table as string,
+        filter: config.filter,
+      } as unknown as { event: 'system' },
+      (payload: unknown) => {
+        const typedPayload = payload as { eventType: string; new: unknown; old: unknown };
+        switch (typedPayload.eventType) {
+          case 'INSERT':
+            callbacks.onInsert?.(typedPayload.new as Tables[T]['Row']);
+            break;
+          case 'UPDATE':
+            callbacks.onUpdate?.({
+              old: typedPayload.old as Tables[T]['Row'],
+              new: typedPayload.new as Tables[T]['Row'],
+            });
+            break;
+          case 'DELETE':
+            callbacks.onDelete?.(typedPayload.old as Tables[T]['Row']);
+            break;
         }
-      )
-      .subscribe((status: string) => {
-        if (status === 'SUBSCRIBED') {
-          logger.debug(`Subscribed to ${channelName}`);
-        } else if (status === 'CHANNEL_ERROR') {
-          callbacks.onError?.(new Error(`Failed to subscribe to ${channelName}`));
-        }
-      });
+      }
+    ).subscribe((status: string) => {
+      if (status === 'SUBSCRIBED') {
+        logger.debug(`Subscribed to ${channelName}`);
+      } else if (status === 'CHANNEL_ERROR') {
+        callbacks.onError?.(new Error(`Failed to subscribe to ${channelName}`));
+      }
+    });
 
     this.channels.set(channelName, channel);
     return channelName;

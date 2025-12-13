@@ -26,12 +26,12 @@ export default function PermitDetailPage() {
   
   const { data: permit, isLoading } = usePermit(permitId);
 
-  const statusColors: Record<string, 'success' | 'warning' | 'error' | 'default'> = {
-    approved: 'success',
-    submitted: 'warning',
-    pending: 'info',
-    denied: 'error',
-    expired: 'error',
+  const statusColors: Record<string, 'solid' | 'outline' | 'ghost'> = {
+    approved: 'solid',
+    submitted: 'outline',
+    pending: 'outline',
+    denied: 'ghost',
+    expired: 'ghost',
   };
 
   const permitTypeLabels: Record<string, string> = {

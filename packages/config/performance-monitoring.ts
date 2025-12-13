@@ -18,7 +18,7 @@ export interface PerformanceReport {
   metrics: WebVitalsMetric[];
   resources: PerformanceResourceTiming[];
   navigation: PerformanceNavigationTiming | null;
-  memory?: any;
+  memory?: { usedJSHeapSize?: number; totalJSHeapSize?: number; jsHeapSizeLimit?: number };
 }
 
 /**
@@ -63,12 +63,13 @@ export class WebVitalsTracker {
     if (!('PerformanceObserver' in window)) return;
 
     let clsValue = 0;
-    let clsEntries: PerformanceEntry[] = [];
+    const clsEntries: PerformanceEntry[] = [];
 
     const observer = new PerformanceObserver((entryList) => {
       for (const entry of entryList.getEntries()) {
-        if (!(entry as any).hadRecentInput) {
-          clsValue += (entry as any).value;
+        const layoutShiftEntry = entry as PerformanceEntry & { hadRecentInput?: boolean; value?: number };
+        if (!layoutShiftEntry.hadRecentInput) {
+          clsValue += layoutShiftEntry.value || 0;
           clsEntries.push(entry);
         }
       }
@@ -242,7 +243,7 @@ export class WebVitalsTracker {
   private getNavigationType(): 'navigate' | 'reload' | 'back-forward' | 'prerender' {
     if (typeof window === 'undefined') return 'navigate';
     const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
-    return (navEntry?.type as any) || 'navigate';
+    return (navEntry?.type as 'navigate' | 'reload' | 'back-forward' | 'prerender') || 'navigate';
   }
 }
 
@@ -403,14 +404,17 @@ export class MemoryMonitor {
   /**
    * Get memory usage
    */
-  getMemoryUsage(): any | null {
-    if (typeof window === 'undefined' || !(performance as any).memory) return null;
+  getMemoryUsage(): { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number; usagePercentage: number } | null {
+    if (typeof window === 'undefined') return null;
+    // Chrome-specific memory API
+    const perfWithMemory = performance as Performance & { memory?: { usedJSHeapSize: number; totalJSHeapSize: number; jsHeapSizeLimit: number } };
+    if (!perfWithMemory.memory) return null;
     return {
-      usedJSHeapSize: (performance as any).memory.usedJSHeapSize,
-      totalJSHeapSize: (performance as any).memory.totalJSHeapSize,
-      jsHeapSizeLimit: (performance as any).memory.jsHeapSizeLimit,
+      usedJSHeapSize: perfWithMemory.memory.usedJSHeapSize,
+      totalJSHeapSize: perfWithMemory.memory.totalJSHeapSize,
+      jsHeapSizeLimit: perfWithMemory.memory.jsHeapSizeLimit,
       usagePercentage:
-        ((performance as any).memory.usedJSHeapSize / (performance as any).memory.jsHeapSizeLimit) *
+        (perfWithMemory.memory.usedJSHeapSize / perfWithMemory.memory.jsHeapSizeLimit) *
         100,
     };
   }

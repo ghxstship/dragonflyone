@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type FlagType = 'boolean' | 'string' | 'number' | 'json';
 export type FlagStatus = 'active' | 'inactive' | 'archived';
@@ -16,13 +16,13 @@ export interface FeatureFlag {
   name: string;
   description?: string;
   type: FlagType;
-  default_value: any;
+  default_value: unknown;
   status: FlagStatus;
   rollout_strategy: RolloutStrategy;
   rollout_percentage?: number;
   allowed_users?: string[];
   allowed_roles?: string[];
-  custom_rules?: Record<string, any>;
+  custom_rules?: Record<string, unknown>;
   tags?: string[];
   created_by: string;
   created_at: string;
@@ -32,7 +32,7 @@ export interface FeatureFlag {
 export interface FlagEvaluation {
   flag_id: string;
   user_id: string;
-  value: any;
+  value: unknown;
   matched_rule?: string;
   evaluated_at: string;
 }
@@ -41,7 +41,7 @@ export interface FlagOverride {
   id: string;
   flag_id: string;
   user_id: string;
-  value: any;
+  value: unknown;
   reason?: string;
   expires_at?: string;
   created_at: string;
@@ -79,8 +79,9 @@ export class FeatureFlagsManager {
       this.lastCacheUpdate = 0;
 
       return { success: true, flagId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -143,8 +144,8 @@ export class FeatureFlagsManager {
   async evaluateFlag(
     flagKey: string,
     userId: string,
-    context?: Record<string, any>
-  ): Promise<any> {
+    context?: Record<string, unknown>
+  ): Promise<unknown> {
     // Check for user override first
     const override = await this.getUserOverride(flagKey, userId);
     if (override) {
@@ -207,9 +208,9 @@ export class FeatureFlagsManager {
   async evaluateFlags(
     flagKeys: string[],
     userId: string,
-    context?: Record<string, any>
-  ): Promise<Record<string, any>> {
-    const results: Record<string, any> = {};
+    context?: Record<string, unknown>
+  ): Promise<Record<string, unknown>> {
+    const results: Record<string, unknown> = {};
 
     for (const key of flagKeys) {
       results[key] = await this.evaluateFlag(key, userId, context);
@@ -223,10 +224,10 @@ export class FeatureFlagsManager {
    */
   async getAllFlagsForUser(
     userId: string,
-    context?: Record<string, any>
-  ): Promise<Record<string, any>> {
+    context?: Record<string, unknown>
+  ): Promise<Record<string, unknown>> {
     const flags = await this.getActiveFlags();
-    const results: Record<string, any> = {};
+    const results: Record<string, unknown> = {};
 
     for (const flag of flags) {
       results[flag.key] = await this.evaluateFlag(flag.key, userId, context);
@@ -241,7 +242,7 @@ export class FeatureFlagsManager {
   async setUserOverride(
     flagKey: string,
     userId: string,
-    value: any,
+    value: unknown,
     reason?: string,
     expiresAt?: string
   ): Promise<{ success: boolean; error?: string }> {
@@ -264,8 +265,9 @@ export class FeatureFlagsManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -306,8 +308,9 @@ export class FeatureFlagsManager {
       this.lastCacheUpdate = 0;
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -389,7 +392,7 @@ export class FeatureFlagsManager {
   private async logEvaluation(
     flagId: string,
     userId: string,
-    value: any,
+    value: unknown,
     matchedRule: string
   ): Promise<void> {
     await this.supabase.from('flag_evaluations').insert({
@@ -403,7 +406,7 @@ export class FeatureFlagsManager {
   /**
    * Get enabled value for flag
    */
-  private getEnabledValue(flag: FeatureFlag): any {
+  private getEnabledValue(flag: FeatureFlag): unknown {
     if (flag.type === 'boolean') {
       return true;
     }
@@ -443,8 +446,8 @@ export class FeatureFlagsManager {
    * Evaluate custom rules
    */
   private evaluateCustomRules(
-    rules?: Record<string, any>,
-    context?: Record<string, any>
+    rules?: Record<string, unknown>,
+    context?: Record<string, unknown>
   ): boolean {
     if (!rules || !context) return false;
 

@@ -127,7 +127,7 @@ function SupportChatContent() {
             <H3 className="mb-4">CONVERSATIONS</H3>
             {conversations.length > 0 ? (
               <Stack gap={2}>
-                {conversations.map(conv => (
+                {conversations.map((conv: Conversation) => (
                   <Card
                     key={conv.id}
                     className={`p-3 cursor-pointer transition-colors ${

@@ -248,7 +248,6 @@ export class StorageManager {
    * Get the appropriate path prefix based on bucket type
    */
   private getPathPrefix(bucket: StorageBucket, options: UploadOptions): string {
-    const config = BUCKET_CONFIG[bucket];
     
     // User-scoped buckets
     if (['avatars', 'uploads', 'attachments', 'receipts', 'certifications', 'exports'].includes(bucket)) {
@@ -462,7 +461,7 @@ export function generateStoragePath(
   }
   
   // Add timestamped filename
-  const ext = filename.split('.').pop();
+  const _ext = filename.split('.').pop();
   const sanitizedName = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
   const uniqueName = `${Date.now()}_${sanitizedName}`;
   parts.push(uniqueName);

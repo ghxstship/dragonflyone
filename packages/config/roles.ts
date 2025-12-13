@@ -639,10 +639,10 @@ export function getAllInheritedRoles(
   let currentRole: PlatformRole | undefined = role;
 
   while (currentRole) {
-    const metadata: any = PLATFORM_ROLE_METADATA[currentRole];
-    if (metadata.inheritsFrom) {
-      inherited.push(metadata.inheritsFrom);
-      currentRole = metadata.inheritsFrom;
+    const roleMetadata = PLATFORM_ROLE_METADATA[currentRole] as { inheritsFrom?: PlatformRole };
+    if (roleMetadata.inheritsFrom) {
+      inherited.push(roleMetadata.inheritsFrom);
+      currentRole = roleMetadata.inheritsFrom;
     } else {
       break;
     }
@@ -655,6 +655,8 @@ export function hasPermission(
   role: PlatformRole,
   permission: string
 ): boolean {
+  // Permission parameter is used for future granular permission checking
+  void permission;
   // Legend roles have all permissions
   if (isLegendRole(role)) {
     return true;

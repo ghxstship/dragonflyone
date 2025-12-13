@@ -147,14 +147,15 @@ export function trackResourceTiming(): void {
   window.addEventListener('load', () => {
     const resources = window.performance.getEntriesByType('resource');
     
-    resources.forEach((resource: any) => {
+    resources.forEach((resource) => {
+      const resourceTiming = resource as PerformanceResourceTiming;
       performanceMonitor.recordMetric({
         name: 'resource_load_time',
-        value: resource.duration,
+        value: resourceTiming.duration,
         unit: 'ms',
         tags: {
-          resource: resource.name,
-          type: resource.initiatorType,
+          resource: resourceTiming.name,
+          type: resourceTiming.initiatorType,
         },
       });
     });

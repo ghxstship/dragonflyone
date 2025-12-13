@@ -4,12 +4,12 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export interface SearchFilter {
   field: string;
   operator: 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte' | 'like' | 'ilike' | 'in' | 'is' | 'not';
-  value: any;
+  value: string | number | boolean | null | string[];
 }
 
 export interface SearchQuery {
@@ -28,7 +28,7 @@ export interface SearchResult {
   entity_id: string;
   title: string;
   description?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   score: number;
   created_at: string;
   updated_at: string;
@@ -100,36 +100,37 @@ export class AdvancedSearchEngine {
 
       // Apply custom filters
       for (const filter of filters) {
+        const value = filter.value;
         switch (filter.operator) {
           case 'eq':
-            dbQuery = dbQuery.eq(filter.field, filter.value);
+            dbQuery = dbQuery.eq(filter.field, value as string | number);
             break;
           case 'neq':
-            dbQuery = dbQuery.neq(filter.field, filter.value);
+            dbQuery = dbQuery.neq(filter.field, value as string | number);
             break;
           case 'gt':
-            dbQuery = dbQuery.gt(filter.field, filter.value);
+            dbQuery = dbQuery.gt(filter.field, value as string | number);
             break;
           case 'gte':
-            dbQuery = dbQuery.gte(filter.field, filter.value);
+            dbQuery = dbQuery.gte(filter.field, value as string | number);
             break;
           case 'lt':
-            dbQuery = dbQuery.lt(filter.field, filter.value);
+            dbQuery = dbQuery.lt(filter.field, value as string | number);
             break;
           case 'lte':
-            dbQuery = dbQuery.lte(filter.field, filter.value);
+            dbQuery = dbQuery.lte(filter.field, value as string | number);
             break;
           case 'like':
-            dbQuery = dbQuery.like(filter.field, filter.value);
+            dbQuery = dbQuery.like(filter.field, value as string);
             break;
           case 'ilike':
-            dbQuery = dbQuery.ilike(filter.field, filter.value);
+            dbQuery = dbQuery.ilike(filter.field, value as string);
             break;
           case 'in':
-            dbQuery = dbQuery.in(filter.field, filter.value);
+            dbQuery = dbQuery.in(filter.field, value as string[]);
             break;
           case 'is':
-            dbQuery = dbQuery.is(filter.field, filter.value);
+            dbQuery = dbQuery.is(filter.field, value as boolean | null);
             break;
         }
       }
@@ -146,7 +147,7 @@ export class AdvancedSearchEngine {
         throw new Error(error.message);
       }
 
-      const results: SearchResult[] = (data || []).map((row: any) => ({
+      const results: SearchResult[] = (data || []).map((row) => ({
         id: row.id,
         entity_type: row.entity_type,
         entity_id: row.entity_id,
@@ -162,8 +163,9 @@ export class AdvancedSearchEngine {
         results,
         total: count || 0,
       };
-    } catch (error: any) {
-      throw new Error(`Search failed: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Search failed: ${message}`);
     }
   }
 
@@ -191,7 +193,7 @@ export class AdvancedSearchEngine {
       return [];
     }
 
-    return data.map((row: any) => row.title);
+    return data.map((row) => row.title);
   }
 
   /**
@@ -234,8 +236,9 @@ export class AdvancedSearchEngine {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -253,13 +256,13 @@ export class AdvancedSearchEngine {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       user_id: row.user_id,
       name: row.name,
-      description: row.description,
-      query: row.query,
-      is_public: row.is_public,
+      description: row.description ?? undefined,
+      query: row.query as unknown as SearchQuery,
+      is_public: row.is_public ?? false,
       created_at: row.created_at,
       updated_at: row.updated_at,
     }));
@@ -298,13 +301,13 @@ export class AdvancedSearchEngine {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       user_id: row.user_id,
       query: row.query,
-      filters: row.filters,
+      filters: row.filters as unknown as SearchFilter[],
       result_count: row.result_count,
-      executed_at: row.executed_at,
+      executed_at: row.executed_at ?? new Date().toISOString(),
     }));
   }
 
@@ -328,7 +331,7 @@ export class AdvancedSearchEngine {
     entityId: string,
     title: string,
     description?: string,
-    metadata?: Record<string, any>,
+    metadata?: Record<string, unknown>,
     searchableText?: string[]
   ): Promise<{ success: boolean; error?: string }> {
     try {
@@ -356,8 +359,9 @@ export class AdvancedSearchEngine {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -383,7 +387,7 @@ export class AdvancedSearchEngine {
       id: string;
       title: string;
       description?: string;
-      metadata?: Record<string, any>;
+      metadata?: Record<string, unknown>;
     }>>
   ): Promise<{ success: boolean; indexed: number; error?: string }> {
     try {
@@ -405,8 +409,9 @@ export class AdvancedSearchEngine {
       }
 
       return { success: true, indexed };
-    } catch (error: any) {
-      return { success: false, indexed: 0, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, indexed: 0, error: message };
     }
   }
 }

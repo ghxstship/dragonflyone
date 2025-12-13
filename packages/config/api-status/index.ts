@@ -102,9 +102,9 @@ export const SERVICES: Record<string, { name: string; description: string; platf
 };
 
 // In-memory status store (would be backed by database in production)
-let currentStatus: Record<string, ServiceStatus> = {};
-let incidents: Incident[] = [];
-let maintenanceWindows: MaintenanceWindow[] = [];
+const currentStatus: Record<string, ServiceStatus> = {};
+const incidents: Incident[] = [];
+const maintenanceWindows: MaintenanceWindow[] = [];
 
 // Initialize all services as operational
 Object.keys(SERVICES).forEach(serviceId => {

@@ -41,7 +41,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /analytics/reports                             1.33 kB         791 kB
 ├ ○ /api-management                                1.47 kB         791 kB
 ├ ○ /api-management/keys                           2.22 kB         792 kB
-├ ○ /api-management/logs                           1.57 kB         791 kB
+├ ○ /api-management/logs                           1.57 kB         792 kB
 ├ ○ /api-management/webhooks                       2.35 kB         792 kB
 ├ ƒ /api/account-health                            0 B                0 B
 ├ ƒ /api/accounts-payable                          0 B                0 B
@@ -379,7 +379,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /api/zapier/search                             0 B                0 B
 ├ ƒ /api/zapier/triggers                           0 B                0 B
 ├ ƒ /api/zapier/webhooks                           0 B                0 B
-├ ○ /assets                                        2.58 kB         792 kB
+├ ○ /assets                                        2.58 kB         793 kB
 ├ ○ /assets/calibration                            1.81 kB         792 kB
 ├ ○ /assets/damage-reports                         2.02 kB         792 kB
 ├ ○ /assets/idle-analysis                          1.95 kB         792 kB
@@ -398,7 +398,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /auth/forgot-password                          1.26 kB         791 kB
 ├ ○ /auth/magic-link                               1.31 kB         791 kB
 ├ ○ /auth/reset-password                           1.34 kB         791 kB
-├ ○ /auth/signin                                   588 B           790 kB
+├ ○ /auth/signin                                   588 B           791 kB
 ├ ○ /auth/signup                                   1.91 kB         792 kB
 ├ ○ /auth/verify-email                             939 B           791 kB
 ├ ○ /billing                                       2.36 kB         792 kB
@@ -425,7 +425,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /docs/api                                      136 B           790 kB
 ├ ○ /documents                                     2.23 kB         792 kB
 ├ ○ /employees                                     2.56 kB         792 kB
-├ ○ /expenses                                      2.59 kB         792 kB
+├ ○ /expenses                                      2.59 kB         793 kB
 ├ ƒ /expenses/[id]                                 2.19 kB         792 kB
 ├ ○ /expenses/categories                           2.02 kB         792 kB
 ├ ○ /expenses/reports                              1.86 kB         792 kB
@@ -446,7 +446,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /help/faq                                      4.03 kB         794 kB
 ├ ƒ /help/getting-started                          136 B           790 kB
 ├ ƒ /help/tutorials                                136 B           790 kB
-├ ○ /insurance                                     2.58 kB         792 kB
+├ ○ /insurance                                     2.58 kB         793 kB
 ├ ƒ /insurance/[id]                                1.96 kB         792 kB
 ├ ○ /integrations                                  1.62 kB         792 kB
 ├ ○ /investors                                     2.45 kB         792 kB
@@ -455,7 +455,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /investors/reports                             1.79 kB         792 kB
 ├ ○ /investors/rounds                              2.31 kB         792 kB
 ├ ○ /invoices                                      2.78 kB         793 kB
-├ ○ /ip-tracking                                   2.59 kB         792 kB
+├ ○ /ip-tracking                                   2.59 kB         793 kB
 ├ ○ /leads/scoring                                 3.27 kB         793 kB
 ├ ƒ /legal/accessibility                           136 B           790 kB
 ├ ƒ /legal/cookies                                 136 B           790 kB
@@ -490,7 +490,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /p/[productionId]/marketing                    1.12 kB         791 kB
 ├ ƒ /p/[productionId]/metrics                      1.1 kB          791 kB
 ├ ƒ /p/[productionId]/overview                     1.96 kB         792 kB
-├ ƒ /p/[productionId]/permits                      1.57 kB         791 kB
+├ ƒ /p/[productionId]/permits                      1.57 kB         792 kB
 ├ ƒ /p/[productionId]/procurement                  985 B           791 kB
 ├ ƒ /p/[productionId]/procurement/purchase-orders  766 B           791 kB
 ├ ƒ /p/[productionId]/procurement/quotes           709 B           791 kB
@@ -520,7 +520,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /payroll                                       2.76 kB         793 kB
 ├ ○ /performance                                   2.44 kB         792 kB
 ├ ○ /permits                                       2.48 kB         792 kB
-├ ƒ /permits/[id]                                  1.9 kB          792 kB
+├ ƒ /permits/[id]                                  1.89 kB         792 kB
 ├ ○ /pipeline                                      2.02 kB         792 kB
 ├ ○ /portal/artist                                 1.35 kB         791 kB
 ├ ○ /portal/crew                                   1.25 kB         791 kB
@@ -544,8 +544,8 @@ Route (app)                                        Size     First Load JS
 ├ ○ /productions                                   1.09 kB         791 kB
 ├ ○ /productions/new                               2.74 kB         793 kB
 ├ ○ /profile                                       2.07 kB         792 kB
-├ ○ /projects                                      2.59 kB         792 kB
-├ ƒ /projects/[id]                                 2.58 kB         792 kB
+├ ○ /projects                                      2.59 kB         793 kB
+├ ƒ /projects/[id]                                 2.58 kB         793 kB
 ├ ○ /quick-links                                   2.56 kB         792 kB
 ├ ○ /quotes                                        2.4 kB          792 kB
 ├ ○ /reports                                       2.32 kB         792 kB
@@ -581,7 +581,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /venues                                        2.52 kB         792 kB
 ├ ƒ /venues/[id]                                   2.03 kB         792 kB
 ├ ○ /venues/maps                                   1.89 kB         792 kB
-├ ○ /venues/zones                                  2.59 kB         792 kB
+├ ○ /venues/zones                                  2.59 kB         793 kB
 ├ ƒ /venues/zones/[id]                             1.64 kB         792 kB
 ├ ƒ /verticals/activations                         136 B           790 kB
 ├ ƒ /verticals/destinations                        136 B           790 kB
@@ -597,7 +597,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /workforce/union-compliance                    1.92 kB         792 kB
 └ ○ /workforce/union-rules                         1.89 kB         792 kB
 + First Load JS shared by all                      790 kB
-  ├ chunks/commons-1fb6c29e0540a1bb.js             155 kB
+  ├ chunks/commons-ae25f99b539c72b3.js             155 kB
   ├ chunks/lib-a7cc456faf578fb2.js                 633 kB
   └ other shared chunks (total)                    2 kB
 

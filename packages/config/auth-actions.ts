@@ -162,7 +162,7 @@ export async function signUp(
     }
 
     // Create platform user
-    const { data: platformUser, error: platformError } = await supabase
+    const { error: platformError } = await supabase
       .from('platform_users')
       .insert({
         auth_user_id: authData.user.id,

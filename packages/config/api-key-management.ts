@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type ApiKeyScope =
   | 'read:projects'
@@ -116,8 +116,9 @@ export class ApiKeyManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -140,7 +141,7 @@ export class ApiKeyManager {
     // In production, use proper crypto hashing
     // This is a simplified version
     const encoder = new TextEncoder();
-    const data = encoder.encode(apiKey);
+    encoder.encode(apiKey);
     return `hash_${apiKey.slice(-16)}`;
   }
 
@@ -196,8 +197,9 @@ export class ApiKeyManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { valid: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { valid: false, error: message };
     }
   }
 
@@ -277,17 +279,17 @@ export class ApiKeyManager {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       user_id: row.user_id,
       name: row.name,
       key_prefix: row.key_prefix,
       key_hash: row.key_hash,
-      scopes: row.scopes,
-      is_active: row.is_active,
-      rate_limit: row.rate_limit,
-      last_used_at: row.last_used_at,
-      expires_at: row.expires_at,
+      scopes: (row.scopes as string[]) as ApiKeyScope[],
+      is_active: row.is_active ?? false,
+      rate_limit: row.rate_limit ?? 1000,
+      last_used_at: row.last_used_at ?? undefined,
+      expires_at: row.expires_at ?? undefined,
       created_at: row.created_at,
       updated_at: row.updated_at,
     }));
@@ -339,8 +341,9 @@ export class ApiKeyManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -382,13 +385,14 @@ export class ApiKeyManager {
 
     const totalRequests = data.length;
     const avgResponseTime =
-      data.reduce((sum: number, row: any) => sum + row.request_time_ms, 0) / totalRequests;
-    const errorCount = data.filter((row: any) => row.status_code >= 400).length;
+      data.reduce((sum, row) => sum + (row.request_time_ms ?? 0), 0) / totalRequests;
+    const errorCount = data.filter((row) => (row.status_code ?? 0) >= 400).length;
     const errorRate = errorCount / totalRequests;
 
     const requestsByEndpoint: Record<string, number> = {};
-    data.forEach((row: any) => {
-      requestsByEndpoint[row.endpoint] = (requestsByEndpoint[row.endpoint] || 0) + 1;
+    data.forEach((row) => {
+      const endpoint = row.endpoint ?? 'unknown';
+      requestsByEndpoint[endpoint] = (requestsByEndpoint[endpoint] || 0) + 1;
     });
 
     return {
@@ -436,8 +440,9 @@ export class ApiKeyManager {
       }
 
       return result;
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 }

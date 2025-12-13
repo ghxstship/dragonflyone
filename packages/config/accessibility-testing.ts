@@ -234,17 +234,17 @@ export class AccessibilityTestRunner {
 
     // Run axe analysis
     const results = await this.page.evaluate(() => {
-      return (window as any).axe.run();
+      return (window as unknown as { axe: { run: () => Promise<{ violations: unknown[]; passes: unknown[]; incomplete: unknown[] }> } }).axe.run();
     });
 
     return {
-      violations: results.violations.map((v: any) => ({
+      violations: (results.violations as Array<{ id: string; impact: 'critical' | 'serious' | 'moderate' | 'minor'; description: string; help: string; helpUrl: string; nodes: Array<{ html: string; target: string[]; failureSummary: string }> }>).map((v) => ({
         id: v.id,
         impact: v.impact,
         description: v.description,
         help: v.help,
         helpUrl: v.helpUrl,
-        nodes: v.nodes.map((n: any) => ({
+        nodes: v.nodes.map((n) => ({
           html: n.html,
           target: n.target,
           failureSummary: n.failureSummary,
@@ -270,7 +270,7 @@ export class AccessibilityTestRunner {
     });
 
     const results = await this.page.evaluate((wcagLevel) => {
-      return (window as any).axe.run({
+      return (window as unknown as { axe: { run: (options: unknown) => Promise<{ violations: unknown[]; passes: unknown[] }> } }).axe.run({
         runOnly: {
           type: 'tag',
           values: [`wcag2${wcagLevel === 'A' ? 'a' : wcagLevel === 'AA' ? 'aa' : 'aaa'}`],
@@ -281,7 +281,7 @@ export class AccessibilityTestRunner {
     return {
       passed: results.passes.length,
       failed: results.violations.length,
-      violations: results.violations,
+      violations: results.violations as AccessibilityViolation[],
     };
   }
 }

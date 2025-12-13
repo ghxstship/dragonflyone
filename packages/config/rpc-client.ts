@@ -1,5 +1,10 @@
 import type { TypedSupabaseClient } from './auth-helpers';
 
+// RPC functions use dynamic types not in generated Supabase types
+// Using unknown cast to access rpc method with custom function names
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const asRpc = (client: TypedSupabaseClient) => client as unknown as { rpc: (name: string, params: Record<string, unknown>) => Promise<{ data: unknown; error: Error | null }> };
+
 export async function createDealWithContact(
   supabase: TypedSupabaseClient,
   orgId: string,
@@ -20,7 +25,7 @@ export async function createDealWithContact(
     notes?: string;
   }
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_create_deal_with_contact', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_create_deal_with_contact', {
     p_org_id: orgId,
     p_contact: contact,
     p_deal: deal,
@@ -37,7 +42,7 @@ export async function createProjectFromDeal(
   budget?: number,
   startDate?: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_create_project_from_deal', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_create_project_from_deal', {
     p_deal_id: dealId,
     p_project_code: projectCode,
     p_project_name: projectName,
@@ -54,7 +59,7 @@ export async function checkAssetAvailability(
   startDate: string,
   endDate: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_check_asset_availability', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_check_asset_availability', {
     p_asset_ids: assetIds,
     p_start_date: startDate,
     p_end_date: endDate,
@@ -68,7 +73,7 @@ export async function assignAssetsToProject(
   projectId: string,
   assetIds: string[]
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_assign_assets_to_project', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_assign_assets_to_project', {
     p_project_id: projectId,
     p_asset_ids: assetIds,
   });
@@ -80,7 +85,7 @@ export async function getProjectFinancialSummary(
   supabase: TypedSupabaseClient,
   projectId: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_project_financial_summary', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_project_financial_summary', {
     p_project_id: projectId,
   });
   if (error) throw error;
@@ -93,7 +98,7 @@ export async function getWorkforceUtilization(
   startDate: string,
   endDate: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_workforce_utilization', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_workforce_utilization', {
     p_org_id: orgId,
     p_start_date: startDate,
     p_end_date: endDate,
@@ -106,7 +111,7 @@ export async function getDashboardMetrics(
   supabase: TypedSupabaseClient,
   orgId: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_dashboard_metrics', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_dashboard_metrics', {
     p_org_id: orgId,
   });
   if (error) throw error;
@@ -118,7 +123,7 @@ export async function batchUpdateDealStatus(
   dealIds: string[],
   status: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_batch_update_deal_status', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_batch_update_deal_status', {
     p_deal_ids: dealIds,
     p_status: status,
   });
@@ -130,7 +135,7 @@ export async function getProjectTimeline(
   supabase: TypedSupabaseClient,
   projectId: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_project_timeline', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_project_timeline', {
     p_project_id: projectId,
   });
   if (error) throw error;
@@ -143,7 +148,7 @@ export async function searchContacts(
   query?: string,
   limit = 50
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_search_contacts', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_search_contacts', {
     p_org_id: orgId,
     p_query: query,
     p_limit: limit,
@@ -159,7 +164,7 @@ export async function getAssetCalendar(
   endDate: string,
   category?: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_asset_calendar', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_asset_calendar', {
     p_org_id: orgId,
     p_start_date: startDate,
     p_end_date: endDate,
@@ -175,7 +180,7 @@ export async function getWorkforceCapacity(
   startDate: string,
   endDate: string
 ) {
-  const { data, error } = await (supabase as any).rpc('rpc_workforce_capacity', {
+  const { data, error } = await asRpc(supabase).rpc('rpc_workforce_capacity', {
     p_org_id: orgId,
     p_start_date: startDate,
     p_end_date: endDate,

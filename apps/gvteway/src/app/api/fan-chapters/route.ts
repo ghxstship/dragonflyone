@@ -80,7 +80,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+// Haversine formula for calculating distance between two coordinates
+// Used for finding nearby chapters and geographic filtering
+export function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
   const R = 6371; // Earth's radius in km
   const dLat = (lat2 - lat1) * Math.PI / 180;
   const dLng = (lng2 - lng1) * Math.PI / 180;

@@ -1,4 +1,4 @@
-import { create, type StateCreator } from 'zustand';
+import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import type { StoreApi, UseBoundStore } from 'zustand';
@@ -15,7 +15,7 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, string | number | boolean>;
 }
 
 interface CartState {
@@ -45,7 +45,7 @@ const TAX_RATE = 0.07; // 7% tax
 export const useCartStore: UseBoundStore<StoreApi<CartState>> = create<CartState>()(
   devtools(
     persist(
-      immer((set, get) => ({
+      immer((set) => ({
         // Initial state
         items: [],
         totalItems: 0,

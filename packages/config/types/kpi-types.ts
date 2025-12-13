@@ -109,7 +109,7 @@ export interface KPIDataPoint {
   project_id?: string;
   event_id?: string;
   value: number;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   calculated_at: string;
   period_start?: string;
   period_end?: string;
@@ -120,7 +120,7 @@ export interface KPIReport {
   name: string;
   description?: string;
   kpi_codes: string[];
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }

@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type DocumentType =
   | 'contract'
@@ -35,7 +35,7 @@ export interface Document {
   parent_id?: string;
   access_level: AccessLevel;
   tags: string[];
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   uploaded_by: string;
   created_at: string;
   updated_at: string;
@@ -75,7 +75,7 @@ export class DocumentManager {
       entityId?: string;
       accessLevel?: AccessLevel;
       tags?: string[];
-      customMetadata?: Record<string, any>;
+      customMetadata?: Record<string, unknown>;
       userId: string;
     }
   ): Promise<{ success: boolean; document?: Document; error?: string }> {
@@ -146,8 +146,9 @@ export class DocumentManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -241,8 +242,9 @@ export class DocumentManager {
           updated_at: data.updated_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -310,21 +312,21 @@ export class DocumentManager {
       return [];
     }
 
-    return data.map((doc: any) => ({
+    return data.map((doc) => ({
       id: doc.id,
       name: doc.name,
-      description: doc.description,
+      description: doc.description ?? undefined,
       file_path: doc.file_path,
       file_size: doc.file_size,
       mime_type: doc.mime_type,
-      document_type: doc.document_type,
-      entity_type: doc.entity_type,
-      entity_id: doc.entity_id,
+      document_type: doc.document_type as DocumentType,
+      entity_type: doc.entity_type ?? undefined,
+      entity_id: doc.entity_id ?? undefined,
       version: doc.version,
-      parent_id: doc.parent_id,
-      access_level: doc.access_level,
-      tags: doc.tags,
-      metadata: doc.metadata,
+      parent_id: doc.parent_id ?? undefined,
+      access_level: doc.access_level as AccessLevel,
+      tags: doc.tags as string[],
+      metadata: doc.metadata as Record<string, unknown>,
       uploaded_by: doc.uploaded_by,
       created_at: doc.created_at,
       updated_at: doc.updated_at,
@@ -345,13 +347,13 @@ export class DocumentManager {
       return [];
     }
 
-    return data.map((v: any) => ({
+    return data.map((v) => ({
       id: v.id,
       document_id: v.document_id,
       version: v.version,
       file_path: v.file_path,
       file_size: v.file_size,
-      change_summary: v.change_summary,
+      change_summary: v.change_summary ?? undefined,
       uploaded_by: v.uploaded_by,
       created_at: v.created_at,
     }));
@@ -375,8 +377,9 @@ export class DocumentManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -452,21 +455,21 @@ export class DocumentManager {
       return [];
     }
 
-    return data.map((doc: any) => ({
+    return data.map((doc) => ({
       id: doc.id,
       name: doc.name,
-      description: doc.description,
+      description: doc.description ?? undefined,
       file_path: doc.file_path,
       file_size: doc.file_size,
       mime_type: doc.mime_type,
-      document_type: doc.document_type,
-      entity_type: doc.entity_type,
-      entity_id: doc.entity_id,
+      document_type: doc.document_type as DocumentType,
+      entity_type: doc.entity_type ?? undefined,
+      entity_id: doc.entity_id ?? undefined,
       version: doc.version,
-      parent_id: doc.parent_id,
-      access_level: doc.access_level,
-      tags: doc.tags,
-      metadata: doc.metadata,
+      parent_id: doc.parent_id ?? undefined,
+      access_level: doc.access_level as AccessLevel,
+      tags: doc.tags as string[],
+      metadata: doc.metadata as Record<string, unknown>,
       uploaded_by: doc.uploaded_by,
       created_at: doc.created_at,
       updated_at: doc.updated_at,

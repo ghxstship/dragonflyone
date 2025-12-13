@@ -4,7 +4,8 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 
 export type StatusType =
   | 'project'
@@ -35,7 +36,7 @@ export interface StatusUpdate {
   entity_id: string;
   status: StatusValue;
   message?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   updated_by?: string;
   updated_at: string;
 }
@@ -52,7 +53,7 @@ export interface StatusSubscription {
  */
 export class LiveStatusManager {
   private subscriptions: Map<string, StatusSubscription[]> = new Map();
-  private channels: Map<string, any> = new Map();
+  private channels: Map<string, RealtimeChannel> = new Map();
 
   constructor(private supabase: SupabaseClient<Database>) {}
 
@@ -100,7 +101,7 @@ export class LiveStatusManager {
           table: 'status_updates',
           filter: `entity_type=eq.${entityType},entity_id=eq.${entityId}`,
         },
-        (payload: any) => {
+        (payload: { new: Record<string, unknown> }) => {
           const status: StatusUpdate = {
             id: payload.new.id,
             entity_type: payload.new.entity_type,
@@ -155,7 +156,7 @@ export class LiveStatusManager {
     entityId: string,
     status: StatusValue,
     message?: string,
-    metadata?: Record<string, any>,
+    metadata?: Record<string, unknown>,
     userId?: string
   ): Promise<{ success: boolean; error?: string }> {
     try {
@@ -174,8 +175,9 @@ export class LiveStatusManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -227,13 +229,13 @@ export class LiveStatusManager {
 
     if (error || !data) return [];
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
-      entity_type: row.entity_type,
+      entity_type: row.entity_type as StatusType,
       entity_id: row.entity_id,
-      status: row.status,
+      status: row.status as StatusValue,
       message: row.message ?? undefined,
-      metadata: row.metadata ?? undefined,
+      metadata: row.metadata as Record<string, unknown> | undefined,
       updated_by: row.updated_by ?? undefined,
       updated_at: row.updated_at,
     }));
@@ -248,12 +250,15 @@ export class LiveStatusManager {
       entityId: string;
       status: StatusValue;
       message?: string;
-      metadata?: Record<string, any>;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      metadata?: any;
     }>,
-    userId?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    userId?: any
   ): Promise<{ success: boolean; count?: number; error?: string }> {
     try {
-      const records = updates.map((update) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const records: any[] = updates.map((update) => ({
         entity_type: update.entityType,
         entity_id: update.entityId,
         status: update.status,
@@ -273,8 +278,9 @@ export class LiveStatusManager {
       }
 
       return { success: true, count: data?.length || 0 };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -285,7 +291,7 @@ export class LiveStatusManager {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - olderThanDays);
 
-    const { data, error } = await this.supabase
+    const { data } = await this.supabase
       .from('status_updates')
       .delete()
       .lt('updated_at', cutoffDate.toISOString())
@@ -360,15 +366,15 @@ export class StatusAggregator {
 
     // Group by entity_id and take latest
     const grouped = new Map<string, StatusUpdate>();
-    data.forEach((row: any) => {
+    data.forEach((row) => {
       if (!grouped.has(row.entity_id)) {
         grouped.set(row.entity_id, {
           id: row.id,
-          entity_type: row.entity_type,
+          entity_type: row.entity_type as StatusType,
           entity_id: row.entity_id,
-          status: row.status,
+          status: row.status as StatusValue,
           message: row.message ?? undefined,
-          metadata: row.metadata ?? undefined,
+          metadata: row.metadata as Record<string, unknown> | undefined,
           updated_by: row.updated_by ?? undefined,
           updated_at: row.updated_at,
         });
@@ -406,7 +412,7 @@ export class StatusAggregator {
 
     // Get latest status for each entity
     const latestByEntity = new Map<string, string>();
-    data.forEach((row: any) => {
+    data.forEach((row) => {
       // Assuming data is ordered by updated_at desc from above query
       if (!latestByEntity.has(row.entity_id)) {
         latestByEntity.set(row.entity_id, row.status);

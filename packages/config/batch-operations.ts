@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type BatchOperationType =
   | 'update'
@@ -26,7 +26,7 @@ export interface BatchOperation {
   operation_type: BatchOperationType;
   entity_type: string;
   entity_ids: string[];
-  parameters?: Record<string, any>;
+  parameters?: Record<string, unknown>;
   status: BatchStatus;
   total_count: number;
   processed_count: number;
@@ -57,18 +57,19 @@ export class BatchOperationsEngine {
     operationType: BatchOperationType,
     entityType: string,
     entityIds: string[],
-    parameters?: Record<string, any>
+    parameters?: Record<string, unknown>
   ): Promise<{ success: boolean; jobId?: string; error?: string }> {
     try {
       // Create batch operation record
-      const { data, error } = await this.supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (this.supabase as any)
         .from('batch_operations')
         .insert({
           user_id: userId,
           operation_type: operationType,
           entity_type: entityType,
           entity_ids: entityIds,
-          parameters,
+          parameters: parameters as unknown,
           status: 'pending',
           total_count: entityIds.length,
           processed_count: 0,
@@ -86,8 +87,9 @@ export class BatchOperationsEngine {
       this.processBatchOperation(data.id);
 
       return { success: true, jobId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -121,19 +123,20 @@ export class BatchOperationsEngine {
       for (const entityId of operation.entity_ids) {
         try {
           await this.executeOperation(
-            operation.operation_type,
+            operation.operation_type as BatchOperationType,
             operation.entity_type,
             entityId,
-            operation.parameters
+            operation.parameters as Record<string, unknown> | undefined
           );
 
           results.push({ entity_id: entityId, success: true });
           successCount++;
-        } catch (error: any) {
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           results.push({
             entity_id: entityId,
             success: false,
-            error: error.message,
+            error: errorMessage,
           });
           failedCount++;
         }
@@ -162,13 +165,14 @@ export class BatchOperationsEngine {
           completed_at: new Date().toISOString(),
         })
         .eq('id', jobId);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       // Update operation with error
       await this.supabase
         .from('batch_operations')
         .update({
           status: 'failed',
-          error_message: error.message,
+          error_message: errorMessage,
           completed_at: new Date().toISOString(),
         })
         .eq('id', jobId);
@@ -182,7 +186,7 @@ export class BatchOperationsEngine {
     operationType: BatchOperationType,
     entityType: string,
     entityId: string,
-    parameters?: Record<string, any>
+    parameters?: Record<string, unknown>
   ): Promise<void> {
     switch (operationType) {
       case 'update':
@@ -228,13 +232,14 @@ export class BatchOperationsEngine {
   private async updateEntity(
     entityType: string,
     entityId: string,
-    updates?: Record<string, any>
+    updates?: Record<string, unknown>
   ): Promise<void> {
     if (!updates) {
       throw new Error('Update parameters required');
     }
 
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update(updates)
       .eq('id', entityId);
@@ -248,7 +253,8 @@ export class BatchOperationsEngine {
    * Delete entity
    */
   private async deleteEntity(entityType: string, entityId: string): Promise<void> {
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .delete()
       .eq('id', entityId);
@@ -262,7 +268,8 @@ export class BatchOperationsEngine {
    * Archive entity
    */
   private async archiveEntity(entityType: string, entityId: string): Promise<void> {
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update({ archived: true, archived_at: new Date().toISOString() })
       .eq('id', entityId);
@@ -278,13 +285,14 @@ export class BatchOperationsEngine {
   private async assignEntity(
     entityType: string,
     entityId: string,
-    params?: Record<string, any>
+    params?: Record<string, unknown>
   ): Promise<void> {
     if (!params?.assignee_id) {
       throw new Error('Assignee ID required');
     }
 
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update({ assigned_to: params.assignee_id })
       .eq('id', entityId);
@@ -300,13 +308,14 @@ export class BatchOperationsEngine {
   private async tagEntity(
     entityType: string,
     entityId: string,
-    params?: Record<string, any>
+    params?: Record<string, unknown>
   ): Promise<void> {
     if (!params?.tags) {
       throw new Error('Tags required');
     }
 
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update({ tags: params.tags })
       .eq('id', entityId);
@@ -320,7 +329,8 @@ export class BatchOperationsEngine {
    * Approve entity
    */
   private async approveEntity(entityType: string, entityId: string): Promise<void> {
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update({
         status: 'approved',
@@ -339,9 +349,10 @@ export class BatchOperationsEngine {
   private async rejectEntity(
     entityType: string,
     entityId: string,
-    params?: Record<string, any>
+    params?: Record<string, unknown>
   ): Promise<void> {
-    const { error } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
       .from(entityType)
       .update({
         status: 'rejected',
@@ -360,7 +371,8 @@ export class BatchOperationsEngine {
    */
   private async duplicateEntity(entityType: string, entityId: string): Promise<void> {
     // Get original entity
-    const { data: original, error: fetchError } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: original, error: fetchError } = await (this.supabase as any)
       .from(entityType)
       .select('*')
       .eq('id', entityId)
@@ -370,14 +382,19 @@ export class BatchOperationsEngine {
       throw new Error('Entity not found');
     }
 
-    // Create duplicate without id and timestamps
-    const { id, created_at, updated_at, ...duplicateData } = original;
+    // Create duplicate without id and timestamps - use rest operator to exclude system fields
+    const { id: entityIdToExclude, created_at: createdAtToExclude, updated_at: updatedAtToExclude, ...duplicateData } = original;
+    // Silence unused variable warnings by using void operator
+    void entityIdToExclude;
+    void createdAtToExclude;
+    void updatedAtToExclude;
     const duplicate = {
       ...duplicateData,
       name: `${duplicateData.name} (Copy)`,
     };
 
-    const { error: createError } = await this.supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: createError } = await (this.supabase as any)
       .from(entityType)
       .insert(duplicate);
 
@@ -403,19 +420,19 @@ export class BatchOperationsEngine {
     return {
       id: data.id,
       user_id: data.user_id,
-      operation_type: data.operation_type,
+      operation_type: data.operation_type as BatchOperationType,
       entity_type: data.entity_type,
-      entity_ids: data.entity_ids,
-      parameters: data.parameters,
-      status: data.status,
+      entity_ids: data.entity_ids as string[],
+      parameters: data.parameters as Record<string, unknown> | undefined,
+      status: data.status as BatchStatus,
       total_count: data.total_count,
-      processed_count: data.processed_count,
-      success_count: data.success_count,
-      failed_count: data.failed_count,
-      results: data.results,
-      error_message: data.error_message,
+      processed_count: data.processed_count ?? 0,
+      success_count: data.success_count ?? 0,
+      failed_count: data.failed_count ?? 0,
+      results: data.results as Array<{ entity_id: string; success: boolean; error?: string }> | undefined,
+      error_message: data.error_message ?? undefined,
       created_at: data.created_at,
-      completed_at: data.completed_at,
+      completed_at: data.completed_at ?? undefined,
     };
   }
 
@@ -434,22 +451,22 @@ export class BatchOperationsEngine {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       user_id: row.user_id,
-      operation_type: row.operation_type,
+      operation_type: row.operation_type as BatchOperationType,
       entity_type: row.entity_type,
-      entity_ids: row.entity_ids,
-      parameters: row.parameters,
-      status: row.status,
+      entity_ids: row.entity_ids as string[],
+      parameters: row.parameters as Record<string, unknown> | undefined,
+      status: row.status as BatchStatus,
       total_count: row.total_count,
-      processed_count: row.processed_count,
-      success_count: row.success_count,
-      failed_count: row.failed_count,
-      results: row.results,
-      error_message: row.error_message,
+      processed_count: row.processed_count ?? 0,
+      success_count: row.success_count ?? 0,
+      failed_count: row.failed_count ?? 0,
+      results: row.results as Array<{ entity_id: string; success: boolean; error?: string }> | undefined,
+      error_message: row.error_message ?? undefined,
       created_at: row.created_at,
-      completed_at: row.completed_at,
+      completed_at: row.completed_at ?? undefined,
     }));
   }
 

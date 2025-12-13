@@ -39,7 +39,7 @@ export async function fetchWithAuth<T>(
   }
 }
 
-export function buildQueryParams(params: Record<string, any>): string {
+export function buildQueryParams(params: Record<string, unknown>): string {
   const searchParams = new URLSearchParams();
   
   Object.entries(params).forEach(([key, value]) => {
@@ -52,7 +52,7 @@ export function buildQueryParams(params: Record<string, any>): string {
   return queryString ? `?${queryString}` : '';
 }
 
-export function handleApiError(error: any): string {
+export function handleApiError(error: unknown): string {
   if (error instanceof Error) {
     return error.message;
   }
@@ -65,8 +65,8 @@ export function handleApiError(error: any): string {
 export async function uploadFile(
   url: string,
   file: File,
-  additionalData?: Record<string, any>
-): Promise<ApiResponse<any>> {
+  additionalData?: Record<string, unknown>
+): Promise<ApiResponse<unknown>> {
   try {
     const formData = new FormData();
     formData.append('file', file);
@@ -99,7 +99,7 @@ export async function uploadFile(
   }
 }
 
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {

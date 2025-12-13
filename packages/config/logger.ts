@@ -40,8 +40,10 @@ class Logger {
     if (process.env.NODE_ENV === 'production') {
       logMethod(JSON.stringify(entry));
       
-      if (level === 'error' && typeof window !== 'undefined' && (window as any).Sentry) {
-        (window as any).Sentry.captureException(error || new Error(message), {
+      // Check for Sentry on window object
+      const windowWithSentry = typeof window !== 'undefined' ? window as Window & { Sentry?: { captureException: (error: Error, options?: unknown) => void } } : null;
+      if (level === 'error' && windowWithSentry?.Sentry) {
+        windowWithSentry.Sentry.captureException(error || new Error(message), {
           contexts: { custom: entry.context },
         });
       }
@@ -140,7 +142,6 @@ export function logAuthEvent(
   success: boolean = true,
   context?: LogContext
 ): void {
-  const level = success ? 'info' : 'warn';
   const message = `Auth: ${event}`;
   
   if (success) {

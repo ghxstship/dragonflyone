@@ -483,7 +483,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /settings                                 5.04 kB         450 kB
 ├ ○ /settings/language                        2.8 kB          467 kB
 ├ ○ /settings/notifications                   5.8 kB          451 kB
-├ ○ /settings/privacy                         5.01 kB         635 kB
+├ ○ /settings/privacy                         5.01 kB         636 kB
 ├ ○ /shop/shoppable                           3.14 kB         467 kB
 ├ ○ /sitemap.xml                              0 B                0 B
 ├ ○ /social                                   3.4 kB          448 kB

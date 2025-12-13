@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import type { Locale, LocaleConfig } from './index';
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE, getLocaleConfig, isValidLocale } from './index';
+import { DEFAULT_LOCALE, getLocaleConfig, isValidLocale } from './index';
 import { en, TranslationKeys } from './translations/en';
 import { es } from './translations/es';
 import { fr } from './translations/fr';
@@ -46,8 +46,14 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 
 const LOCALE_STORAGE_KEY = 'ghxstship_locale';
 
-function getNestedValue(obj: any, path: string): string | undefined {
-  return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+function getNestedValue(obj: Record<string, unknown>, path: string): string | undefined {
+  const result = path.split('.').reduce<unknown>((acc, part) => {
+    if (acc && typeof acc === 'object' && part in (acc as Record<string, unknown>)) {
+      return (acc as Record<string, unknown>)[part];
+    }
+    return undefined;
+  }, obj);
+  return typeof result === 'string' ? result : undefined;
 }
 
 export function I18nProvider({ children, defaultLocale = DEFAULT_LOCALE }: { children: ReactNode; defaultLocale?: Locale }) {

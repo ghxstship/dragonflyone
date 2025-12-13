@@ -17,13 +17,16 @@ export async function GET(request: NextRequest) {
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
-    const sort = searchParams.get('sort') || 'discount';
+    const sortParam = searchParams.get('sort') || 'discount';
     const limit = parseInt(searchParams.get('limit') || '50');
 
+    // Sort parameter determines ordering - 'discount' for highest discount first, 'created_at' for newest
+    const orderColumn = sortParam === 'discount' ? 'discount_percent' : 'created_at';
+    
     let query = supabase
       .from('deals')
       .select('*')
-      .order('created_at', { ascending: false })
+      .order(orderColumn, { ascending: false })
       .limit(limit);
 
     if (type && type !== 'all') {

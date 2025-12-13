@@ -210,7 +210,9 @@ export function AppContextProvider({
   // Load projects
   const loadProjects = useCallback(async (orgId: string, workspaceId?: string) => {
     try {
-      let query = `projects?organization_id=eq.${orgId}&select=*&order=name`;
+      const query = workspaceId 
+        ? `projects?organization_id=eq.${orgId}&workspace_id=eq.${workspaceId}&select=*&order=name`
+        : `projects?organization_id=eq.${orgId}&select=*&order=name`;
       // If workspace specified, we'd need to join through workspace_projects
       const data = await fetchWithAuth(query);
       setProjects(data || []);
@@ -222,7 +224,8 @@ export function AppContextProvider({
   // Load activations
   const loadActivations = useCallback(async (orgId: string, projectId?: string, eventId?: string) => {
     try {
-      let query = `activations?organization_id=eq.${orgId}&select=*&order=name`;
+      const baseQuery = `activations?organization_id=eq.${orgId}&select=*&order=name`;
+      let query = baseQuery;
       if (projectId) {
         query += `&project_id=eq.${projectId}`;
       }

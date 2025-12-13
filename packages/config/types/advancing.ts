@@ -50,7 +50,7 @@ export interface ProductionCatalogItem {
   related_accessories: string[];
   specifications: string | null;
   standard_unit: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   enabled: boolean;
   created_at: string;
   updated_at: string;
@@ -106,7 +106,7 @@ export interface ProductionAdvanceItem {
   quantity_fulfilled: number;
   fulfillment_status: FulfillmentStatus;
   notes: string | null;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   created_at: string;
   catalog_item?: ProductionCatalogItem;
 }
@@ -130,7 +130,7 @@ export interface ProductionAdvance {
   approved_cost: number | null;
   actual_cost: number | null;
   currency: string;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   created_at: string;
   updated_at: string;
   // Relations
@@ -242,7 +242,7 @@ export interface CatalogCategory {
   industry_verticals: IndustryVertical[];
   display_order: number;
   enabled: boolean;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   created_at: string;
   updated_at: string;
   // Nested children for tree structure
@@ -296,7 +296,7 @@ export interface CatalogVendor {
   rating: number | null;
   preferred: boolean;
   enabled: boolean;
-  metadata: Record<string, any>;
+  metadata: Record<string, unknown>;
   created_at: string;
   updated_at: string;
 }

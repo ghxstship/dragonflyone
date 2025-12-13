@@ -5,7 +5,6 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database, Json } from './supabase-types';
-import type { KPIDataPoint } from './types/kpi-types';
 
 type TypedSupabaseClient = SupabaseClient<Database>;
 

@@ -26,7 +26,7 @@ export type FilterOperator =
 export interface FilterCondition {
   field: string;
   operator: FilterOperator;
-  value: any;
+  value: unknown;
   dataType?: 'string' | 'number' | 'date' | 'boolean';
 }
 
@@ -103,8 +103,9 @@ export class SavedFiltersManager {
       }
 
       return { success: true, filterId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -179,8 +180,9 @@ export class SavedFiltersManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -224,8 +226,9 @@ export class SavedFiltersManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -253,7 +256,9 @@ export class SavedFiltersManager {
 
   /**
    * Apply filter to query
+   * Note: Uses any type as Supabase query builders have complex dynamic types
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   applyFilter(filter: SavedFilter, query: any): any {
     let modifiedQuery = query;
 
@@ -273,6 +278,7 @@ export class SavedFiltersManager {
   /**
    * Apply single condition to query
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private applyCondition(query: any, condition: FilterCondition): any {
     switch (condition.operator) {
       case 'equals':
@@ -349,8 +355,9 @@ export class SavedViewsManager {
       }
 
       return { success: true, viewId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -428,8 +435,9 @@ export class SavedViewsManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -473,8 +481,9 @@ export class SavedViewsManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -521,8 +530,9 @@ export class SavedViewsManager {
       }
 
       return { success: true, viewId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 }

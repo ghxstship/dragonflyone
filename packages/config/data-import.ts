@@ -4,7 +4,7 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type ImportFormat = 'csv' | 'excel' | 'json';
 export type ImportAction = 'create' | 'update' | 'upsert';
@@ -34,7 +34,7 @@ export interface ImportError {
   row: number;
   field?: string;
   message: string;
-  value?: any;
+  value?: unknown;
 }
 
 export interface ImportOptions {
@@ -53,8 +53,8 @@ export interface ImportTemplate {
   entity_type: string;
   field_mapping: Record<string, string>;
   required_fields: string[];
-  validation_rules?: Record<string, any>;
-  default_values?: Record<string, any>;
+  validation_rules?: Record<string, unknown>;
+  default_values?: Record<string, unknown>;
 }
 
 /**
@@ -119,8 +119,9 @@ export class DataImportEngine {
       }
 
       return { success: true, jobId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -220,10 +221,11 @@ export class DataImportEngine {
             }
 
             successCount++;
-          } catch (error: any) {
+          } catch (error: unknown) {
+            const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             errors.push({
               row: rowNumber,
-              message: error.message,
+              message: errorMessage,
             });
             failedCount++;
           }
@@ -249,11 +251,12 @@ export class DataImportEngine {
       await this.updateJobStatus(jobId, finalStatus, errors);
 
       return { success: true };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       await this.updateJobStatus(jobId, 'failed', [
-        { row: 0, message: error.message },
+        { row: 0, message: errorMessage },
       ]);
-      return { success: false, error: error.message };
+      return { success: false, error: errorMessage };
     }
   }
 
@@ -264,7 +267,7 @@ export class DataImportEngine {
     file: Blob,
     format: ImportFormat,
     options?: ImportOptions
-  ): Promise<any[]> {
+  ): Promise<Record<string, unknown>[]> {
     const text = await file.text();
 
     if (format === 'csv') {
@@ -280,7 +283,7 @@ export class DataImportEngine {
   /**
    * Parse CSV file
    */
-  private parseCSV(content: string, options?: ImportOptions): any[] {
+  private parseCSV(content: string, options?: ImportOptions): Record<string, unknown>[] {
     const delimiter = options?.delimiter || ',';
     const quoteChar = options?.quote_char || '"';
     const skipHeader = options?.skip_header !== false;
@@ -293,10 +296,10 @@ export class DataImportEngine {
     const startIndex = skipHeader ? 1 : 0;
 
     // Parse data rows
-    const rows: any[] = [];
+    const rows: Record<string, unknown>[] = [];
     for (let i = startIndex; i < lines.length; i++) {
       const values = this.parseCSVLine(lines[i], delimiter, quoteChar);
-      const row: Record<string, any> = {};
+      const row: Record<string, unknown> = {};
 
       header.forEach((key, index) => {
         row[key] = values[index] || null;
@@ -347,7 +350,7 @@ export class DataImportEngine {
    * Validate row data
    */
   private async validateRow(
-    row: any,
+    row: Record<string, unknown>,
     entityType: string,
     mapping?: Record<string, string>
   ): Promise<{ valid: boolean; error?: string }> {
@@ -356,9 +359,12 @@ export class DataImportEngine {
       return { valid: false, error: 'Invalid row data' };
     }
 
+    // Silence unused entityType warning - used for entity-specific validation
+    void entityType;
+
     // Check required fields based on mapping
     if (mapping) {
-      for (const [csvField, dbField] of Object.entries(mapping)) {
+      for (const [csvField] of Object.entries(mapping)) {
         if (row[csvField] === undefined || row[csvField] === null || row[csvField] === '') {
           // Check if field is required (basic check)
           return { valid: false, error: `Missing required field: ${csvField}` };
@@ -373,12 +379,12 @@ export class DataImportEngine {
    * Transform row using field mapping
    */
   private transformRow(
-    row: any,
+    row: Record<string, unknown>,
     mapping?: Record<string, string>
-  ): Record<string, any> {
+  ): Record<string, unknown> {
     if (!mapping) return row;
 
-    const transformed: Record<string, any> = {};
+    const transformed: Record<string, unknown> = {};
 
     for (const [csvField, dbField] of Object.entries(mapping)) {
       transformed[dbField] = row[csvField];
@@ -390,7 +396,7 @@ export class DataImportEngine {
   /**
    * Create new row
    */
-  private async createRow(entityType: string, data: Record<string, any>): Promise<void> {
+  private async createRow(entityType: string, data: Record<string, unknown>): Promise<void> {
     const { error } = await this.supabase.from(entityType).insert(data);
 
     if (error) {
@@ -403,7 +409,7 @@ export class DataImportEngine {
    */
   private async updateRow(
     entityType: string,
-    data: Record<string, any>,
+    data: Record<string, unknown>,
     uniqueField?: string
   ): Promise<void> {
     if (!uniqueField || !data[uniqueField]) {
@@ -425,7 +431,7 @@ export class DataImportEngine {
    */
   private async upsertRow(
     entityType: string,
-    data: Record<string, any>,
+    data: Record<string, unknown>,
     uniqueField?: string
   ): Promise<void> {
     const { error } = await this.supabase
@@ -546,8 +552,9 @@ export class DataImportEngine {
       }
 
       return { success: true, templateId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 

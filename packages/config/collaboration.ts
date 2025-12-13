@@ -4,7 +4,8 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
+import type { RealtimeChannel } from '@supabase/supabase-js';
 import { logger } from './logger';
 
 export interface CollaborationUser {
@@ -45,7 +46,7 @@ export interface DocumentLock {
  */
 export class CollaborativeDocument {
   private channelName: string;
-  private channel: any;
+  private channel!: RealtimeChannel;
   private localUser: CollaborationUser;
   private presenceCallback?: (states: Record<string, PresenceState>) => void;
   private changeCallback?: (operation: EditOperation) => void;
@@ -77,18 +78,18 @@ export class CollaborativeDocument {
       .on('presence', { event: 'sync' }, () => {
         const state = this.channel.presenceState();
         if (this.presenceCallback) {
-          this.presenceCallback(state);
+          this.presenceCallback(state as unknown as Record<string, PresenceState>);
         }
       })
-      .on('presence', { event: 'join' }, ({ key, newPresences }: any) => {
+      .on('presence', { event: 'join' }, ({ key, newPresences }: { key: string; newPresences: unknown[] }) => {
         logger.debug('User joined', { key, presences: newPresences });
       })
-      .on('presence', { event: 'leave' }, ({ key, leftPresences }: any) => {
+      .on('presence', { event: 'leave' }, ({ key, leftPresences }: { key: string; leftPresences: unknown[] }) => {
         logger.debug('User left', { key, presences: leftPresences });
       });
 
     // Track document changes
-    this.channel.on('broadcast', { event: 'edit' }, ({ payload }: any) => {
+    this.channel.on('broadcast', { event: 'edit' }, ({ payload }: { payload: EditOperation }) => {
       if (payload.userId !== this.localUser.id && this.changeCallback) {
         this.changeCallback(payload as EditOperation);
       }
@@ -153,7 +154,7 @@ export class CollaborativeDocument {
    */
   getCollaborators(): PresenceState[] {
     const state = this.channel.presenceState();
-    return Object.values(state).flat() as PresenceState[];
+    return Object.values(state).flat() as unknown as PresenceState[];
   }
 
   /**
@@ -237,8 +238,9 @@ export class DocumentLockService {
           expiresAt: data.expires_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -272,7 +274,7 @@ export class DocumentLockService {
 
     if (error || !data) return [];
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       documentId: row.document_id,
       fieldName: row.field_name,
       userId: row.user_id,
@@ -285,7 +287,7 @@ export class DocumentLockService {
    * Clean up expired locks
    */
   async cleanupExpiredLocks(): Promise<number> {
-    const { data, error } = await this.supabase
+    const { data } = await this.supabase
       .from('document_locks')
       .delete()
       .lt('expires_at', new Date().toISOString())

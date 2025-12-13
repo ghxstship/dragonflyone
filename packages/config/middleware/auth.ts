@@ -25,7 +25,7 @@ export async function authenticateRequest(
   request: NextRequest,
   config: AuthMiddlewareConfig = {}
 ): Promise<AuthResult> {
-  const { requiredRoles = [], requireAuth = true, allowAnonymous = false } = config;
+  const { requiredRoles = [], allowAnonymous = false } = config;
   
   const authHeader = request.headers.get('authorization');
   

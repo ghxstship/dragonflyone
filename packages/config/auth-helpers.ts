@@ -232,12 +232,16 @@ export function onAuthStateChange(
 /**
  * Set custom JWT claims for role-based access
  */
+// RPC helper for functions not in generated types
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const asRpc = (client: TypedSupabaseClient) => client as unknown as { rpc: (name: string, params?: Record<string, unknown>) => Promise<{ data: unknown; error: Error | null }> };
+
 export async function setUserRole(
   supabase: TypedSupabaseClient,
   userId: string,
   roleCode: string
 ) {
-  const { error } = await (supabase as any).rpc('admin_set_user_role', {
+  const { error } = await asRpc(supabase).rpc('admin_set_user_role', {
     user_id: userId,
     role_code: roleCode,
   });
@@ -252,7 +256,7 @@ export async function impersonateUser(
   supabase: TypedSupabaseClient,
   targetUserId: string
 ) {
-  const { data, error } = await (supabase as any).rpc('legend_impersonate_user', {
+  const { data, error } = await asRpc(supabase).rpc('legend_impersonate_user', {
     target_user_id: targetUserId,
   });
 
@@ -264,6 +268,6 @@ export async function impersonateUser(
  * Stop impersonation and return to original session
  */
 export async function stopImpersonation(supabase: TypedSupabaseClient) {
-  const { error } = await (supabase as any).rpc('legend_stop_impersonation');
+  const { error } = await asRpc(supabase).rpc('legend_stop_impersonation');
   if (error) throw error;
 }

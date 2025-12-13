@@ -18,7 +18,7 @@ export function validatePhone(phone: string): boolean {
   return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
 }
 
-export function validateRequired(value: any): boolean {
+export function validateRequired(value: unknown): boolean {
   if (typeof value === 'string') {
     return value.trim().length > 0;
   }
@@ -33,11 +33,11 @@ export function validateMaxLength(value: string, maxLength: number): boolean {
   return value.length <= maxLength;
 }
 
-export function validateNumber(value: any): boolean {
+export function validateNumber(value: unknown): boolean {
   return !isNaN(Number(value)) && Number(value) >= 0;
 }
 
-export function validatePositiveNumber(value: any): boolean {
+export function validatePositiveNumber(value: unknown): boolean {
   return !isNaN(Number(value)) && Number(value) > 0;
 }
 
@@ -61,12 +61,12 @@ export function validateFutureDate(date: string): boolean {
 }
 
 export interface FormField {
-  value: any;
+  value: unknown;
   required?: boolean;
   minLength?: number;
   maxLength?: number;
   type?: 'email' | 'phone' | 'url' | 'number' | 'date' | 'futureDate' | 'positiveNumber';
-  custom?: (value: any) => boolean;
+  custom?: (value: unknown) => boolean;
   customMessage?: string;
 }
 
@@ -90,39 +90,40 @@ export function validateForm(
     }
 
     // Type-specific validations
+    const stringValue = typeof value === 'string' ? value : String(value);
     switch (type) {
       case 'email':
-        if (!validateEmail(value)) {
+        if (!validateEmail(stringValue)) {
           errors[fieldName] = 'Invalid email address';
         }
         break;
       case 'phone':
-        if (!validatePhone(value)) {
+        if (!validatePhone(stringValue)) {
           errors[fieldName] = 'Invalid phone number';
         }
         break;
       case 'url':
-        if (!validateUrl(value)) {
+        if (!validateUrl(stringValue)) {
           errors[fieldName] = 'Invalid URL';
         }
         break;
       case 'number':
-        if (!validateNumber(value)) {
+        if (!validateNumber(stringValue)) {
           errors[fieldName] = 'Must be a valid number';
         }
         break;
       case 'positiveNumber':
-        if (!validatePositiveNumber(value)) {
+        if (!validatePositiveNumber(stringValue)) {
           errors[fieldName] = 'Must be a positive number';
         }
         break;
       case 'date':
-        if (!validateDate(value)) {
+        if (!validateDate(stringValue)) {
           errors[fieldName] = 'Invalid date';
         }
         break;
       case 'futureDate':
-        if (!validateFutureDate(value)) {
+        if (!validateFutureDate(stringValue)) {
           errors[fieldName] = 'Date must be in the future';
         }
         break;

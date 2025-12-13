@@ -14,7 +14,7 @@ interface UIState {
   
   // Modals
   activeModal: string | null;
-  modalData: Record<string, any>;
+  modalData: Record<string, unknown>;
   
   // Notifications/Toast
   notifications: Notification[];
@@ -35,7 +35,7 @@ interface UIState {
   setSidebarOpen: (open: boolean) => void;
   toggleSidebarCollapse: () => void;
   
-  openModal: (modalId: string, data?: any) => void;
+  openModal: (modalId: string, data?: Record<string, unknown>) => void;
   closeModal: () => void;
   
   addNotification: (notification: Omit<Notification, 'id' | 'createdAt'>) => void;

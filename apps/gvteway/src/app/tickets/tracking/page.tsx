@@ -18,7 +18,7 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
-import { useTicketTrackingData, type TicketDelivery } from '@/hooks/useTicketTracking';
+import { useTicketTrackingData, type TicketDelivery, type DeliveryStep } from '@/hooks/useTicketTracking';
 
 export default function TicketTrackingPage() {
   const router = useRouter();
@@ -192,7 +192,7 @@ export default function TicketTrackingPage() {
 
         {deliveries.length > 0 ? (
           <Stack gap={4}>
-            {deliveries.map(delivery => (
+            {deliveries.map((delivery: TicketDelivery) => (
               <Card key={delivery.id} className="p-6">
                 <Stack direction="horizontal" className="justify-between items-start">
                   <Stack gap={2} className="flex-1">

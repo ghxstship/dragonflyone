@@ -4,14 +4,14 @@
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
-import type { Database, Json } from './supabase-types';
+import type { Database } from './supabase-types';
 
 export type ExportFormat = 'csv' | 'excel' | 'pdf' | 'json';
 
 export interface ExportConfig {
   entityType: string;
   format: ExportFormat;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   columns?: string[];
   includeHeaders?: boolean;
   template?: string;
@@ -38,7 +38,7 @@ export interface ExportTemplate {
   entity_type: string;
   format: ExportFormat;
   columns: string[];
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   user_id: string;
   is_public: boolean;
   created_at: string;
@@ -79,8 +79,9 @@ export class DataExportEngine {
       await this.processExport(data.id);
 
       return { success: true, jobId: data.id };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -128,13 +129,14 @@ export class DataExportEngine {
           completed_at: new Date().toISOString(),
         })
         .eq('id', jobId);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       // Update job with error
       await this.supabase
         .from('export_jobs')
         .update({
           status: 'failed',
-          error_message: error.message,
+          error_message: errorMessage,
           completed_at: new Date().toISOString(),
         })
         .eq('id', jobId);
@@ -146,8 +148,8 @@ export class DataExportEngine {
    */
   private async fetchData(
     entityType: string,
-    filters?: Record<string, any>
-  ): Promise<any[]> {
+    filters?: Record<string, unknown>
+  ): Promise<Record<string, unknown>[]> {
     let query = this.supabase.from(entityType).select('*');
 
     // Apply filters
@@ -172,7 +174,7 @@ export class DataExportEngine {
    * Generate export file
    */
   private async generateFile(
-    records: any[],
+    records: Record<string, unknown>[],
     format: ExportFormat,
     columns?: string[],
     includeHeaders: boolean = true,
@@ -199,7 +201,7 @@ export class DataExportEngine {
    * Generate CSV file
    */
   private async generateCSV(
-    records: any[],
+    records: Record<string, unknown>[],
     columns?: string[],
     includeHeaders: boolean = true,
     filename: string = 'export'
@@ -252,7 +254,7 @@ export class DataExportEngine {
    * Generate JSON file
    */
   private async generateJSON(
-    records: any[],
+    records: Record<string, unknown>[],
     columns?: string[],
     filename: string = 'export'
   ): Promise<string> {
@@ -287,7 +289,7 @@ export class DataExportEngine {
    * Generate Excel file (placeholder - requires library like exceljs)
    */
   private async generateExcel(
-    records: any[],
+    records: Record<string, unknown>[],
     columns?: string[],
     includeHeaders: boolean = true,
     filename: string = 'export'
@@ -301,7 +303,7 @@ export class DataExportEngine {
    * Generate PDF file (placeholder - requires library like pdfkit)
    */
   private async generatePDF(
-    records: any[],
+    records: Record<string, unknown>[],
     columns?: string[],
     filename: string = 'export'
   ): Promise<string> {
@@ -354,18 +356,18 @@ export class DataExportEngine {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       user_id: row.user_id,
       entity_type: row.entity_type,
-      format: row.format,
-      status: row.status,
-      config: row.config,
-      file_url: row.file_url,
-      record_count: row.record_count,
-      error_message: row.error_message,
+      format: row.format as ExportFormat,
+      status: row.status as ExportJob['status'],
+      config: row.config as ExportConfig,
+      file_url: row.file_url ?? undefined,
+      record_count: row.record_count ?? undefined,
+      error_message: row.error_message ?? undefined,
       created_at: row.created_at,
-      completed_at: row.completed_at,
+      completed_at: row.completed_at ?? undefined,
     }));
   }
 
@@ -378,7 +380,7 @@ export class DataExportEngine {
     entityType: string,
     format: ExportFormat,
     columns: string[],
-    filters?: Record<string, any>,
+    filters?: Record<string, unknown>,
     isPublic: boolean = false
   ): Promise<{ success: boolean; template?: ExportTemplate; error?: string }> {
     try {
@@ -414,8 +416,9 @@ export class DataExportEngine {
           created_at: data.created_at,
         },
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -438,15 +441,15 @@ export class DataExportEngine {
       return [];
     }
 
-    return data.map((row: any) => ({
+    return data.map((row) => ({
       id: row.id,
       name: row.name,
       entity_type: row.entity_type,
-      format: row.format,
-      columns: row.columns,
-      filters: row.filters,
+      format: row.format as ExportFormat,
+      columns: row.columns as string[],
+      filters: row.filters as Record<string, unknown> | undefined,
       user_id: row.user_id,
-      is_public: row.is_public,
+      is_public: row.is_public ?? false,
       created_at: row.created_at,
     }));
   }

@@ -6,6 +6,13 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 import type { Database, Json } from './supabase-types';
 
+// Database types
+type WebhooksRow = Database['public']['Tables']['webhooks']['Row'];
+type WebhooksInsert = Database['public']['Tables']['webhooks']['Insert'];
+type WebhooksUpdate = Database['public']['Tables']['webhooks']['Update'];
+type WebhookDeliveriesRow = Database['public']['Tables']['webhook_deliveries']['Row'];
+type WebhookDeliveriesInsert = Database['public']['Tables']['webhook_deliveries']['Insert'];
+
 export type WebhookEvent =
   | 'project.created'
   | 'project.updated'
@@ -32,10 +39,10 @@ export interface Webhook {
   user_id: string;
   name: string;
   url: string;
-  events: WebhookEvent[];
+  events: string[];
   secret: string;
   is_active: boolean;
-  headers?: Record<string, string>;
+  headers?: Record<string, string> | null;
   retry_count: number;
   timeout_ms: number;
   created_at: string;
@@ -45,15 +52,54 @@ export interface Webhook {
 export interface WebhookDelivery {
   id: string;
   webhook_id: string;
-  event_type: WebhookEvent;
-  payload: Record<string, any>;
-  status: 'pending' | 'delivered' | 'failed' | 'retrying';
-  response_status?: number;
-  response_body?: string;
-  error_message?: string;
+  event_type: string;
+  payload: Json;
+  status: string;
+  response_status?: number | null;
+  response_body?: string | null;
+  error_message?: string | null;
   attempt_count: number;
-  delivered_at?: string;
+  delivered_at?: string | null;
   created_at: string;
+}
+
+/**
+ * Convert database row to Webhook interface
+ */
+function rowToWebhook(row: WebhooksRow): Webhook {
+  return {
+    id: row.id,
+    user_id: row.user_id,
+    name: row.name,
+    url: row.url,
+    events: row.events,
+    secret: row.secret,
+    is_active: row.is_active ?? true,
+    headers: row.headers as Record<string, string> | null,
+    retry_count: row.retry_count ?? 3,
+    timeout_ms: row.timeout_ms ?? 5000,
+    created_at: row.created_at,
+    updated_at: row.updated_at,
+  };
+}
+
+/**
+ * Convert database row to WebhookDelivery interface
+ */
+function rowToDelivery(row: WebhookDeliveriesRow): WebhookDelivery {
+  return {
+    id: row.id,
+    webhook_id: row.webhook_id,
+    event_type: row.event_type,
+    payload: row.payload,
+    status: row.status,
+    response_status: row.response_status,
+    response_body: row.response_body,
+    error_message: row.error_message,
+    attempt_count: row.attempt_count ?? 0,
+    delivered_at: row.delivered_at,
+    created_at: row.created_at,
+  };
 }
 
 /**
@@ -74,22 +120,23 @@ export class WebhookManager {
     headers?: Record<string, string>
   ): Promise<{ success: boolean; webhook?: Webhook; error?: string }> {
     try {
-      // Generate webhook secret
       const secret = this.generateSecret();
+
+      const insertData: WebhooksInsert = {
+        user_id: userId,
+        name,
+        url,
+        events,
+        secret,
+        is_active: true,
+        headers: headers as Json,
+        retry_count: 3,
+        timeout_ms: 5000,
+      };
 
       const { data, error } = await this.supabase
         .from('webhooks')
-        .insert({
-          user_id: userId,
-          name,
-          url,
-          events,
-          secret,
-          is_active: true,
-          headers,
-          retry_count: 3,
-          timeout_ms: 5000,
-        })
+        .insert(insertData)
         .select()
         .single();
 
@@ -99,23 +146,11 @@ export class WebhookManager {
 
       return {
         success: true,
-        webhook: {
-          id: data.id,
-          user_id: data.user_id,
-          name: data.name,
-          url: data.url,
-          events: data.events,
-          secret: data.secret,
-          is_active: data.is_active,
-          headers: data.headers,
-          retry_count: data.retry_count,
-          timeout_ms: data.timeout_ms,
-          created_at: data.created_at,
-          updated_at: data.updated_at,
-        },
+        webhook: rowToWebhook(data),
       };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -137,7 +172,7 @@ export class WebhookManager {
   async updateWebhook(
     webhookId: string,
     userId: string,
-    updates: Partial<Pick<Webhook, 'name' | 'url' | 'events' | 'headers' | 'is_active'>>
+    updates: WebhooksUpdate
   ): Promise<{ success: boolean; error?: string }> {
     try {
       const { error } = await this.supabase
@@ -151,8 +186,9 @@ export class WebhookManager {
       }
 
       return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      return { success: false, error: message };
     }
   }
 
@@ -183,20 +219,7 @@ export class WebhookManager {
       return [];
     }
 
-    return data.map((row: any) => ({
-      id: row.id,
-      user_id: row.user_id,
-      name: row.name,
-      url: row.url,
-      events: row.events,
-      secret: row.secret,
-      is_active: row.is_active,
-      headers: row.headers,
-      retry_count: row.retry_count,
-      timeout_ms: row.timeout_ms,
-      created_at: row.created_at,
-      updated_at: row.updated_at,
-    }));
+    return data.map(rowToWebhook);
   }
 
   /**
@@ -204,9 +227,8 @@ export class WebhookManager {
    */
   async triggerWebhook(
     eventType: WebhookEvent,
-    payload: Record<string, any>
+    payload: Record<string, unknown>
   ): Promise<void> {
-    // Get all active webhooks subscribed to this event
     const { data: webhooks, error } = await this.supabase
       .from('webhooks')
       .select('*')
@@ -217,7 +239,6 @@ export class WebhookManager {
       return;
     }
 
-    // Create delivery records for each webhook
     for (const webhook of webhooks) {
       await this.createDelivery(webhook.id, eventType, payload);
     }
@@ -229,22 +250,23 @@ export class WebhookManager {
   private async createDelivery(
     webhookId: string,
     eventType: WebhookEvent,
-    payload: Record<string, any>
+    payload: Record<string, unknown>
   ): Promise<void> {
+    const insertData: WebhookDeliveriesInsert = {
+      webhook_id: webhookId,
+      event_type: eventType,
+      payload: payload as Json,
+      status: 'pending',
+      attempt_count: 0,
+    };
+
     const { data, error } = await this.supabase
       .from('webhook_deliveries')
-      .insert({
-        webhook_id: webhookId,
-        event_type: eventType,
-        payload,
-        status: 'pending',
-        attempt_count: 0,
-      })
+      .insert(insertData)
       .select()
       .single();
 
     if (!error && data) {
-      // Attempt delivery asynchronously
       this.attemptDelivery(data.id);
     }
   }
@@ -254,7 +276,6 @@ export class WebhookManager {
    */
   private async attemptDelivery(deliveryId: string): Promise<void> {
     try {
-      // Get delivery and webhook details
       const { data: delivery, error: deliveryError } = await this.supabase
         .from('webhook_deliveries')
         .select('*, webhooks(*)')
@@ -265,24 +286,34 @@ export class WebhookManager {
         return;
       }
 
-      const webhook = delivery.webhooks;
+      const webhook = delivery.webhooks as WebhooksRow | null;
       if (!webhook || !webhook.is_active) {
         return;
       }
 
-      // Prepare request
-      const signature = this.generateSignature(delivery.payload, webhook.secret);
-      const headers = {
+      const attemptCount = delivery.attempt_count ?? 0;
+      const retryCount = webhook.retry_count ?? 3;
+      const timeoutMs = webhook.timeout_ms ?? 5000;
+
+      const payloadObj = (typeof delivery.payload === 'object' && delivery.payload !== null)
+        ? delivery.payload as Record<string, unknown>
+        : {};
+      const signature = this.generateSignature(payloadObj, webhook.secret);
+      
+      const webhookHeaders = (webhook.headers && typeof webhook.headers === 'object' && !Array.isArray(webhook.headers))
+        ? webhook.headers as Record<string, string>
+        : {};
+
+      const headers: Record<string, string> = {
         'Content-Type': 'application/json',
         'X-Webhook-Signature': signature,
         'X-Webhook-Event': delivery.event_type,
         'User-Agent': 'GHXSTSHIP-Webhooks/1.0',
-        ...webhook.headers,
+        ...webhookHeaders,
       };
 
-      // Send webhook
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), webhook.timeout_ms);
+      const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
       try {
         const response = await fetch(webhook.url, {
@@ -302,39 +333,36 @@ export class WebhookManager {
 
         const responseBody = await response.text().catch(() => '');
 
-        // Update delivery status
         await this.supabase
           .from('webhook_deliveries')
           .update({
             status: response.ok ? 'delivered' : 'failed',
             response_status: response.status,
-            response_body: responseBody.slice(0, 1000), // Limit size
-            attempt_count: delivery.attempt_count + 1,
-            delivered_at: response.ok ? new Date().toISOString() : undefined,
-            error_message: response.ok ? undefined : `HTTP ${response.status}`,
+            response_body: responseBody.slice(0, 1000),
+            attempt_count: attemptCount + 1,
+            delivered_at: response.ok ? new Date().toISOString() : null,
+            error_message: response.ok ? null : `HTTP ${response.status}`,
           })
           .eq('id', deliveryId);
 
-        // Retry if failed and attempts remaining
-        if (!response.ok && delivery.attempt_count < webhook.retry_count) {
-          setTimeout(() => this.attemptDelivery(deliveryId), 5000 * (delivery.attempt_count + 1));
+        if (!response.ok && attemptCount < retryCount) {
+          setTimeout(() => this.attemptDelivery(deliveryId), 5000 * (attemptCount + 1));
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         clearTimeout(timeout);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
-        // Update delivery with error
         await this.supabase
           .from('webhook_deliveries')
           .update({
-            status: delivery.attempt_count < webhook.retry_count - 1 ? 'retrying' : 'failed',
-            attempt_count: delivery.attempt_count + 1,
-            error_message: error.message,
+            status: attemptCount < retryCount - 1 ? 'retrying' : 'failed',
+            attempt_count: attemptCount + 1,
+            error_message: errorMessage,
           })
           .eq('id', deliveryId);
 
-        // Retry if attempts remaining
-        if (delivery.attempt_count < webhook.retry_count) {
-          setTimeout(() => this.attemptDelivery(deliveryId), 5000 * (delivery.attempt_count + 1));
+        if (attemptCount < retryCount) {
+          setTimeout(() => this.attemptDelivery(deliveryId), 5000 * (attemptCount + 1));
         }
       }
     } catch (error) {
@@ -345,9 +373,7 @@ export class WebhookManager {
   /**
    * Generate HMAC signature for webhook payload
    */
-  private generateSignature(payload: Record<string, any>, secret: string): string {
-    // In a real implementation, use crypto.createHmac
-    // This is a simplified version
+  private generateSignature(payload: Record<string, unknown>, secret: string): string {
     const content = JSON.stringify(payload);
     return `sha256=${secret.slice(0, 16)}-${content.length}`;
   }
@@ -378,19 +404,7 @@ export class WebhookManager {
       return [];
     }
 
-    return data.map((row: any) => ({
-      id: row.id,
-      webhook_id: row.webhook_id,
-      event_type: row.event_type,
-      payload: row.payload,
-      status: row.status,
-      response_status: row.response_status,
-      response_body: row.response_body,
-      error_message: row.error_message,
-      attempt_count: row.attempt_count,
-      delivered_at: row.delivered_at,
-      created_at: row.created_at,
-    }));
+    return data.map(rowToDelivery);
   }
 
   /**
@@ -430,7 +444,6 @@ export class WebhookManager {
       return { success: false, error: 'Webhook not found' };
     }
 
-    // Send test payload
     const testPayload = {
       test: true,
       message: 'This is a test webhook delivery',
