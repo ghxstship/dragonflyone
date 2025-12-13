@@ -241,6 +241,10 @@ export { CommandPalette } from "./organisms/command-palette.js";
 export type { CommandPaletteProps, CommandItem, CommandCategory } from "./organisms/command-palette.js";
 export { MobileBottomNav } from "./organisms/mobile-bottom-nav.js";
 export type { MobileBottomNavProps, MobileNavItem } from "./organisms/mobile-bottom-nav.js";
+export { OnboardingWizard, WelcomeStep, ProfileStep, PreferencesStep, CompletionStep } from "./organisms/onboarding-wizard.js";
+export type { OnboardingStep, OnboardingStepProps, OnboardingWizardProps } from "./organisms/onboarding-wizard.js";
+export { AppSwitcher, PLATFORM_APPS } from "./components/AppSwitcher.js";
+export type { AppSwitcherProps, AppConfig } from "./components/AppSwitcher.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts

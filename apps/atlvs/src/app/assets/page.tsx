@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Upload, Wrench, Trash2, Download } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
@@ -20,7 +20,10 @@ import {
   type DetailSection,
   } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { useAssets, useDeleteAsset, type Asset as APIAsset } from "../../hooks/useAssets";
+import { DEMO_ASSETS } from '../../lib/demo-data';
 
+// Display type for UI
 interface Asset {
   id: string;
   name: string;
@@ -35,9 +38,22 @@ interface Asset {
   projects: number;
 }
 
-import { DEMO_ASSETS } from '../../lib/demo-data';
-
-const mockAssets = DEMO_ASSETS as Asset[];
+// Normalize API asset to display format
+function normalizeAsset(a: APIAsset): Asset {
+  return {
+    id: a.id,
+    name: a.name,
+    category: a.category,
+    location: a.location || 'Unknown',
+    status: a.status === 'active' ? 'Available' : a.status === 'maintenance' ? 'Maintenance' : a.status,
+    value: a.value,
+    condition: 'Good',
+    lastMaintenance: a.updated_at || '',
+    nextMaintenance: '',
+    utilization: 0.75,
+    projects: 0,
+  };
+}
 
 
 const columns: ListPageColumn<Asset>[] = [
@@ -67,22 +83,20 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetsPage() {
   const router = useRouter();
-  const [assets, setAssets] = useState<Asset[]>(mockAssets);
-  const [loading, setLoading] = useState(false);
+  const { data: apiAssets, isLoading, error, refetch } = useAssets();
+  const deleteMutation = useDeleteAsset();
+  
+  // Use API data if available, fallback to demo data
+  const rawAssets = apiAssets && apiAssets.length > 0 ? apiAssets : DEMO_ASSETS;
+  const assets: Asset[] = Array.isArray(rawAssets) 
+    ? rawAssets.map((a: APIAsset | Asset) => 'purchase_date' in a ? normalizeAsset(a as APIAsset) : a as Asset)
+    : [];
+  
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null);
-
-  const refetch = useCallback(() => {
-    setLoading(true);
-    // Simulate API fetch
-    setTimeout(() => {
-      setAssets(mockAssets);
-      setLoading(false);
-    }, 300);
-  }, []);
 
   const rowActions: ListPageAction<Asset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedAsset(r); setDrawerOpen(true); } },
@@ -98,28 +112,35 @@ export default function AssetsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newAsset: Asset = {
-      id: `AST-${String(assets.length + 1).padStart(3, '0')}`,
-      name: String(data.name || ''),
-      category: String(data.category || 'Audio'),
-      location: String(data.location || ''),
-      status: 'Available',
-      value: Number(data.value) || 0,
-      condition: String(data.condition || 'Good'),
-      lastMaintenance: new Date().toISOString().split('T')[0],
-      nextMaintenance: String(data.nextMaintenance || ''),
-      utilization: 0,
-      projects: 0,
-    };
-    setAssets(prev => [...prev, newAsset]);
-    setCreateModalOpen(false);
+    try {
+      await fetch('/api/assets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: String(data.name || ''),
+          category: String(data.category || 'Audio'),
+          location: String(data.location || ''),
+          status: 'active',
+          value: Number(data.value) || 0,
+          purchase_date: new Date().toISOString(),
+        }),
+      });
+      setCreateModalOpen(false);
+      refetch();
+    } catch (err) {
+      console.error('Failed to create asset:', err);
+    }
   };
 
   const handleDelete = async () => {
     if (assetToDelete) {
-      setAssets(prev => prev.filter(a => a.id !== assetToDelete.id));
-      setDeleteConfirmOpen(false);
-      setAssetToDelete(null);
+      try {
+        await deleteMutation.mutateAsync(assetToDelete.id);
+        setDeleteConfirmOpen(false);
+        setAssetToDelete(null);
+      } catch (err) {
+        console.error('Failed to delete asset:', err);
+      }
     }
   };
 
@@ -132,21 +153,20 @@ export default function AssetsPage() {
     requiredFields: ['name', 'category'],
     onImport: async (records) => {
       for (const record of records) {
-        const newAsset: Asset = {
-          id: `AST-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          name: String(record.name || ''),
-          category: String(record.category || 'Audio'),
-          location: String(record.location || ''),
-          status: 'Available',
-          value: Number(record.value) || 0,
-          condition: String(record.condition || 'Good'),
-          lastMaintenance: new Date().toISOString().split('T')[0],
-          nextMaintenance: '',
-          utilization: 0,
-          projects: 0,
-        };
-        setAssets(prev => [...prev, newAsset]);
+        await fetch('/api/assets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: String(record.name || ''),
+            category: String(record.category || 'Audio'),
+            location: String(record.location || ''),
+            status: 'active',
+            value: Number(record.value) || 0,
+            purchase_date: new Date().toISOString(),
+          }),
+        });
       }
+      refetch();
     },
   });
 
@@ -185,7 +205,8 @@ export default function AssetsPage() {
         data={assets}
         columns={columns}
         rowKey="id"
-        loading={loading}
+        loading={isLoading}
+        error={error}
         onRetry={refetch}
         searchPlaceholder="Search assets..."
         filters={filters}
@@ -207,7 +228,7 @@ export default function AssetsPage() {
           } else if (id === 'maintenance') {
             router.push(`/assets/maintenance/schedule?ids=${ids.join(',')}`);
           } else if (id === 'delete') {
-            setAssets(prev => prev.filter(a => !ids.includes(a.id)));
+            await Promise.all(ids.map(assetId => deleteMutation.mutateAsync(assetId)));
           }
         }}
         onRowClick={(r) => { setSelectedAsset(r); setDrawerOpen(true); }}

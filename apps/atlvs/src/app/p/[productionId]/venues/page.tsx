@@ -1,38 +1,112 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge } from "@ghxstship/ui";
-import { MapPin, Plus, Map, Layers } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, Spinner, EmptyState, RecordFormModal, type FormFieldConfig } from "@ghxstship/ui";
+import { MapPin, Plus, Map, Layers, AlertCircle } from "lucide-react";
+import { useVenues } from "../../../../hooks/useVenues";
+import { useProduction } from "../../../../hooks/useProductions";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
+
+interface Venue {
+  id: string;
+  name: string;
+  type: string;
+  capacity: number;
+  status: string;
+}
+
+const demoVenues: Venue[] = [
+  { id: "1", name: "Main Stage", type: "Stage", capacity: 5000, status: "confirmed" },
+  { id: "2", name: "VIP Lounge", type: "Hospitality", capacity: 200, status: "confirmed" },
+  { id: "3", name: "Backstage Area", type: "Operations", capacity: 100, status: "confirmed" },
+  { id: "4", name: "Vendor Village", type: "Commercial", capacity: 1000, status: "pending" },
+];
+
+const venueFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Venue Name', type: 'text', required: true },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [
+    { value: 'Stage', label: 'Stage' },
+    { value: 'Hospitality', label: 'Hospitality' },
+    { value: 'Operations', label: 'Operations' },
+    { value: 'Commercial', label: 'Commercial' },
+  ]},
+  { name: 'capacity', label: 'Capacity', type: 'number', required: true },
+  { name: 'address', label: 'Address', type: 'text' },
+];
 
 export default function ProductionVenuesPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+  
+  const { data: apiProduction } = useProduction(productionId);
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
-  const venues = [
-    { id: "1", name: "Main Stage", type: "Stage", capacity: 5000, status: "confirmed" },
-    { id: "2", name: "VIP Lounge", type: "Hospitality", capacity: 200, status: "confirmed" },
-    { id: "3", name: "Backstage Area", type: "Operations", capacity: 100, status: "confirmed" },
-    { id: "4", name: "Vendor Village", type: "Commercial", capacity: 1000, status: "pending" },
-  ];
+  const { data: apiVenues, isLoading, error, refetch } = useVenues();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // Use API data if available, otherwise demo data
+  const venues: Venue[] = apiVenues && apiVenues.length > 0 
+    ? apiVenues.map(v => ({
+        id: v.id,
+        name: v.name,
+        type: v.venue_type || 'Stage',
+        capacity: v.capacity || 0,
+        status: v.status || 'pending',
+      }))
+    : demoVenues;
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     confirmed: "success", pending: "warning", cancelled: "error",
   };
 
+  const handleCreateVenue = async (data: Record<string, unknown>) => {
+    try {
+      await fetch('/api/venues', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, production_id: productionId }),
+      });
+      setCreateModalOpen(false);
+      refetch();
+    } catch (err) {
+      console.error('Failed to create venue:', err);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading venues...</Body>
+      </Stack>
+    );
+  }
+
+  if (error && venues.length === 0) {
+    return (
+      <EmptyState
+        icon={<AlertCircle size={48} />}
+        title="Failed to load venues"
+        description={error.message}
+        action={{ label: "Retry", onClick: () => refetch() }}
+      />
+    );
+  }
+
   return (
     <Stack gap={8}>
       <Stack gap={4}>
         <SectionHeader
-          kicker={production?.name || "Production"}
+          kicker={productionName}
           title="Venues"
           description="Manage locations, zones, and venue maps"
           colorScheme="on-dark"
         />
         <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm">
+          <Button variant="solid" size="sm" onClick={() => setCreateModalOpen(true)}>
             <Plus size={16} className="mr-2" />
             Add Venue
           </Button>
@@ -69,6 +143,16 @@ export default function ProductionVenuesPage() {
           </Card>
         ))}
       </Grid>
+
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Add Venue"
+        fields={venueFields}
+        onSubmit={handleCreateVenue}
+        size="md"
+      />
     </Stack>
   );
 }

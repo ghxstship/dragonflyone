@@ -53,6 +53,7 @@ export default function CompliancePage() {
     summary,
     complianceRate,
     isLoading: loading,
+    error,
     createItem,
     deleteItem,
     generateReport,
@@ -148,6 +149,7 @@ export default function CompliancePage() {
         columns={columns}
         rowKey="id"
         loading={loading}
+        error={error}
         onRetry={refetch}
         searchPlaceholder="Search compliance items..."
         filters={filters}

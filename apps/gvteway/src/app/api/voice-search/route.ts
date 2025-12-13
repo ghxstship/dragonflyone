@@ -12,6 +12,17 @@ function getSupabaseClient() {
 
 
 
+// GET - Return voice search capabilities and status
+export async function GET() {
+  return NextResponse.json({
+    enabled: true,
+    supported_languages: ['en-US', 'en-GB', 'es-ES', 'fr-FR', 'de-DE'],
+    features: ['artist_search', 'venue_search', 'date_search', 'genre_search'],
+    max_audio_duration: 30,
+    supported_formats: ['audio/webm', 'audio/wav', 'audio/mp3'],
+  });
+}
+
 // Voice search capability
 export async function POST(request: NextRequest) {
   try {

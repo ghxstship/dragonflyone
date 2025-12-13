@@ -45,8 +45,9 @@ const filters: ListPageFilter[] = [
 
 export default function CRMPage() {
   const router = useRouter();
-  const { data: contacts, isLoading: contactsLoading, refetch } = useContacts();
+  const { data: contacts, isLoading: contactsLoading, error: contactsError, refetch } = useContacts();
   const { data: deals, isLoading: dealsLoading } = useDeals();
+  const error = contactsError;
   
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -112,6 +113,7 @@ export default function CRMPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
         onRetry={() => refetch?.()}
         searchPlaceholder="Search contacts..."
         filters={filters}

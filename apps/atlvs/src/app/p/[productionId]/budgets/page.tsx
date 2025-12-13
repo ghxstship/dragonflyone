@@ -1,42 +1,124 @@
 "use client";
 
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge, Grid, Box } from "@ghxstship/ui";
-import { DollarSign, Plus, TrendingUp, TrendingDown, PieChart } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge, Grid, Box, Spinner, EmptyState, RecordFormModal, type FormFieldConfig } from "@ghxstship/ui";
+import { DollarSign, Plus, TrendingUp, TrendingDown, PieChart, AlertCircle } from "lucide-react";
+import { useBudgets } from "../../../../hooks/useBudgets";
+import { useProduction } from "../../../../hooks/useProductions";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
+
+interface BudgetCategory {
+  id: string;
+  name: string;
+  budgeted: number;
+  spent: number;
+  status: string;
+}
+
+const demoCategories: BudgetCategory[] = [
+  { id: "1", name: "Talent", budgeted: 80000, spent: 75000, status: "on_track" },
+  { id: "2", name: "Production", budgeted: 60000, spent: 55000, status: "on_track" },
+  { id: "3", name: "Venue", budgeted: 40000, spent: 42000, status: "over_budget" },
+  { id: "4", name: "Marketing", budgeted: 30000, spent: 20000, status: "under_budget" },
+  { id: "5", name: "Catering", budgeted: 25000, spent: 18000, status: "on_track" },
+  { id: "6", name: "Contingency", budgeted: 15000, spent: 5000, status: "under_budget" },
+];
+
+const lineItemFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Line Item Name', type: 'text', required: true },
+  { name: 'category', label: 'Category', type: 'select', required: true, options: [
+    { value: 'talent', label: 'Talent' },
+    { value: 'production', label: 'Production' },
+    { value: 'venue', label: 'Venue' },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'catering', label: 'Catering' },
+    { value: 'contingency', label: 'Contingency' },
+  ]},
+  { name: 'budgeted', label: 'Budgeted Amount', type: 'number', required: true },
+  { name: 'notes', label: 'Notes', type: 'textarea' },
+];
 
 export default function ProductionBudgetsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+  
+  const { data: apiProduction } = useProduction(productionId);
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
-  const budgetStats = { total: 250000, spent: 175000, remaining: 75000, variance: -5000 };
+  const { data: apiBudgets, isLoading, error, refetch } = useBudgets({ project_id: productionId });
+  
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const categories = [
-    { id: "1", name: "Talent", budgeted: 80000, spent: 75000, status: "on_track" },
-    { id: "2", name: "Production", budgeted: 60000, spent: 55000, status: "on_track" },
-    { id: "3", name: "Venue", budgeted: 40000, spent: 42000, status: "over_budget" },
-    { id: "4", name: "Marketing", budgeted: 30000, spent: 20000, status: "under_budget" },
-    { id: "5", name: "Catering", budgeted: 25000, spent: 18000, status: "on_track" },
-    { id: "6", name: "Contingency", budgeted: 15000, spent: 5000, status: "under_budget" },
-  ];
+  // Use API data if available, otherwise demo data
+  const categories: BudgetCategory[] = apiBudgets && apiBudgets.length > 0 
+    ? apiBudgets.map(b => ({
+        id: b.id,
+        name: b.name || b.category || 'Uncategorized',
+        budgeted: b.budgeted || 0,
+        spent: b.actual || 0,
+        status: b.status?.replace('-', '_') || 'on_track',
+      }))
+    : demoCategories;
+
+  const budgetStats = categories.reduce((acc, cat) => ({
+    total: acc.total + cat.budgeted,
+    spent: acc.spent + cat.spent,
+    remaining: acc.remaining + (cat.budgeted - cat.spent),
+    variance: acc.variance + (cat.budgeted - cat.spent),
+  }), { total: 0, spent: 0, remaining: 0, variance: 0 });
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     on_track: "success", over_budget: "error", under_budget: "info",
   };
 
+  const handleCreateLineItem = async (data: Record<string, unknown>) => {
+    try {
+      await fetch('/api/budgets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, production_id: productionId }),
+      });
+      setCreateModalOpen(false);
+      refetch();
+    } catch (err) {
+      console.error('Failed to create line item:', err);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading budget...</Body>
+      </Stack>
+    );
+  }
+
+  if (error && categories.length === 0) {
+    return (
+      <EmptyState
+        icon={<AlertCircle size={48} />}
+        title="Failed to load budget"
+        description={error.message}
+        action={{ label: "Retry", onClick: () => refetch() }}
+      />
+    );
+  }
+
   return (
     <Stack gap={8}>
       <Stack gap={4}>
         <SectionHeader
-          kicker={production?.name || "Production"}
+          kicker={productionName}
           title="Budget"
           description="Financial planning and expense tracking"
           colorScheme="on-dark"
         />
         <Stack direction="horizontal" gap={2}>
-          <Button variant="solid" size="sm">
+          <Button variant="solid" size="sm" onClick={() => setCreateModalOpen(true)}>
             <Plus size={16} className="mr-2" />
             Add Line Item
           </Button>
@@ -76,6 +158,16 @@ export default function ProductionBudgetsPage() {
           </Stack>
         </CardBody>
       </Card>
+
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Add Budget Line Item"
+        fields={lineItemFields}
+        onSubmit={handleCreateLineItem}
+        size="md"
+      />
     </Stack>
   );
 }

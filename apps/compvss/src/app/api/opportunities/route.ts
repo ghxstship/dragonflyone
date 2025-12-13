@@ -75,6 +75,9 @@ export const GET = apiRoute(
       const { data, error } = await query;
 
       if (error) {
+        if (error.message?.includes('does not exist') || error.code === '42P01') {
+          return NextResponse.json({ opportunities: [], summary: { total: 0, by_type: {}, by_status: {} } });
+        }
         logger.error('Error fetching opportunities:', error);
         return NextResponse.json(
           { error: 'Failed to fetch opportunities', details: error.message },

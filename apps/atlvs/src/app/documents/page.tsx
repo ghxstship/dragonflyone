@@ -18,7 +18,8 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler } from '@ghxstship/config';
+import { useDocuments, useDeleteDocument, type Document as APIDocument } from '@/hooks/useDocuments';
 
 interface Document {
   id: string;
@@ -32,9 +33,19 @@ interface Document {
   status: string;
 }
 
-import { DEMO_DOCUMENTS } from '../../lib/demo-data';
-
-const mockDocuments = DEMO_DOCUMENTS as Document[];
+function normalizeDocument(d: APIDocument): Document {
+  return {
+    id: d.id,
+    name: d.name,
+    type: d.type || 'Other',
+    folder: d.folder_id || 'Root',
+    version: '1.0',
+    size: d.size ? `${Math.round(d.size / 1024)} KB` : '0 KB',
+    uploadedBy: d.uploaded_by || 'Unknown',
+    uploadedAt: d.created_at || new Date().toISOString(),
+    status: d.status || 'active',
+  };
+}
 
 
 const columns: ListPageColumn<Document>[] = [
@@ -62,7 +73,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function DocumentsPage() {
   const router = useRouter();
-  const [documents, setDocuments] = useState<Document[]>(mockDocuments);
+  const { data: apiDocuments, isLoading, error, refetch } = useDocuments();
+  const deleteMutation = useDeleteDocument();
+  
+  const documents: Document[] = (apiDocuments || []).map(normalizeDocument);
+  
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -77,26 +92,32 @@ export default function DocumentsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newDoc: Document = {
-      id: String(documents.length + 1),
-      name: String(data.name || ''),
-      type: String(data.type || 'Contract'),
-      folder: String(data.folder || 'Contracts'),
-      version: '1.0',
-      size: '0 KB',
-      uploadedBy: 'Current User',
-      uploadedAt: new Date().toISOString().split('T')[0],
-      status: 'active',
-    };
-    setDocuments(prev => [...prev, newDoc]);
-    setCreateModalOpen(false);
+    try {
+      await fetch('/api/documents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: String(data.name || ''),
+          document_type: String(data.type || 'contract'),
+          folder_path: String(data.folder || 'Contracts'),
+        }),
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create document:', err);
+    }
   };
 
   const handleDelete = async () => {
     if (docToDelete) {
-      setDocuments(prev => prev.filter(d => d.id !== docToDelete.id));
-      setDeleteConfirmOpen(false);
-      setDocToDelete(null);
+      try {
+        await deleteMutation.mutateAsync(docToDelete.id);
+        setDeleteConfirmOpen(false);
+        setDocToDelete(null);
+      } catch (err) {
+        console.error('Failed to delete document:', err);
+      }
     }
   };
 
@@ -122,47 +143,6 @@ export default function DocumentsPage() {
     )},
   ] : [];
 
-  // Import handler for CSV/JSON files
-
-  const handleImport = createImportHandler<Omit<Document, 'id'>>({
-
-    entityType: 'documents',
-
-    requiredFields: ['name', 'type', 'folder'],
-
-    onImport: async (records) => {
-
-      for (const record of records) {
-
-        await fetch('/api/documents', {
-
-          method: 'POST',
-
-          headers: { 'Content-Type': 'application/json' },
-
-          body: JSON.stringify({ organization_id: 'default-org', ...record }),
-
-        });
-
-      }
-
-      // Refresh the documents list after import
-      const response = await fetch('/api/documents');
-      if (response.ok) {
-        const data = await response.json();
-        setDocuments(data);
-      }
-
-    },
-
-  });
-
-
-  // Import templates for field mapping
-
-  const importTemplates = getImportTemplates('documents');
-
-
   return (
     <AtlvsAppLayout>
       <ListPage<Document>
@@ -171,7 +151,9 @@ export default function DocumentsPage() {
         data={documents}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
         searchPlaceholder="Search documents..."
         filters={filters}
         rowActions={rowActions}
@@ -180,11 +162,6 @@ export default function DocumentsPage() {
         onCreate={() => setCreateModalOpen(true)}
         entityType="documents"
 
-        onImport={handleImport}
-
-        importTemplates={importTemplates}
-
-        importSampleFields={['name', 'type', 'folder', 'file', 'documents', 'version', 'size']}
         onExport={createExportHandler({
           filename: "documents",
           getData: () => documents.map(d => ({

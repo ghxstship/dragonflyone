@@ -7,6 +7,7 @@ import {
   ListPage,
   Badge,
   DetailDrawer,
+  RecordFormModal,
   Grid,
   Stack,
   Body,
@@ -14,13 +15,50 @@ import {
   type ListPageFilter,
   type ListPageAction,
   type DetailSection,
+  type FormFieldConfig,
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
+import { Eye, FileText, Download } from "lucide-react";
+import { useRateCards, type RateCard as APIRateCard } from "../../../hooks/useRateCards";
 import {
   DEMO_RATE_CARDS_FULL,
-  type DemoRateCardFull as RateCard,
+  type DemoRateCardFull as DemoRateCard,
 } from '../../../lib/demo-data';
+
+// Unified display type
+interface RateCard {
+  id: string;
+  vendorName: string;
+  category: string;
+  effectiveDate: string;
+  expirationDate: string;
+  status: string;
+  notes?: string;
+  items: { id: string; description: string; dailyRate: number }[];
+}
+
+// Normalize API rate card to display format
+function normalizeRateCard(rc: APIRateCard | DemoRateCard): RateCard {
+  if ('vendor_name' in rc) {
+    // API rate card
+    return {
+      id: rc.id,
+      vendorName: rc.vendor_name || 'Unknown',
+      category: rc.category,
+      effectiveDate: rc.effective_date,
+      expirationDate: rc.expiration_date,
+      status: rc.status.charAt(0).toUpperCase() + rc.status.slice(1),
+      notes: rc.notes,
+      items: rc.items.map(item => ({
+        id: item.id,
+        description: item.description,
+        dailyRate: item.daily_rate,
+      })),
+    };
+  }
+  // Demo rate card
+  return rc as RateCard;
+}
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -54,18 +92,52 @@ const filters: ListPageFilter[] = [
   ]},
 ];
 
+const formFields: FormFieldConfig[] = [
+  { name: 'vendor_id', label: 'Vendor', type: 'text', required: true },
+  { name: 'category', label: 'Category', type: 'select', required: true, options: [
+    { value: 'Audio', label: 'Audio' },
+    { value: 'Lighting', label: 'Lighting' },
+    { value: 'Staging', label: 'Staging' },
+    { value: 'Video', label: 'Video' },
+  ]},
+  { name: 'effective_date', label: 'Effective Date', type: 'date', required: true },
+  { name: 'expiration_date', label: 'Expiration Date', type: 'date', required: true },
+  { name: 'notes', label: 'Notes', type: 'textarea' },
+];
+
 export default function RateCardsPage() {
   const router = useRouter();
-  const [rateCards] = useState<RateCard[]>(DEMO_RATE_CARDS_FULL);
+  const { data: apiRateCards, isLoading, error, refetch } = useRateCards();
+  
+  // Use API data if available, fallback to demo data
+  const rawRateCards = apiRateCards && apiRateCards.length > 0 ? apiRateCards : DEMO_RATE_CARDS_FULL;
+  const rateCards: RateCard[] = rawRateCards.map(normalizeRateCard);
+  
   const [selectedRateCard, setSelectedRateCard] = useState<RateCard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   const activeCards = rateCards.filter(rc => rc.status === "Active").length;
   const totalItems = rateCards.reduce((sum, rc) => sum + rc.items.length, 0);
 
+  const handleCreate = async (data: Record<string, unknown>) => {
+    try {
+      const response = await fetch('/api/vendors/rate-cards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, items: [] }),
+      });
+      if (!response.ok) throw new Error('Failed to create rate card');
+      setCreateModalOpen(false);
+      refetch();
+    } catch (err) {
+      console.error('Failed to create rate card:', err);
+    }
+  };
+
   const rowActions: ListPageAction<RateCard>[] = [
-    { id: "view", label: "View Details", icon: "👁️", onClick: (r) => { setSelectedRateCard(r); setDrawerOpen(true); } },
-    { id: "quote", label: "Create Quote", icon: "📝", onClick: (r) => router.push(`/vendors/rate-cards/${r.id}/quote`) },
+    { id: "view", label: "View Details", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRateCard(r); setDrawerOpen(true); } },
+    { id: "quote", label: "Create Quote", icon: <FileText className="size-4" />, onClick: (r) => router.push(`/vendors/rate-cards/${r.id}/quote`) },
   ];
 
   // Import handler for CSV/JSON files
@@ -125,13 +197,15 @@ export default function RateCardsPage() {
         data={rateCards}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
         searchPlaceholder="Search rate cards..."
         filters={filters}
         rowActions={rowActions}
         onRowClick={(r) => { setSelectedRateCard(r); setDrawerOpen(true); }}
         createLabel="Request New Rate Card"
-        onCreate={() => router.push("/vendors/rate-cards/request")}
+        onCreate={() => setCreateModalOpen(true)}
         entityType="rate-cards"
         onImport={handleImport}
         importTemplates={importTemplates}
@@ -181,10 +255,20 @@ export default function RateCardsPage() {
           title={(r) => r.vendorName}
           subtitle={(r) => `${r.category} • ${r.items.length} items`}
           sections={detailSections}
-          actions={[{ id: "quote", label: "Create Quote", icon: "📝" }, { id: "download", label: "Download PDF", icon: "📄" }]}
+          actions={[{ id: "quote", label: "Create Quote", icon: <FileText className="size-4" /> }, { id: "download", label: "Download PDF", icon: <Download className="size-4" /> }]}
           onAction={(id, r) => { if (id === "quote") router.push(`/vendors/rate-cards/${r.id}/quote`); setDrawerOpen(false); }}
         />
       )}
+
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Create Rate Card"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="md"
+      />
     </AtlvsAppLayout>
   );
 }

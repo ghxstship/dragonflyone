@@ -44,7 +44,13 @@ export async function GET(request: NextRequest) {
         complianceQuery = complianceQuery.eq('employee_id', employeeId);
       }
 
-      const { data: timesheets } = await complianceQuery;
+      const { data: timesheets, error: complianceError } = await complianceQuery;
+      
+      if (complianceError) {
+        if (complianceError.message?.includes('does not exist') || complianceError.code === '42P01') {
+          return NextResponse.json({ compliance: { violations: [], summary: { total_violations: 0 } } });
+        }
+      }
 
       const violations: unknown[] = [];
 

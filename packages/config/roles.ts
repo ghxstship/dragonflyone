@@ -651,24 +651,219 @@ export function getAllInheritedRoles(
   return inherited;
 }
 
+/**
+ * Platform role permissions mapping
+ * Maps platform roles to their allowed permissions
+ */
+export const PLATFORM_ROLE_PERMISSIONS: Record<PlatformRole, Permission[]> = {
+  // Legend roles have all permissions
+  [PlatformRole.LEGEND_SUPER_ADMIN]: Object.values(EVENT_ROLE_PERMISSIONS).flat() as Permission[],
+  [PlatformRole.LEGEND_ADMIN]: Object.values(EVENT_ROLE_PERMISSIONS).flat() as Permission[],
+  [PlatformRole.LEGEND_DEVELOPER]: Object.values(EVENT_ROLE_PERMISSIONS).flat() as Permission[],
+  [PlatformRole.LEGEND_COLLABORATOR]: [
+    'events:view', 'projects:view', 'tasks:view', 'budgets:view',
+  ],
+  [PlatformRole.LEGEND_SUPPORT]: [
+    'events:view', 'orders:view', 'users:manage',
+  ],
+  [PlatformRole.LEGEND_INCOGNITO]: Object.values(EVENT_ROLE_PERMISSIONS).flat() as Permission[],
+
+  // ATLVS roles
+  [PlatformRole.ATLVS_SUPER_ADMIN]: [
+    'events:create', 'events:edit', 'events:delete', 'events:view',
+    'tickets:manage', 'orders:view', 'orders:refund',
+    'projects:create', 'projects:edit', 'projects:view',
+    'tasks:assign', 'tasks:view',
+    'budgets:manage', 'budgets:view',
+    'advancing:submit', 'advancing:approve',
+    'users:manage',
+  ],
+  [PlatformRole.ATLVS_ADMIN]: [
+    'events:create', 'events:edit', 'events:view',
+    'tickets:manage', 'orders:view',
+    'projects:create', 'projects:edit', 'projects:view',
+    'tasks:assign', 'tasks:view',
+    'budgets:manage', 'budgets:view',
+    'advancing:submit', 'advancing:approve',
+  ],
+  [PlatformRole.ATLVS_TEAM_MEMBER]: [
+    'events:view',
+    'projects:view',
+    'tasks:view',
+    'budgets:view',
+    'advancing:submit',
+  ],
+  [PlatformRole.ATLVS_VIEWER]: [
+    'events:view',
+    'projects:view',
+    'tasks:view',
+    'budgets:view',
+  ],
+
+  // COMPVSS roles
+  [PlatformRole.COMPVSS_ADMIN]: [
+    'events:create', 'events:edit', 'events:view',
+    'projects:create', 'projects:edit', 'projects:view',
+    'tasks:assign', 'tasks:view',
+    'advancing:submit', 'advancing:approve',
+    'venue:access:all', 'backstage:access',
+  ],
+  [PlatformRole.COMPVSS_TEAM_MEMBER]: [
+    'events:view',
+    'projects:view',
+    'tasks:view',
+    'advancing:submit',
+    'venue:access:crew', 'backstage:access',
+  ],
+  [PlatformRole.COMPVSS_COLLABORATOR]: [
+    'events:view',
+    'projects:view',
+    'tasks:view',
+    'venue:access:restricted',
+  ],
+  [PlatformRole.COMPVSS_VIEWER]: [
+    'events:view',
+    'projects:view',
+    'tasks:view',
+  ],
+
+  // GVTEWAY roles
+  [PlatformRole.GVTEWAY_ADMIN]: [
+    'events:create', 'events:edit', 'events:delete', 'events:view',
+    'tickets:manage', 'orders:view', 'orders:refund',
+    'users:manage',
+  ],
+  [PlatformRole.GVTEWAY_EXPERIENCE_CREATOR]: [
+    'events:create', 'events:edit', 'events:view',
+    'tickets:manage',
+  ],
+  [PlatformRole.GVTEWAY_VENUE_MANAGER]: [
+    'events:view',
+    'venue:access:all',
+  ],
+  [PlatformRole.GVTEWAY_ARTIST_VERIFIED]: [
+    'events:view',
+    'venue:access:performer', 'backstage:access', 'greenroom:access',
+  ],
+  [PlatformRole.GVTEWAY_ARTIST]: [
+    'events:view',
+    'venue:access:performer',
+  ],
+  [PlatformRole.GVTEWAY_MEMBER_EXTRA]: [
+    'events:view', 'orders:view:own',
+    'vip:lounge:access', 'priority:entry',
+  ],
+  [PlatformRole.GVTEWAY_MEMBER_PLUS]: [
+    'events:view', 'orders:view:own',
+    'priority:entry',
+  ],
+  [PlatformRole.GVTEWAY_MEMBER]: [
+    'events:view', 'orders:view:own',
+  ],
+  [PlatformRole.GVTEWAY_MEMBER_GUEST]: [
+    'events:view',
+  ],
+  [PlatformRole.GVTEWAY_AFFILIATE]: [
+    'events:view', 'orders:view:own',
+    'referral:create', 'commission:view',
+  ],
+  [PlatformRole.GVTEWAY_MODERATOR]: [
+    'events:view',
+  ],
+};
+
+/**
+ * Check if a platform role has a specific permission
+ * Implements full permission inheritance logic
+ */
 export function hasPermission(
   role: PlatformRole,
-  permission: string
+  permission: Permission
 ): boolean {
-  // Permission parameter is used for future granular permission checking
-  void permission;
   // Legend roles have all permissions
   if (isLegendRole(role)) {
+    return true;
+  }
+
+  // Check direct permissions for the role
+  const directPermissions = PLATFORM_ROLE_PERMISSIONS[role] || [];
+  if (directPermissions.includes(permission)) {
     return true;
   }
 
   // Check inherited roles
   const inherited = getAllInheritedRoles(role);
   for (const inheritedRole of inherited) {
+    // Legend roles have all permissions
     if (isLegendRole(inheritedRole)) {
+      return true;
+    }
+    
+    // Check permissions of inherited role
+    const inheritedPermissions = PLATFORM_ROLE_PERMISSIONS[inheritedRole] || [];
+    if (inheritedPermissions.includes(permission)) {
       return true;
     }
   }
 
   return false;
+}
+
+/**
+ * Check if an event role has a specific permission
+ */
+export function hasEventPermission(
+  eventRole: EventRole,
+  permission: Permission
+): boolean {
+  const permissions = EVENT_ROLE_PERMISSIONS[eventRole] || [];
+  return permissions.includes(permission);
+}
+
+/**
+ * Get all permissions for a platform role (including inherited)
+ */
+export function getAllPermissions(role: PlatformRole): Permission[] {
+  const permissions = new Set<Permission>();
+  
+  // Add direct permissions
+  const directPermissions = PLATFORM_ROLE_PERMISSIONS[role] || [];
+  directPermissions.forEach(p => permissions.add(p));
+  
+  // Add inherited permissions
+  const inherited = getAllInheritedRoles(role);
+  for (const inheritedRole of inherited) {
+    const inheritedPermissions = PLATFORM_ROLE_PERMISSIONS[inheritedRole] || [];
+    inheritedPermissions.forEach(p => permissions.add(p));
+  }
+  
+  return Array.from(permissions);
+}
+
+/**
+ * Check if a user with given roles has a permission
+ */
+export function userHasPermission(
+  roles: PlatformRole[],
+  permission: Permission
+): boolean {
+  return roles.some(role => hasPermission(role, permission));
+}
+
+/**
+ * Get the highest role level from a list of roles
+ */
+export function getHighestRoleLevel(roles: PlatformRole[]): RoleLevel {
+  const levelOrder: RoleLevel[] = ['god', 'admin', 'manager', 'member', 'viewer'];
+  
+  for (const level of levelOrder) {
+    for (const role of roles) {
+      const metadata = PLATFORM_ROLE_METADATA[role];
+      if (metadata && metadata.level === level) {
+        return level;
+      }
+    }
+  }
+  
+  return 'viewer';
 }

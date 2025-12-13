@@ -18,7 +18,7 @@ vi.mock('@/data/gvteway', () => ({
     return null;
   }),
   getTicketTypeById: vi.fn((id: string) => {
-    const tickets: Record<string, any> = {
+    const tickets: Record<string, { id: string; eventId: string; name: string; priceCents: number; serviceFeeCents: number; currency: string; tier: string }> = {
       'ticket-ga': {
         id: 'ticket-ga',
         eventId: 'event-123',
@@ -90,7 +90,7 @@ describe('Checkout Session API', () => {
       };
 
       const { stripe } = await import('@/lib/stripe');
-      vi.mocked(stripe.checkout.sessions.create).mockResolvedValue(mockSession as any);
+      vi.mocked(stripe.checkout.sessions.create).mockResolvedValue(mockSession as Awaited<ReturnType<typeof stripe.checkout.sessions.create>>);
 
       const request = new NextRequest('http://localhost:3003/api/checkout/session', {
         method: 'POST',
@@ -194,7 +194,7 @@ describe('Checkout Session API', () => {
       };
 
       const { stripe } = await import('@/lib/stripe');
-      const createSpy = vi.mocked(stripe.checkout.sessions.create).mockResolvedValue(mockSession as any);
+      const createSpy = vi.mocked(stripe.checkout.sessions.create).mockResolvedValue(mockSession as Awaited<ReturnType<typeof stripe.checkout.sessions.create>>);
 
       const request = new NextRequest('http://localhost:3003/api/checkout/session', {
         method: 'POST',

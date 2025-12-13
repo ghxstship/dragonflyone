@@ -66,7 +66,7 @@ const filters: ListPageFilter[] = [
 
 export default function AdvancingPage() {
   const router = useRouter();
-  const { data: requestsData, isLoading, refetch } = useAdvancingRequests({ limit: 100 });
+  const { data: requestsData, isLoading, error, refetch } = useAdvancingRequests({ limit: 100 });
   const requests = (requestsData?.data || []) as ProductionAdvance[];
   
   const [selectedRequest, setSelectedRequest] = useState<ProductionAdvance | null>(null);
@@ -133,6 +133,7 @@ export default function AdvancingPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
         onRetry={() => refetch?.()}
         searchPlaceholder="Search advance requests..."
         filters={filters}

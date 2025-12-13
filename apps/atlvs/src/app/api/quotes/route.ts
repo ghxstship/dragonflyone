@@ -52,43 +52,81 @@ const lineItemSchema = z.object({
 });
 
 // GET /api/quotes - List all quotes
-// Note: quotes table doesn't exist in schema - return empty response for now
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const page = parseInt(searchParams.get('page') || '1', 10);
-  const limit = parseInt(searchParams.get('limit') || '50', 10);
+  const supabase = createAdminClient();
+  try {
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const clientId = searchParams.get('client_id');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const offset = (page - 1) * limit;
 
-  // Return empty response since quotes table doesn't exist in schema
-  const summary = {
-    total: 0,
-    by_status: {
-      draft: 0,
-      sent: 0,
-      viewed: 0,
-      negotiating: 0,
-      accepted: 0,
-      declined: 0,
-      converted: 0,
-    },
-    total_value: 0,
-    accepted_value: 0,
-    conversion_rate: 0,
-    expiring_soon: 0,
-  };
+    let query = supabase
+      .from('quotes')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1);
 
-  const pagination = {
-    page,
-    limit,
-    total: 0,
-    totalPages: 0,
-    hasMore: false,
-  };
+    if (status && status !== 'all') {
+      query = query.eq('status', status);
+    }
+    if (clientId) {
+      query = query.eq('client_id', clientId);
+    }
 
-  return NextResponse.json({
-    quotes: [],
-    summary,
-    pagination,
-  });
+    const { data, error, count } = await query;
+
+    if (error) {
+      logger.error('Error fetching quotes:', error);
+      return NextResponse.json(
+        { error: 'Failed to fetch quotes', details: error.message },
+        { status: 500 }
+      );
+    }
+
+    const quotes = data || [];
+    const now = new Date();
+    const thirtyDaysFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+
+    const summary = {
+      total: count || 0,
+      by_status: {
+        draft: quotes.filter(q => q.status === 'draft').length,
+        sent: quotes.filter(q => q.status === 'sent').length,
+        viewed: quotes.filter(q => q.status === 'viewed').length,
+        negotiating: quotes.filter(q => q.status === 'negotiating').length,
+        accepted: quotes.filter(q => q.status === 'accepted').length,
+        declined: quotes.filter(q => q.status === 'declined').length,
+        converted: quotes.filter(q => q.status === 'converted').length,
+      },
+      total_value: quotes.reduce((sum, q) => sum + (q.total_amount || 0), 0),
+      accepted_value: quotes.filter(q => q.status === 'accepted').reduce((sum, q) => sum + (q.total_amount || 0), 0),
+      conversion_rate: quotes.length > 0 ? (quotes.filter(q => q.status === 'accepted' || q.status === 'converted').length / quotes.length) * 100 : 0,
+      expiring_soon: quotes.filter(q => q.valid_until && new Date(q.valid_until) <= thirtyDaysFromNow && new Date(q.valid_until) > now).length,
+    };
+
+    const totalCount = count || 0;
+    const pagination = {
+      page,
+      limit,
+      total: totalCount,
+      totalPages: Math.ceil(totalCount / limit),
+      hasMore: offset + quotes.length < totalCount,
+    };
+
+    return NextResponse.json({
+      quotes,
+      summary,
+      pagination,
+    });
+  } catch (error) {
+    logger.error('Error in quotes GET:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch quotes' },
+      { status: 500 }
+    );
+  }
 }
 
 // POST /api/quotes - Create new quote with line items

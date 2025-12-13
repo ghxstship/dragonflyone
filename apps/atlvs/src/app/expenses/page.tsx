@@ -185,7 +185,7 @@ export default function ExpensesPage() {
 
   const handleApprove = async () => {
     if (expenseToAction) {
-      await approveMutation.mutateAsync({ id: expenseToAction.id, approverId: user?.id || '' });
+      await approveMutation.mutateAsync({ id: expenseToAction.id });
       setApproveDialogOpen(false);
       setExpenseToAction(null);
       refetch();
@@ -303,12 +303,12 @@ export default function ExpensesPage() {
         onBulkAction={async (action, ids) => {
           if (action === 'approve') {
             for (const id of ids) {
-              await approveExpense.mutateAsync(id);
+              await approveMutation.mutateAsync({ id });
             }
             refetch();
           } else if (action === 'reject') {
             for (const id of ids) {
-              await rejectExpense.mutateAsync(id);
+              await rejectMutation.mutateAsync({ id });
             }
             refetch();
           } else if (action === 'delete') {

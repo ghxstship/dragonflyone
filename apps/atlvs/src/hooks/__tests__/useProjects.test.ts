@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { type ReactNode } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
@@ -5,7 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useProjects, useProject, useCreateProject, useUpdateProject, useDeleteProject } from '../useProjects';
 import { supabase } from '@/lib/supabase';
 
-// Mock Supabase client
+// Mock Supabase client - uses any for test mock flexibility
 vi.mock('@/lib/supabase', () => ({
   supabase: {
     from: vi.fn(() => ({
@@ -36,8 +37,7 @@ vi.mock('@/lib/supabase', () => ({
   },
 }));
 
-// Type assertion needed due to React types version mismatch in monorepo
-const createWrapper = (): (({ children }: { children: ReactNode }) => JSX.Element) => {
+const createWrapper = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -48,6 +48,11 @@ const createWrapper = (): (({ children }: { children: ReactNode }) => JSX.Elemen
   return function TestWrapper({ children }: { children: ReactNode }) {
     return React.createElement(QueryClientProvider, { client: queryClient }, children);
   };
+};
+
+// Helper to create mock return value with proper typing for tests
+const mockSupabaseFrom = (mockValue: Record<string, unknown>) => {
+  vi.mocked(supabase.from).mockReturnValue(mockValue as unknown as ReturnType<typeof supabase.from>);
 };
 
 describe('useProjects', () => {
@@ -61,11 +66,11 @@ describe('useProjects', () => {
       { id: '2', name: 'Project 2', status: 'planning' },
     ];
 
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       select: vi.fn().mockReturnValue({
         order: vi.fn().mockResolvedValue({ data: mockProjects, error: null }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useProjects(), {
       wrapper: createWrapper() as any,
@@ -81,13 +86,13 @@ describe('useProjects', () => {
   it('should filter projects by status', async () => {
     const mockProjects = [{ id: '1', name: 'Project 1', status: 'active' }];
 
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       select: vi.fn().mockReturnValue({
         order: vi.fn().mockReturnValue({
           eq: vi.fn().mockResolvedValue({ data: mockProjects, error: null }),
         }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useProjects({ status: 'active' }), {
       wrapper: createWrapper() as any,
@@ -101,11 +106,11 @@ describe('useProjects', () => {
   });
 
   it('should handle errors gracefully', async () => {
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       select: vi.fn().mockReturnValue({
         order: vi.fn().mockResolvedValue({ data: null, error: new Error('Database error') }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useProjects(), {
       wrapper: createWrapper() as any,
@@ -121,13 +126,13 @@ describe('useProject', () => {
   it('should fetch single project by id', async () => {
     const mockProject = { id: '1', name: 'Project 1', status: 'active' };
 
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           single: vi.fn().mockResolvedValue({ data: mockProject, error: null }),
         }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useProject('1'), {
       wrapper: createWrapper() as any,
@@ -151,16 +156,16 @@ describe('useProject', () => {
 
 describe('useCreateProject', () => {
   it('should create a new project', async () => {
-    const newProject = { name: 'New Project', status: 'planning' as const, start_date: '2024-01-01' };
+    const newProject = { name: 'New Project', code: 'NEW-001', organization_id: 'org-123', status: 'planning' as const, start_date: '2024-01-01' };
     const createdProject = { id: '1', ...newProject };
 
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       insert: vi.fn().mockReturnValue({
         select: vi.fn().mockReturnValue({
           single: vi.fn().mockResolvedValue({ data: createdProject, error: null }),
         }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useCreateProject(), {
       wrapper: createWrapper() as any,
@@ -181,7 +186,7 @@ describe('useUpdateProject', () => {
     const updates = { id: '1', name: 'Updated Project' };
     const updatedProject = { id: '1', name: 'Updated Project', status: 'active' };
 
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       update: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
           select: vi.fn().mockReturnValue({
@@ -189,7 +194,7 @@ describe('useUpdateProject', () => {
           }),
         }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useUpdateProject(), {
       wrapper: createWrapper() as any,
@@ -207,11 +212,11 @@ describe('useUpdateProject', () => {
 
 describe('useDeleteProject', () => {
   it('should delete a project', async () => {
-    vi.mocked(supabase.from).mockReturnValue({
+    mockSupabaseFrom({
       delete: vi.fn().mockReturnValue({
         eq: vi.fn().mockResolvedValue({ error: null }),
       }),
-    } as any);
+    });
 
     const { result } = renderHook(() => useDeleteProject(), {
       wrapper: createWrapper() as any,

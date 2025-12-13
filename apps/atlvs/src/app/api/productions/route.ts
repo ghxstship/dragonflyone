@@ -1,11 +1,41 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { log } from '@ghxstship/config';
+import { z } from 'zod';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+const ProductionSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  tagline: z.string().optional(),
+  description: z.string().optional(),
+  format: z.string().optional(),
+  genre: z.string().optional(),
+  announcementDate: z.string().optional(),
+  onSaleDate: z.string().optional(),
+  previewStart: z.string().optional(),
+  openingDate: z.string().optional(),
+  closingDate: z.string().optional(),
+  loadInStart: z.string().optional(),
+  loadOutEnd: z.string().optional(),
+  venueId: z.string().uuid().optional(),
+  capacityPerShow: z.number().optional(),
+  showsPerDay: z.number().optional(),
+  runtimeMinutes: z.number().optional(),
+  productionBudget: z.number().optional(),
+  operatingBudgetWeekly: z.number().optional(),
+  ticketPriceMin: z.number().optional(),
+  ticketPriceMax: z.number().optional(),
+  projectedGross: z.number().optional(),
+  breakEvenPercentage: z.number().optional(),
+  sponsorshipTarget: z.number().optional(),
+  blueprintId: z.string().uuid().optional(),
+});
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,32 +71,42 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    
+    const validationResult = ProductionSchema.safeParse(body);
+    if (!validationResult.success) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: validationResult.error.issues },
+        { status: 400 }
+      );
+    }
+    
+    const validated = validationResult.data;
 
     const productionData = {
-      title: body.title,
-      tagline: body.tagline,
-      description: body.description,
-      format: body.format,
-      genre: body.genre,
-      announcement_date: body.announcementDate || null,
-      on_sale_date: body.onSaleDate || null,
-      preview_start: body.previewStart || null,
-      opening_date: body.openingDate || null,
-      closing_date: body.closingDate || null,
-      load_in_date: body.loadInStart || null,
-      load_out_date: body.loadOutEnd || null,
-      venue_id: body.venueId || null,
-      capacity_per_show: body.capacityPerShow || 0,
-      shows_per_day: body.showsPerDay || 1,
-      runtime_minutes: body.runtimeMinutes || 90,
-      budget: body.productionBudget || 0,
-      operating_budget_weekly: body.operatingBudgetWeekly || 0,
-      ticket_price_min: body.ticketPriceMin || 0,
-      ticket_price_max: body.ticketPriceMax || 0,
-      projected_gross: body.projectedGross || 0,
-      break_even_percentage: body.breakEvenPercentage || 70,
-      sponsorship_target: body.sponsorshipTarget || 0,
-      blueprint_id: body.blueprintId || null,
+      title: validated.title,
+      tagline: validated.tagline,
+      description: validated.description,
+      format: validated.format,
+      genre: validated.genre,
+      announcement_date: validated.announcementDate || null,
+      on_sale_date: validated.onSaleDate || null,
+      preview_start: validated.previewStart || null,
+      opening_date: validated.openingDate || null,
+      closing_date: validated.closingDate || null,
+      load_in_date: validated.loadInStart || null,
+      load_out_date: validated.loadOutEnd || null,
+      venue_id: validated.venueId || null,
+      capacity_per_show: validated.capacityPerShow || 0,
+      shows_per_day: validated.showsPerDay || 1,
+      runtime_minutes: validated.runtimeMinutes || 90,
+      budget: validated.productionBudget || 0,
+      operating_budget_weekly: validated.operatingBudgetWeekly || 0,
+      ticket_price_min: validated.ticketPriceMin || 0,
+      ticket_price_max: validated.ticketPriceMax || 0,
+      projected_gross: validated.projectedGross || 0,
+      break_even_percentage: validated.breakEvenPercentage || 70,
+      sponsorship_target: validated.sponsorshipTarget || 0,
+      blueprint_id: validated.blueprintId || null,
       status: 'draft',
     };
 

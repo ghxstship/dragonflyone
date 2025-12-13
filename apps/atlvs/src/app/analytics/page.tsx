@@ -19,7 +19,7 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { TrendingUp, TrendingDown, Activity, Target } from 'lucide-react';
-import { useAnalyticsPageData } from '@/hooks/useAnalytics';
+import { useAnalyticsPageData, type KPIDefinition } from '@/hooks/useAnalytics';
 
 export default function AnalyticsPage() {
   const {
@@ -27,6 +27,7 @@ export default function AnalyticsPage() {
     summary,
     isLoading: loading,
     error,
+    refetch,
   } = useAnalyticsPageData();
 
   const formatCurrency = (amount: number) => {
@@ -57,8 +58,8 @@ export default function AnalyticsPage() {
           <Container className="py-16">
             <EmptyState
               title="Error Loading Analytics"
-              description={error}
-              action={{ label: "Retry", onClick: fetchAnalytics }}
+              description={error instanceof Error ? error.message : String(error)}
+              action={{ label: "Retry", onClick: () => refetch() }}
               inverted
             />
           </Container>
@@ -164,7 +165,7 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 <CardBody inverted>
                   <Stack gap={3}>
-                    {kpis.slice(0, 5).map((kpi) => (
+                    {kpis.slice(0, 5).map((kpi: KPIDefinition) => (
                       <Stack key={kpi.code} gap={2} direction="horizontal" className="items-center justify-between pb-3">
                         <Stack gap={1}>
                           <Body className="text-white">{kpi.name}</Body>

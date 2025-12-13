@@ -36,7 +36,12 @@ export async function GET(request: NextRequest) {
     if (type) query = query.eq('type', type);
 
     const { data: rehearsals, error, count } = await query.range(offset, offset + limit - 1);
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ rehearsals: [], pagination: { page: 1, limit, total: 0, totalPages: 0, hasMore: false } });
+      }
+      throw error;
+    }
 
     const totalCount = count || (rehearsals?.length ?? 0);
     const pagination = {

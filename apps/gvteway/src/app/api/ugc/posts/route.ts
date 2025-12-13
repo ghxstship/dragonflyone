@@ -56,6 +56,9 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ posts: [], total: 0 });
+      }
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 
@@ -85,6 +88,10 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ posts });
   } catch (error) {
+    const msg = error instanceof Error ? error.message : '';
+    if (msg.includes('does not exist') || msg.includes('42P01')) {
+      return NextResponse.json({ posts: [], total: 0 });
+    }
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

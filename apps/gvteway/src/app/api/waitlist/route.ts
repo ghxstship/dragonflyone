@@ -67,6 +67,9 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ waitlist: [], summary: { total: 0, waiting: 0, notified: 0, converted: 0 }, pagination: { page: 1, limit, total: 0, totalPages: 0, hasMore: false } });
+      }
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 

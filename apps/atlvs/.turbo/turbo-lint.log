@@ -2,32 +2,4 @@
 > atlvs@0.1.0 lint /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > next lint --max-warnings 9999
 
-
-./src/app/api/enterprise/data-residency/route.ts
-201:17  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
-
-./src/app/settings/appearance/page.tsx
-243:52  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
-
-./src/hooks/__tests__/useAppearance.test.ts
-26:8  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
-226:8  Warning: ⚠️ WARNING: Default border is 1px. For interactive elements (buttons, inputs, cards), use border-2, border-thick, or border-heavy for Bold Pop Art aesthetic.  no-restricted-syntax
-
-./src/hooks/__tests__/useProjects.test.ts
-68:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-71:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-90:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-93:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-108:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-111:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-130:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-133:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-145:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-163:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-166:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-192:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-195:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-214:10  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-217:35  Warning: Unexpected any. Specify a different type.  @typescript-eslint/no-explicit-any
-
-info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+✔ No ESLint warnings or errors

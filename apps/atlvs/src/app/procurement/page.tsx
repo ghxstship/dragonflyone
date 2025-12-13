@@ -20,7 +20,7 @@ import {
   type DetailSection,
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-import { usePurchaseOrders, useCreatePurchaseOrder, useDeletePurchaseOrder } from '@/hooks/useProcurement';
+import { usePurchaseOrders, useCreatePurchaseOrder, useUpdatePurchaseOrder, useDeletePurchaseOrder } from '@/hooks/useProcurement';
 
 interface PurchaseOrder {
   id: string;
@@ -115,6 +115,7 @@ export default function ProcurementPage() {
   const router = useRouter();
   const { data: purchaseOrders, isLoading, error, refetch } = usePurchaseOrders();
   const createPOMutation = useCreatePurchaseOrder();
+  const updatePOMutation = useUpdatePurchaseOrder();
   const deletePOMutation = useDeletePurchaseOrder();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -145,7 +146,7 @@ export default function ProcurementPage() {
       router.push(`/procurement/export?${params.toString()}`);
     } else if (actionId === 'approve') {
       for (const id of selectedIds) {
-        await updatePOMutation.mutateAsync({ id, status: 'approved' });
+        await updatePOMutation.mutateAsync({ id, status: 'completed' });
       }
       refetch();
     }
@@ -240,14 +241,14 @@ export default function ProcurementPage() {
         importSampleFields={['vendor', 'description', 'amount', 'category', 'status']}
         onExport={createExportHandler({
           filename: "purchase-orders",
-          getData: () => (purchaseOrders || []).map(p => ({
+          getData: () => poList.map(p => ({
             id: p.id,
             vendor: p.vendor,
             description: p.description,
             amount: p.amount,
             status: p.status,
-            order_date: p.order_date || '',
-            delivery_date: p.delivery_date || '',
+            due_date: p.dueDate || p.due_date || '',
+            category: p.category || '',
           })),
         })}
         stats={stats}

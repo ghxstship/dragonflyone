@@ -166,8 +166,16 @@ export default function ContractsPage() {
     }
   };
 
-  const handleBulkAction = async (actionId: string, _selectedIds: string[]) => {
-    if (actionId === 'export') handleExportReport();
+  const handleBulkAction = async (actionId: string, selectedIds: string[]) => {
+    if (actionId === 'export') {
+      handleExportReport();
+    } else if (actionId === 'delete') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/contracts/${id}`, { method: 'DELETE' })));
+      refetch();
+    } else if (actionId === 'renew') {
+      await Promise.all(selectedIds.map(id => fetch(`/api/contracts/${id}/renew`, { method: 'POST' })));
+      refetch();
+    }
   };
 
   // Import handler for CSV/JSON files

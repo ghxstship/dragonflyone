@@ -2,6 +2,30 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const originLat = parseFloat(searchParams.get('origin_lat') || '0');
+  const originLng = parseFloat(searchParams.get('origin_lng') || '0');
+  const destLat = parseFloat(searchParams.get('dest_lat') || '0');
+  const destLng = parseFloat(searchParams.get('dest_lng') || '0');
+  const mode = searchParams.get('mode') || 'driving';
+
+  if (!originLat || !originLng || !destLat || !destLng) {
+    return NextResponse.json({
+      supported_modes: ['driving', 'walking', 'transit', 'cycling'],
+      features: ['turn_by_turn', 'traffic_aware', 'alternative_routes'],
+    });
+  }
+
+  const steps = generateMockDirections(
+    { lat: originLat, lng: originLng },
+    { lat: destLat, lng: destLng },
+    mode
+  );
+
+  return NextResponse.json({ steps, mode });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

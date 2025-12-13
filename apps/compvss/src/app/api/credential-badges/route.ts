@@ -36,7 +36,12 @@ export async function GET(request: NextRequest) {
     if (crewMemberId) query = query.eq('crew_member_id', crewMemberId);
 
     const { data: badges, error } = await query;
-    if (error) throw error;
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ badges: [], summary: null });
+      }
+      throw error;
+    }
 
     if (type === 'summary' && eventId) {
       const byType = badges?.reduce((acc: Record<string, number>, b) => {

@@ -1,0 +1,101 @@
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { z } from 'zod';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
+const UpdateTagSchema = z.object({
+  tag_name: z.string().min(1).max(100).optional(),
+  tag_type: z.enum(['general', 'industry', 'compliance', 'feature', 'category', 'priority']).optional(),
+  description: z.string().optional(),
+  color_hex: z.string().regex(/^#[0-9A-Fa-f]{6}$/).optional(),
+});
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const { id } = await params;
+
+    const { data, error } = await supabase
+      .from('catalog_tags')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Tag not found' }, { status: 404 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ tag: data });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch tag' }, { status: 500 });
+  }
+}
+
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const { id } = await params;
+    const body = await request.json();
+    const validatedData = UpdateTagSchema.parse(body);
+
+    const { data, error } = await supabase
+      .from('catalog_tags')
+      .update(validatedData)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        return NextResponse.json({ error: 'Tag not found' }, { status: 404 });
+      }
+      if (error.code === '23505') {
+        return NextResponse.json({ error: 'Tag name already exists' }, { status: 409 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ tag: data });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({ error: error.issues }, { status: 422 });
+    }
+    return NextResponse.json({ error: 'Failed to update tag' }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const { id } = await params;
+
+    const { error } = await supabase
+      .from('catalog_tags')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to delete tag' }, { status: 500 });
+  }
+}

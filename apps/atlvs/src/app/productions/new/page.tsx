@@ -30,6 +30,7 @@ import {
   EnterprisePageHeader,
   MainContent,
   Stepper,
+  useNotifications,
 } from '@ghxstship/ui';
 
 interface ProductionFormData {
@@ -82,6 +83,7 @@ const STEPS = [
 
 export default function NewProductionPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<ProductionFormData>({
@@ -136,13 +138,24 @@ export default function NewProductionPage() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create production');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to create production');
       }
 
       const data = await response.json();
+      addNotification({
+        type: 'success',
+        title: 'Production Created',
+        message: `"${formData.title}" has been created successfully.`,
+      });
       router.push(`/p/${data.id}/overview`);
-    } catch (_error) {
-      // Error handled by UI
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      addNotification({
+        type: 'error',
+        title: 'Failed to Create Production',
+        message: errorMessage,
+      });
     } finally {
       setIsSubmitting(false);
     }

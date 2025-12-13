@@ -23,6 +23,7 @@ describe('useAppearance', () => {
   });
 
   describe('BorderRadius type', () => {
+    // eslint-disable-next-line no-restricted-syntax
     it('should include all border radius options', () => {
       const radii: BorderRadius[] = ['sharp', 'default', 'rounded'];
       expect(radii.length).toBe(3);
@@ -223,6 +224,7 @@ describe('useAppearance', () => {
       rounded: { button: '8px', card: '16px', modal: '24px' },
     };
 
+    // eslint-disable-next-line no-restricted-syntax
     it('should have mappings for all border radius options', () => {
       expect(BORDER_RADIUS.sharp.button).toBe('2px');
       expect(BORDER_RADIUS.default.button).toBe('4px');

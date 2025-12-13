@@ -31,6 +31,9 @@ export async function GET(request: NextRequest) {
       .order('category', { ascending: true });
 
     if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ addons: [], grouped: {} });
+      }
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 

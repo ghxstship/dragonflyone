@@ -236,10 +236,12 @@ export default function AppearanceSettingsPage() {
                     ))}
                   </Select>
                 </Stack>
+                {/* eslint-disable-next-line no-restricted-syntax -- borderRadius is a settings property */}
                 <Stack gap={2}>
                   <Label>Border Radius</Label>
                   <Select
                     value={settings.borderRadius}
+                    // eslint-disable-next-line no-restricted-syntax -- borderRadius is a settings property name
                     onChange={(e) => updateSetting('borderRadius', e.target.value as BorderRadius)}
                     inverted
                     fullWidth

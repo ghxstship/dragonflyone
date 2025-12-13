@@ -116,7 +116,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function VendorsPage() {
   const router = useRouter();
-  const { data: vendors, isLoading, refetch } = useVendors({});
+  const { data: vendors, isLoading, error, refetch } = useVendors({});
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
@@ -249,6 +249,7 @@ export default function VendorsPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
         onRetry={refetch}
         searchPlaceholder="Search vendors..."
         filters={filters}

@@ -10,7 +10,71 @@ function getSupabaseClient() {
   );
 }
 
+export async function GET() {
+  const questions = [
+    {
+      id: 'event_type',
+      question: 'What type of events are you interested in?',
+      type: 'multiple',
+      options: [
+        { value: 'concert', label: 'Concerts' },
+        { value: 'festival', label: 'Festivals' },
+        { value: 'sports', label: 'Sports' },
+        { value: 'theater', label: 'Theater' },
+        { value: 'comedy', label: 'Comedy' },
+        { value: 'family', label: 'Family Events' },
+      ],
+    },
+    {
+      id: 'music_genre',
+      question: 'What music genres do you enjoy?',
+      type: 'multiple',
+      options: [
+        { value: 'rock', label: 'Rock' },
+        { value: 'pop', label: 'Pop' },
+        { value: 'hip-hop', label: 'Hip-Hop' },
+        { value: 'electronic', label: 'Electronic' },
+        { value: 'country', label: 'Country' },
+        { value: 'jazz', label: 'Jazz' },
+        { value: 'classical', label: 'Classical' },
+      ],
+    },
+    {
+      id: 'crowd_size',
+      question: 'What crowd size do you prefer?',
+      type: 'single',
+      options: [
+        { value: 'intimate', label: 'Intimate (under 500)' },
+        { value: 'medium', label: 'Medium (500-5000)' },
+        { value: 'large', label: 'Large (5000+)' },
+      ],
+    },
+    {
+      id: 'budget',
+      question: 'What is your typical budget per event?',
+      type: 'single',
+      options: [
+        { value: 'budget', label: 'Under $50' },
+        { value: 'moderate', label: '$50 - $150' },
+        { value: 'premium', label: '$150 - $300' },
+        { value: 'vip', label: '$300+' },
+      ],
+    },
+    {
+      id: 'vibe',
+      question: 'What vibe are you looking for?',
+      type: 'single',
+      options: [
+        { value: 'energetic', label: 'High Energy' },
+        { value: 'chill', label: 'Relaxed' },
+        { value: 'social', label: 'Social' },
+        { value: 'immersive', label: 'Immersive' },
+      ],
+    },
+  ];
 
+  return NextResponse.json({ questions });
+}
 
 export async function POST(request: NextRequest) {
   try {

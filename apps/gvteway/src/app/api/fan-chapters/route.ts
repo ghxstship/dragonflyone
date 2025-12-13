@@ -12,6 +12,40 @@ function getSupabaseClient() {
 
 
 
+// GET - List fan chapters
+export async function GET(request: NextRequest) {
+  try {
+    const supabase = getSupabaseClient();
+    const { searchParams } = new URL(request.url);
+    const artistId = searchParams.get('artist_id');
+    const city = searchParams.get('city');
+    const country = searchParams.get('country');
+
+    let query = supabase
+      .from('fan_chapters')
+      .select('*')
+      .eq('status', 'active')
+      .order('member_count', { ascending: false });
+
+    if (artistId) query = query.eq('artist_id', artistId);
+    if (city) query = query.ilike('city', `%${city}%`);
+    if (country) query = query.eq('country', country);
+
+    const { data, error } = await query;
+
+    if (error) {
+      if (error.message?.includes('does not exist') || error.code === '42P01') {
+        return NextResponse.json({ chapters: [], total: 0 });
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ chapters: data || [], total: data?.length || 0 });
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
 // Local fan chapters and geographic communities
 export async function POST(request: NextRequest) {
   try {

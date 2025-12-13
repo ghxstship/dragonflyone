@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface BenefitPlan {
   id: string;
@@ -201,4 +202,69 @@ export function useBenefits(employeeId?: string) {
       fetchEnrollments();
     }
   };
+}
+
+// React Query-based hooks for ListPage pattern
+export function useBenefitPlans() {
+  return useQuery({
+    queryKey: ['benefit-plans'],
+    queryFn: async () => {
+      const response = await fetch('/api/benefits?type=plans');
+      if (!response.ok) throw new Error('Failed to fetch benefit plans');
+      return response.json();
+    },
+  });
+}
+
+export function useBenefitEnrollments(employeeId?: string) {
+  return useQuery({
+    queryKey: ['benefit-enrollments', employeeId],
+    queryFn: async () => {
+      const params = new URLSearchParams({ type: 'enrollments' });
+      if (employeeId) params.append('employee_id', employeeId);
+      const response = await fetch(`/api/benefits?${params.toString()}`);
+      if (!response.ok) throw new Error('Failed to fetch enrollments');
+      return response.json();
+    },
+  });
+}
+
+export function useCreateBenefitPlan() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Partial<BenefitPlan>) => {
+      const response = await fetch('/api/benefits', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create plan');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['benefit-plans'] });
+    },
+  });
+}
+
+export function useDeleteBenefitPlan() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/benefits?id=${id}&type=plan`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete plan');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['benefit-plans'] });
+    },
+  });
 }

@@ -46,7 +46,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BudgetsPage() {
   const router = useRouter();
-  const { data: budgetsData, isLoading } = useBudgets({ period: '2024-q4' });
+  const { data: budgetsData, isLoading, error, refetch } = useBudgets({ period: '2024-q4' });
   const budgets = (budgetsData || DEMO_BUDGETS) as Budget[];
   
   const [selected, setSelected] = useState<Budget | null>(null);
@@ -71,12 +71,20 @@ export default function BudgetsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    await fetch('/api/budgets', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    setCreateModalOpen(false);
+    try {
+      const response = await fetch('/api/budgets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to create budget');
+      }
+      setCreateModalOpen(false);
+      refetch();
+    } catch (err) {
+      console.error('Failed to create budget:', err);
+    }
   };
 
   const detailSections: DetailSection[] = selected ? [
@@ -138,6 +146,8 @@ export default function BudgetsPage() {
         columns={columns}
         rowKey="id"
         loading={isLoading}
+        error={error}
+        onRetry={refetch}
         searchPlaceholder="Search budgets..."
         filters={filters}
         rowActions={rowActions}

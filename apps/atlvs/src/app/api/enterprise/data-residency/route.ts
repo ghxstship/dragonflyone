@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ config: config || null });
     }
 
-    if (action === 'data_locations') {
+    if (action === 'data_locations' && organizationId) {
       // Get where organization's data is stored
       const { data: locations } = await supabase
         .from('data_location_registry')
@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ locations: locations || [] });
     }
 
-    if (action === 'compliance_status') {
+    if (action === 'compliance_status' && organizationId) {
       // Check compliance with data residency requirements
       const { data: config } = await supabase
         .from('data_residency_configs')
@@ -111,7 +111,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    if (action === 'transfer_requests') {
+    if (action === 'transfer_requests' && organizationId) {
       // Get pending data transfer requests
       const { data: requests } = await supabase
         .from('data_transfer_requests')
@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ requests: requests || [] });
     }
 
-    if (action === 'audit_trail') {
+    if (action === 'audit_trail' && organizationId) {
       // Get data residency audit trail
       const { data: audit } = await supabase
         .from('data_residency_audit')
@@ -198,6 +198,7 @@ export async function POST(request: NextRequest) {
       // Validate transfer is allowed
       const { data: config } = await supabase
         .from('data_residency_configs')
+        // eslint-disable-next-line no-restricted-syntax -- cross_border is a database column name
         .select('cross_border_allowed, allowed_regions')
         .eq('organization_id', organization_id)
         .single();
@@ -332,11 +333,19 @@ export async function POST(request: NextRequest) {
         },
       };
 
-      // Store report
+      // Store report with required fields per compliance_reports schema
+      const now = new Date().toISOString();
+      const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString();
       await supabase.from('compliance_reports').insert({
+        organization_id,
         report_type: report_type || 'data_residency',
-        data: report,
+        report_name: `Data Residency Report - ${new Date().toLocaleDateString()}`,
+        period_start: oneYearAgo,
+        period_end: now,
+        generated_at: now,
         generated_by: user.id,
+        findings: JSON.parse(JSON.stringify(report)),
+        status: 'completed',
       });
 
       return NextResponse.json({ report });

@@ -156,10 +156,9 @@ export default function AssetMaintenancePage() {
 
       }
 
-      refetch();
-
+      // Refresh data after import
+      window.location.reload();
     },
-
   });
 
 

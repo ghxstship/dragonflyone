@@ -12,13 +12,13 @@ const supabase = createClient<Database>(
 
 const BudgetSchema = z.object({
   name: z.string().min(1),
-  category: z.string(),
-  budgeted_amount: z.number().positive(),
-  period: z.string(),
-  fiscal_year: z.number(),
+  category: z.string().optional(),
+  planned_amount: z.number().positive(),
+  period_start: z.string(),
+  period_end: z.string(),
   organization_id: z.string().uuid(),
   project_id: z.string().uuid().optional(),
-  event_id: z.string().uuid().optional(),
+  notes: z.string().optional(),
 });
 
 export async function GET(request: NextRequest) {
@@ -62,8 +62,8 @@ export async function GET(request: NextRequest) {
     // Calculate variance for each budget
     const budgetsWithVariance = budgets?.map(b => ({
       ...b,
-      variance: (b.budgeted_amount || 0) - (b.actual_amount || 0),
-      status: (b.actual_amount || 0) <= (b.budgeted_amount || 0) ? 'on-track' : 'over',
+      variance: (b.planned_amount || 0) - (b.actual_amount || 0),
+      computed_status: (b.actual_amount || 0) <= (b.planned_amount || 0) ? 'on-track' : 'over',
     })) || [];
 
     return NextResponse.json({
@@ -87,13 +87,13 @@ export async function POST(request: NextRequest) {
       .insert({
         name: validatedData.name,
         category: validatedData.category,
-        budgeted_amount: validatedData.budgeted_amount,
+        planned_amount: validatedData.planned_amount,
         actual_amount: 0,
-        period: validatedData.period,
-        fiscal_year: validatedData.fiscal_year,
+        period_start: validatedData.period_start,
+        period_end: validatedData.period_end,
         organization_id: validatedData.organization_id,
         project_id: validatedData.project_id,
-        event_id: validatedData.event_id,
+        notes: validatedData.notes,
         status: 'active',
       })
       .select()
