@@ -52,12 +52,17 @@ export async function GET(request: NextRequest) {
     const receipt = {
       receipt_number: `RCP-${Date.now().toString(36).toUpperCase()}`,
       date: transaction.created_at,
-      items: transaction.items?.map((item: Record<string, unknown>) => ({
-        name: item.product_name || item.product?.name,
-        quantity: item.quantity,
-        unit_price: item.unit_price,
-        total: item.total_price || item.unit_price * item.quantity,
-      })),
+      items: transaction.items?.map((item: Record<string, unknown>) => {
+        const unitPrice = Number(item.unit_price) || 0;
+        const quantity = Number(item.quantity) || 1;
+        const product = item.product as Record<string, unknown> | null;
+        return {
+          name: String(item.product_name || product?.name || 'Item'),
+          quantity,
+          unit_price: unitPrice,
+          total: Number(item.total_price) || unitPrice * quantity,
+        };
+      }),
       subtotal: transaction.subtotal,
       tax: transaction.tax,
       tip: transaction.tip || 0,
