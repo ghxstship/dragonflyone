@@ -42,7 +42,7 @@ interface CrewMember {
   full_name?: string;
   first_name?: string;
   last_name?: string;
-  status: string;
+  status?: string;
 }
 
 interface CrewWithSkills extends CrewMember {
@@ -51,27 +51,13 @@ interface CrewWithSkills extends CrewMember {
   level: string;
 }
 
-// Demo data for unauthenticated users
-const DEMO_SKILLS: CrewSkill[] = [
-  { id: "demo-1", crew_id: "crew-1", skill_name: "Rigging", proficiency_level: "expert", years_experience: 8 },
-  { id: "demo-2", crew_id: "crew-1", skill_name: "Safety", proficiency_level: "advanced", years_experience: 5 },
-  { id: "demo-3", crew_id: "crew-2", skill_name: "Audio", proficiency_level: "expert", years_experience: 10 },
-  { id: "demo-4", crew_id: "crew-2", skill_name: "Video", proficiency_level: "intermediate", years_experience: 3 },
-  { id: "demo-5", crew_id: "crew-3", skill_name: "Lighting", proficiency_level: "advanced", years_experience: 6 },
-];
-
-const DEMO_CREW: CrewMember[] = [
-  { id: "crew-1", full_name: "John Smith", status: "Active" },
-  { id: "crew-2", full_name: "Sarah Johnson", status: "Active" },
-  { id: "crew-3", full_name: "Mike Williams", status: "Active" },
-];
 
 export default function SkillsPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSkill, setFilterSkill] = useState("all");
   
-  const { data: skills, isLoading: skillsLoading, error: skillsError, refetch } = useCrewSkills();
+  const { data: skills, isLoading: skillsLoading, refetch } = useCrewSkills();
   const { data: crew, isLoading: crewLoading } = useCrew();
 
   const isLoading = skillsLoading || crewLoading;
@@ -96,9 +82,9 @@ export default function SkillsPage() {
     );
   }
 
-  // Use demo data when there's an error (e.g., unauthenticated)
-  const effectiveSkills = skillsError ? DEMO_SKILLS : (skills || []);
-  const effectiveCrew = skillsError ? DEMO_CREW : (crew || []);
+  // Use API data (empty arrays if error)
+  const effectiveSkills = skills || [];
+  const effectiveCrew = crew || [];
 
   // Group skills by crew member
   const crewWithSkills: CrewWithSkills[] = effectiveCrew.map((member: CrewMember) => {
@@ -236,7 +222,7 @@ export default function SkillsPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Body size="sm" className="">{member.status || member.availability || 'Active'}</Body>
+                        <Body size="sm" className="">{member.status || 'Active'}</Body>
                       </TableCell>
                       <TableCell>
                         <Stack gap={2} direction="horizontal">

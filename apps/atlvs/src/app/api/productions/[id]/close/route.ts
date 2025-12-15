@@ -4,21 +4,21 @@ import { log } from '@ghxstship/config';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { productionId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = await createClient();
-    const { productionId } = params;
+    const { id } = params;
 
     // Get production close status
     const { data: production, error } = await supabase
       .from('productions')
       .select('id, name, status, close_checklist')
-      .eq('id', productionId)
+      .eq('id', id)
       .single();
 
     if (error) {
-      log.error('Failed to fetch production close status', { error, productionId });
+      log.error('Failed to fetch production close status', { error, id });
       return NextResponse.json({ error: 'Failed to fetch production' }, { status: 500 });
     }
 
@@ -31,11 +31,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { productionId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = await createClient();
-    const { productionId } = params;
+    const { id } = params;
     const body = await request.json();
     const { checklist } = body;
 
@@ -46,16 +46,16 @@ export async function POST(
         close_checklist: checklist,
         updated_at: new Date().toISOString(),
       })
-      .eq('id', productionId)
+      .eq('id', id)
       .select()
       .single();
 
     if (error) {
-      log.error('Failed to update production close checklist', { error, productionId });
+      log.error('Failed to update production close checklist', { error, id });
       return NextResponse.json({ error: 'Failed to update checklist' }, { status: 500 });
     }
 
-    log.info('Production close checklist updated', { productionId });
+    log.info('Production close checklist updated', { id });
     return NextResponse.json({ production: data });
   } catch (error) {
     log.error('Error in production close POST', { error });
@@ -65,11 +65,11 @@ export async function POST(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { productionId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = await createClient();
-    const { productionId } = params;
+    const { id } = params;
 
     // Archive the production
     const { data, error } = await supabase
@@ -79,16 +79,16 @@ export async function PUT(
         archived_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })
-      .eq('id', productionId)
+      .eq('id', id)
       .select()
       .single();
 
     if (error) {
-      log.error('Failed to archive production', { error, productionId });
+      log.error('Failed to archive production', { error, id });
       return NextResponse.json({ error: 'Failed to archive production' }, { status: 500 });
     }
 
-    log.info('Production archived', { productionId });
+    log.info('Production archived', { id });
     return NextResponse.json({ production: data, message: 'Production archived successfully' });
   } catch (error) {
     log.error('Error in production close PUT', { error });

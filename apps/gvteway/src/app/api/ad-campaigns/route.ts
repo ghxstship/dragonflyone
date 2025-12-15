@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 
@@ -10,6 +11,11 @@ function getSupabaseClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
+
+const GVTEWAY_ADMIN_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN, PlatformRole.GVTEWAY_EXPERIENCE_CREATOR,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 
 
@@ -33,6 +39,13 @@ const campaignSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
@@ -134,6 +147,13 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const supabase = getSupabaseClient();
     const body = await request.json();
     const action = body.action;
@@ -202,6 +222,13 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const supabase = getSupabaseClient();
     const body = await request.json();
     const { id, action, ...updates } = body;

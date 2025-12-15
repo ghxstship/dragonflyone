@@ -26,14 +26,12 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_MY_DELIVERIES,
-  type DemoMyDelivery as Delivery,
-} from '../../lib/demo-data';
-
-const mockDeliveries = DEMO_MY_DELIVERIES;
+  useMyDeliveries,
+  type Delivery,
+} from '../../hooks/useMyDeliveries';
 
 export default function MyDeliveriesPage() {
-  const [deliveries] = useState(mockDeliveries);
+  const { data: deliveries = [] } = useMyDeliveries();
   const [searchQuery, setSearchQuery] = useState('');
 
   const scheduledCount = deliveries.filter(d => d.status === 'scheduled').length;

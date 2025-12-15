@@ -22,31 +22,22 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_TROUBLESHOOTING_GUIDES } from '../../lib/demo-data';
-
-interface TroubleshootingGuide {
-  id: string;
-  title: string;
-  category: string;
-  symptom: string;
-  steps: string[];
-  resolution: string;
-  views: number;
-  helpful: number;
-}
-
-const mockGuides = DEMO_TROUBLESHOOTING_GUIDES as unknown as TroubleshootingGuide[];
+import {
+  useTroubleshootingGuides,
+  type TroubleshootingGuide,
+} from '../../hooks/useTroubleshooting';
 
 
 const categories = ["All", "Audio", "Video", "Lighting", "Communications", "Power", "Rigging"];
 
 export default function TroubleshootingPage() {
   const router = useRouter();
+  const { data: guides = [] } = useTroubleshootingGuides();
   const [selectedGuide, setSelectedGuide] = useState<TroubleshootingGuide | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredGuides = mockGuides.filter(g => {
+  const filteredGuides = guides.filter(g => {
     const matchesCategory = categoryFilter === "All" || g.category === categoryFilter;
     const matchesSearch = g.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           g.symptom.toLowerCase().includes(searchQuery.toLowerCase());
@@ -68,9 +59,9 @@ export default function TroubleshootingPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Total Guides" value={mockGuides.length.toString()} />
+              <StatCard label="Total Guides" value={guides.length.toString()} />
               <StatCard label="Categories" value={(categories.length - 1).toString()} />
-              <StatCard label="Total Views" value={mockGuides.reduce((s, g) => s + g.views, 0).toString()} />
+              <StatCard label="Total Views" value={guides.reduce((s, g) => s + g.views, 0).toString()} />
               <StatCard label="Helpful Rate" value="81%" />
             </Grid>
 

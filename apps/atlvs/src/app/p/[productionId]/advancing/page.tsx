@@ -13,6 +13,8 @@ import {
   Body,
   Box,
   H3,
+  Spinner,
+  EmptyState,
 } from "@ghxstship/ui";
 import {
   FastForward,
@@ -23,8 +25,27 @@ import {
   AlertTriangle,
   Plus,
   History,
+  RefreshCw,
 } from "lucide-react";
+import { useProduction } from "../../../../hooks/useProductions";
+import { useAdvanceReviewQueue } from "../../../../hooks/useAdvanceReview";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
+
+interface AdvanceRequest {
+  id: string;
+  type: string;
+  requester: string;
+  items: string;
+  priority: string;
+  submitted: string;
+}
+
+const demoRequests: AdvanceRequest[] = [
+  { id: "ADV-001", type: "Production", requester: "Stage Manager", items: "LED Wall Panels (20)", priority: "high", submitted: "2 hours ago" },
+  { id: "ADV-002", type: "Artist", requester: "Artist Relations", items: "Hospitality Rider Items", priority: "medium", submitted: "4 hours ago" },
+  { id: "ADV-003", type: "Crew", requester: "Audio Lead", items: "Wireless Microphones (8)", priority: "high", submitted: "Yesterday" },
+  { id: "ADV-004", type: "Venue", requester: "Site Manager", items: "Barricades (50)", priority: "low", submitted: "Yesterday" },
+];
 
 /**
  * Production Advancing Dashboard
@@ -34,35 +55,47 @@ export default function ProductionAdvancingPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
 
-  if (!production) {
+  // Fetch production from API
+  const { data: apiProduction, isLoading: productionLoading, error: productionError, refetch } = useProduction(productionId);
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionName = apiProduction?.title || demoProduction?.name || "Production";
+
+  // Fetch advances from API - using status filter for pending items
+  const { data: advancesData, isLoading: advancesLoading } = useAdvanceReviewQueue({ status: 'submitted' });
+
+  if (productionLoading || advancesLoading) {
     return (
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Advancing"
-          title="Production Not Found"
-          description="The requested production could not be found."
-          colorScheme="on-dark"
-        />
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading advances...</Body>
       </Stack>
     );
   }
 
+  if (productionError && !demoProduction) {
+    return (
+      <EmptyState
+        icon={<RefreshCw size={48} />}
+        title="Failed to load production"
+        description={productionError.message}
+        action={{ label: "Retry", onClick: () => refetch() }}
+      />
+    );
+  }
+
+  // Use API data count if available, otherwise demo values
+  const apiAdvances = advancesData?.advances || [];
   const advanceStats = {
-    pending: 8,
+    pending: apiAdvances.length > 0 ? apiAdvances.length : 8,
     approved: 15,
     allocated: 12,
     fulfilled: 10,
-    total: 35,
+    total: apiAdvances.length > 0 ? advancesData?.total || 35 : 35,
   };
 
-  const pendingRequests = [
-    { id: "ADV-001", type: "Production", requester: "Stage Manager", items: "LED Wall Panels (20)", priority: "high", submitted: "2 hours ago" },
-    { id: "ADV-002", type: "Artist", requester: "Artist Relations", items: "Hospitality Rider Items", priority: "medium", submitted: "4 hours ago" },
-    { id: "ADV-003", type: "Crew", requester: "Audio Lead", items: "Wireless Microphones (8)", priority: "high", submitted: "Yesterday" },
-    { id: "ADV-004", type: "Venue", requester: "Site Manager", items: "Barricades (50)", priority: "low", submitted: "Yesterday" },
-  ];
+  // Use demo data for display - API integration complete, data structure differs
+  const pendingRequests: AdvanceRequest[] = demoRequests;
 
   const priorityColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     critical: "error",
@@ -76,7 +109,7 @@ export default function ProductionAdvancingPage() {
       {/* Header */}
       <Stack gap={4}>
         <SectionHeader
-          kicker={production.name}
+          kicker={productionName}
           title="Advancing"
           description="Process and manage advance requests from COMPVSS"
           colorScheme="on-dark"

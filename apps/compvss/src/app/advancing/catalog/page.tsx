@@ -24,10 +24,6 @@ import {
 import type { ProductionCatalogItem } from '@ghxstship/config/types/advancing';
 import { Search, Package, Filter, X } from 'lucide-react';
 
-import {
-  DEMO_CATALOG_DATA,
-} from '../../../lib/demo-data';
-
 export default function CatalogPage() {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
@@ -37,7 +33,7 @@ export default function CatalogPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
-  const { data, isLoading, error } = useAdvancingCatalog({
+  const { data, isLoading } = useAdvancingCatalog({
     search: searchTerm,
     category: selectedCategory,
     subcategory: selectedSubcategory,
@@ -46,7 +42,7 @@ export default function CatalogPage() {
 
   // Extract unique subcategories from current category
   const subcategories = useMemo(() => {
-    const items = error ? DEMO_CATALOG_DATA.items : data?.items;
+    const items = data?.items;
     if (!items || !selectedCategory) return [];
     const subs = new Set<string>();
     items.forEach(item => {
@@ -55,7 +51,7 @@ export default function CatalogPage() {
       }
     });
     return Array.from(subs).sort();
-  }, [data?.items, selectedCategory, error]);
+  }, [data?.items, selectedCategory]);
 
   const clearFilters = () => {
     setSelectedCategory(undefined);
@@ -77,8 +73,8 @@ export default function CatalogPage() {
 
   const isSelected = (itemId: string) => selectedItems.some(i => i.id === itemId);
 
-  // Use demo data when there's an error (e.g., unauthenticated)
-  const effectiveData = error ? DEMO_CATALOG_DATA : data;
+  // Use API data
+  const effectiveData = data;
 
   return (
     <CompvssAppLayout>

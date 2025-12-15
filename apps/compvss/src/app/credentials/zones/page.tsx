@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { Eye, Pencil, MapPin } from 'lucide-react';
 import { CompvssAppLayout } from '../../../components/app-layout';
 import { useZones, useCredentialTypes, useCredentialZoneAccess, useUpdateZoneAccess, useCreateZone } from '../../../hooks/useCredentials';
@@ -81,7 +81,7 @@ const columns: ListPageColumn<Zone>[] = [
     label: 'Capacity', 
     accessor: 'capacity', 
     sortable: true,
-    render: (value) => value || 'Unlimited'
+    render: (value) => String(value || 'Unlimited')
   },
   { 
     key: 'is_active', 
@@ -109,17 +109,19 @@ const formFields: FormFieldConfig[] = [
   ]},
   { name: 'access_level', label: 'Access Level (1-10)', type: 'number', required: true, placeholder: '1' },
   { name: 'capacity', label: 'Capacity', type: 'number', placeholder: 'Leave empty for unlimited' },
-  { name: 'color', label: 'Zone Color', type: 'color' },
+  { name: 'color', label: 'Zone Color', type: 'text', placeholder: '#22c55e' },
   { name: 'description', label: 'Description', type: 'textarea', colSpan: 2, placeholder: 'Describe this zone...' },
   { name: 'is_active', label: 'Active', type: 'checkbox' },
 ];
 
 export default function ZonesPage() {
   const router = useRouter();
+  const params = useParams();
   const searchParams = useSearchParams();
   const selectedTypeId = searchParams.get('type');
+  const productionId = params?.productionId as string | undefined;
   
-  const { data: zones, isLoading, error, refetch } = useZones();
+  const { data: zones, isLoading, error, refetch } = useZones(productionId);
   const { data: credentialTypes } = useCredentialTypes();
   const { data: zoneAccess } = useCredentialZoneAccess(selectedTypeId || '');
   const createMutation = useCreateZone();
@@ -160,9 +162,16 @@ export default function ZonesPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     await createMutation.mutateAsync({
-      ...data,
-      production_id: productionId || params?.productionId || '', 
-    } as Zone);
+      name: data.name as string,
+      code: data.code as string,
+      zone_type: data.zone_type as 'public' | 'vip' | 'backstage' | 'production' | 'operations' | 'restricted' | 'emergency',
+      description: data.description as string | undefined,
+      capacity: data.capacity as number | undefined,
+      access_level: data.access_level as number,
+      color: data.color as string | undefined,
+      is_active: data.is_active as boolean,
+      production_id: productionId || '',
+    });
     setCreateModalOpen(false);
     refetch();
   };

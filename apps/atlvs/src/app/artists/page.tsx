@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, Music } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -81,6 +82,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function ArtistsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: artists, isLoading, error, refetch } = useArtists();
   const createMutation = useCreateArtist();
   const deleteMutation = useDeleteArtist();
@@ -130,8 +132,9 @@ export default function ArtistsPage() {
         website: String(data.website || ''),
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Artist Created', message: `Artist "${data.name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create artist:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Artist', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -140,9 +143,10 @@ export default function ArtistsPage() {
       try {
         await deleteMutation.mutateAsync(artistToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Artist Deleted', message: `Artist "${artistToDelete.name}" has been deleted.` });
         setArtistToDelete(null);
       } catch (err) {
-        console.error('Failed to delete artist:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Artist', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

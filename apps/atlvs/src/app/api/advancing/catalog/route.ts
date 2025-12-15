@@ -1,8 +1,13 @@
-import { logger } from '@ghxstship/config';
+import { logger, withAuth, PlatformRole } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/catalog/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase';
 import type { IndustryVertical, ProcurementType } from '@ghxstship/config/types/advancing';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +19,14 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const searchParams = request.nextUrl.searchParams;
 
     // Extract filters

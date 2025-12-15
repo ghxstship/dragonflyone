@@ -27,14 +27,18 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_EMERGENCY_CONTACTS,
-  DEMO_EMERGENCY_PROCEDURES,
-  type DemoEmergencyContact as EmergencyContact,
-  type DemoEmergencyProcedure as EmergencyProcedure,
-} from "../../lib/demo-data";
+  useEmergencyContacts,
+  useEmergencyProcedures,
+  type EmergencyContact,
+  type EmergencyProcedure,
+} from "../../hooks/useEmergency";
 
 export default function EmergencyPage() {
   const router = useRouter();
+  
+  // Fetch emergency data from API
+  const { data: contacts = [] } = useEmergencyContacts();
+  const { data: procedures = [] } = useEmergencyProcedures();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -66,21 +70,21 @@ export default function EmergencyPage() {
 
             {/* Quick Access Cards */}
             <Grid cols={3} gap={4}>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Medical") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Medical") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚑</Body>
                   <Body className="font-display">MEDICAL</Body>
                   <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Fire") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Fire") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🔥</Body>
                   <Body className="font-display">FIRE</Body>
                   <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
-              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(DEMO_EMERGENCY_PROCEDURES.find(p => p.type === "Evacuation") || null)}>
+              <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Evacuation") || null)}>
                 <Stack gap={2} className="text-center">
                   <Body className="text-h5-md">🚨</Body>
                   <Body className="font-display">EVACUATION</Body>
@@ -105,7 +109,7 @@ export default function EmergencyPage() {
                         <Stack gap={3}>
                           <H3>{category}</H3>
                           <Grid cols={2} gap={3}>
-                            {DEMO_EMERGENCY_CONTACTS.filter(c => c.category === category).sort((a, b) => a.priority - b.priority).map((contact) => (
+                            {contacts.filter(c => c.category === category).sort((a, b) => a.priority - b.priority).map((contact) => (
                               <Card key={contact.id} className="p-3">
                                 <Stack direction="horizontal" className="items-start justify-between">
                                   <Stack gap={1}>
@@ -133,7 +137,7 @@ export default function EmergencyPage() {
 
                 <TabPanel active={isActive('procedures')}>
                   <Grid cols={2} gap={4} className="mt-6">
-                    {DEMO_EMERGENCY_PROCEDURES.map((procedure) => (
+                    {procedures.map((procedure) => (
                       <Card key={procedure.id} className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedure)}>
                         <Stack gap={3}>
                           <Stack direction="horizontal" className="items-start justify-between">

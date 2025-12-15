@@ -148,10 +148,11 @@ DECLARE
   v_user_id UUID;
 BEGIN
   -- Check if user has permission (admin only)
-  SELECT id INTO v_user_id
-  FROM public.platform_users
-  WHERE auth_user_id = auth.uid()
-  AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN'];
+  SELECT pu.id INTO v_user_id
+  FROM public.platform_users pu
+  JOIN public.user_roles ur ON ur.platform_user_id = pu.id
+  WHERE pu.auth_user_id = auth.uid()
+  AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN');
   
   IF v_user_id IS NULL THEN
     RAISE EXCEPTION 'Insufficient permissions to restore deleted records';
@@ -184,9 +185,10 @@ DECLARE
 BEGIN
   -- Check if user has permission (super admin only)
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users
-    WHERE auth_user_id = auth.uid()
-    AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN']
+    SELECT 1 FROM public.user_roles ur
+    JOIN public.platform_users pu ON pu.id = ur.platform_user_id
+    WHERE pu.auth_user_id = auth.uid()
+    AND ur.role_code = 'LEGEND_SUPER_ADMIN'
   ) THEN
     RAISE EXCEPTION 'Only super admins can purge deleted records';
   END IF;
@@ -238,9 +240,10 @@ AS $$
 BEGIN
   -- Check if user has permission
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users
-    WHERE auth_user_id = auth.uid()
-    AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    SELECT 1 FROM public.user_roles ur
+    JOIN public.platform_users pu ON pu.id = ur.platform_user_id
+    WHERE pu.auth_user_id = auth.uid()
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to view deleted records';
   END IF;
@@ -311,9 +314,10 @@ CREATE POLICY "organizations_exclude_deleted" ON public.organizations
   FOR SELECT USING (
     deleted_at IS NULL
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN')
     )
   );
 

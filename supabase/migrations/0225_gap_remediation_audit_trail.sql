@@ -43,13 +43,14 @@ DROP POLICY IF EXISTS "permission_audit_log_select" ON public.permission_audit_l
 CREATE POLICY "permission_audit_log_select" ON public.permission_audit_log
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
       AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN']
+        ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN')
         OR (
           -- Org admins can see logs for their organization
-          pu.platform_roles::text[] && ARRAY['ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN']
+          ur.role_code IN ('ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN')
           AND pu.organization_id = permission_audit_log.organization_id
         )
       )
@@ -129,49 +130,14 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-  -- Only log if platform_roles changed
-  IF OLD.platform_roles IS DISTINCT FROM NEW.platform_roles THEN
-    -- Determine if roles were added or removed
-    IF array_length(NEW.platform_roles, 1) > COALESCE(array_length(OLD.platform_roles, 1), 0) THEN
-      PERFORM public.log_permission_change(
-        'role_assigned',
-        NEW.id,
-        jsonb_build_object('roles', OLD.platform_roles),
-        jsonb_build_object('roles', NEW.platform_roles),
-        jsonb_build_object(
-          'added_roles', (SELECT array_agg(r) FROM unnest(NEW.platform_roles) r WHERE r != ALL(COALESCE(OLD.platform_roles, ARRAY[]::TEXT[])))
-        )
-      );
-    ELSIF array_length(NEW.platform_roles, 1) < COALESCE(array_length(OLD.platform_roles, 1), 0) THEN
-      PERFORM public.log_permission_change(
-        'role_removed',
-        NEW.id,
-        jsonb_build_object('roles', OLD.platform_roles),
-        jsonb_build_object('roles', NEW.platform_roles),
-        jsonb_build_object(
-          'removed_roles', (SELECT array_agg(r) FROM unnest(OLD.platform_roles) r WHERE r != ALL(COALESCE(NEW.platform_roles, ARRAY[]::TEXT[])))
-        )
-      );
-    ELSE
-      PERFORM public.log_permission_change(
-        'role_modified',
-        NEW.id,
-        jsonb_build_object('roles', OLD.platform_roles),
-        jsonb_build_object('roles', NEW.platform_roles)
-      );
-    END IF;
-  END IF;
-  
+  -- This trigger is now a no-op since roles are managed via user_roles table
+  -- Role changes are logged via triggers on user_roles table instead
   RETURN NEW;
 END;
 $$;
 
--- Create trigger for role changes
-DROP TRIGGER IF EXISTS audit_platform_user_roles ON public.platform_users;
-CREATE TRIGGER audit_platform_user_roles
-  AFTER UPDATE OF platform_roles ON public.platform_users
-  FOR EACH ROW
-  EXECUTE FUNCTION public.audit_platform_user_role_changes();
+-- Note: Role changes are tracked via user_roles table, not platform_users.platform_roles
+-- The trigger on platform_users is kept for backwards compatibility but is a no-op
 
 -- Trigger function to log portal access changes
 CREATE OR REPLACE FUNCTION public.audit_portal_access_changes()
@@ -285,9 +251,10 @@ AS $$
 BEGIN
   -- Check if user has permission to query audit logs
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
+    SELECT 1 FROM public.user_roles ur
+    JOIN public.platform_users pu ON pu.id = ur.platform_user_id
     WHERE pu.auth_user_id = auth.uid()
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to query audit logs';
   END IF;
@@ -333,9 +300,10 @@ DECLARE
 BEGIN
   -- Check permissions
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
+    SELECT 1 FROM public.user_roles ur
+    JOIN public.platform_users pu ON pu.id = ur.platform_user_id
     WHERE pu.auth_user_id = auth.uid()
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions';
   END IF;

@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -83,6 +84,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: apiAssets, isLoading, error, refetch } = useAssets();
   const deleteMutation = useDeleteAsset();
   
@@ -113,7 +115,7 @@ export default function AssetsPage() {
 
   const handleCreate = async (data: Record<string, unknown>) => {
     try {
-      await fetch('/api/assets', {
+      const response = await fetch('/api/assets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -125,10 +127,22 @@ export default function AssetsPage() {
           purchase_date: new Date().toISOString(),
         }),
       });
+      if (!response.ok) {
+        throw new Error('Failed to create asset');
+      }
       setCreateModalOpen(false);
+      addNotification({
+        type: 'success',
+        title: 'Asset Created',
+        message: `Asset "${data.name}" has been created successfully.`,
+      });
       refetch();
     } catch (err) {
-      console.error('Failed to create asset:', err);
+      addNotification({
+        type: 'error',
+        title: 'Failed to Create Asset',
+        message: err instanceof Error ? err.message : 'An unexpected error occurred',
+      });
     }
   };
 
@@ -137,9 +151,18 @@ export default function AssetsPage() {
       try {
         await deleteMutation.mutateAsync(assetToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({
+          type: 'success',
+          title: 'Asset Deleted',
+          message: `Asset "${assetToDelete.name}" has been deleted.`,
+        });
         setAssetToDelete(null);
       } catch (err) {
-        console.error('Failed to delete asset:', err);
+        addNotification({
+          type: 'error',
+          title: 'Failed to Delete Asset',
+          message: err instanceof Error ? err.message : 'An unexpected error occurred',
+        });
       }
     }
   };

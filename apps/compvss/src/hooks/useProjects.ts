@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fromDynamic } from '@/lib/supabase';
+import { supabase, fromDynamic } from '@/lib/supabase';
 
 interface Project {
   id: string;
@@ -39,7 +39,7 @@ export function useProjects(filters?: ProjectFilters) {
         query = query.eq('status', filters.status);
       }
       if (filters?.phase) {
-        query = query.eq('phase', filters.phase);
+        query = query.eq('phase', filters.phase as 'intake' | 'preproduction' | 'in_production' | 'post');
       }
 
       const { data, error } = await query;

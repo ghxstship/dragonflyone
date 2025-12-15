@@ -13,6 +13,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageAction,
   type ListPageBulkAction,
@@ -81,6 +82,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BudgetCategoriesPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: apiCategories, isLoading, error, refetch } = useBudgetCategories();
   const createMutation = useCreateBudgetCategory();
   const deleteMutation = useDeleteBudgetCategory();
@@ -126,8 +128,9 @@ export default function BudgetCategoriesPage() {
         description: String(data.description || ''),
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Category Created', message: `Category "${data.name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create category:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Category', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -136,9 +139,10 @@ export default function BudgetCategoriesPage() {
       try {
         await deleteMutation.mutateAsync(categoryToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Category Deleted', message: `Category "${categoryToDelete.name}" has been deleted.` });
         setCategoryToDelete(null);
       } catch (err) {
-        console.error('Failed to delete category:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Category', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

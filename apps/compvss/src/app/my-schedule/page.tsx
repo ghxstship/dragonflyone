@@ -25,18 +25,17 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_MY_SCHEDULE,
-  type DemoScheduleItem as ScheduleItem,
-} from '../../lib/demo-data';
-
-const mockSchedule = DEMO_MY_SCHEDULE;
+  useMySchedule,
+  type ScheduleItem,
+} from '../../hooks/useMySchedule';
 
 export default function MySchedulePage() {
+  const { data: schedule = [] } = useMySchedule();
   const [currentWeek, setCurrentWeek] = useState(new Date());
 
-  const confirmedShifts = mockSchedule.filter(s => s.status === 'confirmed').length;
-  const pendingShifts = mockSchedule.filter(s => s.status === 'pending').length;
-  const totalHours = mockSchedule.reduce((acc, s) => {
+  const confirmedShifts = schedule.filter(s => s.status === 'confirmed').length;
+  const pendingShifts = schedule.filter(s => s.status === 'pending').length;
+  const totalHours = schedule.reduce((acc, s) => {
     const start = parseInt(s.startTime.split(':')[0]);
     const end = parseInt(s.endTime.split(':')[0]);
     return acc + (end - start);
@@ -117,7 +116,7 @@ export default function MySchedulePage() {
               </Stack>
 
               <Stack gap={3}>
-                {mockSchedule.map(item => (
+                {schedule.map(item => (
                   <Stack
                     key={item.id}
                     direction="horizontal"

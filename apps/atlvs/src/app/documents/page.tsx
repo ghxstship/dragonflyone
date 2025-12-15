@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -73,6 +74,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function DocumentsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: apiDocuments, isLoading, error, refetch } = useDocuments();
   const deleteMutation = useDeleteDocument();
   
@@ -104,8 +106,9 @@ export default function DocumentsPage() {
       });
       refetch();
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Document Created', message: `Document "${data.name}" has been uploaded.` });
     } catch (err) {
-      console.error('Failed to create document:', err);
+      addNotification({ type: 'error', title: 'Failed to Upload Document', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -114,9 +117,10 @@ export default function DocumentsPage() {
       try {
         await deleteMutation.mutateAsync(docToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Document Deleted', message: `Document "${docToDelete.name}" has been deleted.` });
         setDocToDelete(null);
       } catch (err) {
-        console.error('Failed to delete document:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Document', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

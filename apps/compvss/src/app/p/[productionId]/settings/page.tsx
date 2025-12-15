@@ -1,14 +1,31 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Spinner, Alert } from "@ghxstship/ui";
 import { Settings, Users, Bell, Lock, Palette, Globe, Trash2 } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionSettingsPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production, isLoading, error } = useProject(productionId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="items-center justify-center py-12">
+        <Spinner size="lg" />
+        <Body>Loading settings...</Body>
+      </Stack>
+    );
+  }
+
+  if (error) {
+    return (
+      <Stack gap={4}>
+        <Alert variant="error">Failed to load production settings. Please try again.</Alert>
+      </Stack>
+    );
+  }
 
   const settingsSections = [
     { id: "general", name: "General", description: "Basic production settings", icon: Settings },

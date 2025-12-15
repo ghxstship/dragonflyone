@@ -35,12 +35,22 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_PRODUCTION_EXPENSES, type DemoProductionExpense } from '../../../../lib/demo-data';
+
+interface Expense {
+  id: string;
+  description: string;
+  category: string;
+  amount: number;
+  vendor: string;
+  submittedBy: string;
+  status: 'pending' | 'approved' | 'rejected' | 'paid';
+  date: string;
+}
 
 export default function ProductionExpensesPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [expenses, setExpenses] = useState<DemoProductionExpense[]>(DEMO_PRODUCTION_EXPENSES);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [newExpense, setNewExpense] = useState({ description: '', category: '', amount: '', vendor: '' });
 

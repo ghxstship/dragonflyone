@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CompvssAppLayout } from '../../components/app-layout';
 import {
@@ -17,18 +16,20 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_BUILD_STRIKE_TASKS,
-  type DemoBuildStrikeTask as Task,
-} from '../../lib/demo-data';
+  useBuildStrikeTasks,
+  useUpdateBuildStrikeTaskStatus,
+  type BuildStrikeTask as Task,
+} from '../../hooks/useBuildStrike';
 
 export default function BuildStrikePage() {
   const router = useRouter();
-  const [tasks, setTasks] = useState(DEMO_BUILD_STRIKE_TASKS);
+  const { data: tasks = [] } = useBuildStrikeTasks();
+  const updateStatusMutation = useUpdateBuildStrikeTaskStatus();
 
   const displayTasks = tasks;
 
-  const updateTaskStatus = (id: string, status: Task['status']) => {
-    setTasks(tasks.map(t => t.id === id ? { ...t, status } : t));
+  const updateTaskStatus = async (id: string, status: Task['status']) => {
+    await updateStatusMutation.mutateAsync({ id, status });
   };
 
   return (

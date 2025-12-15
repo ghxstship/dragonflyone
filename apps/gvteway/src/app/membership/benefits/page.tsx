@@ -3,24 +3,27 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
+  EmptyState,
 } from "@ghxstship/ui";
-
-import {
-  DEMO_MEMBERSHIP_TIERS,
-  DEMO_AVAILABLE_BENEFITS,
-  type DemoMembershipTier as MembershipTier,
-} from "@/lib/demo-data";
-
-const mockTiers = DEMO_MEMBERSHIP_TIERS;
-const availableBenefits = DEMO_AVAILABLE_BENEFITS;
+import { Crown } from "lucide-react";
+import { useMembershipTiersData, type MembershipTier } from "@/hooks/useMembershipTiers";
 
 function MemberBenefitsPageContent() {
   const router = useRouter();
+  const {
+    tiers,
+    benefitCategories,
+    stats,
+    isLoading,
+    error,
+    updateTier,
+    isUpdating,
+  } = useMembershipTiersData();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -30,11 +33,23 @@ function MemberBenefitsPageContent() {
   const [selectedTier, setSelectedTier] = useState<MembershipTier | null>(null);
   const [showAddBenefitModal, setShowAddBenefitModal] = useState(false);
 
-  const totalMembers = mockTiers.reduce((sum, t) => sum + t.memberCount, 0);
-  const monthlyRevenue = mockTiers.reduce((sum, t) => {
-    const monthly = t.billingCycle === "Monthly" ? t.price : t.price / 12;
-    return sum + (monthly * t.memberCount);
-  }, 0);
+  if (isLoading) {
+    return <GvtewayLoadingLayout text="Loading membership tiers..." />;
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <EmptyState
+          icon={<Crown size={48} />}
+          title="Unable to load membership data"
+          description="There was a problem loading membership tiers. Please try again."
+          action={{ label: "Try Again", onClick: () => window.location.reload() }}
+          inverted
+        />
+      </GvtewayAppLayout>
+    );
+  }
 
   const getBenefitTypeColor = (type: string) => {
     switch (type) {
@@ -58,10 +73,10 @@ function MemberBenefitsPageContent() {
             </Stack>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Monthly Revenue" value={`$${(monthlyRevenue / 1000).toFixed(1)}K`} className="border-2 border-black" />
-            <StatCard label="Membership Tiers" value={mockTiers.length} className="border-2 border-black" />
-            <StatCard label="Active Benefits" value={mockTiers.reduce((sum, t) => sum + t.benefits.filter(b => b.enabled).length, 0)} className="border-2 border-black" />
+            <StatCard label="Total Members" value={stats.totalMembers.toLocaleString()} className="border-2 border-black" />
+            <StatCard label="Monthly Revenue" value={`$${(stats.monthlyRevenue / 1000).toFixed(1)}K`} className="border-2 border-black" />
+            <StatCard label="Membership Tiers" value={tiers.length.toString()} className="border-2 border-black" />
+            <StatCard label="Active Benefits" value={stats.activeBenefits.toString()} className="border-2 border-black" />
           </Grid>
 
           <Tabs>
@@ -73,7 +88,7 @@ function MemberBenefitsPageContent() {
 
             <TabPanel active={isActive('tiers')}>
               <Grid cols={3} gap={6}>
-                {mockTiers.map((tier) => (
+                {tiers.map((tier) => (
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4" style={{ '--tier-color': tier.color, backgroundColor: 'var(--tier-color)' } as React.CSSProperties}>
                       <Stack gap={1}>
@@ -113,7 +128,7 @@ function MemberBenefitsPageContent() {
 
             <TabPanel active={isActive('benefits')}>
               <Stack gap={6}>
-                {availableBenefits.map((category) => (
+                {benefitCategories.map((category) => (
                   <Card key={category.type} className="border-2 border-ink-200 p-4">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between items-center">
@@ -138,14 +153,14 @@ function MemberBenefitsPageContent() {
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Members by Tier</H3>
-                    {mockTiers.map((tier) => (
+                    {tiers.map((tier) => (
                       <Stack key={tier.id} gap={2}>
                         <Stack direction="horizontal" className="justify-between">
                           <Label>{tier.name}</Label>
                           <Label className="font-mono">{tier.memberCount.toLocaleString()}</Label>
                         </Stack>
                         <Card className="h-3 bg-ink-200 rounded-avatar overflow-hidden">
-                          <Card className="h-full rounded-avatar" style={{ '--progress-width': `${(tier.memberCount / totalMembers) * 100}%`, '--tier-color': tier.color, width: 'var(--progress-width)', backgroundColor: 'var(--tier-color)' } as React.CSSProperties} />
+                          <Card className="h-full rounded-avatar" style={{ '--progress-width': `${(tier.memberCount / stats.totalMembers) * 100}%`, '--tier-color': tier.color, width: 'var(--progress-width)', backgroundColor: 'var(--tier-color)' } as React.CSSProperties} />
                         </Card>
                       </Stack>
                     ))}
@@ -213,7 +228,9 @@ function MemberBenefitsPageContent() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedTier(null)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setSelectedTier(null)}>Save Changes</Button>
+          <Button variant="solid" onClick={() => { if (selectedTier) { updateTier(selectedTier).then(() => setSelectedTier(null)); } }} disabled={isUpdating}>
+            {isUpdating ? 'Saving...' : 'Save Changes'}
+          </Button>
         </ModalFooter>
       </Modal>
 

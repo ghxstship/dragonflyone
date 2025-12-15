@@ -2,12 +2,23 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { withAuth, PlatformRole, logger } from '@ghxstship/config';
 import { z } from 'zod';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
+const ATLVS_ADMIN_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 const TaskSchema = z.object({
   organization_id: z.string().uuid(),
@@ -25,6 +36,14 @@ const TaskSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const organizationId = searchParams.get('organization_id');
     const projectId = searchParams.get('project_id');
@@ -100,6 +119,14 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const body = await request.json();
     const validatedData = TaskSchema.parse(body);
 
@@ -116,8 +143,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ task: data }, { status: 201 });
   } catch (error: unknown) {
     if (error instanceof z.ZodError) {
-      return NextResponse.json({ error: error.issues }, { status: 422 });
+      return NextResponse.json({ error: error.issues }, { status: 400 });
     }
+    logger.error('Error in POST /api/tasks:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json({ error: 'Failed to create task' }, { status: 500 });
   }
 }

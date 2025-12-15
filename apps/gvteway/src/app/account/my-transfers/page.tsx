@@ -12,68 +12,13 @@ import {
   Body,
   H3,
   StatCard,
+  Spinner,
+  EmptyState,
 } from '@ghxstship/ui';
 import { ArrowRightLeft, Clock, Send, Inbox } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
-
-interface Transfer {
-  id: string;
-  orderNumber: string;
-  eventName: string;
-  ticketType: string;
-  quantity: number;
-  direction: 'sent' | 'received';
-  otherParty: string;
-  date: string;
-  status: 'pending' | 'completed' | 'cancelled';
-}
-
-const DEMO_TRANSFERS: Transfer[] = [
-  {
-    id: '1',
-    orderNumber: 'ORD-2025-001234',
-    eventName: 'Summer Music Festival 2025',
-    ticketType: 'VIP Pass',
-    quantity: 2,
-    direction: 'sent',
-    otherParty: 'john.doe@email.com',
-    date: '2025-05-20',
-    status: 'completed',
-  },
-  {
-    id: '2',
-    orderNumber: 'ORD-2025-001456',
-    eventName: 'Tech Conference 2025',
-    ticketType: 'General Admission',
-    quantity: 1,
-    direction: 'received',
-    otherParty: 'jane.smith@email.com',
-    date: '2025-04-15',
-    status: 'completed',
-  },
-  {
-    id: '3',
-    orderNumber: 'ORD-2025-001567',
-    eventName: 'Comedy Night',
-    ticketType: 'Standard',
-    quantity: 4,
-    direction: 'sent',
-    otherParty: 'friend@email.com',
-    date: '2025-06-01',
-    status: 'pending',
-  },
-  {
-    id: '4',
-    orderNumber: 'ORD-2024-009123',
-    eventName: 'Food & Wine Expo',
-    ticketType: 'Weekend Pass',
-    quantity: 2,
-    direction: 'received',
-    otherParty: 'colleague@work.com',
-    date: '2024-03-05',
-    status: 'completed',
-  },
-];
+import { useTransfers } from '@/hooks/useTransfers';
+import { useRouter } from 'next/navigation';
 
 const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
   pending: 'warning',
@@ -82,8 +27,22 @@ const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> =
 };
 
 export default function MyTransfersPage() {
-  const [transfers] = useState<Transfer[]>(DEMO_TRANSFERS);
+  const router = useRouter();
+  const { data: transfersData, isLoading, error } = useTransfers();
   const [directionFilter, setDirectionFilter] = useState<string>('all');
+
+  // Transform transfers to expected format
+  const transfers = (transfersData || []).map(transfer => ({
+    id: transfer.id,
+    orderNumber: transfer.ticket_id,
+    eventName: transfer.ticket?.event?.name || 'Event',
+    ticketType: 'Ticket',
+    quantity: 1,
+    direction: transfer.direction,
+    otherParty: transfer.recipient_email,
+    date: transfer.created_at,
+    status: transfer.status,
+  }));
 
   const filteredTransfers = transfers.filter((t) => {
     return directionFilter === 'all' || t.direction === directionFilter;
@@ -92,6 +51,53 @@ export default function MyTransfersPage() {
   const sentCount = transfers.filter((t) => t.direction === 'sent').length;
   const receivedCount = transfers.filter((t) => t.direction === 'received').length;
   const pendingCount = transfers.filter((t) => t.status === 'pending').length;
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+          <Stack className="flex items-center justify-center py-20">
+            <Spinner variant="grey" size="lg" text="Loading transfers..." />
+          </Stack>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+          <EmptyState
+            icon={<ArrowRightLeft size={48} />}
+            title="Unable to load transfers"
+            description="There was a problem loading your transfer history. Please try again."
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (transfers.length === 0) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+          <EmptyState
+            icon={<ArrowRightLeft size={48} />}
+            title="No transfers yet"
+            description="You haven't sent or received any ticket transfers yet."
+            action={{ label: "View Tickets", onClick: () => router.push('/account/tickets') }}
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
   return (
     <GvtewayAppLayout>
       <Stack gap={8}>

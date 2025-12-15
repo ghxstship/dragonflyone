@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -17,19 +16,79 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  Spinner,
+  EmptyState,
 } from '@ghxstship/ui';
 import {
   Download,
   Eye,
+  ShoppingBag,
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
-
-import { DEMO_ORDERS } from '../../../lib/demo-data';
+import { useOrders } from '@/hooks/useOrders';
+import { useRouter } from 'next/navigation';
 
 export default function AccountOrdersPage() {
-  const [orders] = useState(DEMO_ORDERS);
+  const router = useRouter();
+  const { data: ordersData, isLoading, error } = useOrders();
+  
+  // Transform data to match expected format
+  const orders = (ordersData || []).map(order => ({
+    id: order.id,
+    date: new Date(order.created_at).toLocaleDateString(),
+    eventName: order.gvteway_events?.title || 'Event',
+    ticketCount: order.ticket_count || 1,
+    total: order.total_amount,
+    status: order.status === 'confirmed' ? 'completed' : order.status,
+  }));
 
   const totalSpent = orders.filter(o => o.status === 'completed').reduce((sum, o) => sum + o.total, 0);
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
+          <Stack className="flex items-center justify-center py-20">
+            <Spinner variant="grey" size="lg" text="Loading orders..." />
+          </Stack>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
+          <EmptyState
+            icon={<ShoppingBag size={48} />}
+            title="Unable to load orders"
+            description="There was a problem loading your order history. Please try again."
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (orders.length === 0) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
+          <EmptyState
+            icon={<ShoppingBag size={48} />}
+            title="No orders yet"
+            description="You haven't made any purchases yet. Browse events to find your next experience!"
+            action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>

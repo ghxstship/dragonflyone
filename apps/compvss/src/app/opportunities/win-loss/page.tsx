@@ -31,26 +31,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_WIN_LOSS_RECORDS } from '../../../lib/demo-data';
-
-interface WinLossRecord {
-  id: string;
-  opportunity: string;
-  client: string;
-  value: number;
-  result: "Won" | "Lost";
-  competitor?: string;
-  reason: string;
-  closeDate: string;
-  salesRep: string;
-  lessons?: string;
-}
-
-const mockRecords = DEMO_WIN_LOSS_RECORDS as unknown as WinLossRecord[];
+import {
+  useWinLossRecords,
+  type WinLossRecord,
+} from '../../../hooks/useWinLossRecords';
 
 
 export default function WinLossPage() {
   const router = useRouter();
+  const { data: records = [] } = useWinLossRecords();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -60,15 +49,15 @@ export default function WinLossPage() {
   const [selectedRecord, setSelectedRecord] = useState<WinLossRecord | null>(null);
   const [showAnalysisModal, setShowAnalysisModal] = useState(false);
 
-  const wonRecords = mockRecords.filter(r => r.result === "Won");
-  const lostRecords = mockRecords.filter(r => r.result === "Lost");
-  const winRate = Math.round((wonRecords.length / mockRecords.length) * 100);
+  const wonRecords = records.filter(r => r.result === "Won");
+  const lostRecords = records.filter(r => r.result === "Lost");
+  const winRate = records.length > 0 ? Math.round((wonRecords.length / records.length) * 100) : 0;
   const wonValue = wonRecords.reduce((s, r) => s + r.value, 0);
   const lostValue = lostRecords.reduce((s, r) => s + r.value, 0);
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
-  const filteredRecords = activeTab === "all" ? mockRecords :
+  const filteredRecords = activeTab === "all" ? records :
     activeTab === "won" ? wonRecords : lostRecords;
 
   const lossReasons = lostRecords.reduce((acc, r) => {
@@ -99,7 +88,7 @@ export default function WinLossPage() {
               <StatCard label="Win Rate" value={`${winRate}%`} trend={winRate >= 50 ? "up" : "down"} />
               <StatCard label="Won Value" value={formatCurrency(wonValue)} />
               <StatCard label="Lost Value" value={formatCurrency(lostValue)} />
-              <StatCard label="Total Opportunities" value={mockRecords.length.toString()} />
+              <StatCard label="Total Opportunities" value={records.length.toString()} />
             </Grid>
 
             <Grid cols={2} gap={4}>

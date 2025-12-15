@@ -47,9 +47,10 @@ CREATE POLICY "finance_permissions_select" ON public.finance_permissions
     user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
     -- Admins can see all
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
   );
 
@@ -57,9 +58,10 @@ DROP POLICY IF EXISTS "finance_permissions_insert" ON public.finance_permissions
 CREATE POLICY "finance_permissions_insert" ON public.finance_permissions
   FOR INSERT WITH CHECK (
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
   );
 
@@ -67,9 +69,10 @@ DROP POLICY IF EXISTS "finance_permissions_update" ON public.finance_permissions
 CREATE POLICY "finance_permissions_update" ON public.finance_permissions
   FOR UPDATE USING (
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
   );
 
@@ -88,20 +91,22 @@ SET search_path = public
 AS $$
 DECLARE
   v_perm RECORD;
-  v_user_roles TEXT[];
 BEGIN
-  -- Get user roles
-  SELECT platform_roles INTO v_user_roles
-  FROM public.platform_users
-  WHERE id = p_user_id;
-  
   -- Legend and Super Admin roles have all finance permissions
-  IF v_user_roles && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN')
+  ) THEN
     RETURN TRUE;
   END IF;
   
   -- ATLVS Admin has view, edit, approve (no export by default)
-  IF v_user_roles && ARRAY['ATLVS_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code = 'ATLVS_ADMIN'
+  ) THEN
     IF p_permission IN ('view', 'edit', 'approve') THEN
       RETURN TRUE;
     END IF;
@@ -180,9 +185,9 @@ BEGIN
   
   -- Check if granter has permission
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
-    WHERE pu.id = v_granter_id
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = v_granter_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to grant finance access';
   END IF;
@@ -254,9 +259,9 @@ BEGIN
   
   -- Check if granter has permission
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
-    WHERE pu.id = v_granter_id
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = v_granter_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to revoke finance access';
   END IF;
@@ -300,17 +305,15 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_user_roles TEXT[];
   v_perms RECORD;
   v_result JSONB;
 BEGIN
-  -- Get user roles
-  SELECT platform_roles INTO v_user_roles
-  FROM public.platform_users
-  WHERE id = p_user_id;
-  
   -- Check role-based permissions first
-  IF v_user_roles && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN')
+  ) THEN
     RETURN jsonb_build_object(
       'source', 'role',
       'can_view', TRUE,
@@ -322,7 +325,11 @@ BEGIN
     );
   END IF;
   
-  IF v_user_roles && ARRAY['ATLVS_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code = 'ATLVS_ADMIN'
+  ) THEN
     RETURN jsonb_build_object(
       'source', 'role',
       'can_view', TRUE,

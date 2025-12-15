@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
@@ -15,70 +15,78 @@ import {
   Link,
 } from "@ghxstship/ui";
 import Image from "next/image";
-import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
-import { log } from '@ghxstship/config';
-
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  venue_name: string;
-  city: string;
-  state: string;
-  event_date: string;
-  event_time: string;
-  genre: string;
-  capacity: number;
-  image_url: string;
-  ticket_types: TicketType[];
-}
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/lib/supabase";
 
 interface TicketType {
   id: string;
   name: string;
   price: number;
-  available_quantity: number;
+  quantity_total: number;
+  quantity_sold: number;
+  is_active: boolean;
 }
 
-export default function EventDetailPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
-  const [event, setEvent] = useState<Event | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
+interface EventWithTickets {
+  id: string;
+  name: string;
+  description: string;
+  venue_name: string;
+  venue_city: string;
+  venue_state: string;
+  start_date: string;
+  start_time: string;
+  category: string;
+  capacity: number;
+  image_url: string;
+  ticket_types: TicketType[];
+}
 
-  useEffect(() => {
-    fetchEventDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
-
-  async function fetchEventDetails() {
-    try {
+// Custom hook for fetching single event with ticket types
+function useEventWithTickets(id: string) {
+  return useQuery({
+    queryKey: ['events', id, 'with-tickets'],
+    queryFn: async () => {
       const { data, error } = await supabase
-        .from("events")
+        .from('events')
         .select(`
           *,
           ticket_types (*)
         `)
-        .eq("id", params.id)
+        .eq('id', id)
         .single();
 
       if (error) throw error;
-      setEvent(data);
-    } catch (error) {
-      log.error('Error fetching event:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  }
+      return data as EventWithTickets;
+    },
+    enabled: !!id,
+  });
+}
 
-  async function handleTicketSelect(ticketTypeId: string) {
+export default function EventDetailPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
+  const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
+  
+  const { data: event, isLoading, error } = useEventWithTickets(params.id);
+
+  function handleTicketSelect(ticketTypeId: string) {
     setSelectedTicket(ticketTypeId);
     router.push(`/checkout?event=${params.id}&ticket=${ticketTypeId}`);
   }
 
-  if (loading) {
+  if (isLoading) {
     return <GvtewayLoadingLayout text="Loading event..." />;
+  }
+
+  if (error) {
+    return (
+      <GvtewayEmptyLayout
+        title="Error Loading Event"
+        description="There was a problem loading this event. Please try again."
+        action={<Button variant="solid" onClick={() => router.push('/events')}>Browse Events</Button>}
+      />
+    );
   }
 
   if (!event) {
@@ -90,14 +98,31 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
       />
     );
   }
+  
+  // Transform data for display compatibility
+  const displayEvent = {
+    ...event,
+    title: event.name,
+    venue: event.venue_name,
+    city: event.venue_city,
+    state: event.venue_state,
+    event_date: event.start_date,
+    event_time: event.start_time,
+    genre: event.category,
+  };
+
+  // Calculate available quantity for each ticket type
+  const getAvailableQuantity = (tier: TicketType) => {
+    return tier.quantity_total - (tier.quantity_sold || 0);
+  };
 
   return (
     <GvtewayAppLayout>
       <Stack gap={8}>
           <Card className="relative h-96 overflow-hidden border-2 border-ink-800">
             <Image 
-              src={event.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
-              alt={event.title} 
+              src={displayEvent.image_url || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1200"} 
+              alt={displayEvent.title} 
               fill
               className="object-cover grayscale" 
             />
@@ -109,19 +134,19 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <Stack className="mb-4">
                   <Link href="/events" className="text-ink-400 hover:text-white">← Back to Events</Link>
                 </Stack>
-                <H2 className="text-white">{event.title}</H2>
+                <H2 className="text-white">{displayEvent.title}</H2>
                 <Stack direction="horizontal" gap={4} className="mt-4 items-center text-ink-400">
-                  <Body>{event.venue_name}</Body>
+                  <Body>{displayEvent.venue}</Body>
                   <Body>•</Body>
-                  <Body>{event.city}, {event.state}</Body>
+                  <Body>{displayEvent.city}, {displayEvent.state}</Body>
                   <Body>•</Body>
-                  <Badge>{event.genre}</Badge>
+                  <Badge>{displayEvent.genre}</Badge>
                 </Stack>
               </Stack>
 
               <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">About</H3>
-                <Body className="text-ink-300">{event.description}</Body>
+                <Body className="text-ink-300">{displayEvent.description}</Body>
               </Card>
 
               <Card className="border-2 border-ink-800 p-6">
@@ -129,11 +154,11 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <Stack gap={3}>
                   <Stack>
                     <Label className="text-ink-500">Capacity</Label>
-                    <Body className="text-white">{event.capacity} attendees</Body>
+                    <Body className="text-white">{displayEvent.capacity} attendees</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-ink-500">Genre</Label>
-                    <Badge>{event.genre}</Badge>
+                    <Badge>{displayEvent.genre}</Badge>
                   </Stack>
                 </Stack>
               </Card>
@@ -142,19 +167,19 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             <Stack gap={6}>
               <Card className="border-2 border-ink-800 p-6">
                 <H3 className="mb-4 text-white">Event Details</H3>
-                <Stack gap={3} size="sm" className="">
+                <Stack gap={3} className="">
                   <Stack>
                     <Label className="text-ink-500">Date</Label>
-                    <Body className="mt-1 text-white">{new Date(event.event_date).toLocaleDateString()}</Body>
+                    <Body className="mt-1 text-white">{new Date(displayEvent.event_date).toLocaleDateString()}</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-ink-500">Time</Label>
-                    <Body className="mt-1 text-white">{event.event_time}</Body>
+                    <Body className="mt-1 text-white">{displayEvent.event_time || 'TBA'}</Body>
                   </Stack>
                   <Stack>
                     <Label className="text-ink-500">Venue</Label>
-                    <Body className="mt-1 text-white">{event.venue_name}</Body>
-                    <Body className="mt-1 text-ink-400">{event.city}, {event.state}</Body>
+                    <Body className="mt-1 text-white">{displayEvent.venue}</Body>
+                    <Body className="mt-1 text-ink-400">{displayEvent.city}, {displayEvent.state}</Body>
                   </Stack>
                 </Stack>
               </Card>
@@ -163,31 +188,34 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
                 <H3 className="mb-4 text-white">Tickets</H3>
                 <Stack gap={4}>
                   {event.ticket_types && event.ticket_types.length > 0 ? (
-                    event.ticket_types.map((tier) => (
-                      <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-ink-700'}`}>
-                        <Stack direction="horizontal" className="items-start justify-between">
-                          <Stack>
-                            <Label className="text-white">{tier.name}</Label>
-                            <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
-                            <Body className="mt-1 text-mono-xs text-ink-400">{tier.available_quantity} remaining</Body>
+                    event.ticket_types.filter(t => t.is_active !== false).map((tier) => {
+                      const availableQty = getAvailableQuantity(tier);
+                      return (
+                        <Card key={tier.id} className={`border-2 p-4 ${selectedTicket === tier.id ? 'border-primary ring-2 ring-primary' : 'border-ink-700'}`}>
+                          <Stack direction="horizontal" className="items-start justify-between">
+                            <Stack>
+                              <Label className="text-white">{tier.name}</Label>
+                              <Body className="mt-1 font-mono text-h5-md text-white">${tier.price}</Body>
+                              <Body className="mt-1 text-mono-xs text-ink-400">{availableQty} remaining</Body>
+                            </Stack>
+                            {availableQty > 0 ? (
+                              <Badge variant="solid">Available</Badge>
+                            ) : (
+                              <Badge variant="outline">Sold Out</Badge>
+                            )}
                           </Stack>
-                          {tier.available_quantity > 0 ? (
-                            <Badge variant="solid">Available</Badge>
-                          ) : (
-                            <Badge variant="outline">Sold Out</Badge>
+                          {availableQty > 0 && (
+                            <Button 
+                              variant="solid" 
+                              className="mt-4 w-full"
+                              onClick={() => handleTicketSelect(tier.id)}
+                            >
+                              Select Tickets
+                            </Button>
                           )}
-                        </Stack>
-                        {tier.available_quantity > 0 && (
-                          <Button 
-                            variant="solid" 
-                            className="mt-4 w-full"
-                            onClick={() => handleTicketSelect(tier.id)}
-                          >
-                            Select Tickets
-                          </Button>
-                        )}
-                      </Card>
-                    ))
+                        </Card>
+                      );
+                    })
                   ) : (
                     <Body className="text-ink-400">No tickets available</Body>
                   )}

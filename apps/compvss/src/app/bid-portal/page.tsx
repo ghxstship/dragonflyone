@@ -29,12 +29,13 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_BID_OPPORTUNITIES,
-  type DemoBidOpportunity as BidOpportunity,
-} from "../../lib/demo-data";
+  useBidOpportunities,
+  type BidOpportunity,
+} from "../../hooks/useBidPortal";
 
 export default function BidPortalPage() {
   const router = useRouter();
+  const { data: bidOpportunities = [] } = useBidOpportunities();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -44,10 +45,10 @@ export default function BidPortalPage() {
   const [selectedBid, setSelectedBid] = useState<BidOpportunity | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
-  const openBids = DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Open").length;
-  const submittedBids = DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Submitted" || b.status === "Under Review").length;
+  const openBids = bidOpportunities.filter(b => b.status === "Open").length;
+  const submittedBids = bidOpportunities.filter(b => b.status === "Submitted" || b.status === "Under Review").length;
 
-  const filteredBids = activeTab === "all" ? DEMO_BID_OPPORTUNITIES : activeTab === "open" ? DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Open") : DEMO_BID_OPPORTUNITIES.filter(b => b.status !== "Open");
+  const filteredBids = activeTab === "all" ? bidOpportunities : activeTab === "open" ? bidOpportunities.filter(b => b.status === "Open") : bidOpportunities.filter(b => b.status !== "Open");
 
   return (
     <CompvssAppLayout>
@@ -67,7 +68,7 @@ export default function BidPortalPage() {
             <Grid cols={4} gap={6}>
               <StatCard value={openBids.toString()} label="Open" />
               <StatCard value={submittedBids.toString()} label="Submitted" />
-              <StatCard value={DEMO_BID_OPPORTUNITIES.filter(b => b.status === "Won").length.toString()} label="Won" />
+              <StatCard value={bidOpportunities.filter(b => b.status === "Won").length.toString()} label="Won" />
               <StatCard value="68%" label="Win Rate" />
             </Grid>
 

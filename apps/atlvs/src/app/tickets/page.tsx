@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, Ticket } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -95,13 +96,14 @@ const formFields: FormFieldConfig[] = [
   ]},
   { name: 'quantity_available', label: 'Quantity Available', type: 'number' },
   { name: 'max_per_order', label: 'Max Per Order', type: 'number' },
-  { name: 'sale_start', label: 'Sale Start', type: 'datetime-local' },
-  { name: 'sale_end', label: 'Sale End', type: 'datetime-local' },
+  { name: 'sale_start', label: 'Sale Start', type: 'datetime' },
+  { name: 'sale_end', label: 'Sale End', type: 'datetime' },
   { name: 'description', label: 'Description', type: 'textarea', colSpan: 2 },
 ];
 
 export default function TicketsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: tickets, isLoading, error, refetch } = useTickets();
   const createMutation = useCreateTicket();
   const deleteMutation = useDeleteTicket();
@@ -152,8 +154,9 @@ export default function TicketsPage() {
         status: String(data.status || 'draft'),
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Ticket Created', message: `Ticket "${data.name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create ticket:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Ticket', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -162,9 +165,10 @@ export default function TicketsPage() {
       try {
         await deleteMutation.mutateAsync(ticketToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Ticket Deleted', message: `Ticket "${ticketToDelete.name}" has been deleted.` });
         setTicketToDelete(null);
       } catch (err) {
-        console.error('Failed to delete ticket:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Ticket', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

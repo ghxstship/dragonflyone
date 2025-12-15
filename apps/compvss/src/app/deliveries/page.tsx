@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Package, Truck, Trash2, Printer, Download } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -25,9 +25,11 @@ import {
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 import {
-  DEMO_DELIVERIES,
-  type DemoDelivery as Delivery,
-} from "../../lib/demo-data";
+  useDeliveries,
+  useCreateDelivery,
+  useDeleteDelivery,
+  type Delivery,
+} from "../../hooks/useDeliveries";
 
 const columns: ListPageColumn<Delivery>[] = [
   { key: 'vendor', label: 'Vendor', accessor: 'vendor', sortable: true },
@@ -85,18 +87,15 @@ const formFields: FormFieldConfig[] = [
 
 export default function DeliveriesPage() {
   const router = useRouter();
-  const [deliveries, setDeliveries] = useState<Delivery[]>(DEMO_DELIVERIES);
-  const [loading] = useState(false);
+  const { data: deliveries = [], isLoading: loading, refetch } = useDeliveries();
+  const createDeliveryMutation = useCreateDelivery();
+  const deleteDeliveryMutation = useDeleteDelivery();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedDelivery, setSelectedDelivery] = useState<Delivery | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deliveryToDelete, setDeliveryToDelete] = useState<Delivery | null>(null);
-
-  const refetch = useCallback(() => {
-    setDeliveries(DEMO_DELIVERIES);
-  }, []);
 
   const rowActions: ListPageAction<Delivery>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedDelivery(row); setDrawerOpen(true); } },
@@ -112,24 +111,24 @@ export default function DeliveriesPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newDelivery: Delivery = {
-      id: `DEL-${String(deliveries.length + 1).padStart(3, '0')}`,
+    await createDeliveryMutation.mutateAsync({
       vendor: String(data.vendor || ''),
       description: String(data.description || ''),
       scheduledDate: String(data.scheduledDate || new Date().toISOString().split('T')[0]),
       scheduledTime: String(data.scheduledTime || '09:00'),
       accessPoint: String(data.accessPoint || 'Main Gate'),
-      projectId: String(data.projectId || ''),
+      projectId: data.projectId ? String(data.projectId) : undefined,
       status: 'Scheduled',
       items: [],
-    };
-    setDeliveries(prev => [...prev, newDelivery]);
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
   const handleDelete = async () => {
     if (deliveryToDelete) {
-      setDeliveries(prev => prev.filter(d => d.id !== deliveryToDelete.id));
+      await deleteDeliveryMutation.mutateAsync(deliveryToDelete.id);
+      refetch();
       setDeleteConfirmOpen(false);
       setDeliveryToDelete(null);
     }
@@ -152,7 +151,10 @@ export default function DeliveriesPage() {
     } else if (actionId === 'print') {
       window.print();
     } else if (actionId === 'delete') {
-      setDeliveries(prev => prev.filter(d => !selectedIds.includes(d.id)));
+      for (const id of selectedIds) {
+        await deleteDeliveryMutation.mutateAsync(id);
+      }
+      refetch();
     }
   };
 
@@ -166,12 +168,17 @@ export default function DeliveriesPage() {
     requiredFields: ['vendor', 'description', 'scheduledDate'],
     onImport: async (records) => {
       for (const record of records) {
-        const newDelivery: Delivery = {
-          id: `DEL-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          ...record as Omit<Delivery, 'id'>,
-        };
-        setDeliveries(prev => [...prev, newDelivery]);
+        await createDeliveryMutation.mutateAsync({
+          vendor: String(record.vendor || ''),
+          description: String(record.description || ''),
+          scheduledDate: String(record.scheduledDate || ''),
+          scheduledTime: String(record.scheduledTime || '09:00'),
+          accessPoint: String(record.accessPoint || 'Main Gate'),
+          status: (record.status as Delivery['status']) || 'Scheduled',
+          items: [],
+        });
       }
+      refetch();
     },
   });
 

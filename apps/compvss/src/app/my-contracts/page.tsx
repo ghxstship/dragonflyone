@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -25,14 +24,12 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_CONTRACTS,
-  type DemoContract as Contract,
-} from '../../lib/demo-data';
-
-const mockContracts = DEMO_CONTRACTS;
+  useMyContracts,
+  type Contract,
+} from '../../hooks/useMyContracts';
 
 export default function MyContractsPage() {
-  const [contracts] = useState(mockContracts);
+  const { data: contracts = [] } = useMyContracts();
 
   const activeCount = contracts.filter(c => c.status === 'active').length;
   const pendingCount = contracts.filter(c => c.status === 'pending_signature').length;

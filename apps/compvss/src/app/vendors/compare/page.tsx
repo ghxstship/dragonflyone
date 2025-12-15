@@ -17,25 +17,10 @@ import {
   MainContent,
   Select,
 } from "@ghxstship/ui";
-import { DEMO_VENDORS_COMPARE } from '../../../lib/demo-data';
-
-interface Vendor {
-  id: string;
-  name: string;
-  category: string;
-  rating: number;
-  reviews: number;
-  location: string;
-  distance: string;
-  pricing: "Budget" | "Mid-Range" | "Premium";
-  responseTime: string;
-  completedProjects: number;
-  certifications: string[];
-  specialties: string[];
-  availability: "Available" | "Limited" | "Booked";
-}
-
-const mockVendors = DEMO_VENDORS_COMPARE as Vendor[];
+import {
+  useVendorsForCompare,
+  type VendorCompare as Vendor,
+} from '../../../hooks/useVendorCompare';
 
 const comparisonMetrics = [
   { key: "rating", label: "Rating", format: (v: Vendor) => `${v.rating}/5` },
@@ -48,8 +33,9 @@ const comparisonMetrics = [
 
 export default function VendorComparePage() {
   const router = useRouter();
-  const [selectedVendors, setSelectedVendors] = useState<string[]>(["VND-001", "VND-003"]);
-  const [categoryFilter, setCategoryFilter] = useState("Audio");
+  const { data: vendors = [] } = useVendorsForCompare();
+  const [selectedVendors, setSelectedVendors] = useState<string[]>([]);
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
   const toggleVendor = (id: string) => {
     if (selectedVendors.includes(id)) {
@@ -59,7 +45,7 @@ export default function VendorComparePage() {
     }
   };
 
-  const comparedVendors = mockVendors.filter(v => selectedVendors.includes(v.id));
+  const comparedVendors = vendors.filter(v => selectedVendors.includes(v.id));
 
   const getAvailabilityColor = (availability: string) => {
     switch (availability) {
@@ -94,10 +80,10 @@ export default function VendorComparePage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Vendors Available" value={mockVendors.length.toString()} />
+              <StatCard label="Vendors Available" value={vendors.length.toString()} />
               <StatCard label="Comparing" value={selectedVendors.length.toString()} />
               <StatCard label="Avg Rating" value="4.6" />
-              <StatCard label="Available Now" value={mockVendors.filter(v => v.availability === "Available").length.toString()} />
+              <StatCard label="Available Now" value={vendors.filter(v => v.availability === "Available").length.toString()} />
             </Grid>
 
             <Card>
@@ -113,7 +99,7 @@ export default function VendorComparePage() {
                   </Select>
                 </Stack>
                 <Grid cols={4} gap={3}>
-                  {mockVendors.filter(v => categoryFilter === "All" || v.category === categoryFilter).map((vendor) => (
+                  {vendors.filter(v => categoryFilter === "All" || v.category === categoryFilter).map((vendor) => (
                     <Card key={vendor.id} onClick={() => toggleVendor(vendor.id)}>
                       <Stack gap={2}>
                         <Stack direction="horizontal" className="justify-between items-start">

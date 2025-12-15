@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
@@ -25,9 +25,22 @@ import {
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 import {
-  DEMO_CERTIFICATIONS,
-  type DemoCertification as Certification,
-} from "../../lib/demo-data";
+  useCertifications,
+  useAddCertification,
+  useDeleteCertification,
+} from "../../hooks/useCertifications";
+
+interface Certification {
+  id: string;
+  crew_member_id: string;
+  crew_member_name: string;
+  certification_type: string;
+  issue_date: string;
+  expiry_date: string;
+  status: 'active' | 'expiring_soon' | 'expired';
+  issuing_authority?: string;
+  certificate_number?: string;
+}
 
 const columns: ListPageColumn<Certification>[] = [
   { key: 'id', label: 'ID', accessor: 'id', sortable: true },
@@ -88,19 +101,28 @@ const formFields: FormFieldConfig[] = [
 
 export default function CertificationsPage() {
   const router = useRouter();
-  const [certifications, setCertifications] = useState<Certification[]>(DEMO_CERTIFICATIONS);
-  const [loading] = useState(false);
+  const { data: apiCerts = [], isLoading: loading, refetch } = useCertifications();
+  const addCertMutation = useAddCertification();
+  const deleteCertMutation = useDeleteCertification();
+  
+  // Map API data to local interface
+  const certifications: Certification[] = apiCerts.map(c => ({
+    id: c.id,
+    crew_member_id: c.crew_member_id,
+    crew_member_name: c.certification_type_id || 'Unknown',
+    certification_type: c.certification_type_id || '',
+    issue_date: c.issued_date || '',
+    expiry_date: c.expiration_date || '',
+    status: c.status as Certification['status'],
+    issuing_authority: undefined,
+    certificate_number: c.certificate_number || undefined,
+  }));
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCert, setSelectedCert] = useState<Certification | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [certToDelete, setCertToDelete] = useState<Certification | null>(null);
-
-  const refetch = useCallback(() => {
-    // Would fetch from API
-    setCertifications(DEMO_CERTIFICATIONS);
-  }, []);
 
   const rowActions: ListPageAction<Certification>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedCert(row); setDrawerOpen(true); } },
@@ -116,22 +138,22 @@ export default function CertificationsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newCert: Certification = {
-      id: `CERT-${String(certifications.length + 1).padStart(3, '0')}`,
+    await addCertMutation.mutateAsync({
       crew_member_id: String(data.crew_member_id || ''),
-      crew_member_name: String(data.crew_member_name || ''),
-      certification_type: String(data.certification_type || ''),
-      issue_date: String(data.issue_date || new Date().toISOString().split('T')[0]),
-      expiry_date: String(data.expiry_date || ''),
+      certification_type_id: String(data.certification_type || ''),
+      issued_date: String(data.issue_date || new Date().toISOString().split('T')[0]),
+      expiration_date: String(data.expiry_date || ''),
       status: 'active',
-    };
-    setCertifications(prev => [...prev, newCert]);
+      certificate_number: data.certificate_number ? String(data.certificate_number) : undefined,
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
   const handleDelete = async () => {
     if (certToDelete) {
-      setCertifications(prev => prev.filter(c => c.id !== certToDelete.id));
+      await deleteCertMutation.mutateAsync(certToDelete.id);
+      refetch();
       setDeleteConfirmOpen(false);
       setCertToDelete(null);
     }
@@ -161,7 +183,10 @@ export default function CertificationsPage() {
       a.click();
       URL.revokeObjectURL(url);
     } else if (actionId === 'delete') {
-      setCertifications(prev => prev.filter(c => !selectedIds.includes(c.id)));
+      for (const id of selectedIds) {
+        await deleteCertMutation.mutateAsync(id);
+      }
+      refetch();
     }
   };
 
@@ -171,12 +196,15 @@ export default function CertificationsPage() {
     requiredFields: ['crew_member_name', 'certification_type', 'expiry_date'],
     onImport: async (records) => {
       for (const record of records) {
-        const newCert: Certification = {
-          id: `CERT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          ...record as Omit<Certification, 'id'>,
-        };
-        setCertifications(prev => [...prev, newCert]);
+        await addCertMutation.mutateAsync({
+          crew_member_id: String(record.crew_member_id || ''),
+          certification_type_id: String(record.certification_type || ''),
+          issued_date: String(record.issue_date || ''),
+          expiration_date: String(record.expiry_date || ''),
+          status: (record.status as string) || 'active',
+        });
       }
+      refetch();
     },
   });
 

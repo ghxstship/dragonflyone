@@ -35,16 +35,15 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_ACCESS_POINTS,
-  DEMO_VEHICLE_PASSES,
-  type DemoVehiclePass as VehiclePass,
-} from "../../lib/demo-data";
-
-const mockAccessPoints = DEMO_ACCESS_POINTS;
-const mockVehiclePasses = DEMO_VEHICLE_PASSES;
+  useAccessPoints,
+  useVehiclePasses,
+  type VehiclePass,
+} from "../../hooks/useSiteAccess";
 
 export default function SiteAccessPage() {
   const router = useRouter();
+  const { data: accessPoints = [] } = useAccessPoints();
+  const { data: vehiclePasses = [] } = useVehiclePasses();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -54,9 +53,9 @@ export default function SiteAccessPage() {
   const [showAddPassModal, setShowAddPassModal] = useState(false);
   const [selectedPass, setSelectedPass] = useState<VehiclePass | null>(null);
 
-  const openPoints = mockAccessPoints.filter(p => p.status === "Open").length;
-  const activeVehicles = mockAccessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);
-  const activePasses = mockVehiclePasses.filter(p => p.status === "Active").length;
+  const openPoints = accessPoints.filter(p => p.status === "Open").length;
+  const activeVehicles = accessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);
+  const activePasses = vehiclePasses.filter(p => p.status === "Active").length;
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
@@ -81,10 +80,10 @@ export default function SiteAccessPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={`${openPoints}/${mockAccessPoints.length}`} label="Open Access Points" />
+              <StatCard value={`${openPoints}/${accessPoints.length}`} label="Open Access Points" />
               <StatCard value={activeVehicles.toString()} label="Vehicles On Site" />
               <StatCard value={activePasses.toString()} label="Active Passes" />
-              <StatCard value={mockVehiclePasses.filter(p => p.status === "Pending").length.toString()} label="Pending Approval" />
+              <StatCard value={vehiclePasses.filter(p => p.status === "Pending").length.toString()} label="Pending Approval" />
             </Grid>
 
             <Tabs>
@@ -96,7 +95,7 @@ export default function SiteAccessPage() {
 
               <TabPanel active={isActive('access')}>
                 <Grid cols={3} gap={6}>
-                  {mockAccessPoints.map((point) => (
+                  {accessPoints.map((point) => (
                     <Card key={point.id} className="p-6">
                       <Stack gap={4}>
                         <Stack direction="horizontal" className="items-start justify-between">
@@ -135,7 +134,7 @@ export default function SiteAccessPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockVehiclePasses.map((pass) => (
+                    {vehiclePasses.map((pass) => (
                       <TableRow key={pass.id}>
                         <TableCell>
                           <Stack gap={1}>
@@ -169,7 +168,7 @@ export default function SiteAccessPage() {
                   <Stack gap={4}>
                     <H3>Today&apos;s Deliveries</H3>
                     <Stack gap={2}>
-                      {mockVehiclePasses.map((pass) => (
+                      {vehiclePasses.map((pass) => (
                         <Card key={pass.id} className="p-4">
                           <Grid cols={4} gap={4}>
                             <Stack gap={1}>

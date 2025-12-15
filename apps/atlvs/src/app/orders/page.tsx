@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, ShoppingCart } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -101,6 +102,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function OrdersPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: orders, isLoading, error, refetch } = useOrders();
   const createMutation = useCreateOrder();
   const deleteMutation = useDeleteOrder();
@@ -152,8 +154,9 @@ export default function OrdersPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Order Created', message: `Order "${data.order_number}" has been created.` });
     } catch (err) {
-      console.error('Failed to create order:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Order', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -162,9 +165,10 @@ export default function OrdersPage() {
       try {
         await deleteMutation.mutateAsync(orderToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Order Deleted', message: `Order "${orderToDelete.order_number}" has been deleted.` });
         setOrderToDelete(null);
       } catch (err) {
-        console.error('Failed to delete order:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Order', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

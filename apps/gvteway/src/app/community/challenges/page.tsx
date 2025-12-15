@@ -3,24 +3,30 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Kicker,
+  EmptyState,
 } from "@ghxstship/ui";
-
-import {
-  DEMO_CHALLENGES,
-  DEMO_LEADERBOARD,
-  type DemoChallenge as Challenge,
-} from "@/lib/demo-data";
-
-const mockChallenges = DEMO_CHALLENGES;
-const mockLeaderboard = DEMO_LEADERBOARD;
+import { Trophy } from "lucide-react";
+import { useChallengesData, type Challenge } from "@/hooks/useChallenges";
 
 function ChallengesPageContent() {
   const router = useRouter();
+  const {
+    challenges,
+    activeChallenges: activeList,
+    upcomingChallenges,
+    completedChallenges,
+    leaderboard,
+    userStats,
+    isLoading,
+    error,
+    joinChallenge,
+    isJoining,
+  } = useChallengesData();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -29,9 +35,9 @@ function ChallengesPageContent() {
   });
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
 
-  const activeChallenges = mockChallenges.filter(c => c.status === "Active").length;
-  const totalParticipants = mockChallenges.reduce((sum, c) => sum + c.participants, 0);
-  const completedByUser = mockChallenges.filter(c => c.userCompleted).length;
+  const activeChallengesCount = activeList.length;
+  const totalParticipants = challenges.reduce((sum, c) => sum + c.participants, 0);
+  const completedByUser = challenges.filter(c => c.userCompleted).length;
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
@@ -46,7 +52,34 @@ function ChallengesPageContent() {
     return <Badge variant="outline">{category}</Badge>;
   };
 
-  const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
+  // Filter challenges based on active tab
+  const getFilteredChallenges = () => {
+    switch (activeTab) {
+      case 'active': return activeList;
+      case 'upcoming': return upcomingChallenges;
+      case 'completed': return completedChallenges;
+      default: return challenges;
+    }
+  };
+  const filteredChallenges = getFilteredChallenges();
+
+  if (isLoading) {
+    return <GvtewayLoadingLayout text="Loading challenges..." />;
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <EmptyState
+          icon={<Trophy size={48} />}
+          title="Unable to load challenges"
+          description="There was a problem loading challenges. Please try again."
+          action={{ label: "Try Again", onClick: () => window.location.reload() }}
+          inverted
+        />
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>
@@ -59,10 +92,10 @@ function ChallengesPageContent() {
             </Stack>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Active Challenges" value={activeChallenges.toString()} inverted />
+              <StatCard label="Active Challenges" value={activeChallengesCount.toString()} inverted />
               <StatCard label="Total Participants" value={totalParticipants.toLocaleString()} inverted />
               <StatCard label="Your Completed" value={completedByUser.toString()} inverted />
-              <StatCard label="Your Points" value="2,450" inverted />
+              <StatCard label="Your Points" value={userStats.points.toLocaleString()} inverted />
             </Grid>
 
           <Tabs>
@@ -144,7 +177,7 @@ function ChallengesPageContent() {
                 <Stack gap={4}>
                   <H3 className="text-white">Top Challengers</H3>
                   <Stack gap={3}>
-                    {mockLeaderboard.map((entry) => (
+                    {leaderboard.map((entry) => (
                       <Card key={entry.rank} inverted variant={entry.rank <= 3 ? "elevated" : "default"}>
                         <Grid cols={4} gap={4} className="items-center">
                           <Stack direction="horizontal" gap={3} className="items-center">
@@ -169,11 +202,11 @@ function ChallengesPageContent() {
                   <Card inverted variant="elevated" className="p-4">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <Label className="font-mono text-h5-md text-white">#42</Label>
+                        <Label className="font-mono text-h5-md text-white">#{userStats.rank || '—'}</Label>
                         <Body className="font-display text-white">You</Body>
                       </Stack>
                       <Stack gap={0}>
-                        <Label className="font-mono text-h6-md text-white">2,450</Label>
+                        <Label className="font-mono text-h6-md text-white">{userStats.points.toLocaleString()}</Label>
                         <Label size="xs" className="text-on-dark-muted">points</Label>
                       </Stack>
                       <Stack gap={0}>
@@ -223,7 +256,9 @@ function ChallengesPageContent() {
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedChallenge(null)}>Close</Button>
           {selectedChallenge?.status === "Active" && !selectedChallenge.userCompleted && (
-            <Button variant="solid">Join Challenge</Button>
+            <Button variant="solid" onClick={() => selectedChallenge && joinChallenge(selectedChallenge.id)} disabled={isJoining}>
+              {isJoining ? 'Joining...' : 'Join Challenge'}
+            </Button>
           )}
         </ModalFooter>
       </Modal>

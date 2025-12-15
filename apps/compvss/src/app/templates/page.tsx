@@ -25,22 +25,21 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_TEMPLATES,
-  type DemoTemplate as Template,
-} from "../../lib/demo-data";
-
-const mockTemplates = DEMO_TEMPLATES;
+  useTemplates,
+  type Template,
+} from '../../hooks/useTemplates';
 
 const categories = ["Contract", "Checklist", "Form", "Rider", "Report", "SOP"];
 
 export default function TemplatesPage() {
   const router = useRouter();
+  const { data: templates = [] } = useTemplates();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTemplates = mockTemplates.filter(t => {
+  const filteredTemplates = templates.filter(t => {
     const matchesCategory = selectedCategory === "All" || t.category === selectedCategory;
     const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -48,7 +47,7 @@ export default function TemplatesPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const totalDownloads = mockTemplates.reduce((sum, t) => sum + t.downloads, 0);
+  const totalDownloads = templates.reduce((sum, t) => sum + t.downloads, 0);
 
   return (
     <CompvssAppLayout>
@@ -66,7 +65,7 @@ export default function TemplatesPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Templates" value={mockTemplates.length.toString()} />
+              <StatCard label="Templates" value={templates.length.toString()} />
               <StatCard label="Categories" value={categories.length.toString()} />
               <StatCard label="Total Downloads" value={totalDownloads.toLocaleString()} />
               <StatCard label="Last Updated" value="Today" />
@@ -74,7 +73,7 @@ export default function TemplatesPage() {
 
             <Grid cols={6} gap={2}>
               {categories.map((cat) => {
-                const count = mockTemplates.filter(t => t.category === cat).length;
+                const count = templates.filter(t => t.category === cat).length;
                 return (
                   <Card key={cat} onClick={() => setSelectedCategory(selectedCategory === cat ? "All" : cat)}>
                     <Stack gap={1} className="text-center">

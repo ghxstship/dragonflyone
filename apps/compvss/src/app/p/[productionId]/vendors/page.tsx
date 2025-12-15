@@ -28,12 +28,22 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_PRODUCTION_VENDORS, type DemoProductionVendor } from '../../../../lib/demo-data';
+
+interface ProductionVendor {
+  id: string;
+  name: string;
+  category: string;
+  contact: string;
+  email: string;
+  phone: string;
+  contractValue: number;
+  status: 'pending' | 'active' | 'completed';
+}
 
 export default function ProductionVendorsPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [vendors, setVendors] = useState<DemoProductionVendor[]>(DEMO_PRODUCTION_VENDORS);
+  const [vendors, setVendors] = useState<ProductionVendor[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 

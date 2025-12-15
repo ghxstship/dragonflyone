@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { createClient } from '@supabase/supabase-js';
 
 function getSupabaseClient() {
@@ -9,6 +10,12 @@ function getSupabaseClient() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 }
+
+const GVTEWAY_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN, PlatformRole.GVTEWAY_EXPERIENCE_CREATOR, PlatformRole.GVTEWAY_VENUE_MANAGER,
+  PlatformRole.GVTEWAY_MEMBER_EXTRA, PlatformRole.GVTEWAY_MEMBER_PLUS, PlatformRole.GVTEWAY_MEMBER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 
 
@@ -100,15 +107,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const user = authResult.user;
 
     const body = await request.json();
     const {
@@ -175,15 +180,13 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const user = authResult.user;
 
     const body = await request.json();
     const { request_id, status, notes, assigned_to } = body;

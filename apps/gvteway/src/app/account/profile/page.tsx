@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   SectionHeader,
   Card,
@@ -12,6 +12,7 @@ import {
   H3,
   Input,
   Label,
+  Alert,
 } from '@ghxstship/ui';
 import {
   User,
@@ -21,25 +22,72 @@ import {
   Bell,
   Shield,
   Save,
+  CheckCircle,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../components/app-layout';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '../../../components/app-layout';
+import { useProfileData } from '@/hooks/useProfile';
 
 export default function AccountProfilePage() {
-  const [profile, setProfile] = useState({
-    firstName: 'John',
-    lastName: 'Smith',
-    email: 'john.smith@email.com',
-    phone: '(555) 123-4567',
+  const { profile: userProfile, isLoading, error, saveProfile, isSaving } = useProfileData();
+  const [localProfile, setLocalProfile] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
   });
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  const handleSave = () => {
-    // Save profile
+  // Sync local state with fetched profile data
+  useEffect(() => {
+    if (userProfile) {
+      setLocalProfile({
+        firstName: userProfile.firstName || '',
+        lastName: userProfile.lastName || '',
+        email: userProfile.email || '',
+        phone: userProfile.phone || '',
+      });
+    }
+  }, [userProfile]);
+
+  const handleSave = async () => {
+    try {
+      await saveProfile({
+        ...userProfile,
+        firstName: localProfile.firstName,
+        lastName: localProfile.lastName,
+        email: localProfile.email,
+        phone: localProfile.phone,
+      });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      // Error is handled by the mutation
+    }
   };
+
+  if (isLoading) {
+    return <GvtewayLoadingLayout text="Loading profile..." />;
+  }
 
   return (
     <GvtewayAppLayout>
       <Stack gap={8}>
         <SectionHeader kicker="My Account" title="Profile Settings" description="Manage your account information and preferences" colorScheme="on-dark" />
+
+        {error && (
+          <Alert variant="error">
+            <Body>Failed to load profile. Please try again.</Body>
+          </Alert>
+        )}
+
+        {saveSuccess && (
+          <Alert variant="success">
+            <Stack direction="horizontal" gap={2} className="items-center">
+              <CheckCircle size={16} />
+              <Body>Profile saved successfully!</Body>
+            </Stack>
+          </Alert>
+        )}
 
         <Grid cols={2} gap={6}>
           <Card variant="elevated" inverted>
@@ -52,28 +100,30 @@ export default function AccountProfilePage() {
                 <Grid cols={2} gap={4}>
                   <Stack gap={2}>
                     <Label>First Name</Label>
-                    <Input value={profile.firstName} onChange={(e) => setProfile(p => ({ ...p, firstName: e.target.value }))} />
+                    <Input value={localProfile.firstName} onChange={(e) => setLocalProfile(p => ({ ...p, firstName: e.target.value }))} />
                   </Stack>
                   <Stack gap={2}>
                     <Label>Last Name</Label>
-                    <Input value={profile.lastName} onChange={(e) => setProfile(p => ({ ...p, lastName: e.target.value }))} />
+                    <Input value={localProfile.lastName} onChange={(e) => setLocalProfile(p => ({ ...p, lastName: e.target.value }))} />
                   </Stack>
                 </Grid>
                 <Stack gap={2}>
                   <Label>Email</Label>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Mail size={16} className="text-on-dark-muted" />
-                    <Input value={profile.email} onChange={(e) => setProfile(p => ({ ...p, email: e.target.value }))} className="flex-1" />
+                    <Input value={localProfile.email} onChange={(e) => setLocalProfile(p => ({ ...p, email: e.target.value }))} className="flex-1" />
                   </Stack>
                 </Stack>
                 <Stack gap={2}>
                   <Label>Phone</Label>
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Phone size={16} className="text-on-dark-muted" />
-                    <Input value={profile.phone} onChange={(e) => setProfile(p => ({ ...p, phone: e.target.value }))} className="flex-1" />
+                    <Input value={localProfile.phone} onChange={(e) => setLocalProfile(p => ({ ...p, phone: e.target.value }))} className="flex-1" />
                   </Stack>
                 </Stack>
-                <Button variant="solid" onClick={handleSave}><Save size={16} className="mr-2" />Save Changes</Button>
+                <Button variant="solid" onClick={handleSave} disabled={isSaving}>
+                  {isSaving ? 'Saving...' : <><Save size={16} className="mr-2" />Save Changes</>}
+                </Button>
               </Stack>
             </CardBody>
           </Card>

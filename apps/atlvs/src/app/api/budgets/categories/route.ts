@@ -2,12 +2,31 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.ATLVS_TEAM_MEMBER,
+  PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
+
+const ATLVS_ADMIN_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 const BudgetCategorySchema = z.object({
   organization_id: z.string().uuid(),
@@ -19,6 +38,19 @@ const BudgetCategorySchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+    // Authentication check
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    
+    // Authorization check
+    const userRoles = authResult.user?.platformRoles || [];
+    const hasAccess = ATLVS_ROLES.some(role => userRoles.includes(role));
+    if (!hasAccess) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const organizationId = searchParams.get('organization_id');
     const limit = parseInt(searchParams.get('limit') || '50');
@@ -73,6 +105,19 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authentication check
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult;
+    }
+    
+    // Authorization check - only admins can create categories
+    const userRoles = authResult.user?.platformRoles || [];
+    const canCreate = ATLVS_ADMIN_ROLES.some(role => userRoles.includes(role));
+    if (!canCreate) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+
     const body = await request.json();
     const validatedData = BudgetCategorySchema.parse(body);
 

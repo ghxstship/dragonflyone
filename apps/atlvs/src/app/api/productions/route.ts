@@ -2,13 +2,23 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { log } from '@ghxstship/config';
+import { log, withAuth, PlatformRole } from '@ghxstship/config';
 import { z } from 'zod';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN,
+  PlatformRole.ATLVS_ADMIN,
+  PlatformRole.ATLVS_TEAM_MEMBER,
+  PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN,
+  PlatformRole.LEGEND_ADMIN,
+  PlatformRole.LEGEND_DEVELOPER,
+];
 
 const ProductionSchema = z.object({
   title: z.string().min(1, 'Title is required'),
@@ -39,6 +49,19 @@ const ProductionSchema = z.object({
 
 export async function GET(request: NextRequest) {
   try {
+    // Authentication check
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult; // Returns 401 if not authenticated
+    }
+    
+    // Authorization check - verify user has ATLVS access
+    const userRoles = authResult.user?.platformRoles || [];
+    const hasAccess = ATLVS_ROLES.some(role => userRoles.includes(role));
+    if (!hasAccess) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const limit = parseInt(searchParams.get('limit') || '50');
@@ -70,6 +93,68 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Authentication check
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) {
+      return authResult; // Returns 401 if not authenticated
+    }
+    
+    // Authorization check - only admins can create productions
+    const userRoles = authResult.user?.platformRoles || [];
+    const canCreate = userRoles.some(role => 
+      role === PlatformRole.ATLVS_SUPER_ADMIN ||
+      role === PlatformRole.ATLVS_ADMIN ||
+      role === PlatformRole.LEGEND_SUPER_ADMIN ||
+      role === PlatformRole.LEGEND_ADMIN ||
+      role === PlatformRole.LEGEND_DEVELOPER
+    );
+    if (!canCreate) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required to create productions' }, { status: 403 });
+    }
+
+    // Get user's organization_id from platform_users
+    const { data: platformUser, error: userError } = await supabase
+      .from('platform_users')
+      .select('id, organization_id')
+      .eq('auth_user_id', authResult.user?.id)
+      .single();
+
+    if (userError || !platformUser) {
+      log.error('Failed to fetch platform user', { error: userError, userId: authResult.user?.id });
+      return NextResponse.json({ error: 'User profile not found' }, { status: 404 });
+    }
+
+    // Get or create a default project for the organization
+    let projectId: string;
+    const { data: existingProject } = await supabase
+      .from('projects')
+      .select('id')
+      .eq('organization_id', platformUser.organization_id)
+      .limit(1)
+      .single();
+
+    if (existingProject) {
+      projectId = existingProject.id;
+    } else {
+      // Create a default project for productions
+      const { data: newProject, error: projectError } = await supabase
+        .from('projects')
+        .insert({
+          organization_id: platformUser.organization_id,
+          name: 'Default Productions Project',
+          status: 'active',
+          created_by: platformUser.id,
+        })
+        .select('id')
+        .single();
+
+      if (projectError || !newProject) {
+        log.error('Failed to create default project', { error: projectError });
+        return NextResponse.json({ error: 'Failed to create project for production' }, { status: 500 });
+      }
+      projectId = newProject.id;
+    }
+
     const body = await request.json();
     
     const validationResult = ProductionSchema.safeParse(body);
@@ -81,8 +166,12 @@ export async function POST(request: NextRequest) {
     }
     
     const validated = validationResult.data;
+    const today = new Date().toISOString().split('T')[0];
 
     const productionData = {
+      organization_id: platformUser.organization_id,
+      project_id: projectId,
+      name: validated.title,
       title: validated.title,
       tagline: validated.tagline,
       description: validated.description,
@@ -93,8 +182,9 @@ export async function POST(request: NextRequest) {
       preview_start: validated.previewStart || null,
       opening_date: validated.openingDate || null,
       closing_date: validated.closingDate || null,
-      load_in_date: validated.loadInStart || null,
-      load_out_date: validated.loadOutEnd || null,
+      load_in_date: validated.loadInStart || today,
+      load_out_date: validated.loadOutEnd || today,
+      event_date: validated.openingDate || today,
       venue_id: validated.venueId || null,
       capacity_per_show: validated.capacityPerShow || 0,
       shows_per_day: validated.showsPerDay || 1,
@@ -108,6 +198,8 @@ export async function POST(request: NextRequest) {
       sponsorship_target: validated.sponsorshipTarget || 0,
       blueprint_id: validated.blueprintId || null,
       status: 'draft',
+      production_type: validated.format || 'other',
+      created_by: platformUser.id,
     };
 
     const { data, error } = await supabase

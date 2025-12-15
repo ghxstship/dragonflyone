@@ -36,16 +36,15 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_VIP_GUESTS,
-  DEMO_ACCESS_ZONES,
-  type DemoVIPGuest as VIPGuest,
-} from "../../lib/demo-data";
-
-const mockVIPGuests = DEMO_VIP_GUESTS;
-const mockAccessZones = DEMO_ACCESS_ZONES;
+  useVIPGuests,
+  useAccessZones,
+  type VIPGuest,
+} from "../../hooks/useVIPManagement";
 
 export default function VIPManagementPage() {
   const router = useRouter();
+  const { data: vipGuests = [] } = useVIPGuests();
+  const { data: accessZones = [] } = useAccessZones();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -56,7 +55,7 @@ export default function VIPManagementPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<VIPGuest | null>(null);
 
-  const filteredGuests = mockVIPGuests.filter((g) =>
+  const filteredGuests = vipGuests.filter((g) =>
     g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     g.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -87,10 +86,10 @@ export default function VIPManagementPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Checked In" value={mockVIPGuests.filter(g => g.status === "Checked In").length.toString()} />
-              <StatCard label="Pending" value={mockVIPGuests.filter(g => g.status === "Pending").length.toString()} />
-              <StatCard label="Total Guests" value={mockVIPGuests.length.toString()} />
-              <StatCard label="Zone Occupancy" value={`${mockAccessZones.reduce((s,z) => s + z.currentOccupancy, 0)}/${mockAccessZones.reduce((s,z) => s + z.maxCapacity, 0)}`} />
+              <StatCard label="Checked In" value={vipGuests.filter(g => g.status === "Checked In").length.toString()} />
+              <StatCard label="Pending" value={vipGuests.filter(g => g.status === "Pending").length.toString()} />
+              <StatCard label="Total Guests" value={vipGuests.length.toString()} />
+              <StatCard label="Zone Occupancy" value={`${accessZones.reduce((s,z) => s + z.currentOccupancy, 0)}/${accessZones.reduce((s,z) => s + z.maxCapacity, 0)}`} />
             </Grid>
 
             <Input type="search" placeholder="Search guests..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
@@ -139,7 +138,7 @@ export default function VIPManagementPage() {
 
               <TabPanel active={isActive('zones')}>
                 <Grid cols={2} gap={6}>
-                  {mockAccessZones.map((zone) => (
+                  {accessZones.map((zone) => (
                     <Card key={zone.id}>
                       <Stack gap={4}>
                         <H3>{zone.name}</H3>

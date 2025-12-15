@@ -23,9 +23,21 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-import {
-  DEMO_CREW_MEMBERS,
-} from "../../lib/demo-data";
+interface CrewMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  availability: string;
+  rate: number;
+  rating: number;
+  projectsCompleted: number;
+  location: string;
+  phone: string;
+  email: string;
+  specialties?: string[];
+  certifications?: string[];
+}
 
 const columns: ListPageColumn<CrewMember>[] = [
   { key: 'id', label: 'ID', accessor: 'id', sortable: true, width: '100px' },
@@ -115,24 +127,22 @@ export default function CrewPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<CrewMember | null>(null);
 
-  // Map API data to local interface or fallback to mock
-  const crewList: CrewMember[] = crewData 
-    ? crewData.map(c => ({
-        id: c.id,
-        name: c.full_name,
-        role: c.role,
-        department: c.department,
-        availability: c.availability === 'available' ? 'Available' : c.availability === 'busy' ? 'Booked' : 'Unavailable',
-        rate: c.rate,
-        rating: c.rating || 0,
-        projectsCompleted: c.projects_completed || 0,
-        location: '',
-        phone: c.phone || '',
-        email: c.email,
-        specialties: c.skills,
-        certifications: c.certifications,
-      }))
-    : DEMO_CREW_MEMBERS;
+  // Map API data to local interface
+  const crewList: CrewMember[] = (crewData || []).map(c => ({
+    id: c.id,
+    name: c.full_name,
+    role: c.role,
+    department: c.department,
+    availability: c.availability === 'available' ? 'Available' : c.availability === 'busy' ? 'Booked' : 'Unavailable',
+    rate: c.rate,
+    rating: c.rating || 0,
+    projectsCompleted: c.projects_completed || 0,
+    location: '',
+    phone: c.phone || '',
+    email: c.email,
+    specialties: c.skills,
+    certifications: c.certifications,
+  }));
 
   const rowActions: ListPageAction<CrewMember>[] = [
     { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedMember(row); setDrawerOpen(true); } },

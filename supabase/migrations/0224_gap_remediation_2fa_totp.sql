@@ -47,9 +47,10 @@ CREATE POLICY "user_2fa_config_select" ON public.user_2fa_config
   FOR SELECT USING (
     user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN')
     )
   );
 
@@ -65,9 +66,10 @@ CREATE POLICY "user_2fa_verification_log_select" ON public.user_2fa_verification
   FOR SELECT USING (
     user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN')
     )
   );
 
@@ -79,7 +81,6 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_roles TEXT[];
   v_admin_roles TEXT[] := ARRAY[
     'LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'LEGEND_DEVELOPER', 'LEGEND_SUPPORT',
     'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN',
@@ -87,12 +88,12 @@ DECLARE
     'GVTEWAY_ADMIN'
   ];
 BEGIN
-  SELECT platform_roles INTO v_roles
-  FROM public.platform_users
-  WHERE id = p_user_id;
-  
   -- 2FA is required for admin roles
-  RETURN v_roles && v_admin_roles;
+  RETURN EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code = ANY(v_admin_roles)
+  );
 END;
 $$;
 
@@ -210,7 +211,11 @@ BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM public.platform_users
     WHERE (id = p_user_id AND auth_user_id = auth.uid())
-    OR (auth_user_id = auth.uid() AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN'])
+    OR EXISTS (
+      SELECT 1 FROM public.user_roles ur
+      WHERE ur.platform_user_id = (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
+      AND ur.role_code = 'LEGEND_SUPER_ADMIN'
+    )
   ) THEN
     RAISE EXCEPTION 'Unauthorized: Cannot disable 2FA for this account';
   END IF;
@@ -219,9 +224,10 @@ BEGIN
   IF public.is_2fa_required(p_user_id) THEN
     -- Only super admins can disable required 2FA
     IF NOT EXISTS (
-      SELECT 1 FROM public.platform_users
-      WHERE auth_user_id = auth.uid()
-      AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN']
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
+      WHERE pu.auth_user_id = auth.uid()
+      AND ur.role_code = 'LEGEND_SUPER_ADMIN'
     ) THEN
       RAISE EXCEPTION '2FA is required for admin accounts and cannot be disabled';
     END IF;
@@ -355,7 +361,11 @@ BEGIN
   IF NOT EXISTS (
     SELECT 1 FROM public.platform_users
     WHERE (id = p_user_id AND auth_user_id = auth.uid())
-    OR (auth_user_id = auth.uid() AND platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN'])
+    OR EXISTS (
+      SELECT 1 FROM public.user_roles ur
+      WHERE ur.platform_user_id = (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN')
+    )
   ) THEN
     RAISE EXCEPTION 'Unauthorized';
   END IF;

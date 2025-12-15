@@ -33,11 +33,10 @@ CREATE POLICY "portal_user_entity_access_select" ON public.portal_user_entity_ac
       SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid()
     )
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
   );
 
@@ -84,11 +83,10 @@ CREATE POLICY "vendors_portal_isolation" ON public.vendors
   FOR SELECT USING (
     -- Admins can see all vendors
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN')
     )
     -- Portal users can only see their own vendor record
     OR id IN (
@@ -105,26 +103,17 @@ CREATE POLICY "vendor_contracts_portal_isolation" ON public.contracts
   FOR SELECT USING (
     -- Admins can see all contracts
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
-    -- Portal users can only see contracts for their entities
+    -- Portal users can only see contracts for their vendor entities
     OR (
       vendor_id IS NOT NULL AND vendor_id IN (
         SELECT entity_id FROM public.portal_user_entity_access
         WHERE user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
         AND entity_type = 'vendor'
-        AND (expires_at IS NULL OR expires_at > NOW())
-      )
-    )
-    OR (
-      sponsor_id IS NOT NULL AND sponsor_id IN (
-        SELECT entity_id FROM public.portal_user_entity_access
-        WHERE user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
-        AND entity_type = 'sponsor'
         AND (expires_at IS NULL OR expires_at > NOW())
       )
     )
@@ -139,11 +128,10 @@ CREATE POLICY "sponsors_portal_isolation" ON public.sponsors
   FOR SELECT USING (
     -- Admins can see all sponsors
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
     -- Portal users can only see their own sponsor record
     OR id IN (
@@ -160,11 +148,10 @@ CREATE POLICY "sponsor_activations_portal_isolation" ON public.sponsor_activatio
   FOR SELECT USING (
     -- Admins can see all activations
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
     -- Portal users can only see activations for their sponsors
     OR sponsor_id IN (
@@ -184,11 +171,10 @@ CREATE POLICY "investors_portal_isolation" ON public.investors
   FOR SELECT USING (
     -- Admins can see all investors
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
     -- Portal users can only see their own investor record
     OR id IN (
@@ -205,11 +191,10 @@ CREATE POLICY "investment_rounds_portal_isolation" ON public.investment_rounds
   FOR SELECT USING (
     -- Admins can see all rounds
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
     -- Portal users can only see rounds they've invested in
     OR id IN (
@@ -232,11 +217,10 @@ CREATE POLICY "artists_portal_isolation" ON public.artists
   FOR SELECT USING (
     -- Admins can see all artists
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN')
     )
     -- Portal users can only see their own artist record
     OR id IN (
@@ -245,8 +229,6 @@ CREATE POLICY "artists_portal_isolation" ON public.artists
       AND entity_type = 'artist'
       AND (expires_at IS NULL OR expires_at > NOW())
     )
-    -- Public artists are visible to all
-    OR is_public = TRUE
   );
 
 -- ============================================================================
@@ -258,11 +240,10 @@ CREATE POLICY "crew_members_portal_isolation" ON public.crew_members
   FOR SELECT USING (
     -- Admins can see all crew
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND (
-        pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'COMPVSS_ADMIN']
-      )
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'COMPVSS_ADMIN')
     )
     -- Portal users can only see their own crew record
     OR id IN (
@@ -271,8 +252,8 @@ CREATE POLICY "crew_members_portal_isolation" ON public.crew_members
       AND entity_type = 'crew'
       AND (expires_at IS NULL OR expires_at > NOW())
     )
-    -- Users can see their own record via platform_user_id
-    OR platform_user_id IN (
+    -- Users can see their own record via user_id
+    OR user_id IN (
       SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid()
     )
   );
@@ -305,11 +286,9 @@ BEGIN
   
   -- Check if granter has permission (must be admin)
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
-    WHERE pu.id = v_granter_id
-    AND (
-      pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN']
-    )
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = v_granter_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to grant portal access';
   END IF;
@@ -355,11 +334,9 @@ BEGIN
   
   -- Check if granter has permission (must be admin)
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
-    WHERE pu.id = v_granter_id
-    AND (
-      pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN']
-    )
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = v_granter_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN', 'COMPVSS_ADMIN', 'GVTEWAY_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to revoke portal access';
   END IF;

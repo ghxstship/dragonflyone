@@ -22,9 +22,11 @@ import {
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 import {
-  DEMO_ISSUES,
-  type DemoIssue as Issue,
-} from '../../lib/demo-data';
+  useIssues,
+  useCreateIssue,
+  useUpdateIssueStatus,
+  type Issue,
+} from '../../hooks/useIssues';
 
 const getPriorityVariant = (priority: string): 'solid' | 'outline' | 'ghost' => {
   switch (priority) {
@@ -62,7 +64,9 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
-  const [issues, setIssues] = useState<Issue[]>(DEMO_ISSUES);
+  const { data: issues = [], refetch } = useIssues();
+  const createIssueMutation = useCreateIssue();
+  const updateStatusMutation = useUpdateIssueStatus();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -77,17 +81,21 @@ export default function IssuesPage() {
     { id: 'resolve', label: 'Resolve', icon: <Check className="size-4" />, onClick: (r) => handleResolve(r.id) },
   ];
 
-  const handleEscalate = (issueId: string) => {
-    setIssues(issues.map(i => i.id === issueId ? { ...i, status: 'escalated' as const, escalation_level: i.escalation_level + 1, updated_at: new Date().toISOString() } : i));
+  const handleEscalate = async (issueId: string) => {
+    const issue = issues.find(i => i.id === issueId);
+    if (issue) {
+      await updateStatusMutation.mutateAsync({ id: issueId, status: 'escalated', escalation_level: issue.escalation_level + 1 });
+      refetch();
+    }
   };
 
-  const handleResolve = (issueId: string) => {
-    setIssues(issues.map(i => i.id === issueId ? { ...i, status: 'resolved' as const, updated_at: new Date().toISOString() } : i));
+  const handleResolve = async (issueId: string) => {
+    await updateStatusMutation.mutateAsync({ id: issueId, status: 'resolved' });
+    refetch();
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const issue: Issue = {
-      id: `ISS-${String(issues.length + 1).padStart(3, '0')}`,
+    await createIssueMutation.mutateAsync({
       title: String(data.title || ''),
       description: String(data.description || ''),
       category: data.category as Issue['category'],
@@ -96,11 +104,9 @@ export default function IssuesPage() {
       reported_by: 'Current User',
       department: String(data.department || ''),
       location: data.location ? String(data.location) : undefined,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
       escalation_level: 0,
-    };
-    setIssues([issue, ...issues]);
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
@@ -110,8 +116,7 @@ export default function IssuesPage() {
     requiredFields: ['title', 'category', 'priority'],
     onImport: async (records) => {
       for (const record of records) {
-        const issue: Issue = {
-          id: `ISS-${String(issues.length + 1).padStart(3, '0')}`,
+        await createIssueMutation.mutateAsync({
           title: String(record.title || ''),
           description: String(record.description || ''),
           category: record.category as Issue['category'],
@@ -120,12 +125,10 @@ export default function IssuesPage() {
           reported_by: String(record.reported_by || 'Import'),
           department: String(record.department || ''),
           location: record.location ? String(record.location) : undefined,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
           escalation_level: 0,
-        };
-        setIssues(prev => [issue, ...prev]);
+        });
       }
+      refetch();
     },
   });
 

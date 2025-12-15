@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, Spinner, EmptyState, RecordFormModal, type FormFieldConfig } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, Spinner, EmptyState, RecordFormModal, type FormFieldConfig, useNotifications } from "@ghxstship/ui";
 import { MapPin, Plus, Map, Layers, AlertCircle } from "lucide-react";
-import { useVenues } from "../../../../hooks/useVenues";
+import { useVenues, useCreateVenue } from "../../../../hooks/useVenues";
 import { useProduction } from "../../../../hooks/useProductions";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
@@ -38,13 +38,15 @@ const venueFields: FormFieldConfig[] = [
 export default function ProductionVenuesPage() {
   const params = useParams();
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const productionId = params?.productionId as string;
   
   const { data: apiProduction } = useProduction(productionId);
   const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
   const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
-  const { data: apiVenues, isLoading, error, refetch } = useVenues();
+  const { data: apiVenues, isLoading, error, refetch } = useVenues({ productionId });
+  const createVenueMutation = useCreateVenue();
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
   // Use API data if available, otherwise demo data
@@ -64,15 +66,27 @@ export default function ProductionVenuesPage() {
 
   const handleCreateVenue = async (data: Record<string, unknown>) => {
     try {
-      await fetch('/api/venues', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, production_id: productionId }),
+      await createVenueMutation.mutateAsync({
+        name: data.name as string,
+        venue_type: (data.type as 'indoor' | 'outdoor' | 'hybrid') || 'indoor',
+        capacity: data.capacity as number,
+        address: data.address as string | undefined,
+        production_id: productionId,
+        status: 'prospective',
       });
       setCreateModalOpen(false);
+      addNotification({
+        type: 'success',
+        title: 'Venue Created',
+        message: `Venue "${data.name}" has been created.`,
+      });
       refetch();
     } catch (err) {
-      console.error('Failed to create venue:', err);
+      addNotification({
+        type: 'error',
+        title: 'Failed to Create Venue',
+        message: err instanceof Error ? err.message : 'An unexpected error occurred',
+      });
     }
   };
 

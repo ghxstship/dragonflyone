@@ -24,22 +24,24 @@ import Link from 'next/link';
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_VENDOR_PORTAL_DATA,
-  DEMO_VENDOR_UPCOMING_DELIVERIES,
-  DEMO_VENDOR_RECENT_INVOICES,
-} from '../../lib/demo-data';
-
-const mockVendorData = DEMO_VENDOR_PORTAL_DATA;
-const upcomingDeliveries = DEMO_VENDOR_UPCOMING_DELIVERIES;
-const recentInvoices = DEMO_VENDOR_RECENT_INVOICES;
+  useVendorData,
+  useVendorDeliveries,
+  useVendorInvoices,
+} from '../../hooks/useVendorPortal';
 
 export default function VendorPortalPage() {
+  const { data: vendorData } = useVendorData();
+  const { data: upcomingDeliveries = [] } = useVendorDeliveries();
+  const { data: recentInvoices = [] } = useVendorInvoices();
+
+  const displayVendorData = vendorData || { companyName: 'Vendor', activeContracts: 0, pendingDeliveries: 0, pendingInvoices: 0, totalRevenue: 0 };
+
   return (
     <CompvssAppLayout>
       <Stack gap={8}>
         <SectionHeader
           kicker="Vendor Portal"
-          title={`Welcome, ${mockVendorData.companyName}`}
+          title={`Welcome, ${displayVendorData.companyName}`}
           description="Manage your deliveries, contracts, and invoices"
           colorScheme="on-dark"
         />
@@ -47,25 +49,25 @@ export default function VendorPortalPage() {
         <Grid cols={4} gap={4}>
           <StatCard
             label="Active Contracts"
-            value={mockVendorData.activeContracts.toString()}
+            value={displayVendorData.activeContracts.toString()}
             icon={<FileText size={20} />}
             inverted
           />
           <StatCard
             label="Pending Deliveries"
-            value={mockVendorData.pendingDeliveries.toString()}
+            value={displayVendorData.pendingDeliveries.toString()}
             icon={<Truck size={20} />}
             inverted
           />
           <StatCard
             label="Pending Invoices"
-            value={mockVendorData.pendingInvoices.toString()}
+            value={displayVendorData.pendingInvoices.toString()}
             icon={<DollarSign size={20} />}
             inverted
           />
           <StatCard
             label="YTD Revenue"
-            value={`$${mockVendorData.totalRevenue.toLocaleString()}`}
+            value={`$${displayVendorData.totalRevenue.toLocaleString()}`}
             icon={<DollarSign size={20} />}
             inverted
           />

@@ -4,23 +4,23 @@ import { log } from '@ghxstship/config';
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { productionId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = await createClient();
-    const { productionId } = params;
+    const { id } = params;
 
     // Get wrap report data
     const { data: wrapReport, error } = await supabase
       .from('wrap_reports')
       .select('*')
-      .eq('production_id', productionId)
+      .eq('production_id', id)
       .order('created_at', { ascending: false })
       .limit(1)
       .single();
 
     if (error && error.code !== 'PGRST116') {
-      log.error('Failed to fetch wrap report', { error, productionId });
+      log.error('Failed to fetch wrap report', { error, id });
       return NextResponse.json({ error: 'Failed to fetch wrap report' }, { status: 500 });
     }
 
@@ -28,7 +28,7 @@ export async function GET(
     const { data: metrics } = await supabase
       .from('metrics')
       .select('*')
-      .eq('production_id', productionId);
+      .eq('production_id', id);
 
     return NextResponse.json({ wrapReport, metrics });
   } catch (error) {
@@ -39,11 +39,11 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { productionId: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const supabase = await createClient();
-    const { productionId } = params;
+    const { id } = params;
     const body = await request.json();
     const { lessonsLearned, recommendations } = body;
 
@@ -51,7 +51,7 @@ export async function POST(
     const { data, error } = await supabase
       .from('wrap_reports')
       .upsert({
-        production_id: productionId,
+        production_id: id,
         lessons_learned: lessonsLearned,
         recommendations: recommendations,
         status: 'draft',
@@ -61,11 +61,11 @@ export async function POST(
       .single();
 
     if (error) {
-      log.error('Failed to save wrap report', { error, productionId });
+      log.error('Failed to save wrap report', { error, id });
       return NextResponse.json({ error: 'Failed to save wrap report' }, { status: 500 });
     }
 
-    log.info('Wrap report saved', { productionId });
+    log.info('Wrap report saved', { id });
     return NextResponse.json({ wrapReport: data });
   } catch (error) {
     log.error('Error in wrap report POST', { error });

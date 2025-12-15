@@ -25,21 +25,22 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_DRAWINGS,
-  type DemoDrawing as Drawing,
-} from "../../lib/demo-data";
+  useDrawings,
+  type Drawing,
+} from "../../hooks/useDrawings";
 
 const categories = ["All", "Stage", "Lighting", "Audio", "Video", "Rigging", "Site"];
 
 export default function DrawingsPage() {
   const router = useRouter();
+  const { data: drawings = [] } = useDrawings();
   const [selectedDrawing, setSelectedDrawing] = useState<Drawing | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const filteredDrawings = categoryFilter === "All" ? DEMO_DRAWINGS : DEMO_DRAWINGS.filter(d => d.category === categoryFilter);
-  const totalMarkups = DEMO_DRAWINGS.reduce((s, d) => s + d.markups, 0);
+  const filteredDrawings = categoryFilter === "All" ? drawings : drawings.filter(d => d.category === categoryFilter);
+  const totalMarkups = drawings.reduce((s, d) => s + d.markups, 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -67,10 +68,10 @@ export default function DrawingsPage() {
         <Container>
           <Stack gap={10}>
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_DRAWINGS.length.toString()} label="Total Drawings" />
+              <StatCard value={drawings.length.toString()} label="Total Drawings" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
               <StatCard value={totalMarkups.toString()} label="Active Markups" />
-              <StatCard value={DEMO_DRAWINGS.filter(d => d.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
+              <StatCard value={drawings.filter(d => d.uploadedAt === new Date().toISOString().split('T')[0]).length.toString()} label="Updated Today" />
             </Grid>
 
             {/* Filters and Actions */}

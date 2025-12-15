@@ -32,26 +32,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_PROPOSALS } from '../../../lib/demo-data';
-
-interface Proposal {
-  id: string;
-  title: string;
-  client: string;
-  rfpId?: string;
-  value: number;
-  status: "Draft" | "In Review" | "Submitted" | "Won" | "Lost";
-  dueDate: string;
-  version: number;
-  lastModified: string;
-  team: string[];
-}
-
-const mockProposals = DEMO_PROPOSALS as unknown as Proposal[];
+import {
+  useProposals,
+  type Proposal,
+} from '../../../hooks/useProposals';
 
 
 export default function ProposalsPage() {
   const router = useRouter();
+  const { data: proposals = [] } = useProposals();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -61,9 +50,9 @@ export default function ProposalsPage() {
   const [selectedProposal, setSelectedProposal] = useState<Proposal | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const totalValue = mockProposals.filter(p => p.status !== "Lost").reduce((s, p) => s + p.value, 0);
-  const wonValue = mockProposals.filter(p => p.status === "Won").reduce((s, p) => s + p.value, 0);
-  const pendingCount = mockProposals.filter(p => ["Draft", "In Review", "Submitted"].includes(p.status)).length;
+  const totalValue = proposals.filter(p => p.status !== "Lost").reduce((s, p) => s + p.value, 0);
+  const wonValue = proposals.filter(p => p.status === "Won").reduce((s, p) => s + p.value, 0);
+  const pendingCount = proposals.filter(p => ["Draft", "In Review", "Submitted"].includes(p.status)).length;
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' | 'error' => {
     switch (status) {
@@ -78,7 +67,7 @@ export default function ProposalsPage() {
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
-  const filteredProposals = activeTab === "all" ? mockProposals : mockProposals.filter(p => p.status.toLowerCase().replace(" ", "") === activeTab);
+  const filteredProposals = activeTab === "all" ? proposals : proposals.filter(p => p.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
     <CompvssAppLayout>
@@ -95,7 +84,7 @@ export default function ProposalsPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockProposals.length.toString()} label="Total Proposals" />
+              <StatCard value={proposals.length.toString()} label="Total Proposals" />
               <StatCard value={formatCurrency(totalValue)} label="Pipeline Value" />
               <StatCard value={formatCurrency(wonValue)} label="Won Value" />
               <StatCard value={pendingCount.toString()} label="Pending" />

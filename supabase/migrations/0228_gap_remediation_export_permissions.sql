@@ -74,9 +74,10 @@ CREATE POLICY "export_permissions_select" ON public.export_permissions
   FOR SELECT USING (
     user_id IN (SELECT id FROM public.platform_users WHERE auth_user_id = auth.uid())
     OR EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN')
     )
   );
 
@@ -85,9 +86,10 @@ DROP POLICY IF EXISTS "export_audit_log_select" ON public.export_audit_log;
 CREATE POLICY "export_audit_log_select" ON public.export_audit_log
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM public.platform_users pu
+      SELECT 1 FROM public.user_roles ur
+      JOIN public.platform_users pu ON pu.id = ur.platform_user_id
       WHERE pu.auth_user_id = auth.uid()
-      AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+      AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
     )
   );
 
@@ -132,18 +134,16 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 DECLARE
-  v_user_roles TEXT[];
   v_perm RECORD;
   v_exports_today INT;
   v_result JSONB;
 BEGIN
-  -- Get user roles
-  SELECT platform_roles INTO v_user_roles
-  FROM public.platform_users
-  WHERE id = p_user_id;
-  
   -- Legend and Super Admin have full export access
-  IF v_user_roles && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN')
+  ) THEN
     RETURN jsonb_build_object(
       'allowed', TRUE,
       'reason', 'Admin access',
@@ -152,7 +152,11 @@ BEGIN
   END IF;
   
   -- ATLVS Super Admin can export with sensitive data
-  IF v_user_roles && ARRAY['ATLVS_SUPER_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code = 'ATLVS_SUPER_ADMIN'
+  ) THEN
     RETURN jsonb_build_object(
       'allowed', TRUE,
       'reason', 'Super admin access',
@@ -161,7 +165,11 @@ BEGIN
   END IF;
   
   -- ATLVS Admin can export without sensitive data by default
-  IF v_user_roles && ARRAY['ATLVS_ADMIN'] THEN
+  IF EXISTS (
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = p_user_id
+    AND ur.role_code = 'ATLVS_ADMIN'
+  ) THEN
     RETURN jsonb_build_object(
       'allowed', TRUE,
       'reason', 'Admin access',
@@ -329,9 +337,9 @@ BEGIN
   
   -- Check if granter has permission
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
-    WHERE pu.id = v_granter_id
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN']
+    SELECT 1 FROM public.user_roles ur
+    WHERE ur.platform_user_id = v_granter_id
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions to grant export access';
   END IF;
@@ -402,9 +410,10 @@ DECLARE
 BEGIN
   -- Check permissions
   IF NOT EXISTS (
-    SELECT 1 FROM public.platform_users pu
+    SELECT 1 FROM public.user_roles ur
+    JOIN public.platform_users pu ON pu.id = ur.platform_user_id
     WHERE pu.auth_user_id = auth.uid()
-    AND pu.platform_roles::text[] && ARRAY['LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN']
+    AND ur.role_code IN ('LEGEND_SUPER_ADMIN', 'LEGEND_ADMIN', 'ATLVS_SUPER_ADMIN', 'ATLVS_ADMIN')
   ) THEN
     RAISE EXCEPTION 'Insufficient permissions';
   END IF;

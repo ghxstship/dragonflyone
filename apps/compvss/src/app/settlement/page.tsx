@@ -27,46 +27,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_SETTLEMENTS } from '../../lib/demo-data';
-
-interface Settlement {
-  id: string;
-  projectId: string;
-  projectName: string;
-  eventDate: string;
-  status: "Draft" | "Pending Review" | "Approved" | "Finalized";
-  contractValue: number;
-  actualCosts: number;
-  grossProfit: number;
-  marginPct: number;
-  ticketRevenue?: number;
-  merchRevenue?: number;
-  sponsorRevenue?: number;
-  artistGuarantee?: number;
-  artistBackend?: number;
-  venueRent?: number;
-  productionCosts?: number;
-  laborCosts?: number;
-  otherCosts?: number;
-  adjustments: Adjustment[];
-  approvedBy?: string;
-  approvedAt?: string;
-}
-
-interface Adjustment {
-  id: string;
-  description: string;
-  amount: number;
-  type: "Credit" | "Debit";
-  category: string;
-  approvedBy?: string;
-}
-
-const mockSettlements = DEMO_SETTLEMENTS as unknown as Settlement[];
+import {
+  useSettlements,
+  type Settlement,
+} from '../../hooks/useSettlement';
 
 
 export default function SettlementPage() {
   const router = useRouter();
+  const { data: settlements = [] } = useSettlements();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -76,9 +45,9 @@ export default function SettlementPage() {
   const [selectedSettlement, setSelectedSettlement] = useState<Settlement | null>(null);
   const [showAdjustmentModal, setShowAdjustmentModal] = useState(false);
 
-  const pendingCount = mockSettlements.filter(s => s.status === "Pending Review" || s.status === "Draft").length;
-  const totalProfit = mockSettlements.reduce((sum, s) => sum + s.grossProfit, 0);
-  const avgMargin = (mockSettlements.reduce((sum, s) => sum + s.marginPct, 0) / mockSettlements.length).toFixed(1);
+  const pendingCount = settlements.filter(s => s.status === "Pending Review" || s.status === "Draft").length;
+  const totalProfit = settlements.reduce((sum, s) => sum + s.grossProfit, 0);
+  const avgMargin = settlements.length > 0 ? (settlements.reduce((sum, s) => sum + s.marginPct, 0) / settlements.length).toFixed(1) : '0';
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
@@ -108,7 +77,7 @@ export default function SettlementPage() {
               <StatCard value={pendingCount.toString()} label="Pending Settlements" />
               <StatCard value={`$${(totalProfit / 1000).toFixed(0)}K`} label="Total Profit (MTD)" />
               <StatCard value={`${avgMargin}%`} label="Avg Margin" />
-              <StatCard value={mockSettlements.filter(s => s.status === "Finalized").length.toString()} label="Finalized This Month" />
+              <StatCard value={settlements.filter(s => s.status === "Finalized").length.toString()} label="Finalized This Month" />
             </Grid>
 
             <Tabs>
@@ -120,7 +89,7 @@ export default function SettlementPage() {
 
               <TabPanel active={true}>
                 <Stack gap={4}>
-                  {mockSettlements
+                  {settlements
                     .filter(s => activeTab === "all" || (activeTab === "pending" ? (s.status === "Draft" || s.status === "Pending Review") : s.status === "Finalized"))
                     .map((settlement) => (
                       <Card key={settlement.id} className="p-6">

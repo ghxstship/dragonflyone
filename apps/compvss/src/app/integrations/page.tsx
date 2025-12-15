@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CompvssAppLayout } from '../../components/app-layout';
-import { log } from '@ghxstship/config';
 import {
   Container,
   H2,
@@ -27,32 +25,12 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-import {
-  DEMO_SYNC_JOBS,
-  type DemoSyncJob as SyncJob,
-} from '../../lib/demo-data';
+import { useSyncJobs } from '../../hooks/useIntegrations';
 
 export default function CompvssIntegrationsPage() {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [syncJobs, setSyncJobs] = useState<SyncJob[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchSyncJobs();
-  }, []);
-
-  const fetchSyncJobs = async () => {
-    setLoading(true);
-    try {
-      // Use centralized demo data
-      setSyncJobs(DEMO_SYNC_JOBS);
-    } catch (error) {
-      log.error('Failed to fetch sync jobs:', error instanceof Error ? error : undefined);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data: syncJobs = [], isLoading: loading, refetch: fetchSyncJobs } = useSyncJobs();
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {

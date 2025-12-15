@@ -26,33 +26,22 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_SPEC_SHEETS } from '../../lib/demo-data';
-
-interface SpecSheet {
-  id: string;
-  name: string;
-  manufacturer: string;
-  category: "Audio" | "Lighting" | "Video" | "Staging" | "Rigging" | "Power";
-  model: string;
-  version: string;
-  lastUpdated: string;
-  fileSize: string;
-  downloads: number;
-  specs: { label: string; value: string }[];
-}
-
-const mockSpecs = DEMO_SPEC_SHEETS as unknown as SpecSheet[];
+import {
+  useSpecSheets,
+  type SpecSheet,
+} from '../../hooks/useSpecSheets';
 
 
 const categories = ["All", "Audio", "Lighting", "Video", "Staging", "Rigging", "Power"];
 
 export default function SpecSheetsPage() {
   const router = useRouter();
+  const { data: specSheets = [] } = useSpecSheets();
   const [selectedSpec, setSelectedSpec] = useState<SpecSheet | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const filteredSpecs = mockSpecs.filter(s => {
+  const filteredSpecs = specSheets.filter(s => {
     const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           s.manufacturer.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = categoryFilter === "All" || s.category === categoryFilter;
@@ -74,10 +63,10 @@ export default function SpecSheetsPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockSpecs.length.toString()} label="Total Specs" />
+              <StatCard value={specSheets.length.toString()} label="Total Specs" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={new Set(mockSpecs.map(s => s.manufacturer)).size.toString()} label="Manufacturers" />
-              <StatCard value={mockSpecs.reduce((sum, s) => sum + s.downloads, 0).toString()} label="Downloads" />
+              <StatCard value={new Set(specSheets.map(s => s.manufacturer)).size.toString()} label="Manufacturers" />
+              <StatCard value={specSheets.reduce((sum, s) => sum + s.downloads, 0).toString()} label="Downloads" />
             </Grid>
 
             <Grid cols={3} gap={4}>

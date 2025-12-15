@@ -25,21 +25,24 @@ import Link from 'next/link';
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_ARTIST_DATA,
-  DEMO_UPCOMING_SHOWS,
-  DEMO_RIDER_STATUS,
-} from '../../lib/demo-data';
-
-const upcomingShows = DEMO_UPCOMING_SHOWS;
-const riderStatus = DEMO_RIDER_STATUS;
+  useArtistData,
+  useUpcomingShows,
+  useRiderStatus,
+} from '../../hooks/useArtistPortal';
 
 export default function ArtistPortalPage() {
+  const { data: artistData } = useArtistData();
+  const { data: upcomingShows = [] } = useUpcomingShows();
+  const { data: riderStatus = [] } = useRiderStatus();
+
+  const displayArtistData = artistData || { artistName: 'Artist', upcomingShows: 0, confirmedBookings: 0, pendingRiders: 0 };
+
   return (
     <CompvssAppLayout>
       <Stack gap={8}>
         <SectionHeader
           kicker="Artist Portal"
-          title={`Welcome, ${DEMO_ARTIST_DATA.artistName}`}
+          title={`Welcome, ${displayArtistData.artistName}`}
           description="Manage your bookings, riders, and hospitality requests"
           colorScheme="on-dark"
         />
@@ -47,19 +50,19 @@ export default function ArtistPortalPage() {
         <Grid cols={4} gap={4}>
           <StatCard
             label="Upcoming Shows"
-            value={DEMO_ARTIST_DATA.upcomingShows.toString()}
+            value={displayArtistData.upcomingShows.toString()}
             icon={<Music size={20} />}
             inverted
           />
           <StatCard
             label="Confirmed Bookings"
-            value={DEMO_ARTIST_DATA.confirmedBookings.toString()}
+            value={displayArtistData.confirmedBookings.toString()}
             icon={<CheckCircle size={20} />}
             inverted
           />
           <StatCard
             label="Pending Riders"
-            value={DEMO_ARTIST_DATA.pendingRiders.toString()}
+            value={displayArtistData.pendingRiders.toString()}
             icon={<FileText size={20} />}
             inverted
           />

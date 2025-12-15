@@ -31,17 +31,16 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_MENTORS,
-  DEMO_MENTORSHIP_PROGRAMS,
-  type DemoMentor as Mentor,
-  type DemoMentorshipProgram as MentorshipProgram,
-} from "../../lib/demo-data";
-
-const mockMentors = DEMO_MENTORS;
-const mockPrograms = DEMO_MENTORSHIP_PROGRAMS;
+  useMentors,
+  useMentorshipPrograms,
+  type Mentor,
+  type MentorshipProgram,
+} from "../../hooks/useMentorship";
 
 export default function MentorshipPage() {
   const router = useRouter();
+  const { data: mentors = [] } = useMentors();
+  const { data: programs = [] } = useMentorshipPrograms();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -52,8 +51,8 @@ export default function MentorshipPage() {
   const [selectedProgram, setSelectedProgram] = useState<MentorshipProgram | null>(null);
   const [showRequestModal, setShowRequestModal] = useState(false);
 
-  const availableMentors = mockMentors.filter(m => m.availability !== "Full").length;
-  const totalMentees = mockMentors.reduce((sum, m) => sum + m.mentees, 0);
+  const availableMentors = mentors.filter(m => m.availability !== "Full").length;
+  const totalMentees = mentors.reduce((sum, m) => sum + m.mentees, 0);
 
   const getLevelColor = (level: string) => {
     switch (level) {
@@ -79,10 +78,10 @@ export default function MentorshipPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockMentors.length.toString()} label="Active Mentors" />
+              <StatCard value={mentors.length.toString()} label="Active Mentors" />
               <StatCard value={availableMentors.toString()} label="Available" />
               <StatCard value={totalMentees.toString()} label="Active Mentees" />
-              <StatCard value={mockPrograms.length.toString()} label="Programs" />
+              <StatCard value={programs.length.toString()} label="Programs" />
             </Grid>
 
             <Tabs>
@@ -94,7 +93,7 @@ export default function MentorshipPage() {
 
               <TabPanel active={isActive('mentors')}>
                 <Grid cols={2} gap={4}>
-                  {mockMentors.map((mentor) => (
+                  {mentors.map((mentor) => (
                     <Card key={mentor.id} className="p-6">
                       <Stack gap={4}>
                         <Stack direction="horizontal" className="items-start justify-between">
@@ -138,7 +137,7 @@ export default function MentorshipPage() {
 
               <TabPanel active={isActive('programs')}>
                 <Stack gap={4}>
-                  {mockPrograms.map((program) => (
+                  {programs.map((program) => (
                     <Card key={program.id} className="p-6">
                       <Grid cols={4} gap={6} className="items-center">
                         <Stack gap={2}>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, Users } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -92,6 +93,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function CrewPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: crew, isLoading, error, refetch } = useCrew();
   const createMutation = useCreateCrewMember();
   const deleteMutation = useDeleteCrewMember();
@@ -140,8 +142,9 @@ export default function CrewPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Crew Member Created', message: `Crew member "${data.first_name} ${data.last_name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create crew member:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Crew Member', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -150,9 +153,10 @@ export default function CrewPage() {
       try {
         await deleteMutation.mutateAsync(memberToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Crew Member Deleted', message: `Crew member "${memberToDelete.first_name} ${memberToDelete.last_name}" has been deleted.` });
         setMemberToDelete(null);
       } catch (err) {
-        console.error('Failed to delete crew member:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Crew Member', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

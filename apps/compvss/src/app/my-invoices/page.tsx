@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -18,7 +17,10 @@ import {
   TableHead,
   TableCell,
 } from '@ghxstship/ui';
-import { DEMO_CREW_INVOICES } from '../../lib/demo-data';
+import {
+  useMyInvoices,
+  type Invoice,
+} from '../../hooks/useMyInvoices';
 import {
   DollarSign,
   FileText,
@@ -30,21 +32,10 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface Invoice {
-  id: string;
-  production: string;
-  amount: number;
-  date: string;
-  dueDate: string;
-  status: 'draft' | 'submitted' | 'approved' | 'paid' | 'overdue';
-  items: { description: string; quantity: number; rate: number }[];
-}
-
-const mockInvoices = DEMO_CREW_INVOICES as unknown as Invoice[];
 
 
 export default function MyInvoicesPage() {
-  const [invoices] = useState(mockInvoices);
+  const { data: invoices = [] } = useMyInvoices();
 
   const totalPending = invoices
     .filter(i => i.status === 'submitted' || i.status === 'approved')

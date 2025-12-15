@@ -1,25 +1,77 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, StatCard } from "@ghxstship/ui";
-import { Users, Plus, UserCheck, GraduationCap } from "lucide-react";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid, Badge, StatCard, Spinner, EmptyState } from "@ghxstship/ui";
+import { Users, Plus, UserCheck, GraduationCap, RefreshCw } from "lucide-react";
+import { useProduction } from "../../../../hooks/useProductions";
+import { useContacts } from "../../../../hooks/useContacts";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
+
+interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  department: string;
+  status: string;
+}
+
+const demoTeam: TeamMember[] = [
+  { id: "1", name: "John Smith", role: "Production Manager", department: "Production", status: "confirmed" },
+  { id: "2", name: "Sarah Jones", role: "Stage Manager", department: "Stage", status: "confirmed" },
+  { id: "3", name: "Mike Wilson", role: "Audio Engineer", department: "Audio", status: "confirmed" },
+  { id: "4", name: "Emily Brown", role: "Lighting Designer", department: "Lighting", status: "pending" },
+  { id: "5", name: "Tom Davis", role: "Security Lead", department: "Security", status: "confirmed" },
+];
 
 export default function ProductionTeamPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
 
-  const teamStats = { total: 24, confirmed: 20, pending: 4 };
+  // Fetch production from API
+  const { data: apiProduction, isLoading: productionLoading, error: productionError, refetch } = useProduction(productionId);
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
-  const team = [
-    { id: "1", name: "John Smith", role: "Production Manager", department: "Production", status: "confirmed" },
-    { id: "2", name: "Sarah Jones", role: "Stage Manager", department: "Stage", status: "confirmed" },
-    { id: "3", name: "Mike Wilson", role: "Audio Engineer", department: "Audio", status: "confirmed" },
-    { id: "4", name: "Emily Brown", role: "Lighting Designer", department: "Lighting", status: "pending" },
-    { id: "5", name: "Tom Davis", role: "Security Lead", department: "Security", status: "confirmed" },
-  ];
+  // Fetch team contacts from API
+  const { data: apiContacts, isLoading: contactsLoading } = useContacts();
+
+  if (productionLoading || contactsLoading) {
+    return (
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading team...</Body>
+      </Stack>
+    );
+  }
+
+  if (productionError && !demoProduction) {
+    return (
+      <EmptyState
+        icon={<RefreshCw size={48} />}
+        title="Failed to load production"
+        description={productionError.message}
+        action={{ label: "Retry", onClick: () => refetch() }}
+      />
+    );
+  }
+
+  // Use API contacts if available, otherwise demo data
+  const team: TeamMember[] = apiContacts && apiContacts.length > 0
+    ? apiContacts.map(c => ({
+        id: c.id,
+        name: `${c.first_name || ''} ${c.last_name || ''}`.trim() || 'Unknown',
+        role: c.title || 'Team Member',
+        department: c.company || 'General',
+        status: c.status || 'confirmed',
+      }))
+    : demoTeam;
+
+  const teamStats = { 
+    total: team.length, 
+    confirmed: team.filter(m => m.status === 'confirmed').length, 
+    pending: team.filter(m => m.status === 'pending').length 
+  };
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     confirmed: "success", pending: "warning", declined: "error",
@@ -29,7 +81,7 @@ export default function ProductionTeamPage() {
     <Stack gap={8}>
       <Stack gap={4}>
         <SectionHeader
-          kicker={production?.name || "Production"}
+          kicker={productionName}
           title="Team"
           description="Manage team assignments and availability"
           colorScheme="on-dark"

@@ -23,26 +23,27 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_CREW_AVAILABILITY,
-  type DemoCrewAvailability as CrewAvailability,
-} from "../../../lib/demo-data";
+  useCrewAvailability,
+  type CrewAvailability,
+} from "../../../hooks/useCrewAvailability";
 
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const departments = ["All", "Audio", "Lighting", "Video", "Stage", "Rigging"];
 
 export default function AvailabilityPage() {
   const router = useRouter();
+  const { data: crewAvailability = [] } = useCrewAvailability();
   const [selectedCrew, setSelectedCrew] = useState<CrewAvailability | null>(null);
   const [departmentFilter, setDepartmentFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
 
-  const filteredCrew = DEMO_CREW_AVAILABILITY.filter(c => {
+  const filteredCrew = crewAvailability.filter(c => {
     const matchesDept = departmentFilter === "All" || c.department === departmentFilter;
     const matchesStatus = statusFilter === "All" || c.status === statusFilter;
     return matchesDept && matchesStatus;
   });
 
-  const availableCount = DEMO_CREW_AVAILABILITY.filter(c => c.status === "Available").length;
+  const availableCount = crewAvailability.filter(c => c.status === "Available").length;
 
   return (
     <CompvssAppLayout>
@@ -59,10 +60,10 @@ export default function AvailabilityPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_CREW_AVAILABILITY.length.toString()} label="Total Crew" />
+              <StatCard value={crewAvailability.length.toString()} label="Total Crew" />
               <StatCard value={availableCount.toString()} label="Available Now" />
-              <StatCard value={DEMO_CREW_AVAILABILITY.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
-              <StatCard value={DEMO_CREW_AVAILABILITY.filter(c => c.status === "Tentative").length.toString()} label="Tentative" />
+              <StatCard value={crewAvailability.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
+              <StatCard value={crewAvailability.filter(c => c.status === "Tentative").length.toString()} label="Tentative" />
             </Grid>
 
             <Stack direction="horizontal" className="justify-between">

@@ -20,9 +20,12 @@ import {
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 import {
-  DEMO_BACKGROUND_CHECKS,
-  type DemoBackgroundCheck as BackgroundCheck,
-} from "../../lib/demo-data";
+  useBackgroundChecks,
+  useCreateBackgroundCheck,
+  useRenewBackgroundCheck,
+  useDeleteBackgroundCheck,
+  type BackgroundCheck,
+} from "../../hooks/useBackgroundChecks";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -59,7 +62,10 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
-  const [checks, setChecks] = useState<BackgroundCheck[]>(DEMO_BACKGROUND_CHECKS);
+  const { data: checks = [], refetch } = useBackgroundChecks();
+  const createCheckMutation = useCreateBackgroundCheck();
+  const renewCheckMutation = useRenewBackgroundCheck();
+  const deleteCheckMutation = useDeleteBackgroundCheck();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -69,17 +75,9 @@ export default function BackgroundChecksPage() {
   const pending = checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
   const cleared = checks.filter(c => c.status === "Cleared").length;
 
-  const handleRenew = (check: BackgroundCheck) => {
-    const renewed: BackgroundCheck = {
-      ...check,
-      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
-      status: 'Pending',
-      submittedDate: new Date().toISOString().split('T')[0],
-      completedDate: undefined,
-      expirationDate: undefined,
-      daysUntilExpiry: undefined,
-    };
-    setChecks([...checks, renewed]);
+  const handleRenew = async (check: BackgroundCheck) => {
+    await renewCheckMutation.mutateAsync(check);
+    refetch();
   };
 
   const handleDownload = (check: BackgroundCheck) => {
@@ -110,8 +108,7 @@ export default function BackgroundChecksPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newCheck: BackgroundCheck = {
-      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
+    await createCheckMutation.mutateAsync({
       crewMemberId: String(data.crewMemberId),
       crewMemberName: data.crewMemberId === 'CRW-107' ? 'James Wilson' : 'Maria Garcia',
       department: 'New',
@@ -119,8 +116,8 @@ export default function BackgroundChecksPage() {
       status: 'Pending',
       submittedDate: new Date().toISOString().split('T')[0],
       provider: String(data.provider),
-    };
-    setChecks([...checks, newCheck]);
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
@@ -130,8 +127,7 @@ export default function BackgroundChecksPage() {
     requiredFields: ['crewMemberName', 'checkType', 'provider'],
     onImport: async (records) => {
       for (const record of records) {
-        const newCheck: BackgroundCheck = {
-          id: `BGC-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        await createCheckMutation.mutateAsync({
           crewMemberId: String(record.crewMemberId || ''),
           crewMemberName: String(record.crewMemberName || ''),
           department: String(record.department || ''),
@@ -139,9 +135,9 @@ export default function BackgroundChecksPage() {
           status: 'Pending',
           submittedDate: new Date().toISOString().split('T')[0],
           provider: String(record.provider || ''),
-        };
-        setChecks(prev => [...prev, newCheck]);
+        });
       }
+      refetch();
     },
   });
 
@@ -211,13 +207,16 @@ export default function BackgroundChecksPage() {
         emptyAction={{ label: 'Initiate Check', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setChecks(prev => prev.filter(c => !ids.includes(c.id)));
+            for (const id of ids) {
+              await deleteCheckMutation.mutateAsync(id);
+            }
+            refetch();
           } else if (action === 'renew') {
-            await fetch('/api/background-checks/bulk-renew', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            const checksToRenew = checks.filter(c => ids.includes(c.id));
+            for (const check of checksToRenew) {
+              await renewCheckMutation.mutateAsync(check);
+            }
+            refetch();
           }
         }}
         bulkActions={[

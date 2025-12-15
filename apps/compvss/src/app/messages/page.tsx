@@ -19,24 +19,23 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_CONVERSATIONS,
-  DEMO_DIRECT_MESSAGES,
-  type DemoConversation as Conversation,
-} from "../../lib/demo-data";
-
-const mockConversations = DEMO_CONVERSATIONS;
-const mockMessages = DEMO_DIRECT_MESSAGES;
+  useConversations,
+  useDirectMessages,
+  type Conversation,
+} from "../../hooks/useMessages";
 
 export default function MessagesPage() {
   const router = useRouter();
-  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(mockConversations[0]);
+  const { data: conversations = [] } = useConversations();
+  const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
+  const { data: messages = [] } = useDirectMessages(selectedConversation?.id || '');
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const totalUnread = mockConversations.reduce((s, c) => s + c.unread, 0);
-  const onlineCount = mockConversations.filter(c => c.online).length;
+  const totalUnread = conversations.reduce((s, c) => s + c.unread, 0);
+  const onlineCount = conversations.filter(c => c.online).length;
 
-  const filteredConversations = mockConversations.filter(c =>
+  const filteredConversations = conversations.filter(c =>
     c.participantName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -55,7 +54,7 @@ export default function MessagesPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockConversations.length.toString()} label="Conversations" />
+              <StatCard value={conversations.length.toString()} label="Conversations" />
               <StatCard value={totalUnread.toString()} label="Unread" />
               <StatCard value={onlineCount.toString()} label="Online Now" />
               <StatCard value="< 5 min" label="Response Time" />
@@ -113,7 +112,7 @@ export default function MessagesPage() {
                     </Card>
 
                     <Stack className="flex-1 overflow-y-auto p-4" gap={3}>
-                      {mockMessages.map((msg) => (
+                      {messages.map((msg) => (
                         <Stack key={msg.id} className={msg.senderId === "me" ? "items-end" : "items-start"}>
                           <Card className={`max-w-xs p-3 ${msg.senderId === "me" ? "bg-primary-500" : ""}`}>
                             <Body size="sm" className="">{msg.content}</Body>

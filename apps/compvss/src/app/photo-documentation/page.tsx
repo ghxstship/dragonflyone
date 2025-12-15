@@ -27,28 +27,14 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_PHOTO_SETS } from '../../lib/demo-data';
-
-interface PhotoSet {
-  id: string;
-  phase: "Load-In" | "Build" | "Tech Rehearsal" | "Show" | "Strike" | "Load-Out";
-  projectId: string;
-  projectName: string;
-  capturedAt: string;
-  capturedBy: string;
-  photoCount: number;
-  description?: string;
-  tags: string[];
-  approved: boolean;
-}
-
-const mockPhotoSets = DEMO_PHOTO_SETS as unknown as PhotoSet[];
+import { usePhotoSets, type PhotoSet } from '../../hooks/usePhotoDocumentation';
 
 
 const phases = ["Load-In", "Build", "Tech Rehearsal", "Show", "Strike", "Load-Out"];
 
 export default function PhotoDocumentationPage() {
   const router = useRouter();
+  const { data: photoSets = [] } = usePhotoSets();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -59,10 +45,10 @@ export default function PhotoDocumentationPage() {
   const [selectedSet, setSelectedSet] = useState<PhotoSet | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const totalPhotos = mockPhotoSets.reduce((sum, s) => sum + s.photoCount, 0);
-  const pendingApproval = mockPhotoSets.filter(s => !s.approved).length;
+  const totalPhotos = photoSets.reduce((sum, s) => sum + s.photoCount, 0);
+  const pendingApproval = photoSets.filter(s => !s.approved).length;
 
-  const filteredSets = selectedPhase === "All" ? mockPhotoSets : mockPhotoSets.filter(s => s.phase === selectedPhase);
+  const filteredSets = selectedPhase === "All" ? photoSets : photoSets.filter(s => s.phase === selectedPhase);
 
   const getPhaseColor = (phase: string) => {
     switch (phase) {
@@ -92,10 +78,10 @@ export default function PhotoDocumentationPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockPhotoSets.length.toString()} label="Photo Sets" />
+              <StatCard value={photoSets.length.toString()} label="Photo Sets" />
               <StatCard value={totalPhotos.toString()} label="Total Photos" />
               <StatCard value={pendingApproval.toString()} label="Pending Approval" />
-              <StatCard value={new Set(mockPhotoSets.map(s => s.projectId)).size.toString()} label="Projects Documented" />
+              <StatCard value={new Set(photoSets.map(s => s.projectId)).size.toString()} label="Projects Documented" />
             </Grid>
 
             <Card className="p-4">
@@ -103,7 +89,7 @@ export default function PhotoDocumentationPage() {
                 <Body className="font-display">Production Phases</Body>
                 <Grid cols={6} gap={2}>
                   {phases.map((phase) => {
-                    const count = mockPhotoSets.filter(s => s.phase === phase).length;
+                    const count = photoSets.filter(s => s.phase === phase).length;
                     return (
                       <Card key={phase} className={`cursor-pointer border-2 p-3 ${selectedPhase === phase ? "border-primary-500" : getPhaseColor(phase)}`} onClick={() => setSelectedPhase(selectedPhase === phase ? "All" : phase)}>
                         <Stack gap={1} className="text-center">

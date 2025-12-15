@@ -34,16 +34,15 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_TRANSLATED_CONTENT,
-  DEMO_LANGUAGE_SETTINGS,
-  type DemoTranslatedContent as TranslatedContent,
-} from '../../../lib/demo-data';
-
-const mockContent = DEMO_TRANSLATED_CONTENT;
-const mockLanguages = DEMO_LANGUAGE_SETTINGS;
+  useTranslatedContent,
+  useLanguageSettings,
+  type TranslatedContent,
+} from '../../../hooks/useMultilingual';
 
 export default function MultilingualPage() {
   const router = useRouter();
+  const { data: content = [] } = useTranslatedContent();
+  const { data: languages = [] } = useLanguageSettings();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -54,9 +53,9 @@ export default function MultilingualPage() {
   const [languageFilter, setLanguageFilter] = useState('All');
   const [userLanguage, setUserLanguage] = useState('en');
 
-  const enabledLanguages = mockLanguages.filter(l => l.enabled).length;
-  const totalTranslations = mockContent.flatMap(c => c.translations).filter(t => t.status === 'Complete').length;
-  const pendingTranslations = mockContent.flatMap(c => c.translations).filter(t => t.status === 'Pending' || t.status === 'In Progress').length;
+  const enabledLanguages = languages.filter(l => l.enabled).length;
+  const totalTranslations = content.flatMap(c => c.translations).filter(t => t.status === 'Complete').length;
+  const pendingTranslations = content.flatMap(c => c.translations).filter(t => t.status === 'Pending' || t.status === 'In Progress').length;
 
   const getStatusVariant = (status: string): 'success' | 'warning' | 'ghost' => {
     switch (status) {
@@ -82,7 +81,7 @@ export default function MultilingualPage() {
           <Stack gap={10}>
             <Stack direction="horizontal" className="justify-end">
               <Select value={userLanguage} onChange={(e) => setUserLanguage(e.target.value)}>
-                {mockLanguages.filter(l => l.enabled).map(lang => (
+                {languages.filter(l => l.enabled).map(lang => (
                   <option key={lang.code} value={lang.code}>{lang.nativeName} ({lang.name})</option>
                 ))}
               </Select>
@@ -92,7 +91,7 @@ export default function MultilingualPage() {
               <StatCard label="Languages" value={enabledLanguages.toString()} />
               <StatCard label="Translated Content" value={totalTranslations.toString()} />
               <StatCard label="Pending" value={pendingTranslations.toString()} />
-              <StatCard label="Translators" value={mockLanguages.reduce((sum, l) => sum + l.translators, 0).toString()} />
+              <StatCard label="Translators" value={languages.reduce((sum, l) => sum + l.translators, 0).toString()} />
             </Grid>
 
             <Tabs>
@@ -108,7 +107,7 @@ export default function MultilingualPage() {
                 <Stack direction="horizontal" className="justify-between">
                   <Select value={languageFilter} onChange={(e) => setLanguageFilter(e.target.value)}>
                     <option value="All">All Languages</option>
-                    {mockLanguages.filter(l => l.enabled && l.code !== 'en').map(lang => (
+                    {languages.filter(l => l.enabled && l.code !== 'en').map(lang => (
                       <option key={lang.code} value={lang.name}>{lang.name}</option>
                     ))}
                   </Select>
@@ -126,27 +125,27 @@ export default function MultilingualPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockContent.map((content) => (
-                      <TableRow key={content.id}>
+                    {content.map((item) => (
+                      <TableRow key={item.id}>
                         <TableCell>
                           <Stack gap={0}>
-                            <Body>{content.title}</Body>
-                            <Body size="sm" className="">{content.id}</Body>
+                            <Body>{item.title}</Body>
+                            <Body size="sm" className="">{item.id}</Body>
                           </Stack>
                         </TableCell>
-                        <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
+                        <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={2} className="flex-wrap">
-                            {content.translations.map((t, idx) => (
+                            {item.translations.map((t, idx) => (
                               <Badge key={idx} variant={t.status === 'Complete' ? 'solid' : 'outline'}>
                                 {t.language} {t.status === 'In Progress' && `(${t.progress}%)`}
                               </Badge>
                             ))}
                           </Stack>
                         </TableCell>
-                        <TableCell><Body size="sm" className="">{content.lastUpdated}</Body></TableCell>
+                        <TableCell><Body size="sm" className="">{item.lastUpdated}</Body></TableCell>
                         <TableCell>
-                          <Button variant="ghost" size="sm" onClick={() => setSelectedContent(content)}>Details</Button>
+                          <Button variant="ghost" size="sm" onClick={() => setSelectedContent(item)}>Details</Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -157,7 +156,7 @@ export default function MultilingualPage() {
 
             {isActive('languages') && (
               <Grid cols={2} gap={4}>
-                {mockLanguages.map((lang) => (
+                {languages.map((lang) => (
                   <Card key={lang.code}>
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between">

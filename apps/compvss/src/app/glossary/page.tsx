@@ -24,21 +24,22 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_GLOSSARY_TERMS,
-  type DemoGlossaryTerm as GlossaryTerm,
-} from "../../lib/demo-data";
+  useGlossaryTerms,
+  type GlossaryTerm,
+} from "../../hooks/useGlossary";
 
 const categories = ["Audio", "Lighting", "Video", "Staging", "Rigging", "Production", "General"];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
 export default function GlossaryPage() {
   const router = useRouter();
+  const { data: glossaryTerms = [] } = useGlossaryTerms();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [selectedTerm, setSelectedTerm] = useState<GlossaryTerm | null>(null);
 
-  const filteredTerms = DEMO_GLOSSARY_TERMS.filter(t => {
+  const filteredTerms = glossaryTerms.filter(t => {
     const matchesSearch = t.term.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           t.definition.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           t.aliases?.some(a => a.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -63,9 +64,9 @@ export default function GlossaryPage() {
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_GLOSSARY_TERMS.length.toString()} label="Total Terms" />
+              <StatCard value={glossaryTerms.length.toString()} label="Total Terms" />
               <StatCard value={categories.length.toString()} label="Categories" />
-              <StatCard value={DEMO_GLOSSARY_TERMS.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
+              <StatCard value={glossaryTerms.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
               <StatCard value={filteredTerms.length.toString()} label="Filtered" />
             </Grid>
 
@@ -83,7 +84,7 @@ export default function GlossaryPage() {
               <Stack direction="horizontal" gap={1} className="flex-wrap justify-center">
                 <Button variant={selectedLetter === null ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(null)}>All</Button>
                 {alphabet.map(letter => {
-                  const hasTerms = DEMO_GLOSSARY_TERMS.some(t => t.term.toUpperCase().startsWith(letter));
+                  const hasTerms = glossaryTerms.some(t => t.term.toUpperCase().startsWith(letter));
                   return (
                     <Button key={letter} variant={selectedLetter === letter ? "solid" : "ghost"} size="sm" onClick={() => setSelectedLetter(letter)} disabled={!hasTerms} className={!hasTerms ? "opacity-30" : ""}>
                       {letter}

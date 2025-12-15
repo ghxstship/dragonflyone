@@ -10,6 +10,7 @@ import {
   RecordFormModal,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -115,6 +116,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function VendorContractsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: apiContracts, isLoading, error, refetch } = useVendorContracts();
   
   // Use API data if available, fallback to demo data
@@ -138,9 +140,10 @@ export default function VendorContractsPage() {
       });
       if (!response.ok) throw new Error('Failed to create contract');
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Contract Created', message: 'Contract has been created successfully.' });
       refetch();
     } catch (err) {
-      console.error('Failed to create contract:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Contract', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 

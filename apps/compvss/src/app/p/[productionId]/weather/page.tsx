@@ -25,12 +25,21 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_WEATHER_FORECAST, type DemoWeatherForecast } from '../../../../lib/demo-data';
+
+interface WeatherForecast {
+  date: string;
+  condition: 'sunny' | 'cloudy' | 'rain' | 'storm';
+  tempHigh: number;
+  tempLow: number;
+  precipitation: number;
+  wind: number;
+  alert?: string;
+}
 
 export default function ProductionWeatherPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [forecast, setForecast] = useState<DemoWeatherForecast[]>(DEMO_WEATHER_FORECAST);
+  const [forecast, setForecast] = useState<WeatherForecast[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const fetchWeather = useCallback(async () => {

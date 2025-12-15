@@ -28,18 +28,17 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_BRAND_ASSETS,
-  DEMO_BRAND_GUIDELINES,
-  type DemoBrandAsset as BrandAsset,
-} from "../../../lib/demo-data";
-
-const mockAssets = DEMO_BRAND_ASSETS;
-const mockGuidelines = DEMO_BRAND_GUIDELINES;
+  useBrandAssets,
+  useBrandGuidelines,
+  type BrandAsset,
+} from "../../../hooks/useBrandAssets";
 
 const categories = ["All", "Logo Usage", "Color", "Typography", "Photography", "Messaging"];
 
 export default function BrandGuidelinesPage() {
   const router = useRouter();
+  const { data: assets = [] } = useBrandAssets();
+  const { data: guidelines = [] } = useBrandGuidelines();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -49,7 +48,7 @@ export default function BrandGuidelinesPage() {
   const [selectedAsset, setSelectedAsset] = useState<BrandAsset | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const filteredGuidelines = categoryFilter === "All" ? mockGuidelines : mockGuidelines.filter(g => g.category === categoryFilter);
+  const filteredGuidelines = categoryFilter === "All" ? guidelines : guidelines.filter(g => g.category === categoryFilter);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -78,9 +77,9 @@ export default function BrandGuidelinesPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={mockAssets.length.toString()} label="Brand Assets" />
-              <StatCard value={mockGuidelines.length.toString()} label="Guidelines" />
-              <StatCard value={mockAssets.filter(a => a.type === "Template").length.toString()} label="Templates" />
+              <StatCard value={assets.length.toString()} label="Brand Assets" />
+              <StatCard value={guidelines.length.toString()} label="Guidelines" />
+              <StatCard value={assets.filter(a => a.type === "Template").length.toString()} label="Templates" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
             </Grid>
 
@@ -94,7 +93,7 @@ export default function BrandGuidelinesPage() {
 
               <TabPanel active={isActive('assets')}>
                 <Grid cols={4} gap={4}>
-                  {mockAssets.map((asset) => (
+                  {assets.map((asset) => (
                     <Card key={asset.id} className="p-4">
                       <Stack gap={3}>
                         <Card className="flex h-24 items-center justify-center">

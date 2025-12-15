@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { createClient } from '@supabase/supabase-js';
 
 function getSupabaseClient() {
@@ -10,17 +11,30 @@ function getSupabaseClient() {
   );
 }
 
+const GVTEWAY_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN, PlatformRole.GVTEWAY_EXPERIENCE_CREATOR, PlatformRole.GVTEWAY_VENUE_MANAGER,
+  PlatformRole.GVTEWAY_MEMBER_EXTRA, PlatformRole.GVTEWAY_MEMBER_PLUS, PlatformRole.GVTEWAY_MEMBER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
+const GVTEWAY_ADMIN_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 
 
 // Abandoned cart recovery automation
 export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+    const user = authResult.user;
 
     // Get user's abandoned carts
     const { data: carts, error } = await supabase.from('shopping_carts').select(`
@@ -51,11 +65,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+    const user = authResult.user;
 
     const body = await request.json();
     const { action, cart_id } = body;
@@ -101,8 +117,12 @@ export async function POST(request: NextRequest) {
 export async function PATCH(request: NextRequest) {
   try {
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
 
     const body = await request.json();
     const { action } = body;

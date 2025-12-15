@@ -31,12 +31,21 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_LOST_FOUND_ITEMS, type DemoLostFoundItem } from '../../../../lib/demo-data';
+
+interface LostFoundItem {
+  id: string;
+  description: string;
+  category: string;
+  location: string;
+  status: 'unclaimed' | 'claimed' | 'donated';
+  foundAt: string;
+  claimedBy?: string;
+}
 
 export default function ProductionLostFoundPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [items, setItems] = useState<DemoLostFoundItem[]>(DEMO_LOST_FOUND_ITEMS);
+  const [items, setItems] = useState<LostFoundItem[]>([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [newItem, setNewItem] = useState({ description: '', category: '', location: '' });

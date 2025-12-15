@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, Calendar } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -86,8 +87,8 @@ const formFields: FormFieldConfig[] = [
   ]},
   { name: 'start_date', label: 'Start Date', type: 'date', required: true },
   { name: 'end_date', label: 'End Date', type: 'date' },
-  { name: 'start_time', label: 'Start Time', type: 'time' },
-  { name: 'end_time', label: 'End Time', type: 'time' },
+  { name: 'start_time', label: 'Start Time', type: 'text', placeholder: 'HH:MM' },
+  { name: 'end_time', label: 'End Time', type: 'text', placeholder: 'HH:MM' },
   { name: 'location', label: 'Location', type: 'text', colSpan: 2 },
   { name: 'description', label: 'Description', type: 'textarea', colSpan: 2 },
   { name: 'notes', label: 'Notes', type: 'textarea', colSpan: 2 },
@@ -95,6 +96,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function SchedulesPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: schedules, isLoading, error, refetch } = useSchedules();
   const createMutation = useCreateSchedule();
   const deleteMutation = useDeleteSchedule();
@@ -141,8 +143,9 @@ export default function SchedulesPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Schedule Created', message: `Schedule "${data.name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create schedule:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Schedule', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -151,9 +154,10 @@ export default function SchedulesPage() {
       try {
         await deleteMutation.mutateAsync(scheduleToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Schedule Deleted', message: `Schedule "${scheduleToDelete.name}" has been deleted.` });
         setScheduleToDelete(null);
       } catch (err) {
-        console.error('Failed to delete schedule:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Schedule', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

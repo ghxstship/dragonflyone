@@ -35,31 +35,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_PUNCH_ITEMS } from '../../lib/demo-data';
-
-interface PunchItem {
-  id: string;
-  title: string;
-  description: string;
-  location: string;
-  department: "Audio" | "Lighting" | "Video" | "Staging" | "Rigging" | "General";
-  priority: "Low" | "Medium" | "High" | "Critical";
-  status: "Open" | "In Progress" | "Resolved" | "Verified";
-  assignedTo?: string;
-  reportedBy: string;
-  reportedDate: string;
-  dueDate?: string;
-  resolvedDate?: string;
-  verifiedBy?: string;
-  photos?: string[];
-  notes?: string;
-}
-
-const mockPunchItems = DEMO_PUNCH_ITEMS as unknown as PunchItem[];
+import {
+  usePunchItems,
+  type PunchItem,
+} from '../../hooks/usePunchList';
 
 
 export default function PunchListPage() {
   const router = useRouter();
+  const { data: punchItems = [] } = usePunchItems();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -70,13 +54,13 @@ export default function PunchListPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<PunchItem | null>(null);
 
-  const openItems = mockPunchItems.filter(i => i.status === "Open" || i.status === "In Progress");
-  const criticalCount = mockPunchItems.filter(i => i.priority === "Critical" && i.status !== "Verified").length;
-  const resolvedToday = mockPunchItems.filter(i => i.resolvedDate === "2024-11-24").length;
+  const openItems = punchItems.filter(i => i.status === "Open" || i.status === "In Progress");
+  const criticalCount = punchItems.filter(i => i.priority === "Critical" && i.status !== "Verified").length;
+  const resolvedToday = punchItems.filter(i => i.resolvedDate === new Date().toISOString().split('T')[0]).length;
 
   const filteredItems = selectedDepartment === "All" 
-    ? mockPunchItems 
-    : mockPunchItems.filter(i => i.department === selectedDepartment);
+    ? punchItems 
+    : punchItems.filter(i => i.department === selectedDepartment);
 
   const getPriorityVariant = (priority: string): 'error' | 'warning' | 'success' | 'ghost' => {
     switch (priority) {
@@ -117,7 +101,7 @@ export default function PunchListPage() {
               <StatCard value={openItems.length.toString()} label="Open Items" />
               <StatCard value={criticalCount.toString()} label="Critical" />
               <StatCard value={resolvedToday.toString()} label="Resolved Today" />
-              <StatCard value={mockPunchItems.length.toString()} label="Total Items" />
+              <StatCard value={punchItems.length.toString()} label="Total Items" />
             </Grid>
 
             {criticalCount > 0 && (

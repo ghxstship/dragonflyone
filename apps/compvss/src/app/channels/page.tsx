@@ -26,18 +26,25 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_CHANNEL_MEMBERS,
-  DEMO_MESSAGING_CHANNELS,
-  DEMO_MESSAGES,
-  type DemoMessagingChannel as Channel,
-  type DemoMessage as Message,
-} from '../../lib/demo-data';
+  useChannels,
+  useChannelMessages,
+  useChannelMembers,
+  useCreateChannel,
+  useSendMessage,
+  type Channel,
+} from '../../hooks/useChannels';
 
 export default function ChannelsPage() {
   const router = useRouter();
-  const [channels, setChannels] = useState<Channel[]>(DEMO_MESSAGING_CHANNELS);
-  const [selectedChannel, setSelectedChannel] = useState<Channel | null>(DEMO_MESSAGING_CHANNELS[0]);
-  const [messages, setMessages] = useState<Message[]>(DEMO_MESSAGES);
+  
+  // Fetch data from API
+  const { data: channels = [], refetch: refetchChannels } = useChannels();
+  const { data: allMembers = [] } = useChannelMembers();
+  const createChannelMutation = useCreateChannel();
+  const sendMessageMutation = useSendMessage();
+  
+  const [selectedChannel, setSelectedChannel] = useState<Channel | null>(null);
+  const { data: messages = [] } = useChannelMessages(selectedChannel?.id || '');
   const [newMessage, setNewMessage] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showMembersModal, setShowMembersModal] = useState(false);
@@ -52,44 +59,43 @@ export default function ChannelsPage() {
     description: '',
   });
 
-  const handleSendMessage = () => {
-    if (!newMessage.trim() || !selectedChannel) return;
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || !selectedChannel || allMembers.length === 0) return;
 
-    const message: Message = {
-      id: `MSG-${Date.now()}`,
-      channel_id: selectedChannel.id,
-      sender: DEMO_CHANNEL_MEMBERS[0],
-      content: newMessage,
-      timestamp: new Date().toISOString(),
-      is_priority: false,
-    };
-
-    setMessages([...messages, message]);
-    setNewMessage('');
+    try {
+      await sendMessageMutation.mutateAsync({
+        channel_id: selectedChannel.id,
+        sender: allMembers[0],
+        content: newMessage,
+        is_priority: false,
+      });
+      setNewMessage('');
+    } catch (err) {
+      setError('Failed to send message');
+    }
   };
 
-  const handleCreateChannel = () => {
+  const handleCreateChannel = async () => {
     if (!newChannel.name) {
       setError('Channel name is required');
       return;
     }
 
-    const channel: Channel = {
-      id: `CH-${Date.now()}`,
-      name: newChannel.name,
-      type: newChannel.type as Channel['type'],
-      department: newChannel.department || undefined,
-      description: newChannel.description,
-      members: [],
-      is_active: true,
-      created_at: new Date().toISOString(),
-      unread_count: 0,
-    };
-
-    setChannels([...channels, channel]);
-    setShowCreateModal(false);
-    setNewChannel({ name: '', type: 'department', department: '', description: '' });
-    setSuccess('Channel created successfully');
+    try {
+      await createChannelMutation.mutateAsync({
+        name: newChannel.name,
+        type: newChannel.type as Channel['type'],
+        department: newChannel.department || undefined,
+        description: newChannel.description,
+        is_active: true,
+      });
+      refetchChannels();
+      setShowCreateModal(false);
+      setNewChannel({ name: '', type: 'department', department: '', description: '' });
+      setSuccess('Channel created successfully');
+    } catch (err) {
+      setError('Failed to create channel');
+    }
   };
 
   const getTypeBadge = (type: string) => {
@@ -107,9 +113,9 @@ export default function ChannelsPage() {
     return c.type === filter;
   });
 
-  const channelMessages = messages.filter(m => m.channel_id === selectedChannel?.id);
+  const channelMessages = messages;
   const totalUnread = channels.reduce((sum, c) => sum + c.unread_count, 0);
-  const onlineMembers = DEMO_CHANNEL_MEMBERS.filter(m => m.is_online).length;
+  const onlineMembers = allMembers.filter(m => m.is_online).length;
 
   return (
     <CompvssAppLayout>
@@ -142,7 +148,7 @@ export default function ChannelsPage() {
               <StatCard label="Active Channels" value={channels.filter(c => c.is_active).length.toString()} />
               <StatCard label="Unread Messages" value={totalUnread.toString()} />
               <StatCard label="Online Members" value={onlineMembers.toString()} />
-              <StatCard label="Total Members" value={DEMO_CHANNEL_MEMBERS.length.toString()} />
+              <StatCard label="Total Members" value={allMembers.length.toString()} />
             </Grid>
 
             <Grid cols={3} gap={6}>

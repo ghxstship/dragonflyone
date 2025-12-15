@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -23,29 +22,25 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_MY_ASSIGNMENTS,
-  type DemoAssignment as Assignment,
-} from '../../lib/demo-data';
-
-const mockAssignments = DEMO_MY_ASSIGNMENTS;
+  useMyAssignments,
+  useUpdateAssignmentStatus,
+  type Assignment,
+} from '../../hooks/useMyAssignments';
 
 export default function MyAssignmentsPage() {
-  const [assignments, setAssignments] = useState(mockAssignments);
+  const { data: assignments = [] } = useMyAssignments();
+  const updateStatus = useUpdateAssignmentStatus();
 
   const pendingCount = assignments.filter(a => a.status === 'pending').length;
   const acceptedCount = assignments.filter(a => a.status === 'accepted').length;
   const declinedCount = assignments.filter(a => a.status === 'declined').length;
 
   const handleAccept = (id: string) => {
-    setAssignments(prev =>
-      prev.map(a => (a.id === id ? { ...a, status: 'accepted' as const } : a))
-    );
+    updateStatus.mutate({ id, status: 'accepted' });
   };
 
   const handleDecline = (id: string) => {
-    setAssignments(prev =>
-      prev.map(a => (a.id === id ? { ...a, status: 'declined' as const } : a))
-    );
+    updateStatus.mutate({ id, status: 'declined' });
   };
 
   const getStatusBadge = (status: Assignment['status']) => {

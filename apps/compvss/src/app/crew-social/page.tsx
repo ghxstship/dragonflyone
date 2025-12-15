@@ -31,16 +31,17 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_SOCIAL_CREW_MEMBERS,
-  DEMO_CREW_PHOTOS,
-  type DemoSocialCrewMember as CrewMember,
-  type DemoCrewPhoto as CrewPhoto,
-} from '../../lib/demo-data';
+  useSocialCrewMembers,
+  useCrewPhotos,
+  useLikePhoto,
+  type SocialCrewMember as CrewMember,
+} from '../../hooks/useCrewSocial';
 
 export default function CrewSocialPage() {
   const router = useRouter();
-  const [crewMembers] = useState<CrewMember[]>(DEMO_SOCIAL_CREW_MEMBERS);
-  const [photos, setPhotos] = useState<CrewPhoto[]>(DEMO_CREW_PHOTOS);
+  const { data: crewMembers = [] } = useSocialCrewMembers();
+  const { data: photos = [] } = useCrewPhotos();
+  const likePhotoMutation = useLikePhoto();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -62,19 +63,7 @@ export default function CrewSocialPage() {
   };
 
   const handleLikePhoto = (photoId: string) => {
-    setPhotos(photos.map(p => {
-      if (p.id === photoId) {
-        const isLiked = p.liked_by.includes('CREW-001');
-        return {
-          ...p,
-          likes: isLiked ? p.likes - 1 : p.likes + 1,
-          liked_by: isLiked
-            ? p.liked_by.filter(id => id !== 'CREW-001')
-            : [...p.liked_by, 'CREW-001'],
-        };
-      }
-      return p;
-    }));
+    likePhotoMutation.mutate({ photoId, userId: 'CREW-001' });
   };
 
   const filteredMembers = crewMembers.filter(m => {

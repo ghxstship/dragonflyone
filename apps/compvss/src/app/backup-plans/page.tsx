@@ -25,20 +25,47 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_BACKUP_PLANS,
-  type DemoBackupPlan as BackupPlan,
-} from "../../lib/demo-data";
+  useBackupPlans,
+  useCreateBackupPlan,
+  type BackupPlan,
+} from "../../hooks/useBackupPlans";
 
 const categories = ["All", "Weather", "Technical", "Staffing", "Vendor", "Venue", "Safety"];
 
 export default function BackupPlansPage() {
   const router = useRouter();
+  const { data: plans = [], refetch } = useBackupPlans();
+  const createPlanMutation = useCreateBackupPlan();
   const [selectedPlan, setSelectedPlan] = useState<BackupPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
+  const [newPlan, setNewPlan] = useState({
+    name: '',
+    category: '',
+    project: '',
+    triggerCondition: '',
+    steps: '',
+    owner: '',
+  });
 
-  const filteredPlans = categoryFilter === "All" ? DEMO_BACKUP_PLANS : DEMO_BACKUP_PLANS.filter(p => p.category === categoryFilter);
-  const activePlans = DEMO_BACKUP_PLANS.filter(p => p.status === "Active").length;
+  const handleCreatePlan = async (status: 'Active' | 'Draft') => {
+    if (!newPlan.name || !newPlan.category) return;
+    await createPlanMutation.mutateAsync({
+      name: newPlan.name,
+      category: newPlan.category as BackupPlan['category'],
+      project: newPlan.project || 'General',
+      triggerCondition: newPlan.triggerCondition,
+      steps: newPlan.steps.split('\n').filter(s => s.trim()),
+      owner: newPlan.owner,
+      status,
+    });
+    refetch();
+    setShowCreateModal(false);
+    setNewPlan({ name: '', category: '', project: '', triggerCondition: '', steps: '', owner: '' });
+  };
+
+  const filteredPlans = categoryFilter === "All" ? plans : plans.filter(p => p.category === categoryFilter);
+  const activePlans = plans.filter(p => p.status === "Active").length;
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
@@ -67,10 +94,10 @@ export default function BackupPlansPage() {
         <Container>
           <Stack gap={10}>
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_BACKUP_PLANS.length.toString()} label="Total Plans" />
+              <StatCard value={plans.length.toString()} label="Total Plans" />
               <StatCard value={activePlans.toString()} label="Active" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={DEMO_BACKUP_PLANS.filter(p => p.status === "Draft").length.toString()} label="Draft" />
+              <StatCard value={plans.filter(p => p.status === "Draft").length.toString()} label="Draft" />
             </Grid>
 
             {/* Filters and Actions */}
@@ -177,27 +204,51 @@ export default function BackupPlansPage() {
         <ModalHeader><H3>Create Backup Plan</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Input placeholder="Plan Name" />
+            <Input 
+              placeholder="Plan Name" 
+              value={newPlan.name}
+              onChange={(e) => setNewPlan({ ...newPlan, name: e.target.value })}
+            />
             <Grid cols={2} gap={4}>
-              <Select>
+              <Select
+                value={newPlan.category}
+                onChange={(e) => setNewPlan({ ...newPlan, category: e.target.value })}
+              >
                 <option value="">Category...</option>
                 {categories.slice(1).map(c => <option key={c} value={c}>{c}</option>)}
               </Select>
-              <Select>
+              <Select
+                value={newPlan.project}
+                onChange={(e) => setNewPlan({ ...newPlan, project: e.target.value })}
+              >
                 <option value="">Project...</option>
-                <option value="summer">Summer Fest 2024</option>
-                <option value="corporate">Corporate Gala</option>
+                <option value="Summer Fest 2024">Summer Fest 2024</option>
+                <option value="Corporate Gala">Corporate Gala</option>
               </Select>
             </Grid>
-            <Textarea placeholder="Trigger condition (when should this plan be activated?)..." rows={2} />
-            <Textarea placeholder="Response steps (one per line)..." rows={4} />
-            <Input placeholder="Plan Owner" />
+            <Textarea 
+              placeholder="Trigger condition (when should this plan be activated?)..." 
+              rows={2}
+              value={newPlan.triggerCondition}
+              onChange={(e) => setNewPlan({ ...newPlan, triggerCondition: e.target.value })}
+            />
+            <Textarea 
+              placeholder="Response steps (one per line)..." 
+              rows={4}
+              value={newPlan.steps}
+              onChange={(e) => setNewPlan({ ...newPlan, steps: e.target.value })}
+            />
+            <Input 
+              placeholder="Plan Owner"
+              value={newPlan.owner}
+              onChange={(e) => setNewPlan({ ...newPlan, owner: e.target.value })}
+            />
           </Stack>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowCreateModal(false)}>Cancel</Button>
-          <Button variant="outline">Save as Draft</Button>
-          <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
+          <Button variant="outline" onClick={() => handleCreatePlan('Draft')}>Save as Draft</Button>
+          <Button variant="solid" onClick={() => handleCreatePlan('Active')}>Create</Button>
         </ModalFooter>
       </Modal>
     </CompvssAppLayout>

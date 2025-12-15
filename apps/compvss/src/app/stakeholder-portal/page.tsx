@@ -30,16 +30,15 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_STAKEHOLDERS,
-  DEMO_STAKEHOLDER_UPDATES,
-  type DemoStakeholder as Stakeholder,
-} from "../../lib/demo-data";
-
-const mockStakeholders = DEMO_STAKEHOLDERS;
-const mockUpdates = DEMO_STAKEHOLDER_UPDATES;
+  useStakeholders,
+  useStakeholderUpdates,
+  type Stakeholder,
+} from "../../hooks/useStakeholders";
 
 export default function StakeholderPortalPage() {
   const router = useRouter();
+  const { data: stakeholders = [] } = useStakeholders();
+  const { data: updates = [] } = useStakeholderUpdates();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -49,7 +48,7 @@ export default function StakeholderPortalPage() {
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
 
-  const activeStakeholders = mockStakeholders.filter(s => s.status === "Active").length;
+  const activeStakeholders = stakeholders.filter(s => s.status === "Active").length;
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -87,10 +86,10 @@ export default function StakeholderPortalPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Total Stakeholders" value={mockStakeholders.length.toString()} />
+              <StatCard label="Total Stakeholders" value={stakeholders.length.toString()} />
               <StatCard label="Active" value={activeStakeholders.toString()} />
-              <StatCard label="Updates Today" value={mockUpdates.filter(u => u.timestamp.includes("2024-11-25")).length.toString()} />
-              <StatCard label="Pending Invites" value={mockStakeholders.filter(s => s.status === "Pending").length.toString()} />
+              <StatCard label="Updates Today" value={updates.filter(u => u.timestamp.includes(new Date().toISOString().split('T')[0])).length.toString()} />
+              <StatCard label="Pending Invites" value={stakeholders.filter(s => s.status === "Pending").length.toString()} />
             </Grid>
 
             <Stack direction="horizontal" className="justify-between">
@@ -109,7 +108,7 @@ export default function StakeholderPortalPage() {
 
             <TabPanel active={isActive('updates')}>
               <Stack gap={4}>
-                {mockUpdates.map((update) => (
+                {updates.map((update) => (
                   <Card key={update.id}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">
@@ -135,7 +134,7 @@ export default function StakeholderPortalPage() {
 
             <TabPanel active={isActive('stakeholders')}>
               <Grid cols={2} gap={4}>
-                {mockStakeholders.map((stakeholder) => (
+                {stakeholders.map((stakeholder) => (
                   <Card key={stakeholder.id}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">

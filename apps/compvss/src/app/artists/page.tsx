@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2, Check, Circle } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { useArtists, useArtistStats, useCreateArtist, useDeleteArtist } from "../../hooks/useArtists";
 import {
   ListPage,
   Badge,
@@ -23,10 +24,23 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
-import {
-  DEMO_ARTISTS,
-  type DemoArtist as Artist,
-} from "../../lib/demo-data";
+interface Artist {
+  id: string;
+  name: string;
+  genre: string;
+  type: 'Solo' | 'Band' | 'DJ' | 'Orchestra' | 'Speaker';
+  manager?: string;
+  managerEmail?: string;
+  managerPhone?: string;
+  agent?: string;
+  technicalRider: boolean;
+  hospitalityRider: boolean;
+  inputList: boolean;
+  stageplot: boolean;
+  upcomingShows: number;
+  notes?: string;
+  lastPerformance?: string;
+}
 
 const columns: ListPageColumn<Artist>[] = [
   { key: 'name', label: 'Artist', accessor: 'name', sortable: true },
@@ -54,15 +68,37 @@ const formFields: FormFieldConfig[] = [
 
 export default function ArtistsPage() {
   const router = useRouter();
-  const [artists, setArtists] = useState<Artist[]>(DEMO_ARTISTS);
+  const { data: apiArtists, isLoading: loading, refetch } = useArtists();
+  const { data: apiStats } = useArtistStats();
+  const createArtistMutation = useCreateArtist();
+  const deleteArtistMutation = useDeleteArtist();
+  
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [artistToDelete, setArtistToDelete] = useState<Artist | null>(null);
 
-  const withRiders = artists.filter(a => a.technicalRider).length;
-  const upcomingTotal = artists.reduce((sum, a) => sum + a.upcomingShows, 0);
+  // Map API data to local interface
+  const artists: Artist[] = (apiArtists || []).map(a => ({
+    id: a.id,
+    name: a.name,
+    genre: a.genre,
+    type: a.type as Artist['type'],
+    manager: a.manager,
+    managerEmail: a.manager_email,
+    managerPhone: a.manager_phone,
+    agent: a.agent,
+    technicalRider: a.technical_rider,
+    hospitalityRider: a.hospitality_rider,
+    inputList: a.input_list,
+    stageplot: a.stageplot,
+    upcomingShows: a.upcoming_shows,
+    notes: a.notes,
+  }));
+
+  const withRiders = apiStats?.withRiders ?? artists.filter(a => a.technicalRider).length;
+  const upcomingTotal = apiStats?.upcomingTotal ?? artists.reduce((sum, a) => sum + a.upcomingShows, 0);
 
   const rowActions: ListPageAction<Artist>[] = [
     { id: 'view', label: 'View Profile', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedArtist(r); setDrawerOpen(true); } },
@@ -71,29 +107,24 @@ export default function ArtistsPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newArtist: Artist = {
-      id: `ART-${String(artists.length + 1).padStart(3, '0')}`,
+    await createArtistMutation.mutateAsync({
       name: String(data.name || ''),
       genre: String(data.genre || ''),
-      type: data.type as Artist['type'],
+      type: String(data.type || 'Solo') as Artist['type'],
       manager: data.manager ? String(data.manager) : undefined,
-      managerEmail: data.managerEmail ? String(data.managerEmail) : undefined,
-      managerPhone: data.managerPhone ? String(data.managerPhone) : undefined,
+      manager_email: data.managerEmail ? String(data.managerEmail) : undefined,
+      manager_phone: data.managerPhone ? String(data.managerPhone) : undefined,
       agent: data.agent ? String(data.agent) : undefined,
-      technicalRider: false,
-      hospitalityRider: false,
-      inputList: false,
-      stageplot: false,
-      upcomingShows: 0,
       notes: data.notes ? String(data.notes) : undefined,
-    };
-    setArtists([...artists, newArtist]);
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (artistToDelete) {
-      setArtists(artists.filter(a => a.id !== artistToDelete.id));
+      await deleteArtistMutation.mutateAsync(artistToDelete.id);
+      refetch();
       setDeleteConfirmOpen(false);
       setArtistToDelete(null);
     }
@@ -105,21 +136,20 @@ export default function ArtistsPage() {
     requiredFields: ['name', 'genre', 'type'],
     onImport: async (records) => {
       for (const record of records) {
-        const newArtist: Artist = {
-          id: `ART-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        await createArtistMutation.mutateAsync({
           name: String(record.name || ''),
           genre: String(record.genre || ''),
-          type: record.type as Artist['type'],
+          type: String(record.type || 'Solo') as Artist['type'],
           manager: record.manager ? String(record.manager) : undefined,
-          managerEmail: record.managerEmail ? String(record.managerEmail) : undefined,
-          technicalRider: Boolean(record.technicalRider),
-          hospitalityRider: Boolean(record.hospitalityRider),
-          inputList: Boolean(record.inputList),
+          manager_email: record.managerEmail ? String(record.managerEmail) : undefined,
+          technical_rider: Boolean(record.technicalRider),
+          hospitality_rider: Boolean(record.hospitalityRider),
+          input_list: Boolean(record.inputList),
           stageplot: Boolean(record.stageplot),
-          upcomingShows: Number(record.upcomingShows) || 0,
-        };
-        setArtists(prev => [...prev, newArtist]);
+          upcoming_shows: Number(record.upcomingShows) || 0,
+        });
       }
+      refetch();
     },
   });
 
@@ -173,7 +203,7 @@ primaryAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
           data={artists}
           columns={columns}
           rowKey="id"
-          loading={false}
+          loading={loading}
           searchPlaceholder="Search artists..."
           filters={filters}
           rowActions={rowActions}

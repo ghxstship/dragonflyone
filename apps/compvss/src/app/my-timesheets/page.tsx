@@ -21,7 +21,10 @@ import {
   TableHead,
   TableCell,
 } from '@ghxstship/ui';
-import { DEMO_TIMESHEETS } from '../../lib/demo-data';
+import {
+  useMyTimesheets,
+  type TimesheetEntry,
+} from '../../hooks/useMyTimesheets';
 import {
   Clock,
   Calendar,
@@ -30,23 +33,10 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface TimesheetEntry {
-  id: string;
-  date: string;
-  production: string;
-  clockIn: string;
-  clockOut: string;
-  breakTime: number;
-  totalHours: number;
-  rate: number;
-  status: 'draft' | 'submitted' | 'approved' | 'rejected';
-}
-
-const mockTimesheets = DEMO_TIMESHEETS as unknown as TimesheetEntry[];
 
 
 export default function MyTimesheetsPage() {
-  const [timesheets] = useState(mockTimesheets);
+  const { data: timesheets = [] } = useMyTimesheets();
   const [selectedWeek] = useState('current');
 
   const totalHours = timesheets.reduce((acc, t) => acc + t.totalHours, 0);

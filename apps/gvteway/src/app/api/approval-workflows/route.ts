@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { withAuth, PlatformRole } from '@ghxstship/config';
 import { createClient } from '@supabase/supabase-js';
 
 function getSupabaseClient() {
@@ -10,15 +11,24 @@ function getSupabaseClient() {
   );
 }
 
+const GVTEWAY_ADMIN_ROLES = [
+  PlatformRole.GVTEWAY_ADMIN, PlatformRole.GVTEWAY_EXPERIENCE_CREATOR,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
+
 
 
 // Multi-stage approval workflows
 export async function GET(request: NextRequest) {
   try {
-    const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
 
+    const supabase = getSupabaseClient();
     const { searchParams } = new URL(request.url);
     const eventId = searchParams.get('event_id');
     const status = searchParams.get('status');
@@ -50,13 +60,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!GVTEWAY_ADMIN_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
+    }
+    const user = authResult.user;
+
     const supabase = getSupabaseClient();
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const { data: { user } } = await supabase.auth.getUser(authHeader.replace('Bearer ', ''));
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
     const body = await request.json();
     const { action } = body;
 

@@ -29,32 +29,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_RISKS } from '../../lib/demo-data';
-
-interface Risk {
-  id: string;
-  title: string;
-  description: string;
-  category: "Technical" | "Weather" | "Vendor" | "Safety" | "Financial" | "Operational" | "Regulatory";
-  probability: "Low" | "Medium" | "High";
-  impact: "Low" | "Medium" | "High" | "Critical";
-  riskScore: number;
-  status: "Identified" | "Mitigating" | "Monitoring" | "Closed";
-  owner: string;
-  projectId: string;
-  projectName: string;
-  mitigationPlan?: string;
-  contingencyPlan?: string;
-  triggers?: string[];
-  identifiedDate: string;
-  reviewDate?: string;
-}
-
-const mockRisks = DEMO_RISKS as unknown as Risk[];
+import {
+  useRisks,
+  type Risk,
+} from '../../hooks/useRiskRegister';
 
 
 export default function RiskRegisterPage() {
   const router = useRouter();
+  const { data: risks = [] } = useRisks();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -65,11 +48,11 @@ export default function RiskRegisterPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const activeRisks = mockRisks.filter(r => r.status !== "Closed");
-  const highRisks = mockRisks.filter(r => r.riskScore >= 12 && r.status !== "Closed").length;
-  const avgRiskScore = Math.round(activeRisks.reduce((sum, r) => sum + r.riskScore, 0) / activeRisks.length);
+  const activeRisks = risks.filter(r => r.status !== "Closed");
+  const highRisks = risks.filter(r => r.riskScore >= 12 && r.status !== "Closed").length;
+  const avgRiskScore = activeRisks.length > 0 ? Math.round(activeRisks.reduce((sum, r) => sum + r.riskScore, 0) / activeRisks.length) : 0;
 
-  const filteredRisks = categoryFilter === "All" ? mockRisks : mockRisks.filter(r => r.category === categoryFilter);
+  const filteredRisks = categoryFilter === "All" ? risks : risks.filter(r => r.category === categoryFilter);
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
@@ -98,7 +81,7 @@ export default function RiskRegisterPage() {
               <StatCard value={activeRisks.length.toString()} label="Active Risks" />
               <StatCard value={highRisks.toString()} label="High Priority" />
               <StatCard value={avgRiskScore.toString()} label="Avg Risk Score" />
-              <StatCard value={mockRisks.filter(r => r.status === "Closed").length.toString()} label="Closed This Month" />
+              <StatCard value={risks.filter(r => r.status === "Closed").length.toString()} label="Closed This Month" />
             </Grid>
 
             {highRisks > 0 && (

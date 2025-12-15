@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -12,6 +11,7 @@ import {
   Grid,
   Body,
   H3,
+  Spinner,
 } from '@ghxstship/ui';
 import {
   Ticket,
@@ -22,11 +22,24 @@ import {
 } from 'lucide-react';
 import { GvtewayAppLayout } from '../../components/app-layout';
 import Link from 'next/link';
-
-import { DEMO_UPCOMING_EVENTS } from '../../lib/demo-data';
+import { useOrders } from '@/hooks/useOrders';
 
 export default function AccountPage() {
-  const [upcomingEvents] = useState(DEMO_UPCOMING_EVENTS);
+  const { data: ordersData, isLoading } = useOrders();
+  
+  // Transform orders to upcoming events format
+  const upcomingEvents = (ordersData || [])
+    .filter(order => order.status === 'confirmed' && order.gvteway_events)
+    .map(order => ({
+      id: order.id,
+      name: order.gvteway_events?.title || 'Event',
+      date: order.gvteway_events?.event_date 
+        ? new Date(order.gvteway_events.event_date).toLocaleDateString() 
+        : 'TBD',
+      venue: 'Venue TBD',
+      ticketCount: order.ticket_count || 1,
+    }))
+    .slice(0, 3);
 
   return (
     <GvtewayAppLayout>
@@ -51,18 +64,26 @@ export default function AccountPage() {
                   </Link>
                 </Stack>
                 <Stack gap={3}>
-                  {upcomingEvents.map(event => (
-                    <Stack key={event.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
-                      <Stack gap={1}>
-                        <Body className="font-weight-semibold text-white">{event.name}</Body>
-                        <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
-                      </Stack>
-                      <Stack direction="horizontal" gap={2} className="items-center">
-                        <Badge variant="info">{event.ticketCount} tickets</Badge>
-                        <Button variant="outline" size="sm">View</Button>
-                      </Stack>
+                  {isLoading ? (
+                    <Stack className="flex items-center justify-center py-8">
+                      <Spinner variant="grey" size="sm" />
                     </Stack>
-                  ))}
+                  ) : upcomingEvents.length === 0 ? (
+                    <Body className="text-on-dark-muted py-4">No upcoming events. Browse events to find your next experience!</Body>
+                  ) : (
+                    upcomingEvents.map(event => (
+                      <Stack key={event.id} direction="horizontal" className="items-center justify-between rounded border-2 border-ink-700 p-4">
+                        <Stack gap={1}>
+                          <Body className="font-weight-semibold text-white">{event.name}</Body>
+                          <Body size="sm" className="text-on-dark-muted">{event.date} - {event.venue}</Body>
+                        </Stack>
+                        <Stack direction="horizontal" gap={2} className="items-center">
+                          <Badge variant="info">{event.ticketCount} tickets</Badge>
+                          <Button variant="outline" size="sm">View</Button>
+                        </Stack>
+                      </Stack>
+                    ))
+                  )}
                 </Stack>
               </Stack>
             </CardBody>

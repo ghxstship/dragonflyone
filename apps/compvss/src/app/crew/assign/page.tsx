@@ -20,17 +20,18 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_ASSIGNABLE_CREW,
-} from '../../../lib/demo-data';
+  useAssignableCrew,
+} from '../../../hooks/useAssignableCrew';
 
 export default function AssignCrewPage() {
   const router = useRouter();
+  const { data: assignableCrew = [] } = useAssignableCrew();
   const [selectedProject, setSelectedProject] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [assigned, setAssigned] = useState<string[]>([]);
 
-  const filteredCrew = DEMO_ASSIGNABLE_CREW.filter(member => {
+  const filteredCrew = assignableCrew.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          member.role.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = !selectedRole || member.role === selectedRole;
@@ -139,7 +140,7 @@ export default function AssignCrewPage() {
               <Stack gap={4}>
                 <H2>ASSIGNED CREW ({assigned.length})</H2>
                 <Stack gap={3}>
-                  {DEMO_ASSIGNABLE_CREW.filter(c => assigned.includes(c.id)).map(member => (
+                  {assignableCrew.filter(c => assigned.includes(c.id)).map(member => (
                     <Card key={member.id} className="border-l-4 border-black p-4">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>

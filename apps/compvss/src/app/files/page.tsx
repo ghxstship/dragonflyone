@@ -30,18 +30,20 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_PROJECT_FILES,
-  DEMO_FILE_VERSIONS,
-  type DemoProjectFile as ProjectFile,
-} from "../../lib/demo-data";
+  useProjectFiles,
+  useFileVersions,
+  type ProjectFile,
+} from "../../hooks/useFiles";
 
 export default function FileSharingPage() {
   const router = useRouter();
+  const { data: files = [] } = useProjectFiles();
   const [selectedFile, setSelectedFile] = useState<ProjectFile | null>(null);
+  const { data: fileVersions = [] } = useFileVersions(selectedFile?.id || '');
   const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const totalFiles = DEMO_PROJECT_FILES.length;
-  const totalSize = "54.8 MB";
+  const totalFiles = files.length;
+  const totalSize = files.reduce((sum, f) => sum + parseFloat(f.size) || 0, 0).toFixed(1) + " MB";
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -73,8 +75,8 @@ export default function FileSharingPage() {
             <Grid cols={4} gap={6}>
               <StatCard value={totalFiles.toString()} label="Total Files" />
               <StatCard value={totalSize} label="Total Size" />
-              <StatCard value={new Set(DEMO_PROJECT_FILES.map(f => f.project)).size.toString()} label="Projects" />
-              <StatCard value={DEMO_PROJECT_FILES.filter(f => f.uploadedAt === "2024-11-24").length.toString()} label="Updated Today" />
+              <StatCard value={new Set(files.map(f => f.project)).size.toString()} label="Projects" />
+              <StatCard value={files.filter(f => f.uploadedAt === new Date().toISOString().split('T')[0]).length.toString()} label="Updated Today" />
             </Grid>
 
             {/* Filters */}
@@ -105,7 +107,7 @@ export default function FileSharingPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {DEMO_PROJECT_FILES.map((file) => (
+                  {files.map((file) => (
                     <TableRow key={file.id}>
                       <TableCell>
                         <Stack direction="horizontal" gap={2}>
@@ -173,7 +175,7 @@ export default function FileSharingPage() {
               <Stack gap={2}>
                 <Body className="font-display">Version History</Body>
                 <Stack gap={2}>
-                  {DEMO_FILE_VERSIONS.map((v) => (
+                  {fileVersions.map((v) => (
                     <Card key={v.version} className="p-3">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>

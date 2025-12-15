@@ -27,35 +27,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_WEATHER_PLANS } from '../../lib/demo-data';
-
-interface WeatherPlan {
-  id: string;
-  projectName: string;
-  projectId: string;
-  eventDate: string;
-  venue: string;
-  venueType: "Outdoor" | "Indoor" | "Hybrid";
-  status: "Active" | "Triggered" | "Cleared";
-  currentConditions: string;
-  riskLevel: "Low" | "Moderate" | "High" | "Severe";
-  contingencyPlans: ContingencyAction[];
-}
-
-interface ContingencyAction {
-  id: string;
-  trigger: string;
-  threshold: string;
-  action: string;
-  responsible: string;
-  status: "Ready" | "Activated" | "Completed";
-}
-
-const mockPlans = DEMO_WEATHER_PLANS as unknown as WeatherPlan[];
+import {
+  useWeatherPlans,
+  type WeatherPlan,
+} from '../../hooks/useWeatherContingency';
 
 
 export default function WeatherContingencyPage() {
   const router = useRouter();
+  const { data: weatherPlans = [] } = useWeatherPlans();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -65,9 +45,9 @@ export default function WeatherContingencyPage() {
   const [selectedPlan, setSelectedPlan] = useState<WeatherPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const activePlans = mockPlans.filter(p => p.status === "Active").length;
-  const triggeredPlans = mockPlans.filter(p => p.status === "Triggered").length;
-  const highRiskCount = mockPlans.filter(p => p.riskLevel === "High" || p.riskLevel === "Severe").length;
+  const activePlans = weatherPlans.filter(p => p.status === "Active").length;
+  const triggeredPlans = weatherPlans.filter(p => p.status === "Triggered").length;
+  const highRiskCount = weatherPlans.filter(p => p.riskLevel === "High" || p.riskLevel === "Severe").length;
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
@@ -113,7 +93,7 @@ export default function WeatherContingencyPage() {
               <StatCard label="Active Plans" value={activePlans.toString()} />
               <StatCard label="Triggered" value={triggeredPlans.toString()} />
               <StatCard label="High Risk" value={highRiskCount.toString()} />
-              <StatCard label="Outdoor Events" value={mockPlans.filter(p => p.venueType === "Outdoor").length.toString()} />
+              <StatCard label="Outdoor Events" value={weatherPlans.filter(p => p.venueType === "Outdoor").length.toString()} />
             </Grid>
 
             {triggeredPlans > 0 && (
@@ -134,7 +114,7 @@ export default function WeatherContingencyPage() {
             </Stack>
 
             <Stack gap={4}>
-              {mockPlans
+              {weatherPlans
                 .filter(p => activeTab === "all" || (activeTab === "triggered" ? p.status === "Triggered" : p.status === "Active"))
                 .map((plan) => (
                   <Card key={plan.id}>

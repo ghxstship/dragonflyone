@@ -37,16 +37,15 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_TECH_REHEARSAL_SESSIONS,
-  DEMO_REHEARSAL_NOTES,
-  type DemoTechRehearsalSession as TechRehearsalSession,
-} from "../../lib/demo-data";
-
-const mockSessions = DEMO_TECH_REHEARSAL_SESSIONS;
-const mockNotes = DEMO_REHEARSAL_NOTES;
+  useTechRehearsalSessions,
+  useRehearsalNotes,
+  type TechRehearsalSession,
+} from "../../hooks/useStages";
 
 export default function TechRehearsalPage() {
   const router = useRouter();
+  const { data: sessions = [] } = useTechRehearsalSessions();
+  const { data: notes = [] } = useRehearsalNotes();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -57,9 +56,10 @@ export default function TechRehearsalPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showNoteModal, setShowNoteModal] = useState(false);
 
-  const todaySessions = mockSessions.filter(s => s.date === "2024-11-25");
-  const inProgressSession = mockSessions.find(s => s.status === "In Progress");
-  const unresolvedIssues = mockNotes.filter(n => !n.resolved && n.type === "Issue").length;
+  const today = new Date().toISOString().split('T')[0];
+  const todaySessions = sessions.filter(s => s.date === today);
+  const inProgressSession = sessions.find(s => s.status === "In Progress");
+  const unresolvedIssues = notes.filter(n => !n.resolved && n.type === "Issue").length;
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
@@ -90,7 +90,7 @@ export default function TechRehearsalPage() {
               <StatCard label="Today Sessions" value={todaySessions.length.toString()} />
               <StatCard label="In Progress" value={inProgressSession ? "1" : "0"} />
               <StatCard label="Unresolved Issues" value={unresolvedIssues.toString()} />
-              <StatCard label="Total Sessions" value={mockSessions.length.toString()} />
+              <StatCard label="Total Sessions" value={sessions.length.toString()} />
             </Grid>
 
             {inProgressSession && (
@@ -112,7 +112,7 @@ export default function TechRehearsalPage() {
                     <H3>Rehearsal Schedule</H3>
                     <Button variant="outline" size="sm" onClick={() => setShowAddModal(true)}>Add Session</Button>
                   </Stack>
-                  {mockSessions.map((session) => (
+                  {sessions.map((session) => (
                     <Card key={session.id}>
                       <Grid cols={6} gap={4} className="items-center">
                         <Stack gap={1}>
@@ -160,7 +160,7 @@ export default function TechRehearsalPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockNotes.map((note) => (
+                    {notes.map((note) => (
                       <TableRow key={note.id}>
                         <TableCell>{note.timestamp}</TableCell>
                         <TableCell><Badge variant="outline">{note.department}</Badge></TableCell>
@@ -181,7 +181,7 @@ export default function TechRehearsalPage() {
               <TabPanel active={isActive('issues')}>
                 <Stack gap={4}>
                   <H3>Open Issues ({unresolvedIssues})</H3>
-                  {mockNotes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
+                  {notes.filter(n => !n.resolved && n.type === "Issue").map((note) => (
                     <Card key={note.id}>
                       <Grid cols={4} gap={4} className="items-center">
                         <Stack gap={1}>

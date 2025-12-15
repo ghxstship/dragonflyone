@@ -18,16 +18,16 @@ export const universalSearchKeys = {
 };
 
 export function useSearchResults(query: string, type?: string) {
-  return useQuery({
+  return useQuery<SearchResult[]>({
     queryKey: universalSearchKeys.results(query, type),
-    queryFn: async () => {
+    queryFn: async (): Promise<SearchResult[]> => {
       if (!query.trim()) return [];
       const params = new URLSearchParams({ q: query });
       if (type && type !== 'all') params.append('type', type);
       const response = await fetch(`/api/search/universal?${params.toString()}`);
       if (!response.ok) return [];
       const data = await response.json();
-      return data.results || [];
+      return (data.results || []) as SearchResult[];
     },
     enabled: !!query.trim(),
     staleTime: 60 * 1000,

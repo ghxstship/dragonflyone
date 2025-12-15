@@ -13,6 +13,8 @@ import {
   Body,
   Box,
   H3,
+  Spinner,
+  EmptyState,
 } from "@ghxstship/ui";
 import {
   Calendar,
@@ -22,7 +24,10 @@ import {
   FileText,
   Plus,
   ListOrdered,
+  RefreshCw,
 } from "lucide-react";
+import { useProduction } from "../../../../hooks/useProductions";
+import { useTasks, useTaskStats } from "../../../../hooks/useTasks";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
 /**
@@ -34,37 +39,60 @@ export default function ProductionSchedulePage() {
   const router = useRouter();
   const productionId = params?.productionId as string;
 
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+  // Fetch production from API
+  const { data: apiProduction, isLoading: productionLoading, error: productionError, refetch: refetchProduction } = useProduction(productionId);
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
-  if (!production) {
+  // Fetch tasks from API
+  const { data: apiTasks, isLoading: tasksLoading } = useTasks({ productionId });
+  const { data: taskStats } = useTaskStats(productionId);
+
+  if (productionLoading || tasksLoading) {
     return (
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Schedule"
-          title="Production Not Found"
-          description="The requested production could not be found."
-          colorScheme="on-dark"
-        />
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading schedule...</Body>
       </Stack>
     );
   }
 
-  // Mock schedule data
+  if (productionError && !demoProduction) {
+    return (
+      <EmptyState
+        icon={<RefreshCw size={48} />}
+        title="Failed to load production"
+        description={productionError.message}
+        action={{ label: "Retry", onClick: () => refetchProduction() }}
+      />
+    );
+  }
+
+  // Use API stats if available, otherwise fallback to demo values
   const scheduleStats = {
-    totalTasks: 48,
-    completed: 32,
-    inProgress: 12,
-    overdue: 4,
+    totalTasks: taskStats?.total ?? 48,
+    completed: taskStats?.completed ?? 32,
+    inProgress: taskStats?.inProgress ?? 12,
+    overdue: taskStats?.blocked ?? 4,
     upcoming: 8,
   };
 
-  const upcomingTasks = [
-    { id: "1", title: "Stage setup walkthrough", dueDate: "2025-06-14", priority: "high", status: "pending" },
-    { id: "2", title: "Audio equipment check", dueDate: "2025-06-14", priority: "critical", status: "in_progress" },
-    { id: "3", title: "Lighting rig inspection", dueDate: "2025-06-15", priority: "high", status: "pending" },
-    { id: "4", title: "Catering coordination", dueDate: "2025-06-15", priority: "medium", status: "pending" },
-    { id: "5", title: "Security briefing", dueDate: "2025-06-15", priority: "high", status: "pending" },
-  ];
+  // Use API tasks if available, otherwise fallback to demo
+  const upcomingTasks = apiTasks && apiTasks.length > 0 
+    ? apiTasks.slice(0, 5).map(t => ({
+        id: t.id,
+        title: t.title,
+        dueDate: t.due_date || "",
+        priority: t.priority,
+        status: t.status,
+      }))
+    : [
+        { id: "1", title: "Stage setup walkthrough", dueDate: "2025-06-14", priority: "high", status: "pending" },
+        { id: "2", title: "Audio equipment check", dueDate: "2025-06-14", priority: "critical", status: "in_progress" },
+        { id: "3", title: "Lighting rig inspection", dueDate: "2025-06-15", priority: "high", status: "pending" },
+        { id: "4", title: "Catering coordination", dueDate: "2025-06-15", priority: "medium", status: "pending" },
+        { id: "5", title: "Security briefing", dueDate: "2025-06-15", priority: "high", status: "pending" },
+      ];
 
   const priorityColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     critical: "error",
@@ -85,7 +113,7 @@ export default function ProductionSchedulePage() {
       {/* Header */}
       <Stack gap={4}>
         <SectionHeader
-          kicker={production.name}
+          kicker={productionName}
           title="Schedule"
           description="Manage tasks, timelines, and contingencies for this production"
           colorScheme="on-dark"

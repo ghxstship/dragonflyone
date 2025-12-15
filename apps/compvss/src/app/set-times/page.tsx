@@ -27,27 +27,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_SET_TIMES } from '../../lib/demo-data';
-
-interface SetTime {
-  id: string;
-  artistName: string;
-  stage: string;
-  scheduledStart: string;
-  scheduledEnd: string;
-  actualStart?: string;
-  actualEnd?: string;
-  status: "Upcoming" | "On Stage" | "Completed" | "Delayed" | "Cancelled";
-  setLength: number;
-  changeoverTime: number;
-  notes?: string;
-}
-
-const mockSetTimes = DEMO_SET_TIMES as unknown as SetTime[];
+import {
+  useSetTimes,
+  type SetTime,
+} from '../../hooks/useSetTimes';
 
 
 export default function SetTimesPage() {
   const router = useRouter();
+  const { data: setTimes = [] } = useSetTimes();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -63,10 +51,10 @@ export default function SetTimesPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const onStage = mockSetTimes.filter(s => s.status === "On Stage");
-  const upcoming = mockSetTimes.filter(s => s.status === "Upcoming");
-  const completed = mockSetTimes.filter(s => s.status === "Completed");
-  const delayed = mockSetTimes.filter(s => s.status === "Delayed").length;
+  const onStage = setTimes.filter(s => s.status === "On Stage");
+  const upcoming = setTimes.filter(s => s.status === "Upcoming");
+  const completed = setTimes.filter(s => s.status === "Completed");
+  const delayed = setTimes.filter(s => s.status === "Delayed").length;
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'ghost' | 'warning' | 'error' => {
     switch (status) {
@@ -146,7 +134,7 @@ export default function SetTimesPage() {
 
               <TabPanel active={isActive('timeline')}>
                 <Stack gap={3}>
-                  {mockSetTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
+                  {setTimes.sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
                     <Card key={set.id} className="p-4">
                       <Grid cols={6} gap={4} className="items-center">
                         <Stack gap={1}>
@@ -190,7 +178,7 @@ export default function SetTimesPage() {
                       <Stack gap={4}>
                         <H3>{stage}</H3>
                         <Stack gap={2}>
-                          {mockSetTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
+                          {setTimes.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((set) => (
                             <Card key={set.id} className="p-3">
                               <Stack direction="horizontal" className="items-center justify-between">
                                 <Stack gap={1}>
@@ -213,7 +201,7 @@ export default function SetTimesPage() {
                   <Stack gap={4}>
                     <H3>Schedule Variance Report</H3>
                     <Stack gap={2}>
-                      {mockSetTimes.filter(s => s.actualStart).map((set) => {
+                      {setTimes.filter(s => s.actualStart).map((set) => {
                         const startVar = calculateVariance(set.scheduledStart, set.actualStart);
                         const endVar = set.actualEnd ? calculateVariance(set.scheduledEnd, set.actualEnd) : null;
                         return (

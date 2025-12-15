@@ -27,26 +27,14 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-import { DEMO_JOB_OPPORTUNITIES } from '../../../lib/demo-data';
-
-interface JobOpportunity {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  type: 'Full-Time' | 'Gig' | 'Contract' | 'Freelance';
-  rate: string;
-  posted: string;
-  deadline?: string;
-  skills: string[];
-  saved: boolean;
-  applied: boolean;
-}
-
-const mockJobs = DEMO_JOB_OPPORTUNITIES as JobOpportunity[];
+import {
+  useJobOpportunities,
+  type JobOpportunity,
+} from '../../../hooks/useJobOpportunities';
 
 export default function MobileJobSearchPage() {
   const router = useRouter();
+  const { data: jobs = [] } = useJobOpportunities();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -59,10 +47,10 @@ export default function MobileJobSearchPage() {
   const [typeFilter, setTypeFilter] = useState('All');
   const [showApplyModal, setShowApplyModal] = useState(false);
 
-  const savedJobs = mockJobs.filter(j => j.saved);
-  const appliedJobs = mockJobs.filter(j => j.applied);
+  const savedJobs = jobs.filter(j => j.saved);
+  const appliedJobs = jobs.filter(j => j.applied);
 
-  const filteredJobs = mockJobs.filter(job => {
+  const filteredJobs = jobs.filter(job => {
     const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           job.skills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -96,7 +84,7 @@ export default function MobileJobSearchPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Available Jobs" value={mockJobs.length.toString()} />
+              <StatCard label="Available Jobs" value={jobs.length.toString()} />
               <StatCard label="Saved" value={savedJobs.length.toString()} />
               <StatCard label="Applied" value={appliedJobs.length.toString()} />
               <StatCard label="New Today" value="2" />

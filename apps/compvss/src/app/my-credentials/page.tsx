@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -23,14 +22,12 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_CREDENTIALS,
-  type DemoCredential as Credential,
-} from '../../lib/demo-data';
-
-const mockCredentials = DEMO_CREDENTIALS;
+  useMyCredentials,
+  type Credential,
+} from '../../hooks/useMyCredentials';
 
 export default function MyCredentialsPage() {
-  const [credentials] = useState(mockCredentials);
+  const { data: credentials = [] } = useMyCredentials();
 
   const activeCount = credentials.filter(c => c.status === 'active').length;
   const expiringCount = credentials.filter(c => c.status === 'expiring').length;

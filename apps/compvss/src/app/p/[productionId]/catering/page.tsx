@@ -16,6 +16,7 @@ import {
 } from '@ghxstship/ui';
 import { Users, Clock, Utensils, Calendar, Plus, Edit2 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
+import { useCateringData } from '../../../../hooks/useCatering';
 
 interface MealService {
   id: string;
@@ -41,70 +42,7 @@ interface DepartmentHeadcount {
   };
 }
 
-const DEMO_MEALS: MealService[] = [
-  {
-    id: '1',
-    name: 'Crew Breakfast - Day 1',
-    date: '2025-06-15',
-    time: '06:00',
-    location: 'Catering Tent A',
-    expectedHeadcount: 150,
-    actualHeadcount: 142,
-    status: 'completed',
-    mealType: 'breakfast',
-    dietaryOptions: ['Vegetarian', 'Vegan', 'Gluten-Free'],
-  },
-  {
-    id: '2',
-    name: 'Crew Lunch - Day 1',
-    date: '2025-06-15',
-    time: '12:00',
-    location: 'Catering Tent A',
-    expectedHeadcount: 200,
-    actualHeadcount: 195,
-    status: 'completed',
-    mealType: 'lunch',
-    dietaryOptions: ['Vegetarian', 'Vegan', 'Gluten-Free', 'Halal'],
-  },
-  {
-    id: '3',
-    name: 'Crew Dinner - Day 1',
-    date: '2025-06-15',
-    time: '18:00',
-    location: 'Catering Tent A',
-    expectedHeadcount: 180,
-    actualHeadcount: 0,
-    status: 'in_progress',
-    mealType: 'dinner',
-    dietaryOptions: ['Vegetarian', 'Vegan', 'Gluten-Free'],
-  },
-  {
-    id: '4',
-    name: 'Crew Breakfast - Day 2',
-    date: '2025-06-16',
-    time: '06:00',
-    location: 'Catering Tent A',
-    expectedHeadcount: 160,
-    actualHeadcount: 0,
-    status: 'scheduled',
-    mealType: 'breakfast',
-    dietaryOptions: ['Vegetarian', 'Vegan', 'Gluten-Free'],
-  },
-  {
-    id: '5',
-    name: 'Crew Lunch - Day 2',
-    date: '2025-06-16',
-    time: '12:00',
-    location: 'Catering Tent A',
-    expectedHeadcount: 220,
-    actualHeadcount: 0,
-    status: 'scheduled',
-    mealType: 'lunch',
-    dietaryOptions: ['Vegetarian', 'Vegan', 'Gluten-Free', 'Halal'],
-  },
-];
-
-const DEMO_HEADCOUNTS: DepartmentHeadcount[] = [
+const DEFAULT_HEADCOUNTS: DepartmentHeadcount[] = [
   { department: 'Production', headcount: 45, dietary: { vegetarian: 8, vegan: 3, glutenFree: 5, other: 2 } },
   { department: 'Stage', headcount: 35, dietary: { vegetarian: 5, vegan: 2, glutenFree: 3, other: 1 } },
   { department: 'Audio', headcount: 25, dietary: { vegetarian: 4, vegan: 1, glutenFree: 2, other: 0 } },
@@ -129,9 +67,22 @@ const mealTypeIcons: Record<string, string> = {
 };
 
 export default function CateringPage() {
-  const [meals] = useState<MealService[]>(DEMO_MEALS);
-  const [headcounts] = useState<DepartmentHeadcount[]>(DEMO_HEADCOUNTS);
-  const [selectedDate, setSelectedDate] = useState<string>('2025-06-15');
+  const { services } = useCateringData();
+  const [headcounts] = useState<DepartmentHeadcount[]>(DEFAULT_HEADCOUNTS);
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+
+  const meals: MealService[] = services.map((s: { id: string; meal_type: string; project_name: string; service_date: string; location: string; headcount: number; status: string; dietary_notes?: string }) => ({
+    id: s.id,
+    name: `${s.meal_type.charAt(0).toUpperCase() + s.meal_type.slice(1)} - ${s.project_name}`,
+    date: s.service_date.split('T')[0],
+    time: s.service_date.split('T')[1]?.substring(0, 5) || '12:00',
+    location: s.location,
+    expectedHeadcount: s.headcount,
+    actualHeadcount: s.status === 'completed' ? s.headcount : 0,
+    status: s.status as MealService['status'],
+    mealType: s.meal_type as MealService['mealType'],
+    dietaryOptions: s.dietary_notes ? s.dietary_notes.split(',') : ['Vegetarian', 'Vegan'],
+  }));
 
   const filteredMeals = meals.filter((m) => m.date === selectedDate);
   const uniqueDates = Array.from(new Set(meals.map((m) => m.date)));

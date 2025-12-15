@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Download, Building2 } from 'lucide-react';
+import { Eye, Pencil, Trash2, Download } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -12,6 +12,7 @@ import {
   ConfirmDialog,
   Grid,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -77,6 +78,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function ClientsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: clients, isLoading, error, refetch } = useClients();
   const createMutation = useCreateClient();
   const deleteMutation = useDeleteClient();
@@ -126,8 +128,9 @@ export default function ClientsPage() {
         notes: data.notes ? String(data.notes) : undefined,
       });
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Client Created', message: `Client "${data.company_name}" has been created.` });
     } catch (err) {
-      console.error('Failed to create client:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Client', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 
@@ -136,9 +139,10 @@ export default function ClientsPage() {
       try {
         await deleteMutation.mutateAsync(clientToDelete.id);
         setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Client Deleted', message: `Client "${clientToDelete.company_name}" has been deleted.` });
         setClientToDelete(null);
       } catch (err) {
-        console.error('Failed to delete client:', err);
+        addNotification({ type: 'error', title: 'Failed to Delete Client', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
       }
     }
   };

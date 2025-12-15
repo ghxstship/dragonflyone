@@ -35,16 +35,15 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_OFFLINE_CONTENT,
-  DEMO_OFFLINE_PACKAGES,
-  type DemoOfflinePackage as OfflinePackage,
-} from '../../../lib/demo-data';
-
-const mockContent = DEMO_OFFLINE_CONTENT;
-const mockPackages = DEMO_OFFLINE_PACKAGES;
+  useOfflineContent,
+  useOfflinePackages,
+  type OfflinePackage,
+} from '../../../hooks/useOfflineContent';
 
 export default function OfflineAccessPage() {
   const router = useRouter();
+  const { data: offlineContent = [] } = useOfflineContent();
+  const { data: packages = [] } = useOfflinePackages();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -54,10 +53,10 @@ export default function OfflineAccessPage() {
   const [selectedPackage, setSelectedPackage] = useState<OfflinePackage | null>(null);
   const [syncing, setSyncing] = useState(false);
 
-  const syncedCount = mockContent.filter(c => c.status === 'Synced').length;
-  const outdatedCount = mockContent.filter(c => c.status === 'Outdated').length;
+  const syncedCount = offlineContent.filter(c => c.status === 'Synced').length;
+  const outdatedCount = offlineContent.filter(c => c.status === 'Outdated').length;
   const totalSize = '186.9 MB';
-  const downloadedPackages = mockPackages.filter(p => p.downloaded).length;
+  const downloadedPackages = packages.filter(p => p.downloaded).length;
 
   const getStatusVariant = (status: string): 'success' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
@@ -87,7 +86,7 @@ export default function OfflineAccessPage() {
               <StatCard label="Synced Content" value={syncedCount.toString()} />
               <StatCard label="Needs Update" value={outdatedCount.toString()} trend={outdatedCount > 0 ? 'down' : 'neutral'} />
               <StatCard label="Downloaded" value={totalSize} />
-              <StatCard label="Packages" value={`${downloadedPackages}/${mockPackages.length}`} />
+              <StatCard label="Packages" value={`${downloadedPackages}/${packages.length}`} />
             </Grid>
 
             {outdatedCount > 0 && (
@@ -121,7 +120,7 @@ export default function OfflineAccessPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockContent.map((content) => (
+                  {offlineContent.map((content) => (
                     <TableRow key={content.id}>
                       <TableCell><Body>{content.title}</Body></TableCell>
                       <TableCell><Badge variant="outline">{content.category}</Badge></TableCell>
@@ -143,7 +142,7 @@ export default function OfflineAccessPage() {
 
             {isActive('packages') && (
               <Grid cols={2} gap={4}>
-                {mockPackages.map((pkg) => (
+                {packages.map((pkg) => (
                   <Card key={pkg.id}>
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">

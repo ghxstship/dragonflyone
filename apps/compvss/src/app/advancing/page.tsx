@@ -18,6 +18,8 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
+import { useQuery } from '@tanstack/react-query';
+import type { ProductionAdvance } from '@ghxstship/config/types/advancing';
 
 export default function AdvancingPage() {
   const router = useRouter();
@@ -28,12 +30,23 @@ export default function AdvancingPage() {
     validTabs: ['my-requests', 'to-fulfill', 'all'],
   });
 
-  // Mock stats - in production these would come from API
+  // Fetch all requests to calculate stats
+  const { data: requestsData } = useQuery({
+    queryKey: ['advancing-requests-stats'],
+    queryFn: async () => {
+      const response = await fetch('/api/advancing/requests?limit=1000');
+      if (!response.ok) throw new Error('Failed to fetch requests');
+      return response.json();
+    },
+  });
+  const requests: ProductionAdvance[] = requestsData?.data || [];
+  
+  // Calculate real stats from API data
   const stats = {
-    pending: 12,
-    approved: 8,
-    fulfilled: 45,
-    total: 65,
+    pending: requests.filter((r) => r.status === 'submitted' || r.status === 'under_review').length,
+    approved: requests.filter((r) => r.status === 'approved' || r.status === 'in_progress').length,
+    fulfilled: requests.filter((r) => r.status === 'fulfilled').length,
+    total: requests.length,
   };
 
   return (

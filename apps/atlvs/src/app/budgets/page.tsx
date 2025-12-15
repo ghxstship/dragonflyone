@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, BarChart3 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
+  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body, useNotifications,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 import { useBudgets } from '@/hooks/useBudgets';
@@ -46,6 +46,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function BudgetsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: budgetsData, isLoading, error, refetch } = useBudgets({ period: '2024-q4' });
   const budgets = (budgetsData || DEMO_BUDGETS) as Budget[];
   
@@ -81,9 +82,10 @@ export default function BudgetsPage() {
         throw new Error('Failed to create budget');
       }
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Budget Created', message: 'Budget has been created successfully.' });
       refetch();
     } catch (err) {
-      console.error('Failed to create budget:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Budget', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 

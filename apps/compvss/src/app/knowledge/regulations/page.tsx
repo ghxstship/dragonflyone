@@ -24,28 +24,27 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_REGULATIONS,
-  type DemoRegulation as Regulation,
-} from "../../../lib/demo-data";
-
-const mockRegulations = DEMO_REGULATIONS;
+  useRegulations,
+  type Regulation,
+} from "../../../hooks/useRegulations";
 
 const categories = ["All", "OSHA", "Fire", "Electrical", "Labor", "ADA", "Environmental", "Noise"];
 
 export default function RegulationsPage() {
   const router = useRouter();
+  const { data: regulations = [] } = useRegulations();
   const [selectedRegulation, setSelectedRegulation] = useState<Regulation | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredRegulations = mockRegulations.filter(r => {
+  const filteredRegulations = regulations.filter(r => {
     const matchesCategory = categoryFilter === "All" || r.category === categoryFilter;
     const matchesSearch = r.title.toLowerCase().includes(searchQuery.toLowerCase()) || r.summary.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const updatedCount = mockRegulations.filter(r => r.status === "Updated").length;
-  const reviewCount = mockRegulations.filter(r => r.status === "Review Required").length;
+  const updatedCount = regulations.filter(r => r.status === "Updated").length;
+  const reviewCount = regulations.filter(r => r.status === "Review Required").length;
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'ghost' => {
     switch (status) {
@@ -84,7 +83,7 @@ export default function RegulationsPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Total Regulations" value={mockRegulations.length.toString()} />
+              <StatCard label="Total Regulations" value={regulations.length.toString()} />
               <StatCard label="Categories" value={(categories.length - 1).toString()} />
               <StatCard label="Recently Updated" value={updatedCount.toString()} />
               <StatCard label="Review Required" value={reviewCount.toString()} />
@@ -139,7 +138,7 @@ export default function RegulationsPage() {
                       <Stack gap={2} className="text-center">
                         <Body>{getCategoryIcon(cat)}</Body>
                         <Body>{cat}</Body>
-                        <Body size="sm" className="">{mockRegulations.filter(r => r.category === cat).length} docs</Body>
+                        <Body size="sm" className="">{regulations.filter(r => r.category === cat).length} docs</Body>
                       </Stack>
                     </Card>
                   ))}

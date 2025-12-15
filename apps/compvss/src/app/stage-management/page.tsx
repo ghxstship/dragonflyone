@@ -17,13 +17,7 @@ import {
   Badge,
 } from '@ghxstship/ui';
 import { Layout, Wrench, FileText, Settings, Monitor, Speaker, Lightbulb } from 'lucide-react';
-
-const DEMO_STAGES = [
-  { id: '1', name: 'Main Stage', type: 'Outdoor', dimensions: '60ft x 40ft', capacity: 5000, status: 'Active' },
-  { id: '2', name: 'Side Stage A', type: 'Outdoor', dimensions: '30ft x 20ft', capacity: 1500, status: 'Active' },
-  { id: '3', name: 'Side Stage B', type: 'Outdoor', dimensions: '30ft x 20ft', capacity: 1500, status: 'Setup' },
-  { id: '4', name: 'VIP Lounge Stage', type: 'Indoor', dimensions: '20ft x 15ft', capacity: 300, status: 'Active' },
-];
+import { useStages } from '../../hooks/useStages';
 
 /**
  * Stage Management Page
@@ -31,10 +25,11 @@ const DEMO_STAGES = [
  */
 export default function StageManagementPage() {
   const router = useRouter();
+  const { data: stages = [] } = useStages();
 
   const stats = {
-    stages: DEMO_STAGES.length,
-    activeStages: DEMO_STAGES.filter(s => s.status === 'Active').length,
+    stages: stages.length,
+    activeStages: stages.filter(s => s.status === 'Active').length,
     equipment: 93,
     techSpecs: 12,
   };
@@ -105,7 +100,7 @@ export default function StageManagementPage() {
                 <Stack gap={4}>
                   <H3>Stage Overview</H3>
                   <div className="grid gap-4 md:grid-cols-2">
-                    {DEMO_STAGES.map((stage) => (
+                    {stages.map((stage) => (
                       <Card key={stage.id} variant="outlined">
                         <CardBody>
                           <Stack gap={2}>

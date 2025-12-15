@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge, Grid, Box, Spinner, EmptyState, RecordFormModal, type FormFieldConfig } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, StatCard, Badge, Grid, Box, Spinner, EmptyState, RecordFormModal, type FormFieldConfig, useNotifications } from "@ghxstship/ui";
 import { DollarSign, Plus, TrendingUp, TrendingDown, PieChart, AlertCircle } from "lucide-react";
-import { useBudgets } from "../../../../hooks/useBudgets";
+import { useBudgets, useCreateBudget } from "../../../../hooks/useBudgets";
 import { useProduction } from "../../../../hooks/useProductions";
 import { atlvsDemoProductions } from "../../../../data/atlvs";
 
@@ -42,6 +42,7 @@ const lineItemFields: FormFieldConfig[] = [
 export default function ProductionBudgetsPage() {
   const params = useParams();
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const productionId = params?.productionId as string;
   
   const { data: apiProduction } = useProduction(productionId);
@@ -49,6 +50,7 @@ export default function ProductionBudgetsPage() {
   const productionName = apiProduction?.title || demoProduction?.name || "Production";
 
   const { data: apiBudgets, isLoading, error, refetch } = useBudgets({ project_id: productionId });
+  const createBudgetMutation = useCreateBudget();
   
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
@@ -76,15 +78,25 @@ export default function ProductionBudgetsPage() {
 
   const handleCreateLineItem = async (data: Record<string, unknown>) => {
     try {
-      await fetch('/api/budgets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, production_id: productionId }),
+      await createBudgetMutation.mutateAsync({
+        name: data.name as string,
+        category: data.category as string,
+        budgeted: data.budgeted as number,
+        project_id: productionId,
       });
       setCreateModalOpen(false);
+      addNotification({
+        type: 'success',
+        title: 'Line Item Created',
+        message: `Budget line item "${data.name}" has been created.`,
+      });
       refetch();
     } catch (err) {
-      console.error('Failed to create line item:', err);
+      addNotification({
+        type: 'error',
+        title: 'Failed to Create Line Item',
+        message: err instanceof Error ? err.message : 'An unexpected error occurred',
+      });
     }
   };
 

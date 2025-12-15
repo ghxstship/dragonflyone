@@ -24,21 +24,22 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_BEST_PRACTICES,
-  type DemoBestPractice as BestPractice,
-} from "../../lib/demo-data";
+  useBestPractices,
+  type BestPractice,
+} from "../../hooks/useKnowledge";
 
 const categories = ["All", "Safety", "Technical", "Operations", "Planning"];
 const disciplines = ["All", "Audio", "Lighting", "Video", "Stage", "Rigging", "Power", "General"];
 
 export default function BestPracticesPage() {
   const router = useRouter();
+  const { data: bestPractices = [] } = useBestPractices();
   const [selectedPractice, setSelectedPractice] = useState<BestPractice | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [disciplineFilter, setDisciplineFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPractices = DEMO_BEST_PRACTICES.filter(p => {
+  const filteredPractices = bestPractices.filter(p => {
     const matchesCategory = categoryFilter === "All" || p.category === categoryFilter;
     const matchesDiscipline = disciplineFilter === "All" || p.discipline === disciplineFilter;
     const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -61,9 +62,9 @@ export default function BestPracticesPage() {
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_BEST_PRACTICES.length.toString()} label="Total Guides" />
+              <StatCard value={bestPractices.length.toString()} label="Total Guides" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
-              <StatCard value={DEMO_BEST_PRACTICES.reduce((s, p) => s + p.views, 0).toString()} label="Total Views" />
+              <StatCard value={bestPractices.reduce((s, p) => s + p.views, 0).toString()} label="Total Views" />
               <StatCard value="4.8" label="Avg Rating" />
             </Grid>
 

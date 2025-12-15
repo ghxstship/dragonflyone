@@ -56,7 +56,8 @@ export function useProduction(id: string) {
       if (!response.ok) {
         throw new Error('Failed to fetch production');
       }
-      return response.json();
+      const data = await response.json();
+      return data.production;
     },
     enabled: !!id,
   });

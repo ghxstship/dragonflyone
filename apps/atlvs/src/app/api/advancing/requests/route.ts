@@ -1,8 +1,13 @@
-import { logger } from '@ghxstship/config';
+import { logger, withAuth, PlatformRole } from '@ghxstship/config';
 // apps/atlvs/src/app/api/advancing/requests/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase';
+
+const ATLVS_ROLES = [
+  PlatformRole.ATLVS_SUPER_ADMIN, PlatformRole.ATLVS_ADMIN, PlatformRole.ATLVS_TEAM_MEMBER, PlatformRole.ATLVS_VIEWER,
+  PlatformRole.LEGEND_SUPER_ADMIN, PlatformRole.LEGEND_ADMIN, PlatformRole.LEGEND_DEVELOPER,
+];
 
 export const dynamic = 'force-dynamic';
 
@@ -31,6 +36,14 @@ const createAdvanceSchema = z.object({
 export async function GET(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const searchParams = request.nextUrl.searchParams;
 
     // Extract filters
@@ -104,6 +117,14 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const supabase = createAdminClient();
   try {
+    const authResult = await withAuth(request);
+    if (authResult instanceof NextResponse) return authResult;
+    
+    const userRoles = authResult.user?.platformRoles || [];
+    if (!ATLVS_ROLES.some(role => userRoles.includes(role))) {
+      return NextResponse.json({ error: 'Forbidden - ATLVS access required' }, { status: 403 });
+    }
+
     const body = await request.json();
 
     // Validate request body

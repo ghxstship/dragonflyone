@@ -34,12 +34,13 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_CREW_BACKGROUND_CHECKS,
-  type DemoCrewBackgroundCheck as BackgroundCheck,
-} from "../../../lib/demo-data";
+  useBackgroundChecks,
+  type BackgroundCheck,
+} from "../../../hooks/useBackgroundChecks";
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
+  const { data: backgroundChecks = [] } = useBackgroundChecks();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -49,14 +50,14 @@ export default function BackgroundChecksPage() {
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [showInitiateModal, setShowInitiateModal] = useState(false);
 
-  const expiringCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
-  const expiredCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)).length;
-  const pendingCount = DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Pending" || c.status === "In Progress").length;
+  const expiringCount = backgroundChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30).length;
+  const expiredCount = backgroundChecks.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)).length;
+  const pendingCount = backgroundChecks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
 
-  const filteredChecks = activeTab === "all" ? DEMO_CREW_BACKGROUND_CHECKS :
-    activeTab === "expiring" ? DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30) :
-    activeTab === "expired" ? DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)) :
-    DEMO_CREW_BACKGROUND_CHECKS.filter(c => c.status === "In Progress" || c.status === "Pending");
+  const filteredChecks = activeTab === "all" ? backgroundChecks :
+    activeTab === "expiring" ? backgroundChecks.filter(c => c.daysUntilExpiry !== undefined && c.daysUntilExpiry > 0 && c.daysUntilExpiry <= 30) :
+    activeTab === "expired" ? backgroundChecks.filter(c => c.status === "Expired" || (c.daysUntilExpiry !== undefined && c.daysUntilExpiry < 0)) :
+    backgroundChecks.filter(c => c.status === "In Progress" || c.status === "Pending");
 
   return (
     <CompvssAppLayout>
@@ -79,7 +80,7 @@ export default function BackgroundChecksPage() {
             )}
 
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_CREW_BACKGROUND_CHECKS.length.toString()} label="Total Checks" />
+              <StatCard value={backgroundChecks.length.toString()} label="Total Checks" />
               <StatCard value={pendingCount.toString()} label="In Progress" />
               <StatCard value={expiringCount.toString()} label="Expiring Soon" />
               <StatCard value={expiredCount.toString()} label="Expired" />
@@ -115,18 +116,18 @@ export default function BackgroundChecksPage() {
                     <TableRow key={check.id}>
                       <TableCell>
                         <Stack gap={1}>
-                          <Body>{check.employeeName}</Body>
-                          <Body size="sm" className="">{check.employeeId}</Body>
+                          <Body>{check.crewMemberName}</Body>
+                          <Body size="sm" className="">{check.crewMemberId}</Body>
                         </Stack>
                       </TableCell>
                       <TableCell><Badge variant="outline">{check.department}</Badge></TableCell>
                       <TableCell><Body size="sm" className="">{check.checkType}</Body></TableCell>
-                      <TableCell><Badge variant={check.status === "Completed" ? "solid" : "outline"}>{check.status}</Badge></TableCell>
-                      <TableCell><Body size="sm" className="">{check.result || "-"}</Body></TableCell>
+                      <TableCell><Badge variant={check.status === "Cleared" ? "solid" : "outline"}>{check.status}</Badge></TableCell>
+                      <TableCell><Body size="sm" className="">{check.status === "Cleared" ? "Clear" : "-"}</Body></TableCell>
                       <TableCell>
-                        {check.expiryDate ? (
+                        {check.expirationDate ? (
                           <Stack gap={1}>
-                            <Body size="sm" className="">{check.expiryDate}</Body>
+                            <Body size="sm" className="">{check.expirationDate}</Body>
                             <Body size="sm" className="">
                               {check.daysUntilExpiry && check.daysUntilExpiry < 0 ? `${Math.abs(check.daysUntilExpiry)} days ago` : `${check.daysUntilExpiry} days`}
                             </Body>
@@ -163,7 +164,7 @@ export default function BackgroundChecksPage() {
         <ModalBody>
           {selectedCheck && (
             <Stack gap={4}>
-              <Body className="font-display">{selectedCheck.employeeName}</Body>
+              <Body className="font-display">{selectedCheck.crewMemberName}</Body>
               <Stack direction="horizontal" gap={2}>
                 <Badge variant="outline">{selectedCheck.department}</Badge>
                 <Badge variant="outline">{selectedCheck.checkType}</Badge>
@@ -171,11 +172,11 @@ export default function BackgroundChecksPage() {
               <Grid cols={2} gap={4}>
                 <Stack gap={1}>
                   <Body className="font-display">Status</Body>
-                  <Badge variant={selectedCheck.status === "Completed" ? "solid" : "outline"}>{selectedCheck.status}</Badge>
+                  <Badge variant={selectedCheck.status === "Cleared" ? "solid" : "outline"}>{selectedCheck.status}</Badge>
                 </Stack>
                 <Stack gap={1}>
                   <Body className="font-display">Result</Body>
-                  <Body>{selectedCheck.result || "Pending"}</Body>
+                  <Body>{selectedCheck.status === "Cleared" ? "Clear" : "Pending"}</Body>
                 </Stack>
               </Grid>
               <Grid cols={2} gap={4}>
@@ -188,13 +189,13 @@ export default function BackgroundChecksPage() {
                   <Body>{selectedCheck.completedDate || "In Progress"}</Body>
                 </Stack>
               </Grid>
-              {selectedCheck.expiryDate && (
+              {selectedCheck.expirationDate && (
                 <Stack gap={1}>
                   <Body className="font-display">Expiry Date</Body>
-                  <Body>{selectedCheck.expiryDate}</Body>
+                  <Body>{selectedCheck.expirationDate}</Body>
                 </Stack>
               )}
-              {selectedCheck.result === "Review Required" && (
+              {selectedCheck.status === "Flagged" && (
                 <Alert variant="warning">
                   This background check requires manual review before clearance.
                 </Alert>
@@ -215,7 +216,7 @@ export default function BackgroundChecksPage() {
           <Stack gap={4}>
             <Select>
               <option value="">Select Employee...</option>
-              {DEMO_CREW_BACKGROUND_CHECKS.map(c => <option key={c.employeeId} value={c.employeeId}>{c.employeeName}</option>)}
+              {backgroundChecks.map(c => <option key={c.crewMemberId} value={c.crewMemberId}>{c.crewMemberName}</option>)}
             </Select>
             <Select>
               <option value="">Check Type...</option>

@@ -12,68 +12,13 @@ import {
   Body,
   H3,
   StatCard,
+  Spinner,
+  EmptyState,
 } from '@ghxstship/ui';
-import { DollarSign, Clock, CheckCircle } from 'lucide-react';
+import { DollarSign, Clock, CheckCircle, RotateCcw } from 'lucide-react';
 import { GvtewayAppLayout } from '../../../components/app-layout';
-
-interface RefundRequest {
-  id: string;
-  orderNumber: string;
-  eventName: string;
-  ticketType: string;
-  amount: number;
-  requestDate: string;
-  status: 'pending' | 'approved' | 'denied' | 'processing' | 'completed';
-  reason: string;
-  resolution: string | null;
-}
-
-const DEMO_REFUNDS: RefundRequest[] = [
-  {
-    id: '1',
-    orderNumber: 'ORD-2025-001234',
-    eventName: 'Summer Music Festival 2025',
-    ticketType: 'VIP Pass',
-    amount: 299.99,
-    requestDate: '2025-05-15',
-    status: 'pending',
-    reason: 'Unable to attend due to schedule conflict',
-    resolution: null,
-  },
-  {
-    id: '2',
-    orderNumber: 'ORD-2025-001189',
-    eventName: 'Tech Conference 2025',
-    ticketType: 'General Admission',
-    amount: 149.99,
-    requestDate: '2025-04-20',
-    status: 'approved',
-    reason: 'Event date changed',
-    resolution: 'Full refund approved - processing within 5-7 business days',
-  },
-  {
-    id: '3',
-    orderNumber: 'ORD-2024-009876',
-    eventName: 'Food & Wine Expo',
-    ticketType: 'Weekend Pass',
-    amount: 199.99,
-    requestDate: '2024-02-28',
-    status: 'completed',
-    reason: 'Event cancelled',
-    resolution: 'Refund completed on March 5, 2024',
-  },
-  {
-    id: '4',
-    orderNumber: 'ORD-2024-008765',
-    eventName: 'Comedy Night',
-    ticketType: 'Front Row',
-    amount: 89.99,
-    requestDate: '2024-01-15',
-    status: 'denied',
-    reason: 'Changed my mind',
-    resolution: 'Refund denied - outside refund policy window (48 hours)',
-  },
-];
+import { useRefunds } from '@/hooks/useRefunds';
+import { useRouter } from 'next/navigation';
 
 const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
   pending: 'warning',
@@ -92,8 +37,22 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function MyRefundsPage() {
-  const [refunds] = useState<RefundRequest[]>(DEMO_REFUNDS);
+  const router = useRouter();
+  const { data: refundsData, isLoading, error } = useRefunds();
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // Transform refunds to expected format
+  const refunds = (refundsData || []).map(refund => ({
+    id: refund.id,
+    orderNumber: refund.order_id,
+    eventName: refund.order?.event?.name || 'Event',
+    ticketType: 'Ticket',
+    amount: refund.refund_amount,
+    requestDate: refund.submitted_at,
+    status: refund.status,
+    reason: refund.reason,
+    resolution: refund.resolution_notes || null,
+  }));
 
   const filteredRefunds = refunds.filter((r) => {
     return statusFilter === 'all' || r.status === statusFilter;
@@ -105,6 +64,52 @@ export default function MyRefundsPage() {
   const totalRefunded = refunds
     .filter((r) => r.status === 'completed')
     .reduce((sum, r) => sum + r.amount, 0);
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+          <Stack className="flex items-center justify-center py-20">
+            <Spinner variant="grey" size="lg" text="Loading refunds..." />
+          </Stack>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+          <EmptyState
+            icon={<RotateCcw size={48} />}
+            title="Unable to load refunds"
+            description="There was a problem loading your refund requests. Please try again."
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (refunds.length === 0) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+          <EmptyState
+            icon={<RotateCcw size={48} />}
+            title="No refund requests"
+            description="You haven't submitted any refund requests yet."
+            action={{ label: "View Orders", onClick: () => router.push('/account/orders') }}
+            inverted
+          />
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>

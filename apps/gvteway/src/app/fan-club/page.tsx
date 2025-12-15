@@ -3,24 +3,19 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Alert, Kicker,
+  EmptyState,
 } from "@ghxstship/ui";
-
-import {
-  DEMO_FAN_CLUBS,
-  DEMO_EXCLUSIVE_PERKS,
-  type DemoFanClub as FanClub,
-} from "@/lib/demo-data";
-
-const mockFanClubs = DEMO_FAN_CLUBS;
-const mockPerks = DEMO_EXCLUSIVE_PERKS;
+import { useFanClubsData, FanClub } from "@/hooks/useFanClubs";
+import { Users } from "lucide-react";
 
 function FanClubPageContent() {
   const router = useRouter();
+  const { clubs, summary, isLoading, error } = useFanClubsData();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -30,8 +25,21 @@ function FanClubPageContent() {
   const [selectedClub, setSelectedClub] = useState<FanClub | null>(null);
   const [showJoinModal, setShowJoinModal] = useState(false);
 
-  const totalMembers = mockFanClubs.reduce((sum, c) => sum + c.memberCount, 0);
-  const premiumMembers = mockFanClubs.filter(c => c.tier !== "Free").reduce((sum, c) => sum + c.memberCount, 0);
+  // Transform clubs to display format
+  const fanClubs = clubs.map((club: FanClub) => ({
+    id: club.id,
+    name: club.name,
+    artistName: club.artist_name,
+    tier: club.tier,
+    monthlyPrice: club.monthly_price,
+    memberCount: club.member_count,
+    benefits: club.benefits || [],
+    exclusiveContent: club.exclusive_events || 0,
+    upcomingPerks: club.presale_access ? 'Active' : '0',
+  }));
+
+  const totalMembers = fanClubs.reduce((sum, c) => sum + c.memberCount, 0);
+  const premiumMembers = fanClubs.filter(c => c.tier !== "Free" && c.tier !== "standard").reduce((sum, c) => sum + c.memberCount, 0);
 
   const getTierColor = (tier: string) => {
     switch (tier) {
@@ -66,8 +74,8 @@ function FanClubPageContent() {
           <Grid cols={4} gap={6}>
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Premium Members" value={premiumMembers.toLocaleString()} className="border-2 border-black" />
-            <StatCard label="Fan Clubs" value={mockFanClubs.length} className="border-2 border-black" />
-            <StatCard label="Active Perks" value={mockPerks.length} className="border-2 border-black" />
+            <StatCard label="Fan Clubs" value={summary.total_clubs.toString()} className="border-2 border-black" />
+            <StatCard label="Exclusive Events" value={summary.exclusive_events.toString()} className="border-2 border-black" />
           </Grid>
 
           <Tabs>
@@ -78,8 +86,25 @@ function FanClubPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('clubs')}>
+              {isLoading ? (
+                <GvtewayLoadingLayout text="Loading fan clubs..." />
+              ) : error ? (
+                <EmptyState
+                  icon={<Users size={48} />}
+                  title="Unable to load fan clubs"
+                  description="There was a problem loading fan clubs. Please try again."
+                  inverted
+                />
+              ) : fanClubs.length === 0 ? (
+                <EmptyState
+                  icon={<Users size={48} />}
+                  title="No fan clubs available"
+                  description="Check back later for exclusive fan club memberships."
+                  inverted
+                />
+              ) : (
               <Grid cols={3} gap={6}>
-                {mockFanClubs.map((club) => (
+                {fanClubs.map((club) => (
                   <Card key={club.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
                       <Stack gap={2}>
@@ -126,33 +151,51 @@ function FanClubPageContent() {
                   </Card>
                 ))}
               </Grid>
+              )}
             </TabPanel>
 
             <TabPanel active={isActive('perks')}>
+              {isLoading ? (
+                <GvtewayLoadingLayout text="Loading exclusive perks..." />
+              ) : error ? (
+                <EmptyState
+                  icon={<Users size={48} />}
+                  title="Unable to load exclusive perks"
+                  description="There was a problem loading exclusive perks. Please try again."
+                  inverted
+                />
+              ) : clubs.length === 0 ? (
+                <EmptyState
+                  icon={<Users size={48} />}
+                  title="No exclusive perks available"
+                  description="Check back later for exclusive perks."
+                  inverted
+                />
+              ) : (
               <Stack gap={4}>
-                {mockPerks.map((perk) => (
-                  <Card key={perk.id} className="border-2 border-black p-4">
-                    <Grid cols={4} gap={4} className="items-center">
-                      <Stack gap={1}>
-                        <Body className="font-weight-bold">{perk.title}</Body>
-                        <Label className="text-ink-600">{perk.description}</Label>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Badge className={getPerkTypeColor(perk.type)}>{perk.type}</Badge>
-                        <Badge className={getTierColor(perk.tier)}>{perk.tier} Only</Badge>
-                      </Stack>
-                      <Stack gap={1}>
-                        <Label size="xs" className="text-ink-500">Available</Label>
-                        <Label className="font-mono">{perk.availableDate}</Label>
-                        {perk.totalAvailable && (
-                          <Label size="xs" className="text-ink-500">{perk.claimedCount}/{perk.totalAvailable} claimed</Label>
-                        )}
-                      </Stack>
-                      <Button variant="outline">Claim Perk</Button>
-                    </Grid>
-                  </Card>
+                {clubs.map((club) => (
+                  club.benefits.map((benefit: string, idx: number) => (
+                    <Card key={`${club.id}-${idx}`} className="border-2 border-black p-4">
+                      <Grid cols={4} gap={4} className="items-center">
+                        <Stack gap={1}>
+                          <Body className="font-weight-bold">{benefit}</Body>
+                          <Label className="text-ink-600">Exclusive benefit for {club.name} members</Label>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Badge className={getPerkTypeColor("Content")}>Content</Badge>
+                          <Badge className={getTierColor(club.tier)}>{club.tier} Only</Badge>
+                        </Stack>
+                        <Stack gap={1}>
+                          <Label size="xs" className="text-ink-500">Available</Label>
+                          <Label className="font-mono">Now</Label>
+                        </Stack>
+                        <Button variant="outline">Claim Perk</Button>
+                      </Grid>
+                    </Card>
+                  ))
                 ))}
               </Stack>
+              )}
             </TabPanel>
 
             <TabPanel active={isActive('my-clubs')}>

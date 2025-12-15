@@ -28,14 +28,12 @@ import {
 import { CompvssAppLayout } from '../../components/app-layout';
 
 import {
-  DEMO_HOSPITALITY_REQUESTS,
-  type DemoHospitalityRequest as HospitalityRequest,
-} from '../../lib/demo-data';
-
-const mockRequests = DEMO_HOSPITALITY_REQUESTS;
+  useMyHospitality,
+  type HospitalityRequest,
+} from '../../hooks/useMyHospitality';
 
 export default function MyHospitalityPage() {
-  const [requests] = useState(mockRequests);
+  const { data: requests = [] } = useMyHospitality();
   const [showNewRequest, setShowNewRequest] = useState(false);
 
   const pendingCount = requests.filter(r => r.status === 'pending').length;

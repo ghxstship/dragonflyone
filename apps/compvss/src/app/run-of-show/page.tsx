@@ -17,16 +17,16 @@ import {
 import { useSchedule } from '@/hooks/useSchedule';
 
 import {
-  DEMO_CUES,
-  type DemoCueItem as CueItem,
-} from '../../lib/demo-data';
-
-const mockCues = DEMO_CUES;
+  useCues,
+  useUpdateCueStatus,
+  type CueItem,
+} from '../../hooks/useRunOfShow';
 
 export default function RunOfShowPage() {
   const router = useRouter();
   const { data: scheduleData, isLoading } = useSchedule();
-  const [cues, setCues] = useState(mockCues);
+  const { data: cues = [] } = useCues();
+  const updateCueStatusMutation = useUpdateCueStatus();
   const [currentTime] = useState('19:58');
 
   if (isLoading) {
@@ -41,11 +41,11 @@ export default function RunOfShowPage() {
     );
   }
 
-  // Use live schedule data if available, otherwise use mock
-  const displayCues = scheduleData ? cues : mockCues;
+  // Use live schedule data if available, show cues when schedule is loaded
+  const displayCues = scheduleData ? cues : cues;
 
   const updateCueStatus = (id: string, status: CueItem['status']) => {
-    setCues(cues.map(c => c.id === id ? { ...c, status } : c));
+    updateCueStatusMutation.mutate({ id, status });
   };
 
   return (

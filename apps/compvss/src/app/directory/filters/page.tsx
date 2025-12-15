@@ -19,20 +19,21 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_DIRECTORY_ENTRIES,
-} from '../../../lib/demo-data';
+  useDirectoryEntries,
+} from '../../../hooks/useDirectoryEntries';
 
 const allSpecialties = ['Audio Engineer', 'FOH Mixer', 'System Tech', 'Lighting Designer', 'Programmer', 'Rigger', 'Head Rigger', 'Video Director', 'LED Tech', 'Stage Manager', 'Audio', 'Lighting', 'Video', 'Staging', 'Arena', 'Concert', 'Sports'];
 const allLanguages = ['English', 'Spanish', 'Portuguese', 'German', 'French', 'Japanese', 'Mandarin', 'Korean'];
 
 export default function DirectoryFiltersPage() {
   const router = useRouter();
+  const { data: directoryEntries = [] } = useDirectoryEntries();
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [typeFilter, setTypeFilter] = useState('All');
   const [availableOnly, setAvailableOnly] = useState(false);
 
-  const filteredEntries = DEMO_DIRECTORY_ENTRIES.filter(entry => {
+  const filteredEntries = directoryEntries.filter(entry => {
     const matchesType = typeFilter === 'All' || entry.type === typeFilter;
     const matchesLanguages = selectedLanguages.length === 0 || selectedLanguages.some(l => entry.languages.includes(l));
     const matchesSpecialties = selectedSpecialties.length === 0 || selectedSpecialties.some(s => entry.specialties.includes(s));

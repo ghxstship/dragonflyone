@@ -26,26 +26,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_BID_OPPORTUNITIES } from '../../../lib/demo-data';
-
-interface BidOpportunity {
-  id: string;
-  title: string;
-  client: string;
-  value: number;
-  dueDate: string;
-  status: "Pending Review" | "Bid" | "No Bid" | "Under Evaluation";
-  score?: number;
-  criteria: { name: string; score: number; weight: number }[];
-  recommendation?: "Bid" | "No Bid";
-  notes?: string;
-}
-
-const mockOpportunities = DEMO_BID_OPPORTUNITIES as unknown as BidOpportunity[];
+import {
+  useBidOpportunities,
+  type BidOpportunity,
+} from '../../../hooks/useBidOpportunities';
 
 
 export default function BidDecisionPage() {
   const router = useRouter();
+  const { data: opportunities = [] } = useBidOpportunities();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -54,10 +43,10 @@ export default function BidDecisionPage() {
   });
   const [selectedOpp, setSelectedOpp] = useState<BidOpportunity | null>(null);
 
-  const pendingCount = mockOpportunities.filter(o => o.status === "Pending Review" || o.status === "Under Evaluation").length;
-  const bidCount = mockOpportunities.filter(o => o.status === "Bid").length;
-  const noBidCount = mockOpportunities.filter(o => o.status === "No Bid").length;
-  const totalPipelineValue = mockOpportunities.filter(o => o.status === "Bid").reduce((s, o) => s + o.value, 0);
+  const pendingCount = opportunities.filter(o => o.status === "Pending Review" || o.status === "Under Evaluation").length;
+  const bidCount = opportunities.filter(o => o.status === "Bid").length;
+  const noBidCount = opportunities.filter(o => o.status === "No Bid").length;
+  const totalPipelineValue = opportunities.filter(o => o.status === "Bid").reduce((s, o) => s + o.value, 0);
 
   const calculateScore = (criteria: { score: number; weight: number }[]) => {
     const totalWeight = criteria.reduce((s, c) => s + c.weight, 0);
@@ -77,9 +66,9 @@ export default function BidDecisionPage() {
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
-  const filteredOpps = activeTab === "all" ? mockOpportunities :
-    activeTab === "pending" ? mockOpportunities.filter(o => o.status === "Pending Review" || o.status === "Under Evaluation") :
-    mockOpportunities.filter(o => o.status.toLowerCase().replace(" ", "") === activeTab);
+  const filteredOpps = activeTab === "all" ? opportunities :
+    activeTab === "pending" ? opportunities.filter(o => o.status === "Pending Review" || o.status === "Under Evaluation") :
+    opportunities.filter(o => o.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
     <CompvssAppLayout>

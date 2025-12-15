@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -14,7 +13,10 @@ import {
   H3,
   ProgressBar,
 } from '@ghxstship/ui';
-import { DEMO_TRAINING_MODULES } from '../../lib/demo-data';
+import {
+  useMyTraining,
+  type TrainingModule,
+} from '../../hooks/useMyTraining';
 import {
   GraduationCap,
   CheckCircle,
@@ -24,23 +26,10 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 
-interface TrainingModule {
-  id: string;
-  name: string;
-  category: string;
-  duration: string;
-  progress: number;
-  status: 'not_started' | 'in_progress' | 'completed';
-  dueDate?: string;
-  completedDate?: string;
-  required: boolean;
-}
-
-const mockTraining = DEMO_TRAINING_MODULES as unknown as TrainingModule[];
 
 
 export default function MyTrainingPage() {
-  const [training] = useState(mockTraining);
+  const { data: training = [] } = useMyTraining();
 
   const completedCount = training.filter(t => t.status === 'completed').length;
   const inProgressCount = training.filter(t => t.status === 'in_progress').length;

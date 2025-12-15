@@ -30,12 +30,22 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_PRODUCTION_SETTLEMENTS, type DemoSettlementItem } from '../../../../lib/demo-data';
+
+interface SettlementItem {
+  id: string;
+  name: string;
+  role: string;
+  type: 'crew' | 'vendor';
+  contractAmount: number;
+  adjustments: number;
+  finalAmount: number;
+  status: 'pending' | 'approved' | 'paid';
+}
 
 export default function ProductionSettlementPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const [settlements, setSettlements] = useState<DemoSettlementItem[]>(DEMO_PRODUCTION_SETTLEMENTS);
+  const [settlements, setSettlements] = useState<SettlementItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchSettlements = useCallback(async () => {

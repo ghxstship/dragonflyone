@@ -27,26 +27,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_QA_CHECKPOINTS } from '../../lib/demo-data';
-
-interface QACheckpoint {
-  id: string;
-  name: string;
-  department: "Audio" | "Lighting" | "Video" | "Staging" | "Rigging" | "Safety";
-  phase: "Load-In" | "Setup" | "Tech Rehearsal" | "Show Ready" | "Strike";
-  status: "Pending" | "In Progress" | "Passed" | "Failed" | "Waived";
-  assignee?: string;
-  completedAt?: string;
-  completedBy?: string;
-  notes?: string;
-  items: { id: string; description: string; checked: boolean; critical: boolean }[];
-}
-
-const mockCheckpoints = DEMO_QA_CHECKPOINTS as unknown as QACheckpoint[];
+import {
+  useQACheckpoints,
+  type QACheckpoint,
+} from '../../hooks/useQACheckpoints';
 
 
 export default function QACheckpointsPage() {
   const router = useRouter();
+  const { data: qaCheckpoints = [] } = useQACheckpoints();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -56,10 +45,10 @@ export default function QACheckpointsPage() {
   const [selectedCheckpoint, setSelectedCheckpoint] = useState<QACheckpoint | null>(null);
   const [showSignOffModal, setShowSignOffModal] = useState(false);
 
-  const passedCount = mockCheckpoints.filter(c => c.status === "Passed").length;
-  const pendingCount = mockCheckpoints.filter(c => c.status === "Pending").length;
-  const failedCount = mockCheckpoints.filter(c => c.status === "Failed").length;
-  const criticalPending = mockCheckpoints.filter(c => c.status !== "Passed" && c.items.some(i => i.critical && !i.checked)).length;
+  const passedCount = qaCheckpoints.filter(c => c.status === "Passed").length;
+  const pendingCount = qaCheckpoints.filter(c => c.status === "Pending").length;
+  const failedCount = qaCheckpoints.filter(c => c.status === "Failed").length;
+  const criticalPending = qaCheckpoints.filter(c => c.status !== "Passed" && c.items.some(i => i.critical && !i.checked)).length;
 
   const getStatusVariant = (status: string): 'success' | 'warning' | 'ghost' | 'error' | 'info' => {
     switch (status) {
@@ -72,7 +61,7 @@ export default function QACheckpointsPage() {
     }
   };
 
-  const filteredCheckpoints = activeTab === "all" ? mockCheckpoints : mockCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
+  const filteredCheckpoints = activeTab === "all" ? qaCheckpoints : qaCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
 
   return (
     <CompvssAppLayout>

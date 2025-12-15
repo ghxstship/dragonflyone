@@ -21,24 +21,12 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_SHOW_CALL_CREW } from '../../lib/demo-data';
-
-interface CrewMember {
-  id: string;
-  name: string;
-  role: string;
-  department: string;
-  callTime: string;
-  status: "Checked In" | "On Site" | "Late" | "No Show" | "Not Due";
-  checkedInAt?: string;
-  phone: string;
-}
-
-const mockCrew = DEMO_SHOW_CALL_CREW as unknown as CrewMember[];
+import { useShowCallCrew } from '../../hooks/useShowCall';
 
 
 export default function ShowCallPage() {
   const router = useRouter();
+  const { data: showCallCrew = [] } = useShowCallCrew();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -53,12 +41,12 @@ export default function ShowCallPage() {
     return () => clearInterval(timer);
   }, []);
 
-  const checkedInCount = mockCrew.filter(c => c.status === "Checked In" || c.status === "On Site").length;
-  const lateCount = mockCrew.filter(c => c.status === "Late").length;
-  const noShowCount = mockCrew.filter(c => c.status === "No Show").length;
-  const notDueCount = mockCrew.filter(c => c.status === "Not Due").length;
+  const checkedInCount = showCallCrew.filter(c => c.status === "Checked In" || c.status === "On Site").length;
+  const lateCount = showCallCrew.filter(c => c.status === "Late").length;
+  const noShowCount = showCallCrew.filter(c => c.status === "No Show").length;
+  const notDueCount = showCallCrew.filter(c => c.status === "Not Due").length;
 
-  const filteredCrew = mockCrew.filter(c => {
+  const filteredCrew = showCallCrew.filter(c => {
     const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || c.role.toLowerCase().includes(searchQuery.toLowerCase());
     if (activeTab === "all") return matchesSearch;
     if (activeTab === "present") return matchesSearch && (c.status === "Checked In" || c.status === "On Site");
@@ -123,7 +111,7 @@ export default function ShowCallPage() {
                   <Body size="sm" className="">Missing</Body>
                 </Stack>
                 <Stack gap={1} className="text-center">
-                  <Body className="text-h4-md font-display">{mockCrew.length}</Body>
+                  <Body className="text-h4-md font-display">{showCallCrew.length}</Body>
                   <Body size="sm" className="">Total Crew</Body>
                 </Stack>
               </Grid>
@@ -133,7 +121,7 @@ export default function ShowCallPage() {
 
             <Tabs>
               <TabsList>
-                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All ({mockCrew.length})</Tab>
+                <Tab active={isActive('all')} onClick={() => setActiveTab('all')}>All ({showCallCrew.length})</Tab>
                 <Tab active={isActive('present')} onClick={() => setActiveTab('present')}>Present ({checkedInCount})</Tab>
                 <Tab active={isActive('missing')} onClick={() => setActiveTab('missing')}>Missing ({lateCount + noShowCount})</Tab>
                 <Tab active={isActive('pending')} onClick={() => setActiveTab('pending')}>Pending ({notDueCount})</Tab>

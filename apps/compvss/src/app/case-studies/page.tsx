@@ -24,20 +24,21 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_CASE_STUDIES,
-  type DemoCaseStudy as CaseStudy,
-} from "../../lib/demo-data";
+  useCaseStudies,
+  type CaseStudy,
+} from "../../hooks/useKnowledge";
 
 const categories = ["All", "Safety", "Technical", "Operations", "Video", "Audio", "Lighting"];
 const types = ["All", "Success", "Post-Mortem", "Lessons Learned"];
 
 export default function CaseStudiesPage() {
   const router = useRouter();
+  const { data: caseStudies = [] } = useCaseStudies();
   const [selectedStudy, setSelectedStudy] = useState<CaseStudy | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
 
-  const filteredStudies = DEMO_CASE_STUDIES.filter(s => {
+  const filteredStudies = caseStudies.filter(s => {
     const matchesCategory = categoryFilter === "All" || s.category === categoryFilter;
     const matchesType = typeFilter === "All" || s.type === typeFilter;
     return matchesCategory && matchesType;
@@ -59,9 +60,9 @@ export default function CaseStudiesPage() {
 
             {/* Stats Grid */}
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_CASE_STUDIES.length.toString()} label="Total Studies" />
-              <StatCard value={DEMO_CASE_STUDIES.filter(s => s.type === "Success").length.toString()} label="Success Stories" />
-              <StatCard value={DEMO_CASE_STUDIES.filter(s => s.type === "Post-Mortem").length.toString()} label="Post-Mortems" />
+              <StatCard value={caseStudies.length.toString()} label="Total Studies" />
+              <StatCard value={caseStudies.filter(s => s.type === "Success").length.toString()} label="Success Stories" />
+              <StatCard value={caseStudies.filter(s => s.type === "Post-Mortem").length.toString()} label="Post-Mortems" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
             </Grid>
 

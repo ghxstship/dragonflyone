@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { CompvssAppLayout, CompvssLoadingLayout } from "@/components/app-layout";
 import {
   H2,
@@ -15,119 +15,27 @@ import {
   Label,
 } from "@ghxstship/ui";
 import { Bell, CheckCircle, Mail, Users, Calendar, Settings } from "lucide-react";
-import { log } from '@ghxstship/config';
-
-// Demo data for unauthenticated users
-const DEMO_NOTIFICATIONS: Notification[] = [
-  {
-    id: "demo-1",
-    type: "crew_update",
-    title: "Crew Assignment Updated",
-    message: "Your assignment for Summer Festival has been confirmed. Check your schedule for details.",
-    read: false,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: "demo-2",
-    type: "schedule",
-    title: "Schedule Change",
-    message: "Load-in time for Corporate Gala has been moved to 6:00 AM.",
-    read: false,
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-  },
-  {
-    id: "demo-3",
-    type: "system",
-    title: "Training Reminder",
-    message: "Your First Aid certification expires in 30 days. Schedule your renewal.",
-    read: true,
-    created_at: new Date(Date.now() - 172800000).toISOString(),
-  },
-];
-
-interface Notification {
-  id: string;
-  type: string;
-  title: string;
-  message: string;
-  read: boolean;
-  created_at: string;
-  user_id?: string;
-}
+import { useNotifications } from "@/hooks/useNotifications";
 
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { notifications, unreadCount, loading, markAsRead, markAllAsRead } = useNotifications();
   const [filterType, setFilterType] = useState("all");
 
-  const fetchNotifications = useCallback(async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (filterType !== "all") {
-        params.append("type", filterType);
-      }
-
-      const response = await fetch(`/api/notifications?${params.toString()}`);
-      if (response.status === 401) {
-        // Use demo data for unauthenticated users
-        setNotifications(DEMO_NOTIFICATIONS);
-        setError(null);
-        return;
-      }
-      if (!response.ok) {
-        throw new Error("Failed to fetch notifications");
-      }
-      const data = await response.json();
-      setNotifications(data.notifications || []);
-      setError(null);
-    } catch (err) {
-      // Fallback to demo data on error
-      setNotifications(DEMO_NOTIFICATIONS);
-      setError(null);
-    } finally {
-      setLoading(false);
-    }
-  }, [filterType]);
-
-  useEffect(() => {
-    fetchNotifications();
-  }, [fetchNotifications]);
-
   const handleMarkRead = async (notificationId: string, currentRead: boolean) => {
-    try {
-      const response = await fetch(`/api/notifications/${notificationId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ read: !currentRead }),
-      });
-      if (response.ok) {
-        fetchNotifications();
-      }
-    } catch (err) {
-      log.error('Failed to update notification:', err instanceof Error ? err : undefined);
+    if (!currentRead) {
+      await markAsRead([notificationId]);
     }
   };
 
   const handleMarkAllRead = async () => {
-    try {
-      const response = await fetch("/api/notifications/mark-all-read", {
-        method: "POST",
-      });
-      if (response.ok) {
-        fetchNotifications();
-      }
-    } catch (err) {
-      log.error('Failed to mark all as read:', err instanceof Error ? err : undefined);
-    }
+    await markAllAsRead();
   };
 
   const filteredNotifications = notifications.filter(n =>
     filterType === "all" || n.type?.toLowerCase() === filterType
   );
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const displayUnreadCount = unreadCount;
 
   const getNotificationIcon = (type: string) => {
     switch (type) {
@@ -142,17 +50,6 @@ export default function NotificationsPage() {
     return <CompvssLoadingLayout />;
   }
 
-  if (error) {
-    return (
-      <CompvssAppLayout>
-            <EmptyState
-              title="Error Loading Notifications"
-              description={error}
-              action={{ label: "Retry", onClick: fetchNotifications }}
-            />
-      </CompvssAppLayout>
-    );
-  }
 
   return (
     <CompvssAppLayout>
@@ -162,7 +59,7 @@ export default function NotificationsPage() {
               <Kicker>Updates</Kicker>
               <Stack direction="horizontal" gap={4} className="items-center">
                 <H2 size="lg">Notifications</H2>
-                {unreadCount > 0 && <Badge variant="solid">{unreadCount} Unread</Badge>}
+                {displayUnreadCount > 0 && <Badge variant="solid">{displayUnreadCount} Unread</Badge>}
               </Stack>
               <Body className="text-muted">Stay updated on your crew and schedule</Body>
             </Stack>

@@ -31,13 +31,23 @@ import {
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../../../components/app-layout';
 import { log } from '@ghxstship/config';
-import { DEMO_PRODUCTION_INCIDENTS, type DemoProductionIncident } from '../../../../lib/demo-data';
+
+interface Incident {
+  id: string;
+  title: string;
+  description: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  status: 'open' | 'investigating' | 'resolved' | 'closed';
+  category: string;
+  reportedBy: string;
+  reportedAt: string;
+}
 
 export default function ProductionIncidentsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const [incidents, setIncidents] = useState<DemoProductionIncident[]>(DEMO_PRODUCTION_INCIDENTS);
+  const [incidents, setIncidents] = useState<Incident[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newIncident, setNewIncident] = useState({ title: '', severity: 'medium', category: '', description: '' });
 

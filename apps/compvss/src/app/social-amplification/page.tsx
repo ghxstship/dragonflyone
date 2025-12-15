@@ -30,17 +30,16 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_ARTIST_PROFILES,
-  DEMO_AMPLIFICATION_CAMPAIGNS,
-  type DemoArtistProfile as ArtistProfile,
-  type DemoAmplificationCampaign as AmplificationCampaign,
-} from "../../lib/demo-data";
-
-const mockArtists = DEMO_ARTIST_PROFILES;
-const mockCampaigns = DEMO_AMPLIFICATION_CAMPAIGNS;
+  useArtistProfiles,
+  useAmplificationCampaigns,
+  type ArtistProfile,
+  type AmplificationCampaign,
+} from "../../hooks/useSocialAmplification";
 
 export default function SocialAmplificationPage() {
   const router = useRouter();
+  const { data: artists = [] } = useArtistProfiles();
+  const { data: campaigns = [] } = useAmplificationCampaigns();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -51,9 +50,9 @@ export default function SocialAmplificationPage() {
   const [selectedCampaign, setSelectedCampaign] = useState<AmplificationCampaign | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const totalReach = mockArtists.reduce((sum, a) => sum + a.followers, 0);
-  const activeArtists = mockArtists.filter(a => a.status === "Active").length;
-  const activeCampaigns = mockCampaigns.filter(c => c.status === "Active").length;
+  const totalReach = artists.reduce((sum, a) => sum + a.followers, 0);
+  const activeArtists = artists.filter(a => a.status === "Active").length;
+  const activeCampaigns = campaigns.filter(c => c.status === "Active").length;
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
@@ -103,7 +102,7 @@ export default function SocialAmplificationPage() {
 
             <TabPanel active={isActive('artists')}>
               <Grid cols={3} gap={4}>
-                {mockArtists.map((artist) => (
+                {artists.map((artist) => (
                   <Card key={artist.id} className="p-6">
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="items-start justify-between">
@@ -145,7 +144,7 @@ export default function SocialAmplificationPage() {
 
             <TabPanel active={isActive('campaigns')}>
               <Stack gap={4}>
-                {mockCampaigns.map((campaign) => (
+                {campaigns.map((campaign) => (
                   <Card key={campaign.id} className="p-6">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>

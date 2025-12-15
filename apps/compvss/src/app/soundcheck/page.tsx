@@ -28,28 +28,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-import { DEMO_SOUNDCHECK_SLOTS } from '../../lib/demo-data';
-
-interface SoundcheckSlot {
-  id: string;
-  artistName: string;
-  stage: string;
-  scheduledStart: string;
-  scheduledEnd: string;
-  actualStart?: string;
-  actualEnd?: string;
-  status: "Scheduled" | "In Progress" | "Completed" | "Delayed" | "Cancelled";
-  duration: number;
-  requirements: string[];
-  engineer?: string;
-  notes?: string;
-}
-
-const mockSoundchecks = DEMO_SOUNDCHECK_SLOTS as unknown as SoundcheckSlot[];
+import {
+  useSoundcheckSlots,
+  type SoundcheckSlot,
+} from '../../hooks/useSoundcheck';
 
 
 export default function SoundcheckPage() {
   const router = useRouter();
+  const { data: soundcheckSlots = [] } = useSoundcheckSlots();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -60,12 +47,12 @@ export default function SoundcheckPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [stageFilter, setStageFilter] = useState("All");
 
-  const inProgress = mockSoundchecks.find(s => s.status === "In Progress");
-  const completed = mockSoundchecks.filter(s => s.status === "Completed").length;
-  const remaining = mockSoundchecks.filter(s => s.status === "Scheduled" || s.status === "Delayed").length;
-  const delayed = mockSoundchecks.filter(s => s.status === "Delayed").length;
+  const inProgress = soundcheckSlots.find(s => s.status === "In Progress");
+  const completed = soundcheckSlots.filter(s => s.status === "Completed").length;
+  const remaining = soundcheckSlots.filter(s => s.status === "Scheduled" || s.status === "Delayed").length;
+  const delayed = soundcheckSlots.filter(s => s.status === "Delayed").length;
 
-  const filteredSoundchecks = stageFilter === "All" ? mockSoundchecks : mockSoundchecks.filter(s => s.stage === stageFilter);
+  const filteredSoundchecks = stageFilter === "All" ? soundcheckSlots : soundcheckSlots.filter(s => s.stage === stageFilter);
 
   const getStatusVariant = (status: string): 'success' | 'info' | 'warning' | 'error' | 'ghost' => {
     switch (status) {
@@ -186,7 +173,7 @@ export default function SoundcheckPage() {
                     <Stack gap={4}>
                       <H3>{stage}</H3>
                       <Stack gap={2}>
-                        {mockSoundchecks.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((slot) => (
+                        {soundcheckSlots.filter(s => s.stage === stage).sort((a, b) => a.scheduledStart.localeCompare(b.scheduledStart)).map((slot) => (
                           <Card key={slot.id} className="p-3">
                             <Stack direction="horizontal" className="items-center justify-between">
                               <Stack gap={1}>

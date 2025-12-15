@@ -11,6 +11,7 @@ import {
   Grid,
   Stack,
   Body,
+  useNotifications,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
@@ -107,6 +108,7 @@ const formFields: FormFieldConfig[] = [
 
 export default function RateCardsPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const { data: apiRateCards, isLoading, error, refetch } = useRateCards();
   
   // Use API data if available, fallback to demo data
@@ -129,9 +131,10 @@ export default function RateCardsPage() {
       });
       if (!response.ok) throw new Error('Failed to create rate card');
       setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Rate Card Created', message: 'Rate card has been created successfully.' });
       refetch();
     } catch (err) {
-      console.error('Failed to create rate card:', err);
+      addNotification({ type: 'error', title: 'Failed to Create Rate Card', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
     }
   };
 

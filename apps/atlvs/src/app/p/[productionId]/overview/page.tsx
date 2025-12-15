@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   SectionHeader,
   Card,
@@ -9,11 +9,12 @@ import {
   StatCard,
   Button,
   Badge,
-  Container,
   Grid,
   Box,
   Body,
   H3,
+  Spinner,
+  EmptyState,
 } from "@ghxstship/ui";
 import {
   Calendar,
@@ -26,8 +27,43 @@ import {
   TrendingUp,
   FileText,
   Package,
+  RefreshCw,
 } from "lucide-react";
-import { atlvsDemoProductions } from "../../../../data/atlvs";
+import { useProduction } from "../../../../hooks/useProductions";
+import { atlvsDemoProductions, type ProductionContext } from "../../../../data/atlvs";
+
+interface DisplayProduction {
+  id: string;
+  name: string;
+  status: string;
+  venue?: string;
+  startDate?: string;
+  endDate?: string;
+}
+
+function normalizeProduction(apiProd: { id: string; title: string; status: string; venue_name?: string; opening_date?: string; closing_date?: string } | null, demoProd: ProductionContext | undefined): DisplayProduction | null {
+  if (apiProd) {
+    return {
+      id: apiProd.id,
+      name: apiProd.title,
+      status: apiProd.status,
+      venue: apiProd.venue_name,
+      startDate: apiProd.opening_date,
+      endDate: apiProd.closing_date,
+    };
+  }
+  if (demoProd) {
+    return {
+      id: demoProd.id,
+      name: demoProd.name,
+      status: demoProd.status,
+      venue: demoProd.venue,
+      startDate: demoProd.startDate,
+      endDate: demoProd.endDate,
+    };
+  }
+  return null;
+}
 
 /**
  * Production Overview Page
@@ -35,21 +71,44 @@ import { atlvsDemoProductions } from "../../../../data/atlvs";
  */
 export default function ProductionOverviewPage() {
   const params = useParams();
+  const router = useRouter();
   const productionId = params?.productionId as string;
   
-  // Find the production
-  const production = atlvsDemoProductions.find((p) => p.id === productionId);
+  // Fetch production from API with React Query
+  const { data: apiProduction, isLoading, error, refetch } = useProduction(productionId);
+  
+  // Fallback to demo data if API returns nothing
+  const demoProduction = atlvsDemoProductions.find((p) => p.id === productionId);
+  const production = normalizeProduction(apiProduction || null, demoProduction);
+  
+  if (isLoading) {
+    return (
+      <Stack className="flex min-h-[400px] items-center justify-center">
+        <Spinner size="lg" />
+        <Body className="text-on-dark-muted">Loading production...</Body>
+      </Stack>
+    );
+  }
+
+  if (error && !demoProduction) {
+    return (
+      <EmptyState
+        icon={<RefreshCw size={48} />}
+        title="Failed to load production"
+        description={error.message}
+        action={{ label: "Retry", onClick: () => refetch() }}
+      />
+    );
+  }
   
   if (!production) {
     return (
-      <Container>
-        <SectionHeader
-          kicker="Production"
-          title="Production Not Found"
-          description="The requested production could not be found."
-          colorScheme="on-dark"
-        />
-      </Container>
+      <EmptyState
+        icon={<AlertTriangle size={48} />}
+        title="Production Not Found"
+        description="The requested production could not be found."
+        action={{ label: "Back to Productions", onClick: () => router.push("/productions") }}
+      />
     );
   }
 

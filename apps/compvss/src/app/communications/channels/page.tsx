@@ -29,14 +29,15 @@ import {
 } from "@ghxstship/ui";
 
 import {
-  DEMO_CHANNELS,
-  type DemoChannel as Channel,
-} from "../../../lib/demo-data";
+  useChannels,
+  type Channel,
+} from "../../../hooks/useChannels";
 
 const departments = ["All", "Production", "Audio", "Lighting", "Video", "Stage", "Rigging", "Security", "Hospitality"];
 
 export default function ChannelsPage() {
   const router = useRouter();
+  const { data: channels = [] } = useChannels();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -47,9 +48,9 @@ export default function ChannelsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [departmentFilter, setDepartmentFilter] = useState("All");
 
-  const filteredChannels = departmentFilter === "All" ? DEMO_CHANNELS : DEMO_CHANNELS.filter(c => c.department === departmentFilter);
-  const activeChannels = DEMO_CHANNELS.filter(c => c.status === "Active").length;
-  const totalMembers = DEMO_CHANNELS.reduce((s, c) => s + c.members, 0);
+  const filteredChannels = departmentFilter === "All" ? channels : channels.filter(c => c.department === departmentFilter);
+  const activeChannels = channels.filter(c => c.is_active).length;
+  const totalMembers = channels.reduce((s, c) => s + (c.members?.length || 0), 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -77,7 +78,7 @@ export default function ChannelsPage() {
           <Stack gap={10}>
 
             <Grid cols={4} gap={6}>
-              <StatCard value={DEMO_CHANNELS.length.toString()} label="Total Channels" />
+              <StatCard value={channels.length.toString()} label="Total Channels" />
               <StatCard value={activeChannels.toString()} label="Active" />
               <StatCard value={totalMembers.toString()} label="Total Members" />
               <StatCard value={(departments.length - 1).toString()} label="Departments" />
@@ -119,7 +120,7 @@ export default function ChannelsPage() {
                     </Stack>
                     <Body size="sm" className="">{channel.description}</Body>
                     <Stack direction="horizontal" className="items-center justify-between">
-                      <Body size="sm" className="">{channel.members} members</Body>
+                      <Body size="sm" className="">{channel.members?.length || 0} members</Body>
                       <Stack direction="horizontal" gap={2}>
                         <Button variant="outline" size="sm" onClick={() => setSelectedChannel(channel)}>Manage</Button>
                         <Button variant="solid" size="sm">Join</Button>
@@ -160,18 +161,18 @@ export default function ChannelsPage() {
               )}
               <Stack gap={1}>
                 <Body className="font-display">Members</Body>
-                <Body>{selectedChannel.members}</Body>
+                <Body>{selectedChannel.members?.length || 0}</Body>
               </Stack>
               <Stack gap={2}>
                 <Body className="font-display">Recent Members</Body>
                 <Stack direction="horizontal" gap={2}>
-                  {["JS", "MK", "AL", "RB", "TC"].map((initials, idx) => (
+                  {selectedChannel.members?.slice(0, 5).map((member, idx) => (
                     <Card key={idx} className="flex size-10 items-center justify-center rounded-avatar">
-                      <Body size="sm" className="">{initials}</Body>
+                      <Body size="sm" className="">{member.initials}</Body>
                     </Card>
                   ))}
                   <Card className="flex size-10 items-center justify-center rounded-avatar">
-                    <Body size="sm" className="">+{selectedChannel.members - 5}</Body>
+                    <Body size="sm" className="">+{(selectedChannel.members?.length || 0) - 5}</Body>
                   </Card>
                 </Stack>
               </Stack>

@@ -19,15 +19,14 @@ import {
 import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 import {
-  DEMO_RADIO_CHANNELS,
-  DEMO_RADIO_MESSAGES,
-} from '../../lib/demo-data';
+  useRadioChannels,
+  useRadioMessages,
+} from '../../hooks/useRadioChannels';
 
 export default function CommunicationsPage() {
   const router = useRouter();
-
-  const channels = DEMO_RADIO_CHANNELS;
-  const messages = DEMO_RADIO_MESSAGES;
+  const { data: channels = [] } = useRadioChannels();
+  const { data: messages = [] } = useRadioMessages();
 
   return (
     <CompvssAppLayout>
