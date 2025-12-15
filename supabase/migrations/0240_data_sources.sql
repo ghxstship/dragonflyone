@@ -24,11 +24,11 @@ ALTER TABLE public.data_sources ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view data sources in their organization"
     ON public.data_sources FOR SELECT
-    USING (organization_id IN (SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid()));
+    USING (org_matches(organization_id));
 
 CREATE POLICY "Admins can manage data sources"
     ON public.data_sources FOR ALL
-    USING (organization_id IN (SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid() AND role IN ('owner', 'admin')));
+    USING (org_matches(organization_id) AND role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'));
 
 GRANT SELECT ON public.data_sources TO authenticated;
 GRANT INSERT, UPDATE, DELETE ON public.data_sources TO authenticated;

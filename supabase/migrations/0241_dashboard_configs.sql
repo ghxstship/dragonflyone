@@ -24,11 +24,11 @@ ALTER TABLE public.dashboard_configs ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users can view dashboard configs in their organization"
     ON public.dashboard_configs FOR SELECT
-    USING (organization_id IN (SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid()));
+    USING (org_matches(organization_id));
 
 CREATE POLICY "Users can manage dashboard configs"
     ON public.dashboard_configs FOR ALL
-    USING (organization_id IN (SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid()));
+    USING (org_matches(organization_id));
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.dashboard_configs TO authenticated;
 

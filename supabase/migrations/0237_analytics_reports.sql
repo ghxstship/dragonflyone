@@ -30,38 +30,27 @@ ALTER TABLE public.analytics_reports ENABLE ROW LEVEL SECURITY;
 -- RLS Policies
 CREATE POLICY "Users can view reports in their organization"
     ON public.analytics_reports FOR SELECT
-    USING (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid()
-        )
-    );
+    USING (org_matches(organization_id));
 
 CREATE POLICY "Admins can insert reports in their organization"
     ON public.analytics_reports FOR INSERT
     WITH CHECK (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-        )
+        org_matches(organization_id) AND 
+        role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     );
 
 CREATE POLICY "Admins can update reports in their organization"
     ON public.analytics_reports FOR UPDATE
     USING (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-        )
+        org_matches(organization_id) AND 
+        role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     );
 
 CREATE POLICY "Admins can delete reports in their organization"
     ON public.analytics_reports FOR DELETE
     USING (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-        )
+        org_matches(organization_id) AND 
+        role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     );
 
 -- Grant permissions

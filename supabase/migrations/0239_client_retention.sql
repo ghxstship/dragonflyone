@@ -32,20 +32,13 @@ ALTER TABLE public.client_retention ENABLE ROW LEVEL SECURITY;
 -- RLS Policies
 CREATE POLICY "Users can view client retention in their organization"
     ON public.client_retention FOR SELECT
-    USING (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid()
-        )
-    );
+    USING (org_matches(organization_id));
 
 CREATE POLICY "Admins can manage client retention in their organization"
     ON public.client_retention FOR ALL
     USING (
-        organization_id IN (
-            SELECT organization_id FROM public.organization_members 
-            WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-        )
+        org_matches(organization_id) AND 
+        role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN')
     );
 
 -- Grants

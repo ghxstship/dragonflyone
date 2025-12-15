@@ -31,23 +31,13 @@ BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'analytics_dashboards' AND policyname = 'Users can view dashboards in their organization') THEN
         CREATE POLICY "Users can view dashboards in their organization"
             ON public.analytics_dashboards FOR SELECT
-            USING (
-                organization_id IN (
-                    SELECT organization_id FROM public.organization_members 
-                    WHERE user_id = auth.uid()
-                )
-            );
+            USING (org_matches(organization_id));
     END IF;
     
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'analytics_dashboards' AND policyname = 'Users can create dashboards in their organization') THEN
         CREATE POLICY "Users can create dashboards in their organization"
             ON public.analytics_dashboards FOR INSERT
-            WITH CHECK (
-                organization_id IN (
-                    SELECT organization_id FROM public.organization_members 
-                    WHERE user_id = auth.uid()
-                )
-            );
+            WITH CHECK (org_matches(organization_id));
     END IF;
     
     IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'analytics_dashboards' AND policyname = 'Users can update their own dashboards') THEN
@@ -55,10 +45,7 @@ BEGIN
             ON public.analytics_dashboards FOR UPDATE
             USING (
                 created_by = auth.uid() OR
-                organization_id IN (
-                    SELECT organization_id FROM public.organization_members 
-                    WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-                )
+                (org_matches(organization_id) AND role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'))
             );
     END IF;
     
@@ -67,10 +54,7 @@ BEGIN
             ON public.analytics_dashboards FOR DELETE
             USING (
                 created_by = auth.uid() OR
-                organization_id IN (
-                    SELECT organization_id FROM public.organization_members 
-                    WHERE user_id = auth.uid() AND role IN ('owner', 'admin')
-                )
+                (org_matches(organization_id) AND role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'LEGEND_SUPER_ADMIN'))
             );
     END IF;
 END

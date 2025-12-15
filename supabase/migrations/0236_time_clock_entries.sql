@@ -38,11 +38,7 @@ CREATE POLICY "Users can create own clock entries"
 CREATE POLICY "Managers can view all clock entries"
   ON time_clock_entries FOR SELECT
   USING (
-    EXISTS (
-      SELECT 1 FROM platform_users
-      WHERE id = auth.uid()
-      AND platform_role IN ('platform_admin', 'platform_manager')
-    )
+    role_in('ATLVS_ADMIN', 'ATLVS_SUPER_ADMIN', 'COMPVSS_ADMIN', 'LEGEND_SUPER_ADMIN')
   );
 
 -- Grant permissions
