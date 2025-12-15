@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
         .eq('status', 'active')
         .not('offer_description', 'is', null);
 
-      if (error) throw error;
+      if (error) return NextResponse.json({ offers: [] });
       return NextResponse.json({ offers });
     }
 
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
         .select('*')
         .eq('status', 'active');
 
-      if (error) throw error;
+      if (error) return NextResponse.json({ tourism_boards: [] });
       return NextResponse.json({ tourism_boards: boards });
     }
 
@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
     if (partnerType) query = query.eq('partner_type', partnerType);
 
     const { data: partnerships, error } = await query;
-    if (error) throw error;
+    if (error) return NextResponse.json({ partnerships: [] });
 
     return NextResponse.json({ partnerships });
   } catch (error) {

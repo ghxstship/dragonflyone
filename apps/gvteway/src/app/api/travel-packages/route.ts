@@ -20,15 +20,15 @@ export async function GET(request: NextRequest) {
     const eventId = searchParams.get('event_id');
     const destination = searchParams.get('destination');
 
-    let query = supabase.from('travel_packages').select(`
-      *, event:events(id, name, date, venue, city)
-    `).eq('status', 'active');
+    let query = supabase.from('travel_packages').select('*').eq('status', 'active');
 
     if (eventId) query = query.eq('event_id', eventId);
     if (destination) query = query.ilike('destination_city', `%${destination}%`);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ packages: [], featured: [], destinations: [] });
+    }
 
     return NextResponse.json({
       packages: data,

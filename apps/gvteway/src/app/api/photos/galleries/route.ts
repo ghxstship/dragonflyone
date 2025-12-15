@@ -21,10 +21,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('photo_galleries')
-      .select(`
-        *,
-        event:events(id, title, date)
-      `)
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (eventId) {
@@ -38,22 +35,16 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ galleries: [] });
     }
 
-    interface GalleryEventInfo { title?: string; date?: string }
-    const galleries = data?.map(g => {
-      const event = g.event as GalleryEventInfo | null;
-      return {
-        id: g.id,
-        event_id: g.event_id,
-        event_name: event?.title || 'Unknown Event',
-        event_date: event?.date,
-        cover_photo: g.cover_photo_url,
-        photo_count: g.photo_count || 0,
-        status: g.status,
-      };
-    }) || [];
+    const galleries = data?.map(g => ({
+      id: g.id,
+      event_id: g.event_id,
+      cover_photo: g.cover_photo_url,
+      photo_count: g.photo_count || 0,
+      status: g.status,
+    })) || [];
 
     return NextResponse.json({ galleries });
   } catch (error) {

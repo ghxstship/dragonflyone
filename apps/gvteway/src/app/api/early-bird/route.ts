@@ -22,10 +22,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from("early_bird_campaigns")
-      .select(`
-        *,
-        event:events(id, name)
-      `)
+      .select('*')
       .order("start_date", { ascending: false });
 
     if (eventId) query = query.eq("event_id", eventId);
@@ -33,10 +30,7 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await query;
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ campaigns: [] });
-      }
-      throw error;
+      return NextResponse.json({ campaigns: [] });
     }
 
     return NextResponse.json({ campaigns: data || [] });

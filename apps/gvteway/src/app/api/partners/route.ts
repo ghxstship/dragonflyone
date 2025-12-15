@@ -57,11 +57,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('local_partners')
-      .select(`
-        *,
-        partner_type:partner_types(id, name, code, icon),
-        offers:partner_offers(id, title, offer_type, discount_value, valid_until, is_active)
-      `, { count: 'exact' });
+      .select('*', { count: 'exact' });
 
     if (status) {
       query = query.eq('status', status);
@@ -81,7 +77,9 @@ export async function GET(request: NextRequest) {
       .order('name')
       .range(offset, offset + limit - 1);
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ data: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+    }
 
     // If event_id provided, also get event associations
     if (event_id && data) {

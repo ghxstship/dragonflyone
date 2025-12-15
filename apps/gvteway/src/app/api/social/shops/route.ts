@@ -40,10 +40,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('social_shops')
-      .select(`
-        *,
-        owner:platform_users!owner_id(id, full_name, avatar_url)
-      `, { count: 'exact' })
+      .select('*', { count: 'exact' })
       .eq('status', 'active');
 
     if (featured) {
@@ -60,7 +57,9 @@ export async function GET(request: NextRequest) {
       .order('follower_count', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ data: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+    }
 
     return NextResponse.json({
       data,

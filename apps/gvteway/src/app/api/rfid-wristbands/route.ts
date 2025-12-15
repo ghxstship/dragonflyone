@@ -31,13 +31,14 @@ export async function GET(request: NextRequest) {
     if (wristbandId) {
       const { data: wristband, error } = await supabase
         .from('rfid_wristbands')
-        .select(`*, user:platform_users(id, first_name, last_name, email)`)
+        .select('*')
         .eq('wristband_id', wristbandId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        return NextResponse.json({ wristband: null, transactions: [] });
+      }
 
-      // Get transaction history
       const { data: transactions } = await supabase
         .from('rfid_transactions')
         .select('*')
@@ -45,19 +46,21 @@ export async function GET(request: NextRequest) {
         .order('created_at', { ascending: false })
         .limit(20);
 
-      return NextResponse.json({ wristband, transactions });
+      return NextResponse.json({ wristband, transactions: transactions || [] });
     }
 
     let query = supabase
       .from('rfid_wristbands')
-      .select(`*, user:platform_users(id, first_name, last_name)`)
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (eventId) query = query.eq('event_id', eventId);
     if (userId) query = query.eq('user_id', userId);
 
     const { data: wristbands, error } = await query;
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ wristbands: [] });
+    }
 
     return NextResponse.json({ wristbands });
   } catch (error) {

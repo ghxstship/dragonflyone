@@ -24,11 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('event_photos')
-      .select(`
-        *,
-        event:events(id, title),
-        uploader:platform_users(id, first_name, last_name)
-      `)
+      .select('*')
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -48,31 +44,21 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ photos: [] });
     }
 
-    interface PhotoEventInfo { title?: string }
-    interface PhotoUploaderInfo { first_name?: string; last_name?: string }
-    const photos = data?.map(p => {
-      const event = p.event as PhotoEventInfo | null;
-      const uploader = p.uploader as PhotoUploaderInfo | null;
-      return {
-        id: p.id,
-        url: p.url,
-        thumbnail_url: p.thumbnail_url || p.url,
-        event_id: p.event_id,
-        event_name: event?.title || 'Unknown Event',
-        uploaded_by: p.uploaded_by,
-        uploaded_by_name: uploader 
-          ? `${uploader.first_name} ${uploader.last_name}` 
-          : 'Anonymous',
-        caption: p.caption,
-        tags: p.tags || [],
-        likes: p.likes || 0,
-        is_featured: p.is_featured || false,
-        created_at: p.created_at,
-      };
-    }) || [];
+    const photos = data?.map(p => ({
+      id: p.id,
+      url: p.url,
+      thumbnail_url: p.thumbnail_url || p.url,
+      event_id: p.event_id,
+      uploaded_by: p.uploaded_by,
+      caption: p.caption,
+      tags: p.tags || [],
+      likes: p.likes || 0,
+      is_featured: p.is_featured || false,
+      created_at: p.created_at,
+    })) || [];
 
     return NextResponse.json({ photos });
   } catch (error) {

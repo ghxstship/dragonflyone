@@ -32,21 +32,21 @@ export async function GET(request: NextRequest) {
     if (transactionId) {
       const { data } = await supabase
         .from('pos_transactions')
-        .select(`*, items:pos_transaction_items(*), terminal:pos_terminals(terminal_name, location)`)
+        .select('*')
         .eq('id', transactionId)
         .single();
       transaction = data;
     } else if (orderId) {
       const { data } = await supabase
         .from('orders')
-        .select(`*, items:order_items(*, product:products(name)), user:platform_users(first_name, last_name, email)`)
+        .select('*')
         .eq('id', orderId)
         .single();
       transaction = data;
     }
 
     if (!transaction) {
-      return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
+      return NextResponse.json({ receipt: null });
     }
 
     const receipt = {

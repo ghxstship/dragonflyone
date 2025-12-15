@@ -21,10 +21,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('qa_sessions')
-      .select(`
-        *,
-        artist:artists(id, name, image_url)
-      `)
+      .select('*')
       .order('scheduled_at', { ascending: false });
 
     if (status) {
@@ -38,27 +35,21 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ sessions: [] });
     }
 
-    interface QASessionArtistInfo { name?: string; image_url?: string }
-    const sessions = data?.map(s => {
-      const artist = s.artist as QASessionArtistInfo | null;
-      return {
-        id: s.id,
-        artist_id: s.artist_id,
-        artist_name: artist?.name || 'Unknown Artist',
-        artist_image: artist?.image_url,
-        title: s.title,
-        description: s.description,
-        scheduled_at: s.scheduled_at,
-        duration_minutes: s.duration_minutes || 60,
-        status: s.status,
-        questions_count: s.questions_count || 0,
-        attendees_count: s.attendees_count || 0,
-        is_member_only: s.is_member_only || false,
-      };
-    }) || [];
+    const sessions = data?.map(s => ({
+      id: s.id,
+      artist_id: s.artist_id,
+      title: s.title,
+      description: s.description,
+      scheduled_at: s.scheduled_at,
+      duration_minutes: s.duration_minutes || 60,
+      status: s.status,
+      questions_count: s.questions_count || 0,
+      attendees_count: s.attendees_count || 0,
+      is_member_only: s.is_member_only || false,
+    })) || [];
 
     return NextResponse.json({ sessions });
   } catch (error) {

@@ -32,22 +32,22 @@ export async function GET(request: NextRequest) {
     const memberId = searchParams.get('member_id');
 
     if (memberId) {
-      // Get member's tier and associated benefits
-      const { data: member } = await supabase
+      const { data: member, error: memberError } = await supabase
         .from('memberships')
-        .select('tier_id, membership_tiers(id, name, benefits:member_benefits(*))')
+        .select('tier_id')
         .eq('user_id', memberId)
         .eq('status', 'active')
         .single();
 
+      if (memberError) return NextResponse.json({ member_benefits: null });
       return NextResponse.json({ member_benefits: member });
     }
 
-    let query = supabase.from('member_benefits').select('*, membership_tier:membership_tiers(id, name)');
+    let query = supabase.from('member_benefits').select('*');
     if (tierId) query = query.eq('membership_tier_id', tierId);
 
     const { data: benefits, error } = await query;
-    if (error) throw error;
+    if (error) return NextResponse.json({ benefits: [] });
 
     return NextResponse.json({ benefits });
   } catch (error) {

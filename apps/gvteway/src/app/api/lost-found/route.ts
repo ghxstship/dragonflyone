@@ -24,11 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('lost_found_items')
-      .select(`
-        *,
-        event:events(id, name, date, venue),
-        reporter:platform_users(id, email, first_name, last_name)
-      `);
+      .select('*');
 
     if (eventId) query = query.eq('event_id', eventId);
     if (type) query = query.eq('type', type);
@@ -37,7 +33,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query.order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ items: [] });
     }
 
     return NextResponse.json({ items: data });

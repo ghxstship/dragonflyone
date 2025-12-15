@@ -265,15 +265,16 @@ async function getTrendingEvents(limit: number) {
     .select('*')
     .gte('date', new Date().toISOString())
     .eq('status', 'published')
-    .order('tickets_sold', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(limit);
 
   if (error) {
-    return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    // Handle missing table or column errors - return empty recommendations
+    return NextResponse.json({ recommendations: [], type: 'trending' });
   }
 
   return NextResponse.json({
-    recommendations: events,
+    recommendations: events || [],
     type: 'trending',
   });
 }

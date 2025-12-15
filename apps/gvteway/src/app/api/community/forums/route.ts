@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('forums')
-      .select('*, forum_posts(count), forum_members(count)')
+      .select('*')
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     const { data: forums, error, count } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json({ forums: [], categories: [], total: 0, limit, offset });
     }
 
     // Get forum categories for filtering

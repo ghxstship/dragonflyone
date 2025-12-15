@@ -80,30 +80,24 @@ export async function GET(request: NextRequest) {
       const now = new Date().toISOString();
       const { data: bundles, error } = await supabase
         .from('bundle_deals')
-        .select(`*, items:bundle_deal_items(*, product:products(id, name, price, image_url))`)
+        .select('*')
         .eq('status', 'active')
         .or(`valid_from.is.null,valid_from.lte.${now}`)
         .or(`valid_to.is.null,valid_to.gte.${now}`);
 
       if (error) {
-        if (error.message?.includes('does not exist') || error.code === '42P01') {
-          return NextResponse.json({ bundles: [] });
-        }
-        throw error;
+        return NextResponse.json({ bundles: [] });
       }
       return NextResponse.json({ bundles });
     }
 
     const { data: bundles, error } = await supabase
       .from('bundle_deals')
-      .select(`*, items:bundle_deal_items(*, product:products(id, name, price, image_url))`)
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ bundles: [] });
-      }
-      throw error;
+      return NextResponse.json({ bundles: [] });
     }
     return NextResponse.json({ bundles });
   } catch (error) {

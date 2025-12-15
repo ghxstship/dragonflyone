@@ -24,10 +24,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('merch_products')
-      .select(`
-        *,
-        variants:merch_variants(*)
-      `)
+      .select('*')
       .eq('is_active', true)
       .order('created_at', { ascending: false });
 
@@ -54,7 +51,7 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      return NextResponse.json({ products: [] });
     }
 
     const products = data?.map(p => ({

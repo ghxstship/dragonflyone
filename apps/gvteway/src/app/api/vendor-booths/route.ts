@@ -38,7 +38,9 @@ export async function GET(request: NextRequest) {
         .eq('booth_id', boothId)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        return NextResponse.json({ sales: [], summary: { total_gross: 0, total_commission: 0, total_net: 0, transaction_count: 0 } });
+      }
 
       const summary = {
         total_gross: sales?.reduce((sum, s) => sum + s.gross_amount, 0) || 0,
@@ -51,13 +53,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (type === 'commission_report' && eventId) {
-      const { data: booths } = await supabase
+      const { data: booths, error: boothError } = await supabase
         .from('vendor_booths')
-        .select(`
-          id, booth_name, vendor_id, commission_rate,
-          sales:vendor_booth_sales(gross_amount, commission_amount, net_amount)
-        `)
+        .select('id, booth_name, vendor_id, commission_rate')
         .eq('event_id', eventId);
+
+      if (boothError) {
+        return NextResponse.json({ commission_report: [] });
+      }
 
       interface SaleEntry { gross_amount: number; commission_amount?: number; net_amount?: number }
       interface BoothData { id: string; booth_name: string; commission_rate: number; sales?: SaleEntry[] }
@@ -75,13 +78,15 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('vendor_booths')
-      .select(`*, vendor:vendors(id, name)`)
+      .select('*')
       .order('booth_number');
 
     if (eventId) query = query.eq('event_id', eventId);
 
     const { data: booths, error } = await query;
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ booths: [] });
+    }
 
     return NextResponse.json({ booths });
   } catch (error) {

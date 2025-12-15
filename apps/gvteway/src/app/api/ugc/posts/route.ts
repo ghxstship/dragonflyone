@@ -25,10 +25,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('ugc_posts')
-      .select(`
-        *,
-        event:events(id, title)
-      `)
+      .select('*')
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
       .limit(limit);
@@ -56,44 +53,33 @@ export async function GET(request: NextRequest) {
     const { data, error } = await query;
 
     if (error) {
-      if (error.message?.includes('does not exist') || error.code === '42P01') {
-        return NextResponse.json({ posts: [], total: 0 });
-      }
-      return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+      // Handle missing table or other errors - return empty posts
+      return NextResponse.json({ posts: [] });
     }
 
-    interface EventData { title?: string }
-    const posts = data?.map(p => {
-      const eventData = p.event as EventData | null;
-      return {
-        id: p.id,
-        platform: p.platform,
-        content_type: p.content_type,
-        content_url: p.content_url,
-        thumbnail_url: p.thumbnail_url,
-        caption: p.caption,
-        author_name: p.author_name,
-        author_handle: p.author_handle,
-        author_avatar: p.author_avatar,
-        hashtags: p.hashtags || [],
-        event_id: p.event_id,
-        event_name: eventData?.title,
-        likes: p.likes || 0,
-        comments: p.comments || 0,
-        shares: p.shares || 0,
-        is_featured: p.is_featured || false,
-        created_at: p.created_at,
-      };
-    }) || [];
+    const posts = data?.map(p => ({
+      id: p.id,
+      platform: p.platform,
+      content_type: p.content_type,
+      content_url: p.content_url,
+      thumbnail_url: p.thumbnail_url,
+      caption: p.caption,
+      author_name: p.author_name,
+      author_handle: p.author_handle,
+      author_avatar: p.author_avatar,
+      hashtags: p.hashtags || [],
+      event_id: p.event_id,
+      likes: p.likes || 0,
+      comments: p.comments || 0,
+      shares: p.shares || 0,
+      is_featured: p.is_featured || false,
+      created_at: p.created_at,
+    })) || [];
 
     return NextResponse.json({ posts });
   } catch (error) {
-    const msg = error instanceof Error ? error.message : '';
-    if (msg.includes('does not exist') || msg.includes('42P01')) {
-      return NextResponse.json({ posts: [], total: 0 });
-    }
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }

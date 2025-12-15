@@ -41,12 +41,8 @@ export async function GET(request: NextRequest) {
       .eq('session_id', session_id)
       .single();
 
-    if (error && error.code !== 'PGRST116') {
-      throw error;
-    }
-
-    if (!data) {
-      // Return default consent (only necessary cookies)
+    // Handle no data found or table not existing - return default consent
+    if (error) {
       return NextResponse.json({
         data: {
           necessary: true,
@@ -65,9 +61,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    logger.error('Get cookie consent error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch cookie consent' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }
@@ -129,7 +124,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    logger.error('Save cookie consent error:', error);
+    logger.error('Save cookie consent error:', error instanceof Error ? error : undefined);
     return NextResponse.json(
       { error: 'Failed to save cookie consent' },
       { status: 500 }

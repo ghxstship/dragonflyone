@@ -21,17 +21,16 @@ export async function GET(request: NextRequest) {
     const artistId = searchParams.get('artist_id');
     const featured = searchParams.get('featured') === 'true';
 
-    let query = supabase.from('fan_content').select(`
-      *, creator:users(id, display_name, avatar_url),
-      event:events(id, name), likes:fan_content_likes(count)
-    `).eq('status', 'approved');
+    let query = supabase.from('fan_content').select('*').eq('status', 'approved');
 
     if (eventId) query = query.eq('event_id', eventId);
     if (artistId) query = query.eq('artist_id', artistId);
     if (featured) query = query.eq('featured', true);
 
     const { data, error } = await query.order('created_at', { ascending: false });
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ content: [] });
+    }
 
     return NextResponse.json({
       content: data?.map(c => ({

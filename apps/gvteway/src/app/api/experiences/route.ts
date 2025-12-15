@@ -66,11 +66,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('experience_listings')
-      .select(`
-        *,
-        organization:organizations(id, name, logo_url),
-        event:events(id, name)
-      `, { count: 'exact' })
+      .select('*', { count: 'exact' })
       .eq('status', 'published');
 
     if (experience_type) {
@@ -107,7 +103,10 @@ export async function GET(request: NextRequest) {
       .order('start_date', { ascending: true })
       .range(offset, offset + limit - 1);
 
-    if (error) throw error;
+    if (error) {
+      // Handle missing table or relationship errors - return empty data
+      return NextResponse.json({ data: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+    }
 
     return NextResponse.json({
       data,

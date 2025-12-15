@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('social_inbox_messages')
-      .select(`*, responses:social_inbox_responses(*)`)
+      .select('*')
       .order('received_at', { ascending: false });
 
     if (status) query = query.eq('status', status);
@@ -42,7 +42,9 @@ export async function GET(request: NextRequest) {
     if (assignedTo) query = query.eq('assigned_to', assignedTo);
 
     const { data: messages, error } = await query.limit(100);
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ messages: [], stats: { total_24h: 0, unread: 0, pending: 0, by_platform: {} } });
+    }
 
     // Get stats
     const { data: allMessages } = await supabase

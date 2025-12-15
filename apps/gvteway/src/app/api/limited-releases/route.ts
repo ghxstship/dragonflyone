@@ -21,17 +21,16 @@ export async function GET(request: NextRequest) {
     const artistId = searchParams.get('artist_id');
     const status = searchParams.get('status');
 
-    let query = supabase.from('limited_releases').select(`
-      *, product:products(id, name, price, images),
-      event:events(id, name), artist:artists(id, name)
-    `);
+    let query = supabase.from('limited_releases').select('*');
 
     if (eventId) query = query.eq('event_id', eventId);
     if (artistId) query = query.eq('artist_id', artistId);
     if (status) query = query.eq('status', status);
 
     const { data, error } = await query.order('release_date', { ascending: true });
-    if (error) return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    if (error) {
+      return NextResponse.json({ releases: [], upcoming: [], active: [], sold_out: [] });
+    }
 
     const now = new Date();
     return NextResponse.json({

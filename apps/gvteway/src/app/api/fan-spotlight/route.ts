@@ -32,25 +32,25 @@ export async function GET(request: NextRequest) {
     if (type === 'featured') {
       const { data: spotlights, error } = await supabase
         .from('fan_spotlights')
-        .select(`*, user:platform_users(id, first_name, last_name, avatar_url)`)
+        .select('*')
         .eq('status', 'featured')
         .order('featured_at', { ascending: false })
         .limit(20);
 
-      if (error) throw error;
+      if (error) return NextResponse.json({ spotlights: [] });
       return NextResponse.json({ spotlights });
     }
 
     let query = supabase
       .from('fan_spotlights')
-      .select(`*, user:platform_users(id, first_name, last_name, avatar_url)`)
+      .select('*')
       .order('created_at', { ascending: false });
 
     if (eventId) query = query.eq('event_id', eventId);
     if (status) query = query.eq('status', status);
 
     const { data: spotlights, error } = await query;
-    if (error) throw error;
+    if (error) return NextResponse.json({ spotlights: [] });
 
     return NextResponse.json({ spotlights });
   } catch (error) {

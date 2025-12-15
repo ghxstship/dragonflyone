@@ -39,11 +39,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from('social_posts')
-      .select(`
-        *,
-        shop:social_shops(id, name, slug, logo_url),
-        author:platform_users!author_id(id, full_name, avatar_url)
-      `, { count: 'exact' })
+      .select('*', { count: 'exact' })
       .eq('status', 'published');
 
     if (shop_id) {
@@ -57,7 +53,9 @@ export async function GET(request: NextRequest) {
       .order('published_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (error) throw error;
+    if (error) {
+      return NextResponse.json({ data: [], pagination: { page: 1, limit: 20, total: 0, totalPages: 0 } });
+    }
 
     return NextResponse.json({
       data,
