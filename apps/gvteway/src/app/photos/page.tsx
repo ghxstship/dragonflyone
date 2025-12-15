@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Camera, Heart } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -169,7 +170,7 @@ export default function PhotoGalleriesPage() {
                       />
                     ) : (
                       <Stack className="flex h-full w-full items-center justify-center">
-                        <Body className="text-h3-md">📷</Body>
+                        <Camera className="size-8" />
                       </Stack>
                     )}
                     <Stack className="absolute right-2 top-2">
@@ -242,7 +243,7 @@ export default function PhotoGalleriesPage() {
                             handleLike(photo.id);
                           }}
                         >
-                          ❤️ {photo.likes}
+                          <Heart className="size-4 inline mr-1" /> {photo.likes}
                         </Button>
                       </Stack>
                     </Stack>
@@ -360,7 +361,7 @@ export default function PhotoGalleriesPage() {
                 )}
                 <Stack direction="horizontal" gap={4} className="mt-4">
                   <Button variant="solid" onClick={() => handleLike(selectedPhoto.id)}>
-                    ❤️ Like ({selectedPhoto.likes})
+                    <Heart className="size-4 inline mr-1" /> Like ({selectedPhoto.likes})
                   </Button>
                   <Button variant="outline">
                     Share

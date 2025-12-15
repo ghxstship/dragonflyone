@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { MapPin } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -184,7 +185,7 @@ function MapViewContent() {
           onClick={getCurrentLocation}
           disabled={locationLoading}
         >
-          📍
+          <MapPin className="size-4" />
         </Button>
       </Stack>
     </Stack>

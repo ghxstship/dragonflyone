@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { Gift, PartyPopper, Sparkles } from 'lucide-react';
 import {
   H2,
   H3,
@@ -247,9 +248,9 @@ function GiftTicketsContent() {
                   
                   <Grid cols={3} gap={4}>
                     {[
-                      { id: 'classic', name: 'Classic', emoji: '🎁' },
-                      { id: 'celebration', name: 'Celebration', emoji: '🎉' },
-                      { id: 'elegant', name: 'Elegant', emoji: '✨' },
+                      { id: 'classic', name: 'Classic', icon: 'gift' },
+                      { id: 'celebration', name: 'Celebration', icon: 'party' },
+                      { id: 'elegant', name: 'Elegant', icon: 'sparkle' },
                     ].map(style => (
                       <Card
                         key={style.id}
@@ -260,7 +261,9 @@ function GiftTicketsContent() {
                         }`}
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
-                        <Body className="text-h4-md mb-2">{style.emoji}</Body>
+                        {style.icon === 'gift' && <Gift className="size-8 mx-auto mb-2" />}
+                        {style.icon === 'party' && <PartyPopper className="size-8 mx-auto mb-2" />}
+                        {style.icon === 'sparkle' && <Sparkles className="size-8 mx-auto mb-2" />}
                         <Body className="font-weight-medium">{style.name}</Body>
                       </Card>
                     ))}

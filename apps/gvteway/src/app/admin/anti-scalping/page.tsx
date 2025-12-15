@@ -37,23 +37,14 @@ import {
 } from '@ghxstship/ui';
 
 import {
-  DEMO_SCALPING_ALERTS,
-  DEMO_PROTECTION_RULES,
-  DEMO_BLOCKED_ENTITIES,
-  type DemoScalpingAlert as ScalpingAlert,
-  type DemoProtectionRule as ProtectionRule,
-  type DemoBlockedEntity as BlockedEntity,
-} from '@/lib/demo-data';
-
-const mockAlerts = DEMO_SCALPING_ALERTS;
-const mockRules = DEMO_PROTECTION_RULES;
-const mockBlocked = DEMO_BLOCKED_ENTITIES;
+  useAntiScalpingData,
+  type ScalpingAlert,
+  type ProtectionRule,
+  type BlockedEntity,
+} from '@/hooks/useAntiScalping';
 
 function AntiScalpingPageContent() {
   const router = useRouter();
-  const [alerts, setAlerts] = useState<ScalpingAlert[]>(mockAlerts);
-  const [rules, setRules] = useState<ProtectionRule[]>(mockRules);
-  const [blocked, setBlocked] = useState<BlockedEntity[]>(mockBlocked);
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
     defaultTab: 'alerts',
@@ -62,7 +53,7 @@ function AntiScalpingPageContent() {
   const [selectedAlert, setSelectedAlert] = useState<ScalpingAlert | null>(null);
   const [showBlockModal, setShowBlockModal] = useState(false);
   const [filter, setFilter] = useState({ severity: '', status: '' });
-  const [error, setError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
   const [newBlock, setNewBlock] = useState({
@@ -71,43 +62,76 @@ function AntiScalpingPageContent() {
     reason: '',
   });
 
-  const handleUpdateAlertStatus = (alertId: string, newStatus: ScalpingAlert['status']) => {
-    setAlerts(alerts.map(a =>
-      a.id === alertId ? { ...a, status: newStatus } : a
-    ));
-    setSuccess(`Alert ${newStatus === 'blocked' ? 'blocked' : newStatus === 'cleared' ? 'cleared' : 'updated'}`);
+  // Use the hook for real API data with demo data fallback
+  const {
+    alerts,
+    rules,
+    blocked,
+    isLoading,
+    error: hookError,
+    updateAlertStatus,
+    toggleRule,
+    addBlocked,
+    removeBlocked,
+  } = useAntiScalpingData({ severity: filter.severity || undefined, status: filter.status || undefined });
+
+  const error = localError || (hookError instanceof Error ? hookError.message : null);
+
+  const handleUpdateAlertStatus = async (alertId: string, newStatus: ScalpingAlert['status']) => {
+    try {
+      await updateAlertStatus({ alertId, status: newStatus });
+      setSuccess(`Alert ${newStatus === 'blocked' ? 'blocked' : newStatus === 'cleared' ? 'cleared' : 'updated'}`);
+    } catch {
+      setLocalError('Failed to update alert status');
+    }
   };
 
-  const handleToggleRule = (ruleId: string) => {
-    setRules(rules.map(r =>
-      r.id === ruleId ? { ...r, enabled: !r.enabled } : r
-    ));
+  const handleToggleRule = async (ruleId: string, currentEnabled: boolean) => {
+    try {
+      await toggleRule({ ruleId, enabled: !currentEnabled });
+    } catch {
+      setLocalError('Failed to toggle rule');
+    }
   };
 
-  const handleAddBlock = () => {
+  const handleAddBlock = async () => {
     if (!newBlock.value || !newBlock.reason) {
-      setError('Please fill in all fields');
+      setLocalError('Please fill in all fields');
       return;
     }
 
-    const block: BlockedEntity = {
-      id: `BLK-${Date.now()}`,
-      type: newBlock.type as BlockedEntity['type'],
-      value: newBlock.value,
-      reason: newBlock.reason,
-      blocked_at: new Date().toISOString(),
-    };
-
-    setBlocked([block, ...blocked]);
-    setShowBlockModal(false);
-    setNewBlock({ type: 'ip', value: '', reason: '' });
-    setSuccess('Entity blocked successfully');
+    try {
+      await addBlocked({
+        type: newBlock.type,
+        value: newBlock.value,
+        reason: newBlock.reason,
+      });
+      setShowBlockModal(false);
+      setNewBlock({ type: 'ip', value: '', reason: '' });
+      setSuccess('Entity blocked successfully');
+    } catch {
+      setLocalError('Failed to block entity');
+    }
   };
 
-  const handleRemoveBlock = (blockId: string) => {
-    setBlocked(blocked.filter(b => b.id !== blockId));
-    setSuccess('Block removed');
+  const handleRemoveBlock = async (blockId: string) => {
+    try {
+      await removeBlocked(blockId);
+      setSuccess('Block removed');
+    } catch {
+      setLocalError('Failed to remove block');
+    }
   };
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <div className="flex min-h-[50vh] items-center justify-center">
+          <Body className="text-on-dark-muted">Loading anti-scalping data...</Body>
+        </div>
+      </GvtewayAppLayout>
+    );
+  }
 
   const getSeverityBadge = (severity: string) => {
     const variants: Record<string, 'solid' | 'outline' | 'ghost'> = {
@@ -140,15 +164,15 @@ function AntiScalpingPageContent() {
     return <Badge variant="outline">{labels[type] || type}</Badge>;
   };
 
-  const filteredAlerts = alerts.filter(a => {
+  const filteredAlerts = alerts.filter((a: ScalpingAlert) => {
     const matchesSeverity = !filter.severity || a.severity === filter.severity;
     const matchesStatus = !filter.status || a.status === filter.status;
     return matchesSeverity && matchesStatus;
   });
 
-  const criticalCount = alerts.filter(a => a.severity === 'critical' && a.status !== 'blocked' && a.status !== 'cleared').length;
-  const blockedToday = alerts.filter(a => a.status === 'blocked').length;
-  const ticketsProtected = alerts.filter(a => a.status === 'blocked').reduce((sum, a) => sum + a.ticket_count, 0);
+  const criticalCount = alerts.filter((a: ScalpingAlert) => a.severity === 'critical' && a.status !== 'blocked' && a.status !== 'cleared').length;
+  const blockedToday = alerts.filter((a: ScalpingAlert) => a.status === 'blocked').length;
+  const ticketsProtected = alerts.filter((a: ScalpingAlert) => a.status === 'blocked').reduce((sum: number, a: ScalpingAlert) => sum + a.ticket_count, 0);
 
   return (
     <GvtewayAppLayout>
@@ -171,7 +195,7 @@ function AntiScalpingPageContent() {
             </Stack>
 
           {error && (
-            <Alert variant="error" onClose={() => setError(null)}>
+            <Alert variant="error" onClose={() => setLocalError(null)}>
               {error}
             </Alert>
           )}
@@ -183,7 +207,7 @@ function AntiScalpingPageContent() {
           )}
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Active Alerts" value={alerts.filter(a => a.status === 'pending' || a.status === 'investigating').length.toString()} inverted />
+              <StatCard label="Active Alerts" value={alerts.filter((a: ScalpingAlert) => a.status === 'pending' || a.status === 'investigating').length.toString()} inverted />
               <StatCard label="Critical" value={criticalCount.toString()} inverted />
               <StatCard label="Blocked Today" value={blockedToday.toString()} inverted />
               <StatCard label="Tickets Protected" value={ticketsProtected.toString()} inverted />
@@ -198,7 +222,7 @@ function AntiScalpingPageContent() {
           <Tabs>
             <TabsList>
               <Tab active={isActive('alerts')} onClick={() => setActiveTab('alerts')}>
-                Alerts ({alerts.filter(a => a.status === 'pending').length})
+                Alerts ({alerts.filter((a: ScalpingAlert) => a.status === 'pending').length})
               </Tab>
               <Tab active={isActive('rules')} onClick={() => setActiveTab('rules')}>
                 Protection Rules
@@ -242,7 +266,7 @@ function AntiScalpingPageContent() {
               </Stack>
 
               <Stack gap={4}>
-                {filteredAlerts.map(alert => (
+                {filteredAlerts.map((alert: ScalpingAlert) => (
                   <Card key={alert.id} inverted variant={alert.severity === 'critical' || alert.severity === 'high' ? 'elevated' : 'default'}>
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={2}>
@@ -285,7 +309,7 @@ function AntiScalpingPageContent() {
 
           {isActive('rules') && (
             <Stack gap={4}>
-              {rules.map(rule => (
+              {rules.map((rule: ProtectionRule) => (
                 <Card key={rule.id} inverted variant={rule.enabled ? 'elevated' : 'default'}>
                   <Grid cols={4} gap={4} className="items-center">
                     <Stack gap={1}>
@@ -310,7 +334,7 @@ function AntiScalpingPageContent() {
                       <Button
                         variant={rule.enabled ? 'outline' : 'solid'}
                         size="sm"
-                        onClick={() => handleToggleRule(rule.id)}
+                        onClick={() => handleToggleRule(rule.id, rule.enabled)}
                       >
                         {rule.enabled ? 'Disable' : 'Enable'}
                       </Button>
@@ -335,7 +359,7 @@ function AntiScalpingPageContent() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {blocked.map(block => (
+                    {blocked.map((block: BlockedEntity) => (
                       <TableRow key={block.id} className="border-b border-ink-700">
                         <TableCell>
                           <Badge variant="outline" className="uppercase">{block.type}</Badge>
@@ -371,7 +395,7 @@ function AntiScalpingPageContent() {
                     {['bulk_purchase', 'bot_detected', 'rapid_checkout', 'resale_listing', 'suspicious_pattern'].map(type => (
                       <Stack key={type} direction="horizontal" className="justify-between">
                         <Body className="capitalize text-on-dark-muted">{type.replace('_', ' ')}</Body>
-                        <Body className="font-display text-white">{alerts.filter(a => a.type === type).length}</Body>
+                        <Body className="font-display text-white">{alerts.filter((a: ScalpingAlert) => a.type === type).length}</Body>
                       </Stack>
                     ))}
                   </Stack>

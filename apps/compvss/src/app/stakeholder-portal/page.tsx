@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { BarChart3, Target, AlertTriangle, FileText, ClipboardList } from "lucide-react";
 import {
   Container,
   H3,
@@ -62,11 +63,11 @@ export default function StakeholderPortalPage() {
 
   const getUpdateIcon = (type: string) => {
     switch (type) {
-      case "Status": return "📊";
-      case "Milestone": return "🎯";
-      case "Alert": return "⚠️";
-      case "Document": return "📄";
-      default: return "📋";
+      case "Status": return <BarChart3 className="size-5" />;
+      case "Milestone": return <Target className="size-5" />;
+      case "Alert": return <AlertTriangle className="size-5" />;
+      case "Document": return <FileText className="size-5" />;
+      default: return <ClipboardList className="size-5" />;
     }
   };
 
@@ -164,7 +165,7 @@ export default function StakeholderPortalPage() {
                   <Card key={idx}>
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={3}>
-                        <Body>📄</Body>
+                        <FileText className="size-5" />
                         <Stack gap={1}>
                           <Body>{doc}</Body>
                           <Body size="sm" className="">Updated 2024-11-{20 + idx}</Body>

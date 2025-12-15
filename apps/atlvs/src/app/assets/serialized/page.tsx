@@ -32,44 +32,23 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface SerializedComponent {
-  id: string;
-  serialNumber: string;
-  parentAssetId: string;
-  parentAssetName: string;
-  componentType: string;
-  manufacturer: string;
-  model: string;
-  installDate: string;
-  warrantyExpiry?: string;
-  status: 'Active' | 'Replaced' | 'Failed' | 'In Repair';
-  location: string;
-  lastInspection?: string;
-  notes?: string;
-  history: ComponentHistory[];
-}
 
-interface ComponentHistory {
-  date: string;
-  action: string;
-  performedBy: string;
-  notes?: string;
-}
-
+import { useSerializedComponents, type SerializedComponent } from '@ghxstship/config';
 import { DEMO_SERIALIZED_COMPONENTS } from '../../../lib/demo-data';
-
-const mockComponents = DEMO_SERIALIZED_COMPONENTS as unknown as SerializedComponent[];
 
 const componentTypes = ['All', 'Lamp', 'Driver', 'Chain Assembly', 'Power Supply', 'Gobo Wheel', 'Motor', 'Lens', 'Fan'];
 
 export default function SerializedComponentsPage() {
   const router = useRouter();
-  const [components, setComponents] = useState<SerializedComponent[]>(mockComponents);
   const [selectedComponent, setSelectedComponent] = useState<SerializedComponent | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [typeFilter, setTypeFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Real API integration with demo fallback
+  const { components: apiData, isLoading, createComponentAsync, refetch } = useSerializedComponents();
+  const components: SerializedComponent[] = apiData.length > 0 ? apiData : (DEMO_SERIALIZED_COMPONENTS as unknown as SerializedComponent[]);
 
   const filteredComponents = components.filter((c) => {
     const matchesType = typeFilter === 'All' || c.componentType === typeFilter;
@@ -380,23 +359,22 @@ export default function SerializedComponentsPage() {
           <Button variant="outline" onClick={() => setShowAddModal(false)}>
             Cancel
           </Button>
-          <Button variant="solid" onClick={() => {
-            // Add new component with generated ID
-            const newComponent: SerializedComponent = {
-              id: `COMP-${String(components.length + 1).padStart(4, '0')}`,
-              serialNumber: `SN-${Date.now()}`,
-              componentType: 'Lamp',
-              parentAssetId: 'AST-001',
-              parentAssetName: 'New Asset',
-              manufacturer: 'Generic',
-              model: 'Standard',
-              installDate: new Date().toISOString().split('T')[0],
-              status: 'Active',
-              location: 'Warehouse',
-              history: [],
-            };
-            setComponents([...components, newComponent]);
-            setShowAddModal(false);
+          <Button variant="solid" onClick={async () => {
+            try {
+              await createComponentAsync({
+                serial_number: `SN-${Date.now()}`,
+                component_type: 'Lamp',
+                parent_asset_id: 'AST-001',
+                manufacturer: 'Generic',
+                model: 'Standard',
+                install_date: new Date().toISOString().split('T')[0],
+                location: 'Warehouse',
+              });
+              refetch();
+              setShowAddModal(false);
+            } catch (err) {
+              console.error('Failed to create component:', err);
+            }
           }}>
             Add Component
           </Button>

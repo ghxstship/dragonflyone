@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { Ambulance, Flame, AlertTriangle } from "lucide-react";
 import {
   Container,
   H3,
@@ -72,21 +73,21 @@ export default function EmergencyPage() {
             <Grid cols={3} gap={4}>
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Medical") || null)}>
                 <Stack gap={2} className="text-center">
-                  <Body className="text-h5-md">🚑</Body>
+                  <Ambulance className="size-8 mx-auto" />
                   <Body className="font-display">MEDICAL</Body>
                   <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Fire") || null)}>
                 <Stack gap={2} className="text-center">
-                  <Body className="text-h5-md">🔥</Body>
+                  <Flame className="size-8 mx-auto" />
                   <Body className="font-display">FIRE</Body>
                   <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>
               </Card>
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Evacuation") || null)}>
                 <Stack gap={2} className="text-center">
-                  <Body className="text-h5-md">🚨</Body>
+                  <AlertTriangle className="size-8 mx-auto" />
                   <Body className="font-display">EVACUATION</Body>
                   <Body size="sm" className="">Tap for procedure</Body>
                 </Stack>

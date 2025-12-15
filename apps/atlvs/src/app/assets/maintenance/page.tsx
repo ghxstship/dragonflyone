@@ -16,31 +16,8 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface MaintenanceRecord {
-  id: string;
-  assetId: string;
-  assetName: string;
-  category: string;
-  type: "Preventive" | "Corrective" | "Emergency" | "Inspection";
-  status: "Scheduled" | "In Progress" | "Completed" | "Overdue";
-  priority: "Low" | "Medium" | "High" | "Critical";
-  scheduledDate: string;
-  completedDate?: string;
-  technician?: string;
-  vendor?: string;
-  cost?: number;
-  description: string;
-  notes?: string;
-  laborHours?: number;
-  nextDue?: string;
-  [key: string]: unknown;
-}
-
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useMaintenance, type MaintenanceRecord } from "@ghxstship/config";
 import { DEMO_MAINTENANCE_RECORDS } from '../../../lib/demo-data';
-
-const mockRecords = DEMO_MAINTENANCE_RECORDS as MaintenanceRecord[];
 
 
 const getStatusVariant = getBadgeVariant;
@@ -76,10 +53,13 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AssetMaintenancePage() {
-  const [records, setRecords] = useState<MaintenanceRecord[]>(mockRecords);
   const [selectedRecord, setSelectedRecord] = useState<MaintenanceRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { records: apiRecords, isLoading, error, createRecordAsync, updateRecordAsync, deleteRecordsAsync, refetch } = useMaintenance();
+  const records = apiRecords.length > 0 ? apiRecords : (DEMO_MAINTENANCE_RECORDS as MaintenanceRecord[]);
 
   const scheduledCount = records.filter((r) => r.status === "Scheduled").length;
   const inProgressCount = records.filter((r) => r.status === "In Progress").length;
@@ -87,25 +67,34 @@ export default function AssetMaintenancePage() {
   const totalCost = records.reduce((sum, r) => sum + (r.cost || 0), 0);
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newRecord: MaintenanceRecord = {
-      id: `MNT-${Date.now()}`,
-      assetId: `AST-${Date.now()}`,
-      assetName: String(data.assetName),
-      category: 'General',
-      type: data.type as MaintenanceRecord['type'],
-      status: 'Scheduled',
-      priority: data.priority as MaintenanceRecord['priority'],
-      scheduledDate: String(data.scheduledDate),
-      description: String(data.description),
-      technician: data.technician ? String(data.technician) : undefined,
-    };
-    setRecords([...records, newRecord]);
-    setCreateModalOpen(false);
+    try {
+      await createRecordAsync({
+        asset_id: String(data.assetId || 'default'),
+        maintenance_type: String(data.type),
+        priority: String(data.priority),
+        scheduled_date: String(data.scheduledDate),
+        description: String(data.description),
+        technician_id: data.technician ? String(data.technician) : undefined,
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create maintenance record:', err);
+    }
+  };
+
+  const handleMarkComplete = async (r: MaintenanceRecord) => {
+    try {
+      await updateRecordAsync({ id: r.id, updates: { status: 'Completed' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to mark complete:', err);
+    }
   };
 
   const rowActions: ListPageAction<MaintenanceRecord>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
-    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Completed' as const, completedDate: new Date().toISOString().split('T')[0] } : rec)) },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: handleMarkComplete },
   ];
 
   const stats = [
@@ -175,7 +164,8 @@ export default function AssetMaintenancePage() {
         data={records}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search maintenance records..."
         filters={filters}
         rowActions={rowActions}
@@ -208,9 +198,13 @@ export default function AssetMaintenancePage() {
         emptyAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setRecords(prev => prev.filter(r => !ids.includes(r.id)));
+            await deleteRecordsAsync(ids);
+            refetch();
           } else if (action === 'complete') {
-            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Completed' as const, completedDate: new Date().toISOString().split('T')[0] } : r));
+            for (const id of ids) {
+              await updateRecordAsync({ id, updates: { status: 'Completed' } });
+            }
+            refetch();
           }
         }}
         bulkActions={[
@@ -229,8 +223,10 @@ export default function AssetMaintenancePage() {
           subtitle={(r) => `${r.type} • ${r.status}`}
           sections={detailSections}
           actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, r) => {
-            if (id === 'complete') setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Completed' as const } : rec));
+          onAction={async (id, r) => {
+            if (id === 'complete') {
+              await handleMarkComplete(r);
+            }
             setDrawerOpen(false);
           }}
         />

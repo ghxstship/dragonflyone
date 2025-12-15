@@ -12,6 +12,7 @@ import {
   Grid,
   Body,
   H3,
+  Spinner,
 } from '@ghxstship/ui';
 import {
   Clock,
@@ -22,82 +23,61 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
-
-interface ClockEntry {
-  id: string;
-  type: 'clock_in' | 'break_start' | 'break_end' | 'clock_out';
-  time: string;
-  location?: string;
-}
+import { useAuthContext } from '@ghxstship/config';
+import {
+  useClockEntries,
+  useClockStatus,
+  useClockIn,
+  useClockOut,
+  useStartBreak,
+  useEndBreak,
+  type ClockEntry,
+} from '../../hooks/useClockIn';
 
 export default function ClockInPage() {
+  const { user } = useAuthContext();
+  const userId = user?.id || '';
+  
+  const { data: entries = [], isLoading: entriesLoading } = useClockEntries(userId);
+  const { data: status, isLoading: statusLoading } = useClockStatus(userId);
+  
+  const clockInMutation = useClockIn();
+  const clockOutMutation = useClockOut();
+  const startBreakMutation = useStartBreak();
+  const endBreakMutation = useEndBreak();
+  
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [clockedIn, setClockedIn] = useState(false);
-  const [onBreak, setOnBreak] = useState(false);
-  const [clockInTime, setClockInTime] = useState<Date | null>(null);
-  const [entries, setEntries] = useState<ClockEntry[]>([]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
-  const handleClockIn = () => {
-    const now = new Date();
-    setClockedIn(true);
-    setClockInTime(now);
-    setEntries(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        type: 'clock_in',
-        time: now.toISOString(),
-        location: 'Main Venue',
-      },
-    ]);
+  const clockedIn = status?.isClockedIn || false;
+  const onBreak = status?.isOnBreak || false;
+  const clockInTime = status?.clockInTime ? new Date(status.clockInTime) : null;
+
+  const handleClockIn = async () => {
+    if (!userId) return;
+    await clockInMutation.mutateAsync({ userId, location: 'Main Venue' });
   };
 
-  const handleClockOut = () => {
-    const now = new Date();
-    setClockedIn(false);
-    setOnBreak(false);
-    setClockInTime(null);
-    setEntries(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        type: 'clock_out',
-        time: now.toISOString(),
-        location: 'Main Venue',
-      },
-    ]);
+  const handleClockOut = async () => {
+    if (!userId) return;
+    await clockOutMutation.mutateAsync({ userId, location: 'Main Venue' });
   };
 
-  const handleBreakStart = () => {
-    const now = new Date();
-    setOnBreak(true);
-    setEntries(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        type: 'break_start',
-        time: now.toISOString(),
-      },
-    ]);
+  const handleBreakStart = async () => {
+    if (!userId) return;
+    await startBreakMutation.mutateAsync({ userId });
   };
 
-  const handleBreakEnd = () => {
-    const now = new Date();
-    setOnBreak(false);
-    setEntries(prev => [
-      ...prev,
-      {
-        id: Date.now().toString(),
-        type: 'break_end',
-        time: now.toISOString(),
-      },
-    ]);
+  const handleBreakEnd = async () => {
+    if (!userId) return;
+    await endBreakMutation.mutateAsync({ userId });
   };
+  
+  const isLoading = entriesLoading || statusLoading;
 
   const getElapsedTime = () => {
     if (!clockInTime) return '00:00:00';
@@ -108,7 +88,7 @@ export default function ClockInPage() {
     return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  const getEntryLabel = (type: ClockEntry['type']) => {
+  const getEntryLabel = (type: ClockEntry['entry_type']) => {
     switch (type) {
       case 'clock_in':
         return 'Clocked In';
@@ -120,6 +100,16 @@ export default function ClockInPage() {
         return 'Clocked Out';
     }
   };
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <Stack className="min-h-[60vh] items-center justify-center">
+          <Spinner variant="grey" size="lg" text="Loading time clock..." />
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
 
   return (
     <CompvssAppLayout>
@@ -214,11 +204,11 @@ export default function ClockInPage() {
                         className="items-center justify-between border-b border-ink-700 pb-3"
                       >
                         <Stack direction="horizontal" gap={3} className="items-center">
-                          {entry.type === 'clock_in' && <LogIn size={16} className="text-success" />}
-                          {entry.type === 'clock_out' && <LogOut size={16} className="text-error" />}
-                          {entry.type === 'break_start' && <Coffee size={16} className="text-warning" />}
-                          {entry.type === 'break_end' && <CheckCircle size={16} className="text-success" />}
-                          <Body className="text-white">{getEntryLabel(entry.type)}</Body>
+                          {entry.entry_type === 'clock_in' && <LogIn size={16} className="text-success" />}
+                          {entry.entry_type === 'clock_out' && <LogOut size={16} className="text-error" />}
+                          {entry.entry_type === 'break_start' && <Coffee size={16} className="text-warning" />}
+                          {entry.entry_type === 'break_end' && <CheckCircle size={16} className="text-success" />}
+                          <Body className="text-white">{getEntryLabel(entry.entry_type)}</Body>
                         </Stack>
                         <Stack direction="horizontal" gap={4} className="items-center">
                           {entry.location && (
@@ -228,7 +218,7 @@ export default function ClockInPage() {
                             </Stack>
                           )}
                           <Body className="text-white">
-                            {new Date(entry.time).toLocaleTimeString()}
+                            {new Date(entry.timestamp).toLocaleTimeString()}
                           </Body>
                         </Stack>
                       </Stack>
@@ -243,19 +233,19 @@ export default function ClockInPage() {
         <Grid cols={3} gap={4}>
           <StatCard
             label="This Week"
-            value="32.5"
+            value={status?.totalHoursWeek?.toFixed(1) || '0'}
             icon={<Clock size={20} />}
             inverted
           />
           <StatCard
             label="This Pay Period"
-            value="78.25"
+            value={status?.totalHoursPayPeriod?.toFixed(1) || '0'}
             icon={<Clock size={20} />}
             inverted
           />
           <StatCard
             label="Overtime"
-            value="2.5"
+            value={status?.overtimeHours?.toFixed(1) || '0'}
             icon={<Clock size={20} />}
             inverted
           />

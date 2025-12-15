@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Twitter, Camera, Facebook, Music, MessageCircle } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
@@ -35,11 +36,11 @@ function SocialInboxPageContent() {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case "Twitter": return "𝕏";
-      case "Instagram": return "📷";
-      case "Facebook": return "📘";
-      case "TikTok": return "🎵";
-      default: return "💬";
+      case "Twitter": return <Twitter className="size-4" />;
+      case "Instagram": return <Camera className="size-4" />;
+      case "Facebook": return <Facebook className="size-4" />;
+      case "TikTok": return <Music className="size-4" />;
+      default: return <MessageCircle className="size-4" />;
     }
   };
 

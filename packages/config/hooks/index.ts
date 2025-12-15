@@ -92,6 +92,31 @@ export type {
 
 // Favorites and keyboard shortcuts hooks
 export { useFavorites, useKeyboardShortcuts } from './useFavorites';
+
+// Asset scanning hooks
+export {
+  useAssetScan,
+  useAssetLookup,
+  useScanHistory,
+  useRecordScan,
+} from './useAssetScan';
+export type {
+  ScannedAsset,
+  ScanHistory,
+  ScanAssetParams,
+} from './useAssetScan';
+
+// Calibration hooks
+export {
+  useCalibration,
+  useCalibrationSchedules,
+  useCreateCalibration,
+  useDeleteCalibrations,
+} from './useCalibration';
+export type {
+  CalibrationRecord,
+  CreateCalibrationParams,
+} from './useCalibration';
 export type {
   FavoriteItem,
   UseFavoritesOptions,
@@ -99,3 +124,13 @@ export type {
   KeyboardShortcut,
   UseKeyboardShortcutsOptions,
 } from './useFavorites';
+
+// Analytics reports hooks
+export {
+  useAnalyticsReports,
+  useAnalyticsReportsQuery,
+  useRunReport,
+  useToggleReportStatus,
+  useDeleteReports,
+} from './useAnalyticsReports';
+export type { AnalyticsReport } from './useAnalyticsReports';

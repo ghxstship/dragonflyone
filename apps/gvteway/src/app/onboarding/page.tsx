@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@ghxstship/config";
 import { Check, User, Heart, Settings, ArrowRight, ArrowLeft, Sparkles } from "lucide-react";
@@ -55,15 +55,18 @@ const EVENT_INTERESTS = [
 
 export default function OnboardingPage() {
   const router = useRouter();
-  const { user: _user } = useAuthContext();
+  const { user, isAuthenticated } = useAuthContext();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>("profile");
   const [localError, setLocalError] = useState("");
 
   const { saveProfile, saveInterests, savePreferences, completeOnboarding, isLoading, error } = useOnboardingData();
 
+  // Pre-populate profile with user data from auth context if available
+  // User.name may contain full name which we can split for first/last
+  const nameParts = user?.name?.split(' ') || [];
   const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
+    firstName: nameParts[0] || "",
+    lastName: nameParts.slice(1).join(' ') || "",
     phone: "",
     location: "",
   });
@@ -76,6 +79,13 @@ export default function OnboardingPage() {
   });
 
   const currentStepIndex = STEPS.findIndex((s) => s.id === currentStep);
+
+  // Redirect unauthenticated users to sign in
+  useEffect(() => {
+    if (!isAuthenticated && !user) {
+      router.push('/auth/signin?redirect=/onboarding');
+    }
+  }, [isAuthenticated, user, router]);
 
   const toggleInterest = (interest: string) => {
     setInterests((prev) =>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { Ticket, User, MapPin } from 'lucide-react';
 import {
   H2,
   H3,
@@ -164,7 +165,7 @@ export default function MatchPage() {
                     <Image src={event.image_url} alt={event.title} fill className="object-cover" />
                   ) : (
                     <Stack className="flex size-full items-center justify-center">
-                      <Body className="text-h3-md">🎫</Body>
+                      <Ticket className="size-8" />
                     </Stack>
                   )}
                   <Stack className="absolute right-2 top-2">
@@ -202,7 +203,7 @@ export default function MatchPage() {
                       <Image src={match.avatar_url} alt={match.name} fill className="object-cover" />
                     ) : (
                       <Stack className="flex size-full items-center justify-center">
-                        <Body className="text-h3-md">👤</Body>
+                        <User className="size-8" />
                       </Stack>
                     )}
                   </Stack>
@@ -211,7 +212,7 @@ export default function MatchPage() {
                       <Stack>
                         <Body className="font-display text-white">{match.name}</Body>
                         {match.location && (
-                          <Body size="sm" className="font-mono text-on-dark-disabled">📍 {match.location}</Body>
+                          <Body size="sm" className="font-mono text-on-dark-disabled"><MapPin className="size-3 inline mr-1" />{match.location}</Body>
                         )}
                       </Stack>
                       <Body className={`font-display ${getMatchScoreColor(match.match_score)}`}>
@@ -301,14 +302,14 @@ export default function MatchPage() {
                     <Image src={selectedMatch.avatar_url} alt={selectedMatch.name} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-h3-md">👤</Body>
+                      <User className="size-8" />
                     </Stack>
                   )}
                 </Stack>
                 <Stack>
                   <H2>{selectedMatch.name}</H2>
                   {selectedMatch.location && (
-                    <Body className="text-ink-500">📍 {selectedMatch.location}</Body>
+                    <Body className="text-ink-500"><MapPin className="size-4 inline mr-1" />{selectedMatch.location}</Body>
                   )}
                   <Body className={`text-h5-md font-weight-bold ${getMatchScoreColor(selectedMatch.match_score)}`}>
                     {selectedMatch.match_score}% Match

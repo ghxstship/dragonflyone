@@ -98,12 +98,12 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const payload = context.validated;
-      const userId = context.user?.id;
-      const orgId = context.organization?.id;
+      const payload = context.validated as z.infer<typeof createAdvanceSchema>;
+      const userId = (context.user as { id?: string })?.id;
+      const orgId = (context.organization as { id?: string })?.id;
 
       if (!userId || !orgId) {
         return NextResponse.json({ error: 'User or organization not found' }, { status: 401 });
@@ -136,7 +136,8 @@ export const POST = apiRoute(
       }
 
       // Create advance items
-      const items = payload.items.map((item: Record<string, unknown>) => ({
+      type AdvanceItem = z.infer<typeof createAdvanceSchema>['items'][number];
+      const items = payload.items.map((item: AdvanceItem) => ({
         advance_id: advance.id,
         catalog_item_id: item.catalog_item_id,
         item_name: item.item_name,

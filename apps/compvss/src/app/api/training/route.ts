@@ -42,10 +42,11 @@ const progressSchema = z.object({
 
 // GET - List training modules or user enrollments
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const { searchParams } = new URL(request.url);
     const type = searchParams.get('type');
-    const user_id = searchParams.get('user_id') || context.user.id;
+    const userId = (context.user as { id?: string })?.id;
+    const user_id = searchParams.get('user_id') || userId;
     const category = searchParams.get('category');
     const status = searchParams.get('status');
 
@@ -117,9 +118,10 @@ export const GET = apiRoute(
 
 // POST - Create module, enroll user, or update progress
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const { action } = body;
+    const userId = (context.user as { id?: string })?.id;
 
     if (action === 'enroll') {
       const validated = enrollmentSchema.parse(body.data);
@@ -259,7 +261,7 @@ export const POST = apiRoute(
       .from('training_modules')
       .insert({
         ...validated,
-        created_by: context.user.id
+        created_by: userId
       })
       .select()
       .single();

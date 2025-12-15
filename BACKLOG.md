@@ -4033,6 +4033,79 @@ All 96 workflows across the three platforms have been audited:
 
 ---
 
+## P2 - Medium Priority (API Endpoints for Demo Data Pages)
+
+### BACK-080: Create Missing API Endpoints for GVTEWAY Demo Data Pages
+
+| Field | Value |
+|-------|-------|
+| **Status** | In Progress |
+| **Priority** | P2 |
+| **Effort** | L (1 week) |
+| **App** | GVTEWAY |
+| **Source** | Full Stack Audit - December 15, 2025 |
+
+**Description:**  
+Several GVTEWAY pages have React Query hooks with API integration, but the corresponding API endpoints have not been created yet. The hooks correctly fall back to demo data when API calls fail, ensuring the pages are functional. This task is to create the actual API endpoints to enable real data flow.
+
+**Hooks Created (December 15, 2025):**
+- [x] `useAntiScalping.ts` - Anti-scalping alerts, protection rules, blocked entities
+- [x] `usePOS.ts` - POS terminals, menu items, transactions  
+- [x] `useSalesReporting.ts` - Sales data with location/date filters
+- [x] `useWalletData.ts` - Payment methods, transaction history
+- [x] `useSocialFeed.ts` - Social posts, trending tags, suggested groups
+- [x] `useMarketingAnalytics.ts` - Campaign metrics, attribution, funnel data
+
+**API Endpoints Created:**
+- [x] `/api/admin/anti-scalping/alerts` - GET scalping alerts
+- [x] `/api/admin/anti-scalping/rules` - GET protection rules
+- [x] `/api/admin/anti-scalping/blocked` - GET/POST blocked entities
+
+**API Endpoints Needed:**
+- [ ] `/api/admin/pos/terminals` - GET POS terminals
+- [ ] `/api/admin/pos/menu-items` - GET menu items
+- [ ] `/api/admin/pos/transactions` - POST process sale
+- [ ] `/api/admin/sales` - GET sales reporting data
+- [ ] `/api/wallet/payment-methods` - GET/POST/DELETE payment methods
+- [ ] `/api/wallet/transactions` - GET transaction history
+- [ ] `/api/social/feed` - GET social posts
+- [ ] `/api/social/trending` - GET trending tags
+- [ ] `/api/social/groups/suggested` - GET suggested groups
+- [ ] `/api/social/posts/[id]/like` - POST like a post
+- [ ] `/api/social/posts/[id]/share` - POST share a post
+- [ ] `/api/marketing/campaigns` - GET campaign metrics
+- [ ] `/api/marketing/attribution` - GET attribution data
+- [ ] `/api/marketing/funnel` - GET funnel data
+
+**Pages Updated to Use Hooks:**
+- [x] `admin/anti-scalping/page.tsx` - Uses useAntiScalpingData hook
+
+**Pages Pending Hook Integration:**
+- [ ] `admin/pos/page.tsx` - Update to use usePOSData hook
+- [ ] `admin/sales-reporting/page.tsx` - Update to use useSalesReportingData hook
+- [ ] `wallet/page.tsx` - Update to use useWalletData hook
+- [ ] `social/page.tsx` - Update to use useSocialData hook
+- [ ] `marketing/analytics/page.tsx` - Update to use useMarketingAnalyticsData hook
+
+**Database Tables (Already Exist):**
+- `scalping_alerts` - Migration 0200
+- `protection_rules` - Migration 0200
+- `blocked_entities` - Migration 0197
+- `social_posts` - Migration 0200
+- `pos_terminals` - Migration 0200
+- `pos_transactions` - Migration 0200
+- `payment_methods` - Existing
+- `transactions` - Existing
+
+**Acceptance Criteria:**
+- [ ] All hooks connect to real API endpoints
+- [ ] API endpoints query Supabase tables
+- [ ] Demo data used only as fallback when API returns empty or errors
+- [ ] Loading/error/empty states work correctly
+- [ ] CRUD operations functional through API
+
+---
+
 ## E2E Test Execution Summary (December 12, 2025)
 
 | Category | Passed | Failed | Total |

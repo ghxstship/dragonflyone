@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { FileText } from "lucide-react";
 import {
   Container,
   H3,
@@ -188,7 +189,7 @@ export default function TemplatesPage() {
             <Input placeholder="Version (e.g., 1.0)" />
             <Card>
               <Stack gap={2} className="text-center">
-                <Body>📄</Body>
+                <FileText className="size-8 mx-auto" />
                 <Body>Drop file here or click to upload</Body>
                 <Body size="sm" className="">Supports PDF, DOCX, XLSX up to 25MB</Body>
               </Stack>

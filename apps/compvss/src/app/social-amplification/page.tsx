@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { Image, Video, Smartphone, FileText, Hash, Link2, Camera, Palette } from "lucide-react";
 import {
   Container,
   H3,
@@ -176,7 +177,14 @@ export default function SocialAmplificationPage() {
                 {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
                   <Card key={idx} className="cursor-pointer p-4">
                     <Stack gap={2} className="text-center">
-                      <Body className="text-h3-md">{["🖼️", "🎬", "📱", "📝", "#️⃣", "🔗", "📷", "🎨"][idx]}</Body>
+                      {idx === 0 && <Image className="size-8 mx-auto" />}
+                      {idx === 1 && <Video className="size-8 mx-auto" />}
+                      {idx === 2 && <Smartphone className="size-8 mx-auto" />}
+                      {idx === 3 && <FileText className="size-8 mx-auto" />}
+                      {idx === 4 && <Hash className="size-8 mx-auto" />}
+                      {idx === 5 && <Link2 className="size-8 mx-auto" />}
+                      {idx === 6 && <Camera className="size-8 mx-auto" />}
+                      {idx === 7 && <Palette className="size-8 mx-auto" />}
                       <Body>{item}</Body>
                       <Body size="sm" className="">{Math.floor(Math.random() * 20) + 5} items</Body>
                     </Stack>

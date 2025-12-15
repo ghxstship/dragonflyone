@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalTabState } from "@ghxstship/config/hooks";
+import { useAssetSpecifications, type AssetSpec } from "@ghxstship/config";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   Container,
@@ -36,35 +37,7 @@ import {
   MainContent,
 } from "@ghxstship/ui";
 
-interface AssetSpec {
-  id: string;
-  name: string;
-  category: "Audio" | "Lighting" | "Video" | "Staging" | "Rigging" | "Power" | "Communication";
-  manufacturer: string;
-  model: string;
-  specifications: SpecDetail[];
-  documents: Document[];
-  relatedAssets: number;
-  lastUpdated: string;
-}
-
-interface SpecDetail {
-  label: string;
-  value: string;
-  unit?: string;
-}
-
-interface Document {
-  id: string;
-  name: string;
-  type: "Manual" | "Datasheet" | "CAD" | "Firmware" | "Safety";
-  url: string;
-  size: string;
-}
-
 import { DEMO_ASSET_SPECS } from '../../../lib/demo-data';
-
-const mockSpecs = DEMO_ASSET_SPECS as unknown as AssetSpec[];
 
 
 export default function AssetSpecificationsPage() {
@@ -79,7 +52,11 @@ export default function AssetSpecificationsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredSpecs = mockSpecs.filter(s => {
+  // Real API integration with demo fallback
+  const { specifications: apiData, isLoading, createSpecAsync, refetch } = useAssetSpecifications();
+  const specs: AssetSpec[] = apiData.length > 0 ? apiData : (DEMO_ASSET_SPECS as unknown as AssetSpec[]);
+
+  const filteredSpecs = specs.filter(s => {
     const matchesCategory = selectedCategory === "All" || s.category === selectedCategory;
     const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           s.manufacturer.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -87,7 +64,7 @@ export default function AssetSpecificationsPage() {
     return matchesCategory && matchesSearch;
   });
 
-  const totalDocs = mockSpecs.reduce((sum, s) => sum + s.documents.length, 0);
+  const totalDocs = specs.reduce((sum, s) => sum + s.documents.length, 0);
 
   return (
     <AtlvsAppLayout>
@@ -104,10 +81,10 @@ export default function AssetSpecificationsPage() {
           <Stack gap={8}>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Spec Sheets" value={mockSpecs.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Spec Sheets" value={specs.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Documents" value={totalDocs} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Categories" value={7} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Linked Assets" value={mockSpecs.reduce((sum, s) => sum + s.relatedAssets, 0)} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Linked Assets" value={specs.reduce((sum, s) => sum + s.relatedAssets, 0)} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           <Grid cols={3} gap={4}>
@@ -175,7 +152,7 @@ export default function AssetSpecificationsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockSpecs.flatMap(spec => spec.documents.map(doc => ({ ...doc, specName: spec.name, category: spec.category }))).map((doc) => (
+                  {specs.flatMap(spec => spec.documents.map(doc => ({ ...doc, specName: spec.name, category: spec.category }))).map((doc) => (
                     <TableRow key={doc.id}>
                       <TableCell><Body className="text-white">{doc.name}</Body></TableCell>
                       <TableCell><Label className="text-ink-300">{doc.specName}</Label></TableCell>
@@ -285,7 +262,20 @@ export default function AssetSpecificationsPage() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowAddModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Specification</Button>
+          <Button variant="solid" onClick={async () => {
+            try {
+              await createSpecAsync({
+                name: 'New Specification',
+                category: 'Audio',
+                manufacturer: 'Generic',
+                model: 'Standard',
+              });
+              refetch();
+              setShowAddModal(false);
+            } catch (err) {
+              console.error('Failed to create specification:', err);
+            }
+          }}>Add Specification</Button>
         </ModalFooter>
       </Modal>
           </Stack>

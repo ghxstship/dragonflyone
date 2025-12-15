@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { logger } from '@ghxstship/config';
 import { CompvssAppLayout } from '../../components/app-layout';
+import { Camera, Heart } from 'lucide-react';
 import {
   Container,
   H3,
@@ -212,7 +213,7 @@ export default function CrewSocialPage() {
                   {photos.map(photo => (
                     <Card key={photo.id}>
                       <Card className="h-48 flex items-center justify-center">
-                        <Body>📷 Photo</Body>
+                        <Camera className="size-8" />
                       </Card>
                       <Stack gap={3}>
                         {photo.caption && (
@@ -229,7 +230,7 @@ export default function CrewSocialPage() {
                               size="sm"
                               onClick={() => handleLikePhoto(photo.id)}
                             >
-                              ❤️ {photo.likes}
+                              <Heart className="size-4 mr-1" /> {photo.likes}
                             </Button>
                           </Stack>
                         </Stack>

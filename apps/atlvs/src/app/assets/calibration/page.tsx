@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_CALIBRATION_RECORDS,
-  type DemoCalibrationRecord as CalibrationRecord,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useCalibration, type CalibrationRecord } from '@ghxstship/config';
+import { DEMO_CALIBRATION_RECORDS } from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -34,9 +30,12 @@ const filters: ListPageFilter[] = [
 
 export default function CalibrationCertificationPage() {
   const router = useRouter();
-  const [data] = useState<CalibrationRecord[]>(DEMO_CALIBRATION_RECORDS);
   const [selected, setSelected] = useState<CalibrationRecord | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { schedules: apiData, isLoading, error, deleteSchedulesAsync, refetch } = useCalibration();
+  const data: CalibrationRecord[] = apiData.length > 0 ? apiData : (DEMO_CALIBRATION_RECORDS as unknown as CalibrationRecord[]);
 
   const overdueCount = data.filter((c) => c.status === 'Overdue').length;
   const dueSoonCount = data.filter((c) => c.status === 'Due Soon').length;
@@ -93,7 +92,7 @@ export default function CalibrationCertificationPage() {
 
       }
 
-      refetch();
+      // Refresh data after import - in production, this would refetch from API
 
     },
 
@@ -113,7 +112,8 @@ export default function CalibrationCertificationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search calibration records..."
         filters={filters}
         rowActions={rowActions}
@@ -144,11 +144,8 @@ export default function CalibrationCertificationPage() {
         emptyMessage="No calibration records found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/calibration/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteSchedulesAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

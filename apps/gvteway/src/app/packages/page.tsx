@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Star, Plane, Users, Gift } from "lucide-react";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
@@ -110,7 +111,7 @@ export default function PackagesPage() {
               <Grid cols={4} gap={4}>
                 <Card inverted interactive className="p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">⭐</Body>
+                    <Star className="size-8" />
                     <Body className="font-display text-white">VIP Experience</Body>
                     <Body size="sm" className="text-on-dark-muted">
                       Premium seats, backstage access, meet & greet
@@ -119,7 +120,7 @@ export default function PackagesPage() {
                 </Card>
                 <Card inverted interactive className="p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">✈️</Body>
+                    <Plane className="size-8" />
                     <Body className="font-display text-white">Travel Package</Body>
                     <Body size="sm" className="text-on-dark-muted">
                       Tickets + hotel + transportation
@@ -128,7 +129,7 @@ export default function PackagesPage() {
                 </Card>
                 <Card inverted interactive className="p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">👥</Body>
+                    <Users className="size-8" />
                     <Body className="font-display text-white">Group Package</Body>
                     <Body size="sm" className="text-on-dark-muted">
                       Discounted rates for groups of 4+
@@ -137,7 +138,7 @@ export default function PackagesPage() {
                 </Card>
                 <Card inverted interactive className="p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">🎁</Body>
+                    <Gift className="size-8" />
                     <Body className="font-display text-white">Gift Package</Body>
                     <Body size="sm" className="text-on-dark-muted">
                       Perfect for special occasions

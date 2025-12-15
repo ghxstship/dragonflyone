@@ -4,6 +4,7 @@ import { useState, Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { Camera, Twitter, Music, User, Play, Smartphone, Heart, Flame, Megaphone, Star, MessageCircle, RefreshCw } from 'lucide-react';
 import {
   H2,
   H3,
@@ -56,14 +57,14 @@ function UGCPageContent() {
   };
 
   const getPlatformIcon = (platform: string) => {
-    const icons: Record<string, string> = {
-      instagram: '📸',
-      twitter: '🐦',
-      tiktok: '🎵',
-      facebook: '👤',
-      youtube: '▶️',
-    };
-    return icons[platform] || '📱';
+    switch (platform) {
+      case 'instagram': return <Camera className="size-4" />;
+      case 'twitter': return <Twitter className="size-4" />;
+      case 'tiktok': return <Music className="size-4" />;
+      case 'facebook': return <User className="size-4" />;
+      case 'youtube': return <Play className="size-4" />;
+      default: return <Smartphone className="size-4" />;
+    }
   };
 
   const getPlatformBadge = (platform: string) => {
@@ -74,7 +75,7 @@ function UGCPageContent() {
       facebook: 'bg-info-600 text-white',
       youtube: 'bg-error-600 text-white',
     };
-    return <Badge className={variants[platform] || ''}>{getPlatformIcon(platform)} {platform}</Badge>;
+    return <Badge className={variants[platform] || ''}><span className="mr-1">{getPlatformIcon(platform)}</span> {platform}</Badge>;
   };
 
   const formatNumber = (num: number) => {
@@ -112,22 +113,22 @@ function UGCPageContent() {
           <StatCard
             label="Total Posts"
             value={posts.length}
-            icon={<Body>📱</Body>}
+            icon={<Smartphone className="size-5" />}
           />
           <StatCard
             label="Total Engagement"
             value={formatNumber(totalEngagement)}
-            icon={<Body>❤️</Body>}
+            icon={<Heart className="size-5" />}
           />
           <StatCard
             label="Trending Tags"
             value={trendingHashtags.length}
-            icon={<Body>🔥</Body>}
+            icon={<Flame className="size-5" />}
           />
           <StatCard
             label="Active Campaigns"
             value={activeCampaigns.length}
-            icon={<Body>📢</Body>}
+            icon={<Megaphone className="size-5" />}
           />
         </Grid>
 
@@ -230,12 +231,12 @@ function UGCPageContent() {
                       )}
                       {post.content_type === 'video' || post.content_type === 'reel' && (
                         <Stack className="absolute inset-0 flex items-center justify-center">
-                          <Body className="text-h3-md text-white drop-shadow-lg">▶️</Body>
+                          <Play className="size-8 text-white drop-shadow-lg" />
                         </Stack>
                       )}
                       {post.is_featured && (
                         <Stack className="absolute top-2 left-2">
-                          <Badge className="bg-warning-500 text-white">⭐ Featured</Badge>
+                          <Badge className="bg-warning-500 text-white"><Star className="size-3 inline mr-1" /> Featured</Badge>
                         </Stack>
                       )}
                       <Stack className="absolute top-2 right-2">
@@ -248,7 +249,7 @@ function UGCPageContent() {
                           {post.author_avatar ? (
                             <Image src={post.author_avatar} alt={post.author_name} fill className="object-cover" />
                           ) : (
-                            <Stack className="w-full h-full flex items-center justify-center text-mono-xs">👤</Stack>
+                            <Stack className="w-full h-full flex items-center justify-center text-mono-xs"><User className="size-4" /></Stack>
                           )}
                         </Stack>
                         <Body size="sm" className=" font-weight-bold truncate">{post.author_name}</Body>
@@ -257,9 +258,9 @@ function UGCPageContent() {
                         <Body className="text-mono-xs text-ink-600 line-clamp-2">{post.caption}</Body>
                       )}
                       <Stack direction="horizontal" gap={3} className="text-mono-xs text-ink-500">
-                        <Body>❤️ {formatNumber(post.likes)}</Body>
-                        <Body>💬 {formatNumber(post.comments)}</Body>
-                        <Body>🔄 {formatNumber(post.shares)}</Body>
+                        <Body><Heart className="size-3 inline mr-1" /> {formatNumber(post.likes)}</Body>
+                        <Body><MessageCircle className="size-3 inline mr-1" /> {formatNumber(post.comments)}</Body>
+                        <Body><RefreshCw className="size-3 inline mr-1" /> {formatNumber(post.shares)}</Body>
                       </Stack>
                     </Stack>
                   </Card>
@@ -289,7 +290,7 @@ function UGCPageContent() {
                     <Stack direction="horizontal" className="justify-between items-center">
                       <H3>#{hashtag.tag}</H3>
                       {hashtag.trending && (
-                        <Badge className="bg-error-500 text-white">🔥 Trending</Badge>
+                        <Badge className="bg-error-500 text-white"><Flame className="size-3 inline mr-1" /> Trending</Badge>
                       )}
                     </Stack>
                     <Grid cols={2} gap={4}>
@@ -399,7 +400,7 @@ function UGCPageContent() {
                   <Stack className="p-4" gap={2}>
                     <Stack direction="horizontal" gap={2} className="items-center">
                       {getPlatformBadge(post.platform)}
-                      <Badge className="bg-warning-500 text-white">⭐ Featured</Badge>
+                      <Badge className="bg-warning-500 text-white"><Star className="size-3 inline mr-1" /> Featured</Badge>
                     </Stack>
                     <Body className="font-weight-bold">{post.author_name}</Body>
                     {post.caption && (
@@ -446,7 +447,7 @@ function UGCPageContent() {
                     {selectedPost.author_avatar ? (
                       <Image src={selectedPost.author_avatar} alt={selectedPost.author_name} fill className="object-cover" />
                     ) : (
-                      <Stack className="w-full h-full flex items-center justify-center">👤</Stack>
+                      <Stack className="w-full h-full flex items-center justify-center"><User className="size-6" /></Stack>
                     )}
                   </Stack>
                   <Stack>
@@ -471,9 +472,9 @@ function UGCPageContent() {
                   </Stack>
                 )}
                 <Stack direction="horizontal" gap={6} className="text-ink-500">
-                  <Body>❤️ {formatNumber(selectedPost.likes)}</Body>
-                  <Body>💬 {formatNumber(selectedPost.comments)}</Body>
-                  <Body>🔄 {formatNumber(selectedPost.shares)}</Body>
+                  <Body><Heart className="size-4 inline mr-1" /> {formatNumber(selectedPost.likes)}</Body>
+                  <Body><MessageCircle className="size-4 inline mr-1" /> {formatNumber(selectedPost.comments)}</Body>
+                  <Body><RefreshCw className="size-4 inline mr-1" /> {formatNumber(selectedPost.shares)}</Body>
                 </Stack>
                 {selectedPost.event_name && (
                   <Body size="sm" className=" text-ink-500">

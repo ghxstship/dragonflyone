@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { Star } from "lucide-react";
 import {
   Container,
   H3,
@@ -94,7 +95,7 @@ export default function BestPracticesPage() {
                     </Stack>
                     <Stack direction="horizontal" className="justify-between">
                       <Body size="sm" className="">{practice.author}</Body>
-                      <Body size="sm" className="">⭐ {practice.rating} • {practice.views} views</Body>
+                      <Body size="sm" className=""><Star className="size-4 inline mr-1" />{practice.rating} • {practice.views} views</Body>
                     </Stack>
                   </Stack>
                 </Card>
@@ -119,7 +120,7 @@ export default function BestPracticesPage() {
               <Body>{selectedPractice.summary}</Body>
               <Stack direction="horizontal" className="justify-between">
                 <Body size="sm" className="">{selectedPractice.author}</Body>
-                <Body size="sm" className="">⭐ {selectedPractice.rating}</Body>
+                <Body size="sm" className=""><Star className="size-4 inline mr-1" />{selectedPractice.rating}</Body>
               </Stack>
             </Stack>
           )}

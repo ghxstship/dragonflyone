@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-import {
-  DEMO_DAMAGE_REPORTS,
-  type DemoDamageReport as DamageReport,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useDamageReports, type DamageReport } from "@ghxstship/config";
+import { DEMO_DAMAGE_REPORTS } from '../../../lib/demo-data';
 
 const getSeverityVariant = (severity: string): 'solid' | 'outline' | 'ghost' => {
   switch (severity) { case 'Critical': return 'solid'; case 'Major': return 'outline'; case 'Moderate': return 'outline'; case 'Minor': return 'ghost'; default: return 'ghost'; }
@@ -38,9 +34,12 @@ const filters: ListPageFilter[] = [
 
 export default function DamageReportsPage() {
   const router = useRouter();
-  const [data] = useState<DamageReport[]>(DEMO_DAMAGE_REPORTS);
   const [selected, setSelected] = useState<DamageReport | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { reports: apiData, isLoading, error, deleteReportsAsync, resolveReportsAsync, refetch } = useDamageReports();
+  const data: DamageReport[] = apiData.length > 0 ? apiData : (DEMO_DAMAGE_REPORTS as DamageReport[]);
 
   const activeReports = data.filter(r => !["Resolved", "Write-Off"].includes(r.status)).length;
   const criticalCount = data.filter(r => r.severity === "Critical" && r.status !== "Resolved").length;
@@ -119,7 +118,8 @@ export default function DamageReportsPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search damage reports..."
         filters={filters}
         rowActions={rowActions}
@@ -149,17 +149,11 @@ export default function DamageReportsPage() {
         emptyMessage="No damage reports found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/damage-reports/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteReportsAsync(ids);
+            refetch();
           } else if (action === 'resolve') {
-            await fetch('/api/assets/damage-reports/bulk-resolve', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await resolveReportsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Camera, Music, Twitter, Smartphone, ImageIcon, Heart, ShoppingBag } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -35,10 +36,10 @@ function ShoppablePostsPageContent() {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case "Instagram": return "📸";
-      case "TikTok": return "🎵";
-      case "Twitter": return "🐦";
-      default: return "📱";
+      case "Instagram": return <Camera className="size-4 inline" />;
+      case "TikTok": return <Music className="size-4 inline" />;
+      case "Twitter": return <Twitter className="size-4 inline" />;
+      default: return <Smartphone className="size-4 inline" />;
     }
   };
 
@@ -74,18 +75,18 @@ function ShoppablePostsPageContent() {
                 {filteredPosts.map((post) => (
                   <Card key={post.id} className="border-2 border-black overflow-hidden">
                     <Card className="h-64 bg-ink-100 relative flex items-center justify-center cursor-pointer" onClick={() => setSelectedPost(post)}>
-                      <Label className="text-h1-sm">🖼️</Label>
+                      <ImageIcon className="size-12" />
                       <Card className="absolute top-2 right-2 px-2 py-1 bg-black text-white">
                         <Label size="xs">{getPlatformIcon(post.platform)} {post.platform}</Label>
                       </Card>
                       <Card className="absolute bottom-2 left-2 px-2 py-1 bg-white border-2 border-black">
-                        <Label size="xs">🛍️ {post.products.length} products</Label>
+                        <Label size="xs"><ShoppingBag className="size-3 inline mr-1" /> {post.products.length} products</Label>
                       </Card>
                     </Card>
                     <Stack className="p-4" gap={3}>
                       <Stack direction="horizontal" className="justify-between">
                         <Label className="font-weight-bold">{post.creator}</Label>
-                        <Label className="text-ink-500">❤️ {post.likes.toLocaleString()}</Label>
+                        <Label className="text-ink-500"><Heart className="size-3 inline mr-1" /> {post.likes.toLocaleString()}</Label>
                       </Stack>
                       <Body className="text-ink-600 line-clamp-2">{post.caption}</Body>
                       {post.eventName && <Badge variant="outline">{post.eventName}</Badge>}
@@ -96,7 +97,7 @@ function ShoppablePostsPageContent() {
                             <Card key={product.id} className="p-2 border-2 border-ink-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
                               <Stack gap={1} className="text-center">
                                 <Card className="h-12 bg-ink-100 flex items-center justify-center">
-                                  <Label>🛍️</Label>
+                                  <ShoppingBag className="size-5" />
                                 </Card>
                                 <Label size="xs" className="truncate">{product.name}</Label>
                                 <Label size="xs" className="font-weight-bold">${product.price}</Label>
@@ -124,14 +125,14 @@ function ShoppablePostsPageContent() {
           {selectedPost && (
             <Stack gap={4}>
               <Card className="h-64 bg-ink-100 flex items-center justify-center">
-                <Label className="text-h1-sm">🖼️</Label>
+                <ImageIcon className="size-12" />
               </Card>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
                   <Label className="font-weight-bold">{selectedPost.creator}</Label>
                   <Badge variant="outline">{selectedPost.platform}</Badge>
                 </Stack>
-                <Label>❤️ {selectedPost.likes.toLocaleString()}</Label>
+                <Label><Heart className="size-4 inline mr-1" /> {selectedPost.likes.toLocaleString()}</Label>
               </Stack>
               <Body>{selectedPost.caption}</Body>
               <Stack gap={2}>
@@ -141,7 +142,7 @@ function ShoppablePostsPageContent() {
                     <Stack direction="horizontal" className="justify-between items-center">
                       <Stack direction="horizontal" gap={3}>
                         <Card className="w-12 h-12 bg-ink-100 flex items-center justify-center">
-                          <Label>🛍️</Label>
+                          <ShoppingBag className="size-5" />
                         </Card>
                         <Stack gap={1}>
                           <Label>{product.name}</Label>
@@ -169,7 +170,7 @@ function ShoppablePostsPageContent() {
           {selectedProduct && (
             <Stack gap={4}>
               <Card className="h-48 bg-ink-100 flex items-center justify-center">
-                <Label className="text-h1-sm">🛍️</Label>
+                <ShoppingBag className="size-12" />
               </Card>
               <Body className="font-weight-bold text-h6-md">{selectedProduct.name}</Body>
               <Label className="font-mono text-h5-md">${selectedProduct.price}</Label>

@@ -8,12 +8,10 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useDashboardBuilder, type DashboardConfig } from '@ghxstship/config';
+import { DEMO_DASHBOARDS } from '../../../lib/demo-data';
 
-import {
-  DEMO_DASHBOARDS,
-  type DemoDashboard as Dashboard,
-} from '../../../lib/demo-data';
+type Dashboard = DashboardConfig;
 
 const columns: ListPageColumn<Dashboard>[] = [
   { key: 'name', label: 'Dashboard', accessor: 'name', sortable: true },
@@ -36,19 +34,22 @@ const formFields: FormFieldConfig[] = [
 
 export default function DashboardBuilderPage() {
   const router = useRouter();
-  const [data, setData] = useState<Dashboard[]>(DEMO_DASHBOARDS);
   const [selected, setSelected] = useState<Dashboard | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { dashboards: apiData, isLoading, error, createDashboardAsync, duplicateDashboardAsync, deleteDashboardsAsync, refetch } = useDashboardBuilder();
+  const data: Dashboard[] = apiData.length > 0 ? apiData : (DEMO_DASHBOARDS as unknown as Dashboard[]);
 
   const totalWidgets = data.reduce((sum, d) => sum + d.widgetCount, 0);
 
   const rowActions: ListPageAction<Dashboard>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit Dashboard', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/analytics/dashboard-builder/${r.id}`) },
-    { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: (r) => {
-      const duplicated: Dashboard = { ...r, id: `DB-${Date.now()}`, name: `${r.name} (Copy)`, isDefault: false, createdAt: new Date().toISOString().split('T')[0], lastModified: new Date().toISOString().split('T')[0] };
-      setData(prev => [...prev, duplicated]);
+    { id: 'duplicate', label: 'Duplicate', icon: <Copy className="size-4" />, onClick: async (r) => {
+      await duplicateDashboardAsync(r.id);
+      refetch();
     }},
   ];
 
@@ -60,8 +61,7 @@ export default function DashboardBuilderPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    const newDashboard: Dashboard = {
-      id: `DB-${Date.now()}`,
+    await createDashboardAsync({
       name: String(formData.name || 'Untitled'),
       description: String(formData.description || ''),
       widgetCount: 0,
@@ -69,9 +69,9 @@ export default function DashboardBuilderPage() {
       createdAt: new Date().toISOString().split('T')[0],
       lastModified: new Date().toISOString().split('T')[0],
       status: 'Draft',
-    };
-    setData(prev => [...prev, newDashboard]);
+    });
     setCreateModalOpen(false);
+    refetch();
   };
 
   const detailSections: DetailSection[] = selected ? [
@@ -132,7 +132,8 @@ export default function DashboardBuilderPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search dashboards..."
         filters={filters}
         rowActions={rowActions}
@@ -164,7 +165,8 @@ export default function DashboardBuilderPage() {
         emptyAction={{ label: 'Create Dashboard', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(d => !ids.includes(d.id)));
+            await deleteDashboardsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

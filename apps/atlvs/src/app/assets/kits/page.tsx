@@ -7,12 +7,8 @@ import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_ASSET_KITS,
-  type DemoAssetKit as AssetKit,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAssetKits, type AssetKit } from '@ghxstship/config';
+import { DEMO_ASSET_KITS } from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -40,17 +36,29 @@ const formFields: FormFieldConfig[] = [
 
 export default function AssetKitsPage() {
   const router = useRouter();
-  const [data, setData] = useState<AssetKit[]>(DEMO_ASSET_KITS);
   const [selected, setSelected] = useState<AssetKit | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
+  // Real API integration with demo fallback
+  const { kits: apiData, isLoading, error, createKitAsync, updateKitAsync, deleteKitsAsync, deployKitsAsync, refetch } = useAssetKits();
+  const data: AssetKit[] = apiData.length > 0 ? apiData : (DEMO_ASSET_KITS as unknown as AssetKit[]);
+
   const totalValue = data.reduce((s, k) => s + k.totalValue, 0);
   const availableKits = data.filter(k => k.status === 'Available').length;
 
+  const handleDeploy = async (r: AssetKit) => {
+    try {
+      await updateKitAsync({ id: r.id, updates: { status: 'Deployed' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to deploy kit:', err);
+    }
+  };
+
   const rowActions: ListPageAction<AssetKit>[] = [
     { id: 'view', label: 'View Contents', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: (r) => setData(prev => prev.map(k => k.id === r.id ? { ...k, status: 'Deployed' as const } : k)) },
+    { id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" />, onClick: handleDeploy },
     { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/assets/kits/${r.id}/edit`) },
   ];
 
@@ -62,18 +70,17 @@ export default function AssetKitsPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    const newKit: AssetKit = {
-      id: `KIT-${String(data.length + 1).padStart(3, '0')}`,
-      name: String(formData.name || ''),
-      category: String(formData.category || 'Audio'),
-      itemCount: 0,
-      totalValue: 0,
-      status: 'Available',
-      description: String(formData.description || ''),
-      items: [],
-    };
-    setData(prev => [...prev, newKit]);
-    setCreateModalOpen(false);
+    try {
+      await createKitAsync({
+        name: String(formData.name || ''),
+        category: String(formData.category || 'Audio'),
+        description: String(formData.description || ''),
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create kit:', err);
+    }
   };
 
   const detailSections: DetailSection[] = selected ? [
@@ -143,7 +150,8 @@ export default function AssetKitsPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search kits..."
         filters={filters}
         rowActions={rowActions}
@@ -175,9 +183,11 @@ export default function AssetKitsPage() {
         emptyAction={{ label: 'Create Kit', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(k => !ids.includes(k.id)));
+            await deleteKitsAsync(ids);
+            refetch();
           } else if (action === 'deploy') {
-            setData(prev => prev.map(k => ids.includes(k.id) ? { ...k, status: 'Deployed' as const } : k));
+            await deployKitsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[
@@ -197,8 +207,10 @@ export default function AssetKitsPage() {
           subtitle={(r) => `${r.category} • ${r.itemCount} items • ${formatCurrency(r.totalValue)}`}
           sections={detailSections}
           actions={[{ id: 'deploy', label: 'Deploy Kit', icon: <Rocket className="size-4" /> }, { id: 'edit', label: 'Edit Kit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, r) => {
-            if (id === 'deploy') setData(prev => prev.map(k => k.id === r.id ? { ...k, status: 'Deployed' as const } : k));
+          onAction={async (id, r) => {
+            if (id === 'deploy') {
+              await handleDeploy(r);
+            }
             if (id === 'edit') router.push(`/assets/kits/${r.id}/edit`);
             setDrawerOpen(false);
           }}

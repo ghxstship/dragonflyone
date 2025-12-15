@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_ASSET_PERFORMANCE,
-  type DemoAssetPerformance as AssetPerformance,
-} from '../../../lib/demo-data';
+import { createExportHandler, createImportHandler, getImportTemplates, useAssetPerformance, type AssetPerformance } from '@ghxstship/config';
+import { DEMO_ASSET_PERFORMANCE } from '../../../lib/demo-data';
 
 const getHealthVariant = (score: number): 'solid' | 'outline' | 'ghost' => {
   if (score >= 90) return 'solid';
@@ -37,12 +33,15 @@ const filters: ListPageFilter[] = [
 
 export default function AssetPerformancePage() {
   const router = useRouter();
-  const [data] = useState<AssetPerformance[]>(DEMO_ASSET_PERFORMANCE);
   const [selected, setSelected] = useState<AssetPerformance | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const avgUtilization = Math.round(data.reduce((s, a) => s + a.utilizationRate, 0) / data.length);
-  const avgUptime = (data.reduce((s, a) => s + a.uptime, 0) / data.length).toFixed(1);
+  // Real API integration with demo fallback
+  const { performance: apiData, isLoading, error, deletePerformanceAsync, refetch } = useAssetPerformance();
+  const data: AssetPerformance[] = apiData.length > 0 ? apiData : (DEMO_ASSET_PERFORMANCE as unknown as AssetPerformance[]);
+
+  const avgUtilization = data.length > 0 ? Math.round(data.reduce((s, a) => s + a.utilizationRate, 0) / data.length) : 0;
+  const avgUptime = data.length > 0 ? (data.reduce((s, a) => s + a.uptime, 0) / data.length).toFixed(1) : '0';
   const totalFailures = data.reduce((s, a) => s + a.failureCount, 0);
   const atRiskCount = data.filter(a => a.predictedFailure).length;
 
@@ -119,7 +118,8 @@ export default function AssetPerformancePage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search assets..."
         filters={filters}
         rowActions={rowActions}
@@ -148,11 +148,8 @@ export default function AssetPerformancePage() {
         emptyMessage="No performance data found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/performance/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deletePerformanceAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

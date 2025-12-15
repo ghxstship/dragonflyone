@@ -14,6 +14,7 @@ import {
   ProjectCard,
   Figure,
   Kicker,
+  useNotifications,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { useArtistDetailData } from '@/hooks/useArtistDetail';
@@ -21,6 +22,7 @@ import { useArtistDetailData } from '@/hooks/useArtistDetail';
 export default function ArtistPage() {
   const params = useParams();
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const artistId = params.id as string;
 
   const {

@@ -32,6 +32,7 @@ const OpportunitySchema = z.object({
 
 export const GET = apiRoute(
   async (request: NextRequest) => {
+    const supabase = getServerSupabase();
     try {
       const { searchParams } = new URL(request.url);
       const type = searchParams.get('type');
@@ -132,10 +133,11 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { validated: z.infer<typeof OpportunitySchema>; user?: { id: string } }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
+    const supabase = getServerSupabase();
     try {
-      const validatedData = context.validated;
-      const userId = context.user?.id || '00000000-0000-0000-0000-000000000000';
+      const validatedData = context.validated as z.infer<typeof OpportunitySchema>;
+      const userId = (context.user as { id?: string })?.id || '00000000-0000-0000-0000-000000000000';
 
       const { data: opportunity, error } = await supabase
         .from('opportunities')
@@ -269,8 +271,8 @@ export async function PATCH(request: NextRequest) {
     }
 
     return NextResponse.json({ error: 'No action specified' }, { status: 400 });
-  } catch (error) {
-    logger.error('Error in PATCH /api/opportunities:', error);
+  } catch (error: unknown) {
+    logger.error('Error in PATCH /api/opportunities:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

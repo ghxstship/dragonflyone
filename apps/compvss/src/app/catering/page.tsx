@@ -31,7 +31,7 @@ import { useCateringData, type MealService } from "@/hooks/useCatering";
 
 export default function CateringPage() {
   const router = useRouter();
-  const { addNotification: _addNotification } = useNotifications();
+  const { addNotification } = useNotifications();
   const [filterProject, setFilterProject] = useState("all");
   const [filterMealType, setFilterMealType] = useState("all");
 
@@ -263,7 +263,10 @@ export default function CateringPage() {
               <EmptyState
                 title="No Catering Services"
                 description="Schedule your first meal service"
-                action={{ label: "Schedule Meal", onClick: () => {} }}
+                action={{ label: "Schedule Meal", onClick: () => {
+                  router.push('/catering/schedule');
+                  addNotification({ type: 'info', title: 'Redirecting', message: 'Opening meal scheduler...' });
+                } }}
               />
             ) : (
               <Table variant="dark">

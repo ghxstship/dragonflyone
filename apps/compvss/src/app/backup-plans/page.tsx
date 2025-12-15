@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { CloudRain, Cog, Users, Package, Building2, AlertTriangle, ClipboardList } from "lucide-react";
 import {
   Container,
   H3,
@@ -69,13 +70,13 @@ export default function BackupPlansPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "Weather": return "🌧️";
-      case "Technical": return "⚙️";
-      case "Staffing": return "👥";
-      case "Vendor": return "📦";
-      case "Venue": return "🏟️";
-      case "Safety": return "🚨";
-      default: return "📋";
+      case "Weather": return <CloudRain className="size-5" />;
+      case "Technical": return <Cog className="size-5" />;
+      case "Staffing": return <Users className="size-5" />;
+      case "Vendor": return <Package className="size-5" />;
+      case "Venue": return <Building2 className="size-5" />;
+      case "Safety": return <AlertTriangle className="size-5" />;
+      default: return <ClipboardList className="size-5" />;
     }
   };
 

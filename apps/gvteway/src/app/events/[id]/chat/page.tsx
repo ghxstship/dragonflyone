@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import { Flame, Heart, PartyPopper, ThumbsUp, Sparkles, Smile } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -242,18 +243,25 @@ export default function EventChatPage() {
             <Card className="p-4">
               <H3 className="mb-4">QUICK REACTIONS</H3>
               <Stack direction="horizontal" gap={2} className="flex-wrap">
-                {['🔥', '❤️', '🎉', '👏', '🙌', '😍'].map(emoji => (
-                  <Button
-                    key={emoji}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      setNewMessage(prev => prev + emoji);
-                    }}
-                  >
-                    {emoji}
-                  </Button>
-                ))}
+                {[
+                    { icon: Flame, label: 'fire' },
+                    { icon: Heart, label: 'heart' },
+                    { icon: PartyPopper, label: 'party' },
+                    { icon: ThumbsUp, label: 'thumbs' },
+                    { icon: Sparkles, label: 'sparkles' },
+                    { icon: Smile, label: 'smile' },
+                  ].map(({ icon: Icon, label }) => (
+                    <Button
+                      key={label}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setNewMessage(prev => prev + ` [${label}] `);
+                      }}
+                    >
+                      <Icon className="size-4" />
+                    </Button>
+                  ))}
               </Stack>
             </Card>
 

@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_IDLE_ASSETS,
-  type DemoIdleAsset as IdleAsset,
-} from '../../../lib/demo-data';
+import { createExportHandler, createImportHandler, getImportTemplates, useIdleAssets, type IdleAsset } from '@ghxstship/config';
+import { DEMO_IDLE_ASSETS } from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -38,13 +34,16 @@ const filters: ListPageFilter[] = [
 
 export default function IdleAnalysisPage() {
   const router = useRouter();
-  const [data] = useState<IdleAsset[]>(DEMO_IDLE_ASSETS);
   const [selected, setSelected] = useState<IdleAsset | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Real API integration with demo fallback
+  const { assets: apiData, isLoading, error, deleteAssetsAsync, refetch } = useIdleAssets();
+  const data: IdleAsset[] = apiData.length > 0 ? apiData : (DEMO_IDLE_ASSETS as unknown as IdleAsset[]);
+
   const totalIdleValue = data.reduce((s, a) => s + a.value, 0);
   const totalCarryCost = data.reduce((s, a) => s + a.monthlyCarryCost, 0);
-  const avgIdleDays = Math.round(data.reduce((s, a) => s + a.idleDays, 0) / data.length);
+  const avgIdleDays = data.length > 0 ? Math.round(data.reduce((s, a) => s + a.idleDays, 0) / data.length) : 0;
 
   const rowActions: ListPageAction<IdleAsset>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -118,7 +117,8 @@ export default function IdleAnalysisPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search idle assets..."
         filters={filters}
         rowActions={rowActions}
@@ -147,11 +147,8 @@ export default function IdleAnalysisPage() {
         emptyMessage="No idle assets found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/idle/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteAssetsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

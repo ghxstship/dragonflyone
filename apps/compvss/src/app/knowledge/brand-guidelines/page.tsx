@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
+import { Palette, Type, FileText, Star, Camera, Folder } from "lucide-react";
 import {
   Container,
   H3,
@@ -52,13 +53,13 @@ export default function BrandGuidelinesPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Logo": return "🎨";
-      case "Color": return "🎨";
-      case "Typography": return "🔤";
-      case "Template": return "📄";
-      case "Icon": return "⭐";
-      case "Photo": return "📷";
-      default: return "📁";
+      case "Logo": return <Palette className="size-8" />;
+      case "Color": return <Palette className="size-8" />;
+      case "Typography": return <Type className="size-8" />;
+      case "Template": return <FileText className="size-8" />;
+      case "Icon": return <Star className="size-8" />;
+      case "Photo": return <Camera className="size-8" />;
+      default: return <Folder className="size-8" />;
     }
   };
 
@@ -97,7 +98,7 @@ export default function BrandGuidelinesPage() {
                     <Card key={asset.id} className="p-4">
                       <Stack gap={3}>
                         <Card className="flex h-24 items-center justify-center">
-                          <Body className="text-h3-md">{getTypeIcon(asset.type)}</Body>
+                          {getTypeIcon(asset.type)}
                         </Card>
                         <Stack gap={1}>
                           <Body>{asset.name}</Body>
@@ -207,7 +208,7 @@ export default function BrandGuidelinesPage() {
           {selectedAsset && (
             <Stack gap={4}>
               <Card className="flex h-40 items-center justify-center">
-                <Body className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Body>
+                {getTypeIcon(selectedAsset.type)}
               </Card>
               <Badge variant="outline">{selectedAsset.type}</Badge>
               {selectedAsset.format && (

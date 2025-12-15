@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Camera } from "lucide-react";
 import { CompvssAppLayout } from "../../components/app-layout";
 import {
   Container,
@@ -120,7 +121,7 @@ export default function PhotoDocumentationPage() {
                   <Card key={set.id} className="overflow-hidden">
                     <Card className="flex h-32 items-center justify-center">
                       <Stack gap={2} className="text-center">
-                        <Body>📷</Body>
+                        <Camera className="size-6" />
                         <Body size="sm" className="">{set.photoCount} photos</Body>
                       </Stack>
                     </Card>
@@ -190,7 +191,7 @@ export default function PhotoDocumentationPage() {
                 <Grid cols={4} gap={2}>
                   {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                     <Card key={i} className="flex aspect-square items-center justify-center">
-                      <Body>📷</Body>
+                      <Camera className="size-6" />
                     </Card>
                   ))}
                 </Grid>
@@ -223,7 +224,7 @@ export default function PhotoDocumentationPage() {
             <Input placeholder="Tags (comma separated)" />
             <Card className="cursor-pointer border-2 border-dashed p-8 text-center">
               <Stack gap={2}>
-                <Body className="text-h5-md">📷</Body>
+                <Camera className="size-8" />
                 <Body>Drop photos here or click to upload</Body>
                 <Body size="sm" className="">Supports JPG, PNG, HEIC up to 50MB each</Body>
               </Stack>

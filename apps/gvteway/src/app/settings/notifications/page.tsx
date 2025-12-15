@@ -29,6 +29,7 @@ export default function NotificationSettingsPage() {
     error,
     savePreferences,
     isSaving: saving,
+    refetch,
   } = useNotificationSettingsData();
 
   const preferences = localPreferences || fetchedPreferences;
@@ -337,7 +338,7 @@ export default function NotificationSettingsPage() {
               <Button variant="solid" inverted onClick={handleSave} disabled={saving}>
                 {saving ? 'Saving...' : 'Save Preferences'}
               </Button>
-              <Button variant="outlineInk" onClick={fetchPreferences}>
+              <Button variant="outlineInk" onClick={() => { setLocalPreferences(null); refetch(); }}>
                 Reset
               </Button>
             </Stack>

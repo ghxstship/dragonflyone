@@ -4,7 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
-import { Video, Music, Camera, FileText, Theater, Folder } from 'lucide-react';
+import { Video, Music, Camera, FileText, Theater, Folder, Heart, Play } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -204,7 +204,7 @@ function ExclusiveContentPageContent() {
                   ) : (
                     <Stack className="flex size-full items-center justify-center">
                       <Body className="text-h3-md">
-                        {item.type === 'video' ? '🎬' : item.type === 'audio' ? '🎵' : '📸'}
+                        {item.type === 'video' ? <Video className="size-8" /> : item.type === 'audio' ? <Music className="size-8" /> : <Camera className="size-8" />}
                       </Body>
                     </Stack>
                   )}
@@ -246,7 +246,7 @@ function ExclusiveContentPageContent() {
                           handleLike(item.id);
                         }}
                       >
-                        ❤️ {item.likes}
+                        <Heart className="size-4 inline mr-1" /> {item.likes}
                       </Button>
                     </Stack>
                   </Stack>
@@ -284,14 +284,14 @@ function ExclusiveContentPageContent() {
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
                     <Body className="text-h1-sm">
-                      {selectedContent.type === 'video' ? '▶️' : selectedContent.type === 'audio' ? '🎵' : '📸'}
+                      {selectedContent.type === 'video' ? <Play className="size-12" /> : selectedContent.type === 'audio' ? <Music className="size-12" /> : <Camera className="size-12" />}
                     </Body>
                   </Stack>
                 )}
                 {selectedContent.type === 'video' && (
                   <Stack className="absolute inset-0 flex items-center justify-center">
                     <Button variant="solid" className="rounded-avatar w-16 h-16">
-                      ▶️
+                      <Play className="size-6" />
                     </Button>
                   </Stack>
                 )}
@@ -314,7 +314,7 @@ function ExclusiveContentPageContent() {
                      selectedContent.type === 'audio' ? 'Listen Now' : 'View Gallery'}
                   </Button>
                   <Button variant="outline" onClick={() => handleLike(selectedContent.id)}>
-                    ❤️ Like ({selectedContent.likes})
+                    <Heart className="size-4 inline mr-1" /> Like ({selectedContent.likes})
                   </Button>
                   <Button variant="outline">
                     Share

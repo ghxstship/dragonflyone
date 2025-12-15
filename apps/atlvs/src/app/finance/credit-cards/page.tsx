@@ -7,12 +7,8 @@ import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-import {
-  DEMO_CREDIT_CARD_TXNS,
-  type DemoCreditCardTxn as CreditCardTxn,
-} from "../../../lib/demo-data";
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useCreditCards, type CreditCardTxn } from "@ghxstship/config";
+import { DEMO_CREDIT_CARD_TXNS } from "../../../lib/demo-data";
 
 const getStatusVariant = getBadgeVariant;
 
@@ -34,9 +30,12 @@ const filters: ListPageFilter[] = [
 
 export default function CreditCardsPage() {
   const router = useRouter();
-  const [data, setData] = useState<CreditCardTxn[]>(DEMO_CREDIT_CARD_TXNS);
   const [selected, setSelected] = useState<CreditCardTxn | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { transactions: apiData, isLoading, error, updateStatusAsync, deleteTransactionsAsync, bulkApproveAsync, refetch } = useCreditCards();
+  const data: CreditCardTxn[] = apiData.length > 0 ? apiData : (DEMO_CREDIT_CARD_TXNS as unknown as CreditCardTxn[]);
 
   const totalSpend = data.reduce((s, t) => s + t.amount, 0);
   const pendingCount = data.filter(t => t.status === "Pending").length;
@@ -114,7 +113,8 @@ export default function CreditCardsPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search transactions..."
         filters={filters}
         rowActions={rowActions}
@@ -144,9 +144,11 @@ export default function CreditCardsPage() {
         emptyMessage="No transactions found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(t => !ids.includes(t.id)));
+            await deleteTransactionsAsync(ids);
+            refetch();
           } else if (action === 'approve') {
-            setData(prev => prev.map(t => ids.includes(t.id) ? { ...t, status: 'Posted' as const } : t));
+            await bulkApproveAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[
@@ -165,10 +167,11 @@ export default function CreditCardsPage() {
           subtitle={(r) => `$${r.amount.toLocaleString()} • ${r.status}`}
           sections={detailSections}
           actions={[{ id: 'receipt', label: 'Upload Receipt', icon: <Paperclip className="size-4" /> }, { id: 'dispute', label: 'Dispute', icon: <AlertTriangle className="size-4" /> }]}
-          onAction={(id, r) => {
+          onAction={async (id, r) => {
             if (id === 'receipt') router.push(`/finance/credit-cards/${r.id}/receipt`);
             if (id === 'dispute') {
-              setData(prev => prev.map(t => t.id === r.id ? { ...t, status: 'Disputed' as const } : t));
+              await updateStatusAsync({ id: r.id, status: 'Disputed' });
+              refetch();
             }
             setDrawerOpen(false);
           }}

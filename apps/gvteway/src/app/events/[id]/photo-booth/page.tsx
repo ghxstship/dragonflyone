@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Camera } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -104,7 +105,7 @@ function PhotoBoothPageContent() {
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
                     <Card key={i} className="aspect-square bg-ink-100 border-2 border-black flex items-center justify-center cursor-pointer hover:bg-ink-200">
                       <Stack gap={2} className="text-center">
-                        <Label className="text-h3-md">📸</Label>
+                        <Camera className="size-8" />
                         <Label size="xs" className="text-ink-500">Photo {i}</Label>
                       </Stack>
                     </Card>

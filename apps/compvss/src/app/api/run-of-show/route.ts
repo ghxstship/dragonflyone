@@ -74,9 +74,10 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const data = createRunOfShowSchema.parse(body);
+    const userId = (context.user as { id?: string })?.id;
 
     // Create run of show
     const { data: runOfShow, error: rosError } = await fromDynamic(supabaseAdmin, 'run_of_shows')
@@ -88,7 +89,7 @@ export const POST = apiRoute(
         venue_id: data.venue_id,
         notes: data.notes,
         status: 'draft',
-        created_by: context.user.id,
+        created_by: userId,
       })
       .select()
       .single();

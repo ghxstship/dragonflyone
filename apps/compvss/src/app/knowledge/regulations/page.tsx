@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../../components/app-layout";
+import { HardHat, Flame, Zap, Construction, Accessibility, Leaf, Volume2, ClipboardList } from "lucide-react";
 import {
   Container,
   H3,
@@ -57,14 +58,14 @@ export default function RegulationsPage() {
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case "OSHA": return "🦺";
-      case "Fire": return "🔥";
-      case "Electrical": return "⚡";
-      case "Labor": return "👷";
-      case "ADA": return "♿";
-      case "Environmental": return "🌿";
-      case "Noise": return "🔊";
-      default: return "📋";
+      case "OSHA": return <HardHat className="size-5" />;
+      case "Fire": return <Flame className="size-5" />;
+      case "Electrical": return <Zap className="size-5" />;
+      case "Labor": return <Construction className="size-5" />;
+      case "ADA": return <Accessibility className="size-5" />;
+      case "Environmental": return <Leaf className="size-5" />;
+      case "Noise": return <Volume2 className="size-5" />;
+      default: return <ClipboardList className="size-5" />;
     }
   };
 

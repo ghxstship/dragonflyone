@@ -18,6 +18,7 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
+import { useAuthContext } from '@ghxstship/config';
 
 import {
   useAssignableCrew,
@@ -25,6 +26,7 @@ import {
 
 export default function AssignCrewPage() {
   const router = useRouter();
+  const { user } = useAuthContext();
   const { data: assignableCrew = [] } = useAssignableCrew();
   const [selectedProject, setSelectedProject] = useState('');
   const [selectedRole, setSelectedRole] = useState('');
@@ -47,15 +49,29 @@ export default function AssignCrewPage() {
   };
 
   const handleSubmit = async () => {
-    await fetch('/api/crew/assign', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        projectId: selectedProject,
-        crewIds: assigned,
-      }),
-    });
-    router.push('/dashboard');
+    if (!selectedProject || assigned.length === 0 || !user?.id) return;
+    
+    try {
+      const response = await fetch('/api/crew/assign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          project_id: selectedProject,
+          crew_ids: assigned,
+          assigned_by: user.id,
+        }),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('Assignment failed:', error);
+        return;
+      }
+      
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Assignment failed:', error);
+    }
   };
 
   return (

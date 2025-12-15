@@ -22,9 +22,13 @@ import {
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
 import {
-  generateDemoAvailability,
-  type DemoAvailabilitySlot as AvailabilitySlot,
-} from '../../lib/demo-data';
+  useAvailability,
+  useCreateAvailability,
+  useDeleteAvailability,
+  useBulkUpdateAvailability,
+  type AvailabilitySlot,
+} from '../../hooks/useAvailability';
+import { useAuthContext } from '@ghxstship/config';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -53,7 +57,12 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function AvailabilityPage() {
-  const [availability, setAvailability] = useState<AvailabilitySlot[]>(generateDemoAvailability());
+  const { user } = useAuthContext();
+  const { data: availability = [], isLoading, refetch } = useAvailability();
+  const createMutation = useCreateAvailability();
+  const deleteMutation = useDeleteAvailability();
+  const bulkUpdateMutation = useBulkUpdateAvailability();
+  
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | null>(null);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -64,20 +73,17 @@ export default function AvailabilityPage() {
   const bookedCount = availability.filter(a => a.status === 'booked').length;
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newSlot: AvailabilitySlot = {
-      id: `SLOT-${Date.now()}`,
-      user_id: 'CREW-001',
-      user_name: 'Current User',
-      role: 'Staff',
-      department: 'General',
-      date: String(data.date || new Date().toISOString().split('T')[0]),
-      status: (data.status as AvailabilitySlot['status']) || 'available',
-      start_time: String(data.start_time || '09:00'),
-      end_time: String(data.end_time || '18:00'),
-      notes: String(data.notes || ''),
-      calendar_source: 'manual',
-    };
-    setAvailability([...availability, newSlot]);
+    if (!user?.id) return;
+    
+    await createMutation.mutateAsync({
+      crew_member_id: user.id,
+      availability_type: String(data.status || 'available'),
+      start_date: String(data.date || new Date().toISOString().split('T')[0]),
+      start_time: data.start_time ? String(data.start_time) : undefined,
+      end_time: data.end_time ? String(data.end_time) : undefined,
+      notes: data.notes ? String(data.notes) : undefined,
+    });
+    refetch();
     setCreateModalOpen(false);
   };
 
@@ -89,24 +95,19 @@ export default function AvailabilityPage() {
   // Import handler for CSV/JSON files
   const handleImport = createImportHandler<Record<string, unknown>>({
     entityType: 'availability',
-    requiredFields: ['user_name', 'date', 'status'],
+    requiredFields: ['crew_member_id', 'date', 'status'],
     onImport: async (records) => {
       for (const record of records) {
-        const newSlot: AvailabilitySlot = {
-          id: `SLOT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          user_id: String(record.user_id || 'CREW-001'),
-          user_name: String(record.user_name || ''),
-          role: String(record.role || 'Staff'),
-          department: String(record.department || 'General'),
-          date: String(record.date || ''),
-          status: record.status as AvailabilitySlot['status'],
+        await createMutation.mutateAsync({
+          crew_member_id: String(record.crew_member_id || record.user_id || ''),
+          availability_type: String(record.status || 'available'),
+          start_date: String(record.date || ''),
           start_time: record.start_time ? String(record.start_time) : undefined,
           end_time: record.end_time ? String(record.end_time) : undefined,
           notes: record.notes ? String(record.notes) : undefined,
-          calendar_source: 'manual',
-        };
-        setAvailability(prev => [...prev, newSlot]);
+        });
       }
+      refetch();
     },
   });
 
@@ -153,7 +154,7 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
           data={availability}
           columns={columns}
           rowKey="id"
-          loading={false}
+          loading={isLoading}
           searchPlaceholder="Search availability..."
           filters={filters}
           rowActions={rowActions}
@@ -183,9 +184,13 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
           emptyMessage="No availability records"
           onBulkAction={async (action, ids) => {
             if (action === 'delete') {
-              setAvailability(prev => prev.filter(s => !ids.includes(s.id)));
+              for (const id of ids) {
+                await deleteMutation.mutateAsync(id);
+              }
+              refetch();
             } else if (action === 'book') {
-              setAvailability(prev => prev.map(s => ids.includes(s.id) ? { ...s, status: 'booked' as const } : s));
+              await bulkUpdateMutation.mutateAsync({ ids, status: 'booked' });
+              refetch();
             }
           }}
           bulkActions={[

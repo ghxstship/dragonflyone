@@ -26,10 +26,11 @@ const publishSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const payload = context.validated;
+      const payload = context.validated as z.infer<typeof publishSchema>;
+      const userId = (context.user as { id?: string })?.id;
 
       const { data: project, error: projectError } = await supabase
         .from('projects')
@@ -51,7 +52,7 @@ export const POST = apiRoute(
           capacity: payload.event_details.capacity,
           status: 'draft',
           source_project_id: project.id,
-          created_by: context.user?.id,
+          created_by: userId,
         })
         .select()
         .single();
@@ -81,7 +82,7 @@ export const POST = apiRoute(
           source_id: project.id,
           target_id: event.id,
           status: 'success',
-          user_id: context.user?.id,
+          user_id: userId,
         });
 
       await supabase
@@ -94,8 +95,8 @@ export const POST = apiRoute(
         event,
         message: 'Project successfully published to GVTEWAY'
       }, { status: 201 });
-    } catch (error) {
-      return NextResponse.json({ error: error.message || 'Publish failed' }, { status: 500 });
+    } catch (error: unknown) {
+      return NextResponse.json({ error: error instanceof Error ? error.message : 'Publish failed' }, { status: 500 });
     }
   },
   {

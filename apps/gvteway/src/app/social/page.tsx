@@ -43,7 +43,7 @@ export default function SocialPage() {
     {
       id: '2',
       user: 'Mike Peters',
-      content: 'Best lineup announcement ever! Already got my tickets 🎉',
+      content: 'Best lineup announcement ever! Already got my tickets!',
       likes: 189,
       comments: 32,
       shares: 8,

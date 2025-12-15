@@ -7,12 +7,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_CLIENT_RETENTION,
-  type DemoClientRetention as ClientRetention,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useClientRetention, type ClientRetention } from '@ghxstship/config';
+import { DEMO_CLIENT_RETENTION } from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -38,9 +34,12 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function ClientRetentionPage() {
-  const [data] = useState<ClientRetention[]>(DEMO_CLIENT_RETENTION);
   const [selected, setSelected] = useState<ClientRetention | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { clients: apiData, isLoading, error, deleteRecordsAsync, refetch } = useClientRetention();
+  const data: ClientRetention[] = apiData.length > 0 ? apiData : (DEMO_CLIENT_RETENTION as unknown as ClientRetention[]);
 
   const activeClients = data.filter(c => c.status === 'Active').length;
   const atRiskClients = data.filter(c => c.status === 'At Risk').length;
@@ -122,7 +121,8 @@ export default function ClientRetentionPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search clients..."
         filters={filters}
         rowActions={rowActions}
@@ -152,11 +152,8 @@ export default function ClientRetentionPage() {
         emptyMessage="No client retention data found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/analytics/client-retention/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteRecordsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

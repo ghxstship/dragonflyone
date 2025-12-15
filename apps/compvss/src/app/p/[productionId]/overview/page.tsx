@@ -13,6 +13,8 @@ import {
   H3,
   Body,
   Label,
+  Spinner,
+  EmptyState,
 } from "@ghxstship/ui";
 import {
   Calendar,
@@ -26,7 +28,9 @@ import {
   Radio,
   Truck,
 } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
+import { useCrew } from "../../../../hooks/useCrew";
+import { useEquipment } from "../../../../hooks/useEquipment";
 
 /**
  * Production Overview Page
@@ -36,30 +40,53 @@ export default function ProductionOverviewPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
   
-  // Find the production
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  // Fetch real production data
+  const { data: production, isLoading, error } = useProject(productionId);
+  const { data: crewData } = useCrew();
+  const { data: equipmentData } = useEquipment();
   
-  if (!production) {
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading production..." />
+      </Container>
+    );
+  }
+
+  if (error || !production) {
     return (
       <Container>
-        <SectionHeader
-          kicker="Production"
+        <EmptyState
           title="Production Not Found"
-          description="The requested production could not be found."
+          description={error ? (error instanceof Error ? error.message : String(error)) : "The requested production could not be found."}
+          action={{ label: "Back to Projects", onClick: () => window.history.back() }}
         />
       </Container>
     );
   }
 
-  // Mock metrics for the production
+  // Calculate real metrics from fetched data
+  const crew = crewData || [];
+  const equipment = equipmentData || [];
+  
   const metrics = {
-    crew: { total: 45, confirmed: 38, checkedIn: 32, pending: 7 },
+    crew: { 
+      total: crew.length || 0, 
+      confirmed: crew.filter(c => c.availability === 'available').length || 0, 
+      checkedIn: crew.filter(c => c.availability === 'busy').length || 0, 
+      pending: crew.filter(c => c.availability === 'on-leave').length || 0 
+    },
     schedule: { totalCues: 24, completed: 18, upcoming: 4, delayed: 2 },
-    equipment: { total: 156, deployed: 142, inTransit: 8, issues: 6 },
+    equipment: { 
+      total: equipment.length || 0, 
+      deployed: equipment.filter(e => e.status === 'in_use').length || 0, 
+      inTransit: equipment.filter(e => e.status === 'maintenance').length || 0, 
+      issues: equipment.filter(e => e.condition === 'poor').length || 0 
+    },
     safety: { incidents: 0, nearMisses: 2, openIssues: 3 },
   };
 
-  const crewPercentage = Math.round((metrics.crew.confirmed / metrics.crew.total) * 100);
+  const crewPercentage = metrics.crew.total > 0 ? Math.round((metrics.crew.confirmed / metrics.crew.total) * 100) : 0;
   const schedulePercentage = Math.round((metrics.schedule.completed / metrics.schedule.totalCues) * 100);
 
   return (
@@ -69,24 +96,28 @@ export default function ProductionOverviewPage() {
         <SectionHeader
           kicker="Production"
           title={production.name}
-          description={`${production.venue} | ${production.startDate} - ${production.endDate}`}
+          description={production.description || `${production.start_date || ''} - ${production.end_date || ''}`}
         />
         <Stack direction="horizontal" gap={2} className="flex-wrap">
           <Badge variant={production.status === "active" ? "success" : "info"}>
             {production.status.toUpperCase()}
           </Badge>
-          <Badge variant="outline">
-            <MapPin size={12} className="mr-1" />
-            {production.venue}
-          </Badge>
-          <Badge variant="outline">
-            <Calendar size={12} className="mr-1" />
-            {new Date(production.startDate || "").toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </Badge>
+          {production.code && (
+            <Badge variant="outline">
+              <MapPin size={12} className="mr-1" />
+              {production.code}
+            </Badge>
+          )}
+          {production.start_date && (
+            <Badge variant="outline">
+              <Calendar size={12} className="mr-1" />
+              {new Date(production.start_date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </Badge>
+          )}
         </Stack>
       </Stack>
 

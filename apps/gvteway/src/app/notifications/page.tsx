@@ -24,6 +24,8 @@ export default function NotificationsPage() {
     notifications,
     unreadCount,
     isLoading: loading,
+    error,
+    refetch,
     markAsRead,
     markAllAsRead,
   } = useGvtewayNotificationsData({ type: filterType });
@@ -59,8 +61,8 @@ export default function NotificationsPage() {
       <GvtewayAppLayout>
             <EmptyState
               title="Error Loading Notifications"
-              description={error}
-              action={{ label: "Retry", onClick: fetchNotifications }}
+              description={error instanceof Error ? error.message : "An error occurred"}
+              action={{ label: "Retry", onClick: () => refetch() }}
               inverted
             />
       </GvtewayAppLayout>
@@ -140,9 +142,10 @@ export default function NotificationsPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleMarkRead(notification.id, notification.read)}
+                        onClick={() => handleMarkRead(notification.id)}
+                        disabled={notification.read}
                       >
-                        {notification.read ? 'Mark Unread' : 'Mark Read'}
+                        {notification.read ? 'Read' : 'Mark Read'}
                       </Button>
                     </Stack>
                   </Card>

@@ -1,30 +1,42 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Spinner, EmptyState, Container } from "@ghxstship/ui";
 import { Users, Plus, Clock, UserCheck, IdCard } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
+import { useCrew } from "../../../../hooks/useCrew";
 
 export default function ProductionCrewPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
-
-  const crewStats = { total: 45, confirmed: 38, pending: 5, checkedIn: 0 };
-
-  const crew = [
-    { id: "1", name: "John Smith", role: "Production Manager", department: "Production", status: "confirmed" },
-    { id: "2", name: "Sarah Jones", role: "Stage Manager", department: "Stage", status: "confirmed" },
-    { id: "3", name: "Mike Wilson", role: "FOH Engineer", department: "Audio", status: "confirmed" },
-    { id: "4", name: "Emily Brown", role: "Monitor Engineer", department: "Audio", status: "confirmed" },
-    { id: "5", name: "Tom Davis", role: "Lighting Director", department: "Lighting", status: "pending" },
-    { id: "6", name: "Lisa Chen", role: "Video Director", department: "Video", status: "confirmed" },
-  ];
+  
+  // Fetch real data from API
+  const { data: production, isLoading: productionLoading } = useProject(productionId);
+  const { data: crewData, isLoading: crewLoading } = useCrew();
+  
+  const isLoading = productionLoading || crewLoading;
+  const crew = crewData || [];
+  
+  // Calculate stats from real data
+  const crewStats = { 
+    total: crew.length, 
+    confirmed: crew.filter(c => c.availability === 'available').length, 
+    pending: crew.filter(c => c.availability === 'on-leave').length, 
+    checkedIn: crew.filter(c => c.availability === 'busy').length 
+  };
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    confirmed: "success", pending: "warning", declined: "error", checked_in: "info",
+    available: "success", "on-leave": "warning", busy: "info", confirmed: "success", pending: "warning", declined: "error", checked_in: "info",
   };
+  
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading crew..." />
+      </Container>
+    );
+  }
 
   return (
     <Stack gap={8}>
@@ -61,18 +73,24 @@ export default function ProductionCrewPage() {
       <Card variant="elevated">
         <CardBody>
           <Stack gap={0}>
-            {crew.map((member, index) => (
+            {crew.length === 0 ? (
+              <EmptyState
+                title="No Crew Assigned"
+                description="Add crew members to this production"
+                action={{ label: "Add Crew", onClick: () => {} }}
+              />
+            ) : crew.map((member, index) => (
               <div key={member.id} className={`flex cursor-pointer items-center justify-between border-grey-200 p-4 transition-all hover:bg-grey-50 ${index < crew.length - 1 ? "border-b" : ""}`}>
                 <Stack direction="horizontal" gap={3} className="items-center">
                   <Box className="flex size-10 items-center justify-center rounded-avatar bg-grey-100">
                     <Users size={20} className="text-primary" />
                   </Box>
                   <Stack gap={1}>
-                    <Body className="font-weight-medium">{member.name}</Body>
+                    <Body className="font-weight-medium">{member.full_name}</Body>
                     <Body size="sm" className=" text-grey-500">{member.role} · {member.department}</Body>
                   </Stack>
                 </Stack>
-                <Badge variant={statusColors[member.status]}>{member.status.toUpperCase()}</Badge>
+                <Badge variant={statusColors[member.availability] || "info"}>{member.availability.toUpperCase()}</Badge>
               </div>
             ))}
           </Stack>

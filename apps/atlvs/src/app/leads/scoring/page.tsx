@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalTabState } from '@ghxstship/config/hooks';
 import { AtlvsAppLayout } from '../../../components/app-layout';
+import { Flame, CheckCircle, BarChart3, Settings } from 'lucide-react';
 import {
   Container,
   H2,
@@ -161,22 +162,22 @@ export default function LeadScoringPage() {
           <StatCard
             label="Hot Leads"
             value={hotLeads}
-            icon={<span>🔥</span>}
+            icon={<Flame className="size-5" />}
           />
           <StatCard
             label="SQLs"
             value={sqlCount}
-            icon={<span>✅</span>}
+            icon={<CheckCircle className="size-5" />}
           />
           <StatCard
             label="Avg Score"
             value={avgScore}
-            icon={<span>📊</span>}
+            icon={<BarChart3 className="size-5" />}
           />
           <StatCard
             label="Active Rules"
             value={rules.filter(r => r.is_active).length}
-            icon={<span>⚙️</span>}
+            icon={<Settings className="size-5" />}
           />
         </Grid>
 

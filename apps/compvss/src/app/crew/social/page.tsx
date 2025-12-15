@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
+import { Camera, Trophy, MessageSquare, FileText, Image, Heart, MessageCircle } from "lucide-react";
 import {
   Container,
   H3,
@@ -49,10 +50,10 @@ export default function CrewSocialPage() {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case "Photo": return "📷";
-      case "Achievement": return "🏆";
-      case "Update": return "💬";
-      default: return "📝";
+      case "Photo": return <Camera className="size-5" />;
+      case "Achievement": return <Trophy className="size-5" />;
+      case "Update": return <MessageSquare className="size-5" />;
+      default: return <FileText className="size-5" />;
     }
   };
 
@@ -118,12 +119,12 @@ export default function CrewSocialPage() {
                           <Body>{post.content}</Body>
                           {post.type === "Photo" && (
                             <Card className="flex h-48 items-center justify-center">
-                              <Body className="text-h3-md">🖼️</Body>
+                              <Image className="size-12" />
                             </Card>
                           )}
                           <Stack direction="horizontal" gap={4}>
-                            <Button variant="ghost" size="sm">❤️ {post.likes}</Button>
-                            <Button variant="ghost" size="sm">💬 {post.comments}</Button>
+                            <Button variant="ghost" size="sm"><Heart className="size-4 mr-1" /> {post.likes}</Button>
+                            <Button variant="ghost" size="sm"><MessageCircle className="size-4 mr-1" /> {post.comments}</Button>
                             <Button variant="ghost" size="sm">Share</Button>
                           </Stack>
                         </Stack>
@@ -200,7 +201,7 @@ export default function CrewSocialPage() {
                 <Grid cols={4} gap={4}>
                   {Array.from({ length: 8 }).map((_, idx) => (
                     <Card key={idx} className="flex aspect-square cursor-pointer items-center justify-center">
-                      <Body className="text-h3-md">📷</Body>
+                      <Camera className="size-12" />
                     </Card>
                   ))}
                 </Grid>

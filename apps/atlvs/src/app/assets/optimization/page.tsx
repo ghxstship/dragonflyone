@@ -7,12 +7,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_OPTIMIZATION_RECOMMENDATIONS,
-  type DemoOptimizationRecommendation as OptimizationRecommendation,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useOptimization, type OptimizationRecommendation } from '@ghxstship/config';
+import { DEMO_OPTIMIZATION_RECOMMENDATIONS } from '../../../lib/demo-data';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -39,19 +35,31 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AssetOptimizationPage() {
-  const [data, setData] = useState<OptimizationRecommendation[]>(DEMO_OPTIMIZATION_RECOMMENDATIONS);
   const [selected, setSelected] = useState<OptimizationRecommendation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { recommendations: apiData, isLoading, error, updateStatusAsync, deleteRecommendationsAsync, bulkUpdateStatusAsync, refetch } = useOptimization();
+  const data: OptimizationRecommendation[] = apiData.length > 0 ? apiData : (DEMO_OPTIMIZATION_RECOMMENDATIONS as unknown as OptimizationRecommendation[]);
 
   const pendingCount = data.filter(r => r.status === 'pending').length;
   const highPriorityCount = data.filter(r => r.priority === 'high' && r.status === 'pending').length;
   const totalSavings = data.filter(r => r.status !== 'dismissed').reduce((sum, r) => sum + r.potential_savings, 0);
-  const avgUtilization = Math.round(data.reduce((sum, r) => sum + r.current_utilization, 0) / data.length);
+  const avgUtilization = data.length > 0 ? Math.round(data.reduce((sum, r) => sum + r.current_utilization, 0) / data.length) : 0;
+
+  const handleStatusChange = async (r: OptimizationRecommendation, status: string) => {
+    try {
+      await updateStatusAsync({ id: r.id, status });
+      refetch();
+    } catch (err) {
+      console.error('Failed to update status:', err);
+    }
+  };
 
   const rowActions: ListPageAction<OptimizationRecommendation>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'implement', label: 'Implement', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec)) },
-    { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec)) },
+    { id: 'implement', label: 'Implement', icon: <Check className="size-4" />, onClick: (r) => handleStatusChange(r, 'implemented') },
+    { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" />, onClick: (r) => handleStatusChange(r, 'dismissed') },
   ];
 
   const stats = [
@@ -130,7 +138,8 @@ export default function AssetOptimizationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search recommendations..."
         filters={filters}
         rowActions={rowActions}
@@ -159,11 +168,14 @@ export default function AssetOptimizationPage() {
         emptyMessage="No recommendations found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(r => !ids.includes(r.id)));
+            await deleteRecommendationsAsync(ids);
+            refetch();
           } else if (action === 'implement') {
-            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'implemented' as const } : r));
+            await bulkUpdateStatusAsync({ ids, status: 'implemented' });
+            refetch();
           } else if (action === 'dismiss') {
-            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'dismissed' as const } : r));
+            await bulkUpdateStatusAsync({ ids, status: 'dismissed' });
+            refetch();
           }
         }}
         bulkActions={[
@@ -183,9 +195,9 @@ export default function AssetOptimizationPage() {
           subtitle={(r) => `${r.type.replace('_', ' ')} • ${r.priority} priority • ${formatCurrency(r.potential_savings)} savings`}
           sections={detailSections}
           actions={[{ id: 'implement', label: 'Implement', icon: <Check className="size-4" /> }, { id: 'dismiss', label: 'Dismiss', icon: <X className="size-4" /> }]}
-          onAction={(id, r) => {
-            if (id === 'implement') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'implemented' as const } : rec));
-            if (id === 'dismiss') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'dismissed' as const } : rec));
+          onAction={async (id, r) => {
+            if (id === 'implement') await handleStatusChange(r, 'implemented');
+            if (id === 'dismiss') await handleStatusChange(r, 'dismissed');
             setDrawerOpen(false);
           }}
         />

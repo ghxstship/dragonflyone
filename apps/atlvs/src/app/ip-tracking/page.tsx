@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, Pencil, Calendar } from "lucide-react";
+import { Eye, Pencil, Calendar, Tag, Cog, CircleDot, Lock, FileText } from "lucide-react";
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
   ListPage,
@@ -27,11 +27,11 @@ const formatDate = (dateString: string) => new Date(dateString).toLocaleDateStri
 const getStatusVariant = getBadgeVariant;
 const getTypeIcon = (type: string) => {
   switch (type?.toLowerCase()) {
-    case "trademark": return "™";
-    case "patent": return "⚙";
-    case "copyright": return "©";
-    case "trade_secret": return "🔒";
-    default: return "📄";
+    case "trademark": return <Tag className="size-4 inline" />;
+    case "patent": return <Cog className="size-4 inline" />;
+    case "copyright": return <CircleDot className="size-4 inline" />;
+    case "trade_secret": return <Lock className="size-4 inline" />;
+    default: return <FileText className="size-4 inline" />;
   }
 };
 

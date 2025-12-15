@@ -84,29 +84,27 @@ export async function POST(request: NextRequest) {
     const user = authResult.user;
 
     const body = await request.json();
-    const { date, status, start_time, end_time, notes } = body;
+    const { crew_member_id, availability_type, start_date, end_date, start_time, end_time, notes, all_day } = body;
 
-    if (!date || !status) {
+    if (!start_date || !availability_type) {
       return NextResponse.json(
-        { error: 'Date and status are required' },
+        { error: 'Start date and availability type are required' },
         { status: 400 }
       );
     }
 
-    // Upsert availability for the date
+    // Insert availability record
     const { data, error } = await supabase
       .from('crew_availability')
-      .upsert({
-        user_id: user.id,
-        date,
-        status,
+      .insert({
+        crew_member_id: crew_member_id || user.id,
+        availability_type,
+        start_date,
+        end_date: end_date || start_date,
         start_time,
         end_time,
         notes,
-        calendar_source: 'manual',
-        updated_at: new Date().toISOString(),
-      }, {
-        onConflict: 'user_id,date',
+        all_day: all_day ?? true,
       })
       .select()
       .single();
@@ -133,20 +131,18 @@ export async function DELETE(request: NextRequest) {
     if (!COMPVSS_ROLES.some(role => userRoles.includes(role))) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    const user = authResult.user;
 
     const { searchParams } = new URL(request.url);
-    const date = searchParams.get('date');
+    const id = searchParams.get('id');
 
-    if (!date) {
-      return NextResponse.json({ error: 'Date required' }, { status: 400 });
+    if (!id) {
+      return NextResponse.json({ error: 'ID required' }, { status: 400 });
     }
 
     const { error } = await supabase
       .from('crew_availability')
       .delete()
-      .eq('user_id', user.id)
-      .eq('date', date);
+      .eq('id', id);
 
     if (error) {
       return NextResponse.json({ error: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

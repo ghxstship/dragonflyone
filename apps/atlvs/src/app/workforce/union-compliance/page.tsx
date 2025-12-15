@@ -80,7 +80,7 @@ export default function UnionCompliancePage() {
 
           {expiringCount > 0 && (
             <Alert variant="warning">
-              ⚠️ {expiringCount} union agreement(s) expiring within 90 days
+              {expiringCount} union agreement(s) expiring within 90 days
             </Alert>
           )}
 

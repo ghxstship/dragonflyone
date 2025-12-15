@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Twitter, Camera, Music, Smartphone, Video, ImageIcon, Heart, RefreshCw } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
@@ -53,10 +54,10 @@ function SocialWallPageContent() {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case "Twitter": return "🐦";
-      case "Instagram": return "📸";
-      case "TikTok": return "🎵";
-      default: return "📱";
+      case "Twitter": return <Twitter className="size-5" />;
+      case "Instagram": return <Camera className="size-5" />;
+      case "TikTok": return <Music className="size-5" />;
+      default: return <Smartphone className="size-5" />;
     }
   };
 
@@ -109,7 +110,7 @@ function SocialWallPageContent() {
                       <Stack direction="horizontal" className="justify-between items-start">
                         <Stack direction="horizontal" gap={2}>
                           <Card className="w-10 h-10 bg-ink-800 flex items-center justify-center rounded-avatar">
-                            <Label>{getPlatformIcon(post.platform)}</Label>
+                            {getPlatformIcon(post.platform)}
                           </Card>
                           <Stack gap={0}>
                             <Label className="font-weight-bold">{post.author}</Label>
@@ -120,7 +121,7 @@ function SocialWallPageContent() {
                       </Stack>
                       {post.mediaType && (
                         <Card className="h-32 bg-ink-800 flex items-center justify-center">
-                          <Label className="text-h3-md">{post.mediaType === "video" ? "🎬" : "🖼️"}</Label>
+                          {post.mediaType === "video" ? <Video className="size-8" /> : <ImageIcon className="size-8" />}
                         </Card>
                       )}
                       <Body className="text-ink-200">{post.content}</Body>
@@ -128,8 +129,8 @@ function SocialWallPageContent() {
                         {post.hashtags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
                       </Stack>
                       <Stack direction="horizontal" gap={4}>
-                        <Label size="xs" className="text-ink-500">❤️ {post.likes}</Label>
-                        {post.retweets !== undefined && <Label size="xs" className="text-ink-500">🔄 {post.retweets}</Label>}
+                        <Label size="xs" className="text-ink-500"><Heart className="size-3 inline mr-1" /> {post.likes}</Label>
+                        {post.retweets !== undefined && <Label size="xs" className="text-ink-500"><RefreshCw className="size-3 inline mr-1" /> {post.retweets}</Label>}
                       </Stack>
                     </Stack>
                   </Card>
@@ -151,7 +152,7 @@ function SocialWallPageContent() {
             <Stack gap={4}>
               <Stack direction="horizontal" gap={3}>
                 <Card className="size-12 bg-ink-800 flex items-center justify-center rounded-avatar">
-                  <Label className="text-h5-md">{getPlatformIcon(selectedPost.platform)}</Label>
+                  {getPlatformIcon(selectedPost.platform)}
                 </Card>
                 <Stack gap={0}>
                   <Label className="font-weight-bold">{selectedPost.author}</Label>
@@ -160,7 +161,7 @@ function SocialWallPageContent() {
               </Stack>
               {selectedPost.mediaType && (
                 <Card className="h-48 bg-ink-800 flex items-center justify-center">
-                  <Label className="text-h1-sm">{selectedPost.mediaType === "video" ? "🎬" : "🖼️"}</Label>
+                  {selectedPost.mediaType === "video" ? <Video className="size-12" /> : <ImageIcon className="size-12" />}
                 </Card>
               )}
               <Body>{selectedPost.content}</Body>
@@ -168,8 +169,8 @@ function SocialWallPageContent() {
                 {selectedPost.hashtags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
               </Stack>
               <Stack direction="horizontal" gap={6}>
-                <Label>❤️ {selectedPost.likes} likes</Label>
-                {selectedPost.retweets !== undefined && <Label>🔄 {selectedPost.retweets} retweets</Label>}
+                <Label><Heart className="size-4 inline mr-1" /> {selectedPost.likes} likes</Label>
+                {selectedPost.retweets !== undefined && <Label><RefreshCw className="size-4 inline mr-1" /> {selectedPost.retweets} retweets</Label>}
               </Stack>
               <Label className="text-on-dark-muted">{selectedPost.timestamp}</Label>
             </Stack>

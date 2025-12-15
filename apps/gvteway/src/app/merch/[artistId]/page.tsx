@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { Mic, ShoppingBag, Star, Package, FolderOpen } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import Image from 'next/image';
 import {
@@ -111,7 +112,7 @@ export default function ArtistMerchPage() {
                   <Image src={artist.image_url} alt={artist.name} fill className="object-cover" />
                 ) : (
                   <Stack className="size-full flex items-center justify-center">
-                    <Body className="text-h4-md">🎤</Body>
+                    <Mic className="size-6" />
                   </Stack>
                 )}
               </Stack>
@@ -138,22 +139,22 @@ export default function ArtistMerchPage() {
           <StatCard
             label="Products"
             value={products.length}
-            icon={<Body>🛍️</Body>}
+            icon={<ShoppingBag className="size-5" />}
           />
           <StatCard
             label="Limited Edition"
             value={products.filter(p => p.is_limited_edition).length}
-            icon={<Body>⭐</Body>}
+            icon={<Star className="size-5" />}
           />
           <StatCard
             label="Pre-Orders"
             value={products.filter(p => p.is_preorder).length}
-            icon={<Body>📦</Body>}
+            icon={<Package className="size-5" />}
           />
           <StatCard
             label="Categories"
             value={categories.length}
-            icon={<Body>📂</Body>}
+            icon={<FolderOpen className="size-5" />}
           />
         </Grid>
 
@@ -203,7 +204,7 @@ export default function ArtistMerchPage() {
                     />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-h3-md">🛍️</Body>
+                      <ShoppingBag className="size-8" />
                     </Stack>
                   )}
                   {product.is_limited_edition && (
@@ -268,7 +269,7 @@ export default function ArtistMerchPage() {
                     />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-h1-sm">🛍️</Body>
+                      <ShoppingBag className="size-12" />
                     </Stack>
                   )}
                 </Stack>

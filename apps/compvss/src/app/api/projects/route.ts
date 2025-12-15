@@ -52,13 +52,14 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const payload = context.validated;
+      const payload = context.validated as z.infer<typeof createProjectSchema>;
+      const userId = (context.user as { id?: string })?.id;
       const { data, error } = await supabase.from('projects').insert({
         ...payload,
-        created_by: context.user?.id,
+        created_by: userId,
       }).select().single();
       if (error) {
         if (error.code === '23505') return NextResponse.json({ error: 'Project code already exists' }, { status: 409 });

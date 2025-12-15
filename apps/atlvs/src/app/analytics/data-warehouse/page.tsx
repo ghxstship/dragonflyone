@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_DATA_SOURCES,
-  type DemoDataSource as DataSource,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useDataWarehouse, type DataSource } from '@ghxstship/config';
+import { DEMO_DATA_SOURCES } from '../../../lib/demo-data';
 
 const formatRecords = (count: number) => {
   if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
@@ -46,10 +42,13 @@ const formFields: FormFieldConfig[] = [
 
 export default function DataWarehousePage() {
   const router = useRouter();
-  const [data] = useState<DataSource[]>(DEMO_DATA_SOURCES);
   const [selected, setSelected] = useState<DataSource | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { dataSources: apiData, isLoading, error, createDataSourceAsync, syncDataSourceAsync, deleteDataSourcesAsync, bulkSyncAsync, refetch } = useDataWarehouse();
+  const data: DataSource[] = apiData.length > 0 ? apiData : (DEMO_DATA_SOURCES as unknown as DataSource[]);
 
   const connectedSources = data.filter(s => s.status === 'Connected').length;
   const errorSources = data.filter(s => s.status === 'Error').length;
@@ -57,11 +56,12 @@ export default function DataWarehousePage() {
 
   const rowActions: ListPageAction<DataSource>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" />, onClick: (r) => {
-      fetch(`/api/data-sources/${r.id}/sync`, { method: 'POST' });
+    { id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" />, onClick: async (r) => {
+      await syncDataSourceAsync(r.id);
+      refetch();
     }},
     { id: 'reconnect', label: 'Reconnect', icon: <Plug className="size-4" />, onClick: (r) => {
-      fetch(`/api/data-sources/${r.id}/reconnect`, { method: 'POST' });
+      fetch(`/api/data-sources/${r.id}/reconnect`, { method: 'POST' }).then(() => refetch());
     }},
   ];
 
@@ -73,12 +73,9 @@ export default function DataWarehousePage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    await fetch('/api/data-sources', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    await createDataSourceAsync(formData as unknown as Omit<DataSource, 'id'>);
     setCreateModalOpen(false);
+    refetch();
   };
 
   const detailSections: DetailSection[] = selected ? [
@@ -138,7 +135,8 @@ export default function DataWarehousePage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search data sources..."
         filters={filters}
         rowActions={rowActions}
@@ -169,17 +167,11 @@ export default function DataWarehousePage() {
         emptyAction={{ label: 'Add Data Source', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/data-sources/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteDataSourcesAsync(ids);
+            refetch();
           } else if (action === 'sync') {
-            await fetch('/api/data-sources/bulk-sync', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await bulkSyncAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[
@@ -199,8 +191,11 @@ export default function DataWarehousePage() {
           subtitle={(r) => `${r.type} • ${r.status}`}
           sections={detailSections}
           actions={[{ id: 'sync', label: 'Sync Now', icon: <RefreshCw className="size-4" /> }, { id: 'configure', label: 'Configure', icon: <Plug className="size-4" /> }]}
-          onAction={(id, r) => {
-            if (id === 'sync') fetch(`/api/data-sources/${r.id}/sync`, { method: 'POST' });
+          onAction={async (id, r) => {
+            if (id === 'sync') {
+              await syncDataSourceAsync(r.id);
+              refetch();
+            }
             if (id === 'configure') router.push(`/analytics/data-warehouse/${r.id}/configure`);
             setDrawerOpen(false);
           }}

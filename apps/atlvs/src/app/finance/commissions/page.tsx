@@ -17,30 +17,14 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface CommissionRecord {
-  id: string;
-  salesRep: string;
-  dealId: string;
-  dealName: string;
-  client: string;
-  dealValue: number;
-  commissionRate: number;
-  commissionAmount: number;
-  status: "Pending" | "Approved" | "Paid" | "Disputed";
-  closeDate: string;
-  paymentDate?: string;
-  [key: string]: unknown;
-}
-
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useCommissions, type CommissionRecord } from "@ghxstship/config";
 import { DEMO_COMMISSION_RECORDS } from '../../../lib/demo-data';
 
-const mockRecords = DEMO_COMMISSION_RECORDS as CommissionRecord[];
+type Commission = CommissionRecord & { [key: string]: unknown };
 
 const getStatusVariant = getBadgeVariant;
 
-const columns: ListPageColumn<CommissionRecord>[] = [
+const columns: ListPageColumn<Commission>[] = [
   { key: 'salesRep', label: 'Sales Rep', accessor: 'salesRep', sortable: true },
   { key: 'dealName', label: 'Deal', accessor: 'dealName', sortable: true },
   { key: 'client', label: 'Client', accessor: 'client' },
@@ -64,10 +48,13 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function CommissionsPage() {
-  const [records, setRecords] = useState<CommissionRecord[]>(mockRecords);
-  const [selectedRecord, setSelectedRecord] = useState<CommissionRecord | null>(null);
+  const [selectedRecord, setSelectedRecord] = useState<Commission | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { commissions: apiData, isLoading, error, createCommissionAsync, updateStatusAsync, deleteCommissionsAsync, bulkUpdateStatusAsync, refetch } = useCommissions();
+  const records: Commission[] = apiData.length > 0 ? (apiData as Commission[]) : (DEMO_COMMISSION_RECORDS as Commission[]);
 
   const totalCommissions = records.reduce((sum, r) => sum + r.commissionAmount, 0);
   const pendingCommissions = records.filter(r => r.status === "Pending" || r.status === "Approved").reduce((sum, r) => sum + r.commissionAmount, 0);
@@ -75,27 +62,33 @@ export default function CommissionsPage() {
   const disputedCount = records.filter(r => r.status === "Disputed").length;
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const dealValue = Number(data.dealValue);
-    const rate = Number(data.commissionRate);
-    const newRecord: CommissionRecord = {
-      id: `COM-${Date.now()}`,
-      salesRep: String(data.salesRep),
-      dealId: `DEAL-${Date.now()}`,
-      dealName: String(data.dealName),
-      client: String(data.client),
-      dealValue,
-      commissionRate: rate,
-      commissionAmount: Math.round(dealValue * rate / 100),
-      status: 'Pending',
-      closeDate: new Date().toISOString().split('T')[0],
-    };
-    setRecords([...records, newRecord]);
-    setCreateModalOpen(false);
+    try {
+      await createCommissionAsync({
+        salesRep: String(data.salesRep),
+        dealName: String(data.dealName),
+        client: String(data.client),
+        dealValue: Number(data.dealValue),
+        commissionRate: Number(data.commissionRate),
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create commission:', err);
+    }
   };
 
-  const rowActions: ListPageAction<CommissionRecord>[] = [
+  const handleStatusChange = async (r: Commission, status: string, paymentDate?: string) => {
+    try {
+      await updateStatusAsync({ id: r.id, status, paymentDate });
+      refetch();
+    } catch (err) {
+      console.error('Failed to update status:', err);
+    }
+  };
+
+  const rowActions: ListPageAction<Commission>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedRecord(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Approved' as const } : rec)) },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => handleStatusChange(r, 'Approved') },
   ];
 
   const stats = [
@@ -159,13 +152,14 @@ export default function CommissionsPage() {
 
   return (
     <AtlvsAppLayout>
-      <ListPage<CommissionRecord>
+      <ListPage<Commission>
         title="Commission Management"
         subtitle="Calculate, track, and manage sales commissions"
         data={records}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search commissions..."
         filters={filters}
         rowActions={rowActions}
@@ -196,11 +190,14 @@ export default function CommissionsPage() {
         emptyAction={{ label: 'Add Commission', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setRecords(prev => prev.filter(r => !ids.includes(r.id)));
+            await deleteCommissionsAsync(ids);
+            refetch();
           } else if (action === 'approve') {
-            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Approved' as const } : r));
+            await bulkUpdateStatusAsync({ ids, status: 'Approved' });
+            refetch();
           } else if (action === 'pay') {
-            setRecords(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Paid' as const, paymentDate: new Date().toISOString().split('T')[0] } : r));
+            await bulkUpdateStatusAsync({ ids, status: 'Paid' });
+            refetch();
           }
         }}
         bulkActions={[
@@ -223,9 +220,9 @@ export default function CommissionsPage() {
             { id: 'approve', label: 'Approve', icon: <Check className="size-4" /> },
             { id: 'pay', label: 'Mark Paid', icon: <DollarSign className="size-4" /> },
           ]}
-          onAction={(id, r) => {
-            if (id === 'approve') setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Approved' as const } : rec));
-            if (id === 'pay') setRecords(records.map(rec => rec.id === r.id ? { ...rec, status: 'Paid' as const, paymentDate: new Date().toISOString().split('T')[0] } : rec));
+          onAction={async (id, r) => {
+            if (id === 'approve') await handleStatusChange(r, 'Approved');
+            if (id === 'pay') await handleStatusChange(r, 'Paid', new Date().toISOString().split('T')[0]);
             setDrawerOpen(false);
           }}
         />

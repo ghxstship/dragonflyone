@@ -15,26 +15,10 @@ import {
   type ListPageAction,
   type DetailSection,
   } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface Invoice {
-  id: string;
-  invoiceNumber: string;
-  client: string;
-  clientEmail: string;
-  amount: number;
-  dueDate: string;
-  issueDate: string;
-  status: "Draft" | "Sent" | "Viewed" | "Paid" | "Overdue" | "Partial";
-  paidAmount: number;
-  project?: string;
-  daysPastDue?: number;
-  [key: string]: unknown;
-}
-
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAccountsReceivable, type ARInvoice } from "@ghxstship/config";
 import { DEMO_AR_INVOICES } from '../../../lib/demo-data';
 
-const mockInvoices = DEMO_AR_INVOICES as Invoice[];
+type Invoice = ARInvoice & { [key: string]: unknown };
 
 
 const getStatusVariant = getBadgeVariant;
@@ -55,20 +39,24 @@ const filters: ListPageFilter[] = [
 
 export default function AccountsReceivablePage() {
   const router = useRouter();
-  const [invoices, setInvoices] = useState<Invoice[]>(mockInvoices);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { invoices: apiData, isLoading, error, updateStatusAsync, deleteInvoicesAsync, sendRemindersAsync, refetch } = useAccountsReceivable();
+  const invoices: Invoice[] = apiData.length > 0 ? (apiData as Invoice[]) : (DEMO_AR_INVOICES as Invoice[]);
 
   const totalOutstanding = invoices.filter(i => i.status !== "Paid").reduce((sum, i) => sum + (i.amount - i.paidAmount), 0);
   const overdueAmount = invoices.filter(i => i.status === "Overdue").reduce((sum, i) => sum + (i.amount - i.paidAmount), 0);
   const overdueCount = invoices.filter(i => i.status === "Overdue").length;
 
-  const handleMarkPaid = (invoice: Invoice) => {
-    setInvoices(invoices.map(i => 
-      i.id === invoice.id 
-        ? { ...i, status: 'Paid' as const, paidAmount: i.amount }
-        : i
-    ));
+  const handleMarkPaid = async (invoice: Invoice) => {
+    try {
+      await updateStatusAsync({ id: invoice.id, status: 'Paid', paidAmount: invoice.amount });
+      refetch();
+    } catch (err) {
+      console.error('Failed to mark as paid:', err);
+    }
   };
 
   const rowActions: ListPageAction<Invoice>[] = [
@@ -147,7 +135,8 @@ export default function AccountsReceivablePage() {
         data={invoices}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search invoices..."
         filters={filters}
         rowActions={rowActions}
@@ -178,13 +167,11 @@ export default function AccountsReceivablePage() {
         emptyMessage="No invoices found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setInvoices(prev => prev.filter(i => !ids.includes(i.id)));
+            await deleteInvoicesAsync(ids);
+            refetch();
           } else if (action === 'reminder') {
-            await fetch('/api/finance/invoices/bulk-reminder', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await sendRemindersAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

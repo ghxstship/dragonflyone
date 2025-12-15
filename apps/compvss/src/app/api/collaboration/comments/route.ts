@@ -57,9 +57,11 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const data = createCommentSchema.parse(body);
+    const user = context.user as { id?: string; full_name?: string };
+    const userId = user?.id;
 
     const { data: comment, error } = await supabaseAdmin
       .from('comments')
@@ -68,7 +70,7 @@ export const POST = apiRoute(
         resource_id: data.resource_id,
         content: data.content,
         parent_id: data.parent_id,
-        author_id: context.user.id,
+        author_id: userId,
       })
       .select(`
         *,
@@ -84,11 +86,11 @@ export const POST = apiRoute(
     }
 
     if (data.mentions && data.mentions.length > 0) {
-      const notifications = data.mentions.map(userId => ({
-        recipient_id: userId,
-        sender_id: context.user.id,
+      const notifications = data.mentions.map(mentionedUserId => ({
+        recipient_id: mentionedUserId,
+        sender_id: userId,
         title: 'You were mentioned in a comment',
-        message: `${context.user.full_name} mentioned you: ${data.content.substring(0, 100)}...`,
+        message: `${user?.full_name || 'Someone'} mentioned you: ${data.content.substring(0, 100)}...`,
         type: 'info',
         action_url: `/app/${data.resource_type}s/${data.resource_id}#comment-${comment.id}`,
         priority: 'medium',

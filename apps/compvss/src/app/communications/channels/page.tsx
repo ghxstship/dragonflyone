@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../../components/app-layout";
+import { Radio, Headphones, MessageSquare, Satellite, Smartphone } from "lucide-react";
 import {
   Container,
   H3,
@@ -54,11 +55,11 @@ export default function ChannelsPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Radio": return "📻";
-      case "Intercom": return "🎧";
-      case "Chat": return "💬";
-      case "All": return "📡";
-      default: return "📱";
+      case "Radio": return <Radio className="size-5" />;
+      case "Intercom": return <Headphones className="size-5" />;
+      case "Chat": return <MessageSquare className="size-5" />;
+      case "All": return <Satellite className="size-5" />;
+      default: return <Smartphone className="size-5" />;
     }
   };
 

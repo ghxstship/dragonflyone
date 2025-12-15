@@ -23,9 +23,10 @@ const allocateResourcesSchema = z.object({
 });
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const data = allocateResourcesSchema.parse(body);
+    const userId = (context.user as { id?: string })?.id;
 
     const { data: project, error: projectError } = await supabaseAdmin
       .from('projects')
@@ -94,7 +95,7 @@ export const POST = apiRoute(
                 role: requirement.role,
                 start_date: data.start_date,
                 end_date: data.end_date,
-                assigned_by: context.user.id,
+                assigned_by: userId,
               });
             }
           }
@@ -147,7 +148,7 @@ export const POST = apiRoute(
                 asset_id: asset.id,
                 start_date: data.start_date,
                 end_date: data.end_date,
-                assigned_by: context.user.id,
+                assigned_by: userId,
               });
             }
           }

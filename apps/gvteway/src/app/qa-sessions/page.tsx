@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { Mic } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -150,7 +151,7 @@ export default function QASessionsPage() {
             inverted={filter === 'live'}
             onClick={() => setFilter('live')}
           >
-            🔴 Live Now
+            Live Now
           </Button>
           <Button
             variant={filter === 'upcoming' ? 'solid' : 'outlineInk'}
@@ -170,7 +171,7 @@ export default function QASessionsPage() {
 
         {liveSessions.length > 0 && filter !== 'archived' && (
           <Stack gap={4}>
-            <H2 className="text-white">🔴 Live Now</H2>
+            <H2 className="text-white">Live Now</H2>
             <Grid cols={2} gap={6}>
               {liveSessions.map(session => (
                 <Card
@@ -277,7 +278,7 @@ export default function QASessionsPage() {
                     <Image src={selectedSession.artist_image} alt={selectedSession.artist_name} fill className="object-cover" />
                   ) : (
                     <Stack className="flex size-full items-center justify-center">
-                      <Body className="text-h6-md">🎤</Body>
+                      <Mic className="size-6" />
                     </Stack>
                   )}
                 </Stack>

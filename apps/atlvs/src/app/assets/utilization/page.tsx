@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_ASSET_UTILIZATION,
-  type DemoAssetUtilization as AssetUtilization,
-} from '../../../lib/demo-data';
+import { createExportHandler, createImportHandler, getImportTemplates, useAssetUtilization, type AssetUtilization } from '@ghxstship/config';
+import { DEMO_ASSET_UTILIZATION } from '../../../lib/demo-data';
 
 const getUtilizationVariant = (rate: number): 'solid' | 'outline' | 'ghost' => {
   if (rate >= 0.8) return 'solid';
@@ -39,14 +35,17 @@ const filters: ListPageFilter[] = [
 
 export default function AssetUtilizationPage() {
   const router = useRouter();
-  const [data] = useState<AssetUtilization[]>(DEMO_ASSET_UTILIZATION);
   const [selected, setSelected] = useState<AssetUtilization | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Real API integration with demo fallback
+  const { utilization: apiData, isLoading, error, deleteUtilizationAsync, refetch } = useAssetUtilization();
+  const data: AssetUtilization[] = apiData.length > 0 ? apiData : (DEMO_ASSET_UTILIZATION as unknown as AssetUtilization[]);
+
   const totalAssetValue = data.reduce((sum, a) => sum + a.currentValue, 0);
   const totalRevenue = data.reduce((sum, a) => sum + a.totalRevenue, 0);
-  const avgUtilization = data.reduce((sum, a) => sum + a.utilizationRate, 0) / data.length;
-  const overallROI = ((totalRevenue / totalAssetValue) * 100).toFixed(1);
+  const avgUtilization = data.length > 0 ? data.reduce((sum, a) => sum + a.utilizationRate, 0) / data.length : 0;
+  const overallROI = totalAssetValue > 0 ? ((totalRevenue / totalAssetValue) * 100).toFixed(1) : '0';
 
   const rowActions: ListPageAction<AssetUtilization>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -121,7 +120,8 @@ export default function AssetUtilizationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search assets..."
         filters={filters}
         rowActions={rowActions}
@@ -150,11 +150,8 @@ export default function AssetUtilizationPage() {
         emptyMessage="No utilization data found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/utilization/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteUtilizationAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

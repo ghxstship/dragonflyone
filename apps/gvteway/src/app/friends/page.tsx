@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
+import { User } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -177,7 +178,7 @@ export default function FriendsPage() {
                           {friend.avatar_url ? (
                             <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                           ) : (
-                            <Body className="text-white">👤</Body>
+                            <User className="size-6 text-white" />
                           )}
                         </Stack>
                         <Stack className="flex-1" gap={1}>
@@ -238,7 +239,7 @@ export default function FriendsPage() {
                               {friend.avatar_url ? (
                                 <Image src={friend.avatar_url} alt={friend.name} fill className="object-cover" />
                               ) : (
-                                <Body className="text-white">👤</Body>
+                                <User className="size-6 text-white" />
                               )}
                             </Stack>
                             <Stack gap={1}>

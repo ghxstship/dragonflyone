@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
+import { Clock, Flame, TrendingUp, Zap, BarChart3 } from "lucide-react";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, Badge, ProgressBar,
@@ -58,11 +59,11 @@ function UrgencyTacticsPageContent() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Countdown": return "⏰";
-      case "Low Inventory": return "🔥";
-      case "Price Increase": return "📈";
-      case "Last Chance": return "⚡";
-      default: return "📊";
+      case "Countdown": return <Clock className="size-5" />;
+      case "Low Inventory": return <Flame className="size-5" />;
+      case "Price Increase": return <TrendingUp className="size-5" />;
+      case "Last Chance": return <Zap className="size-5" />;
+      default: return <BarChart3 className="size-5" />;
     }
   };
 
@@ -83,7 +84,7 @@ function UrgencyTacticsPageContent() {
             <Stack gap={4}>
               <Stack direction="horizontal" className="justify-between items-center">
                 <Stack gap={1}>
-                  <Label className="text-error-600 font-weight-bold">🔥 EARLY BIRD ENDS SOON</Label>
+                  <Label className="text-error-600 font-weight-bold"><Flame className="size-4 inline mr-1" />EARLY BIRD ENDS SOON</Label>
                   <Body>Summer Music Festival 2025 - Save $50 on tickets</Body>
                 </Stack>
                 <Button variant="solid">Get Tickets</Button>
@@ -127,7 +128,7 @@ function UrgencyTacticsPageContent() {
               <Card key={tactic.id} className="border-2 border-black p-6">
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-h5-md">{getTypeIcon(tactic.type)}</Label>
+                    {getTypeIcon(tactic.type)}
                     <Stack gap={1}>
                       <Body className="font-weight-bold">{tactic.eventName}</Body>
                       <Badge variant="outline">{tactic.type}</Badge>
@@ -163,7 +164,7 @@ function UrgencyTacticsPageContent() {
               <Grid cols={2} gap={4}>
                 <Card className="p-4 border-2 border-warning-500 bg-warning-50">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-h5-md">🔥</Label>
+                    <Flame className="size-5" />
                     <Stack gap={1}>
                       <Label className="font-weight-bold text-warning-600">Only 23 VIP tickets left!</Label>
                       <Label className="text-ink-600">High demand - selling fast</Label>
@@ -172,7 +173,7 @@ function UrgencyTacticsPageContent() {
                 </Card>
                 <Card className="p-4 border-2 border-error-500 bg-error-50">
                   <Stack direction="horizontal" gap={3}>
-                    <Label className="text-h5-md">⚡</Label>
+                    <Zap className="size-5" />
                     <Stack gap={1}>
                       <Label className="font-weight-bold text-error-600">Final 12 tickets available!</Label>
                       <Label className="text-ink-600">Last chance to attend</Label>
@@ -244,10 +245,10 @@ function UrgencyTacticsPageContent() {
             </Select>
             <Select className="border-2 border-black">
               <option value="">Tactic Type...</option>
-              <option value="countdown">⏰ Countdown Timer</option>
-              <option value="inventory">🔥 Low Inventory Alert</option>
-              <option value="price">📈 Price Increase Warning</option>
-              <option value="last">⚡ Last Chance</option>
+              <option value="countdown">Countdown Timer</option>
+              <option value="inventory">Low Inventory Alert</option>
+              <option value="price">Price Increase Warning</option>
+              <option value="last">Last Chance</option>
             </Select>
             <Input placeholder="Message (use {count} for inventory)" className="border-2 border-black" />
             <Grid cols={2} gap={4}>

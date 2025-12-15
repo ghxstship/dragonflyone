@@ -16,19 +16,23 @@ const createNotificationSchema = z.object({
 });
 
 export const GET = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const { searchParams } = new URL(request.url);
     const unreadOnly = searchParams.get('unread') === 'true';
     const type = searchParams.get('type');
     const limit = parseInt(searchParams.get('limit') || '50', 10);
+    const userId = (context.user as { id?: string })?.id;
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     let query = supabaseAdmin
       .from('notifications')
       .select('*')
-      .eq('recipient_id', context.user.id);
+      .eq('user_id', userId);
 
     if (unreadOnly) {
-      query = query.eq('read', false);
+      query = query.eq('is_read', false);
     }
 
     if (type) {
@@ -49,8 +53,8 @@ export const GET = apiRoute(
     const { count: unreadCount } = await supabaseAdmin
       .from('notifications')
       .select('*', { count: 'exact', head: true })
-      .eq('recipient_id', context.user.id)
-      .eq('read', false);
+      .eq('user_id', userId)
+      .eq('is_read', false);
 
     return NextResponse.json({ 
       notifications: notifications || [], 
@@ -64,20 +68,21 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const data = createNotificationSchema.parse(body);
+    const userId = (context.user as { id?: string })?.id;
 
     const notificationsToInsert = data.recipient_ids.map(recipientId => ({
-      recipient_id: recipientId,
-      sender_id: context.user.id,
+      user_id: recipientId,
+      created_by: userId,
       title: data.title,
       message: data.message,
-      type: data.type,
-      action_url: data.action_url,
-      action_label: data.action_label,
+      type: data.type === 'urgent' ? 'system' : data.type,
+      link: data.action_url,
+      action_type: data.action_label,
       priority: data.priority,
-      read: false,
+      is_read: false,
     }));
 
     const { data: notifications, error } = await supabaseAdmin
@@ -126,18 +131,22 @@ export const POST = apiRoute(
 );
 
 export const PATCH = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     const body = await request.json();
     const { notification_ids, read } = z.object({
       notification_ids: z.array(z.string().uuid()),
       read: z.boolean(),
     }).parse(body);
+    const userId = (context.user as { id?: string })?.id;
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const { error } = await supabaseAdmin
       .from('notifications')
-      .update({ read, read_at: read ? new Date().toISOString() : null })
+      .update({ is_read: read, read_at: read ? new Date().toISOString() : null })
       .in('id', notification_ids)
-      .eq('recipient_id', context.user.id);
+      .eq('user_id', userId);
 
     if (error) {
       return NextResponse.json(

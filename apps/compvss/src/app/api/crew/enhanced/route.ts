@@ -79,16 +79,17 @@ export const GET = apiRoute(
 );
 
 export const POST = apiRoute(
-  async (request: NextRequest, context: { params: Promise<Record<string, string>> }) => {
+  async (request: NextRequest, context: Record<string, unknown>) => {
     try {
       const supabase = createClient(supabaseUrl, supabaseServiceKey);
-      const payload = context.validated;
+      const payload = context.validated as z.infer<typeof createCrewSchema>;
+      const userId = (context.user as { id?: string })?.id;
 
       const { data, error } = await supabase
         .from('crew_members')
         .insert({
           ...payload,
-          created_by: context.user?.id,
+          created_by: userId,
         })
         .select()
         .single();

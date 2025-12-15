@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { Eye, Check, Pencil, Trash2 } from "lucide-react";
+import { Eye, Check, Pencil, Trash2, RefreshCw, Phone, Mail, Users } from "lucide-react";
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
@@ -25,18 +25,18 @@ import {
   type DemoCrmTask as Task,
 } from '../../../lib/demo-data';
 
-const getTypeIcon = (type: string) => {
+const TypeIcon = ({ type }: { type: string }) => {
   switch (type) {
-    case "Follow-up": return "🔄";
-    case "Call": return "📞";
-    case "Email": return "📧";
-    case "Meeting": return "👥";
-    default: return "✅";
+    case "Follow-up": return <RefreshCw className="size-4 inline mr-1" />;
+    case "Call": return <Phone className="size-4 inline mr-1" />;
+    case "Email": return <Mail className="size-4 inline mr-1" />;
+    case "Meeting": return <Users className="size-4 inline mr-1" />;
+    default: return <Check className="size-4 inline mr-1" />;
   }
 };
 
 const columns: ListPageColumn<Task>[] = [
-  { key: 'title', label: 'Task', accessor: (r) => `${getTypeIcon(r.type)} ${r.title}`, sortable: true },
+  { key: 'title', label: 'Task', accessor: 'title', sortable: true, render: (v, r) => <><TypeIcon type={r.type} />{String(v)}</> },
   { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
   { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={v === 'High' ? 'solid' : v === 'Medium' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
   { key: 'dueDate', label: 'Due', accessor: (r) => `${r.dueDate}${r.dueTime ? ` ${r.dueTime}` : ''}`, sortable: true },

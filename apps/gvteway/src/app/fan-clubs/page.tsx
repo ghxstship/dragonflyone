@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Ticket, Star, Gift, Smartphone } from "lucide-react";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
@@ -100,28 +101,28 @@ export default function FanClubsPage() {
               <H2 className="text-white">Member Benefits</H2>
               <Grid cols={4} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">🎫</Body>
+                  <Ticket className="size-8" />
                   <Body className="font-display text-white">Presale Access</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Get tickets before the general public
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">⭐</Body>
+                  <Star className="size-8" />
                   <Body className="font-display text-white">Exclusive Events</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Members-only shows and meet & greets
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">🎁</Body>
+                  <Gift className="size-8" />
                   <Body className="font-display text-white">Merch Discounts</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Special pricing on official merchandise
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">📱</Body>
+                  <Smartphone className="size-8" />
                   <Body className="font-display text-white">Exclusive Content</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Behind-the-scenes and early releases

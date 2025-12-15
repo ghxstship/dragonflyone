@@ -27,6 +27,7 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
+import { Users, Link, Star, Heart } from 'lucide-react';
 import {
   DEMO_CONTACTS,
   DEMO_RELATIONSHIPS,
@@ -163,22 +164,22 @@ export default function RelationshipsPage() {
           <StatCard
             label="Total Contacts"
             value={contacts.length}
-            icon={<span>👥</span>}
+            icon={<Users className="size-5" />}
           />
           <StatCard
             label="Relationships"
             value={relationships.length}
-            icon={<span>🔗</span>}
+            icon={<Link className="size-5" />}
           />
           <StatCard
             label="Key Stakeholders"
             value={stakeholderMap.stakeholders.filter(s => s.influence === 'high').length}
-            icon={<span>⭐</span>}
+            icon={<Star className="size-5" />}
           />
           <StatCard
             label="Champions"
             value={stakeholderMap.stakeholders.filter(s => s.sentiment === 'positive').length}
-            icon={<span>💚</span>}
+            icon={<Heart className="size-5" />}
           />
         </Grid>
 

@@ -40,19 +40,20 @@ const createClient = () => createBrowserClient(
 
 interface BatchOperation {
   id: string;
-  name: string;
+  user_id: string;
   entity_type: string;
   operation_type: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  total_items: number;
-  processed_items: number;
-  failed_items: number;
-  progress_percentage: number;
-  started_at: string | null;
-  completed_at: string | null;
+  entity_ids: string[];
+  parameters: Record<string, unknown> | null;
+  status: 'pending' | 'processing' | 'completed' | 'failed' | 'partial';
+  total_count: number;
+  processed_count: number;
+  success_count: number;
+  failed_count: number;
+  results: Record<string, unknown> | null;
+  error_message: string | null;
   created_at: string;
-  created_by: string;
-  error_log: Array<{ item_id: string; error: string }>;
+  completed_at: string | null;
 }
 
 type BadgeVariant = 'solid' | 'outline' | 'ghost' | 'success' | 'warning' | 'error' | 'info' | 'pop';
@@ -62,7 +63,7 @@ const STATUS_BADGE_VARIANTS: Record<string, BadgeVariant> = {
   processing: 'info',
   completed: 'success',
   failed: 'error',
-  cancelled: 'ghost',
+  partial: 'ghost',
 };
 
 export default function BatchOperationsPage() {
@@ -174,7 +175,7 @@ export default function BatchOperationsPage() {
 
         {/* Filters */}
         <div className="flex flex-wrap gap-2">
-          {['all', 'pending', 'processing', 'completed', 'failed', 'cancelled'].map((status) => (
+          {['all', 'pending', 'processing', 'completed', 'failed', 'partial'].map((status) => (
             <Button
               key={status}
               variant={filter === status ? 'solid' : 'outline'}
@@ -210,69 +211,74 @@ export default function BatchOperationsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {operations.map((op) => (
-                  <TableRow key={op.id}>
-                    <TableCell>
-                      <Stack gap={1}>
-                        <Body className="font-weight-bold">{op.name || op.operation_type}</Body>
-                        <Label className="text-ink-secondary">{op.entity_type}</Label>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={STATUS_BADGE_VARIANTS[op.status]} size="sm">
-                        {op.status.toUpperCase()}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Stack gap={1}>
-                        <div className="flex justify-between">
-                          <Label className="text-ink-secondary">{op.processed_items}/{op.total_items}</Label>
-                          <Label className="text-ink-secondary">{op.progress_percentage}%</Label>
+                {operations.map((op) => {
+                  const progressPercentage = op.total_count > 0 
+                    ? Math.round((op.processed_count / op.total_count) * 100) 
+                    : 0;
+                  return (
+                    <TableRow key={op.id}>
+                      <TableCell>
+                        <Stack gap={1}>
+                          <Body className="font-weight-bold">{op.operation_type}</Body>
+                          <Label className="text-ink-secondary">{op.entity_type}</Label>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={STATUS_BADGE_VARIANTS[op.status]} size="sm">
+                          {op.status.toUpperCase()}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Stack gap={1}>
+                          <div className="flex justify-between">
+                            <Label className="text-ink-secondary">{op.processed_count}/{op.total_count}</Label>
+                            <Label className="text-ink-secondary">{progressPercentage}%</Label>
+                          </div>
+                          <ProgressBar 
+                            value={progressPercentage} 
+                            variant={op.status === 'failed' ? 'error' : 'default'}
+                            size="sm"
+                          />
+                          {op.failed_count > 0 && (
+                            <Label className="text-error">{op.failed_count} failed</Label>
+                          )}
+                        </Stack>
+                      </TableCell>
+                      <TableCell>
+                        <Label className="text-ink-secondary">{formatDate(op.created_at)}</Label>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setSelectedOperation(op)}
+                          >
+                            Details
+                          </Button>
+                          {op.status === 'pending' && (
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => cancelOperation(op.id)}
+                            >
+                              Cancel
+                            </Button>
+                          )}
+                          {op.status === 'failed' && (
+                            <Button
+                              variant="accent"
+                              size="sm"
+                              onClick={() => retryOperation(op.id)}
+                            >
+                              Retry
+                            </Button>
+                          )}
                         </div>
-                        <ProgressBar 
-                          value={op.progress_percentage} 
-                          variant={op.status === 'failed' ? 'error' : 'default'}
-                          size="sm"
-                        />
-                        {op.failed_items > 0 && (
-                          <Label className="text-error">{op.failed_items} failed</Label>
-                        )}
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      <Label className="text-ink-secondary">{formatDate(op.created_at)}</Label>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setSelectedOperation(op)}
-                        >
-                          Details
-                        </Button>
-                        {op.status === 'pending' && (
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => cancelOperation(op.id)}
-                          >
-                            Cancel
-                          </Button>
-                        )}
-                        {op.status === 'failed' && (
-                          <Button
-                            variant="accent"
-                            size="sm"
-                            onClick={() => retryOperation(op.id)}
-                          >
-                            Retry
-                          </Button>
-                        )}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </Card>
@@ -288,65 +294,81 @@ export default function BatchOperationsPage() {
           
           <ModalBody>
             <Stack gap={6}>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="text-ink-secondary">Name</Label>
-                  <Body className="font-weight-bold">{selectedOperation.name || '-'}</Body>
-                </div>
-                <div>
-                  <Label className="text-ink-secondary">Entity Type</Label>
-                  <Body className="font-weight-bold">{selectedOperation.entity_type}</Body>
-                </div>
-                <div>
-                  <Label className="text-ink-secondary">Operation Type</Label>
-                  <Body className="font-weight-bold">{selectedOperation.operation_type}</Body>
-                </div>
-                <div>
-                  <Label className="text-ink-secondary">Status</Label>
-                  <Badge variant={STATUS_BADGE_VARIANTS[selectedOperation.status]} size="md">
-                    {selectedOperation.status.toUpperCase()}
-                  </Badge>
-                </div>
-                <div>
-                  <Label className="text-ink-secondary">Started</Label>
-                  <Body>{formatDate(selectedOperation.started_at)}</Body>
-                </div>
-                <div>
-                  <Label className="text-ink-secondary">Completed</Label>
-                  <Body>{formatDate(selectedOperation.completed_at)}</Body>
-                </div>
-              </div>
+              {(() => {
+                const progressPercentage = selectedOperation.total_count > 0 
+                  ? Math.round((selectedOperation.processed_count / selectedOperation.total_count) * 100) 
+                  : 0;
+                return (
+                  <>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-ink-secondary">Operation Type</Label>
+                        <Body className="font-weight-bold">{selectedOperation.operation_type}</Body>
+                      </div>
+                      <div>
+                        <Label className="text-ink-secondary">Entity Type</Label>
+                        <Body className="font-weight-bold">{selectedOperation.entity_type}</Body>
+                      </div>
+                      <div>
+                        <Label className="text-ink-secondary">Status</Label>
+                        <Badge variant={STATUS_BADGE_VARIANTS[selectedOperation.status]} size="md">
+                          {selectedOperation.status.toUpperCase()}
+                        </Badge>
+                      </div>
+                      <div>
+                        <Label className="text-ink-secondary">Items Count</Label>
+                        <Body className="font-weight-bold">{selectedOperation.entity_ids.length}</Body>
+                      </div>
+                      <div>
+                        <Label className="text-ink-secondary">Created</Label>
+                        <Body>{formatDate(selectedOperation.created_at)}</Body>
+                      </div>
+                      <div>
+                        <Label className="text-ink-secondary">Completed</Label>
+                        <Body>{formatDate(selectedOperation.completed_at)}</Body>
+                      </div>
+                    </div>
 
-              <Card>
-                <div className="p-4">
-                  <Label className="text-ink-secondary mb-2 block">Progress</Label>
-                  <div className="flex justify-between mb-2">
-                    <Body className="text-ink-secondary">Processed: {selectedOperation.processed_items}</Body>
-                    <Body className="text-ink-secondary">Total: {selectedOperation.total_items}</Body>
-                  </div>
-                  <ProgressBar 
-                    value={selectedOperation.progress_percentage} 
-                    variant={selectedOperation.status === 'failed' ? 'error' : 'default'}
-                  />
-                  {selectedOperation.failed_items > 0 && (
-                    <Body className="text-error mt-2">Failed: {selectedOperation.failed_items}</Body>
-                  )}
-                </div>
-              </Card>
+                    <Card>
+                      <div className="p-4">
+                        <Label className="text-ink-secondary mb-2 block">Progress</Label>
+                        <div className="flex justify-between mb-2">
+                          <Body className="text-ink-secondary">Processed: {selectedOperation.processed_count}</Body>
+                          <Body className="text-ink-secondary">Total: {selectedOperation.total_count}</Body>
+                        </div>
+                        <ProgressBar 
+                          value={progressPercentage} 
+                          variant={selectedOperation.status === 'failed' ? 'error' : 'default'}
+                        />
+                        <div className="flex justify-between mt-2">
+                          <Body className="text-success">Success: {selectedOperation.success_count}</Body>
+                          {selectedOperation.failed_count > 0 && (
+                            <Body className="text-error">Failed: {selectedOperation.failed_count}</Body>
+                          )}
+                        </div>
+                      </div>
+                    </Card>
 
-              {selectedOperation.error_log && selectedOperation.error_log.length > 0 && (
-                <div>
-                  <Label className="text-ink-secondary mb-2 block">Error Log</Label>
-                  <div className="max-h-40 overflow-y-auto space-y-2">
-                    {selectedOperation.error_log.map((err, idx) => (
-                      <Alert key={idx} variant="error">
-                        <Body className="font-weight-bold">Item: {err.item_id}</Body>
-                        <Body className="text-ink-secondary">{err.error}</Body>
+                    {selectedOperation.error_message && (
+                      <Alert variant="error">
+                        <Body className="font-weight-bold">Error</Body>
+                        <Body className="text-ink-secondary">{selectedOperation.error_message}</Body>
                       </Alert>
-                    ))}
-                  </div>
-                </div>
-              )}
+                    )}
+
+                    {selectedOperation.results && Object.keys(selectedOperation.results).length > 0 && (
+                      <div>
+                        <Label className="text-ink-secondary mb-2 block">Results</Label>
+                        <Card>
+                          <pre className="p-4 text-mono-sm overflow-auto max-h-40">
+                            {JSON.stringify(selectedOperation.results, null, 2)}
+                          </pre>
+                        </Card>
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </Stack>
           </ModalBody>
 

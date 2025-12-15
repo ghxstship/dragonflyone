@@ -19,11 +19,12 @@ import {
   Section,
   SectionHeader,
   StatusBadge,
+  Alert,
+  useNotifications,
 } from "@ghxstship/ui";
 import {
   CheckCircle,
   ListTodo,
-  Filter,
   ArrowRight,
 } from "lucide-react";
 import { useActionItems, useActionItemStats, useCompleteActionItem } from "@/hooks/useActionItems";
@@ -33,8 +34,10 @@ export default function ActionItemsPage() {
   const router = useRouter();
   const [filterPriority, setFilterPriority] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [actionError, setActionError] = useState<string | null>(null);
+  const { addNotification } = useNotifications();
 
-  const { data: actionItems, isLoading, refetch } = useActionItems({
+  const { data: actionItems, isLoading, error: queryError, refetch } = useActionItems({
     priority: filterPriority !== "all" ? filterPriority : undefined,
     status: filterStatus !== "all" ? filterStatus : undefined,
     limit: 100,
@@ -43,12 +46,19 @@ export default function ActionItemsPage() {
   const { data: stats } = useActionItemStats();
   const completeItem = useCompleteActionItem();
 
+  const displayError = actionError || (queryError instanceof Error ? queryError.message : null);
+
   const handleComplete = async (id: string, source: 'task' | 'meeting') => {
     try {
+      setActionError(null);
       await completeItem.mutateAsync({ id, source });
+      addNotification({ title: 'Success', type: 'success', message: 'Action item completed successfully' });
       refetch();
-    } catch (error) {
-      log.error('Failed to complete action item:', error instanceof Error ? error : undefined);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to complete action item';
+      setActionError(errorMessage);
+      addNotification({ title: 'Error', type: 'error', message: errorMessage });
+      log.error('Failed to complete action item:', err instanceof Error ? err : undefined);
     }
   };
 
@@ -107,6 +117,13 @@ export default function ActionItemsPage() {
           showSettings
         />
 
+        {/* Error Display */}
+        {displayError && (
+          <Alert variant="error" onClose={() => setActionError(null)}>
+            {displayError}
+          </Alert>
+        )}
+
         {/* Stats */}
         <Grid cols={4} gap={6}>
           <StatCard
@@ -137,7 +154,6 @@ export default function ActionItemsPage() {
           <SectionHeader
             kicker="Filters"
             title="Filter Action Items"
-            icon={<Filter className="size-5" />}
           />
           <Stack direction="horizontal" gap={4} className="items-end">
             <Stack gap={2}>

@@ -1,17 +1,37 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid, Spinner, Container } from "@ghxstship/ui";
 import { Clock, ListOrdered, Phone, Hammer } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
+import { useSchedulePageData } from "../../../../hooks/useSchedule";
 
 export default function ProductionSchedulePage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  
+  // Fetch real data from API
+  const { data: production, isLoading: productionLoading } = useProject(productionId);
+  const { items: scheduleItems, summary, isLoading: scheduleLoading } = useSchedulePageData();
+  
+  const isLoading = productionLoading || scheduleLoading;
+  
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading schedule..." />
+      </Container>
+    );
+  }
 
-  const scheduleStats = { runOfShow: 24, showCalls: 8, buildStrike: 12, soundchecks: 4 };
+  // Calculate stats from real data
+  const scheduleStats = { 
+    runOfShow: summary?.by_type?.load_in || 0, 
+    showCalls: summary?.by_type?.show || 0, 
+    buildStrike: summary?.by_type?.setup || 0, 
+    soundchecks: summary?.by_type?.rehearsal || 0 
+  };
 
   return (
     <Stack gap={8}>
@@ -82,6 +102,27 @@ export default function ProductionSchedulePage() {
           </CardBody>
         </Card>
       </Grid>
+
+      {scheduleItems.length > 0 && (
+        <Card>
+          <CardBody>
+            <Stack gap={4}>
+              <Body className="font-weight-bold">Upcoming Schedule Items</Body>
+              <Stack gap={2}>
+                {scheduleItems.slice(0, 5).map((item) => (
+                  <Stack key={item.id} direction="horizontal" className="items-center justify-between border-b border-grey-200 pb-2">
+                    <Stack gap={1}>
+                      <Body className="font-weight-medium">{item.name}</Body>
+                      <Body size="sm" className="text-grey-500">{item.type}</Body>
+                    </Stack>
+                    <Body size="sm" className="text-grey-500">{item.progress}%</Body>
+                  </Stack>
+                ))}
+              </Stack>
+            </Stack>
+          </CardBody>
+        </Card>
+      )}
     </Stack>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { Ruler, Wrench, Building, Scale, FileText, Folder, PenTool } from "lucide-react";
 import {
   Container,
   H3,
@@ -44,12 +45,12 @@ export default function DrawingsPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Vectorworks": return "📐";
-      case "AutoCAD": return "🔧";
-      case "SketchUp": return "🏗️";
-      case "CAD": return "📏";
-      case "PDF": return "📄";
-      default: return "📁";
+      case "Vectorworks": return <Ruler className="size-5" />;
+      case "AutoCAD": return <Wrench className="size-5" />;
+      case "SketchUp": return <Building className="size-5" />;
+      case "CAD": return <Scale className="size-5" />;
+      case "PDF": return <FileText className="size-5" />;
+      default: return <Folder className="size-5" />;
     }
   };
 
@@ -216,7 +217,7 @@ export default function DrawingsPage() {
           <Stack gap={4}>
             <Card className="border-2 border-dashed p-8 text-center">
               <Stack gap={2}>
-                <Body className="text-h3-md">📐</Body>
+                <PenTool className="size-12" />
                 <Body>Drag and drop CAD files here</Body>
                 <Body size="sm" className="">Supports: DWG, VWX, SKP, PDF</Body>
                 <Button variant="outline">Browse Files</Button>

@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Music, Tent, Briefcase, Theater, Trophy, Sparkles, Calendar } from "lucide-react";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -40,13 +41,13 @@ function EventCloneContent() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Concert": return "🎵";
-      case "Festival": return "🎪";
-      case "Corporate": return "💼";
-      case "Theater": return "🎭";
-      case "Sports": return "⚽";
-      case "Custom": return "✨";
-      default: return "📅";
+      case "Concert": return <Music className="size-5" />;
+      case "Festival": return <Tent className="size-5" />;
+      case "Corporate": return <Briefcase className="size-5" />;
+      case "Theater": return <Theater className="size-5" />;
+      case "Sports": return <Trophy className="size-5" />;
+      case "Custom": return <Sparkles className="size-5" />;
+      default: return <Calendar className="size-5" />;
     }
   };
 

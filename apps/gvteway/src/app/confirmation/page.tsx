@@ -2,6 +2,7 @@
 
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Smartphone, Ticket, Mail } from "lucide-react";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
@@ -155,21 +156,21 @@ function ConfirmationContent() {
               <H3 className="text-white">What&apos;s Next?</H3>
               <Grid cols={3} gap={4}>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">📧</Body>
+                  <Mail className="size-8" />
                   <Body className="font-display text-white">Check Your Email</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Your tickets have been sent to {order.billing_email}
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">📱</Body>
+                  <Smartphone className="size-8" />
                   <Body className="font-display text-white">Add to Wallet</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Save your tickets to Apple Wallet or Google Pay
                   </Body>
                 </Stack>
                 <Stack gap={2}>
-                  <Body className="text-h3-md">🎫</Body>
+                  <Ticket className="size-8" />
                   <Body className="font-display text-white">View Tickets</Body>
                   <Body size="sm" className="text-on-dark-muted">
                     Access your tickets anytime from your account

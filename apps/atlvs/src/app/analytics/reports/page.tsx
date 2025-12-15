@@ -30,26 +30,18 @@ import {
   Filter,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Report {
-  id: string;
-  name: string;
-  type: 'financial' | 'operational' | 'hr' | 'custom';
-  schedule: 'daily' | 'weekly' | 'monthly' | 'on-demand';
-  lastRun: string;
-  nextRun?: string;
-  status: 'active' | 'paused' | 'error';
-  format: 'pdf' | 'excel' | 'csv';
-}
-
+import { useAnalyticsReports, type AnalyticsReport } from '@ghxstship/config';
 import { DEMO_ANALYTICS_REPORTS } from '../../../lib/demo-data';
 
-const mockReports = DEMO_ANALYTICS_REPORTS as unknown as Report[];
+type Report = AnalyticsReport;
 
 
 export default function ReportsPage() {
-  const [reports] = useState(mockReports);
   const [filter, setFilter] = useState<string>('all');
+
+  // Real API integration with demo fallback
+  const { reports: apiData, isLoading, error, runReportAsync, toggleStatusAsync, refetch } = useAnalyticsReports();
+  const reports: Report[] = apiData.length > 0 ? apiData : (DEMO_ANALYTICS_REPORTS as unknown as Report[]);
 
   const activeCount = reports.filter(r => r.status === 'active').length;
   const scheduledCount = reports.filter(r => r.schedule !== 'on-demand').length;
@@ -81,6 +73,27 @@ export default function ReportsPage() {
         return <Badge variant="error">Error</Badge>;
     }
   };
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8} className="p-8">
+          <Body className="text-on-dark-muted">Loading reports...</Body>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8} className="p-8">
+          <Body className="text-destructive">Error loading reports: {(error as Error).message}</Body>
+          <Button onClick={() => refetch()}>Retry</Button>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>
@@ -209,10 +222,10 @@ export default function ReportsPage() {
                       <TableCell>{getStatusBadge(report.status)}</TableCell>
                       <TableCell>
                         <Stack direction="horizontal" gap={2}>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" onClick={() => runReportAsync(report.id).then(() => refetch())}>
                             <Play size={14} />
                           </Button>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="sm" onClick={() => toggleStatusAsync({ id: report.id, status: report.status === 'active' ? 'paused' : 'active' }).then(() => refetch())}>
                             {report.status === 'active' ? (
                               <Pause size={14} />
                             ) : (

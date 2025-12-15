@@ -7,12 +7,8 @@ import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_RENTAL_EQUIPMENT,
-  type DemoRentalEquipment as RentalEquipment,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useRentals, type RentalEquipment } from '@ghxstship/config';
+import { DEMO_RENTAL_EQUIPMENT } from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -42,19 +38,31 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function RentalEquipmentPage() {
-  const [data, setData] = useState<RentalEquipment[]>(DEMO_RENTAL_EQUIPMENT);
   const [selected, setSelected] = useState<RentalEquipment | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { rentals: apiData, isLoading, error, createRentalAsync, updateRentalAsync, deleteRentalsAsync, returnRentalsAsync, refetch } = useRentals();
+  const data: RentalEquipment[] = apiData.length > 0 ? apiData : (DEMO_RENTAL_EQUIPMENT as unknown as RentalEquipment[]);
 
   const activeRentals = data.filter(r => r.status === 'On Rent' || r.status === 'Reserved').length;
   const overdueRentals = data.filter(r => r.status === 'Overdue').length;
   const totalCost = data.filter(r => r.status !== 'Returned').reduce((sum, r) => sum + r.totalCost, 0);
   const vendorCount = new Set(data.map(r => r.vendor)).size;
 
+  const handleReturn = async (r: RentalEquipment) => {
+    try {
+      await updateRentalAsync({ id: r.id, updates: { status: 'Returned' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to return rental:', err);
+    }
+  };
+
   const rowActions: ListPageAction<RentalEquipment>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
-    { id: 'return', label: 'Mark Returned', icon: <Check className="size-4" />, onClick: (r) => setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)) },
+    { id: 'return', label: 'Mark Returned', icon: <Check className="size-4" />, onClick: handleReturn },
   ];
 
   const stats = [
@@ -125,7 +133,8 @@ export default function RentalEquipmentPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search rentals..."
         filters={filters}
         rowActions={rowActions}
@@ -156,9 +165,11 @@ export default function RentalEquipmentPage() {
         emptyMessage="No rentals found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(r => !ids.includes(r.id)));
+            await deleteRentalsAsync(ids);
+            refetch();
           } else if (action === 'return') {
-            setData(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Returned' as const } : r));
+            await returnRentalsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[
@@ -177,7 +188,7 @@ export default function RentalEquipmentPage() {
           subtitle={(r) => `${r.vendor} • ${r.status} • $${r.totalCost.toLocaleString()}`}
           sections={detailSections}
           actions={[{ id: 'return', label: 'Mark Returned', icon: <Check className="size-4" /> }]}
-          onAction={(id, r) => { if (id === 'return') setData(data.map(rec => rec.id === r.id ? { ...rec, status: 'Returned' as const } : rec)); setDrawerOpen(false); }}
+          onAction={async (id, r) => { if (id === 'return') await handleReturn(r); setDrawerOpen(false); }}
         />
       )}
       <RecordFormModal
@@ -187,12 +198,20 @@ export default function RentalEquipmentPage() {
         title="Add Rental"
         fields={formFields}
         onSubmit={async (values) => {
-          await fetch('/api/rentals', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-          });
-          setModalOpen(false);
+          try {
+            await createRentalAsync({
+              name: String(values.name),
+              category: String(values.category),
+              vendor: String(values.vendor),
+              rental_start: String(values.rentalStart),
+              rental_end: String(values.rentalEnd),
+              daily_rate: Number(values.dailyRate),
+            });
+            refetch();
+            setModalOpen(false);
+          } catch (err) {
+            console.error('Failed to create rental:', err);
+          }
         }}
       />
     </AtlvsAppLayout>

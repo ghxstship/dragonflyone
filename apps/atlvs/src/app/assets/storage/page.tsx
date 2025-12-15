@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_STORAGE_LOCATIONS,
-  type DemoStorageLocation as StorageLocation,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useStorageLocations, type StorageLocation } from '@ghxstship/config';
+import { DEMO_STORAGE_LOCATIONS } from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -35,13 +31,16 @@ const filters: ListPageFilter[] = [
 
 export default function StorageOptimizationPage() {
   const router = useRouter();
-  const [data] = useState<StorageLocation[]>(DEMO_STORAGE_LOCATIONS);
   const [selected, setSelected] = useState<StorageLocation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
+  // Real API integration with demo fallback
+  const { locations: apiData, isLoading, error, deleteLocationsAsync, refetch } = useStorageLocations();
+  const data: StorageLocation[] = apiData.length > 0 ? apiData : (DEMO_STORAGE_LOCATIONS as unknown as StorageLocation[]);
+
   const totalCapacity = data.reduce((s, l) => s + l.capacity, 0);
   const totalUsed = data.reduce((s, l) => s + l.used, 0);
-  const utilizationRate = Math.round((totalUsed / totalCapacity) * 100);
+  const utilizationRate = totalCapacity > 0 ? Math.round((totalUsed / totalCapacity) * 100) : 0;
   const fullLocations = data.filter(l => l.status === 'Full').length;
 
   const rowActions: ListPageAction<StorageLocation>[] = [
@@ -116,7 +115,8 @@ export default function StorageOptimizationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search locations..."
         filters={filters}
         rowActions={rowActions}
@@ -145,11 +145,8 @@ export default function StorageOptimizationPage() {
         emptyMessage="No locations found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/storage/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteLocationsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

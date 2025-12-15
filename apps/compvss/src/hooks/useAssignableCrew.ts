@@ -33,7 +33,7 @@ export function useAssignableCrew() {
         name: c.full_name || '',
         role: c.role || '',
         skills: c.skills || [],
-        available: c.availability_status === 'Available',
+        available: c.status === 'active',
       })) as AssignableCrew[];
     },
   });

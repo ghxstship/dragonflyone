@@ -24,27 +24,18 @@ import {
   Trash2,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
-
-interface Dashboard {
-  id: string;
-  name: string;
-  description: string;
-  owner: string;
-  visibility: 'private' | 'team' | 'organization';
-  widgets: number;
-  lastModified: string;
-  starred: boolean;
-  views: number;
-}
-
+import { useAnalyticsDashboards, type AnalyticsDashboard } from '@ghxstship/config';
 import { DEMO_ANALYTICS_DASHBOARDS } from '../../../lib/demo-data';
 
-const mockDashboards = DEMO_ANALYTICS_DASHBOARDS as unknown as Dashboard[];
+type Dashboard = AnalyticsDashboard;
 
 
 export default function DashboardsPage() {
-  const [dashboards] = useState(mockDashboards);
   const [view, setView] = useState<'all' | 'starred' | 'mine'>('all');
+
+  // Real API integration with demo fallback
+  const { dashboards: apiData, isLoading, error, toggleStarAsync, duplicateAsync, deleteDashboardAsync, refetch } = useAnalyticsDashboards();
+  const dashboards: Dashboard[] = apiData.length > 0 ? apiData : (DEMO_ANALYTICS_DASHBOARDS as unknown as Dashboard[]);
 
   const starredCount = dashboards.filter(d => d.starred).length;
   const myCount = dashboards.filter(d => d.owner === 'You').length;
@@ -65,6 +56,27 @@ export default function DashboardsPage() {
         return <Badge variant="success">Organization</Badge>;
     }
   };
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8} className="p-8">
+          <Body className="text-on-dark-muted">Loading dashboards...</Body>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8} className="p-8">
+          <Body className="text-destructive">Error loading dashboards: {(error as Error).message}</Body>
+          <Button onClick={() => refetch()}>Retry</Button>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>
@@ -146,9 +158,9 @@ export default function DashboardsPage() {
                           <Stack gap={1}>
                             <Stack direction="horizontal" gap={2} className="items-center">
                               <H3 className="text-white">{dashboard.name}</H3>
-                              {dashboard.starred && (
-                                <Star size={14} className="fill-warning text-warning" />
-                              )}
+                              <Button variant="ghost" size="sm" onClick={() => toggleStarAsync(dashboard.id).then(() => refetch())}>
+                                <Star size={14} className={dashboard.starred ? 'fill-warning text-warning' : ''} />
+                              </Button>
                             </Stack>
                             <Body size="sm" className=" text-on-dark-muted">
                               {dashboard.description}
@@ -179,11 +191,11 @@ export default function DashboardsPage() {
                             <Button variant="ghost" size="sm">
                               <Edit size={14} />
                             </Button>
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" onClick={() => duplicateAsync(dashboard.id).then(() => refetch())}>
                               <Copy size={14} />
                             </Button>
                             {dashboard.owner === 'You' && (
-                              <Button variant="ghost" size="sm">
+                              <Button variant="ghost" size="sm" onClick={() => deleteDashboardAsync(dashboard.id).then(() => refetch())}>
                                 <Trash2 size={14} />
                               </Button>
                             )}

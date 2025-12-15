@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Camera, Video, FileText, Star, Heart, MessageCircle } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -33,11 +34,11 @@ function FanContentPageContent() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Photo": return "📷";
-      case "Video": return "🎬";
-      case "Story": return "📝";
-      case "Review": return "⭐";
-      default: return "📄";
+      case "Photo": return <Camera className="size-8" />;
+      case "Video": return <Video className="size-8" />;
+      case "Story": return <FileText className="size-8" />;
+      case "Review": return <Star className="size-8" />;
+      default: return <FileText className="size-8" />;
     }
   };
 
@@ -79,7 +80,7 @@ function FanContentPageContent() {
             {filteredContent.map((content) => (
               <Card key={content.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(content)}>
                 <Stack className="flex h-48 items-center justify-center bg-ink-900">
-                  <Label className="text-h1-sm">{getTypeIcon(content.type)}</Label>
+                  {getTypeIcon(content.type)}
                 </Stack>
                 <Stack className="p-4" gap={3}>
                   <Stack direction="horizontal" className="items-start justify-between">
@@ -89,8 +90,8 @@ function FanContentPageContent() {
                   <Label className="text-on-dark-muted">by {content.creator}</Label>
                   <Label size="xs" className="text-on-dark-disabled">{content.eventName}</Label>
                   <Stack direction="horizontal" gap={4}>
-                    <Label size="xs">❤️ {content.likes}</Label>
-                    <Label size="xs">💬 {content.comments}</Label>
+                    <Label size="xs"><Heart className="size-3 inline mr-1" /> {content.likes}</Label>
+                    <Label size="xs"><MessageCircle className="size-3 inline mr-1" /> {content.comments}</Label>
                   </Stack>
                   <Stack direction="horizontal" gap={2}>
                     {content.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
@@ -119,8 +120,8 @@ function FanContentPageContent() {
                 <Label className="text-on-light-muted">{selectedContent.createdAt}</Label>
               </Stack>
               <Stack direction="horizontal" gap={6}>
-                <Label>❤️ {selectedContent.likes} likes</Label>
-                <Label>💬 {selectedContent.comments} comments</Label>
+                <Label><Heart className="size-4 inline mr-1" /> {selectedContent.likes} likes</Label>
+                <Label><MessageCircle className="size-4 inline mr-1" /> {selectedContent.comments} comments</Label>
               </Stack>
               <Stack direction="horizontal" gap={2}>
                 {selectedContent.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}

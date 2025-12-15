@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Gift, PartyPopper, Sparkles } from 'lucide-react';
 import {
   Container,
   Section,
@@ -92,7 +93,7 @@ export default function GiftTicketsContent() {
         <Container>
           <Stack className="items-center justify-center min-h-[60vh]" gap={6}>
             <Stack className="w-24 h-24 bg-black rounded-avatar items-center justify-center">
-              <Body className="text-white text-h3-md">🎁</Body>
+              <Gift className="size-8 text-white" />
             </Stack>
             <Display>GIFT SENT!</Display>
             <Body className="text-center text-ink-600 max-w-md">
@@ -248,9 +249,9 @@ export default function GiftTicketsContent() {
                   
                   <Grid cols={3} gap={4}>
                     {[
-                      { id: 'classic', name: 'Classic', emoji: '🎁' },
-                      { id: 'celebration', name: 'Celebration', emoji: '🎉' },
-                      { id: 'elegant', name: 'Elegant', emoji: '✨' },
+                      { id: 'classic', name: 'Classic', icon: Gift },
+                      { id: 'celebration', name: 'Celebration', icon: PartyPopper },
+                      { id: 'elegant', name: 'Elegant', icon: Sparkles },
                     ].map(style => (
                       <Card
                         key={style.id}
@@ -261,7 +262,7 @@ export default function GiftTicketsContent() {
                         }`}
                         onClick={() => setFormData({ ...formData, wrap_style: style.id })}
                       >
-                        <Body className="text-h4-md mb-2">{style.emoji}</Body>
+                        <style.icon className="size-8 mb-2" />
                         <Body className="font-weight-medium">{style.name}</Body>
                       </Card>
                     ))}

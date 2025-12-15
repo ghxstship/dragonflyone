@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Check, Trash2, ArrowUp } from "lucide-react";
+import { Eye, Check, Trash2, ArrowUp, MessageCircle, Star, FileText, Camera, File } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   ListPage,
@@ -25,11 +25,11 @@ const mockFlagged = DEMO_FLAGGED_CONTENT;
 
 const getTypeIcon = (type: string) => {
   switch (type) {
-    case "Comment": return "💬";
-    case "Review": return "⭐";
-    case "Post": return "📝";
-    case "Photo": return "📷";
-    default: return "📄";
+    case "Comment": return <MessageCircle className="size-4 inline mr-1" />;
+    case "Review": return <Star className="size-4 inline mr-1" />;
+    case "Post": return <FileText className="size-4 inline mr-1" />;
+    case "Photo": return <Camera className="size-4 inline mr-1" />;
+    default: return <File className="size-4 inline mr-1" />;
   }
 };
 

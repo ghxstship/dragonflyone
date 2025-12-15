@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Guitar, Dice1 } from "lucide-react";
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
@@ -93,28 +94,28 @@ export default function DestinationsPage() {
               <Grid cols={4} gap={4}>
                 <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">🗽</Body>
+                    <Guitar className="size-8" />
                     <Body className="font-display text-white">New York</Body>
                     <Body size="sm" className="text-on-dark-muted">1,234 events</Body>
                   </Stack>
                 </Card>
                 <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">🌴</Body>
+                    <Guitar className="size-8" />
                     <Body className="font-display text-white">Los Angeles</Body>
                     <Body size="sm" className="text-on-dark-muted">987 events</Body>
                   </Stack>
                 </Card>
                 <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">🎸</Body>
+                    <Guitar className="size-8" />
                     <Body className="font-display text-white">Nashville</Body>
                     <Body size="sm" className="text-on-dark-muted">654 events</Body>
                   </Stack>
                 </Card>
                 <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
-                    <Body className="text-h3-md">🎰</Body>
+                    <Dice1 className="size-8" />
                     <Body className="font-display text-white">Las Vegas</Body>
                     <Body size="sm" className="text-on-dark-muted">543 events</Body>
                   </Stack>

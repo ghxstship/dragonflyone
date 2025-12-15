@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { FileText, Ruler, Image, FileEdit, Sheet, Folder } from "lucide-react";
 import {
   Container,
   H3,
@@ -47,12 +48,12 @@ export default function FileSharingPage() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "PDF": return "📄";
-      case "CAD": return "📐";
-      case "Image": return "🖼️";
-      case "Document": return "📝";
-      case "Spreadsheet": return "📊";
-      default: return "📁";
+      case "PDF": return <FileText className="size-5" />;
+      case "CAD": return <Ruler className="size-5" />;
+      case "Image": return <Image className="size-5" />;
+      case "Document": return <FileEdit className="size-5" />;
+      case "Spreadsheet": return <Sheet className="size-5" />;
+      default: return <Folder className="size-5" />;
     }
   };
 
@@ -208,7 +209,7 @@ export default function FileSharingPage() {
           <Stack gap={4}>
             <Card className="border-2 border-dashed p-8 text-center">
               <Stack gap={2}>
-                <Body className="text-h3-md">📁</Body>
+                <Folder className="size-12 mx-auto" />
                 <Body>Drag and drop files here or click to browse</Body>
                 <Button variant="outline">Browse Files</Button>
               </Stack>

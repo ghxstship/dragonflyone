@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
+import { Radio, Video, Clapperboard, RefreshCw, Calendar, PartyPopper, Users, MessageCircle, Tv, Play, Lock } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -122,14 +123,22 @@ export default function WatchPartiesPage() {
   };
 
   const getContentTypeBadge = (type: string) => {
-    const variants: Record<string, { color: string; label: string }> = {
-      livestream: { color: 'bg-error-500 text-white', label: '🔴 Live' },
-      recording: { color: 'bg-info-500 text-white', label: '📹 Recording' },
-      premiere: { color: 'bg-purple-500 text-white', label: '🎬 Premiere' },
-      rewatch: { color: 'bg-success-500 text-white', label: '🔄 Rewatch' },
+    const variants: Record<string, { color: string; icon: string; label: string }> = {
+      livestream: { color: 'bg-error-500 text-white', icon: 'radio', label: 'Live' },
+      recording: { color: 'bg-info-500 text-white', icon: 'video', label: 'Recording' },
+      premiere: { color: 'bg-purple-500 text-white', icon: 'clapperboard', label: 'Premiere' },
+      rewatch: { color: 'bg-success-500 text-white', icon: 'refresh', label: 'Rewatch' },
     };
-    const variant = variants[type] || { color: '', label: type };
-    return <Badge className={variant.color}>{variant.label}</Badge>;
+    const variant = variants[type] || { color: '', icon: '', label: type };
+    return (
+      <Badge className={variant.color}>
+        {variant.icon === 'radio' && <Radio className="size-3 inline mr-1" />}
+        {variant.icon === 'video' && <Video className="size-3 inline mr-1" />}
+        {variant.icon === 'clapperboard' && <Clapperboard className="size-3 inline mr-1" />}
+        {variant.icon === 'refresh' && <RefreshCw className="size-3 inline mr-1" />}
+        {variant.label}
+      </Badge>
+    );
   };
 
   const formatDate = (dateString: string) => {
@@ -181,22 +190,22 @@ export default function WatchPartiesPage() {
           <StatCard
             label="Live Now"
             value={liveParties.length}
-            icon={<Body>🔴</Body>}
+            icon={<Radio className="size-5" />}
           />
           <StatCard
             label="Upcoming"
             value={upcomingParties.length}
-            icon={<Body>📅</Body>}
+            icon={<Calendar className="size-5" />}
           />
           <StatCard
             label="Total Parties"
             value={parties.length}
-            icon={<Body>🎉</Body>}
+            icon={<PartyPopper className="size-5" />}
           />
           <StatCard
             label="Watching Now"
             value={liveParties.reduce((sum, p) => sum + p.attendees_count, 0)}
-            icon={<Body>👥</Body>}
+            icon={<Users className="size-5" />}
           />
         </Grid>
 
@@ -211,7 +220,7 @@ export default function WatchPartiesPage() {
             variant={filter === 'live' ? 'solid' : 'outline'}
             onClick={() => setFilter('live')}
           >
-            🔴 Live Now
+            Live Now
           </Button>
           <Button
             variant={filter === 'upcoming' ? 'solid' : 'outline'}
@@ -240,7 +249,7 @@ export default function WatchPartiesPage() {
                         <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                       ) : (
                         <Stack className="w-full h-full flex items-center justify-center">
-                          <Body className="text-h5-md">📺</Body>
+                          <Tv className="size-6" />
                         </Stack>
                       )}
                     </Stack>
@@ -255,8 +264,8 @@ export default function WatchPartiesPage() {
                       </Body>
                       <Stack direction="horizontal" gap={4} className="mt-2 text-ink-500">
                         <Body>{party.attendees_count} watching</Body>
-                        {party.chat_enabled && <Body>💬 Chat</Body>}
-                        {party.video_enabled && <Body>📹 Video</Body>}
+                        {party.chat_enabled && <Body><MessageCircle className="size-4 inline mr-1" /> Chat</Body>}
+                        {party.video_enabled && <Body><Video className="size-4 inline mr-1" /> Video</Body>}
                       </Stack>
                     </Stack>
                   </Stack>
@@ -284,7 +293,7 @@ export default function WatchPartiesPage() {
                     <Image src={party.thumbnail_url} alt={party.title} fill className="object-cover" />
                   ) : (
                     <Stack className="w-full h-full flex items-center justify-center">
-                      <Body className="text-h3-md">📺</Body>
+                      <Tv className="size-8" />
                     </Stack>
                   )}
                   <Stack className="absolute top-2 right-2">
@@ -292,7 +301,7 @@ export default function WatchPartiesPage() {
                   </Stack>
                   {party.is_private && (
                     <Stack className="absolute top-2 left-2">
-                      <Badge variant="outline">🔒 Private</Badge>
+                      <Badge variant="outline"><Lock className="size-3 inline mr-1" /> Private</Badge>
                     </Stack>
                   )}
                 </Stack>
@@ -310,8 +319,8 @@ export default function WatchPartiesPage() {
                       {party.attendees_count}{party.max_attendees ? `/${party.max_attendees}` : ''} joined
                     </Body>
                     <Stack direction="horizontal" gap={1}>
-                      {party.chat_enabled && <Body className="text-mono-xs">💬</Body>}
-                      {party.video_enabled && <Body className="text-mono-xs">📹</Body>}
+                      {party.chat_enabled && <MessageCircle className="size-4" />}
+                      {party.video_enabled && <Video className="size-4" />}
                     </Stack>
                   </Stack>
                 </Stack>
@@ -441,13 +450,13 @@ export default function WatchPartiesPage() {
                   <Image src={selectedParty.thumbnail_url} alt={selectedParty.title} fill className="object-cover" />
                 ) : (
                   <Stack className="w-full h-full flex items-center justify-center">
-                    <Body className="text-h1-sm">📺</Body>
+                    <Tv className="size-12" />
                   </Stack>
                 )}
                 {selectedParty.status === 'live' && (
                   <Stack className="absolute inset-0 flex items-center justify-center bg-black/50">
                     <Button variant="solid" className="text-h6-md px-8 py-4">
-                      ▶️ Join Stream
+                      <Play className="size-4 inline mr-1" /> Join Stream
                     </Button>
                   </Stack>
                 )}

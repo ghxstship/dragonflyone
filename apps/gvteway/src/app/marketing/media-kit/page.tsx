@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Palette, Camera, Video, Newspaper, ClipboardList, User, Folder } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -35,13 +36,13 @@ function MediaKitPageContent() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case "Logo": return "🎨";
-      case "Photo": return "📷";
-      case "Video": return "🎬";
-      case "Press Release": return "📰";
-      case "Fact Sheet": return "📋";
-      case "Bio": return "👤";
-      default: return "📁";
+      case "Logo": return <Palette className="size-5" />;
+      case "Photo": return <Camera className="size-5" />;
+      case "Video": return <Video className="size-5" />;
+      case "Press Release": return <Newspaper className="size-5" />;
+      case "Fact Sheet": return <ClipboardList className="size-5" />;
+      case "Bio": return <User className="size-5" />;
+      default: return <Folder className="size-5" />;
     }
   };
 

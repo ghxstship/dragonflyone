@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { Smartphone, ArrowUpFromLine, ArrowDownToLine, ClipboardList, ArrowRightLeft, Loader2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import {
   Container,
@@ -23,107 +24,86 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-
-interface ScannedAsset {
-  id: string;
-  barcode: string;
-  name: string;
-  category: string;
-  status: 'available' | 'checked_out' | 'maintenance' | 'retired';
-  location: string;
-  last_scan: string;
-  condition: 'excellent' | 'good' | 'fair' | 'poor';
-  serial_number?: string;
-}
-
-interface ScanHistory {
-  id: string;
-  barcode: string;
-  asset_name: string;
-  action: 'check_in' | 'check_out' | 'inventory' | 'transfer';
-  scanned_by: string;
-  timestamp: string;
-  location: string;
-}
+import { useAssetScan, useAssetLookup, type ScannedAsset, type ScanHistory } from '@ghxstship/config';
 
 import { DEMO_SCAN_HISTORY } from '../../../lib/demo-data';
-
-const mockScanHistory = DEMO_SCAN_HISTORY as ScanHistory[];
 
 
 export default function AssetScanPage() {
   const router = useRouter();
   const [manualBarcode, setManualBarcode] = useState('');
+  const [lookupBarcode, setLookupBarcode] = useState<string | null>(null);
   const [scannedAsset, setScannedAsset] = useState<ScannedAsset | null>(null);
-  const [scanHistory, setScanHistory] = useState<ScanHistory[]>(mockScanHistory);
   const [scanMode, setScanMode] = useState<'check_in' | 'check_out' | 'inventory' | 'transfer'>('inventory');
-  const [isScanning, setIsScanning] = useState(false);
   const [showActionModal, setShowActionModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [transferLocation, setTransferLocation] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Real API integration
+  const { scanHistory: apiScanHistory, isLoadingHistory, historyError, recordScanAsync, isRecording, refetchHistory } = useAssetScan();
+  const { data: lookedUpAsset, isLoading: isLookingUp, error: lookupError } = useAssetLookup(lookupBarcode);
+
+  // Use API data with demo fallback
+  const scanHistory: ScanHistory[] = apiScanHistory.length > 0 ? apiScanHistory : (DEMO_SCAN_HISTORY as ScanHistory[]);
+
   useEffect(() => {
-    // Focus on input for barcode scanner
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
 
-  const handleScan = async (barcode: string) => {
-    if (!barcode.trim()) return;
-
-    setIsScanning(true);
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      // Mock scanned asset
-      const asset: ScannedAsset = {
-        id: 'AST-001',
-        barcode: barcode,
-        name: 'LED Wall Panel Set A',
-        category: 'Video',
-        status: 'available',
-        location: 'Warehouse A',
-        last_scan: new Date().toISOString(),
-        condition: 'good',
-        serial_number: 'SN-2024-001234',
-      };
-
-      setScannedAsset(asset);
+  // Handle asset lookup result
+  useEffect(() => {
+    if (lookedUpAsset) {
+      setScannedAsset(lookedUpAsset);
       setShowActionModal(true);
       setManualBarcode('');
-    } catch (err) {
-      setError('Failed to scan asset');
-    } finally {
-      setIsScanning(false);
+      setLookupBarcode(null);
     }
+  }, [lookedUpAsset]);
+
+  // Handle lookup error
+  useEffect(() => {
+    if (lookupError) {
+      setError(lookupError instanceof Error ? lookupError.message : 'Asset not found');
+      setLookupBarcode(null);
+    }
+  }, [lookupError]);
+
+  const handleScan = async (barcode: string) => {
+    if (!barcode.trim()) return;
+    setError(null);
+    setLookupBarcode(barcode);
   };
 
   const handleAction = async () => {
     if (!scannedAsset) return;
 
-    const newScan: ScanHistory = {
-      id: `SCN-${Date.now()}`,
-      barcode: scannedAsset.barcode,
-      asset_name: scannedAsset.name,
-      action: scanMode,
-      scanned_by: 'Current User',
-      timestamp: new Date().toISOString(),
-      location: scannedAsset.location,
-    };
+    try {
+      await recordScanAsync({
+        barcode: scannedAsset.barcode,
+        action: scanMode,
+        location: scanMode === 'transfer' ? transferLocation : scannedAsset.location,
+        notes: undefined,
+      });
 
-    setScanHistory([newScan, ...scanHistory]);
-    setSuccess(`Asset ${scanMode.replace('_', ' ')} recorded successfully`);
-    setShowActionModal(false);
-    setScannedAsset(null);
+      setSuccess(`Asset ${scanMode.replace('_', ' ')} recorded successfully`);
+      setShowActionModal(false);
+      setScannedAsset(null);
+      setTransferLocation('');
+      refetchHistory();
 
-    // Refocus input for next scan
-    if (inputRef.current) {
-      inputRef.current.focus();
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to record scan');
     }
   };
+
+  const isScanning = isLookingUp;
 
   const getStatusBadge = (status: string) => {
     const colors: Record<string, string> = {
@@ -181,22 +161,22 @@ export default function AssetScanPage() {
           <StatCard
             label="Today's Scans"
             value={todayScans}
-            icon={<span>📱</span>}
+            icon={<Smartphone className="size-5" />}
           />
           <StatCard
             label="Check Outs"
             value={scanHistory.filter(s => s.action === 'check_out').length}
-            icon={<span>📤</span>}
+            icon={<ArrowUpFromLine className="size-5" />}
           />
           <StatCard
             label="Check Ins"
             value={scanHistory.filter(s => s.action === 'check_in').length}
-            icon={<span>📥</span>}
+            icon={<ArrowDownToLine className="size-5" />}
           />
           <StatCard
             label="Inventory Scans"
             value={scanHistory.filter(s => s.action === 'inventory').length}
-            icon={<span>📋</span>}
+            icon={<ClipboardList className="size-5" />}
           />
         </Grid>
 
@@ -210,28 +190,28 @@ export default function AssetScanPage() {
                   onClick={() => setScanMode('check_in')}
                   className="py-6"
                 >
-                  📥 Check In
+                  <ArrowDownToLine className="size-5 mr-2" /> Check In
                 </Button>
                 <Button
                   variant={scanMode === 'check_out' ? 'solid' : 'outline'}
                   onClick={() => setScanMode('check_out')}
                   className="py-6"
                 >
-                  📤 Check Out
+                  <ArrowUpFromLine className="size-5 mr-2" /> Check Out
                 </Button>
                 <Button
                   variant={scanMode === 'inventory' ? 'solid' : 'outline'}
                   onClick={() => setScanMode('inventory')}
                   className="py-6"
                 >
-                  📋 Inventory
+                  <ClipboardList className="size-5 mr-2" /> Inventory
                 </Button>
                 <Button
                   variant={scanMode === 'transfer' ? 'solid' : 'outline'}
                   onClick={() => setScanMode('transfer')}
                   className="py-6"
                 >
-                  🔄 Transfer
+                  <ArrowRightLeft className="size-5 mr-2" /> Transfer
                 </Button>
               </Grid>
 
@@ -278,29 +258,42 @@ export default function AssetScanPage() {
 
           <Stack gap={6}>
             <H2>RECENT SCANS</H2>
-            <Stack gap={3}>
-              {scanHistory.slice(0, 5).map(scan => (
-                <Card key={scan.id} className="p-4 border-2">
-                  <Stack direction="horizontal" className="justify-between items-center">
-                    <Stack gap={1}>
-                      <Body className="font-weight-bold">{scan.asset_name}</Body>
-                      <Label className="text-ink-500 font-mono">{scan.barcode}</Label>
+            {isLoadingHistory ? (
+              <Card className="p-8 text-center border-2">
+                <Stack direction="horizontal" className="justify-center items-center" gap={2}>
+                  <Loader2 className="size-5 animate-spin" />
+                  <Body className="text-ink-500">Loading scan history...</Body>
+                </Stack>
+              </Card>
+            ) : historyError ? (
+              <Alert variant="error">
+                Failed to load scan history: {historyError instanceof Error ? historyError.message : 'Unknown error'}
+              </Alert>
+            ) : (
+              <Stack gap={3}>
+                {scanHistory.slice(0, 5).map(scan => (
+                  <Card key={scan.id} className="p-4 border-2">
+                    <Stack direction="horizontal" className="justify-between items-center">
+                      <Stack gap={1}>
+                        <Body className="font-weight-bold">{scan.asset_name}</Body>
+                        <Label className="text-ink-500 font-mono">{scan.barcode}</Label>
+                      </Stack>
+                      <Stack className="text-right" gap={1}>
+                        {getActionBadge(scan.action)}
+                        <Label className="text-mono-xs text-ink-600">
+                          {new Date(scan.timestamp).toLocaleTimeString()}
+                        </Label>
+                      </Stack>
                     </Stack>
-                    <Stack className="text-right" gap={1}>
-                      {getActionBadge(scan.action)}
-                      <Label className="text-mono-xs text-ink-600">
-                        {new Date(scan.timestamp).toLocaleTimeString()}
-                      </Label>
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-              {scanHistory.length === 0 && (
-                <Card className="p-8 text-center border-2">
-                  <Body className="text-ink-500">No scans yet today</Body>
-                </Card>
-              )}
-            </Stack>
+                  </Card>
+                ))}
+                {scanHistory.length === 0 && (
+                  <Card className="p-8 text-center border-2">
+                    <Body className="text-ink-500">No scans yet today</Body>
+                  </Card>
+                )}
+              </Stack>
+            )}
             <Button variant="outline" onClick={() => router.push('/assets/scan/history')}>
               View Full History
             </Button>
@@ -355,7 +348,7 @@ export default function AssetScanPage() {
 
               {scanMode === 'transfer' && (
                 <Field label="Transfer To Location">
-                  <Select>
+                  <Select value={transferLocation} onChange={(e) => setTransferLocation(e.target.value)}>
                     <option value="">Select location...</option>
                     <option value="warehouse_a">Warehouse A</option>
                     <option value="warehouse_b">Warehouse B</option>
@@ -366,10 +359,19 @@ export default function AssetScanPage() {
               )}
 
               <Stack direction="horizontal" gap={4}>
-                <Button variant="solid" onClick={handleAction} className="flex-1">
-                  Confirm {scanMode.replace('_', ' ')}
+                <Button 
+                  variant="solid" 
+                  onClick={handleAction} 
+                  className="flex-1"
+                  disabled={isRecording || (scanMode === 'transfer' && !transferLocation)}
+                >
+                  {isRecording ? (
+                    <><Loader2 className="size-4 animate-spin mr-2" />Recording...</>
+                  ) : (
+                    `Confirm ${scanMode.replace('_', ' ')}`
+                  )}
                 </Button>
-                <Button variant="outline" onClick={() => setShowActionModal(false)}>
+                <Button variant="outline" onClick={() => setShowActionModal(false)} disabled={isRecording}>
                   Cancel
                 </Button>
               </Stack>

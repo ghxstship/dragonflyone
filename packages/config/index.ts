@@ -135,5 +135,74 @@ export * from './hooks/useAdvanceTemplates';
 // Catalog visibility and permissions hooks
 export * from './hooks/useCatalogVisibility';
 
+// Asset scanning hooks
+export * from './hooks/useAssetScan';
+
+// Calibration hooks
+export * from './hooks/useCalibration';
+
+// Maintenance hooks
+export * from './hooks/useMaintenance';
+
+// Damage reports hooks
+export * from './hooks/useDamageReports';
+
+// Asset kits hooks
+export * from './hooks/useAssetKits';
+
+// Rentals hooks
+export * from './hooks/useRentals';
+
+// Storage locations hooks
+export * from './hooks/useStorageLocations';
+
+// Asset tracking hooks
+export * from './hooks/useAssetTracking';
+
+// Asset utilization hooks
+export * from './hooks/useAssetUtilization';
+
+// Serialized components hooks
+export * from './hooks/useSerializedComponents';
+
+// Idle assets hooks
+export * from './hooks/useIdleAssets';
+
+// Optimization hooks
+export * from './hooks/useOptimization';
+
+// Asset performance hooks
+export * from './hooks/useAssetPerformance';
+
+// Asset specifications hooks
+export * from './hooks/useAssetSpecifications';
+
+// Accounts receivable hooks
+export * from './hooks/useAccountsReceivable';
+
+// Bank reconciliation hooks
+export * from './hooks/useBankReconciliation';
+
+// Commissions hooks
+export * from './hooks/useCommissions';
+
+// Credit cards hooks
+export * from './hooks/useCreditCards';
+
+// Analytics reports hooks
+export * from './hooks/useAnalyticsReports';
+
+// Analytics dashboards hooks
+export * from './hooks/useAnalyticsDashboards';
+
+// Client retention hooks
+export * from './hooks/useClientRetention';
+
+// Data warehouse hooks
+export * from './hooks/useDataWarehouse';
+
+// Dashboard builder hooks
+export * from './hooks/useDashboardBuilder';
+
 // Catalog types
 export type * from './types/catalog';

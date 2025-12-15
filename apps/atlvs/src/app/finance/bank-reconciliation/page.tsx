@@ -15,28 +15,15 @@ import {
   type ListPageAction,
   type DetailSection,
   } from "@ghxstship/ui";
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
-
-interface BankTransaction {
-  id: string;
-  date: string;
-  description: string;
-  amount: number;
-  type: "Credit" | "Debit";
-  status: "Matched" | "Unmatched" | "Pending" | "Reconciled";
-  matchedTo?: string;
-  bankAccount: string;
-  [key: string]: unknown;
-}
-
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useBankReconciliation, type BankTransaction } from "@ghxstship/config";
 import { DEMO_BANK_TRANSACTIONS } from '../../../lib/demo-data';
 
-const mockTransactions = DEMO_BANK_TRANSACTIONS as BankTransaction[];
+type BankTxn = BankTransaction & { [key: string]: unknown };
 
 
 const getStatusVariant = getBadgeVariant;
 
-const columns: ListPageColumn<BankTransaction>[] = [
+const columns: ListPageColumn<BankTxn>[] = [
   { key: 'date', label: 'Date', accessor: 'date', sortable: true },
   { key: 'description', label: 'Description', accessor: 'description', sortable: true },
   { key: 'bankAccount', label: 'Account', accessor: 'bankAccount', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
@@ -52,15 +39,18 @@ const filters: ListPageFilter[] = [
 
 export default function BankReconciliationPage() {
   const router = useRouter();
-  const [transactions] = useState<BankTransaction[]>(mockTransactions);
-  const [selectedTxn, setSelectedTxn] = useState<BankTransaction | null>(null);
+  const [selectedTxn, setSelectedTxn] = useState<BankTxn | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { transactions: apiData, isLoading, error, deleteTransactionsAsync, reconcileTransactionsAsync, refetch } = useBankReconciliation();
+  const transactions: BankTxn[] = apiData.length > 0 ? (apiData as BankTxn[]) : (DEMO_BANK_TRANSACTIONS as BankTxn[]);
 
   const unmatchedCount = transactions.filter(t => t.status === "Unmatched").length;
   const pendingCount = transactions.filter(t => t.status === "Pending").length;
   const totalCredits = transactions.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
 
-  const rowActions: ListPageAction<BankTransaction>[] = [
+  const rowActions: ListPageAction<BankTxn>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTxn(r); setDrawerOpen(true); } },
     { id: 'match', label: 'Match', icon: <Link className="size-4" />, onClick: (r) => router.push(`/finance/bank-reconciliation/${r.id}/match`) },
   ];
@@ -124,13 +114,14 @@ export default function BankReconciliationPage() {
 
   return (
     <AtlvsAppLayout>
-      <ListPage<BankTransaction>
+      <ListPage<BankTxn>
         title="Bank Reconciliation"
         subtitle="Automated bank statement matching and reconciliation"
         data={transactions}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search transactions..."
         filters={filters}
         rowActions={rowActions}
@@ -161,17 +152,11 @@ export default function BankReconciliationPage() {
         emptyMessage="No transactions found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/finance/bank-transactions/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteTransactionsAsync(ids);
+            refetch();
           } else if (action === 'reconcile') {
-            await fetch('/api/finance/bank-transactions/bulk-reconcile', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await reconcileTransactionsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

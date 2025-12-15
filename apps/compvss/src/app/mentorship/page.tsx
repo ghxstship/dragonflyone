@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { CompvssAppLayout } from "../../components/app-layout";
+import { Star, BookOpen, Route, BarChart3, Trophy, Handshake, Briefcase } from "lucide-react";
 import {
   Container,
   H3,
@@ -110,7 +111,7 @@ export default function MentorshipPage() {
                           </Stack>
                           <Stack gap={1}>
                             <Body size="sm" className="">Rating</Body>
-                            <Body>⭐ {mentor.rating}</Body>
+                            <Body><Star className="size-4 inline mr-1" />{mentor.rating}</Body>
                           </Stack>
                           <Stack gap={1}>
                             <Body size="sm" className="">Mentees</Body>
@@ -163,16 +164,21 @@ export default function MentorshipPage() {
               <TabPanel active={isActive('resources')}>
                 <Grid cols={3} gap={4}>
                   {[
-                    { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "📚" },
-                    { title: "Career Pathways", desc: "Explore different career tracks", icon: "🛤️" },
-                    { title: "Skill Assessments", desc: "Identify your strengths and gaps", icon: "📊" },
-                    { title: "Industry Certifications", desc: "Professional certification programs", icon: "🏆" },
-                    { title: "Networking Events", desc: "Connect with industry professionals", icon: "🤝" },
-                    { title: "Job Board", desc: "Find opportunities in the industry", icon: "💼" },
+                    { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "book" },
+                    { title: "Career Pathways", desc: "Explore different career tracks", icon: "route" },
+                    { title: "Skill Assessments", desc: "Identify your strengths and gaps", icon: "chart" },
+                    { title: "Industry Certifications", desc: "Professional certification programs", icon: "trophy" },
+                    { title: "Networking Events", desc: "Connect with industry professionals", icon: "handshake" },
+                    { title: "Job Board", desc: "Find opportunities in the industry", icon: "briefcase" },
                   ].map((resource, idx) => (
                     <Card key={idx} className="cursor-pointer p-6">
                       <Stack gap={3} className="text-center">
-                        <Body className="text-h3-md">{resource.icon}</Body>
+                        {resource.icon === 'book' && <BookOpen className="size-8 mx-auto" />}
+                        {resource.icon === 'route' && <Route className="size-8 mx-auto" />}
+                        {resource.icon === 'chart' && <BarChart3 className="size-8 mx-auto" />}
+                        {resource.icon === 'trophy' && <Trophy className="size-8 mx-auto" />}
+                        {resource.icon === 'handshake' && <Handshake className="size-8 mx-auto" />}
+                        {resource.icon === 'briefcase' && <Briefcase className="size-8 mx-auto" />}
                         <Body className="font-display">{resource.title}</Body>
                         <Body size="sm" className="">{resource.desc}</Body>
                       </Stack>
@@ -201,7 +207,7 @@ export default function MentorshipPage() {
                 </Stack>
                 <Stack gap={1}>
                   <Body size="sm" className="">Rating</Body>
-                  <Body>⭐ {selectedMentor.rating}</Body>
+                  <Body><Star className="size-4 inline mr-1" /> {selectedMentor.rating}</Body>
                 </Stack>
               </Grid>
               <Stack gap={2}>

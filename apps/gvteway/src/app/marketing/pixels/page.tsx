@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
+import { Facebook, Search, Music, Briefcase, Twitter, Ghost, BarChart3 } from "lucide-react";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -47,13 +48,13 @@ function PixelsPageContent() {
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case "Facebook": return "📘";
-      case "Google Ads": return "🔍";
-      case "TikTok": return "🎵";
-      case "LinkedIn": return "💼";
-      case "Twitter": return "🐦";
-      case "Snapchat": return "👻";
-      default: return "📊";
+      case "Facebook": return <Facebook className="size-5" />;
+      case "Google Ads": return <Search className="size-5" />;
+      case "TikTok": return <Music className="size-5" />;
+      case "LinkedIn": return <Briefcase className="size-5" />;
+      case "Twitter": return <Twitter className="size-5" />;
+      case "Snapchat": return <Ghost className="size-5" />;
+      default: return <BarChart3 className="size-5" />;
     }
   };
 

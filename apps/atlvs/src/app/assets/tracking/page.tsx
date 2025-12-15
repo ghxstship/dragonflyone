@@ -8,12 +8,8 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-
-import {
-  DEMO_ASSET_LOCATIONS,
-  type DemoAssetLocation as AssetLocation,
-} from '../../../lib/demo-data';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useAssetTracking, type AssetLocation } from '@ghxstship/config';
+import { DEMO_ASSET_LOCATIONS } from '../../../lib/demo-data';
 
 const getStatusVariant = getBadgeVariant;
 
@@ -37,9 +33,12 @@ const filters: ListPageFilter[] = [
 
 export default function AssetTrackingPage() {
   const router = useRouter();
-  const [data] = useState<AssetLocation[]>(DEMO_ASSET_LOCATIONS);
   const [selected, setSelected] = useState<AssetLocation | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Real API integration with demo fallback
+  const { locations: apiData, isLoading, error, deleteTrackingAsync, refetch } = useAssetTracking();
+  const data: AssetLocation[] = apiData.length > 0 ? apiData : (DEMO_ASSET_LOCATIONS as unknown as AssetLocation[]);
 
   const activeAssets = data.filter(a => a.status === 'Active').length;
   const inTransitAssets = data.filter(a => a.status === 'In Transit').length;
@@ -120,7 +119,8 @@ export default function AssetTrackingPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
         searchPlaceholder="Search assets, locations..."
         filters={filters}
         rowActions={rowActions}
@@ -149,11 +149,8 @@ export default function AssetTrackingPage() {
         emptyMessage="No tracked assets found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/assets/tracking/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteTrackingAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

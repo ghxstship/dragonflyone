@@ -98,7 +98,7 @@ export default function WeatherContingencyPage() {
 
             {triggeredPlans > 0 && (
               <Alert variant="warning">
-                ⚠️ {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
+                {triggeredPlans} contingency plan(s) currently triggered due to weather conditions
               </Alert>
             )}
 

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Ban, CheckCircle, QrCode, Download, UserPlus } from 'lucide-react';
 import { CompvssAppLayout } from '../../components/app-layout';
 import { useCredentials, useCredentialStats, useRevokeCredential, useSuspendCredential, useReactivateCredential } from '../../hooks/useCredentials';
+import { useAuthContext } from '@ghxstship/config';
 import {
   ListPage,
   Badge,
@@ -114,6 +115,7 @@ const filters: ListPageFilter[] = [
 
 export default function CredentialsPage() {
   const router = useRouter();
+  const { user } = useAuthContext();
   const { data: credentials, isLoading, error, refetch } = useCredentials();
   const { data: stats } = useCredentialStats();
   const revokeMutation = useRevokeCredential();
@@ -299,7 +301,7 @@ export default function CredentialsPage() {
         importSampleFields={['badge_number', 'status', 'expires_at']}
         onExport={createExportHandler({
           filename: "credentials",
-          getData: () => credentials.map(c => ({
+          getData: () => (credentials || []).map(c => ({
             id: c.id,
             badge_number: c.badge_number,
             status: c.status,

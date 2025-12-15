@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
+import { Ticket, Mic, Building2, Music, Search } from 'lucide-react';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
@@ -101,11 +102,11 @@ function UniversalSearchContent() {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'event': return '🎫';
-      case 'artist': return '🎤';
-      case 'venue': return '🏟️';
-      case 'genre': return '🎵';
-      default: return '🔍';
+      case 'event': return <Ticket className="size-5" />;
+      case 'artist': return <Mic className="size-5" />;
+      case 'venue': return <Building2 className="size-5" />;
+      case 'genre': return <Music className="size-5" />;
+      default: return <Search className="size-5" />;
     }
   };
 
