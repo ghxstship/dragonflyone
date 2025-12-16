@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
+  H2, H3, Body, Label, Grid, Stack, StatCard, Input, PhoneInput, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
@@ -173,7 +173,7 @@ function AccessibilityPageContent() {
             </Select>
             <Input placeholder="Your Name" className="border-2 border-black" />
             <Input type="email" placeholder="Email Address" className="border-2 border-black" />
-            <Input type="tel" placeholder="Phone Number" className="border-2 border-black" />
+            <PhoneInput placeholder="Phone number" fullWidth />
             <Stack gap={2}>
               <Label>Services Needed (select all that apply)</Label>
               <Grid cols={2} gap={2}>

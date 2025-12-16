@@ -8,6 +8,7 @@ import {
   Body,
   Button,
   Input,
+  PhoneInput,
   Alert,
   Stack,
   Label,
@@ -135,11 +136,11 @@ export default function ProfilePage() {
               <Stack gap={2}>
                 <Label size="xs" className="text-on-dark-muted">Phone</Label>
                 {isEditing ? (
-                  <Input
-                    type="tel"
+                  <PhoneInput
                     value={profile.phone}
-                    onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
+                    onChange={(value) => setProfile({ ...profile, phone: value })}
                     inverted
+                    fullWidth
                   />
                 ) : (
                   <Body className="font-mono text-white">{profile.phone}</Body>

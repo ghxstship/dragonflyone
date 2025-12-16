@@ -11,6 +11,7 @@ import {
   Body,
   Button,
   Input,
+  PhoneInput,
   Textarea,
   Select,
   Checkbox,
@@ -201,7 +202,7 @@ export default function OnboardingPage() {
                       </Field>
                     </Grid>
                     <Field label="Phone (Optional)">
-                      <Input type="tel" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })} placeholder="+1 (555) 000-0000" />
+                      <PhoneInput value={profile.phone} onChange={(value) => setProfile({ ...profile, phone: value })} placeholder="Phone number" fullWidth />
                     </Field>
                     <Field label="Bio (Optional)">
                       <Textarea value={profile.bio} onChange={(e) => setProfile({ ...profile, bio: e.target.value })} placeholder="Tell us about yourself..." rows={3} />

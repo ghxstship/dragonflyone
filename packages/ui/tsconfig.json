@@ -5,7 +5,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "declaration": true,
-    "types": ["node", "react"]
+    "types": ["node", "react", "google.maps"]
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules"]

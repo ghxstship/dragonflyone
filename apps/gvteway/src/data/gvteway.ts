@@ -27,9 +27,9 @@ export const GVTEWAY_ROLES = {
 export type GvtewayRole = typeof GVTEWAY_ROLES[keyof typeof GVTEWAY_ROLES];
 
 // Consumer-facing navigation for the root experience
+// Note: /tickets is personal (My Tickets) - public nav should focus on discovery
 export const gvtewayNavigation = [
   { label: "Events", href: "/events" },
-  { label: "Tickets", href: "/tickets" },
   { label: "Artists", href: "/artists" },
   { label: "Venues", href: "/venues" },
   { label: "Community", href: "/community" },

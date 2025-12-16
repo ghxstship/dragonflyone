@@ -74,12 +74,21 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
     ref
   ) {
     const elementRef = useRef<HTMLDivElement>(null);
-    const [isVisible, setIsVisible] = useState(false);
+    // Initialize as true to prevent hydration mismatch - animation triggers after mount
+    const [isVisible, setIsVisible] = useState(true);
     const [hasAnimated, setHasAnimated] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    // After mount, reset to hidden state so animation can play
+    useEffect(() => {
+      if (!disabled) {
+        setIsVisible(false);
+        setIsMounted(true);
+      }
+    }, [disabled]);
 
     useEffect(() => {
-      if (disabled) {
-        setIsVisible(true);
+      if (disabled || !isMounted) {
         return;
       }
 
@@ -108,7 +117,7 @@ export const ScrollReveal = forwardRef<HTMLDivElement, ScrollRevealProps>(
       return () => {
         observer.disconnect();
       };
-    }, [threshold, once, hasAnimated, disabled]);
+    }, [threshold, once, hasAnimated, disabled, isMounted]);
 
     const animStyle = animationStyles[animation];
     const currentStyle = isVisible ? animStyle.animate : animStyle.initial;

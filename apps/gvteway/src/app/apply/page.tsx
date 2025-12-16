@@ -18,6 +18,11 @@ import {
   Field,
   Select,
   ScrollReveal,
+  PhoneInput,
+  AddressInput,
+  emailValidation,
+  phoneValidation,
+  type AddressData,
 } from "@ghxstship/ui";
 import {
   ArrowRight,
@@ -116,6 +121,10 @@ export default function ApplyPage() {
     referralCode: "",
   });
 
+  // Validation state
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
   const {
     submitApplication,
     isSubmitting,
@@ -125,6 +134,63 @@ export default function ApplyPage() {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (validationErrors[field]) {
+      setValidationErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+  };
+
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    validateField(field);
+  };
+
+  const validateField = (field: string) => {
+    let error: string | null = null;
+    
+    if (field === "email") {
+      error = emailValidation.getError(formData.email);
+    } else if (field === "phone" && formData.phone) {
+      error = phoneValidation.getError(formData.phone);
+    }
+    
+    if (error) {
+      setValidationErrors((prev) => ({ ...prev, [field]: error }));
+    } else {
+      setValidationErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+    
+    return !error;
+  };
+
+  const validateStep1 = () => {
+    const errors: Record<string, string> = {};
+    
+    if (!formData.firstName) errors.firstName = "First name is required";
+    if (!formData.lastName) errors.lastName = "Last name is required";
+    
+    const emailError = emailValidation.getError(formData.email);
+    if (!formData.email) {
+      errors.email = "Email is required";
+    } else if (emailError) {
+      errors.email = emailError;
+    }
+    
+    if (formData.phone) {
+      const phoneError = phoneValidation.getError(formData.phone);
+      if (phoneError) errors.phone = phoneError;
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleInterestToggle = (interest: string) => {
@@ -148,7 +214,12 @@ export default function ApplyPage() {
   const canProceed = () => {
     switch (step) {
       case 1:
-        return formData.firstName && formData.lastName && formData.email;
+        // Basic field check - full validation happens on proceed
+        const hasRequiredFields = formData.firstName && formData.lastName && formData.email;
+        const hasNoErrors = Object.keys(validationErrors).length === 0;
+        const emailValid = emailValidation.isValid(formData.email);
+        const phoneValid = !formData.phone || phoneValidation.isValid(formData.phone);
+        return hasRequiredFields && hasNoErrors && emailValid && phoneValid;
       case 2:
         return formData.interests.length > 0;
       case 3:
@@ -157,6 +228,23 @@ export default function ApplyPage() {
         return true;
       default:
         return false;
+    }
+  };
+
+  const handleProceed = () => {
+    if (step === 1) {
+      // Validate all fields before proceeding
+      if (!validateStep1()) {
+        // Mark all fields as touched to show errors
+        setTouched({ firstName: true, lastName: true, email: true, phone: true });
+        return;
+      }
+    }
+    
+    if (step < totalSteps) {
+      setStep(step + 1);
+    } else {
+      handleSubmit();
     }
   };
 
@@ -224,44 +312,57 @@ export default function ApplyPage() {
                       </Field>
                     </Grid>
 
-                    <Field label="Email Address" inverted required>
+                    <Field 
+                      label="Email Address" 
+                      inverted 
+                      required
+                      error={touched.email && validationErrors.email ? validationErrors.email : undefined}
+                    >
                       <Input
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange("email", e.target.value)}
+                        onBlur={() => handleBlur("email")}
                         placeholder="your@email.com"
                         inverted
+                        error={touched.email && !!validationErrors.email}
                       />
                     </Field>
 
-                    <Field label="Phone Number" inverted>
-                      <Input
-                        type="tel"
+                    <Field 
+                      label="Phone Number" 
+                      inverted
+                      error={touched.phone && validationErrors.phone ? validationErrors.phone : undefined}
+                    >
+                      <PhoneInput
                         value={formData.phone}
-                        onChange={(e) => handleInputChange("phone", e.target.value)}
-                        placeholder="+1 (555) 000-0000"
+                        onChange={(value) => handleInputChange("phone", value)}
+                        onBlur={() => handleBlur("phone")}
+                        placeholder="Phone number"
                         inverted
+                        error={touched.phone && !!validationErrors.phone}
+                        errorMessage={touched.phone ? validationErrors.phone : undefined}
+                        fullWidth
                       />
                     </Field>
 
-                    <Grid cols={2} gap={4}>
-                      <Field label="City" inverted>
-                        <Input
-                          value={formData.city}
-                          onChange={(e) => handleInputChange("city", e.target.value)}
-                          placeholder="Your city"
-                          inverted
-                        />
-                      </Field>
-                      <Field label="Country" inverted>
-                        <Input
-                          value={formData.country}
-                          onChange={(e) => handleInputChange("country", e.target.value)}
-                          placeholder="Your country"
-                          inverted
-                        />
-                      </Field>
-                    </Grid>
+                    <Field label="Location" inverted>
+                      <AddressInput
+                        value={formData.city ? `${formData.city}, ${formData.country}` : ""}
+                        onChange={(value) => handleInputChange("location", value)}
+                        onAddressSelect={(address: AddressData) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            city: address.city || "",
+                            country: address.country || "",
+                          }));
+                        }}
+                        placeholder="Start typing your city..."
+                        inverted
+                        fullWidth
+                        types={["(cities)"]}
+                      />
+                    </Field>
                   </Stack>
                 </ScrollReveal>
               )}
@@ -525,7 +626,7 @@ export default function ApplyPage() {
                 {step < totalSteps ? (
                   <Button
                     variant="solid"
-                    onClick={() => setStep(step + 1)}
+                    onClick={handleProceed}
                     disabled={!canProceed()}
                     icon={<ArrowRight className="size-4" />}
                     iconPosition="right"

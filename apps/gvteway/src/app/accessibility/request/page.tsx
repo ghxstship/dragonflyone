@@ -12,6 +12,7 @@ import {
   Card,
   Field,
   Input,
+  PhoneInput,
   Textarea,
   Grid,
   Stack,
@@ -182,12 +183,12 @@ function AccessibilityRequestContent() {
 
                   <Grid cols={2} gap={4}>
                     <Field label="Contact Phone" inverted>
-                      <Input
-                        type="tel"
+                      <PhoneInput
                         value={contactPhone}
-                        onChange={(e) => setContactPhone(e.target.value)}
-                        placeholder="(555) 123-4567"
+                        onChange={(value) => setContactPhone(value)}
+                        placeholder="Phone number"
                         inverted
+                        fullWidth
                       />
                     </Field>
 

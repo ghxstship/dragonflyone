@@ -7,7 +7,7 @@ import { GvtewayAppLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Input, Select, Textarea, Alert, Kicker,
+  Modal, ModalHeader, ModalBody, ModalFooter, Input, PhoneInput, Select, Textarea, Alert, Kicker,
 } from "@ghxstship/ui";
 
 import {
@@ -225,7 +225,7 @@ function AccessibilityPageContent() {
             </Stack>
             <Stack gap={2}>
               <Label>Phone</Label>
-              <Input type="tel" placeholder="+1 (555) 000-0000" />
+              <PhoneInput placeholder="Phone number" fullWidth />
             </Stack>
             <Stack gap={2}>
               <Label>Additional Details</Label>

@@ -11,6 +11,8 @@ import {
   Body,
   Button,
   Input,
+  PhoneInput,
+  AddressInput,
   Alert,
   Stack,
   Card,
@@ -246,21 +248,22 @@ export default function OnboardingPage() {
                       </Field>
                     </Grid>
                     <Field label="Phone (Optional)" inverted>
-                      <Input
-                        type="tel"
+                      <PhoneInput
                         value={profile.phone}
-                        onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                        placeholder="+1 (555) 000-0000"
+                        onChange={(value) => setProfile({ ...profile, phone: value })}
+                        placeholder="Phone number"
                         inverted
+                        fullWidth
                       />
                     </Field>
                     <Field label="Location (Optional)" inverted>
-                      <Input
-                        type="text"
+                      <AddressInput
                         value={profile.location}
-                        onChange={(e) => setProfile({ ...profile, location: e.target.value })}
-                        placeholder="City, Country"
+                        onChange={(value) => setProfile({ ...profile, location: value })}
+                        placeholder="Start typing your city..."
                         inverted
+                        fullWidth
+                        types={["(cities)"]}
                       />
                     </Field>
                   </Stack>

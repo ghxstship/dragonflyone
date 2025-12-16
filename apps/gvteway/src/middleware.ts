@@ -38,6 +38,7 @@ const publicPaths = [
   
   // Public discovery & browsing (SEO + user acquisition)
   '/events',
+  '/e', // Event detail pages (e.g., /e/[eventId])
   '/artists',
   '/venues',
   '/browse',
@@ -52,6 +53,9 @@ const publicPaths = [
   '/deals',
   '/packages',
   
+  // Creator/Organizer landing page (SaaS marketing)
+  '/creators',
+  
   // Public commerce (browsing only)
   '/merch',
   '/gift-cards',
@@ -63,6 +67,7 @@ const publicPaths = [
   
   // Membership & experiences (public landing pages)
   '/membership',
+  '/apply',
   '/experiences',
   '/community',
   

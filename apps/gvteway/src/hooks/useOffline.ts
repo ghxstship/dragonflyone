@@ -74,13 +74,18 @@ export function useOffline(): OfflineState & {
   }, []);
 
   const registerServiceWorker = useCallback(async () => {
+    // Skip service worker registration in development - conflicts with HMR
+    if (process.env.NODE_ENV === 'development') {
+      return;
+    }
+    
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register('/sw.js');
         logger.info(`Service Worker registered: ${registration.scope}`);
         setState(s => ({ ...s, isServiceWorkerReady: true }));
-      } catch (error) {
-        logger.error('Service Worker registration failed', error instanceof Error ? error : undefined);
+      } catch {
+        // Silently fail - service worker is optional enhancement
       }
     }
   }, []);

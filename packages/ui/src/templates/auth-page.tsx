@@ -3,7 +3,6 @@
 import { forwardRef } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes, ReactNode } from "react";
-import { Display } from "../atoms/typography.js";
 import { Container } from "../foundations/layout.js";
 import { FullBleedSection } from "../foundations/page-regions.js";
 import { Stack } from "../foundations/layout.js";
@@ -82,18 +81,16 @@ export const AuthPage = forwardRef<HTMLDivElement, AuthPageProps>(
         ) : (
           <header
             className={clsx(
-              "sticky top-0 z-50 border-b-2",
-              isDark ? "border-white/10 bg-black" : "border-black/10 bg-white"
+              "sticky top-0 z-modal border-b backdrop-blur",
+              isDark ? "border-grey-800 bg-black/90" : "border-black/10 bg-white/90"
             )}
           >
-            <Container className="flex h-14 items-center justify-between px-4 sm:h-16 sm:px-6">
-              <a href={appHref} className="transition-transform hover:-translate-y-0.5">
-                <Display size="md" className={isDark ? "text-white" : "text-black"}>
-                  {appName}
-                </Display>
+            <div className="mx-auto flex max-w-6xl items-center justify-between px-spacing-6 py-spacing-6 lg:px-spacing-8">
+              <a href={appHref} className="font-display text-h2-md uppercase tracking-tight text-white transition-transform hover:-translate-y-0.5">
+                {appName}
               </a>
               {headerAction}
-            </Container>
+            </div>
           </header>
         )}
 
