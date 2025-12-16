@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
+import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import { 
   H2,
   H3, 
@@ -21,7 +21,7 @@ import {
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 import { useCommunityData, type Forum, type CommunityGroup, type CommunityEvent } from '@/hooks/useCommunity';
 
-function CommunityPageContent() {
+export default function CommunityPage() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -62,12 +62,14 @@ function CommunityPageContent() {
 
   if (error) {
     return (
-      <GvtewayEmptyLayout
-        title="Error Loading Community"
-        description={error instanceof Error ? error.message : String(error)}
-        action={<Button variant="solid" onClick={() => refetch()}>Retry</Button>}
-        variant="consumer-auth"
-      />
+      <GvtewayAppLayout>
+        <EmptyState
+          title="Error Loading Community"
+          description={error instanceof Error ? error.message : String(error)}
+          action={{ label: "Retry", onClick: () => refetch() }}
+          inverted
+        />
+      </GvtewayAppLayout>
     );
   }
 
@@ -272,13 +274,5 @@ function CommunityPageContent() {
         )}
       </Stack>
     </GvtewayAppLayout>
-  );
-}
-
-export default function CommunityPage() {
-  return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
-      <CommunityPageContent />
-    </Suspense>
   );
 }
