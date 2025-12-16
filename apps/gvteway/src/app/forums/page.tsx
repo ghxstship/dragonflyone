@@ -23,6 +23,8 @@ import {
   Input,
   Field,
   Kicker,
+  MainContent,
+  Container,
 } from "@ghxstship/ui";
 import { useForumsData } from "@/hooks/useForums";
 
@@ -76,6 +78,8 @@ export default function ForumsPage() {
 
   return (
     <GvtewayAppLayout>
+      <MainContent padding="lg">
+        <Container>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Connect & Share</Kicker>
@@ -219,7 +223,9 @@ export default function ForumsPage() {
               </Table>
             </Card>
           )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

@@ -15,6 +15,8 @@ import {
   Kicker,
   Label,
   useNotifications,
+  MainContent,
+  Container,
 } from '@ghxstship/ui';
 import { Bell, Globe, Save, X } from 'lucide-react';
 import { useSettingsData, type UserSettings } from '@/hooks/useSettings';
@@ -56,6 +58,8 @@ export default function SettingsPage() {
 
   return (
     <GvtewayAppLayout>
+      <MainContent padding="lg">
+        <Container>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -182,6 +186,8 @@ export default function SettingsPage() {
               </Stack>
             </Stack>
           </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

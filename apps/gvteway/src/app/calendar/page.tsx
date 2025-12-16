@@ -14,6 +14,8 @@ import {
   Stack,
   Badge,
   Kicker,
+  MainContent,
+  Container,
 } from '@ghxstship/ui';
 import { useEvents } from '@/hooks/useEvents';
 
@@ -25,12 +27,14 @@ interface CalendarEvent {
   start_date?: string;
   venue?: string;
   category?: string;
+  price?: number;
 }
 
 interface CalendarDay {
   date: Date;
   isCurrentMonth: boolean;
   isToday: boolean;
+  isLastDayOfMonth?: boolean;
   events: CalendarEvent[];
 }
 
@@ -117,6 +121,8 @@ export default function CalendarPage() {
 
   return (
     <GvtewayAppLayout>
+      <MainContent padding="lg">
+        <Container>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -285,7 +291,7 @@ export default function CalendarPage() {
                       <Stack>
                         <Body className="font-display text-white">{event.title || event.name}</Body>
                         <Body size="sm" className="text-on-dark-disabled">
-                          {new Date(event.date || event.start_date).toLocaleDateString()}
+                          {new Date(event.date || event.start_date || '').toLocaleDateString()}
                         </Body>
                       </Stack>
                       <Badge variant="outline">${event.price || 0}</Badge>
@@ -294,8 +300,10 @@ export default function CalendarPage() {
               </Stack>
             </Card>
           </Stack>
-            </Grid>
+        </Grid>
           </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

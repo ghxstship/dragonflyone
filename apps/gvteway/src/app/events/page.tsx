@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
+  H2,
   H3,
   Body,
   Button,
@@ -19,9 +20,7 @@ import {
   Figure,
   Label,
   EmptyState,
-  EnterprisePageHeader,
-  MainContent,
-  Container,
+  Kicker,
 } from "@ghxstship/ui";
 import Image from "next/image";
 import { LayoutGrid, List as ListIcon, Search, MapPin, Tag } from "lucide-react";
@@ -60,15 +59,15 @@ export default function EventsPage() {
 
   return (
     <GvtewayAppLayout>
-      <EnterprisePageHeader
-        title="Discover Experiences"
-        subtitle="Explore unforgettable live events, festivals, and performances happening now and coming soon."
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
+      <Stack gap={10}>
+        {/* Page Header */}
+        <Stack gap={4}>
+          <Kicker colorScheme="on-dark">Browse Events</Kicker>
+          <H2 size="lg" className="text-white">Discover Experiences</H2>
+          <Body className="max-w-2xl text-on-dark-muted">
+            Explore unforgettable live events, festivals, and performances happening now and coming soon.
+          </Body>
+        </Stack>
             {/* Search & Filters */}
             <Card inverted variant="elevated" className="p-6">
               <Stack gap={4}>
@@ -254,9 +253,7 @@ export default function EventsPage() {
                 ))}
               </Stack>
             )}
-          </Stack>
-        </Container>
-      </MainContent>
+      </Stack>
     </GvtewayAppLayout>
   );
 }

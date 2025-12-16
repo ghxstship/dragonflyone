@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
+  H2,
   H3, 
   Body, 
   Button, 
@@ -14,9 +15,8 @@ import {
   Badge, 
   Stack, 
   Label,
-  EnterprisePageHeader,
-  MainContent,
-  Container,
+  Kicker,
+  EmptyState,
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 import { useCommunityData, type Forum, type CommunityGroup, type CommunityEvent } from '@/hooks/useCommunity';
@@ -72,16 +72,16 @@ function CommunityPageContent() {
   }
 
   return (
-    <GvtewayAppLayout variant="consumer-auth">
-      <EnterprisePageHeader
-        title="Community"
-        subtitle="Connect with fellow fans and share experiences"
-        showFavorite
-        showSettings
-      />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
+    <GvtewayAppLayout>
+      <Stack gap={10}>
+        {/* Page Header */}
+        <Stack gap={4}>
+          <Kicker colorScheme="on-dark">Connect & Share</Kicker>
+          <H2 size="lg" className="text-white">Community</H2>
+          <Body className="max-w-2xl text-on-dark-muted">
+            Connect with fellow fans and share experiences.
+          </Body>
+        </Stack>
             {/* Tabs */}
             <Stack direction="horizontal" gap={2} className="mb-8 border-b-2 border-ink-800">
             {[
@@ -102,7 +102,7 @@ function CommunityPageContent() {
           </Stack>
 
           {/* Search Bar */}
-          <Card className="mb-8 border-2 border-ink-800 bg-ink-950 p-6 shadow-primary">
+          <Card inverted className="mb-8 border-2 border-ink-800 p-6">
             <Stack gap={4} direction="horizontal" className="flex-col md:flex-row">
               <Stack gap={2} className="relative flex-1">
                 <Label size="xs" className="text-on-dark-muted">
@@ -125,35 +125,49 @@ function CommunityPageContent() {
         {/* Forums Tab */}
         {isActive('forums') && (
           <Stack gap={4}>
-            {filteredForums.map((forum: Forum) => (
-              <Card key={forum.id} inverted interactive>
-                <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                  <Stack gap={2} className="flex-1">
-                    <Stack gap={3} direction="horizontal" className="items-center">
-                      <H3 className="text-white">{forum.title}</H3>
-                      {forum.trending && (
-                        <Badge variant="solid">
-                          <TrendingUp className="mr-1 inline size-3" />
-                          TRENDING
-                        </Badge>
-                      )}
-                    </Stack>
-                    <Stack gap={6} direction="horizontal">
-                      <Stack gap={2} direction="horizontal" className="items-center">
-                        <MessageCircle className="size-4 text-on-dark-muted" />
-                        <Body size="sm" className="text-on-dark-muted">{forum.posts.toLocaleString()} posts</Body>
+            {filteredForums.length === 0 ? (
+              <EmptyState
+                title="No forums found"
+                description="Try adjusting your search to find discussions."
+                action={{
+                  label: "Clear Search",
+                  onClick: () => setSearchQuery('')
+                }}
+                inverted
+              />
+            ) : (
+              <>
+                {filteredForums.map((forum: Forum) => (
+                  <Card key={forum.id} inverted interactive>
+                    <Stack gap={4} direction="horizontal" className="items-start justify-between">
+                      <Stack gap={2} className="flex-1">
+                        <Stack gap={3} direction="horizontal" className="items-center">
+                          <H3 className="text-white">{forum.title}</H3>
+                          {forum.trending && (
+                            <Badge variant="solid">
+                              <TrendingUp className="mr-1 inline size-3" />
+                              TRENDING
+                            </Badge>
+                          )}
+                        </Stack>
+                        <Stack gap={6} direction="horizontal">
+                          <Stack gap={2} direction="horizontal" className="items-center">
+                            <MessageCircle className="size-4 text-on-dark-muted" />
+                            <Body size="sm" className="text-on-dark-muted">{forum.posts.toLocaleString()} posts</Body>
+                          </Stack>
+                          <Stack gap={2} direction="horizontal" className="items-center">
+                            <Users className="size-4 text-on-dark-muted" />
+                            <Body size="sm" className="text-on-dark-muted">{forum.members.toLocaleString()} members</Body>
+                          </Stack>
+                          <Body size="sm" className="text-on-dark-disabled">Last active: {forum.lastActive}</Body>
+                        </Stack>
                       </Stack>
-                      <Stack gap={2} direction="horizontal" className="items-center">
-                        <Users className="size-4 text-on-dark-muted" />
-                        <Body size="sm" className="text-on-dark-muted">{forum.members.toLocaleString()} members</Body>
-                      </Stack>
-                      <Body size="sm" className="text-on-dark-disabled">Last active: {forum.lastActive}</Body>
+                      <Button variant="outlineInk" onClick={() => handleJoinForum(forum.id)}>Join Discussion</Button>
                     </Stack>
-                  </Stack>
-                  <Button variant="outlineInk" onClick={() => handleJoinForum(forum.id)}>Join Discussion</Button>
-                </Stack>
-              </Card>
-            ))}
+                  </Card>
+                ))}
+              </>
+            )}
 
             <Card inverted variant="elevated" className="border-2 border-dashed border-ink-700 p-12 text-center">
               <MessageCircle className="mx-auto mb-4 size-12 text-on-dark-muted" />
@@ -256,9 +270,7 @@ function CommunityPageContent() {
             </Card>
           </Stack>
         )}
-          </Stack>
-        </Container>
-      </MainContent>
+      </Stack>
     </GvtewayAppLayout>
   );
 }
