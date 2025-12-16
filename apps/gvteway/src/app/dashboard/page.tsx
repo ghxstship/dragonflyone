@@ -4,6 +4,9 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import {
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   H2,
   H3,
   Body,
@@ -31,8 +34,8 @@ import { LogOut, Calendar, Ticket, User, Settings, Music, Building2, BarChart3 }
 export default function DashboardPage() {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const router = useRouter();
-  const { data: events } = useEvents();
-  const { data: orders } = useOrders();
+  const { data: events, error: eventsError, refetch: refetchEvents } = useEvents();
+  const { data: orders, error: ordersError, refetch: refetchOrders } = useOrders();
   const { data: activityData } = useActivityFeed({ limit: 4 });
   const { data: healthData } = useSystemHealth();
 
@@ -44,6 +47,34 @@ export default function DashboardPage() {
 
   if (isLoading || !user) {
     return <GvtewayLoadingLayout text="Loading dashboard..." variant="consumer-auth" />;
+  }
+
+  const hasDataError = eventsError || ordersError;
+  const handleRetry = () => {
+    refetchEvents();
+    refetchOrders();
+  };
+
+  if (hasDataError) {
+    return (
+      <GvtewayAppLayout variant="consumer-auth">
+        <Stack gap={6} className="items-center justify-center py-20">
+          <Card inverted className="max-w-md p-8 text-center">
+            <Stack gap={4}>
+              <H2 className="text-white">Error Loading Dashboard</H2>
+              <Body className="text-grey-400">
+                {eventsError instanceof Error ? eventsError.message : 
+                 ordersError instanceof Error ? ordersError.message : 
+                 'Failed to load dashboard data'}
+              </Body>
+              <Button variant="solid" inverted onClick={handleRetry}>
+                Retry
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </GvtewayAppLayout>
+    );
   }
 
   // Determine which dashboard to show based on highest role
@@ -61,32 +92,24 @@ export default function DashboardPage() {
 
   return (
     <GvtewayAppLayout variant="consumer-auth">
-      <Stack gap={10}>
-            {/* Header */}
-            <Card inverted variant="elevated" className="p-6">
-              <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-                <Stack gap={2}>
-                  <Kicker colorScheme="on-dark">Welcome Back</Kicker>
-                  <H2 size="lg" className="text-white">{user.name}</H2>
-                  <Body className="text-on-dark-muted">{user.email}</Body>
-                  <Stack gap={2} direction="horizontal" className="mt-2 flex-wrap">
-                    {user.platformRoles.map(role => (
-                      <Badge key={role} variant="solid">
-                        {role}
-                      </Badge>
-                    ))}
-                  </Stack>
-                </Stack>
-                <Button 
-                  variant="outlineInk" 
-                  onClick={logout}
-                  icon={<LogOut className="size-4" />}
-                  iconPosition="left"
-                >
-                  Sign Out
-                </Button>
-              </Stack>
-            </Card>
+      <EnterprisePageHeader
+        title={`Welcome back, ${user.name}`}
+        subtitle={user.email}
+        secondaryActions={[{ id: 'signout', label: 'Sign Out', onClick: logout, icon: <LogOut className="size-4" /> }]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            {/* User Roles */}
+            <Stack gap={2} direction="horizontal" className="flex-wrap">
+              {user.platformRoles.map(role => (
+                <Badge key={role} variant="solid">
+                  {role}
+                </Badge>
+              ))}
+            </Stack>
 
             {/* Legend/Admin Dashboard */}
             {(hasLegendRole || isAdmin) && (
@@ -95,13 +118,14 @@ export default function DashboardPage() {
                   <Kicker colorScheme="on-dark">Administration</Kicker>
                   <H2 className="text-white">Admin Overview</H2>
                 </Stack>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
                   <StatCard
                     value="1,247"
                     label="Total Users"
                     trend="up"
                     trendValue="+12%"
                     inverted
+                    aria-label="Total Users: 1,247, up 12%"
                   />
                   <StatCard
                     value={events?.length?.toString() || '0'}
@@ -109,6 +133,7 @@ export default function DashboardPage() {
                     trend="up"
                     trendValue="+8%"
                     inverted
+                    aria-label={`Active Events: ${events?.length || 0}, up 8%`}
                   />
                   <StatCard
                     value={orders?.length?.toString() || '0'}
@@ -116,6 +141,7 @@ export default function DashboardPage() {
                     trend="up"
                     trendValue="+23%"
                     inverted
+                    aria-label={`Total Orders: ${orders?.length || 0}, up 23%`}
                   />
                   <StatCard
                     value="99.8%"
@@ -123,11 +149,12 @@ export default function DashboardPage() {
                     trend="up"
                     trendValue="+0.2%"
                     inverted
+                    aria-label="Uptime: 99.8%, up 0.2%"
                   />
                 </Grid>
 
-                <Grid cols={3} gap={6}>
-                  <Card inverted className="p-6">
+                <Grid cols={3} gap={6} className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                  <Card inverted className="p-6" role="region" aria-label="Platform Access">
                     <H3 className="mb-4 text-white">Platform Access</H3>
                     <Stack gap={3}>
                       <Button variant="solid" fullWidth inverted onClick={() => router.push('/admin/atlvs')}>
@@ -142,7 +169,7 @@ export default function DashboardPage() {
                     </Stack>
                   </Card>
 
-                  <Card inverted className="p-6">
+                  <Card inverted className="p-6" role="region" aria-label="System Health Status">
                     <H3 className="mb-4 text-white">System Health</H3>
                     <Stack gap={3}>
                       <Stack gap={2} direction="horizontal" className="justify-between">
@@ -160,16 +187,16 @@ export default function DashboardPage() {
                     </Stack>
                   </Card>
 
-                  <Card inverted className="p-6">
+                  <Card inverted className="p-6" role="region" aria-label="Recent Activity">
                     <H3 className="mb-4 text-white">Recent Activity</H3>
-                    <Stack gap={2}>
+                    <Stack gap={2} role="feed" aria-label="Activity updates">
                       {(activityData || [
                         { id: '1', action: 'New event created', detail: 'Summer Fest' },
                         { id: '2', action: 'User registered', detail: 'john@example.com' },
                         { id: '3', action: 'Order completed', detail: '#12847' },
                         { id: '4', action: 'Ticket scanned', detail: 'VIP-002341' },
                       ]).map((activity) => (
-                        <Body key={activity.id} size="sm" className="text-on-dark-muted">
+                        <Body key={activity.id} size="sm" className="text-on-dark-muted" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                           {activity.action}: {activity.detail}
                         </Body>
                       ))}
@@ -186,15 +213,15 @@ export default function DashboardPage() {
                   <Kicker colorScheme="on-dark">Creator Portal</Kicker>
                   <H2 className="text-white">Your Experiences</H2>
                 </Stack>
-                <Grid cols={4} gap={4}>
-                  <StatCard value="12" label="Active Events" inverted />
-                  <StatCard value="3,421" label="Tickets Sold" inverted />
-                  <StatCard value="$45.2K" label="Revenue" inverted />
-                  <StatCard value="4.8" label="Avg Rating" inverted />
+                <Grid cols={4} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                  <StatCard value="12" label="Active Events" inverted aria-label="Active Events: 12" />
+                  <StatCard value="3,421" label="Tickets Sold" inverted aria-label="Tickets Sold: 3,421" />
+                  <StatCard value="$45.2K" label="Revenue" inverted aria-label="Revenue: $45.2K" />
+                  <StatCard value="4.8" label="Avg Rating" inverted aria-label="Average Rating: 4.8" />
                 </Grid>
 
-                <Grid cols={2} gap={6}>
-                  <Card inverted className="p-6">
+                <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+                  <Card inverted className="p-6" role="region" aria-label="Quick Actions">
                     <H3 className="mb-4 text-white">Quick Actions</H3>
                     <Stack gap={3}>
                       <Button variant="solid" fullWidth inverted icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push('/events/new')}>
@@ -209,16 +236,16 @@ export default function DashboardPage() {
                     </Stack>
                   </Card>
 
-                  <Card inverted className="p-6">
+                  <Card inverted className="p-6" role="region" aria-label="Upcoming Events">
                     <H3 className="mb-4 text-white">Upcoming Events</H3>
                     <Stack gap={4}>
-                      <Stack gap={1} className="pl-4" style={{ borderLeft: '4px solid #6366f1' }}>
+                      <Stack gap={1} className="border-l-4 border-primary pl-4">
                         <Body className="font-display text-white">Summer Music Festival</Body>
                         <Label size="xs" className="text-on-dark-muted">
                           June 15, 2024 • 342 tickets sold
                         </Label>
                       </Stack>
-                      <Stack gap={1} className="pl-4" style={{ borderLeft: '4px solid #404040' }}>
+                      <Stack gap={1} className="border-l-4 border-ink-700 pl-4">
                         <Body className="font-display text-white">Rock Concert Series</Body>
                         <Label size="xs" className="text-on-dark-muted">
                           July 20, 2024 • 156 tickets sold
@@ -237,17 +264,17 @@ export default function DashboardPage() {
                   <Kicker colorScheme="on-dark">Venue Portal</Kicker>
                   <H2 className="text-white">Venue Management</H2>
                 </Stack>
-                <Grid cols={4} gap={4}>
-                  <StatCard value="3" label="Active Venues" inverted />
-                  <StatCard value="28" label="Events This Month" inverted />
-                  <StatCard value="5,234" label="Total Capacity" inverted />
-                  <StatCard value="87%" label="Avg Utilization" inverted />
+                <Grid cols={4} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                  <StatCard value="3" label="Active Venues" inverted aria-label="Active Venues: 3" />
+                  <StatCard value="28" label="Events This Month" inverted aria-label="Events This Month: 28" />
+                  <StatCard value="5,234" label="Total Capacity" inverted aria-label="Total Capacity: 5,234" />
+                  <StatCard value="87%" label="Avg Utilization" inverted aria-label="Average Utilization: 87%" />
                 </Grid>
 
                 <Card inverted className="p-6">
                   <H3 className="mb-4 text-white">Your Venues</H3>
                   <Stack gap={4}>
-                    <Card inverted interactive onClick={() => router.push('/venues/main-stage')}>
+                    <Card inverted interactive onClick={() => router.push('/venues/main-stage')} onKeyDown={(e) => e.key === 'Enter' && router.push('/venues/main-stage')} role="button" tabIndex={0} aria-label="Main Stage Theater - Capacity 2,000, Next Event in 3 days">
                       <Stack direction="horizontal" className="items-center justify-between">
                         <Stack gap={1}>
                           <Body className="font-display text-white">Main Stage Theater</Body>
@@ -270,15 +297,15 @@ export default function DashboardPage() {
                   <Kicker colorScheme="on-dark">Artist Portal</Kicker>
                   <H2 className="text-white">Your Music</H2>
                 </Stack>
-                <Grid cols={4} gap={4}>
-                  <StatCard value="8" label="Upcoming Shows" inverted />
-                  <StatCard value="12.4K" label="Followers" inverted />
-                  <StatCard value="1,234" label="Tracks Sold" inverted />
-                  <StatCard value="$8.2K" label="Earnings" inverted />
+                <Grid cols={4} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+                  <StatCard value="8" label="Upcoming Shows" inverted aria-label="Upcoming Shows: 8" />
+                  <StatCard value="12.4K" label="Followers" inverted aria-label="Followers: 12.4K" />
+                  <StatCard value="1,234" label="Tracks Sold" inverted aria-label="Tracks Sold: 1,234" />
+                  <StatCard value="$8.2K" label="Earnings" inverted aria-label="Earnings: $8.2K" />
                 </Grid>
 
-                <Grid cols={2} gap={6}>
-                  <Card inverted className="p-6">
+                <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+                  <Card inverted className="p-6" role="region" aria-label="Profile and Content Actions">
                     <H3 className="mb-4 text-white">Profile & Content</H3>
                     <Stack gap={3}>
                       <Button variant="solid" fullWidth inverted icon={<User className="size-4" />} iconPosition="left" onClick={() => router.push('/artist/profile')}>
@@ -293,7 +320,7 @@ export default function DashboardPage() {
                     </Stack>
                   </Card>
 
-                  <Card inverted className="p-6">
+                  <Card inverted className="p-6" role="region" aria-label="Fan Engagement Statistics">
                     <H3 className="mb-4 text-white">Fan Engagement</H3>
                     <Stack gap={3}>
                       <Stack gap={2} direction="horizontal" className="justify-between">
@@ -321,14 +348,14 @@ export default function DashboardPage() {
                   <Kicker colorScheme="on-dark">Your Portal</Kicker>
                   <H2 className="text-white">My GVTEWAY</H2>
                 </Stack>
-                <Grid cols={3} gap={4}>
-                  <StatCard value={events?.filter((e) => e.date && new Date(e.date) > new Date()).length.toString() || '0'} label="Upcoming Events" inverted />
-                  <StatCard value="124" label="Loyalty Points" inverted />
-                  <StatCard value={events?.filter((e) => e.date && new Date(e.date) < new Date()).length.toString() || '0'} label="Past Events" inverted />
+                <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-3">
+                  <StatCard value={events?.filter((e) => e.date && new Date(e.date) > new Date()).length.toString() || '0'} label="Upcoming Events" inverted aria-label={`Upcoming Events: ${events?.filter((e) => e.date && new Date(e.date) > new Date()).length || 0}`} />
+                  <StatCard value="124" label="Loyalty Points" inverted aria-label="Loyalty Points: 124" />
+                  <StatCard value={events?.filter((e) => e.date && new Date(e.date) < new Date()).length.toString() || '0'} label="Past Events" inverted aria-label={`Past Events: ${events?.filter((e) => e.date && new Date(e.date) < new Date()).length || 0}`} />
                 </Grid>
 
-                <Grid cols={2} gap={6}>
-                  <Card inverted className="p-6">
+                <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+                  <Card inverted className="p-6" role="region" aria-label="Quick Access">
                     <H3 className="mb-4 text-white">Quick Access</H3>
                     <Stack gap={3}>
                       <Button variant="solid" fullWidth inverted icon={<Calendar className="size-4" />} iconPosition="left" onClick={() => router.push('/events')}>
@@ -343,16 +370,16 @@ export default function DashboardPage() {
                     </Stack>
                   </Card>
 
-                  <Card inverted className="p-6">
+                  <Card inverted className="p-6" role="region" aria-label="Event Recommendations">
                     <H3 className="mb-4 text-white">Recommendations</H3>
                     <Stack gap={4}>
-                      <Stack gap={1} className="pl-4" style={{ borderLeft: '4px solid #6366f1' }}>
+                      <Stack gap={1} className="border-l-4 border-primary pl-4">
                         <Body className="font-display text-white">Electronic Night</Body>
                         <Label size="xs" className="text-on-dark-muted">
                           Based on your preferences
                         </Label>
                       </Stack>
-                      <Stack gap={1} className="pl-4" style={{ borderLeft: '4px solid #404040' }}>
+                      <Stack gap={1} className="border-l-4 border-ink-700 pl-4">
                         <Body className="font-display text-white">Jazz in the Park</Body>
                         <Label size="xs" className="text-on-dark-muted">
                           Nearby • This Weekend
@@ -363,7 +390,9 @@ export default function DashboardPage() {
                 </Grid>
               </Stack>
             )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

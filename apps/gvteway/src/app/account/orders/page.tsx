@@ -1,7 +1,9 @@
 'use client';
 
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -47,12 +49,14 @@ export default function AccountOrdersPage() {
   if (isLoading) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
-          <Stack className="flex items-center justify-center py-20">
-            <Spinner variant="grey" size="lg" text="Loading orders..." />
-          </Stack>
-        </Stack>
+        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
+        <MainContent padding="lg">
+          <Container>
+            <Stack className="flex items-center justify-center py-20">
+              <Spinner variant="grey" size="lg" text="Loading orders..." />
+            </Stack>
+          </Container>
+        </MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -60,15 +64,17 @@ export default function AccountOrdersPage() {
   if (error) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
-          <EmptyState
-            icon={<ShoppingBag size={48} />}
-            title="Unable to load orders"
-            description="There was a problem loading your order history. Please try again."
-            inverted
-          />
-        </Stack>
+        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              icon={<ShoppingBag size={48} />}
+              title="Unable to load orders"
+              description="There was a problem loading your order history. Please try again."
+              inverted
+            />
+          </Container>
+        </MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -76,26 +82,29 @@ export default function AccountOrdersPage() {
   if (orders.length === 0) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
-          <EmptyState
-            icon={<ShoppingBag size={48} />}
-            title="No orders yet"
-            description="You haven't made any purchases yet. Browse events to find your next experience!"
-            action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
-            inverted
-          />
-        </Stack>
+        <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              icon={<ShoppingBag size={48} />}
+              title="No orders yet"
+              description="You haven't made any purchases yet. Browse events to find your next experience!"
+              action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
+              inverted
+            />
+          </Container>
+        </MainContent>
       </GvtewayAppLayout>
     );
   }
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={8}>
-        <SectionHeader kicker="My Account" title="Order History" description="View your past orders and receipts" colorScheme="on-dark" />
-
-        <Grid cols={3} gap={4}>
+      <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Grid cols={3} gap={4}>
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={2}>
@@ -164,7 +173,9 @@ export default function AccountOrdersPage() {
             </Stack>
           </CardBody>
         </Card>
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

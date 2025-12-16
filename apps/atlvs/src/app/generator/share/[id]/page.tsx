@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../../../components/app-layout";
 import {
   Stack,
@@ -27,6 +27,7 @@ export const runtime = "edge";
 
 export default function SharedBlueprintPage() {
   const params = useParams();
+  const router = useRouter();
   const shareId = params.id as string;
   
   const [blueprint, setBlueprint] = useState<GeneratedBlueprint | null>(null);
@@ -57,7 +58,7 @@ export default function SharedBlueprintPage() {
   }, [shareId]);
 
   const handleReset = () => {
-    window.location.href = "/generator";
+    router.push("/generator");
   };
 
   if (loading) {

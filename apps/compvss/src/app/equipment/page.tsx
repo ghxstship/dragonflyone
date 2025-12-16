@@ -247,8 +247,7 @@ primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true)
       />
       <MainContent padding="lg">
         <ListPage<Equipment>
-          title="Equipment Inventory"
-          subtitle="Track and manage production equipment"
+          title=""
           data={equipmentList}
           columns={columns}
           rowKey="id"

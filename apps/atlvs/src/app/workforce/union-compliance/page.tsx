@@ -184,9 +184,9 @@ export default function UnionCompliancePage() {
           </Tabs>
 
             <Grid cols={3} gap={4}>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/workforce")}>Workforce</Button>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/employees")}>Employees</Button>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/workforce")}>Workforce</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/employees")}>Employees</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
             </Grid>
 
       <Modal open={!!selectedLocal} onClose={() => setSelectedLocal(null)}>

@@ -16,6 +16,11 @@ import {
   AuthenticatedShell,
   CommandPalette,
   MobileBottomNav,
+  Skeleton,
+  SkeletonCard,
+  Grid,
+  Card,
+  PageTransition,
 } from "@ghxstship/ui";
 import type { SidebarNavSection, SidebarNavItem } from "@ghxstship/ui";
 import {
@@ -354,7 +359,9 @@ export function GvtewayAppLayout({
           headerActions={userMenu}
         >
           <div className="p-6 pb-20 md:pb-6">
-            {children}
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
           </div>
         </AuthenticatedShell>
         
@@ -440,7 +447,9 @@ export function GvtewayAppLayout({
         className={`min-h-screen ${className || ""}`}
       >
         <Container className="py-8 sm:py-12 md:py-16">
-          {children}
+          <PageTransition type="fade" duration={200}>
+            {children}
+          </PageTransition>
         </Container>
       </FullBleedSection>
     </PageLayout>
@@ -486,6 +495,58 @@ export function GvtewayEmptyLayout({
         <Display size="md" className="text-white">{title}</Display>
         {description && <Label size="sm" className="text-on-dark-muted max-w-md">{description}</Label>}
         {action}
+      </Stack>
+    </GvtewayAppLayout>
+  );
+}
+
+/**
+ * GvtewaySkeletonLayout - Skeleton loading state for dashboard pages
+ */
+export function GvtewaySkeletonLayout({
+  variant = "consumer-public",
+  showStats = true,
+  showCards = true,
+  cardCount = 4,
+}: {
+  variant?: AppLayoutProps["variant"];
+  showStats?: boolean;
+  showCards?: boolean;
+  cardCount?: number;
+}) {
+  return (
+    <GvtewayAppLayout variant={variant}>
+      <Stack gap={8}>
+        {/* Header skeleton */}
+        <Stack gap={2}>
+          <Skeleton width="120px" height="1rem" />
+          <Skeleton width="280px" height="2.5rem" />
+          <Skeleton width="200px" height="1rem" />
+        </Stack>
+
+        {/* Stats grid skeleton */}
+        {showStats && (
+          <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Card key={i} inverted className="p-6">
+                <Stack gap={2}>
+                  <Skeleton width="60%" height="1rem" />
+                  <Skeleton width="40%" height="2rem" />
+                  <Skeleton width="30%" height="0.75rem" />
+                </Stack>
+              </Card>
+            ))}
+          </Grid>
+        )}
+
+        {/* Content cards skeleton */}
+        {showCards && (
+          <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+            {Array.from({ length: cardCount }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </Grid>
+        )}
       </Stack>
     </GvtewayAppLayout>
   );

@@ -115,6 +115,7 @@ export function Avatar({
         <img
           src={src}
           alt={alt}
+          loading="lazy"
           onError={() => setImageError(true)}
           className="w-full h-full object-cover grayscale contrast-[1.1]"
         />

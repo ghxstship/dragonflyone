@@ -11,6 +11,13 @@ export interface EmptyStateProps {
     label: string;
     onClick: () => void;
   };
+  /** Secondary action button */
+  secondaryAction?: {
+    label: string;
+    onClick: () => void;
+  };
+  /** Contextual suggestions (e.g., "Try searching for...") */
+  suggestions?: string[];
   inverted?: boolean;
 }
 
@@ -22,7 +29,7 @@ export interface EmptyStateProps {
  * - Generous padding
  * - Clear visual hierarchy
  */
-export function EmptyState({ icon, title, description, action, inverted = false }: EmptyStateProps) {
+export function EmptyState({ icon, title, description, action, secondaryAction, suggestions, inverted = false }: EmptyStateProps) {
   return (
     <div className={clsx(
       "flex flex-col items-center justify-center p-16 text-center",
@@ -53,11 +60,41 @@ export function EmptyState({ icon, title, description, action, inverted = false 
           {description}
         </Body>
       )}
-      {action && (
-        <div className="mt-8">
-          <Button variant="outline" inverted={inverted} onClick={action.onClick}>
-            {action.label}
-          </Button>
+      {suggestions && suggestions.length > 0 && (
+        <div className={clsx(
+          "mt-6 text-sm",
+          inverted ? "text-grey-500" : "text-grey-400"
+        )}>
+          <span className="font-mono uppercase tracking-wider text-xs">Try searching for:</span>
+          <div className="mt-2 flex flex-wrap justify-center gap-2">
+            {suggestions.map((suggestion, index) => (
+              <span
+                key={index}
+                className={clsx(
+                  "px-3 py-1 rounded-full text-xs font-medium",
+                  inverted 
+                    ? "bg-grey-800 text-grey-300" 
+                    : "bg-grey-200 text-grey-600"
+                )}
+              >
+                {suggestion}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+      {(action || secondaryAction) && (
+        <div className="mt-8 flex gap-3">
+          {action && (
+            <Button variant="outline" inverted={inverted} onClick={action.onClick}>
+              {action.label}
+            </Button>
+          )}
+          {secondaryAction && (
+            <Button variant="ghost" inverted={inverted} onClick={secondaryAction.onClick}>
+              {secondaryAction.label}
+            </Button>
+          )}
         </div>
       )}
     </div>

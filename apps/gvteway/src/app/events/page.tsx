@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
 import { GvtewayAppLayout } from "@/components/app-layout";
 import {
-  H2,
   H3,
   Body,
   Button,
@@ -19,8 +18,10 @@ import {
   Spinner,
   Figure,
   Label,
-  Kicker,
   EmptyState,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
 } from "@ghxstship/ui";
 import Image from "next/image";
 import { LayoutGrid, List as ListIcon, Search, MapPin, Tag } from "lucide-react";
@@ -34,30 +35,40 @@ export default function EventsPage() {
   const [selectedGenre, setSelectedGenre] = useState("All");
   const [selectedCity, setSelectedCity] = useState("All");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const { data: events, isLoading } = useEvents({ status: 'published' });
+  // Debounce search input to prevent excessive filtering
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
-  const filteredEvents = (events || []).filter((event) => {
-    const matchesSearch =
-      event.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.venue.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesGenre = selectedGenre === "All" || event.category === selectedGenre;
-    const matchesCity = selectedCity === "All" || event.address.includes(selectedCity);
-    return matchesSearch && matchesGenre && matchesCity;
-  });
+  const { data: events, isLoading, error, refetch } = useEvents({ status: 'published' });
+
+  const filteredEvents = useMemo(() => {
+    return (events || []).filter((event) => {
+      const matchesSearch =
+        event.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+        event.venue.toLowerCase().includes(debouncedSearch.toLowerCase());
+      const matchesGenre = selectedGenre === "All" || event.category === selectedGenre;
+      const matchesCity = selectedCity === "All" || event.address.includes(selectedCity);
+      return matchesSearch && matchesGenre && matchesCity;
+    });
+  }, [events, debouncedSearch, selectedGenre, selectedCity]);
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={4} className="text-center">
-              <Kicker colorScheme="on-dark">Browse Events</Kicker>
-              <H2 size="lg" className="text-white">Discover Experiences</H2>
-              <Body className="mx-auto max-w-2xl text-on-dark-muted">
-                Explore unforgettable live events, festivals, and performances happening now and coming soon.
-              </Body>
-            </Stack>
-
+      <EnterprisePageHeader
+        title="Discover Experiences"
+        subtitle="Explore unforgettable live events, festivals, and performances happening now and coming soon."
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             {/* Search & Filters */}
             <Card inverted variant="elevated" className="p-6">
               <Stack gap={4}>
@@ -147,6 +158,13 @@ export default function EventsPage() {
               <Stack className="flex items-center justify-center py-20">
                 <Spinner variant="grey" size="lg" text="Loading events..." />
               </Stack>
+            ) : error ? (
+              <EmptyState
+                title="Error Loading Events"
+                description={error instanceof Error ? error.message : 'Failed to load events'}
+                action={{ label: "Retry", onClick: () => refetch() }}
+                inverted
+              />
             ) : filteredEvents.length === 0 ? (
               <EmptyState
                 title="No events found"
@@ -162,7 +180,7 @@ export default function EventsPage() {
                 inverted
               />
             ) : viewMode === "grid" ? (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredEvents.map((event) => (
                   <ProjectCard
                     key={event.id}
@@ -236,7 +254,9 @@ export default function EventsPage() {
                 ))}
               </Stack>
             )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

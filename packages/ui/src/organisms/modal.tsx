@@ -1,8 +1,18 @@
 "use client";
 
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useRef, useCallback } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
+
+// Focusable element selectors for focus trap
+const FOCUSABLE_SELECTORS = [
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  'a[href]',
+  '[tabindex]:not([tabindex="-1"])',
+].join(',');
 
 export type ModalProps = HTMLAttributes<HTMLDivElement> & {
   open: boolean;
@@ -24,16 +34,74 @@ export type ModalProps = HTMLAttributes<HTMLDivElement> & {
  */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   function Modal({ open, onClose, title, size = "md", showClose = true, inverted = false, className, children, ...props }, ref) {
+    const modalRef = useRef<HTMLDivElement>(null);
+    const previousActiveElement = useRef<HTMLElement | null>(null);
+
+    // Focus trap: keep focus within modal
+    const handleKeyDown = useCallback((e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      const modal = modalRef.current;
+      if (!modal) return;
+
+      const focusableElements = modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS);
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      // Shift+Tab on first element -> go to last
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+      // Tab on last element -> go to first
+      else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }, [onClose]);
+
+    // Lock body scroll and setup focus trap
     useEffect(() => {
       if (open) {
+        // Store the previously focused element
+        previousActiveElement.current = document.activeElement as HTMLElement;
         document.body.style.overflow = "hidden";
+
+        // Add focus trap listener
+        document.addEventListener('keydown', handleKeyDown);
+
+        // Auto-focus first focusable element after a short delay (allow render)
+        const timeoutId = setTimeout(() => {
+          const modal = modalRef.current;
+          if (modal) {
+            const firstInput = modal.querySelector<HTMLElement>('input:not([disabled]), textarea:not([disabled]), select:not([disabled])');
+            const firstFocusable = modal.querySelector<HTMLElement>(FOCUSABLE_SELECTORS);
+            // Prefer input fields, then any focusable element
+            (firstInput || firstFocusable)?.focus();
+          }
+        }, 50);
+
+        return () => {
+          clearTimeout(timeoutId);
+          document.removeEventListener('keydown', handleKeyDown);
+        };
       } else {
         document.body.style.overflow = "";
+        // Restore focus to previously focused element
+        previousActiveElement.current?.focus();
       }
       return () => {
         document.body.style.overflow = "";
+        document.removeEventListener('keydown', handleKeyDown);
       };
-    }, [open]);
+    }, [open, handleKeyDown]);
 
     if (!open) return null;
 
@@ -62,7 +130,12 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
         />
         {/* Modal panel */}
         <div
-          ref={ref}
+          ref={(node) => {
+            // Handle both refs
+            (modalRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+            if (typeof ref === 'function') ref(node);
+            else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          }}
           className={clsx(
             "relative w-full border-4 rounded-[var(--radius-modal)]",
             "animate-pop-in",

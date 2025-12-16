@@ -76,9 +76,9 @@ function FanContentPageContent() {
             <Button variant="solid" onClick={() => setShowSubmitModal(true)}>Share Your Content</Button>
           </Stack>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {filteredContent.map((content) => (
-              <Card key={content.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(content)}>
+              <Card key={content.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(content)} onKeyDown={(e) => e.key === 'Enter' && setSelectedContent(content)} role="button" tabIndex={0} aria-label={`${content.title} by ${content.creator}, ${content.likes} likes`}>
                 <Stack className="flex h-48 items-center justify-center bg-ink-900">
                   {getTypeIcon(content.type)}
                 </Stack>

@@ -186,7 +186,7 @@ export default function Home() {
           </H1>
           <Grid cols={3} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsProblemSection.problems.map((problem) => (
-              <Article key={problem.title} className="border-2 border-grey-700 bg-ink-900 p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
+              <Article key={problem.title} className="border-2 border-ink-800 bg-ink-900 p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6">
                 <Box className="mb-4 flex h-12 w-12 items-center justify-center border-2 border-grey-600 bg-ink-800">
                   {problem.icon === "chaos" && <BarChart3 className="h-6 w-6 text-grey-400" />}
                   {problem.icon === "silos" && <Link2 className="h-6 w-6 text-grey-400" />}
@@ -290,7 +290,7 @@ export default function Home() {
       {/* SECTION 6: COMPVSS */}
       <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Box className="border-2 border-grey-700 bg-ink-900 p-4 sm:p-8 lg:p-12">
+          <Box className="border-2 border-ink-800 bg-ink-900 p-4 sm:p-8 lg:p-12">
             <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
             <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
             <Body className="mt-4 text-body-md text-grey-400 sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>
@@ -298,7 +298,7 @@ export default function Home() {
             <Body className="max-w-3xl text-grey-300 sm:text-body-md">{atlvsCompvssSection.description}</Body>
             <Grid cols={3} gap={4} className="mt-6 sm:mt-8 sm:gap-6">
               {atlvsCompvssSection.features.map((feature) => (
-                <Article key={feature.title} className="border-2 border-grey-700 bg-ink-800 p-3 sm:p-4">
+                <Article key={feature.title} className="border-2 border-ink-800 bg-ink-800 p-3 sm:p-4">
                   <Box className="mb-2 flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
                     {feature.icon === "HardHat" && <HardHat className="h-5 w-5 text-brand-cyan" />}
                     {feature.icon === "Users" && <Users className="h-5 w-5 text-brand-cyan" />}

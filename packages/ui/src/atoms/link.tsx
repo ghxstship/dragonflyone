@@ -6,10 +6,20 @@ export interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   variant?: "default" | "nav" | "footer" | "inline" | "button";
   size?: "sm" | "md" | "lg";
   inverted?: boolean;
+  /** Prefetch hint - when true, adds data-prefetch attribute for router integration */
+  prefetch?: boolean;
+  /** Callback for hover-based prefetch trigger */
+  onPrefetch?: () => void;
 }
 
 export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  function Link({ variant = "default", size = "md", inverted = false, className, children, ...props }, ref) {
+  function Link({ variant = "default", size = "md", inverted = false, prefetch = false, onPrefetch, className, children, onMouseEnter, ...props }, ref) {
+    const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (prefetch && onPrefetch) {
+        onPrefetch();
+      }
+      onMouseEnter?.(e);
+    };
     const getVariantClasses = () => {
       if (inverted) {
         switch (variant) {
@@ -58,6 +68,8 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
           variant !== "button" && sizeClasses[size],
           className
         )}
+        onMouseEnter={handleMouseEnter}
+        data-prefetch={prefetch || undefined}
         {...props}
       >
         {children}

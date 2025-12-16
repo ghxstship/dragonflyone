@@ -19,11 +19,11 @@ import {
   Section,
   SectionHeader,
   Input,
+  useNotifications,
 } from "@ghxstship/ui";
 import {
   Star,
   Link as LinkIcon,
-  Search,
   FolderPlus,
   Receipt,
   Calendar,
@@ -97,6 +97,7 @@ const categoryLabels: Record<string, string> = {
 
 export default function QuickLinksPage() {
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const [filterCategory, setFilterCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   
@@ -144,7 +145,7 @@ export default function QuickLinksPage() {
     
     // Check max favorites limit
     if (!isFavorited && favoriteCount >= 10) {
-      alert('Maximum of 10 favorites allowed. Please remove a favorite first.');
+      addNotification({ type: 'warning', title: 'Limit Reached', message: 'Maximum of 10 favorites allowed. Please remove a favorite first.' });
       return;
     }
 
@@ -208,7 +209,6 @@ export default function QuickLinksPage() {
           <SectionHeader
             kicker="Search"
             title="Find Forms"
-            icon={<Search className="size-5" />}
           />
           <Stack direction="horizontal" gap={4} className="items-end">
             <Stack gap={2} className="flex-1">
@@ -257,7 +257,6 @@ export default function QuickLinksPage() {
               kicker="Starred"
               title="Your Favorites"
               description={`${favoriteCount} of 10 favorites`}
-              icon={<Star className="size-5 fill-warning text-warning" />}
             />
             <Grid cols={2} gap={4}>
               {favorites?.map((fav) => {
@@ -332,7 +331,7 @@ export default function QuickLinksPage() {
                       className={`border-2 p-4 transition-colors ${
                         isFavorited 
                           ? 'border-warning/30 hover:border-warning' 
-                          : 'border-grey-700 hover:border-grey-500'
+                          : 'border-ink-800 hover:border-grey-500'
                       }`}
                     >
                       <Stack gap={3} direction="horizontal" className="items-start justify-between">

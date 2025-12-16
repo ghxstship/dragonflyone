@@ -3,7 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -85,9 +87,8 @@ export default function ProductionStrikePage() {
 
   return (
     <CompvssAppLayout>
-      <Stack gap={8}>
-        <SectionHeader kicker="Production" title="Strike Checklist" description="Track strike progress and completion" colorScheme="on-dark" />
-
+      <EnterprisePageHeader title="Strike Checklist" subtitle="Track strike progress and completion" showFavorite showSettings />
+      <MainContent padding="lg"><Container><Stack gap={8}>
         <Grid cols={4} gap={4}>
           <StatCard label="Total Tasks" value={tasks.length.toString()} icon={<Package size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<CheckCircle size={20} />} trend="up" inverted />
@@ -143,7 +144,7 @@ export default function ProductionStrikePage() {
           <Button variant="outline"><AlertTriangle size={16} className="mr-2" />Report Issue</Button>
           <Button variant="solid" disabled={progress < 100}><CheckCircle size={16} className="mr-2" />Complete Strike</Button>
         </Stack>
-      </Stack>
+      </Stack></Container></MainContent>
     </CompvssAppLayout>
   );
 }

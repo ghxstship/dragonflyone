@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
-  H2, 
   H3, 
   Body, 
   Button, 
@@ -14,11 +13,13 @@ import {
   Grid, 
   Badge, 
   Stack, 
-  Kicker,
   Label,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
 } from '@ghxstship/ui';
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
-import { useCommunityData, type Forum } from '@/hooks/useCommunity';
+import { useCommunityData, type Forum, type CommunityGroup, type CommunityEvent } from '@/hooks/useCommunity';
 
 function CommunityPageContent() {
   const router = useRouter();
@@ -72,18 +73,17 @@ function CommunityPageContent() {
 
   return (
     <GvtewayAppLayout variant="consumer-auth">
-      <Stack gap={10}>
-        {/* Page Header */}
-        <Stack gap={4}>
-            <Kicker colorScheme="on-dark">Connect & Share</Kicker>
-            <H2 size="lg" className="text-white">Community</H2>
-            <Body className="max-w-2xl text-on-dark-muted">
-              Connect with fellow fans and share experiences
-            </Body>
-          </Stack>
-
-          {/* Tabs */}
-          <Stack direction="horizontal" gap={2} className="mb-8 border-b-2 border-ink-800">
+      <EnterprisePageHeader
+        title="Community"
+        subtitle="Connect with fellow fans and share experiences"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            {/* Tabs */}
+            <Stack direction="horizontal" gap={2} className="mb-8 border-b-2 border-ink-800">
             {[
               { id: 'forums', label: 'FORUMS' },
               { id: 'groups', label: 'GROUPS' },
@@ -125,7 +125,7 @@ function CommunityPageContent() {
         {/* Forums Tab */}
         {isActive('forums') && (
           <Stack gap={4}>
-            {filteredForums.map((forum) => (
+            {filteredForums.map((forum: Forum) => (
               <Card key={forum.id} inverted interactive>
                 <Stack gap={4} direction="horizontal" className="items-start justify-between">
                   <Stack gap={2} className="flex-1">
@@ -169,7 +169,7 @@ function CommunityPageContent() {
         {/* Groups Tab */}
         {isActive('groups') && (
           <Grid cols={2} gap={4}>
-            {groups.map((group) => (
+            {groups.map((group: CommunityGroup) => (
               <Card key={group.id} inverted interactive>
                 <Stack gap={4}>
                   <Stack gap={4} direction="horizontal" className="items-start justify-between">
@@ -205,7 +205,7 @@ function CommunityPageContent() {
         {isActive('events') && (
           <Stack gap={4}>
             {communityEvents.length > 0 ? (
-              communityEvents.map((event) => (
+              communityEvents.map((event: CommunityEvent) => (
                 <Card key={event.id} inverted interactive>
                   <Stack gap={4}>
                     <Stack gap={4} direction="horizontal" className="items-center">
@@ -256,7 +256,9 @@ function CommunityPageContent() {
             </Card>
           </Stack>
         )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { AtlvsAppLayout, AtlvsLoadingLayout } from "../../components/app-layout";
 import { 
   Badge, 
@@ -28,7 +29,7 @@ import { useActionItems } from "../../hooks/useActionItems";
 import { useUserQuickLinkFavorites } from "../../hooks/useQuickLinks";
 import { useActivityFeed } from "@ghxstship/config/hooks";
 import { QuickLinkFormSheet, useQuickLinkForm } from "@ghxstship/config/components";
-import { ArrowRight, Star, Link as LinkIcon, Zap, CalendarClock, Users, Trash2 } from "lucide-react";
+import { ArrowRight, Link as LinkIcon, Zap, CalendarClock, Users, Trash2 } from "lucide-react";
 import type { ActionItem } from "../../hooks/useActionItems";
 
 // Eisenhower Matrix classification
@@ -84,7 +85,7 @@ const eisenhowerConfig: Record<EisenhowerQuadrant, {
     action: 'Remove',
     icon: Trash2,
     borderColor: 'border-grey-600',
-    actionColor: 'text-grey-400',
+    actionColor: 'text-grey-300',
   },
 };
 
@@ -111,8 +112,9 @@ const fallbackActivity = [
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
   const [timeRange, setTimeRange] = useState("month");
-  const { data: projects, isLoading: projectsLoading } = useProjects({ status: 'active' });
+  const { data: projects, isLoading: projectsLoading, error: projectsError, refetch: refetchProjects } = useProjects({ status: 'active' });
   const { data: actionItems, isLoading: actionItemsLoading } = useActionItems({ limit: 3 });
   const { data: quickLinks, isLoading: quickLinksLoading } = useUserQuickLinkFavorites('demo-user');
   const { data: activityData } = useActivityFeed({ limit: 5 });
@@ -128,7 +130,7 @@ export default function DashboardPage() {
   // Handle quick link click - open form if available, otherwise navigate
   const handleQuickLinkClick = (href: string) => {
     if (!openForm(href)) {
-      window.location.href = href;
+      router.push(href);
     }
   };
 
@@ -154,9 +156,29 @@ export default function DashboardPage() {
     return <AtlvsLoadingLayout text="Loading dashboard..." />;
   }
 
+  if (projectsError) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={6} className="items-center justify-center py-20">
+          <Card inverted className="max-w-md p-8 text-center">
+            <Stack gap={4}>
+              <H3 className="text-white">Error Loading Dashboard</H3>
+              <Body className="text-grey-300">
+                {projectsError instanceof Error ? projectsError.message : 'Failed to load dashboard data'}
+              </Body>
+              <Button variant="solid" onClick={() => refetchProjects()}>
+                Retry
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
   return (
     <AtlvsAppLayout>
-      <Stack gap={10}>
+      <Stack gap={8}>
         <EnterprisePageHeader
           title="Executive Dashboard"
           subtitle="Real-time operations command center"
@@ -189,7 +211,7 @@ export default function DashboardPage() {
           }
         />
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {kpis.map((kpi) => (
             <StatCard
               key={kpi.label}
@@ -197,6 +219,7 @@ export default function DashboardPage() {
               value={kpi.value}
               trend={kpi.up ? "up" : "down"}
               trendValue={kpi.trend}
+              aria-label={`${kpi.label}: ${kpi.value}, ${kpi.up ? 'up' : 'down'} ${kpi.trend}`}
             />
           ))}
         </Grid>
@@ -243,7 +266,7 @@ export default function DashboardPage() {
                   <TableCell>
                     <Stack gap={1}>
                       <ProgressBar value={project.progress || 0} variant="inverse" size="sm" className="w-24" />
-                      <Body size="xs" className="font-mono text-grey-400">{project.progress}%</Body>
+                      <Body size="xs" className="font-mono text-grey-300">{project.progress}%</Body>
                     </Stack>
                   </TableCell>
                   <TableCell>
@@ -265,7 +288,7 @@ export default function DashboardPage() {
           />
           <Stack gap={3}>
             {recentActivity.map((activity) => (
-              <Card key={activity.id} inverted className="border-2 border-grey-700 p-5 transition-colors hover:border-grey-500">
+              <Card key={activity.id} inverted className="border-2 border-ink-800 p-5 transition-colors hover:border-grey-500" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                 <Stack gap={1}>
                   <H3 className="text-white">{activity.action}</H3>
                   <Body size="sm" className="text-grey-300">{activity.detail}</Body>
@@ -278,17 +301,16 @@ export default function DashboardPage() {
           </Stack>
         </Section>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
           <Section border>
             <SectionHeader 
               kicker="Favorites" 
-              title="Quick Links" 
-              icon={<Star className="size-4 fill-warning text-warning" />}
+              title="Quick Links"
             />
             <Stack gap={3}>
               {quickLinksLoading ? (
-                <Card inverted className="border-2 border-grey-700 p-4">
-                  <Body className="text-grey-400">Loading quick links...</Body>
+                <Card inverted className="border-2 border-ink-800 p-4">
+                  <Body className="text-grey-300">Loading quick links...</Body>
                 </Card>
               ) : quickLinks && quickLinks.length > 0 ? (
                 quickLinks.slice(0, 4).map((favorite) => {
@@ -357,7 +379,7 @@ export default function DashboardPage() {
               <Button
                 variant="outlineWhite"
                 fullWidth
-                onClick={() => window.location.href = '/quick-links'}
+                onClick={() => router.push('/quick-links')}
                 icon={<ArrowRight className="size-4" />}
                 iconPosition="right"
               >
@@ -370,8 +392,8 @@ export default function DashboardPage() {
             <SectionHeader kicker="Eisenhower Matrix" title="Action Items" />
             <Stack gap={3}>
               {actionItemsLoading ? (
-                <Card inverted className="border-2 border-grey-700 p-4">
-                  <Body className="text-grey-400">Loading action items...</Body>
+                <Card inverted className="border-2 border-ink-800 p-4">
+                  <Body className="text-grey-300">Loading action items...</Body>
                 </Card>
               ) : actionItems && actionItems.length > 0 ? (
                 actionItems.map((item) => {
@@ -412,13 +434,13 @@ export default function DashboardPage() {
                           onClick={() => {
                             // Route based on quadrant action
                             if (quadrant === 'do-first') {
-                              window.location.href = `/action-items?id=${item.id}`;
+                              router.push(`/action-items?id=${item.id}`);
                             } else if (quadrant === 'schedule') {
-                              window.location.href = `/schedule?task=${item.id}`;
+                              router.push(`/schedule?task=${item.id}`);
                             } else if (quadrant === 'delegate') {
-                              window.location.href = `/action-items?delegate=${item.id}`;
+                              router.push(`/action-items?delegate=${item.id}`);
                             } else {
-                              window.location.href = `/action-items?archive=${item.id}`;
+                              router.push(`/action-items?archive=${item.id}`);
                             }
                           }}
                           icon={<IconComponent className="size-4" />}
@@ -431,8 +453,8 @@ export default function DashboardPage() {
                   );
                 })
               ) : (
-                <Card inverted className="border-2 border-grey-700 p-4">
-                  <Body className="text-grey-400">No pending action items</Body>
+                <Card inverted className="border-2 border-ink-800 p-4">
+                  <Body className="text-grey-300">No pending action items</Body>
                 </Card>
               )}
               
@@ -440,7 +462,7 @@ export default function DashboardPage() {
               <Button
                 variant="outlineWhite"
                 fullWidth
-                onClick={() => window.location.href = '/action-items'}
+                onClick={() => router.push('/action-items')}
                 icon={<ArrowRight className="size-4" />}
                 iconPosition="right"
               >

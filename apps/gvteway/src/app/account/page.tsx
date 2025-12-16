@@ -1,7 +1,9 @@
 'use client';
 
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -43,10 +45,16 @@ export default function AccountPage() {
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={8}>
-        <SectionHeader kicker="My Account" title="Dashboard" description="Manage your tickets, orders, and preferences" colorScheme="on-dark" />
-
-        <Grid cols={4} gap={4}>
+      <EnterprisePageHeader
+        title="Dashboard"
+        subtitle="Manage your tickets, orders, and preferences"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Grid cols={4} gap={4}>
           <StatCard label="Upcoming Events" value={upcomingEvents.length.toString()} icon={<Calendar size={20} />} inverted />
           <StatCard label="Total Tickets" value={upcomingEvents.reduce((sum, e) => sum + e.ticketCount, 0).toString()} icon={<Ticket size={20} />} inverted />
           <StatCard label="Saved Events" value="5" icon={<Heart size={20} />} inverted />
@@ -142,8 +150,10 @@ export default function AccountPage() {
               </CardBody>
             </Card>
           </Stack>
-        </Grid>
-      </Stack>
+            </Grid>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

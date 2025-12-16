@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -99,15 +101,16 @@ export default function CateringPage() {
 
   return (
     <CompvssAppLayout>
-      <Stack gap={8}>
-        <SectionHeader
-          kicker="Production"
-          title="Catering Management"
-          description="Track meal services and crew headcounts"
-          colorScheme="on-dark"
-        />
-
-        <Grid cols={4} gap={4}>
+      <EnterprisePageHeader
+        title="Catering Management"
+        subtitle="Track meal services and crew headcounts"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Grid cols={4} gap={4}>
           <StatCard label="Total Crew" value={totalHeadcount.toString()} icon={<Users size={20} />} inverted />
           <StatCard label="Meals Served" value={mealsServed.toString()} icon={<Utensils size={20} />} inverted />
           <StatCard label="Total Servings" value={totalMealsServed.toString()} icon={<Clock size={20} />} inverted />
@@ -241,7 +244,9 @@ export default function CateringPage() {
             </CardBody>
           </Card>
         </Grid>
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </CompvssAppLayout>
   );
 }

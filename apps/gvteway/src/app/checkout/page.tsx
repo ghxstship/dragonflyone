@@ -4,7 +4,6 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
 import { 
-  H2, 
   H3, 
   Body, 
   Button, 
@@ -13,8 +12,11 @@ import {
   Grid, 
   Badge, 
   Stack, 
-  Kicker,
   Label,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
+  useNotifications,
 } from '@ghxstship/ui';
 import { CreditCard, Lock, Check, ShoppingCart, MapPin, ChevronRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
@@ -33,6 +35,7 @@ interface CartItem {
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const [step, setStep] = useState<'cart' | 'payment' | 'confirm'>('cart');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +51,52 @@ function CheckoutContent() {
     state: '',
     zip: '',
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validateField = (name: string, value: string): string => {
+    switch (name) {
+      case 'cardName':
+        return value.trim().length < 2 ? 'Cardholder name is required' : '';
+      case 'cardNumber':
+        const cleanedNumber = value.replace(/\s/g, '');
+        return !/^\d{13,19}$/.test(cleanedNumber) ? 'Enter a valid card number' : '';
+      case 'expiry':
+        return !/^(0[1-9]|1[0-2])\/\d{2}$/.test(value) ? 'Enter MM/YY format' : '';
+      case 'cvv':
+        return !/^\d{3,4}$/.test(value) ? 'Enter 3-4 digit CVV' : '';
+      case 'street':
+        return value.trim().length < 3 ? 'Street address is required' : '';
+      case 'city':
+        return value.trim().length < 2 ? 'City is required' : '';
+      case 'state':
+        return value.trim().length < 2 ? 'State is required' : '';
+      case 'zip':
+        return !/^\d{5}(-\d{4})?$/.test(value) ? 'Enter valid ZIP code' : '';
+      default:
+        return '';
+    }
+  };
+
+  const handleFieldChange = (name: string, value: string) => {
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (touched[name]) {
+      setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
+    }
+  };
+
+  const handleFieldBlur = (name: string) => {
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setErrors(prev => ({ ...prev, [name]: validateField(name, formData[name as keyof typeof formData]) }));
+  };
+
+  const isFormValid = () => {
+    const requiredFields = ['cardName', 'cardNumber', 'expiry', 'cvv', 'street', 'city', 'state', 'zip'];
+    return requiredFields.every(field => {
+      const value = formData[field as keyof typeof formData];
+      return value && !validateField(field, value);
+    });
+  };
 
   useEffect(() => {
     loadCartItems();
@@ -121,11 +170,11 @@ function CheckoutContent() {
         setOrderId(data.orderId);
         setStep('confirm');
       } else {
-        alert('Payment failed: ' + data.error);
+        addNotification({ type: 'error', title: 'Payment Failed', message: data.error || 'Payment could not be processed' });
       }
     } catch (error) {
       log.error('Payment error:', error instanceof Error ? error : undefined);
-      alert('Payment processing failed');
+      addNotification({ type: 'error', title: 'Payment Error', message: 'Payment processing failed. Please try again.' });
     } finally {
       setProcessing(false);
     }
@@ -139,14 +188,15 @@ function CheckoutContent() {
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Secure Payment</Kicker>
-              <H2 size="lg" className="text-white">Checkout</H2>
-              <Body className="text-on-dark-muted">Complete your purchase securely</Body>
-            </Stack>
-
+      <EnterprisePageHeader
+        title="Checkout"
+        subtitle="Complete your purchase securely"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
             {/* Progress Steps */}
             <Card inverted className="p-4">
               <Stack gap={2} direction="horizontal" className="justify-between">
@@ -243,65 +293,154 @@ function CheckoutContent() {
                       <H3 className="text-white">Payment Information</H3>
                     </Stack>
                   </Stack>
-                  <Stack gap={4}>
-                    <Input 
-                      placeholder="Cardholder Name" 
-                      inverted
-                      value={formData.cardName}
-                      onChange={(e) => setFormData({...formData, cardName: e.target.value})}
-                    />
-                    <Input 
-                      placeholder="Card Number" 
-                      inverted
-                      value={formData.cardNumber}
-                      onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
-                    />
+                  <Stack gap={4} role="form" aria-label="Payment form">
+                    <Stack gap={1}>
+                      <label htmlFor="cardName" className="text-body-sm text-on-dark-muted">Cardholder Name <span className="text-error">*</span></label>
+                      <Input 
+                        id="cardName"
+                        placeholder="John Smith" 
+                        inverted
+                        value={formData.cardName}
+                        onChange={(e) => handleFieldChange('cardName', e.target.value)}
+                        onBlur={() => handleFieldBlur('cardName')}
+                        aria-required="true"
+                        aria-invalid={touched.cardName && !!errors.cardName}
+                        aria-describedby={errors.cardName ? 'cardName-error' : undefined}
+                      />
+                      {touched.cardName && errors.cardName && (
+                        <span id="cardName-error" className="text-body-xs text-error">{errors.cardName}</span>
+                      )}
+                    </Stack>
+                    <Stack gap={1}>
+                      <label htmlFor="cardNumber" className="text-body-sm text-on-dark-muted">Card Number <span className="text-error">*</span></label>
+                      <Input 
+                        id="cardNumber"
+                        placeholder="4242 4242 4242 4242" 
+                        inverted
+                        value={formData.cardNumber}
+                        onChange={(e) => handleFieldChange('cardNumber', e.target.value)}
+                        onBlur={() => handleFieldBlur('cardNumber')}
+                        aria-required="true"
+                        aria-invalid={touched.cardNumber && !!errors.cardNumber}
+                        aria-describedby={errors.cardNumber ? 'cardNumber-error' : undefined}
+                      />
+                      {touched.cardNumber && errors.cardNumber && (
+                        <span id="cardNumber-error" className="text-body-xs text-error">{errors.cardNumber}</span>
+                      )}
+                    </Stack>
                     <Grid cols={2} gap={4}>
-                      <Input 
-                        placeholder="MM/YY" 
-                        inverted
-                        value={formData.expiry}
-                        onChange={(e) => setFormData({...formData, expiry: e.target.value})}
-                      />
-                      <Input 
-                        placeholder="CVV" 
-                        inverted
-                        value={formData.cvv}
-                        onChange={(e) => setFormData({...formData, cvv: e.target.value})}
-                      />
+                      <Stack gap={1}>
+                        <label htmlFor="expiry" className="text-body-sm text-on-dark-muted">Expiry Date <span className="text-error">*</span></label>
+                        <Input 
+                          id="expiry"
+                          placeholder="MM/YY" 
+                          inverted
+                          value={formData.expiry}
+                          onChange={(e) => handleFieldChange('expiry', e.target.value)}
+                          onBlur={() => handleFieldBlur('expiry')}
+                          aria-required="true"
+                          aria-invalid={touched.expiry && !!errors.expiry}
+                          aria-describedby={errors.expiry ? 'expiry-error' : undefined}
+                        />
+                        {touched.expiry && errors.expiry && (
+                          <span id="expiry-error" className="text-body-xs text-error">{errors.expiry}</span>
+                        )}
+                      </Stack>
+                      <Stack gap={1}>
+                        <label htmlFor="cvv" className="text-body-sm text-on-dark-muted">CVV <span className="text-error">*</span></label>
+                        <Input 
+                          id="cvv"
+                          placeholder="123" 
+                          inverted
+                          type="password"
+                          value={formData.cvv}
+                          onChange={(e) => handleFieldChange('cvv', e.target.value)}
+                          onBlur={() => handleFieldBlur('cvv')}
+                          aria-required="true"
+                          aria-invalid={touched.cvv && !!errors.cvv}
+                          aria-describedby={errors.cvv ? 'cvv-error' : undefined}
+                        />
+                        {touched.cvv && errors.cvv && (
+                          <span id="cvv-error" className="text-body-xs text-error">{errors.cvv}</span>
+                        )}
+                      </Stack>
                     </Grid>
                     
                     <Stack gap={4} className="border-t border-ink-800 pt-4">
                       <Stack direction="horizontal" gap={2} className="items-center">
-                        <MapPin className="size-5 text-on-dark-muted" />
+                        <MapPin className="size-5 text-on-dark-muted" aria-hidden="true" />
                         <H3 className="text-white">Billing Address</H3>
                       </Stack>
-                      <Input 
-                        placeholder="Street Address" 
-                        inverted
-                        value={formData.street}
-                        onChange={(e) => setFormData({...formData, street: e.target.value})}
-                      />
+                      <Stack gap={1}>
+                        <label htmlFor="street" className="text-body-sm text-on-dark-muted">Street Address <span className="text-error">*</span></label>
+                        <Input 
+                          id="street"
+                          placeholder="123 Main St" 
+                          inverted
+                          value={formData.street}
+                          onChange={(e) => handleFieldChange('street', e.target.value)}
+                          onBlur={() => handleFieldBlur('street')}
+                          aria-required="true"
+                          aria-invalid={touched.street && !!errors.street}
+                          aria-describedby={errors.street ? 'street-error' : undefined}
+                        />
+                        {touched.street && errors.street && (
+                          <span id="street-error" className="text-body-xs text-error">{errors.street}</span>
+                        )}
+                      </Stack>
                       <Grid cols={2} gap={4}>
-                        <Input 
-                          placeholder="City" 
-                          inverted
-                          value={formData.city}
-                          onChange={(e) => setFormData({...formData, city: e.target.value})}
-                        />
-                        <Input 
-                          placeholder="State" 
-                          inverted
-                          value={formData.state}
-                          onChange={(e) => setFormData({...formData, state: e.target.value})}
-                        />
+                        <Stack gap={1}>
+                          <label htmlFor="city" className="text-body-sm text-on-dark-muted">City <span className="text-error">*</span></label>
+                          <Input 
+                            id="city"
+                            placeholder="New York" 
+                            inverted
+                            value={formData.city}
+                            onChange={(e) => handleFieldChange('city', e.target.value)}
+                            onBlur={() => handleFieldBlur('city')}
+                            aria-required="true"
+                            aria-invalid={touched.city && !!errors.city}
+                            aria-describedby={errors.city ? 'city-error' : undefined}
+                          />
+                          {touched.city && errors.city && (
+                            <span id="city-error" className="text-body-xs text-error">{errors.city}</span>
+                          )}
+                        </Stack>
+                        <Stack gap={1}>
+                          <label htmlFor="state" className="text-body-sm text-on-dark-muted">State <span className="text-error">*</span></label>
+                          <Input 
+                            id="state"
+                            placeholder="NY" 
+                            inverted
+                            value={formData.state}
+                            onChange={(e) => handleFieldChange('state', e.target.value)}
+                            onBlur={() => handleFieldBlur('state')}
+                            aria-required="true"
+                            aria-invalid={touched.state && !!errors.state}
+                            aria-describedby={errors.state ? 'state-error' : undefined}
+                          />
+                          {touched.state && errors.state && (
+                            <span id="state-error" className="text-body-xs text-error">{errors.state}</span>
+                          )}
+                        </Stack>
                       </Grid>
-                      <Input 
-                        placeholder="ZIP Code" 
-                        inverted
-                        value={formData.zip}
-                        onChange={(e) => setFormData({...formData, zip: e.target.value})}
-                      />
+                      <Stack gap={1}>
+                        <label htmlFor="zip" className="text-body-sm text-on-dark-muted">ZIP Code <span className="text-error">*</span></label>
+                        <Input 
+                          id="zip"
+                          placeholder="10001" 
+                          inverted
+                          value={formData.zip}
+                          onChange={(e) => handleFieldChange('zip', e.target.value)}
+                          onBlur={() => handleFieldBlur('zip')}
+                          aria-required="true"
+                          aria-invalid={touched.zip && !!errors.zip}
+                          aria-describedby={errors.zip ? 'zip-error' : undefined}
+                        />
+                        {touched.zip && errors.zip && (
+                          <span id="zip-error" className="text-body-xs text-error">{errors.zip}</span>
+                        )}
+                      </Stack>
                     </Stack>
                   </Stack>
                 </Card>
@@ -328,11 +467,12 @@ function CheckoutContent() {
                     inverted
                     fullWidth
                     onClick={handlePayment}
-                    disabled={processing || !formData.cardName || !formData.cardNumber}
-                    icon={<CreditCard className="size-4" />}
+                    disabled={processing || !isFormValid()}
+                    icon={processing ? undefined : <CreditCard className="size-4" />}
                     iconPosition="left"
+                    aria-label={processing ? 'Processing payment' : `Complete purchase for $${total.toFixed(2)}`}
                   >
-                    {processing ? 'Processing...' : 'Complete Purchase'}
+                    Complete Purchase
                   </Button>
                 </Stack>
               </Grid>
@@ -346,7 +486,7 @@ function CheckoutContent() {
                     <Check className="size-8" />
                   </Badge>
                   <Stack gap={2}>
-                    <H2 className="text-white">Order Confirmed!</H2>
+                    <H3 className="text-white">Order Confirmed!</H3>
                     <Body className="text-on-dark-muted">Order #{orderId || 'PROCESSING'}</Body>
                   </Stack>
                   <Card inverted className="p-6">
@@ -354,17 +494,19 @@ function CheckoutContent() {
                     <Body className="font-display text-white">user@example.com</Body>
                   </Card>
                   <Stack gap={4} direction="horizontal">
-                    <Button variant="outlineInk" onClick={() => window.location.href = '/tickets'}>
+                    <Button variant="outlineInk" onClick={() => router.push('/tickets')}>
                       View Tickets
                     </Button>
-                    <Button variant="solid" inverted onClick={() => window.location.href = '/events'}>
+                    <Button variant="solid" inverted onClick={() => router.push('/events')}>
                       Browse More Events
                     </Button>
                   </Stack>
                 </Stack>
               </Card>
             )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

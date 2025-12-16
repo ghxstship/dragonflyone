@@ -102,11 +102,11 @@ export default function OrdersPage() {
             {/* Orders List */}
             <Stack gap={4}>
               {filteredOrders.map(order => (
-                <Card key={order.id} inverted interactive onClick={() => router.push(`/orders/${order.id}`)}>
+                <Card key={order.id} inverted interactive onClick={() => router.push(`/orders/${order.id}`)} onKeyDown={(e) => e.key === 'Enter' && router.push(`/orders/${order.id}`)} role="button" tabIndex={0} aria-label={`Order ${order.id.slice(0, 8)}, ${order.status}, $${order.total_amount}`}>
                   <Stack direction="horizontal" className="items-start justify-between">
                     <Stack gap={3} className="flex-1">
                       <Stack direction="horizontal" gap={3} className="items-center">
-                        <ShoppingBag className="size-5 text-on-dark-muted" />
+                        <ShoppingBag className="size-5 text-on-dark-muted" aria-hidden="true" />
                         <H3 className="text-white">Order #{order.id.slice(0, 8)}</H3>
                         <Badge variant={order.status === 'confirmed' ? 'solid' : 'outline'}>
                           {order.status.toUpperCase()}

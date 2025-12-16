@@ -17,6 +17,12 @@ import {
   Link,
   CommandPalette,
   MobileBottomNav,
+  Skeleton,
+  SkeletonCard,
+  SkeletonTable,
+  Grid,
+  Card,
+  PageTransition,
 } from "@ghxstship/ui";
 import {
   CreatorNavigationPublic,
@@ -416,7 +422,9 @@ export function CompvssAppLayout({
           headerActions={userMenu}
         >
           <div className="p-6 lg:p-8 pb-20 md:pb-8">
-            {children}
+            <PageTransition type="fade" duration={200}>
+              {children}
+            </PageTransition>
           </div>
         </AuthenticatedShell>
         
@@ -486,7 +494,9 @@ export function CompvssAppLayout({
         className={`min-h-screen ${className || ""}`}
       >
         <Container className="py-8 sm:py-12 md:py-16">
-          {children}
+          <PageTransition type="fade" duration={200}>
+            {children}
+          </PageTransition>
         </Container>
       </FullBleedSection>
     </PageLayout>
@@ -536,6 +546,67 @@ export function CompvssEmptyLayout({
         <Display size="md" className={isDark ? "text-white" : "text-black"}>{title}</Display>
         {description && <Label size="sm" className={isDark ? "text-on-dark-muted" : "text-muted"} style={{ maxWidth: "28rem" }}>{description}</Label>}
         {action}
+      </Stack>
+    </CompvssAppLayout>
+  );
+}
+
+/**
+ * CompvssSkeletonLayout - Skeleton loading state for dashboard/list pages
+ */
+export function CompvssSkeletonLayout({
+  variant = "authenticated",
+  background = "white",
+  showStats = true,
+  showTable = false,
+  showCards = true,
+  cardCount = 4,
+}: {
+  variant?: AppLayoutProps["variant"];
+  background?: "black" | "white";
+  showStats?: boolean;
+  showTable?: boolean;
+  showCards?: boolean;
+  cardCount?: number;
+}) {
+  const isDark = background === "black";
+  
+  return (
+    <CompvssAppLayout variant={variant} background={background}>
+      <Stack gap={8}>
+        {/* Header skeleton */}
+        <Stack gap={2}>
+          <Skeleton width="120px" height="1rem" />
+          <Skeleton width="280px" height="2.5rem" />
+          <Skeleton width="200px" height="1rem" />
+        </Stack>
+
+        {/* Stats grid skeleton */}
+        {showStats && (
+          <Grid cols={4} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Card key={i} inverted={isDark} className="p-6">
+                <Stack gap={2}>
+                  <Skeleton width="60%" height="1rem" />
+                  <Skeleton width="40%" height="2rem" />
+                  <Skeleton width="30%" height="0.75rem" />
+                </Stack>
+              </Card>
+            ))}
+          </Grid>
+        )}
+
+        {/* Table skeleton */}
+        {showTable && <SkeletonTable rows={5} />}
+
+        {/* Content cards skeleton */}
+        {showCards && (
+          <Grid cols={2} gap={6} className="grid-cols-1 lg:grid-cols-2">
+            {Array.from({ length: cardCount }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </Grid>
+        )}
       </Stack>
     </CompvssAppLayout>
   );

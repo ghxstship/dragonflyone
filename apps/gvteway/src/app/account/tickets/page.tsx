@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -55,12 +57,12 @@ export default function AccountTicketsPage() {
   if (isLoading) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="My Tickets" description="View and manage your event tickets" colorScheme="on-dark" />
+        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading tickets..." />
           </Stack>
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -68,15 +70,15 @@ export default function AccountTicketsPage() {
   if (error) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="My Tickets" description="View and manage your event tickets" colorScheme="on-dark" />
+        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<Ticket size={48} />}
             title="Unable to load tickets"
             description="There was a problem loading your tickets. Please try again."
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -84,8 +86,8 @@ export default function AccountTicketsPage() {
   if (tickets.length === 0) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="My Tickets" description="View and manage your event tickets" colorScheme="on-dark" />
+        <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<Ticket size={48} />}
             title="No tickets yet"
@@ -93,17 +95,17 @@ export default function AccountTicketsPage() {
             action={{ label: "Browse Events", onClick: () => router.push('/browse') }}
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={8}>
-        <SectionHeader kicker="My Account" title="My Tickets" description="View and manage your event tickets" colorScheme="on-dark" />
-
-        <Stack direction="horizontal" gap={2}>
+      <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
+      <MainContent padding="lg"><Container>
+        <Stack gap={8}>
+          <Stack direction="horizontal" gap={2}>
           <Button variant={filter === 'all' ? 'solid' : 'outline'} onClick={() => setFilter('all')}>All</Button>
           <Button variant={filter === 'active' ? 'solid' : 'outline'} onClick={() => setFilter('active')}>Upcoming</Button>
           <Button variant={filter === 'past' ? 'solid' : 'outline'} onClick={() => setFilter('past')}>Past</Button>
@@ -167,8 +169,9 @@ export default function AccountTicketsPage() {
               </CardBody>
             </Card>
           ))}
-        </Grid>
-      </Stack>
+          </Grid>
+        </Stack>
+      </Container></MainContent>
     </GvtewayAppLayout>
   );
 }

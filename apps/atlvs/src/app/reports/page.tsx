@@ -163,7 +163,7 @@ export default function ReportsPage() {
           <Stack gap={10}>
             <Stack gap={4} direction="horizontal" className="items-start justify-between">
               <Select 
-                className="w-48 bg-grey-900 border-grey-700 text-white"
+                className="w-48 bg-grey-900 border-ink-800 text-white"
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
               >

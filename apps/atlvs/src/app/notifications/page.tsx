@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { AtlvsAppLayout, AtlvsLoadingLayout } from "@/components/app-layout";
 import {
-  H2,
   Body,
   Button,
   Badge,
@@ -11,8 +10,10 @@ import {
   EmptyState,
   Stack,
   Card,
-  Kicker,
   Label,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
 } from "@ghxstship/ui";
 import { Bell, CheckCircle, Mail, Briefcase, DollarSign, Settings } from "lucide-react";
 import { useNotificationsData } from "@/hooks/useNotifications";
@@ -77,17 +78,16 @@ export default function NotificationsPage() {
 
   return (
     <AtlvsAppLayout>
+      <EnterprisePageHeader
+        title="Notifications"
+        subtitle="Stay updated on your projects and finances"
+        rightContent={unreadCount > 0 ? <Badge variant="solid">{unreadCount} Unread</Badge> : undefined}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
           <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Updates</Kicker>
-              <Stack direction="horizontal" gap={4} className="items-center">
-                <H2 size="lg" className="text-white">Notifications</H2>
-                {unreadCount > 0 && <Badge variant="solid">{unreadCount} Unread</Badge>}
-              </Stack>
-              <Body className="text-on-dark-muted">Stay updated on your projects and finances</Body>
-            </Stack>
-
             {/* Filters */}
             <Card inverted className="p-4">
               <Stack gap={4} direction="horizontal" className="items-center justify-between">
@@ -158,6 +158,8 @@ export default function NotificationsPage() {
               </Stack>
             )}
           </Stack>
+        </Container>
+      </MainContent>
     </AtlvsAppLayout>
   );
 }

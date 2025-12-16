@@ -204,9 +204,9 @@ export default function MarketingAttributionPage() {
           </Tabs>
 
             <Grid cols={3} gap={4}>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/deals")}>Deals</Button>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
-              <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/deals")}>Deals</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
+              <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
             </Grid>
 
       <Modal open={!!selectedSource} onClose={() => setSelectedSource(null)}>

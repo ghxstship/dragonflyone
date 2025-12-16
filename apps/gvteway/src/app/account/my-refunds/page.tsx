@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -68,12 +70,12 @@ export default function MyRefundsPage() {
   if (isLoading) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading refunds..." />
           </Stack>
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -81,15 +83,15 @@ export default function MyRefundsPage() {
   if (error) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<RotateCcw size={48} />}
             title="Unable to load refunds"
             description="There was a problem loading your refund requests. Please try again."
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -97,8 +99,8 @@ export default function MyRefundsPage() {
   if (refunds.length === 0) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Refund Requests" description="Track the status of your refund requests" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<RotateCcw size={48} />}
             title="No refund requests"
@@ -106,22 +108,17 @@ export default function MyRefundsPage() {
             action={{ label: "View Orders", onClick: () => router.push('/account/orders') }}
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={8}>
-        <SectionHeader
-          kicker="My Account"
-          title="Refund Requests"
-          description="Track the status of your refund requests"
-          colorScheme="on-dark"
-        />
-
-        <Grid cols={4} gap={4}>
+      <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
+      <MainContent padding="lg"><Container>
+        <Stack gap={8}>
+          <Grid cols={4} gap={4}>
           <StatCard label="Pending" value={pendingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Approved" value={approvedCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<DollarSign size={20} />} inverted />
@@ -202,7 +199,8 @@ export default function MyRefundsPage() {
             </Stack>
           </CardBody>
         </Card>
-      </Stack>
+        </Stack>
+      </Container></MainContent>
     </GvtewayAppLayout>
   );
 }

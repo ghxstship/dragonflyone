@@ -8,6 +8,12 @@ export type TableVariant = "default" | "bordered" | "striped" | "dark" | "dark-s
 
 export type TableProps = HTMLAttributes<HTMLTableElement> & {
   variant?: TableVariant;
+  /** Accessible caption for screen readers */
+  caption?: string;
+  /** Hide caption visually but keep for screen readers */
+  captionHidden?: boolean;
+  /** Description ID for aria-describedby (reference to external description) */
+  describedBy?: string;
 };
 
 /**
@@ -23,7 +29,7 @@ const TableContext = createContext<{ variant: TableVariant }>({ variant: "defaul
 export const useTableContext = () => useContext(TableContext);
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(
-  function Table({ variant = "default", className, children, ...props }, ref) {
+  function Table({ variant = "default", caption, captionHidden = false, describedBy, className, children, ...props }, ref) {
     const isDark = variant === "dark" || variant === "dark-striped";
     
     return (
@@ -40,8 +46,18 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
               variant === "dark-striped" && "[&_tbody_tr:nth-child(even)]:bg-grey-800",
               className
             )}
+            aria-describedby={describedBy}
             {...props}
           >
+            {caption && (
+              <caption className={clsx(
+                "text-left font-heading text-sm uppercase tracking-wider py-2 px-4",
+                captionHidden && "sr-only",
+                isDark ? "text-grey-300" : "text-grey-700"
+              )}>
+                {caption}
+              </caption>
+            )}
             {children}
           </table>
         </div>

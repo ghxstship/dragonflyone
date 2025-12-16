@@ -112,9 +112,9 @@ export default function CartPage() {
                 inverted
               />
             ) : (
-              <Grid cols={3} gap={8}>
+              <Grid cols={3} gap={8} className="grid-cols-1 lg:grid-cols-3">
                 {/* Cart Items */}
-                <Stack gap={4} className="col-span-2">
+                <Stack gap={4} className="col-span-1 lg:col-span-2">
                   {items.map((item) => (
                     <Card key={item.id} inverted className="p-6">
                       <Stack gap={4}>
@@ -129,6 +129,7 @@ export default function CartPage() {
                             size="sm"
                             onClick={() => handleRemoveItem(item.id)}
                             icon={<Trash2 className="size-4" />}
+                            aria-label={`Remove ${item.event_name} from cart`}
                           />
                         </Stack>
 
@@ -144,15 +145,19 @@ export default function CartPage() {
                             <Button 
                               variant="outlineInk" 
                               size="sm"
+                              className="min-h-[44px] min-w-[44px]"
                               onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                               icon={<Minus className="size-4" />}
+                              aria-label={`Decrease quantity of ${item.event_name}`}
                             />
                             <Body className="w-8 text-center font-mono text-white">{item.quantity}</Body>
                             <Button 
                               variant="outlineInk" 
                               size="sm"
+                              className="min-h-[44px] min-w-[44px]"
                               onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
                               icon={<Plus className="size-4" />}
+                              aria-label={`Increase quantity of ${item.event_name}`}
                             />
                           </Stack>
 

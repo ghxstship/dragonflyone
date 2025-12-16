@@ -2,7 +2,9 @@
 
 import { useState } from 'react';
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -55,12 +57,12 @@ export default function MyTransfersPage() {
   if (isLoading) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading transfers..." />
           </Stack>
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -68,15 +70,15 @@ export default function MyTransfersPage() {
   if (error) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<ArrowRightLeft size={48} />}
             title="Unable to load transfers"
             description="There was a problem loading your transfer history. Please try again."
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
@@ -84,8 +86,8 @@ export default function MyTransfersPage() {
   if (transfers.length === 0) {
     return (
       <GvtewayAppLayout>
-        <Stack gap={8}>
-          <SectionHeader kicker="My Account" title="Transfer History" description="View your ticket transfer history" colorScheme="on-dark" />
+        <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
+        <MainContent padding="lg"><Container>
           <EmptyState
             icon={<ArrowRightLeft size={48} />}
             title="No transfers yet"
@@ -93,22 +95,17 @@ export default function MyTransfersPage() {
             action={{ label: "View Tickets", onClick: () => router.push('/account/tickets') }}
             inverted
           />
-        </Stack>
+        </Container></MainContent>
       </GvtewayAppLayout>
     );
   }
 
   return (
     <GvtewayAppLayout>
-      <Stack gap={8}>
-        <SectionHeader
-          kicker="My Account"
-          title="Transfer History"
-          description="View your ticket transfer history"
-          colorScheme="on-dark"
-        />
-
-        <Grid cols={4} gap={4}>
+      <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
+      <MainContent padding="lg"><Container>
+        <Stack gap={8}>
+          <Grid cols={4} gap={4}>
           <StatCard label="Total Transfers" value={transfers.length.toString()} icon={<ArrowRightLeft size={20} />} inverted />
           <StatCard label="Sent" value={sentCount.toString()} icon={<Send size={20} />} inverted />
           <StatCard label="Received" value={receivedCount.toString()} icon={<Inbox size={20} />} inverted />
@@ -189,7 +186,8 @@ export default function MyTransfersPage() {
             </Stack>
           </CardBody>
         </Card>
-      </Stack>
+        </Stack>
+      </Container></MainContent>
     </GvtewayAppLayout>
   );
 }

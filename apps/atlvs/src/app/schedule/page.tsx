@@ -6,17 +6,17 @@ import { AtlvsAppLayout } from '../../components/app-layout';
 import { useTaskStats, useContingencyStats, useTasks, useContingencies } from '../../hooks/useTasks';
 import {
   Container,
-  Section,
   Stack,
   Grid,
   Card,
-  H2,
   H3,
   Body,
   Button,
   Badge,
   Box,
   StatCard,
+  EnterprisePageHeader,
+  MainContent,
 } from '@ghxstship/ui';
 
 export default function SchedulePage() {
@@ -57,15 +57,15 @@ export default function SchedulePage() {
 
   return (
     <AtlvsAppLayout>
-      <Section className="min-h-screen bg-grey-100 py-8">
+      <EnterprisePageHeader
+        title="Schedule Management"
+        subtitle="Manage tasks, contingencies, and production schedules"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
         <Container>
           <Stack gap={6}>
-            {/* Header */}
-            <Stack gap={1}>
-              <H2>Schedule Management</H2>
-              <Body className="text-grey-600">Manage tasks, contingencies, and production schedules</Body>
-            </Stack>
-
             {/* Key Metrics */}
             <Grid cols={4} gap={4}>
               <StatCard
@@ -287,7 +287,7 @@ export default function SchedulePage() {
             </Card>
           </Stack>
         </Container>
-      </Section>
+      </MainContent>
     </AtlvsAppLayout>
   );
 }

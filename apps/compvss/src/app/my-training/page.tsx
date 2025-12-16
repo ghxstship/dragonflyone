@@ -1,7 +1,9 @@
 'use client';
 
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   Card,
   CardBody,
   Stack,
@@ -49,15 +51,16 @@ export default function MyTrainingPage() {
 
   return (
     <CompvssAppLayout>
-      <Stack gap={8}>
-        <SectionHeader
-          kicker="Crew Portal"
-          title="My Training"
-          description="Complete required training modules and track your progress"
-          colorScheme="on-dark"
-        />
-
-        <Grid cols={4} gap={4}>
+      <EnterprisePageHeader
+        title="My Training"
+        subtitle="Complete required training modules and track your progress"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Grid cols={4} gap={4}>
           <StatCard
             label="Completed"
             value={completedCount.toString()}
@@ -134,7 +137,9 @@ export default function MyTrainingPage() {
             </Card>
           ))}
         </Stack>
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </CompvssAppLayout>
   );
 }

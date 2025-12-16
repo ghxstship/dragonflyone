@@ -79,6 +79,14 @@ export { DuotoneImage, ImageWithOverlay } from "./atoms/duotone-image.js";
 export type { DuotoneImageProps, ImageWithOverlayProps } from "./atoms/duotone-image.js";
 export { PageTransition, StaggeredTransition } from "./atoms/page-transition.js";
 export type { PageTransitionProps, StaggeredTransitionProps } from "./atoms/page-transition.js";
+export { SuccessAnimation } from "./atoms/success-animation.js";
+export type { SuccessAnimationProps } from "./atoms/success-animation.js";
+export { MaskedInput } from "./atoms/masked-input.js";
+export type { MaskedInputProps, MaskType } from "./atoms/masked-input.js";
+export { VirtualizedList } from "./molecules/virtualized-list.js";
+export type { VirtualizedListProps } from "./molecules/virtualized-list.js";
+export { Sparkline } from "./atoms/sparkline.js";
+export type { SparklineProps } from "./atoms/sparkline.js";
 export { GeometricShape, GeometricPattern } from "./atoms/geometric-shapes.js";
 export type { GeometricShapeProps, GeometricPatternProps } from "./atoms/geometric-shapes.js";
 

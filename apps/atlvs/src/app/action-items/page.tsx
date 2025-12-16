@@ -220,7 +220,7 @@ export default function ActionItemsPage() {
                   className={`border-2 p-5 transition-colors ${
                     item.priority === 'critical' ? 'border-error' :
                     item.priority === 'high' ? 'border-warning' :
-                    'border-grey-700 hover:border-grey-500'
+                    'border-ink-800 hover:border-grey-500'
                   }`}
                 >
                   <Stack gap={4} direction="horizontal" className="items-start justify-between">

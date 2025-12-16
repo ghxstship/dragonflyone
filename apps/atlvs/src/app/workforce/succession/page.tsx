@@ -140,7 +140,7 @@ export default function SuccessionPlanningPage() {
             ))}
           </Stack>
 
-            <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push('/workforce')}>Back to Workforce</Button>
+            <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push('/workforce')}>Back to Workforce</Button>
 
       <Modal open={!!selectedPlan} onClose={() => setSelectedPlan(null)}>
         <ModalHeader><H3>{selectedPlan?.position}</H3></ModalHeader>
@@ -158,7 +158,7 @@ export default function SuccessionPlanningPage() {
               <Stack gap={2}>
                 <Label className="text-grey-400">Succession Pipeline</Label>
                 {selectedPlan.successors.map((successor, idx) => (
-                  <Card key={successor.id} className="p-4 border-2 border-grey-700 bg-grey-800">
+                  <Card key={successor.id} className="p-4 border-2 border-ink-800 bg-grey-800">
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="justify-between">
                         <Stack gap={0}>

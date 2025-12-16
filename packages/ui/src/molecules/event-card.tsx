@@ -103,6 +103,7 @@ export function EventCard({
           <img
             src={imageUrl}
             alt={title}
+            loading="lazy"
             className={clsx(
               "w-full h-full object-cover",
               status === "cancelled" ? "grayscale opacity-50" : "grayscale contrast-[1.1]"

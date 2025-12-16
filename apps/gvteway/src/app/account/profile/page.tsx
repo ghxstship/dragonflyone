@@ -69,6 +69,26 @@ export default function AccountProfilePage() {
     return <GvtewayLoadingLayout text="Loading profile..." />;
   }
 
+  if (error && !userProfile) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={6} className="items-center justify-center py-20">
+          <Card inverted className="max-w-md p-8 text-center">
+            <Stack gap={4}>
+              <H3 className="text-white">Error Loading Profile</H3>
+              <Body className="text-grey-400">
+                {error instanceof Error ? error.message : 'Failed to load profile data'}
+              </Body>
+              <Button variant="solid" inverted onClick={() => window.location.reload()}>
+                Retry
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
   return (
     <GvtewayAppLayout>
       <Stack gap={8}>

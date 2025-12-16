@@ -125,7 +125,7 @@ export default function ScanCredentialPage() {
               {/* Left: Scanner */}
               <Stack gap={6}>
                 {/* Zone Selection */}
-                <Card className="border-2 border-grey-700 bg-grey-900 p-6">
+                <Card className="border-2 border-ink-800 bg-grey-900 p-6">
                   <Stack gap={4}>
                     <H3 className="text-white">Select Zone</H3>
                     <Select
@@ -144,7 +144,7 @@ export default function ScanCredentialPage() {
                 </Card>
 
                 {/* Manual Entry */}
-                <Card className="border-2 border-grey-700 bg-grey-900 p-6">
+                <Card className="border-2 border-ink-800 bg-grey-900 p-6">
                   <Stack gap={4}>
                     <H3 className="text-white">Manual Badge Entry</H3>
                     <Stack direction="horizontal" gap={2}>
@@ -245,7 +245,7 @@ export default function ScanCredentialPage() {
                 )}
 
                 {/* Recent Scans */}
-                <Card className="border-2 border-grey-700 bg-grey-900 p-6">
+                <Card className="border-2 border-ink-800 bg-grey-900 p-6">
                   <Stack gap={4}>
                     <H3 className="text-white">Recent Scans</H3>
                     {recentScans.length === 0 ? (

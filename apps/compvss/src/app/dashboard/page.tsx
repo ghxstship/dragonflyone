@@ -7,6 +7,7 @@ import { useEquipment } from '../../hooks/useEquipment';
 import { useActivityFeed } from '@ghxstship/config/hooks';
 import {
   H2,
+  H3,
   Body,
   Button,
   Card,
@@ -15,8 +16,10 @@ import {
   Stack,
   StatusBadge,
   Badge,
-  SectionHeader,
   Spinner,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
 } from '@ghxstship/ui';
 
 /**
@@ -26,8 +29,8 @@ import {
  */
 export default function CompvssDashboardPage() {
   const router = useRouter();
-  const { data: crew, isLoading: crewLoading } = useCrew();
-  const { data: equipment, isLoading: equipmentLoading } = useEquipment();
+  const { data: crew, isLoading: crewLoading, error: crewError, refetch: refetchCrew } = useCrew();
+  const { data: equipment, isLoading: equipmentLoading, error: equipmentError, refetch: refetchEquipment } = useEquipment();
   const { data: activityData } = useActivityFeed({ limit: 5, types: ['crew', 'equipment', 'project'] });
 
   // Mock user - in production this would come from auth context
@@ -37,6 +40,12 @@ export default function CompvssDashboardPage() {
   };
 
   const isLoading = crewLoading || equipmentLoading;
+  const hasError = crewError || equipmentError;
+
+  const handleRetry = () => {
+    refetchCrew();
+    refetchEquipment();
+  };
 
   // Fallback activity data
   const fallbackActivity = [
@@ -61,37 +70,58 @@ export default function CompvssDashboardPage() {
     inUseEquipment: equipment?.filter(e => e.status === 'in_use').length || 0,
   };
 
+  if (hasError) {
+    return (
+      <CompvssAppLayout>
+        <Stack gap={6} className="items-center justify-center py-20">
+          <Card className="max-w-md p-8 text-center">
+            <Stack gap={4}>
+              <H2>Error Loading Dashboard</H2>
+              <Body className="text-grey-400">
+                {crewError instanceof Error ? crewError.message : 
+                 equipmentError instanceof Error ? equipmentError.message : 
+                 'Failed to load dashboard data'}
+              </Body>
+              <Button variant="solid" onClick={handleRetry}>
+                Retry
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
+
   return (
     <CompvssAppLayout>
-      <Stack gap={10}>
-            {/* Page Header - Bold Contemporary Pop Art Adventure */}
-            <SectionHeader
-              kicker="COMPVSS"
-              title="Production Operations"
-              description={`Welcome back, ${user.name}`}
-              colorScheme="on-light"
-              gap="lg"
-            />
-
-        {/* Production Manager View */}
-        <H2 className="mb-6">PRODUCTION OVERVIEW</H2>
+      <EnterprisePageHeader
+        title="Production Operations"
+        subtitle={`Welcome back, ${user.name}`}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            {/* Production Manager View */}
+            <H2 className="mb-6">PRODUCTION OVERVIEW</H2>
         {isLoading ? (
           <Stack className="flex justify-center py-12">
             <Spinner variant="grey" size="lg" text="Loading production data..." />
           </Stack>
         ) : (
           <>
-            <Grid cols={4} gap={6} className="mb-8">
-              <StatCard value="18" label="Active Productions" />
-              <StatCard value={stats.totalCrew.toString()} label="Crew Members" />
-              <StatCard value={stats.inUseEquipment.toString()} label="Equipment In Use" />
-              <StatCard value="92%" label="On-Time Rate" />
+            <Grid cols={4} gap={6} className="mb-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              <StatCard value="18" label="Active Productions" aria-label="Active Productions: 18" />
+              <StatCard value={stats.totalCrew.toString()} label="Crew Members" aria-label={`Crew Members: ${stats.totalCrew}`} />
+              <StatCard value={stats.inUseEquipment.toString()} label="Equipment In Use" aria-label={`Equipment In Use: ${stats.inUseEquipment}`} />
+              <StatCard value="92%" label="On-Time Rate" aria-label="On-Time Rate: 92%" />
             </Grid>
 
             {/* Quick Actions */}
-            <Grid cols={3} gap={6} className="mb-8">
-              <Card className="p-6">
-                <H2 className="mb-4">PROJECT MANAGEMENT</H2>
+            <Grid cols={3} gap={6} className="mb-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              <Card className="p-6" role="region" aria-label="Project Management Actions">
+                <H3 className="mb-4">PROJECT MANAGEMENT</H3>
                 <Stack gap={3}>
                   <Button
                     variant="solid"
@@ -117,8 +147,8 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6">
-                <H2 className="mb-4">CREW MANAGEMENT</H2>
+              <Card className="p-6" role="region" aria-label="Crew Management Actions">
+                <H3 className="mb-4">CREW MANAGEMENT</H3>
                 <Stack gap={3}>
                   <Button
                     variant="solid"
@@ -144,8 +174,8 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6">
-                <H2 className="mb-4">EQUIPMENT</H2>
+              <Card className="p-6" role="region" aria-label="Equipment Actions">
+                <H3 className="mb-4">EQUIPMENT</H3>
                 <Stack gap={3}>
                   <Button
                     variant="solid"
@@ -237,9 +267,9 @@ export default function CompvssDashboardPage() {
             </Stack>
 
             {/* Crew Status */}
-            <Grid cols={2} gap={6} className="mb-8">
-              <Card className="p-6">
-                <H2 className="mb-4">CREW STATUS TODAY</H2>
+            <Grid cols={2} gap={6} className="mb-8 grid-cols-1 lg:grid-cols-2">
+              <Card className="p-6" role="region" aria-label="Crew Status Summary">
+                <H3 className="mb-4">CREW STATUS TODAY</H3>
                 <Stack gap={3}>
                   <Stack gap={2} direction="horizontal" className="justify-between border-b pb-2">
                     <Body>Total Crew</Body>
@@ -260,11 +290,11 @@ export default function CompvssDashboardPage() {
                 </Stack>
               </Card>
 
-              <Card className="p-6">
-                <H2 className="mb-4">RECENT ACTIVITY</H2>
-                <Stack gap={2} size="sm" className="">
+              <Card className="p-6" role="region" aria-label="Recent Activity Feed">
+                <H3 className="mb-4">RECENT ACTIVITY</H3>
+                <Stack gap={2} role="feed" aria-label="Activity updates">
                   {recentActivity.map((activity) => (
-                    <Body key={activity.id} size="sm" className="">
+                    <Body key={activity.id} size="sm" className="" role="article" aria-label={`${activity.action}: ${activity.detail}`}>
                       {activity.action}: {activity.detail}
                     </Body>
                   ))}
@@ -273,7 +303,9 @@ export default function CompvssDashboardPage() {
             </Grid>
           </>
         )}
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </CompvssAppLayout>
   );
 }

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "@/components/app-layout";
 import {
-  H2,
   H3,
   Body,
   Button,
@@ -16,7 +15,9 @@ import {
   Card,
   StatCard,
   Grid,
-  Kicker,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
   signOut,
 } from "@ghxstship/ui";
 import { User, Bell, Shield, Building2, LogOut, Edit3 } from "lucide-react";
@@ -56,40 +57,31 @@ export default function ProfilePage() {
 
   return (
     <AtlvsAppLayout variant="authenticated">
-      <Stack gap={10}>
-        {/* Page Header */}
-        <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
-          <Stack gap={2}>
-            <Kicker colorScheme="on-dark">Account Settings</Kicker>
-            <H2 size="lg" className="text-white">My Profile</H2>
-            <Body className="text-on-dark-muted">Manage your account information and preferences</Body>
-          </Stack>
-          <Stack direction="horizontal" gap={3}>
-            {!isEditing && (
-              <Button 
-                variant="solid" 
-                inverted 
-                onClick={() => setIsEditing(true)}
-                icon={<Edit3 className="size-4" />}
-                iconPosition="left"
-              >
-                Edit Profile
-              </Button>
-            )}
-            <Button 
-              variant="outlineInk" 
-              onClick={handleSignOut}
-              icon={<LogOut className="size-4" />}
-              iconPosition="left"
-            >
-              Sign Out
-            </Button>
-          </Stack>
-        </Stack>
+      <EnterprisePageHeader
+        title="My Profile"
+        subtitle="Manage your account information and preferences"
+        primaryAction={!isEditing ? {
+          label: "Edit Profile",
+          onClick: () => setIsEditing(true),
+          icon: <Edit3 className="size-4" />,
+        } : undefined}
+        secondaryActions={[
+          {
+            id: "sign-out",
+            label: "Sign Out",
+            onClick: handleSignOut,
+            icon: <LogOut className="size-4" />,
+          },
+        ]}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={10}>
+            {saved && <Alert variant="success">Profile updated successfully</Alert>}
 
-        {saved && <Alert variant="success">Profile updated successfully</Alert>}
-
-        <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6}>
           {/* Personal Information Card */}
           <Card inverted className="col-span-2 p-6">
             <Stack gap={2} className="mb-6">
@@ -208,7 +200,7 @@ export default function ProfilePage() {
                   <Label size="xs" className="text-on-dark-disabled">Platform Roles</Label>
                   <Stack direction="horizontal" gap={2} className="flex-wrap">
                     {userRoles.length > 0 ? (
-                      userRoles.map(role => (
+                      userRoles.map((role: string) => (
                         <Badge key={role} variant="outline">{role}</Badge>
                       ))
                     ) : (
@@ -264,8 +256,10 @@ export default function ProfilePage() {
               </Stack>
             </Card>
           </Stack>
-        </Grid>
-      </Stack>
+            </Grid>
+          </Stack>
+        </Container>
+      </MainContent>
     </AtlvsAppLayout>
   );
 }

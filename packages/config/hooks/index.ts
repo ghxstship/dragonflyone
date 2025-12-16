@@ -134,3 +134,15 @@ export {
   useDeleteReports,
 } from './useAnalyticsReports';
 export type { AnalyticsReport } from './useAnalyticsReports';
+
+// Optimistic updates hook
+export {
+  useOptimisticUpdate,
+  createOptimisticDelete,
+  createOptimisticAdd,
+  createOptimisticItemUpdate,
+} from './useOptimisticUpdate';
+export type {
+  OptimisticUpdateOptions,
+  OptimisticUpdateReturn,
+} from './useOptimisticUpdate';

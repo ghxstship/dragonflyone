@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
-  H2,
   H3,
   Body,
   Button,
@@ -12,8 +11,10 @@ import {
   EmptyState,
   Stack,
   Grid,
-  Kicker,
   Label,
+  EnterprisePageHeader,
+  MainContent,
+  Container,
 } from "@ghxstship/ui";
 import { useTickets } from "@/hooks/useTickets";
 import { Ticket, QrCode, Send, Calendar, MapPin, Hash } from "lucide-react";
@@ -28,14 +29,15 @@ export default function TicketsPage() {
 
   return (
     <GvtewayAppLayout variant="consumer-auth">
+      <EnterprisePageHeader
+        title="My Tickets"
+        subtitle="View and manage your event tickets"
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
           <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Your Events</Kicker>
-              <H2 size="lg" className="text-white">My Tickets</H2>
-              <Body className="text-on-dark-muted">View and manage your event tickets</Body>
-            </Stack>
-
             {tickets && tickets.length > 0 ? (
               <Stack gap={6}>
                 {tickets.map((ticket) => (
@@ -121,6 +123,8 @@ export default function TicketsPage() {
               />
             )}
           </Stack>
+        </Container>
+      </MainContent>
     </GvtewayAppLayout>
   );
 }

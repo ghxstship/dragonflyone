@@ -120,9 +120,9 @@ export default function MerchPage() {
                 inverted
               />
             ) : (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 {sortedMerch.map((item) => (
-                  <Card key={item.id} inverted interactive className="p-6" onClick={() => router.push(`/merch/${item.id}`)}>
+                  <Card key={item.id} inverted interactive className="p-6" onClick={() => router.push(`/merch/${item.id}`)} onKeyDown={(e) => e.key === 'Enter' && router.push(`/merch/${item.id}`)} role="button" tabIndex={0} aria-label={`${item.name}, $${item.price}, ${item.stock} in stock`}>
                     <Stack gap={4}>
                       <Stack className="aspect-square rounded-card bg-ink-900" />
                       <Stack gap={2} direction="horizontal" className="items-start justify-between">

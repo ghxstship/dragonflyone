@@ -20,6 +20,7 @@ export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
           <img
             src={image}
             alt={imageAlt || title}
+            loading="lazy"
             className="w-full h-full object-cover grayscale contrast-125"
           />
           <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity" />

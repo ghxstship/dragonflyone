@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout } from "../../components/app-layout";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Badge, Button, H3, Grid, Box, EmptyState, Spinner } from "@ghxstship/ui";
+import { EnterprisePageHeader, MainContent, Container, Card, CardBody, Stack, StatCard, Body, Badge, H3, Grid, Box, EmptyState, Spinner } from "@ghxstship/ui";
 import { FolderKanban, Calendar, Users, Plus, ArrowRight, AlertCircle } from "lucide-react";
 import { useProductions, type Production } from "../../hooks/useProductions";
 import { atlvsDemoProductions, type ProductionContext } from "../../data/atlvs";
@@ -65,21 +65,21 @@ export default function ProductionsPage() {
 
   return (
     <AtlvsAppLayout>
-      <Stack gap={8}>
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Platform"
-          title="Productions"
-          description="Manage all your productions across the platform"
-          colorScheme="on-dark"
-        />
-        <Button variant="solid" size="sm" onClick={() => router.push("/productions/new")}>
-          <Plus size={16} className="mr-2" />
-          New Production
-        </Button>
-      </Stack>
-
-      <Grid cols={2} gap={4} className="lg:grid-cols-4">
+      <EnterprisePageHeader
+        title="Productions"
+        subtitle="Manage all your productions across the platform"
+        primaryAction={{
+          label: "New Production",
+          onClick: () => router.push("/productions/new"),
+          icon: <Plus size={16} />,
+        }}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Grid cols={2} gap={4} className="lg:grid-cols-4">
         <StatCard label="Total Productions" value={stats.total.toString()} icon={<FolderKanban size={20} />} inverted />
         <StatCard label="Active" value={stats.active.toString()} icon={<Calendar size={20} />} trend="up" inverted />
         <StatCard label="Upcoming" value={stats.upcoming.toString()} icon={<Users size={20} />} inverted />
@@ -136,7 +136,9 @@ export default function ProductionsPage() {
           </Stack>
         </CardBody>
       </Card>
-      </Stack>
+          </Stack>
+        </Container>
+      </MainContent>
     </AtlvsAppLayout>
   );
 }

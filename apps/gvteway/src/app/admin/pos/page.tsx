@@ -100,9 +100,9 @@ function POSPageContent() {
                         </Button>
                       ))}
                     </Stack>
-                    <Grid cols={4} gap={3}>
+                    <Grid cols={4} gap={3} className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                       {filteredItems.map(item => (
-                        <Card key={item.id} inverted interactive onClick={() => addToCart(item)}>
+                        <Card key={item.id} inverted interactive onClick={() => addToCart(item)} onKeyDown={(e) => e.key === 'Enter' && addToCart(item)} role="button" tabIndex={0} aria-label={`Add ${item.name} to cart, $${item.price}`}>
                           <Stack gap={1}>
                             <Body className="font-display text-white">{item.name}</Body>
                             <Label size="xs" className="text-on-dark-muted">${item.price}</Label>

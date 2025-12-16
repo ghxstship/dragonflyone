@@ -53,7 +53,7 @@ export default function SettingsPage() {
 
           <Section border-2 noPadding title="Notification Preferences">
             <Stack gap={4}>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
+              <Card inverted className="flex items-center justify-between p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Email Notifications</Body>
                   <Body size="sm" className=" text-ink-400">Receive updates via email</Body>
@@ -63,7 +63,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, email: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
+              <Card inverted className="flex items-center justify-between p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">SMS Notifications</Body>
                   <Body size="sm" className=" text-ink-400">Receive urgent alerts via SMS</Body>
@@ -73,7 +73,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, sms: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
+              <Card inverted className="flex items-center justify-between p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Project Updates</Body>
                   <Body size="sm" className=" text-ink-400">Get notified about project changes</Body>
@@ -83,7 +83,7 @@ export default function SettingsPage() {
                   onChange={(e) => setNotificationSettings({ ...notificationSettings, projectUpdates: e.target.checked })}
                 />
               </Card>
-              <Card className="flex items-center justify-between border-ink-800 bg-transparent p-spacing-4">
+              <Card inverted className="flex items-center justify-between p-spacing-4">
                 <Stack gap={1}>
                   <Body className="text-white">Financial Alerts</Body>
                   <Body size="sm" className=" text-ink-400">Budget and payment notifications</Body>

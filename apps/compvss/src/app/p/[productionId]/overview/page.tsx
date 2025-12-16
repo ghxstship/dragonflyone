@@ -2,7 +2,8 @@
 
 import { useParams } from "next/navigation";
 import {
-  SectionHeader,
+  EnterprisePageHeader,
+  MainContent,
   Card,
   CardBody,
   Stack,
@@ -90,39 +91,40 @@ export default function ProductionOverviewPage() {
   const schedulePercentage = Math.round((metrics.schedule.completed / metrics.schedule.totalCues) * 100);
 
   return (
-    <Stack gap={8}>
-      {/* Header */}
-      <Stack gap={4}>
-        <SectionHeader
-          kicker="Production"
-          title={production.name}
-          description={production.description || `${production.start_date || ''} - ${production.end_date || ''}`}
-        />
-        <Stack direction="horizontal" gap={2} className="flex-wrap">
-          <Badge variant={production.status === "active" ? "success" : "info"}>
-            {production.status.toUpperCase()}
-          </Badge>
-          {production.code && (
-            <Badge variant="outline">
-              <MapPin size={12} className="mr-1" />
-              {production.code}
-            </Badge>
-          )}
-          {production.start_date && (
-            <Badge variant="outline">
-              <Calendar size={12} className="mr-1" />
-              {new Date(production.start_date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </Badge>
-          )}
-        </Stack>
-      </Stack>
+    <>
+      <EnterprisePageHeader
+        title={production.name}
+        subtitle={production.description || `${production.start_date || ''} - ${production.end_date || ''}`}
+        showFavorite
+        showSettings
+      />
+      <MainContent padding="lg">
+        <Container>
+          <Stack gap={8}>
+            <Stack direction="horizontal" gap={2} className="flex-wrap">
+              <Badge variant={production.status === "active" ? "success" : "info"}>
+                {production.status.toUpperCase()}
+              </Badge>
+              {production.code && (
+                <Badge variant="outline">
+                  <MapPin size={12} className="mr-1" />
+                  {production.code}
+                </Badge>
+              )}
+              {production.start_date && (
+                <Badge variant="outline">
+                  <Calendar size={12} className="mr-1" />
+                  {new Date(production.start_date).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Badge>
+              )}
+            </Stack>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Crew"
           value={`${metrics.crew.checkedIn}/${metrics.crew.total}`}
@@ -290,7 +292,10 @@ export default function ProductionOverviewPage() {
             </Stack>
           </Stack>
         </CardBody>
-      </Card>
-    </Stack>
+            </Card>
+          </Stack>
+        </Container>
+      </MainContent>
+    </>
   );
 }
