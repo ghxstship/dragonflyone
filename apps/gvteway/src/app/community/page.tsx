@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
@@ -21,7 +21,7 @@ import {
 import { Search, MessageCircle, Users, TrendingUp, Calendar } from 'lucide-react';
 import { useCommunityData, type Forum, type CommunityGroup, type CommunityEvent } from '@/hooks/useCommunity';
 
-export default function CommunityPage() {
+function CommunityPageContent() {
   const router = useRouter();
   
   // URL-synced tab state for deep-linking support
@@ -274,5 +274,13 @@ export default function CommunityPage() {
         )}
       </Stack>
     </GvtewayAppLayout>
+  );
+}
+
+export default function CommunityPage() {
+  return (
+    <Suspense fallback={<GvtewayLoadingLayout text="Loading community..." variant="consumer-auth" />}>
+      <CommunityPageContent />
+    </Suspense>
   );
 }

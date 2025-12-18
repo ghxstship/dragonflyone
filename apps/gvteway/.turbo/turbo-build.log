@@ -1,4 +1,5 @@
 
+
 > gvteway@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/gvteway
 > NODE_OPTIONS='--max-old-space-size=8192' next build
 
@@ -6,4 +7,575 @@
   - Environments: .env.local
   - Experiments (use with caution):
     · cpus
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ⚠ Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+ ✓ Compiled successfully
+   Skipping validation of types
+   Skipping linting
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Collecting page data     ✓ Collecting page data 
+Error in anti-scalping alerts API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/2156.js:1:56328)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3024)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:1:1050)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/admin/anti-scalping/alerts couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error in protection rules API: n [Error]: Dynamic server usage: Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at l (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/chunks/2156.js:1:56328)
+    at f (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/alerts/route.js:14:3024)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/gvteway/.next/server/app/api/admin/anti-scalping/rules/route.js:1:887)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-route.runtime.prod.js:6:38417
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:140:36
+    at NoopContextManager.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/context/NoopContextManager.js:25:19)
+    at ContextAPI.with (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/api/context.js:60:46)
+    at NoopTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/NoopTracer.js:65:31)
+    at ProxyTracer.startActiveSpan (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/@opentelemetry+api@1.9.0/node_modules/@opentelemetry/api/build/src/trace/ProxyTracer.js:36:24)
+    at /Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/server/lib/trace/tracer.js:122:103 {
+  description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+ ✓ Generating static pages (141/141)
+   Collecting build traces     ✓ Collecting build traces 
+   Finalizing page optimization     ✓ Finalizing page optimization 
+
+Route (app)                                   Size     First Load JS
+┌ ƒ /                                         8.56 kB         472 kB
+├ ○ /_not-found                               143 B          87.8 kB
+├ ○ /accessibility                            3.4 kB          478 kB
+├ ○ /accessibility/request                    5.35 kB         462 kB
+├ ○ /account                                  3.15 kB         646 kB
+├ ○ /account/my-refunds                       3.17 kB         459 kB
+├ ○ /account/my-transfers                     3.17 kB         459 kB
+├ ○ /account/orders                           3.04 kB         639 kB
+├ ○ /account/profile                          2.56 kB         462 kB
+├ ○ /account/tickets                          3.39 kB         639 kB
+├ ○ /activity                                 3.24 kB         466 kB
+├ ○ /admin/anti-scalping                      6.82 kB         481 kB
+├ ○ /admin/content-calendar                   2.61 kB         477 kB
+├ ○ /admin/contests                           3.9 kB          658 kB
+├ ○ /admin/integrations                       4.54 kB         461 kB
+├ ○ /admin/inventory-sync                     3.25 kB         657 kB
+├ ○ /admin/marketing/sms                      3.64 kB         478 kB
+├ ○ /admin/moderation                         3.39 kB         478 kB
+├ ○ /admin/pos                                3.4 kB          478 kB
+├ ○ /admin/pos/cashless                       4.76 kB         479 kB
+├ ○ /admin/pricing/early-bird                 3.46 kB         478 kB
+├ ○ /admin/promo-codes                        5.97 kB         642 kB
+├ ○ /admin/sales-reporting                    3.3 kB          657 kB
+├ ○ /admin/will-call                          5.53 kB         641 kB
+├ ƒ /api/ab-testing                           0 B                0 B
+├ ƒ /api/abandoned-cart                       0 B                0 B
+├ ƒ /api/accessibility                        0 B                0 B
+├ ƒ /api/accessibility/requests               0 B                0 B
+├ ƒ /api/activity/feed                        0 B                0 B
+├ ƒ /api/ad-campaigns                         0 B                0 B
+├ ƒ /api/admin/anti-scalping/alerts           0 B                0 B
+├ ƒ /api/admin/anti-scalping/blocked          0 B                0 B
+├ ƒ /api/admin/anti-scalping/rules            0 B                0 B
+├ ƒ /api/admin/payouts                        0 B                0 B
+├ ƒ /api/admin/promo-codes                    0 B                0 B
+├ ƒ /api/admin/promo-codes/[id]               0 B                0 B
+├ ƒ /api/admin/reconciliation                 0 B                0 B
+├ ƒ /api/admin/refunds                        0 B                0 B
+├ ƒ /api/advanced-search                      0 B                0 B
+├ ƒ /api/age-restrictions                     0 B                0 B
+├ ƒ /api/age-verification                     0 B                0 B
+├ ƒ /api/ai-recommendations                   0 B                0 B
+├ ƒ /api/ai/nlp-search                        0 B                0 B
+├ ƒ /api/ai/recommendations                   0 B                0 B
+├ ƒ /api/ambassador-program                   0 B                0 B
+├ ƒ /api/anti-scalping                        0 B                0 B
+├ ƒ /api/approval-workflows                   0 B                0 B
+├ ƒ /api/ar-experiences                       0 B                0 B
+├ ƒ /api/artist-amplification                 0 B                0 B
+├ ƒ /api/artists                              0 B                0 B
+├ ƒ /api/artists/[id]/follow                  0 B                0 B
+├ ƒ /api/artists/[id]/follow/status           0 B                0 B
+├ ƒ /api/auth/callback                        0 B                0 B
+├ ƒ /api/auth/magic-link                      0 B                0 B
+├ ƒ /api/auth/me                              0 B                0 B
+├ ƒ /api/auth/mfa                             0 B                0 B
+├ ƒ /api/auth/oauth/[provider]                0 B                0 B
+├ ƒ /api/auth/password/reset                  0 B                0 B
+├ ƒ /api/auth/password/update                 0 B                0 B
+├ ƒ /api/auth/refresh                         0 B                0 B
+├ ƒ /api/auth/signin                          0 B                0 B
+├ ƒ /api/auth/signout                         0 B                0 B
+├ ƒ /api/auth/signup                          0 B                0 B
+├ ƒ /api/auth/verify-email                    0 B                0 B
+├ ƒ /api/batch/tickets                        0 B                0 B
+├ ƒ /api/bulk-posting                         0 B                0 B
+├ ƒ /api/bundle-deals                         0 B                0 B
+├ ƒ /api/bundles                              0 B                0 B
+├ ƒ /api/campaigns                            0 B                0 B
+├ ƒ /api/capacity                             0 B                0 B
+├ ƒ /api/cart                                 0 B                0 B
+├ ƒ /api/cart/[itemId]                        0 B                0 B
+├ ƒ /api/cart/promo                           0 B                0 B
+├ ƒ /api/cashless-payments                    0 B                0 B
+├ ƒ /api/charity-campaigns                    0 B                0 B
+├ ƒ /api/checkout                             0 B                0 B
+├ ƒ /api/checkout/session                     0 B                0 B
+├ ƒ /api/collections                          0 B                0 B
+├ ƒ /api/collections/[id]                     0 B                0 B
+├ ƒ /api/comment-moderation                   0 B                0 B
+├ ƒ /api/community                            0 B                0 B
+├ ƒ /api/community-analytics                  0 B                0 B
+├ ƒ /api/community-challenges                 0 B                0 B
+├ ƒ /api/community/events                     0 B                0 B
+├ ƒ /api/community/forums                     0 B                0 B
+├ ƒ /api/community/groups                     0 B                0 B
+├ ƒ /api/community/polls                      0 B                0 B
+├ ƒ /api/community/polls/[id]/vote            0 B                0 B
+├ ƒ /api/content-calendar                     0 B                0 B
+├ ƒ /api/content-optimization                 0 B                0 B
+├ ƒ /api/content/categories                   0 B                0 B
+├ ƒ /api/content/exclusive                    0 B                0 B
+├ ƒ /api/contest-giveaway                     0 B                0 B
+├ ƒ /api/contests                             0 B                0 B
+├ ƒ /api/crisis-management                    0 B                0 B
+├ ƒ /api/cron/event-notifications             0 B                0 B
+├ ƒ /api/cron/loyalty-points                  0 B                0 B
+├ ƒ /api/cron/ticket-reminders                0 B                0 B
+├ ƒ /api/currency-pricing                     0 B                0 B
+├ ƒ /api/deals                                0 B                0 B
+├ ƒ /api/dietary-notifications                0 B                0 B
+├ ƒ /api/digital-wallet                       0 B                0 B
+├ ƒ /api/directions/parking                   0 B                0 B
+├ ƒ /api/directions/route                     0 B                0 B
+├ ƒ /api/directions/transport                 0 B                0 B
+├ ƒ /api/directions/venue                     0 B                0 B
+├ ƒ /api/discounts/verify                     0 B                0 B
+├ ƒ /api/discover/quiz                        0 B                0 B
+├ ƒ /api/early-access                         0 B                0 B
+├ ƒ /api/early-bird                           0 B                0 B
+├ ƒ /api/event-aggregators                    0 B                0 B
+├ ƒ /api/event-collaboration                  0 B                0 B
+├ ƒ /api/event-parking                        0 B                0 B
+├ ƒ /api/events                               0 B                0 B
+├ ƒ /api/events/[id]                          0 B                0 B
+├ ƒ /api/events/[id]/box-office               0 B                0 B
+├ ƒ /api/events/[id]/chat                     0 B                0 B
+├ ƒ /api/events/[id]/entry-info               0 B                0 B
+├ ƒ /api/events/[id]/partners                 0 B                0 B
+├ ƒ /api/events/[id]/program                  0 B                0 B
+├ ƒ /api/events/[id]/qr-checkin               0 B                0 B
+├ ƒ /api/events/[id]/seating                  0 B                0 B
+├ ƒ /api/events/[id]/tickets/generate         0 B                0 B
+├ ƒ /api/events/[id]/waitlist                 0 B                0 B
+├ ƒ /api/events/create                        0 B                0 B
+├ ƒ /api/events/enhanced                      0 B                0 B
+├ ƒ /api/events/map                           0 B                0 B
+├ ƒ /api/events/nearby                        0 B                0 B
+├ ƒ /api/events/templates                     0 B                0 B
+├ ƒ /api/exclusive-content                    0 B                0 B
+├ ƒ /api/experience-discovery                 0 B                0 B
+├ ƒ /api/experiences                          0 B                0 B
+├ ƒ /api/fan-chapters                         0 B                0 B
+├ ƒ /api/fan-club-access                      0 B                0 B
+├ ƒ /api/fan-clubs                            0 B                0 B
+├ ƒ /api/fan-content                          0 B                0 B
+├ ƒ /api/fan-mentorship                       0 B                0 B
+├ ƒ /api/fan-profiles                         0 B                0 B
+├ ƒ /api/fan-spotlight                        0 B                0 B
+├ ƒ /api/favorites                            0 B                0 B
+├ ƒ /api/follows                              0 B                0 B
+├ ƒ /api/friends                              0 B                0 B
+├ ƒ /api/friends/location                     0 B                0 B
+├ ƒ /api/friends/meetups                      0 B                0 B
+├ ƒ /api/ga-floor-config                      0 B                0 B
+├ ƒ /api/gamification                         0 B                0 B
+├ ƒ /api/gift-cards                           0 B                0 B
+├ ƒ /api/gift-cards/my-cards                  0 B                0 B
+├ ƒ /api/gift-cards/purchase                  0 B                0 B
+├ ƒ /api/gift-cards/redeem                    0 B                0 B
+├ ƒ /api/gift-registry                        0 B                0 B
+├ ƒ /api/group-organizer                      0 B                0 B
+├ ƒ /api/groups                               0 B                0 B
+├ ƒ /api/guest-chat                           0 B                0 B
+├ ƒ /api/health                               0 B                0 B
+├ ƒ /api/influencer-affiliates                0 B                0 B
+├ ƒ /api/influencer-tracking                  0 B                0 B
+├ ƒ /api/instagram-templates                  0 B                0 B
+├ ƒ /api/integrations/iot                     0 B                0 B
+├ ƒ /api/integrations/live-streaming          0 B                0 B
+├ ƒ /api/integrations/marketing-sync          0 B                0 B
+├ ƒ /api/integrations/payment-gateways        0 B                0 B
+├ ƒ /api/integrations/social-media            0 B                0 B
+├ ƒ /api/integrations/streaming               0 B                0 B
+├ ƒ /api/integrations/ticket-revenue          0 B                0 B
+├ ƒ /api/inventory-alerts                     0 B                0 B
+├ ƒ /api/inventory-sync                       0 B                0 B
+├ ƒ /api/landing-pages                        0 B                0 B
+├ ƒ /api/limited-releases                     0 B                0 B
+├ ƒ /api/live-social-feed                     0 B                0 B
+├ ƒ /api/live-tweet-wall                      0 B                0 B
+├ ƒ /api/local-partnerships                   0 B                0 B
+├ ƒ /api/lost-found                           0 B                0 B
+├ ƒ /api/loyalty                              0 B                0 B
+├ ƒ /api/loyalty-rewards                      0 B                0 B
+├ ƒ /api/marketing-analytics                  0 B                0 B
+├ ƒ /api/marketing/campaigns                  0 B                0 B
+├ ƒ /api/marketing/lists                      0 B                0 B
+├ ƒ /api/marketing/templates                  0 B                0 B
+├ ƒ /api/match/events                         0 B                0 B
+├ ƒ /api/match/interests                      0 B                0 B
+├ ƒ /api/match/users                          0 B                0 B
+├ ƒ /api/media-kit                            0 B                0 B
+├ ƒ /api/member-benefits                      0 B                0 B
+├ ƒ /api/member-directory                     0 B                0 B
+├ ƒ /api/memberships                          0 B                0 B
+├ ƒ /api/memberships/subscribe                0 B                0 B
+├ ƒ /api/memory-book                          0 B                0 B
+├ ƒ /api/merch/catalog                        0 B                0 B
+├ ƒ /api/merchandise                          0 B                0 B
+├ ƒ /api/messages/conversations               0 B                0 B
+├ ƒ /api/messages/conversations/[id]          0 B                0 B
+├ ƒ /api/messaging                            0 B                0 B
+├ ƒ /api/mobile-ticket-delivery               0 B                0 B
+├ ƒ /api/multi-language                       0 B                0 B
+├ ƒ /api/multi-language-events                0 B                0 B
+├ ƒ /api/music-integration                    0 B                0 B
+├ ƒ /api/nft-tickets                          0 B                0 B
+├ ƒ /api/notifications                        0 B                0 B
+├ ƒ /api/offline-tickets                      0 B                0 B
+├ ƒ /api/onboarding/complete                  0 B                0 B
+├ ƒ /api/onboarding/interests                 0 B                0 B
+├ ƒ /api/onboarding/preferences               0 B                0 B
+├ ƒ /api/onboarding/profile                   0 B                0 B
+├ ƒ /api/orders                               0 B                0 B
+├ ƒ /api/orders/[id]                          0 B                0 B
+├ ƒ /api/orders/history                       0 B                0 B
+├ ƒ /api/orders/revenue-sync                  0 B                0 B
+├ ƒ /api/paid-advertising                     0 B                0 B
+├ ƒ /api/partners                             0 B                0 B
+├ ƒ /api/partners/[id]                        0 B                0 B
+├ ƒ /api/partners/[id]/offers                 0 B                0 B
+├ ƒ /api/payment-methods                      0 B                0 B
+├ ƒ /api/payment-plans                        0 B                0 B
+├ ƒ /api/payments                             0 B                0 B
+├ ƒ /api/photo-booth                          0 B                0 B
+├ ƒ /api/photos/[id]/like                     0 B                0 B
+├ ƒ /api/photos/feed                          0 B                0 B
+├ ƒ /api/photos/galleries                     0 B                0 B
+├ ƒ /api/pos-terminal                         0 B                0 B
+├ ƒ /api/preorders                            0 B                0 B
+├ ƒ /api/press-media-kit                      0 B                0 B
+├ ƒ /api/price-alerts                         0 B                0 B
+├ ƒ /api/price-alerts/[id]                    0 B                0 B
+├ ƒ /api/pricing/dynamic                      0 B                0 B
+├ ƒ /api/print-at-home                        0 B                0 B
+├ ƒ /api/privacy/cookies                      0 B                0 B
+├ ƒ /api/product-customization                0 B                0 B
+├ ƒ /api/product-variants                     0 B                0 B
+├ ƒ /api/profile                              0 B                0 B
+├ ƒ /api/promo-codes                          0 B                0 B
+├ ƒ /api/qa-sessions                          0 B                0 B
+├ ƒ /api/qa-sessions/[id]/questions           0 B                0 B
+├ ƒ /api/qa-sessions/questions/[id]/upvote    0 B                0 B
+├ ƒ /api/queuing                              0 B                0 B
+├ ƒ /api/receipts                             0 B                0 B
+├ ƒ /api/recommendations                      0 B                0 B
+├ ƒ /api/referrals                            0 B                0 B
+├ ƒ /api/refunds                              0 B                0 B
+├ ƒ /api/related-events                       0 B                0 B
+├ ƒ /api/retargeting-pixels                   0 B                0 B
+├ ƒ /api/reviews                              0 B                0 B
+├ ƒ /api/rewards                              0 B                0 B
+├ ƒ /api/rfid-wristbands                      0 B                0 B
+├ ƒ /api/sales-reporting                      0 B                0 B
+├ ƒ /api/saved-searches                       0 B                0 B
+├ ƒ /api/saved-searches/[id]                  0 B                0 B
+├ ƒ /api/search                               0 B                0 B
+├ ƒ /api/search/universal                     0 B                0 B
+├ ƒ /api/seat-upgrades                        0 B                0 B
+├ ƒ /api/secondary-market                     0 B                0 B
+├ ƒ /api/sentiment-alerts                     0 B                0 B
+├ ƒ /api/series-management                    0 B                0 B
+├ ƒ /api/shoppable-posts                      0 B                0 B
+├ ƒ /api/similar-events                       0 B                0 B
+├ ƒ /api/sms-campaigns                        0 B                0 B
+├ ƒ /api/social                               0 B                0 B
+├ ƒ /api/social-commerce                      0 B                0 B
+├ ƒ /api/social-content-scheduler             0 B                0 B
+├ ƒ /api/social-graph                         0 B                0 B
+├ ƒ /api/social-inbox                         0 B                0 B
+├ ƒ /api/social-listening                     0 B                0 B
+├ ƒ /api/social-proof                         0 B                0 B
+├ ƒ /api/social-takeover                      0 B                0 B
+├ ƒ /api/social/affiliate                     0 B                0 B
+├ ƒ /api/social/posts                         0 B                0 B
+├ ƒ /api/social/shops                         0 B                0 B
+├ ƒ /api/split-payment                        0 B                0 B
+├ ƒ /api/sponsor-branding                     0 B                0 B
+├ ƒ /api/streaming                            0 B                0 B
+├ ƒ /api/subscription-box                     0 B                0 B
+├ ƒ /api/support/conversations                0 B                0 B
+├ ƒ /api/support/conversations/[id]/messages  0 B                0 B
+├ ƒ /api/surveys/[id]                         0 B                0 B
+├ ƒ /api/surveys/[id]/responses               0 B                0 B
+├ ƒ /api/tax-calculation                      0 B                0 B
+├ ƒ /api/third-party-listings                 0 B                0 B
+├ ƒ /api/ticket-insurance                     0 B                0 B
+├ ƒ /api/tickets                              0 B                0 B
+├ ƒ /api/tickets/[id]                         0 B                0 B
+├ ƒ /api/tickets/addons                       0 B                0 B
+├ ƒ /api/tickets/deliveries                   0 B                0 B
+├ ƒ /api/tickets/enhanced                     0 B                0 B
+├ ƒ /api/tickets/gift                         0 B                0 B
+├ ƒ /api/tickets/track                        0 B                0 B
+├ ƒ /api/tickets/transfer                     0 B                0 B
+├ ƒ /api/tiktok-challenges                    0 B                0 B
+├ ƒ /api/tips-gratuity                        0 B                0 B
+├ ƒ /api/tourism-partnerships                 0 B                0 B
+├ ƒ /api/tours                                0 B                0 B
+├ ƒ /api/transfers                            0 B                0 B
+├ ƒ /api/travel-packages                      0 B                0 B
+├ ƒ /api/ugc-campaigns                        0 B                0 B
+├ ƒ /api/ugc/campaigns                        0 B                0 B
+├ ƒ /api/ugc/hashtags                         0 B                0 B
+├ ƒ /api/ugc/posts                            0 B                0 B
+├ ƒ /api/urgency-tactics                      0 B                0 B
+├ ƒ /api/user/badges                          0 B                0 B
+├ ƒ /api/user/blocked                         0 B                0 B
+├ ƒ /api/user/events                          0 B                0 B
+├ ƒ /api/user/favorites                       0 B                0 B
+├ ƒ /api/user/favorites/[id]                  0 B                0 B
+├ ƒ /api/user/notification-preferences        0 B                0 B
+├ ƒ /api/user/profile                         0 B                0 B
+├ ƒ /api/user/reports                         0 B                0 B
+├ ƒ /api/user/reputation                      0 B                0 B
+├ ƒ /api/user/settings                        0 B                0 B
+├ ƒ /api/vendor-booths                        0 B                0 B
+├ ƒ /api/venue-maps                           0 B                0 B
+├ ƒ /api/venues                               0 B                0 B
+├ ƒ /api/venues/[id]                          0 B                0 B
+├ ƒ /api/venues/[id]/follow                   0 B                0 B
+├ ƒ /api/venues/[id]/follow/status            0 B                0 B
+├ ƒ /api/venues/[id]/map                      0 B                0 B
+├ ƒ /api/video-promo                          0 B                0 B
+├ ƒ /api/vip-zones                            0 B                0 B
+├ ƒ /api/visual-search                        0 B                0 B
+├ ƒ /api/voice-search                         0 B                0 B
+├ ƒ /api/vr-experiences                       0 B                0 B
+├ ƒ /api/waitlist                             0 B                0 B
+├ ƒ /api/wallet                               0 B                0 B
+├ ƒ /api/watch-parties                        0 B                0 B
+├ ƒ /api/watch-parties/[id]/join              0 B                0 B
+├ ƒ /api/weather-policies                     0 B                0 B
+├ ƒ /api/webhooks/stripe                      0 B                0 B
+├ ƒ /api/will-call                            0 B                0 B
+├ ƒ /api/wishlist                             0 B                0 B
+├ ○ /apply                                    9.13 kB         472 kB
+├ ○ /apply/confirmation                       4.46 kB         468 kB
+├ ○ /artists                                  3.19 kB         646 kB
+├ ƒ /artists/[id]                             3.98 kB         646 kB
+├ ○ /auth/forgot-password                     6.36 kB         398 kB
+├ ○ /auth/magic-link                          6.58 kB         398 kB
+├ ○ /auth/reset-password                      6.64 kB         398 kB
+├ ○ /auth/signin                              3.15 kB         630 kB
+├ ○ /auth/signup                              7.04 kB         398 kB
+├ ○ /auth/verify-email                        3.95 kB         392 kB
+├ ○ /browse                                   3.39 kB         628 kB
+├ ○ /calendar                                 3.31 kB         639 kB
+├ ○ /cart                                     5.93 kB         641 kB
+├ ○ /checkout                                 5.01 kB         641 kB
+├ ○ /checkout/currency                        3.37 kB         478 kB
+├ ƒ /collections/[id]                         2.26 kB         458 kB
+├ ○ /community                                4 kB            460 kB
+├ ○ /community/challenges                     6.08 kB         481 kB
+├ ○ /community/fan-content                    3.76 kB         478 kB
+├ ○ /community/guidelines                     4.13 kB         460 kB
+├ ○ /community/polls                          4.95 kB         461 kB
+├ ○ /confirmation                             3 kB            459 kB
+├ ○ /content                                  5.67 kB         468 kB
+├ ƒ /creators                                 2.33 kB         387 kB
+├ ○ /dashboard                                5.18 kB         641 kB
+├ ○ /deals                                    3.55 kB         460 kB
+├ ○ /design-system                            4.56 kB         461 kB
+├ ○ /destinations                             3.39 kB         460 kB
+├ ○ /directions                               5.94 kB         641 kB
+├ ○ /discover                                 4 kB            460 kB
+├ ○ /discover/quiz                            4.47 kB         467 kB
+├ ƒ /e/[eventId]                              2.58 kB         387 kB
+├ ƒ /e/[eventId]/box-office                   6.16 kB         462 kB
+├ ƒ /e/[eventId]/chat                         1.93 kB         387 kB
+├ ƒ /e/[eventId]/check-in                     3.5 kB          481 kB
+├ ƒ /e/[eventId]/credentials                  3.02 kB         462 kB
+├ ƒ /e/[eventId]/engage                       2.04 kB         387 kB
+├ ƒ /e/[eventId]/engage/challenges            665 B           385 kB
+├ ƒ /e/[eventId]/engage/polls                 654 B           385 kB
+├ ƒ /e/[eventId]/engage/qa                    1.42 kB         386 kB
+├ ƒ /e/[eventId]/engage/ugc                   1.44 kB         386 kB
+├ ƒ /e/[eventId]/entry-info                   2.49 kB         387 kB
+├ ƒ /e/[eventId]/friends                      1.99 kB         387 kB
+├ ƒ /e/[eventId]/lineup                       1.91 kB         387 kB
+├ ƒ /e/[eventId]/map                          2 kB            387 kB
+├ ƒ /e/[eventId]/my-tickets                   2.26 kB         387 kB
+├ ƒ /e/[eventId]/navigate                     2.16 kB         387 kB
+├ ƒ /e/[eventId]/navigate/accessibility       2.09 kB         387 kB
+├ ƒ /e/[eventId]/navigate/directions          2.08 kB         387 kB
+├ ƒ /e/[eventId]/navigate/parking             1.75 kB         387 kB
+├ ƒ /e/[eventId]/photos                       1.72 kB         387 kB
+├ ƒ /e/[eventId]/program                      1.95 kB         387 kB
+├ ƒ /e/[eventId]/refunds                      5.92 kB         462 kB
+├ ƒ /e/[eventId]/reviews                      2.19 kB         387 kB
+├ ƒ /e/[eventId]/scan                         3.23 kB         462 kB
+├ ƒ /e/[eventId]/seating                      1.88 kB         387 kB
+├ ƒ /e/[eventId]/services                     1.86 kB         387 kB
+├ ƒ /e/[eventId]/services/emergency           2.03 kB         387 kB
+├ ƒ /e/[eventId]/services/lost-found          1.43 kB         386 kB
+├ ƒ /e/[eventId]/services/support             663 B           385 kB
+├ ƒ /e/[eventId]/settlement                   6 kB            462 kB
+├ ƒ /e/[eventId]/shop                         1.96 kB         387 kB
+├ ƒ /e/[eventId]/ticket                       2.04 kB         387 kB
+├ ƒ /e/[eventId]/tickets                      2.06 kB         387 kB
+├ ƒ /e/[eventId]/will-call                    5.85 kB         462 kB
+├ ○ /events                                   2.81 kB         645 kB
+├ ƒ /events/[id]                              1.94 kB         644 kB
+├ ƒ /events/[id]/accessibility                3.32 kB         478 kB
+├ ƒ /events/[id]/chat                         5.5 kB          468 kB
+├ ƒ /events/[id]/engage                       4.38 kB         461 kB
+├ ƒ /events/[id]/entry-info                   3.56 kB         460 kB
+├ ƒ /events/[id]/floor-config                 3.57 kB         478 kB
+├ ƒ /events/[id]/friends                      2.44 kB         477 kB
+├ ƒ /events/[id]/landing-builder              4.2 kB          479 kB
+├ ƒ /events/[id]/languages                    3.31 kB         478 kB
+├ ƒ /events/[id]/map                          2.71 kB         465 kB
+├ ƒ /events/[id]/parking                      3.45 kB         478 kB
+├ ƒ /events/[id]/photo-booth                  3.18 kB         478 kB
+├ ƒ /events/[id]/program                      2.25 kB         465 kB
+├ ƒ /events/[id]/rfid                         2.99 kB         638 kB
+├ ƒ /events/[id]/seating                      3.44 kB         460 kB
+├ ƒ /events/[id]/services                     4 kB            460 kB
+├ ƒ /events/[id]/social-wall                  3.91 kB         478 kB
+├ ƒ /events/[id]/ticket                       3.42 kB         460 kB
+├ ƒ /events/[id]/waitlist                     5.11 kB         461 kB
+├ ○ /events/clone                             4.01 kB         478 kB
+├ ○ /events/compare                           1.91 kB         464 kB
+├ ○ /events/create                            4.25 kB         460 kB
+├ ○ /events/create/collaboration              3.28 kB         478 kB
+├ ○ /events/create/from-blueprint             3.93 kB         478 kB
+├ ○ /events/templates                         2.49 kB         477 kB
+├ ○ /experiences                              3.7 kB          645 kB
+├ ○ /fan-club                                 5.98 kB         462 kB
+├ ○ /fan-club/exclusive-access                3.43 kB         478 kB
+├ ○ /fan-clubs                                5.86 kB         462 kB
+├ ○ /favorites                                5.41 kB         462 kB
+├ ○ /forums                                   3.28 kB         478 kB
+├ ○ /friends                                  5.19 kB         468 kB
+├ ○ /gift-cards                               5.87 kB         462 kB
+├ ○ /groups                                   4.88 kB         461 kB
+├ ○ /help                                     2.85 kB         459 kB
+├ ○ /login                                    4.17 kB         448 kB
+├ ○ /lost-found                               4.38 kB         467 kB
+├ ○ /map                                      3.04 kB         465 kB
+├ ○ /marketing/ab-testing                     3.39 kB         478 kB
+├ ○ /marketing/analytics                      3.25 kB         478 kB
+├ ○ /marketing/early-bird                     3.5 kB          478 kB
+├ ○ /marketing/influencers                    2.92 kB         477 kB
+├ ○ /marketing/media-kit                      4.16 kB         479 kB
+├ ○ /marketing/pixels                         3.99 kB         478 kB
+├ ○ /match                                    5.3 kB          647 kB
+├ ○ /membership                               6.46 kB         470 kB
+├ ○ /membership/benefits                      6.11 kB         481 kB
+├ ○ /merch                                    2.87 kB         638 kB
+├ ƒ /merch/[artistId]                         5.51 kB         468 kB
+├ ○ /merch/bundles                            3.8 kB          478 kB
+├ ○ /messages                                 4.96 kB         467 kB
+├ ○ /moderate                                 1.9 kB          476 kB
+├ ○ /my-events                                4.91 kB         467 kB
+├ ○ /nearby                                   3.67 kB         460 kB
+├ ○ /new-events                               3.07 kB         459 kB
+├ ○ /notifications                            5.47 kB         462 kB
+├ ○ /offline                                  4.3 kB          467 kB
+├ ○ /onboarding                               6.92 kB         633 kB
+├ ○ /orders                                   3.1 kB          639 kB
+├ ○ /orders/history                           5.41 kB         462 kB
+├ ○ /packages                                 4.09 kB         460 kB
+├ ○ /photos                                   5.08 kB         467 kB
+├ ○ /price-alerts                             5.11 kB         461 kB
+├ ○ /profile                                  2.38 kB         462 kB
+├ ○ /profile/badges                           5.55 kB         462 kB
+├ ○ /profile/reputation                       4.66 kB         461 kB
+├ ○ /qa-sessions                              5.07 kB         467 kB
+├ ○ /referrals                                3.31 kB         639 kB
+├ ○ /resale                                   6.02 kB         642 kB
+├ ○ /reviews                                  2.42 kB         459 kB
+├ ○ /reviews/new                              4.07 kB         466 kB
+├ ○ /rewards                                  5.88 kB         641 kB
+├ ○ /saved-searches                           5.69 kB         462 kB
+├ ○ /search                                   2.41 kB         459 kB
+├ ○ /search/universal                         2.63 kB         465 kB
+├ ○ /settings                                 5.05 kB         461 kB
+├ ○ /settings/language                        2.8 kB          477 kB
+├ ○ /settings/notifications                   5.81 kB         462 kB
+├ ○ /settings/privacy                         5.01 kB         647 kB
+├ ○ /shop/shoppable                           3.78 kB         478 kB
+├ ○ /sitemap.xml                              0 B                0 B
+├ ○ /social                                   3.38 kB         460 kB
+├ ○ /social/crisis-management                 3.57 kB         478 kB
+├ ○ /social/inbox                             3.46 kB         478 kB
+├ ○ /social/sentiment                         3.21 kB         478 kB
+├ ○ /social/story-templates                   2.42 kB         477 kB
+├ ○ /social/tiktok-challenges                 2.91 kB         477 kB
+├ ○ /support/chat                             5.42 kB         462 kB
+├ ƒ /surveys/[id]                             4.37 kB         467 kB
+├ ○ /tickets                                  3.09 kB         639 kB
+├ ○ /tickets/anti-scalping                    3.3 kB          478 kB
+├ ○ /tickets/gift                             6.66 kB         463 kB
+├ ○ /tickets/groups                           3.58 kB         478 kB
+├ ○ /tickets/print-at-home                    3.01 kB         477 kB
+├ ○ /tickets/tracking                         5.01 kB         461 kB
+├ ○ /tickets/transfer                         4.54 kB         394 kB
+├ ○ /tickets/urgency                          4.07 kB         479 kB
+├ ○ /tours                                    2.18 kB         465 kB
+├ ○ /ugc                                      6.99 kB         469 kB
+├ ○ /venues                                   3.12 kB         639 kB
+├ ƒ /venues/[id]                              3.97 kB         466 kB
+├ ○ /wallet                                   3.23 kB         459 kB
+├ ○ /wallet/offline                           2.8 kB          477 kB
+├ ○ /watch-parties                            7.07 kB         469 kB
+└ ○ /wishlist                                 5.4 kB          462 kB
++ First Load JS shared by all                 87.7 kB
+  ├ chunks/26fe0b10-d33d795dc99cbfe7.js       53.6 kB
+  ├ chunks/4142-3f71e49f9aa5f383.js           31.9 kB
+  └ other shared chunks (total)               2.14 kB
+
+
+ƒ Middleware                                  73.8 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
 
