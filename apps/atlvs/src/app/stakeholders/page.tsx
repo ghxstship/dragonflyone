@@ -127,7 +127,7 @@ export default function StakeholdersPage() {
 
   const detailSections: DetailSection[] = selectedStakeholder ? [
     { id: 'overview', title: 'Stakeholder Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selectedStakeholder.name}</Body>
         <Body size="sm"><strong>Email:</strong> {selectedStakeholder.email}</Body>
         <Body size="sm"><strong>Organization:</strong> {selectedStakeholder.organization}</Body>

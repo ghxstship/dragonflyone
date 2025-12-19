@@ -73,7 +73,7 @@ export default function FinancePage() {
 
   const detailSections: DetailSection[] = selectedTxn ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>ID:</strong> {selectedTxn.id}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedTxn.type}</Body>
         <Body size="sm"><strong>Party:</strong> {selectedTxn.entity}</Body>

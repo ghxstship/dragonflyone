@@ -90,7 +90,7 @@ function ReputationPageContent() {
         )}
 
         <Card className="p-8 mb-8 bg-ink-950 text-white">
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <Stack className="col-span-2">
               <Stack direction="horizontal" gap={4} className="items-center">
                 <Stack className="w-20 h-20 bg-white/10 rounded-avatar flex items-center justify-center">
@@ -151,7 +151,7 @@ function ReputationPageContent() {
         </Stack>
 
         {isActive('overview') && (
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             <Card className="p-6">
               <H3 className="mb-6">HOW TO EARN KARMA</H3>
               <Stack gap={3}>
@@ -178,7 +178,7 @@ function ReputationPageContent() {
 
             <Card className="p-6">
               <H3 className="mb-6">YOUR CONTRIBUTIONS</H3>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="p-4 bg-ink-50 text-center">
                   <Body className="text-h4-md font-weight-bold">{stats?.reviews_count || 0}</Body>
                   <Body className="text-ink-500">Reviews</Body>
@@ -254,7 +254,7 @@ function ReputationPageContent() {
         )}
 
         {isActive('achievements') && (
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             {achievements.map(achievement => (
               <Card
                 key={achievement.id}

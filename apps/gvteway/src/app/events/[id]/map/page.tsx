@@ -131,7 +131,7 @@ export default function EventMapPage() {
           <Body className="text-on-dark-muted">{venueMap.venue_address}</Body>
         </Stack>
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Card className="p-6 border-2 border-black relative overflow-hidden">
               <Stack direction="horizontal" className="justify-between items-center mb-4">
@@ -179,7 +179,7 @@ export default function EventMapPage() {
 
             <Card className="p-6">
               <H3 className="mb-4">VENUE ZONES</H3>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {venueMap.zones.map(zone => (
                   <Button
                     key={zone.id}

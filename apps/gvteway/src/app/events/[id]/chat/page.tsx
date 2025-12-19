@@ -161,7 +161,7 @@ export default function EventChatPage() {
           </Card>
         )}
 
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           <Card className="col-span-2 flex flex-col h-panel-lg">
             <Stack className="flex-1 overflow-y-auto p-4" gap={3}>
               {messages.map(message => (

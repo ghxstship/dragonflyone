@@ -38,14 +38,14 @@ export default function InvestorPortalPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Investor Portal" title="My Dashboard" description="Track investments and returns" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Invested" value={`$${(totalInvested / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Realized Returns" value={`$${(totalReturns / 1000).toFixed(0)}K`} icon={<TrendingUp size={20} />} trend="up" inverted />
           <StatCard label="Projected Returns" value={`$${(projectedReturns / 1000).toFixed(0)}K`} icon={<PieChart size={20} />} inverted />
           <StatCard label="Avg ROI" value={`${avgROI.toFixed(1)}%`} icon={<TrendingUp size={20} />} trend="up" inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

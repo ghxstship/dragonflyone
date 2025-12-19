@@ -45,7 +45,7 @@ export default function ChannelsPage() {
         <SectionHeader kicker={production?.name || 'Production'} title="Channels" description="Team communication channels" />
         <Button variant="solid" size="sm"><Plus size={16} className="mr-2" />New Channel</Button>
       </Stack>
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total" value={stats.total.toString()} icon={<Hash size={20} />} />
         <StatCard label="Public" value={stats.public.toString()} icon={<Hash size={20} />} />
         <StatCard label="Private" value={stats.private.toString()} icon={<Lock size={20} />} />

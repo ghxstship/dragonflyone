@@ -80,8 +80,8 @@ export default function HelpPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Display size="lg" className="text-white">
               {helpData.hero.headline}
@@ -108,13 +108,13 @@ export default function HelpPage() {
       </FullBleedSection>
 
       {/* Help Categories */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12 text-center">
             <H2 className="text-ink-950">BROWSE BY CATEGORY</H2>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={4} className="sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {helpData.categories.map((category) => (
               <NextLink key={category.title} href={category.href}>
                 <Card className="h-full border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
@@ -142,8 +142,8 @@ export default function HelpPage() {
       </FullBleedSection>
 
       {/* Popular Articles */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12 text-center">
             <H2 className="text-ink-950">POPULAR ARTICLES</H2>
           </Stack>
@@ -170,8 +170,8 @@ export default function HelpPage() {
       </FullBleedSection>
 
       {/* Contact Support CTA */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               STILL NEED HELP?

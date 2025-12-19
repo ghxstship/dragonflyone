@@ -227,7 +227,7 @@ export default function CrewPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}><Body className="font-display">Role</Body><Body>{selectedMember.role}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedMember.department}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Day Rate</Body><Body>${selectedMember.rate}/day</Body></Stack>

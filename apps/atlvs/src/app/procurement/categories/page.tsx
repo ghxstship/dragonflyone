@@ -111,7 +111,7 @@ export default function CategoryManagementPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Categories" value={DEMO_PROCUREMENT_CATEGORIES_FULL.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Spend" value={`$${(totalSpend / 1000000).toFixed(1)}M`} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Strategic Spend" value={`${Math.round(strategicSpend / totalSpend * 100)}%`} className="bg-transparent border-2 border-ink-800" />
@@ -214,7 +214,7 @@ export default function CategoryManagementPage() {
             <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
               <Stack gap={4}>
                 <H3>Kraljic Portfolio Matrix</H3>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Card className="p-4 border-2 border-info-800 bg-info-900/20">
                     <Stack gap={2}>
                       <Label className="text-info-400 font-weight-bold">STRATEGIC</Label>
@@ -275,11 +275,11 @@ export default function CategoryManagementPage() {
                 <Badge variant="outline">{selectedCategory.strategy}</Badge>
                 {selectedCategory.parentCategory && <Badge variant="outline">{selectedCategory.parentCategory}</Badge>}
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Annual Spend</Label><Label className="font-mono text-white text-h6-md">${selectedCategory.spend.toLocaleString()}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Active Vendors</Label><Label className="font-mono text-white text-h6-md">{selectedCategory.vendors}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Category Owner</Label><Label className="text-white">{selectedCategory.owner}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Last Review</Label><Label className="text-white">{selectedCategory.lastReview}</Label></Stack>
               </Grid>
@@ -305,7 +305,7 @@ export default function CategoryManagementPage() {
                 <Label className="text-ink-400">Approach</Label>
                 <Body className="text-white">{selectedStrategy.approach}</Body>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-400">Target Savings</Label>
                   <Label className="font-mono text-white text-h6-md">{selectedStrategy.targetSavings}%</Label>

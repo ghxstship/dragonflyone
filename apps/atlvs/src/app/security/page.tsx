@@ -74,8 +74,8 @@ export default function SecurityPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Shield className="size-8 text-brand-pink" />
@@ -94,9 +94,9 @@ export default function SecurityPage() {
       </FullBleedSection>
 
       {/* Certifications */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={6}>
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {securityData.certifications.map((cert) => (
               <Card key={cert.name} className="border-2 border-ink-950 bg-white p-6 text-center shadow-md">
                 <Stack gap={2}>
@@ -110,13 +110,13 @@ export default function SecurityPage() {
       </FullBleedSection>
 
       {/* Security Features */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">HOW WE PROTECT YOUR DATA</H1>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {securityData.features.map((feature) => (
               <Card key={feature.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
                 <Stack gap={4}>
@@ -135,8 +135,8 @@ export default function SecurityPage() {
       </FullBleedSection>
 
       {/* Security Practices */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={6}>
               <H1 className="text-white">SECURITY PRACTICES</H1>
@@ -159,8 +159,8 @@ export default function SecurityPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               QUESTIONS ABOUT SECURITY?

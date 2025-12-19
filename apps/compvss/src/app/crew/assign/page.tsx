@@ -88,7 +88,7 @@ export default function AssignCrewPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Field label="Project">
                 <Select
                   value={selectedProject}
@@ -124,7 +124,7 @@ export default function AssignCrewPage() {
               </Field>
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={4}>
                 <H2>AVAILABLE CREW</H2>
                 <Stack gap={3}>

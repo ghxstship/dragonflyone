@@ -211,7 +211,7 @@ export default function InsurancePage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{policyTypeLabels[selectedPolicy.policy_type] || selectedPolicy.policy_type}</Body>
@@ -237,7 +237,7 @@ export default function InsurancePage() {
       id: 'coverage',
       title: 'Coverage',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Coverage Amount</Body>
             <Body>${selectedPolicy.coverage_amount?.toLocaleString()}</Body>

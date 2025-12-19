@@ -211,7 +211,7 @@ export default function InvestorsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Investor</Body>
             <Body>{selectedInvestor.name}</Body>
@@ -237,7 +237,7 @@ export default function InvestorsPage() {
       id: 'investment',
       title: 'Investment Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Investment Amount</Body>
             <Body>${selectedInvestor.investment_amount?.toLocaleString()}</Body>

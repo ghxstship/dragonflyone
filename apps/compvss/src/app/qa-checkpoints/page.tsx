@@ -77,7 +77,7 @@ export default function QACheckpointsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={passedCount.toString()} label="Passed" />
               <StatCard value={pendingCount.toString()} label="Pending" />
               <StatCard value={failedCount.toString()} label="Failed" />
@@ -134,7 +134,7 @@ export default function QACheckpointsPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid">Add Checkpoint</Button>
               <Button variant="outline">Export Report</Button>
               <Button variant="outline" onClick={() => router.push("/build-strike")}>Build and Strike</Button>
@@ -149,7 +149,7 @@ export default function QACheckpointsPage() {
           {selectedCheckpoint && (
             <Stack gap={4}>
               <Body className="font-display">{selectedCheckpoint.name}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Department</Body>
                   <Badge variant="outline">{selectedCheckpoint.department}</Badge>

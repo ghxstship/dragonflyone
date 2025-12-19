@@ -73,7 +73,7 @@ export default function ProductionSafetyPage() {
         <StatCard label="Risk Items" value={safetyStats.riskItems.toString()} icon={<FileWarning size={20} />} />
       </div>
 
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/safety/incidents`)}>
           <CardBody>
             <Stack gap={4} className="items-center text-center">

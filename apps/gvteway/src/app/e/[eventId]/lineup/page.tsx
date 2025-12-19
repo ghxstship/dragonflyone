@@ -34,7 +34,7 @@ export default function EventLineupPage() {
         colorScheme="on-dark"
       />
 
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         {lineup.map((artist) => (
           <Card key={artist.id} variant="elevated" inverted className={artist.isHeadliner ? "border-primary" : ""}>
             <CardBody>

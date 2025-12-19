@@ -92,8 +92,8 @@ export default function ChangelogPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               CHANGELOG
@@ -114,8 +114,8 @@ export default function ChangelogPage() {
       </FullBleedSection>
 
       {/* Releases */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             {changelogData.releases.map((release) => (
               <Card key={release.version} className="border-2 border-ink-950 bg-white p-8 shadow-md">
@@ -165,8 +165,8 @@ export default function ChangelogPage() {
       </FullBleedSection>
 
       {/* Subscribe */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24" id="subscribe">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24" id="subscribe">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               STAY IN THE LOOP

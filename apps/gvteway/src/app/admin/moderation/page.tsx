@@ -90,7 +90,7 @@ export default function ModerationPage() {
       </Card>
     )},
     { id: 'details', title: 'Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Type:</strong> {getTypeIcon(selectedContent.type)} {selectedContent.type}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedContent.status}</Body>
         <Body size="sm"><strong>Author:</strong> {selectedContent.author}</Body>

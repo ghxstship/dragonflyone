@@ -141,7 +141,7 @@ function ApiAccessPageContent() {
               <Body className="text-on-dark-muted">Manage API keys for programmatic access to the GVTEWAY platform</Body>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard label="Total API Keys" value={apiKeys.length.toString()} inverted />
               <StatCard label="Active Keys" value={activeCount.toString()} inverted />
               <StatCard label="Available Scopes" value={ALL_API_SCOPES.length.toString()} inverted />
@@ -257,7 +257,7 @@ function ApiAccessPageContent() {
             <Stack gap={2}>
               <Label>Permissions</Label>
               <Card className="p-4 max-h-[250px] overflow-y-auto">
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {ALL_API_SCOPES.map((scope) => (
                     <Stack key={scope} direction="horizontal" gap={2} className="items-center">
                       <Checkbox

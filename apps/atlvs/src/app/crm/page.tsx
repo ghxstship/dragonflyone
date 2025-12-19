@@ -94,7 +94,7 @@ export default function CRMPage() {
 
   const detailSections: DetailSection[] = selectedContact ? [
     { id: 'overview', title: 'Contact Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selectedContact.name}</Body>
         <Body size="sm"><strong>Email:</strong> {selectedContact.email}</Body>
         <Body size="sm"><strong>Company:</strong> {selectedContact.company || '—'}</Body>

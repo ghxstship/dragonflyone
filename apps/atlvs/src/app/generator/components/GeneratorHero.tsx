@@ -86,7 +86,7 @@ export function GeneratorHero({
       background="white"
       className="relative min-h-screen"
     >
-      <Container className="relative mx-auto flex min-h-screen max-w-container-3xl flex-col items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+      <Container className="relative mx-auto flex min-h-screen max-w-container-3xl flex-col items-center justify-center px-4 py-16 sm:px-4 sm:px-6 lg:px-8">
         {/* Main Content - Vertically Centered */}
         <Stack gap={10} className="w-full max-w-2xl">
           {/* Hero Text */}

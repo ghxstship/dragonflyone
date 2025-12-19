@@ -99,7 +99,7 @@ export default function SetTimesPage() {
               </Card>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={onStage.length.toString()} label="On Stage Now" />
               <StatCard value={upcoming.length.toString()} label="Upcoming" />
               <StatCard value={completed.length.toString()} label="Completed" />
@@ -172,7 +172,7 @@ export default function SetTimesPage() {
               </TabPanel>
 
               <TabPanel active={isActive('by-stage')}>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   {["Main Stage", "Side Stage"].map((stage) => (
                     <Card key={stage} className="p-4">
                       <Stack gap={4}>
@@ -231,7 +231,7 @@ export default function SetTimesPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid">Add Set</Button>
               <Button variant="outline">Export Report</Button>
               <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
@@ -246,7 +246,7 @@ export default function SetTimesPage() {
           {selectedSet && (
             <Stack gap={4}>
               <Body className="font-display">{selectedSet.artistName}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Stage</Body>
                   <Body>{selectedSet.stage}</Body>
@@ -256,7 +256,7 @@ export default function SetTimesPage() {
                   <Badge variant={getStatusVariant(selectedSet.status)}>{selectedSet.status}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Scheduled</Body>
                   <Body>{selectedSet.scheduledStart} - {selectedSet.scheduledEnd}</Body>
@@ -266,7 +266,7 @@ export default function SetTimesPage() {
                   <Body>{selectedSet.actualStart || "--:--"} - {selectedSet.actualEnd || "--:--"}</Body>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Set Length</Body>
                   <Body>{selectedSet.setLength} min</Body>

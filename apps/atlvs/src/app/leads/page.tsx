@@ -183,7 +183,7 @@ export default function LeadsPage() {
       id: 'overview',
       title: 'Lead Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {`${selectedLead.first_name || ''} ${selectedLead.last_name || ''}`.trim()}</Body>
           <Body size="sm"><strong>Email:</strong> {selectedLead.email || '—'}</Body>
           <Body size="sm"><strong>Phone:</strong> {selectedLead.phone || '—'}</Body>

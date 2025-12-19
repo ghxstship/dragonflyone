@@ -111,7 +111,7 @@ export default function ProductionExpensesPage() {
           </Stack>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Expenses" value={`$${totalAmount.toLocaleString()}`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Pending" value={`$${pendingAmount.toLocaleString()}`} icon={<Clock size={20} />} inverted />
           <StatCard label="Approved" value={`$${approvedAmount.toLocaleString()}`} icon={<CheckCircle size={20} />} inverted />
@@ -156,7 +156,7 @@ export default function ProductionExpensesPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Description" value={newExpense.description} onChange={(e) => setNewExpense(prev => ({ ...prev, description: e.target.value }))} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select value={newExpense.category} onChange={(e) => setNewExpense(prev => ({ ...prev, category: e.target.value }))}>
                 <option value="">Category...</option>
                 <option value="Catering">Catering</option>

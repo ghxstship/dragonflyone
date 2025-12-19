@@ -223,7 +223,7 @@ export default function ProjectsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Code:</strong> {selectedProject.code || '—'}</Body>
           <Body size="sm"><strong>Status:</strong> {selectedProject.status}</Body>
           <Body size="sm"><strong>Phase:</strong> {selectedProject.phase || '—'}</Body>
@@ -235,7 +235,7 @@ export default function ProjectsPage() {
       id: 'dates',
       title: 'Timeline',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Start:</strong> {selectedProject.start_date ? new Date(selectedProject.start_date).toLocaleDateString() : '—'}</Body>
           <Body size="sm"><strong>End:</strong> {selectedProject.end_date ? new Date(selectedProject.end_date).toLocaleDateString() : '—'}</Body>
         </Grid>

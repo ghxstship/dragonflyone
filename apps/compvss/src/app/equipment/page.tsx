@@ -214,7 +214,7 @@ export default function EquipmentPage() {
       id: 'overview',
       title: 'Equipment Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}><Body className="font-display">Tag</Body><Body>{selectedEquipment.tag}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedEquipment.type || selectedEquipment.category}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Serial</Body><Body>{selectedEquipment.serial_number || selectedEquipment.metadata?.serial_number || '—'}</Body></Stack>

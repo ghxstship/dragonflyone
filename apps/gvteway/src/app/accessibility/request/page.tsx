@@ -137,7 +137,7 @@ function AccessibilityRequestContent() {
           </Alert>
         )}
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Card inverted className="p-6">
               <H2 className="mb-6 text-white">Request Services</H2>
@@ -145,7 +145,7 @@ function AccessibilityRequestContent() {
                 <Stack gap={6}>
                   <Stack gap={4}>
                     <H3 className="text-white">Select Services Needed</H3>
-                    <Grid cols={2} gap={3}>
+                    <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                       {SERVICE_TYPES.map(service => (
                         <Card
                           key={service.id}
@@ -181,7 +181,7 @@ function AccessibilityRequestContent() {
                     />
                   </Field>
 
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Field label="Contact Phone" inverted>
                       <PhoneInput
                         value={contactPhone}

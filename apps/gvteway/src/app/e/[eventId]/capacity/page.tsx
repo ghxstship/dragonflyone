@@ -136,7 +136,7 @@ export default function EventCapacityPage() {
       )}
 
       {/* Overview Stats */}
-      <Grid cols={4}>
+      <Grid cols={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card className="p-6">
           <Stack gap={2}>
             <div className="flex items-center gap-2 text-primary">
@@ -191,7 +191,7 @@ export default function EventCapacityPage() {
             Set the maximum number of attendees for this event. This cannot be less than tickets already sold.
           </Body>
 
-          <Grid cols={2}>
+          <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
             <Field label="Total Event Capacity">
               <Input
                 type="number"

@@ -74,7 +74,7 @@ export default function InvestorReportsPage() {
             </Stack>
 
             {/* Key Metrics */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Total Investors"
                 value={stats?.totalInvestors || 0}
@@ -99,7 +99,7 @@ export default function InvestorReportsPage() {
               />
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Round Progress */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -141,7 +141,7 @@ export default function InvestorReportsPage() {
                     <PieChart className="size-5 text-grey-500" />
                     <H3>Investor Status</H3>
                   </Stack>
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     {statusDistribution.map(item => (
                       <Card key={item.status} className="border-2 border-grey-200 p-4 text-center">
                         <Stack gap={2}>
@@ -162,7 +162,7 @@ export default function InvestorReportsPage() {
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
                   <H3>Investor Types</H3>
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     {typeDistribution.map(item => (
                       <Card key={item.type} className="border-2 border-grey-200 p-4 text-center">
                         <Stack gap={2}>
@@ -191,7 +191,7 @@ export default function InvestorReportsPage() {
                     </Body>
                     <Badge variant="success">{fundingRate}%</Badge>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-grey-500">Total Target</Body>
                       <Body className="font-weight-semibold">${(stats?.totalTarget || 0).toLocaleString()}</Body>
@@ -209,7 +209,7 @@ export default function InvestorReportsPage() {
             <Card className="border-2 border-grey-200 p-6">
               <Stack gap={4}>
                 <H3>Quick Actions</H3>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Button
                     onClick={() => router.push('/investors')}
                     className="flex items-center justify-center gap-2 border-2 border-grey-300 bg-white p-4"

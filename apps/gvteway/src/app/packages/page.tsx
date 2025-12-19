@@ -82,7 +82,7 @@ export default function PackagesPage() {
               </Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               value={(summary?.total_packages || 0).toString()}
               label="Available Packages"
@@ -108,7 +108,7 @@ export default function PackagesPage() {
           <Card inverted variant="elevated" className="p-6">
             <Stack gap={4}>
               <H2 className="text-white">Package Types</H2>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Card inverted interactive className="p-4">
                   <Stack gap={2}>
                     <Star className="size-8" />
@@ -178,7 +178,7 @@ export default function PackagesPage() {
               inverted
             />
           ) : (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {packages.map((pkg) => (
                 <Card key={pkg.id} inverted className="p-6">
                   <Stack gap={4}>
@@ -204,7 +204,7 @@ export default function PackagesPage() {
 
                     <Stack gap={2}>
                       <Kicker colorScheme="on-dark">Includes</Kicker>
-                      <Grid cols={2} gap={2}>
+                      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                         {pkg.includes.map((item, idx) => (
                           <Body key={idx} size="sm" className="text-on-dark-muted">
                             ✓ {item}

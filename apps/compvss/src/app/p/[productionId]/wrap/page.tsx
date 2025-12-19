@@ -86,13 +86,13 @@ export default function ProductionWrapReportPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Production" title="Wrap Report" description="Generate the production wrap report" colorScheme="on-dark" />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard label="Total Shows" value={metrics.totalShows.toString()} icon={<FileText size={20} />} inverted />
           <StatCard label="Crew Hours" value={metrics.crewHours.toLocaleString()} icon={<Users size={20} />} inverted />
           <StatCard label="Incidents" value={metrics.incidents.toString()} icon={<TrendingUp size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

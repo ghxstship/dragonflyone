@@ -194,7 +194,7 @@ export default function WorkforcePage() {
       id: 'overview',
       title: 'Employee Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {selectedEmployee.full_name}</Body>
           <Body size="sm"><strong>Email:</strong> {selectedEmployee.email}</Body>
           <Body size="sm"><strong>Phone:</strong> {selectedEmployee.phone || '—'}</Body>

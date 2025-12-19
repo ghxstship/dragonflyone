@@ -96,7 +96,7 @@ export default function WillCallPage() {
 
   const detailSections: DetailSection[] = selectedTicket ? [
     { id: 'overview', title: 'Ticket Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Order:</strong> {selectedTicket.orderNumber}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedTicket.status}</Body>
         <Body size="sm"><strong>Customer:</strong> {selectedTicket.customerName}</Body>

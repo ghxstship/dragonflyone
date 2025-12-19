@@ -17,7 +17,7 @@ export default function CrewLoading() {
             <Skeleton className="h-10 w-32" />
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <Skeleton key={i} className="h-48 rounded-card" />
             ))}

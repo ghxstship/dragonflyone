@@ -99,7 +99,7 @@ export default function AdvanceReviewQueuePage() {
 
   const detailSections: DetailSection[] = selectedAdvance ? [
     { id: 'overview', title: 'Advance Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selectedAdvance.activation_name || selectedAdvance.project?.name || 'Untitled'}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedAdvance.status}</Body>
         <Body size="sm"><strong>Organization:</strong> {selectedAdvance.organization?.name || '—'}</Body>

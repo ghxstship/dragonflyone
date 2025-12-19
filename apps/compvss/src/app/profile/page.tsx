@@ -104,7 +104,7 @@ export default function ProfilePage() {
 
         {saved && <Alert variant="success">Profile updated successfully</Alert>}
 
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           {/* Personal Information Card */}
           <Card className="col-span-2 p-6">
             <Stack gap={2} className="mb-6">
@@ -114,7 +114,7 @@ export default function ProfilePage() {
               </Stack>
             </Stack>
             <Stack gap={6}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={2}>
                   <Label size="xs" className="text-muted">First Name</Label>
                   {isEditing ? (
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                 )}
               </Stack>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={2}>
                   <Label size="xs" className="text-muted">Department</Label>
                   {isEditing ? (

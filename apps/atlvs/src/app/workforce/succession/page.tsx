@@ -72,7 +72,7 @@ export default function SuccessionPlanningPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Key Positions" value={DEMO_SUCCESSION_PLANS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="High Risk" value={highRiskCount} trend={highRiskCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Ready Now" value={readyNowCount} className="bg-transparent border-2 border-ink-800" />
@@ -110,7 +110,7 @@ export default function SuccessionPlanningPage() {
                   
                   <Stack gap={2}>
                     <Label className="text-ink-400">Successors ({plan.successors.length})</Label>
-                    <Grid cols={2} gap={3}>
+                    <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                       {plan.successors.map((successor) => (
                         <Card key={successor.id} className="p-3 border-2 border-ink-700 bg-ink-800">
                           <Stack gap={2}>

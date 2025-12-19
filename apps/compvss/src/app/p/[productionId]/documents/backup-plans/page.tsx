@@ -74,7 +74,7 @@ export default function BackupPlansPage() {
         <SectionHeader kicker={production?.name || 'Production'} title="Backup Plans" description="Contingency and emergency procedures" />
         <Button variant="solid" size="sm"><Plus size={16} className="mr-2" />New Plan</Button>
       </Stack>
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total Plans" value={stats.total.toString()} icon={<Shield size={20} />} />
         <StatCard label="Tested" value={stats.tested.toString()} icon={<CheckCircle size={20} />} />
         <StatCard label="Pending Test" value={stats.pending.toString()} icon={<AlertTriangle size={20} />} />

@@ -107,7 +107,7 @@ export default function VenuePage() {
             <Section>
               <H2 className="mb-6">UPCOMING EVENTS</H2>
               {events.length > 0 ? (
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   {events.map((event: { id: string; title: string; date: string; image?: string }) => (
                     <ProjectCard
                       key={event.id}

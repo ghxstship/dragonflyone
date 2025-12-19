@@ -25,7 +25,7 @@ export default function ShopPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Shop" description="Merchandise and concessions" colorScheme="on-dark" />
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3} className="items-center text-center">

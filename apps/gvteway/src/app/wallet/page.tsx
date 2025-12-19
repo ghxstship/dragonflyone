@@ -70,7 +70,7 @@ export default function WalletPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard
                 value="$0.00"
                 label="Balance"
@@ -110,7 +110,7 @@ export default function WalletPage() {
                 <Card inverted variant="elevated" className="p-6">
                   <Stack gap={4}>
                     <Input type="text" placeholder="Card Number" inverted />
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Input type="text" placeholder="MM/YY" inverted />
                       <Input type="text" placeholder="CVV" inverted />
                     </Grid>

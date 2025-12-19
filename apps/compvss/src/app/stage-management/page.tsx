@@ -52,7 +52,7 @@ export default function StageManagementPage() {
               <StatCard label="Tech Specs" value={stats.techSpecs.toString()} icon={<FileText size={20} />} />
             </div>
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push('/stage-management/stages')}>
                 <CardBody>
                   <Stack gap={3} className="items-center text-center">

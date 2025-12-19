@@ -113,8 +113,8 @@ export default function AccessibilityPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Accessibility className="size-8 text-brand-pink" />
@@ -133,8 +133,8 @@ export default function AccessibilityPage() {
       </FullBleedSection>
 
       {/* Content */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-3xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             {accessibilityData.sections.map((section) => (
               <Stack key={section.title} gap={4}>
@@ -149,8 +149,8 @@ export default function AccessibilityPage() {
       </FullBleedSection>
 
       {/* Contact */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <H1 className="text-white">ACCESSIBILITY SUPPORT</H1>
             <Body size="lg" className="text-on-dark-secondary">

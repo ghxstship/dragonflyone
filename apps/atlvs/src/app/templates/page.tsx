@@ -116,8 +116,8 @@ export default function TemplatesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <FileText className="size-8 text-brand-pink" />
@@ -137,7 +137,7 @@ export default function TemplatesPage() {
 
       {/* Categories */}
       <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
             {templatesData.categories.map((category) => (
               <Badge
@@ -153,13 +153,13 @@ export default function TemplatesPage() {
       </FullBleedSection>
 
       {/* Featured Templates */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12">
             <H1 className="text-ink-950">MOST POPULAR</H1>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {templatesData.featured.map((template) => (
               <Card key={template.slug} className="border-2 border-ink-950 bg-white shadow-brand-lg">
                 <Stack className="flex aspect-video items-center justify-center border-b-2 border-ink-950 bg-grey-100">
@@ -196,13 +196,13 @@ export default function TemplatesPage() {
       </FullBleedSection>
 
       {/* All Templates */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12">
             <H1 className="text-ink-950">ALL TEMPLATES</H1>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {templatesData.templates.map((template) => (
               <Card key={template.slug} className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
                 <Stack gap={4}>
@@ -239,8 +239,8 @@ export default function TemplatesPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               NEED A CUSTOM TEMPLATE?

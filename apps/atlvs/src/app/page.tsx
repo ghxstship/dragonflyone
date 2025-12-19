@@ -149,7 +149,7 @@ export default function Home() {
 
       {/* SECTION 2: FOUR VERTICALS - Features */}
       <FullBleedSection id="features" background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="text-center">
             <H1 className="text-ink-950">NATIVE TO YOUR WORLD.</H1>
             <Body className="text-grey-600">Four verticals. One platform. Infinite possibilities.</Body>
@@ -181,7 +181,7 @@ export default function Home() {
 
       {/* SECTION 3: THE PROBLEM */}
       <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-white">
             {atlvsProblemSection.headline}
           </H1>
@@ -206,7 +206,7 @@ export default function Home() {
 
       {/* SECTION 4: FOUR PILLARS - Solutions */}
       <FullBleedSection id="solutions" background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-ink-950">FOUR PILLARS. ONE PLATFORM.</H1>
           <Stack gap={8} className="mt-8 sm:mt-12 sm:gap-16">
             {atlvsPillarsSolution.map((pillar, index) => (
@@ -237,7 +237,7 @@ export default function Home() {
 
       {/* SECTION 5: FEATURE GRID */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-ink-950">THE TOOLKIT WITHOUT MISSING TOOLS</H1>
           <Grid cols={3} gap={4} className="mt-8 sm:mt-12 sm:gap-6">
             {atlvsFeatureGrid.map((feature) => (
@@ -290,9 +290,9 @@ export default function Home() {
 
       {/* SECTION 6: V3 EXPANSION - NEW VENUE & VENDOR FEATURES */}
       <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="text-center">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">NEW IN V3</Label>
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">New for 2026</Label>
             <H1 className="text-white">VENUE & VENDOR POWERHOUSE</H1>
             <Body className="mx-auto max-w-2xl text-grey-400">
               Two new modules that transform how you manage venues and vendors. From lead capture to payment collection, from RFP to delivery.
@@ -313,14 +313,14 @@ export default function Home() {
                   </Stack>
                 </Stack>
                 <Body className="text-grey-400">{atlvsV3Features.venueManagement.description}</Body>
-                <Grid cols={2} gap={3}>
+                <Stack gap={2}>
                   {atlvsV3Features.venueManagement.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
                     <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
                       <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-pink" />
                       <Text size="sm" className="text-grey-300">{feature.name}</Text>
                     </Stack>
                   ))}
-                </Grid>
+                </Stack>
               </Stack>
             </Article>
 
@@ -337,14 +337,14 @@ export default function Home() {
                   </Stack>
                 </Stack>
                 <Body className="text-grey-400">{atlvsV3Features.vendorServices.description}</Body>
-                <Grid cols={2} gap={3}>
+                <Stack gap={2}>
                   {atlvsV3Features.vendorServices.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
                     <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
                       <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-cyan" />
                       <Text size="sm" className="text-grey-300">{feature.name}</Text>
                     </Stack>
                   ))}
-                </Grid>
+                </Stack>
               </Stack>
             </Article>
           </Grid>
@@ -374,7 +374,7 @@ export default function Home() {
 
       {/* SECTION 7: COMPVSS */}
       <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Box className="border-2 border-ink-950 bg-ink-950 p-4 sm:p-8 lg:p-12">
             <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
             <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
@@ -421,7 +421,7 @@ export default function Home() {
 
       {/* SECTION 7: SOCIAL PROOF - About */}
       <FullBleedSection id="about" background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <H1 className="text-center text-ink-950">{atlvsSocialProof.headline}</H1>
           <Article className="border-2 mx-auto mt-8 max-w-4xl border-ink-950 bg-white p-4 shadow-brand-lg sm:mt-12 sm:p-8 lg:p-12">
             <Body className="text-center text-body-md text-grey-700 italic sm:text-body-lg">&ldquo;{atlvsSocialProof.testimonial.quote}&rdquo;</Body>
@@ -442,7 +442,7 @@ export default function Home() {
 
       {/* SECTION 8: PRICING */}
       <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-8 text-center sm:mb-16">
             <H1 className="text-ink-950">{atlvsPricing.headline}</H1>
             <Body className="text-grey-600">{atlvsPricing.subheadline}</Body>
@@ -499,7 +499,7 @@ export default function Home() {
 
       {/* SECTION 9: FINAL CTA */}
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-4 sm:px-6 lg:px-8">
           <Display className="font-display text-display-sm uppercase text-white sm:text-display-md md:text-display-lg">{atlvsLandingCta.headline}</Display>
           <Body className="mx-auto mt-4 max-w-xl text-body-md text-grey-400 sm:mt-6 sm:text-body-lg">{atlvsLandingCta.subheadline}</Body>
           <Stack direction="horizontal" gap={3} className="mt-6 flex-wrap justify-center sm:mt-8 sm:gap-4">

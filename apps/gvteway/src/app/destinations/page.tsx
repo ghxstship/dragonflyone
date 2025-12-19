@@ -65,7 +65,7 @@ export default function DestinationsPage() {
               </Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               value={(summary?.total_destinations || 0).toString()}
               label="Destinations"
@@ -91,7 +91,7 @@ export default function DestinationsPage() {
           <Card inverted variant="elevated" className="p-6">
             <Stack gap={4}>
               <H2 className="text-white">Trending Destinations</H2>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Card inverted interactive className="cursor-pointer p-4">
                   <Stack gap={2}>
                     <Guitar className="size-8" />
@@ -155,7 +155,7 @@ export default function DestinationsPage() {
               inverted
             />
           ) : (
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {destinations.map((dest) => (
                 <Card 
                   key={dest.id} 

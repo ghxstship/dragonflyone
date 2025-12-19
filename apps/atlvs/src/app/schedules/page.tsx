@@ -176,7 +176,7 @@ export default function SchedulesPage() {
       id: 'overview',
       title: 'Schedule Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {selectedSchedule.name}</Body>
           <Body size="sm"><strong>Type:</strong> <Badge variant={typeColors[selectedSchedule.schedule_type]}>{selectedSchedule.schedule_type.replace('_', ' ').toUpperCase()}</Badge></Body>
           <Body size="sm"><strong>Status:</strong> <Badge variant={statusColors[selectedSchedule.status]}>{selectedSchedule.status.replace('_', ' ').toUpperCase()}</Badge></Body>

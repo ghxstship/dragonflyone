@@ -104,7 +104,7 @@ export default function AccountOrdersPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={8}>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={2}>

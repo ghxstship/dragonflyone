@@ -81,7 +81,7 @@ export default function BuildStrikePage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard
                 value={tasks.filter(t => t.status === 'complete').length.toString()}
                 label="Complete"

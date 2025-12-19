@@ -126,7 +126,7 @@ export default function SignUpPage() {
               <form onSubmit={handleSignUp}>
                 <Stack gap={6}>
                   {/* Name Fields - Grid */}
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Field label="First Name">
                       <Input
                         type="text"

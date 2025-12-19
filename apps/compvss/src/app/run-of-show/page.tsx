@@ -66,7 +66,7 @@ export default function RunOfShowPage() {
             <Stack gap={4}>
               {displayCues.map(cue => (
                 <Card key={cue.id}>
-                  <Grid cols={6} gap={4}>
+                  <Grid cols={6} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                     <Stack gap={0}>
                       <Body className="font-display">{cue.time}</Body>
                     </Stack>

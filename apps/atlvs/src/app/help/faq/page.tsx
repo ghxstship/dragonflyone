@@ -187,8 +187,8 @@ export default function FaqPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-20 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <HelpCircle className="size-10 text-brand-pink" />
@@ -221,9 +221,9 @@ export default function FaqPage() {
       </FullBleedSection>
 
       {/* FAQ Content */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={8}>
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={8} className="sm:grid-cols-2 lg:grid-cols-4">
             {/* Category Sidebar */}
             <Stack gap={4} className="col-span-1">
               <H3 className="text-ink-950">CATEGORIES</H3>
@@ -312,8 +312,8 @@ export default function FaqPage() {
       </FullBleedSection>
 
       {/* Still Need Help */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <H2 className="text-white">STILL HAVE QUESTIONS?</H2>
             <Body size="lg" className="text-on-dark-secondary">

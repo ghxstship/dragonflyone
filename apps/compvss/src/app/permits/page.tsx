@@ -140,7 +140,7 @@ export default function PermitsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.total_permits || 0).toString()}
                 label="Total Permits"
@@ -162,7 +162,7 @@ export default function PermitsPage() {
             <Card>
               <Stack gap={4}>
                 <H2>Permit Types</H2>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Card>
                     <Stack gap={2}>
                       <Body size="sm" className="">Special Events</Body>

@@ -132,7 +132,7 @@ function DirectionsContent() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Parking Lots"
             value={parkingLots.length.toString()}
@@ -155,7 +155,7 @@ function DirectionsContent() {
           />
         </Grid>
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={6}>
             <H2 className="text-white">Parking Options</H2>
             {parkingLots.length > 0 ? (

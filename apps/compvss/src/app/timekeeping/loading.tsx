@@ -12,7 +12,7 @@ export default function TimekeepingLoading() {
             <Skeleton className="h-5 w-80" />
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-28 rounded-card" />
             ))}

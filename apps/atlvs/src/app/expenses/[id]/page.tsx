@@ -154,7 +154,7 @@ export default function ExpenseDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Amount"
                 value={`${expense.currency || '$'}${expense.amount?.toLocaleString()}`}
@@ -177,7 +177,7 @@ export default function ExpenseDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -185,7 +185,7 @@ export default function ExpenseDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Expense Details</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Description</Body>
                           <Body>{expense.description}</Body>

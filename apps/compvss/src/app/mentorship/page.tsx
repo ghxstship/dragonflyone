@@ -111,7 +111,7 @@ export default function MentorshipPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={mentors.length.toString()} label="Active Mentors" />
               <StatCard value={availableMentors.toString()} label="Available" />
               <StatCard value={totalMentees.toString()} label="Active Mentees" />
@@ -126,7 +126,7 @@ export default function MentorshipPage() {
               </TabsList>
 
               <TabPanel active={isActive('mentors')}>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {mentors.map((mentor) => (
                     <Card key={mentor.id} className="p-6">
                       <Stack gap={4}>
@@ -137,7 +137,7 @@ export default function MentorshipPage() {
                           </Stack>
                           <Badge variant={mentor.availability === "Available" ? "solid" : "outline"}>{mentor.availability}</Badge>
                         </Stack>
-                        <Grid cols={3} gap={4}>
+                        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                           <Stack gap={1}>
                             <Body size="sm" className="">Experience</Body>
                             <Body>{mentor.yearsExperience} years</Body>
@@ -195,7 +195,7 @@ export default function MentorshipPage() {
               </TabPanel>
 
               <TabPanel active={isActive('resources')}>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   {[
                     { title: "Getting Started Guide", desc: "New to the industry? Start here", icon: "book" },
                     { title: "Career Pathways", desc: "Explore different career tracks", icon: "route" },
@@ -233,7 +233,7 @@ export default function MentorshipPage() {
             <Stack gap={4}>
               <Body className="text-h6-md font-display">{selectedMentor.name}</Body>
               <Body size="sm" className="">{selectedMentor.role} • {selectedMentor.department}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Experience</Body>
                   <Body>{selectedMentor.yearsExperience} years</Body>
@@ -294,7 +294,7 @@ export default function MentorshipPage() {
           {selectedProgram && (
             <Stack gap={4}>
               <Body>{selectedProgram.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className=" text-ink-500">Duration</Body>
                   <Body className="font-display">{selectedProgram.duration}</Body>

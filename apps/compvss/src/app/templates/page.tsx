@@ -100,14 +100,14 @@ export default function TemplatesPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Templates" value={templates.length.toString()} />
               <StatCard label="Categories" value={categories.length.toString()} />
               <StatCard label="Total Downloads" value={totalDownloads.toLocaleString()} />
               <StatCard label="Last Updated" value="Today" />
             </Grid>
 
-            <Grid cols={6} gap={2}>
+            <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
               {categories.map((cat) => {
                 const count = templates.filter(t => t.category === cat).length;
                 return (
@@ -121,12 +121,12 @@ export default function TemplatesPage() {
               })}
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Input type="search" placeholder="Search templates..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
               <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Template</Button>
             </Grid>
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredTemplates.map((template) => (
                 <Card key={template.id}>
                   <Stack gap={3}>
@@ -141,7 +141,7 @@ export default function TemplatesPage() {
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       {template.tags.slice(0, 3).map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}
                     </Stack>
-                    <Grid cols={3} gap={2}>
+                    <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
                       <Stack gap={0}>
                         <Body size="sm" className="">Version</Body>
                         <Body>v{template.version}</Body>
@@ -164,7 +164,7 @@ export default function TemplatesPage() {
               ))}
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Request Template</Button>
               <Button variant="outline">Version History</Button>
               <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
@@ -185,11 +185,11 @@ export default function TemplatesPage() {
                 <Badge variant="outline">v{selectedTemplate.version}</Badge>
               </Stack>
               <Body>{selectedTemplate.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Last Updated</Body><Body>{selectedTemplate.lastUpdated}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Updated By</Body><Body>{selectedTemplate.updatedBy}</Body></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Downloads</Body><Body>{selectedTemplate.downloads}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">File Size</Body><Body>{selectedTemplate.size}</Body></Stack>
               </Grid>

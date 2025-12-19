@@ -145,7 +145,7 @@ function EmailMarketingPageContent() {
           <Body className="text-on-dark-muted">Create and manage email marketing campaigns</Body>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Sent" value={totalSent.toLocaleString()} inverted />
           <StatCard label="Open Rate" value={`${openRate}%`} inverted />
           <StatCard label="Click Rate" value={`${clickRate}%`} inverted />
@@ -285,7 +285,7 @@ function EmailMarketingPageContent() {
           </TabPanel>
 
           <TabPanel active={isActive('templates')}>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { name: 'Event Announcement', description: 'Announce new events to your subscribers', category: 'Promotion' },
                 { name: 'Early Bird Sale', description: 'Drive early ticket sales with exclusive offers', category: 'Sales' },
@@ -313,11 +313,11 @@ function EmailMarketingPageContent() {
           </TabPanel>
 
           <TabPanel active={isActive('analytics')}>
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Performance Overview</H3>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={2} className="p-4 border-2 border-ink-700 rounded-card">
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Send className="w-4 h-4 text-on-dark-muted" />
@@ -411,7 +411,7 @@ function EmailMarketingPageContent() {
                 onChange={(e) => setFormData({ ...formData, preview_text: e.target.value })}
               />
             </Stack>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>From Name</Label>
                 <Input
@@ -430,7 +430,7 @@ function EmailMarketingPageContent() {
                 />
               </Stack>
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Campaign Type</Label>
                 <Select
@@ -485,7 +485,7 @@ function EmailMarketingPageContent() {
                 <Body className="font-display text-h4-md">{selectedCampaign.name}</Body>
                 <Label className="text-ink-500">{selectedCampaign.subject}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Status</Label>
                   {getStatusBadge(selectedCampaign.status)}
@@ -495,7 +495,7 @@ function EmailMarketingPageContent() {
                   <Badge variant="outline">{selectedCampaign.campaign_type}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Sent</Label>
                   <Label className="font-mono">{(selectedCampaign.stats?.sent || 0).toLocaleString()}</Label>

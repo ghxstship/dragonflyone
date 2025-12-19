@@ -178,7 +178,7 @@ export default function OrdersPage() {
       id: 'overview',
       title: 'Order Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Order #:</strong> {selectedOrder.order_number}</Body>
           <Body size="sm"><strong>Status:</strong> <Badge variant={statusColors[selectedOrder.status]}>{selectedOrder.status.toUpperCase()}</Badge></Body>
           <Body size="sm"><strong>Customer:</strong> {selectedOrder.billing_name || '—'}</Body>

@@ -35,7 +35,7 @@ export function TaskBoard({ tasks, onUpdateTask }: TaskBoardProps) {
   };
 
   return (
-    <Grid cols={3} gap={6}>
+    <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
       {Object.entries(columns).map(([status, columnTasks]) => (
         <Card key={status}>
           <CardHeader className="bg-black">

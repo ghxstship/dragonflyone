@@ -153,7 +153,7 @@ function LandingBuilderPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('design')}>
-              <Grid cols={2} gap={8}>
+              <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={6}>
                     <H3>Template</H3>
@@ -182,7 +182,7 @@ function LandingBuilderPageContent() {
                   <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
                       <H3>Colors</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={2}>
                           <Label>Primary Color</Label>
                           <Stack direction="horizontal" gap={2}>
@@ -385,7 +385,7 @@ function LandingBuilderPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('advanced')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={4}>
                     <H3>Custom CSS</H3>
@@ -435,7 +435,7 @@ function LandingBuilderPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>
               Back to Event
             </Button>

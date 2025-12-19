@@ -79,8 +79,8 @@ export default function StatusPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Activity className="size-8 text-brand-pink" />
@@ -99,8 +99,8 @@ export default function StatusPage() {
       </FullBleedSection>
 
       {/* Overall Status */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg">
             <Stack direction="horizontal" className="items-center justify-between">
               <Stack direction="horizontal" gap={4} className="items-center">
@@ -123,8 +123,8 @@ export default function StatusPage() {
 
       {/* Metrics */}
       <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={6}>
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {statusData.metrics.map((metric) => (
               <Card key={metric.label} className="border-2 border-ink-950 bg-white p-6 text-center shadow-md">
                 <Stack gap={2}>
@@ -138,8 +138,8 @@ export default function StatusPage() {
       </FullBleedSection>
 
       {/* Services */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12">
             <H1 className="text-ink-950">SERVICE STATUS</H1>
           </Stack>
@@ -177,8 +177,8 @@ export default function StatusPage() {
       </FullBleedSection>
 
       {/* Recent Incidents */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12">
             <H1 className="text-white">RECENT INCIDENTS</H1>
             <Body size="lg" className="text-on-dark-secondary">
@@ -208,8 +208,8 @@ export default function StatusPage() {
       </FullBleedSection>
 
       {/* Subscribe */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               GET STATUS UPDATES

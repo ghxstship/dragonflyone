@@ -78,7 +78,7 @@ export default function PhotoDocumentationPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={photoSets.length.toString()} label="Photo Sets" />
               <StatCard value={totalPhotos.toString()} label="Total Photos" />
               <StatCard value={pendingApproval.toString()} label="Pending Approval" />
@@ -88,7 +88,7 @@ export default function PhotoDocumentationPage() {
             <Card className="p-4">
               <Stack gap={3}>
                 <Body className="font-display">Production Phases</Body>
-                <Grid cols={6} gap={2}>
+                <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                   {phases.map((phase) => {
                     const count = photoSets.filter(s => s.phase === phase).length;
                     return (
@@ -114,7 +114,7 @@ export default function PhotoDocumentationPage() {
               <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Photos</Button>
             </Stack>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {filteredSets
                 .filter(s => activeTab === "all" || !s.approved)
                 .map((set) => (
@@ -147,7 +147,7 @@ export default function PhotoDocumentationPage() {
                 ))}
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Export All</Button>
               <Button variant="outline">Generate Report</Button>
               <Button variant="outline" onClick={() => router.push("/build-strike")}>Back to Build/Strike</Button>
@@ -169,7 +169,7 @@ export default function PhotoDocumentationPage() {
                 {!selectedSet.approved && <Badge variant="solid">Pending Approval</Badge>}
               </Stack>
               {selectedSet.description && <Body>{selectedSet.description}</Body>}
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Photos</Body>
                   <Body>{selectedSet.photoCount}</Body>
@@ -188,7 +188,7 @@ export default function PhotoDocumentationPage() {
                 <Stack direction="horizontal" gap={2}>{selectedSet.tags.map(tag => <Badge key={tag} variant="outline">{tag}</Badge>)}</Stack>
               </Stack>
               <Card className="p-4">
-                <Grid cols={4} gap={2}>
+                <Grid cols={4} gap={2} className="sm:grid-cols-2 lg:grid-cols-4">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                     <Card key={i} className="flex aspect-square items-center justify-center">
                       <Camera className="size-6" />

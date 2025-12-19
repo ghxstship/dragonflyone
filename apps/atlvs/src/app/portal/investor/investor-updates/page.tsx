@@ -133,7 +133,7 @@ export default function InvestorUpdatesPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Updates" value={updates.length.toString()} icon={<FileText size={20} />} inverted />
           <StatCard label="Unread" value={unreadCount.toString()} icon={<Bell size={20} />} inverted />
           <StatCard label="Quarterly Reports" value={quarterlyCount.toString()} icon={<TrendingUp size={20} />} inverted />

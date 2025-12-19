@@ -228,7 +228,7 @@ export default function CredentialsPage() {
       id: 'holder',
       title: 'Credential Holder',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body className="text-grey-500">Name</Body>
             <Body>{selectedCredential.contact ? `${selectedCredential.contact.first_name} ${selectedCredential.contact.last_name}` : '—'}</Body>
@@ -252,7 +252,7 @@ export default function CredentialsPage() {
       id: 'access',
       title: 'Access Information',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body className="text-grey-500">Credential Type</Body>
             <Body>{selectedCredential.credential_type?.name || '—'}</Body>

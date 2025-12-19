@@ -21,7 +21,7 @@ export default function DirectionsPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Directions" description="Get directions to the venue" colorScheme="on-dark" />
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3} className="items-center text-center">

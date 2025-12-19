@@ -198,7 +198,7 @@ export default function DeliveriesPage() {
       id: 'overview',
       title: 'Delivery Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}><Body className="font-display">Vendor</Body><Body>{selectedDelivery.vendor}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedDelivery.status}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Date</Body><Body>{selectedDelivery.scheduledDate}</Body></Stack>

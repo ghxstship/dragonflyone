@@ -166,8 +166,8 @@ export default function CommunityPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-20 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <MessageCircle className="size-10 text-brand-pink" />
@@ -181,7 +181,7 @@ export default function CommunityPage() {
             </Body>
 
             {/* Stats */}
-            <Grid cols={4} gap={4} className="mt-4 w-full max-w-3xl">
+            <Grid cols={4} gap={4} className="mt-4 w-full max-w-3xl sm:grid-cols-2 lg:grid-cols-4">
               {communityStats.map((stat) => (
                 <Card key={stat.label} inverted className="border-2 border-ink-700 bg-ink-800 p-4 text-center">
                   <Stack gap={2} className="items-center">
@@ -203,15 +203,15 @@ export default function CommunityPage() {
       </FullBleedSection>
 
       {/* Forum Categories */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4}>
               <H2 className="text-ink-950">DISCUSSION FORUMS</H2>
               <Body className="text-grey-600">Browse topics or start a new discussion</Body>
             </Stack>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {forumCategories.map((category) => (
                 <Card 
                   key={category.id} 
@@ -240,11 +240,11 @@ export default function CommunityPage() {
       </FullBleedSection>
 
       {/* Recent Discussions & Sidebar */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={8}>
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
+          <Grid cols={3} gap={6} className="sm:gap-8 lg:grid-cols-3">
             {/* Recent Discussions */}
-            <Stack gap={6} className="col-span-2">
+            <Stack gap={6} className="col-span-full lg:col-span-2">
               <Stack direction="horizontal" className="items-center justify-between">
                 <H2 className="text-ink-950">RECENT DISCUSSIONS</H2>
                 <Button variant="outline" size="sm">View All</Button>
@@ -360,8 +360,8 @@ export default function CommunityPage() {
       </FullBleedSection>
 
       {/* Join CTA */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <H2 className="text-white">JOIN THE CONVERSATION</H2>
             <Body size="lg" className="text-on-dark-secondary">

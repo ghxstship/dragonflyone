@@ -90,7 +90,7 @@ export default function PriceAlertsPage() {
           </Alert>
         )}
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Card inverted>
                 <Label className="text-on-dark-muted">Total Alerts</Label>
                 <H2 className="text-white">{alerts.length}</H2>
@@ -265,7 +265,7 @@ export default function PriceAlertsPage() {
 
         <Card inverted variant="elevated" className="p-6">
           <H3 className="mb-4 text-white">How Price Alerts Work</H3>
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             <Stack gap={2}>
               <Stack className="flex size-10 items-center justify-center rounded-avatar bg-white text-black">
                 <Body className="font-display">1</Body>

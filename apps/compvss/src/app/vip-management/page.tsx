@@ -118,7 +118,7 @@ export default function VIPManagementPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Checked In" value={vipGuests.filter(g => g.status === "Checked In").length.toString()} />
               <StatCard label="Pending" value={vipGuests.filter(g => g.status === "Pending").length.toString()} />
               <StatCard label="Total Guests" value={vipGuests.length.toString()} />
@@ -170,7 +170,7 @@ export default function VIPManagementPage() {
               </TabPanel>
 
               <TabPanel active={isActive('zones')}>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   {accessZones.map((zone) => (
                     <Card key={zone.id}>
                       <Stack gap={4}>
@@ -188,7 +188,7 @@ export default function VIPManagementPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Guest</Button>
               <Button variant="outline">Print Credentials</Button>
               <Button variant="outline" onClick={() => router.push("/stage-management")}>Stage Management</Button>

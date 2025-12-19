@@ -103,7 +103,7 @@ export default function ProductionClosePage() {
         colorScheme="on-dark"
       />
 
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Checklist Progress"
           value={`${completedCount}/${totalCount}`}
@@ -130,7 +130,7 @@ export default function ProductionClosePage() {
         />
       </Grid>
 
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         {Object.entries(groupedChecklist).map(([category, items]) => {
           const Icon = categoryIcons[category as keyof typeof categoryIcons];
           const categoryCompleted = items.filter(i => i.completed).length;

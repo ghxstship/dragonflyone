@@ -97,7 +97,7 @@ export default function GlossaryPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={glossaryTerms.length.toString()} label="Total Terms" />
               <StatCard value={categories.length.toString()} label="Categories" />
               <StatCard value={glossaryTerms.filter(t => t.aliases?.length).length.toString()} label="With Aliases" />
@@ -105,7 +105,7 @@ export default function GlossaryPage() {
             </Grid>
 
             {/* Search and Filter */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Input type="search" placeholder="Search terms..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-3" />
               <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
                 <option value="All">All Categories</option>
@@ -129,7 +129,7 @@ export default function GlossaryPage() {
             </Card>
 
             {/* Terms Grid */}
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredTerms.map((term) => (
                 <Card key={term.id} className="cursor-pointer p-4" onClick={() => setSelectedTerm(term)}>
                   <Stack gap={3}>
@@ -157,7 +157,7 @@ export default function GlossaryPage() {
             )}
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Suggest Term</Button>
               <Button variant="outline">Export PDF</Button>
               <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>

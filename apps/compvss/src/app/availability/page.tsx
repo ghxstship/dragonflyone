@@ -124,7 +124,7 @@ export default function AvailabilityPage() {
 
   const detailSections: DetailSection[] = selectedSlot ? [
     { id: 'details', title: 'Availability Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedSlot.user_name}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Role</Body><Body>{selectedSlot.role}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Department</Body><Body>{selectedSlot.department}</Body></Stack>

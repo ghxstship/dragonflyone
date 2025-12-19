@@ -142,8 +142,8 @@ export default function FeaturesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               FEATURES
@@ -171,8 +171,8 @@ export default function FeaturesPage() {
       </FullBleedSection>
 
       {/* Highlights */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={8} className="sm:grid-cols-1">
             {featuresData.highlights.map((item) => (
               <Stack key={item.title} direction="horizontal" gap={4} className="items-center">
@@ -190,8 +190,8 @@ export default function FeaturesPage() {
       </FullBleedSection>
 
       {/* Feature Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={8} className="sm:grid-cols-1">
             {featuresData.categories.map((category) => (
               <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
@@ -222,8 +222,8 @@ export default function FeaturesPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO TRANSFORM YOUR PRODUCTIONS?

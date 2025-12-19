@@ -135,7 +135,7 @@ export default function NearbyEventsPage() {
         )}
 
         <Card inverted className="p-6">
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             <Stack className="col-span-2">
               <Form onSubmit={handleManualSearch}>
                 <Field label="Location" inverted>
@@ -199,7 +199,7 @@ export default function NearbyEventsPage() {
               {events.length} events found within {radius} miles
             </Body>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {events.map(event => (
                 <Card key={event.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">

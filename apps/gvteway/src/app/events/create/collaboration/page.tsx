@@ -66,7 +66,7 @@ function EventCollaborationPageContent() {
               <Body className="text-on-dark-muted">Manage team permissions and collaboration</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Team Members" value={mockCollaborators.length} className="border-2 border-black" />
             <StatCard label="Active" value={activeCount} className="border-2 border-black" />
             <StatCard label="Pending Invites" value={pendingCount} className="border-2 border-black" />
@@ -85,7 +85,7 @@ function EventCollaborationPageContent() {
           </Stack>
 
           <TabPanel active={isActive('team')}>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {mockCollaborators.map((collaborator) => (
                 <Card key={collaborator.id} className="border-2 border-black p-6">
                   <Stack gap={4}>
@@ -148,7 +148,7 @@ function EventCollaborationPageContent() {
             <Card className="border-2 border-black p-6">
               <Stack gap={4}>
                 <H3>Permission Levels</H3>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {[
                     { role: "Promoter", perms: ["Full event management", "Ticket pricing", "Analytics access"] },
                     { role: "Venue", perms: ["Venue info editing", "Capacity management", "Event viewing"] },

@@ -121,7 +121,7 @@ export default function VenuesPage() {
                     interactive
                     onClick={() => router.push(`/venues/${venue.id}`)}
                   >
-                    <Grid cols={4} gap={6}>
+                    <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
                       <Stack gap={2}>
                         <H3 className="text-white">{venue.name}</H3>
                         <Stack direction="horizontal" gap={2} className="items-center">

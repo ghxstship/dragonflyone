@@ -119,7 +119,7 @@ export default function StakeholderPortalPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Stakeholders" value={stakeholders.length.toString()} />
               <StatCard label="Active" value={activeStakeholders.toString()} />
               <StatCard label="Updates Today" value={updates.filter(u => u.timestamp.includes(new Date().toISOString().split('T')[0])).length.toString()} />
@@ -167,7 +167,7 @@ export default function StakeholderPortalPage() {
             </TabPanel>
 
             <TabPanel active={isActive('stakeholders')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {stakeholders.map((stakeholder) => (
                   <Card key={stakeholder.id}>
                     <Stack gap={4}>
@@ -181,7 +181,7 @@ export default function StakeholderPortalPage() {
                           <Badge variant={stakeholder.status === "Active" ? "solid" : "outline"}>{stakeholder.status}</Badge>
                         </Stack>
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}><Body size="sm" className="">Access Level</Body><Body>{stakeholder.accessLevel}</Body></Stack>
                         <Stack gap={1}><Body size="sm" className="">Last Login</Body><Body>{stakeholder.lastLogin || "Never"}</Body></Stack>
                       </Grid>
@@ -215,7 +215,7 @@ export default function StakeholderPortalPage() {
               </Stack>
             </TabPanel>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
               <Button variant="outline" onClick={() => router.push("/communications")}>Communications</Button>
               <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
@@ -264,7 +264,7 @@ export default function StakeholderPortalPage() {
             <Input placeholder="Name" />
             <Input type="email" placeholder="Email" />
             <Input placeholder="Organization" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Role...</option>
                 <option value="Client">Client</option>

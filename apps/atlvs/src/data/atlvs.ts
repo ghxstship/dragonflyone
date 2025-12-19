@@ -1255,13 +1255,13 @@ export const atlvsFeatureGrid = [
   },
   {
     icon: "Building2",
-    title: "VENUE MANAGEMENT",
+    title: "SITE MANAGEMENT",
     description:
       "Capacity, layouts, rigging points, power specs — every venue detail in one place. Site surveys, CADs, and contact sheets ready when you need them.",
   },
   {
     icon: "Truck",
-    title: "VENDOR & PROCUREMENT",
+    title: "PROCUREMENT",
     description:
       "RFPs, bids, POs, and vendor scorecards. Compare quotes, track deliveries, and never chase a vendor for an invoice again.",
   },
@@ -1294,7 +1294,7 @@ export const atlvsFeatureGrid = [
   },
   {
     icon: "FileText",
-    title: "DOCUMENT HUB",
+    title: "DOCUMENT LIBRARY",
     description:
       "Contracts, riders, tech specs, CADs — organized, versioned, and actually findable. Share with vendors without the email chaos.",
   },
@@ -1345,7 +1345,7 @@ export const atlvsFeatureGrid = [
   },
   {
     icon: "IdCard",
-    title: "CREDENTIALS & ACCESS",
+    title: "CREDENTIALS & ACCESS CONTROL",
     description:
       "Badges, wristbands, zone access, guest lists. Know who's where and who's allowed. Security without the clipboard chaos.",
   },
@@ -1380,16 +1380,16 @@ export const atlvsFeatureGrid = [
       "Build custom workflows for any process. Approvals, handoffs, escalations — design the way your team actually works, not how software thinks you should.",
   },
   {
-    icon: "Zap",
-    title: "AUTOMATIONS",
+    icon: "Lock",
+    title: "ROLES & PERMISSIONS",
     description:
-      "Auto-reminders, status updates, approval routing, notifications. Set it and forget it. Let the robots handle the boring stuff.",
+      "Granular access control for every team, vendor, and client. See what you need, nothing you don't. Enterprise-grade security without the enterprise headache.",
   },
   {
-    icon: "Sparkles",
-    title: "AI & INTELLIGENCE",
+    icon: "Globe",
+    title: "WHITE LABEL PORTALS",
     description:
-      "Smart scheduling, budget forecasting, anomaly detection, predictive insights. AI that actually understands production — not just buzzwords.",
+      "Client portals, vendor dashboards, branded experiences. Your platform, your brand. Give stakeholders exactly what they need — nothing more.",
   },
   {
     icon: "Puzzle",
@@ -1398,16 +1398,16 @@ export const atlvsFeatureGrid = [
       "Plays nice with Zapier, Make, n8n, QuickBooks, and whatever else you're already using. Your stack, your rules.",
   },
   {
-    icon: "Lock",
-    title: "PERMISSIONS & ROLES",
+    icon: "Zap",
+    title: "AUTOMATIONS",
     description:
-      "Granular access control for every team, vendor, and client. See what you need, nothing you don't. Enterprise-grade security without the enterprise headache.",
+      "Auto-reminders, status updates, approval routing, notifications. Set it and forget it. Let the robots handle the boring stuff.",
   },
   {
-    icon: "Globe",
-    title: "WHITE-LABEL & PORTALS",
+    icon: "Sparkles",
+    title: "AI AGENTS",
     description:
-      "Client portals, vendor dashboards, branded experiences. Your platform, your brand. Give stakeholders exactly what they need — nothing more.",
+      "Smart scheduling, budget forecasting, anomaly detection, predictive insights. AI that actually understands production — not just buzzwords.",
   },
 ];
 
@@ -2518,7 +2518,7 @@ export const atlvsV3Features = {
     ],
   },
   vendorServices: {
-    title: "Vendor Services",
+    title: "Vendor Management",
     description: "Comprehensive vendor and supplier management",
     features: [
       {
@@ -2655,26 +2655,26 @@ export const atlvsV3Features = {
     features: [
       {
         id: "DF-001",
-        name: "Immersive Experience Design Studio",
-        description: "5 Senses Framework planning with emotional journey mapping and experience scoring",
+        name: "AI-Powered Experience Generator",
+        description: "Design immersive experiences with AI assistance and one-click export directly into ATLVS production workflows",
         priority: "high",
       },
       {
         id: "DF-002",
-        name: "XYZ Spatial-Temporal Experience Engine",
-        description: "3D venue modeling with guest flow simulation and optimal layout generation",
-        priority: "medium",
+        name: "Environmental Storylining Engine",
+        description: "Consumer journey mapping using our proprietary XYZ spatial-temporal framework combined with 5 Senses methodology",
+        priority: "high",
       },
       {
         id: "DF-003",
-        name: "Pre-Event Engagement & Gamification",
-        description: "Countdown content, challenges, badges, and AR venue previews",
+        name: "Integrated Global Asset Catalog",
+        description: "Comprehensive catalog with related names, regional specifications, and common modifications across 20+ asset categories",
         priority: "high",
       },
       {
         id: "DF-004",
-        name: "Global Asset Category Intelligence",
-        description: "Industry benchmarking with cost optimization AI and vendor recommendations",
+        name: "Universal Organization Classification System",
+        description: "Standardized organization of departments, teams, positions, assets, and GL codes/accounts for seamless cross-platform operations",
         priority: "high",
       },
     ],

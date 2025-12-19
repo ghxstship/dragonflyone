@@ -111,8 +111,8 @@ export default function ReleasesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-20 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <FileText className="size-10 text-brand-pink" />
@@ -136,8 +136,8 @@ export default function ReleasesPage() {
       </FullBleedSection>
 
       {/* Latest Release */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4}>
               <Badge variant="success" size="lg">Latest Release</Badge>
@@ -165,7 +165,7 @@ export default function ReleasesPage() {
               </Stack>
             </Card>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* New Features */}
               {releases[0].features.length > 0 && (
                 <Card className="border-2 border-ink-950 p-6">
@@ -221,8 +221,8 @@ export default function ReleasesPage() {
       </FullBleedSection>
 
       {/* Previous Releases */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <H2 className="text-ink-950">PREVIOUS RELEASES</H2>
             
@@ -271,8 +271,8 @@ export default function ReleasesPage() {
       </FullBleedSection>
 
       {/* Upcoming Features */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4} className="text-center">
               <H2 className="text-white">COMING SOON</H2>
@@ -281,7 +281,7 @@ export default function ReleasesPage() {
               </Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               {upcomingFeatures.map((feature) => (
                 <Card 
                   key={feature.title} 
@@ -302,8 +302,8 @@ export default function ReleasesPage() {
       </FullBleedSection>
 
       {/* Feedback CTA */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <H2 className="text-ink-950">HAVE A FEATURE REQUEST?</H2>
             <Body size="lg" className="text-grey-600">

@@ -176,14 +176,14 @@ export default function ChannelsPage() {
             </Alert>
           )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Channels" value={channels.filter(c => c.is_active).length.toString()} />
               <StatCard label="Unread Messages" value={totalUnread.toString()} />
               <StatCard label="Online Members" value={onlineMembers.toString()} />
               <StatCard label="Total Members" value={allMembers.length.toString()} />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Channel List */}
               <Card>
                 <Stack gap={4}>
@@ -288,7 +288,7 @@ export default function ChannelsPage() {
               </Card>
             </Grid>
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
               <Button variant="outline" onClick={() => router.push('/communications')}>Radio Channels</Button>
               <Button variant="outline" onClick={() => router.push('/crew')}>Crew Directory</Button>

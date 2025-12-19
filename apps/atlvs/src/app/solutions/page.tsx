@@ -68,8 +68,8 @@ export default function SolutionsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               SOLUTIONS
@@ -85,8 +85,8 @@ export default function SolutionsPage() {
       </FullBleedSection>
 
       {/* Solutions by Role */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={16}>
             {solutionsNavigation.groups.map((group) => (
               <Stack key={group.title} gap={8}>
@@ -127,8 +127,8 @@ export default function SolutionsPage() {
       </FullBleedSection>
 
       {/* By Vertical */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500 uppercase tracking-kicker">BY VERTICAL</Label>
@@ -161,8 +161,8 @@ export default function SolutionsPage() {
       </FullBleedSection>
 
       {/* Platform Overview */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <H1 className="text-ink-950">THREE PRODUCTS. ONE PLATFORM.</H1>
@@ -222,8 +222,8 @@ export default function SolutionsPage() {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               NOT SURE WHERE TO START?

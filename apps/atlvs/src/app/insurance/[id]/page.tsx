@@ -143,7 +143,7 @@ export default function InsurancePolicyDetailPage() {
             )}
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Coverage Amount"
                 value={`$${(policy.coverage_amount / 1000000).toFixed(1)}M`}
@@ -166,7 +166,7 @@ export default function InsurancePolicyDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -174,7 +174,7 @@ export default function InsurancePolicyDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Policy Details</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Policy Type</Body>
                           <Body>{policyTypeLabels[policy.policy_type] || policy.policy_type}</Body>
@@ -201,7 +201,7 @@ export default function InsurancePolicyDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Coverage Details</H3>
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Coverage Amount</Body>
                           <Body className="font-weight-semibold">${policy.coverage_amount?.toLocaleString()}</Body>
@@ -222,7 +222,7 @@ export default function InsurancePolicyDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Policy Period</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Effective Date</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">

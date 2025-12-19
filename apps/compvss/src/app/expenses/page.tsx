@@ -123,7 +123,7 @@ export default function ExpensesPage() {
 
   const detailSections: DetailSection[] = selectedExpense ? [
     { id: 'overview', title: 'Expense Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Expense #</Body><Body>{selectedExpense.expense_number}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Status</Body><Body>{selectedExpense.status}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedExpense.crew_member_name}</Body></Stack>

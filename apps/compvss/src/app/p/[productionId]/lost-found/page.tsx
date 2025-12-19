@@ -103,7 +103,7 @@ export default function ProductionLostFoundPage() {
           <Button variant="solid" onClick={() => setShowAddModal(true)}><Plus size={16} className="mr-2" />Log Item</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Items" value={items.length.toString()} icon={<Package size={20} />} inverted />
           <StatCard label="Unclaimed" value={unclaimedCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Claimed" value={claimedCount.toString()} icon={<CheckCircle size={20} />} inverted />
@@ -153,7 +153,7 @@ export default function ProductionLostFoundPage() {
         <ModalBody>
           <Stack gap={4}>
             <Textarea placeholder="Item description" value={newItem.description} onChange={(e) => setNewItem(prev => ({ ...prev, description: e.target.value }))} rows={3} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select value={newItem.category} onChange={(e) => setNewItem(prev => ({ ...prev, category: e.target.value }))}>
                 <option value="">Category...</option>
                 <option value="Personal">Personal</option>

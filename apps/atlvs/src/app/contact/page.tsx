@@ -54,8 +54,8 @@ export default function ContactPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={6} className="text-center">
             <Display size="lg" className="text-white">
               {contactData.hero.headline}
@@ -68,8 +68,8 @@ export default function ContactPage() {
       </FullBleedSection>
 
       {/* Contact Options */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {contactData.options.map((option) => (
               <Card key={option.title} className="border-2 border-ink-950 bg-white p-6 shadow-md">
@@ -94,8 +94,8 @@ export default function ContactPage() {
       </FullBleedSection>
 
       {/* Contact Form */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-3xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-8 shadow-lg lg:p-12">
             <Stack gap={8}>
               <Stack gap={4} className="text-center">

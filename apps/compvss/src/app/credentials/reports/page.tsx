@@ -70,7 +70,7 @@ export default function CredentialReportsPage() {
             </Stack>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Total Credentials"
                 value={stats?.total || 0}
@@ -97,7 +97,7 @@ export default function CredentialReportsPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Type Distribution */}
               <Card className="col-span-2 border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -151,7 +151,7 @@ export default function CredentialReportsPage() {
               </Card>
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Recent Activity */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -177,7 +177,7 @@ export default function CredentialReportsPage() {
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
                   <H3>Quick Actions</H3>
-                  <Grid cols={2} gap={3}>
+                  <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Button
                       onClick={() => router.push('/credentials/issue')}
                       className="flex items-center justify-center gap-2 border-2 border-grey-300 bg-white p-4"

@@ -125,7 +125,7 @@ export default function EventEngagePage() {
           </Body>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <Card className="p-4 bg-primary-500 text-white text-center">
             <Sparkles className="w-8 h-8 mx-auto mb-2" />
             <Body className="font-weight-bold text-body-lg">{activeActivities.length}</Body>
@@ -185,7 +185,7 @@ export default function EventEngagePage() {
             </Button>
           </Card>
         ) : (
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {filteredActivities.map(activity => (
               <Card key={activity.id} className="p-6 border-2 border-black hover:shadow-lg transition-shadow">
                 <Stack gap={4}>
@@ -267,7 +267,7 @@ export default function EventEngagePage() {
         )}
 
         <Card className="p-6 bg-ink-900 text-white">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             <Stack gap={3}>
               <Heart className="w-8 h-8" />
               <H3 className="text-white">Social Wall</H3>

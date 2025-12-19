@@ -160,7 +160,7 @@ export default function CredentialTypesPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Code</Body>
             <Box className="inline-flex">
@@ -190,7 +190,7 @@ export default function CredentialTypesPage() {
       id: 'requirements',
       title: 'Requirements',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Photo Required</Body>
             <Body>{selectedType.requires_photo ? 'Yes' : 'No'}</Body>

@@ -218,7 +218,7 @@ export default function WorkflowsPage() {
           id: 'overview',
           title: 'Workflow Details',
           content: (
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Body size="sm"><strong>Name:</strong> {selectedWorkflow.name}</Body>
               <Body size="sm"><strong>Trigger:</strong> {triggerLabels[selectedWorkflow.trigger_type] || selectedWorkflow.trigger_type}</Body>
               <Body size="sm"><strong>Status:</strong> {selectedWorkflow.enabled ? 'Enabled' : 'Disabled'}</Body>

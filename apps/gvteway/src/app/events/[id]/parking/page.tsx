@@ -61,7 +61,7 @@ function ParkingTransportPageContent() {
               <Body className="text-on-dark-muted">Find parking and transportation options for your event</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Parking Lots" value={mockParking.filter(p => p.type !== "Rideshare").length} className="border-2 border-black" />
             <StatCard label="Available Spots" value={availableSpots.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Transit Options" value={mockTransport.length} className="border-2 border-black" />
@@ -80,7 +80,7 @@ function ParkingTransportPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('parking')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {mockParking.map((option) => (
                   <Card key={option.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
@@ -182,7 +182,7 @@ function ParkingTransportPageContent() {
                       <Label className="text-ink-600">Showing parking lots, transit stops, and venue entrance</Label>
                     </Stack>
                   </Card>
-                  <Grid cols={4} gap={2}>
+                  <Grid cols={4} gap={2} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Card className="p-2 bg-info-100 text-center"><Label size="sm" className="">🅿️ Parking</Label></Card>
                     <Card className="p-2 bg-success-100 text-center"><Label size="sm" className="">🚌 Shuttle</Label></Card>
                     <Card className="p-2 bg-violet-100 text-center"><Label size="sm" className="">🚇 Metro</Label></Card>
@@ -193,7 +193,7 @@ function ParkingTransportPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/accessibility`)}>Accessibility Info</Button>
           </Grid>
@@ -215,7 +215,7 @@ function ParkingTransportPageContent() {
               </Card>
               <Stack gap={2}>
                 <Label>Vehicle Information</Label>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Input placeholder="License Plate" />
                   <Select>
                     <option value="">Vehicle Type...</option>

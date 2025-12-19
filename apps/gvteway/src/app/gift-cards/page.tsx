@@ -177,11 +177,11 @@ function GiftCardsPageContent() {
         </Stack>
 
         {isActive('buy') && (
-          <Grid cols={2} gap={8}>
+          <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
             <Stack gap={6}>
               <Card inverted className="p-6">
                 <H3 className="mb-6 text-white">Select Amount</H3>
-                <Grid cols={4} gap={3}>
+                <Grid cols={4} gap={3} className="sm:grid-cols-2 lg:grid-cols-4">
                   {GIFT_CARD_AMOUNTS.map(amount => (
                     <Button
                       key={amount}
@@ -208,7 +208,7 @@ function GiftCardsPageContent() {
 
               <Card inverted className="p-6">
                 <H3 className="mb-6 text-white">Choose Design</H3>
-                <Grid cols={3} gap={3}>
+                <Grid cols={3} gap={3} className="sm:grid-cols-2 lg:grid-cols-3">
                   {GIFT_CARD_DESIGNS.map(design => (
                     <Stack
                       key={design.id}
@@ -321,7 +321,7 @@ function GiftCardsPageContent() {
                 <Spinner variant="grey" size="lg" />
               </Stack>
             ) : myCards.length > 0 ? (
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {myCards.map(card => (
                   <Card key={card.id} inverted className="p-6">
                     <Stack gap={3}>

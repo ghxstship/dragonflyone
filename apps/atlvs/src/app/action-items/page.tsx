@@ -125,7 +125,7 @@ export default function ActionItemsPage() {
         )}
 
         {/* Stats */}
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Total Pending"
             value={stats?.total?.toString() || "0"}

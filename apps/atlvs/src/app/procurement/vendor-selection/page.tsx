@@ -130,7 +130,7 @@ export default function VendorSelectionPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Selections" value={mockSelections.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Pending Approval" value={pendingApprovals} trend={pendingApprovals > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Evaluating" value={evaluating} className="bg-transparent border-2 border-ink-800" />
@@ -156,7 +156,7 @@ export default function VendorSelectionPage() {
                         <Label className={getStatusColor(selection.status)}>{selection.status}</Label>
                       </Stack>
 
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         <Stack gap={1}>
                           <Label size="xs" className="text-ink-500">Vendors Evaluated</Label>
                           <Label className="text-white">{selection.vendors.length}</Label>
@@ -226,7 +226,7 @@ export default function VendorSelectionPage() {
             </TabPanel>
           </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outlineWhite" onClick={() => router.push("/rfp")}>View RFPs</Button>
               <Button variant="outline" className="border-grey-700 text-grey-400">Export Report</Button>
               <Button variant="outline" className="border-grey-700 text-grey-400" onClick={() => router.push("/procurement")}>Back to Procurement</Button>
@@ -288,7 +288,7 @@ export default function VendorSelectionPage() {
               </Alert>
               <Stack gap={2}>
                 <Label>Your Decision</Label>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Card className="p-4 border-2 border-success-800 bg-success-900/10 cursor-pointer text-center">
                     <Label className="text-success-400">Approve</Label>
                   </Card>

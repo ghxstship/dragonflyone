@@ -175,7 +175,7 @@ export default function CrewPage() {
       id: 'overview',
       title: 'Crew Member Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {selectedMember.first_name} {selectedMember.last_name}</Body>
           <Body size="sm"><strong>Status:</strong> <Badge variant={statusColors[selectedMember.status]}>{selectedMember.status.replace('_', ' ').toUpperCase()}</Badge></Body>
           <Body size="sm"><strong>Email:</strong> {selectedMember.email || '—'}</Body>

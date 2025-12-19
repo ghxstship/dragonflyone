@@ -110,7 +110,7 @@ export default function RiskRegisterPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={activeRisks.length.toString()} label="Active Risks" />
               <StatCard value={highRisks.toString()} label="High Priority" />
               <StatCard value={avgRiskScore.toString()} label="Avg Risk Score" />
@@ -121,7 +121,7 @@ export default function RiskRegisterPage() {
               <Alert variant="warning">{highRisks} high-priority risk(s) require attention</Alert>
             )}
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 <option value="All">All Categories</option>
                 <option value="Technical">Technical</option>
@@ -174,7 +174,7 @@ export default function RiskRegisterPage() {
                 <Card className="p-6">
                   <Stack gap={4}>
                     <H3>Risk Matrix</H3>
-                    <Grid cols={6} gap={2}>
+                    <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                       <Card className="p-2" />
                       <Card className="p-2 text-center"><Body size="sm" className="">Low</Body></Card>
                       <Card className="p-2 text-center"><Body size="sm" className="">Medium</Body></Card>
@@ -208,7 +208,7 @@ export default function RiskRegisterPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Export Register</Button>
               <Button variant="outline">Risk Report</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Back to Projects</Button>
@@ -224,7 +224,7 @@ export default function RiskRegisterPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedRisk.title}</Body>
               <Body>{selectedRisk.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Category</Body>
                   <Badge variant="outline">{selectedRisk.category}</Badge>
@@ -234,7 +234,7 @@ export default function RiskRegisterPage() {
                   <Badge variant={getStatusVariant(selectedRisk.status)}>{selectedRisk.status}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}>
                   <Body size="sm" className="">Probability</Body>
                   <Body>{selectedRisk.probability}</Body>
@@ -289,7 +289,7 @@ export default function RiskRegisterPage() {
           <Stack gap={4}>
             <Input placeholder="Risk Title" />
             <Textarea placeholder="Description..." rows={2} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Category...</option>
                 <option value="Technical">Technical</option>
@@ -306,7 +306,7 @@ export default function RiskRegisterPage() {
                 <option value="PROJ-090">Corporate Gala</option>
               </Select>
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Probability...</option>
                 <option value="Low">Low</option>

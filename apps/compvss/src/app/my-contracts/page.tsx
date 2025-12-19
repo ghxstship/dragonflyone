@@ -91,7 +91,7 @@ export default function MyContractsPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             label="Active Contracts"
             value={activeCount.toString()}
@@ -128,7 +128,7 @@ export default function MyContractsPage() {
                     <Body className="text-on-dark-muted">{contract.id}</Body>
                   </Stack>
 
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-on-dark-muted">Contract Type</Body>
                       <Body className="text-white">{contract.type}</Body>

@@ -86,14 +86,14 @@ export default function MessagesPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={conversations.length.toString()} label="Conversations" />
               <StatCard value={totalUnread.toString()} label="Unread" />
               <StatCard value={onlineCount.toString()} label="Online Now" />
               <StatCard value="< 5 min" label="Response Time" />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <Card className="overflow-hidden">
                 <Stack gap={0}>
                   <Card className="border-b p-4">

@@ -129,7 +129,7 @@ function PushNotificationsPageContent() {
           <Body className="text-on-dark-muted">Send targeted push notifications to app users</Body>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Sent" value={totalSent.toLocaleString()} inverted />
           <StatCard label="Delivery Rate" value={`${deliveryRate}%`} inverted />
           <StatCard label="Open Rate" value={`${openRate}%`} inverted />
@@ -242,11 +242,11 @@ function PushNotificationsPageContent() {
           )}
         </Stack>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card inverted className="p-6">
             <Stack gap={4}>
               <H3 className="text-white">Performance Summary</H3>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={2} className="p-4 border-2 border-ink-700 rounded-card">
                   <Stack direction="horizontal" gap={2} className="items-center">
                     <Smartphone className="w-4 h-4 text-on-dark-muted" />
@@ -333,7 +333,7 @@ function PushNotificationsPageContent() {
               />
               <Label size="xs" className="text-ink-500">{formData.body.length}/240 characters</Label>
             </Stack>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Action URL (optional)</Label>
                 <Input
@@ -389,7 +389,7 @@ function PushNotificationsPageContent() {
                   )}
                 </Stack>
               </Card>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Status</Label>
                   {getStatusBadge(selectedNotification.status)}
@@ -399,7 +399,7 @@ function PushNotificationsPageContent() {
                   <Badge variant="outline">{selectedNotification.audience_type}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Sent</Label>
                   <Label className="font-mono">{(selectedNotification.stats?.sent || 0).toLocaleString()}</Label>

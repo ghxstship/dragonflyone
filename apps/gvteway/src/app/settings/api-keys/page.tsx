@@ -178,7 +178,7 @@ function ApiKeysPageContent() {
               <Body className="text-on-dark-muted">Manage API keys for programmatic access to your account</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Keys" value={apiKeys.length.toString()} inverted />
               <StatCard label="Active" value={activeCount.toString()} inverted />
               <StatCard label="Expired" value={expiredCount.toString()} inverted />
@@ -284,7 +284,7 @@ function ApiKeysPageContent() {
                   <Shield className="w-5 h-5 text-on-dark-muted" />
                   <H3 className="text-white">API Security Best Practices</H3>
                 </Stack>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Body className="text-white font-weight-medium">Do:</Body>
                     <ul className="list-disc list-inside text-on-dark-muted space-y-1">
@@ -341,7 +341,7 @@ function ApiKeysPageContent() {
             <Stack gap={2}>
               <Label>Scopes</Label>
               <Card className="p-4 max-h-[200px] overflow-y-auto">
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {ALL_API_SCOPES.map((scope) => (
                     <Stack key={scope} direction="horizontal" gap={2} className="items-center">
                       <Checkbox

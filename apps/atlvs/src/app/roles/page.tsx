@@ -184,7 +184,7 @@ export default function RolesPage() {
           id: 'overview',
           title: 'Role Assignment Details',
           content: (
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Body size="sm"><strong>User:</strong> {selectedRole.user?.full_name || selectedRole.user?.email || '—'}</Body>
               <Body size="sm"><strong>Role:</strong> {selectedRole.role_code}</Body>
               <Body size="sm"><strong>Level:</strong> {selectedRole.role?.level || '—'}</Body>

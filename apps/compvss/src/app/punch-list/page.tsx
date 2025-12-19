@@ -97,7 +97,7 @@ export default function PunchListPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={openItems.length.toString()} label="Open Items" />
               <StatCard value={criticalCount.toString()} label="Critical" />
               <StatCard value={resolvedToday.toString()} label="Resolved Today" />
@@ -108,7 +108,7 @@ export default function PunchListPage() {
               <Alert variant="error">{criticalCount} critical item(s) require immediate attention!</Alert>
             )}
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Select value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
                 <option value="All">All Departments</option>
                 <option value="Audio">Audio</option>
@@ -194,7 +194,7 @@ export default function PunchListPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Export List</Button>
               <Button variant="outline" onClick={() => router.push("/qa-checkpoints")}>QA Checkpoints</Button>
               <Button variant="outline" onClick={() => router.push("/build-strike")}>Build Status</Button>
@@ -210,7 +210,7 @@ export default function PunchListPage() {
             <Input placeholder="Item title" />
             <Textarea placeholder="Description..." rows={2} />
             <Input placeholder="Location" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Department...</option>
                 <option value="Audio">Audio</option>
@@ -248,7 +248,7 @@ export default function PunchListPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedItem.title}</Body>
               <Body>{selectedItem.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Location</Body>
                   <Body>{selectedItem.location}</Body>
@@ -258,7 +258,7 @@ export default function PunchListPage() {
                   <Badge variant="outline">{selectedItem.department}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Priority</Body>
                   <Badge variant={getPriorityVariant(selectedItem.priority)}>{selectedItem.priority}</Badge>
@@ -268,7 +268,7 @@ export default function PunchListPage() {
                   <Badge variant={getStatusVariant(selectedItem.status)}>{selectedItem.status}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Reported By</Body>
                   <Body>{selectedItem.reportedBy}</Body>

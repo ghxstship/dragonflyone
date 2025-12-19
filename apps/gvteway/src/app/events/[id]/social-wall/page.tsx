@@ -80,7 +80,7 @@ function SocialWallPageContent() {
             </Stack>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Posts" value={posts.length} className="border-2 border-ink-700 bg-ink-900" />
             <StatCard label="Twitter" value={posts.filter(p => p.platform === "Twitter").length} className="border-2 border-ink-700 bg-ink-900" />
             <StatCard label="Instagram" value={posts.filter(p => p.platform === "Instagram").length} className="border-2 border-ink-700 bg-ink-900" />
@@ -103,7 +103,7 @@ function SocialWallPageContent() {
             </TabsList>
 
             <TabPanel active={true}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
                   <Card key={post.id} className="border-2 border-ink-700 bg-ink-900 p-4 cursor-pointer hover:border-white transition-colors" onClick={() => setSelectedPost(post)}>
                     <Stack gap={3}>
@@ -139,7 +139,7 @@ function SocialWallPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/photo-booth`)}>Photo Booth</Button>
           </Grid>

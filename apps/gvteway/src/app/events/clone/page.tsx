@@ -61,7 +61,7 @@ function EventCloneContent() {
               <Body className="text-on-dark-muted">Clone from template or existing event</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
             <StatCard label="Recent Events" value={mockRecentEvents.length} className="border-2 border-black" />
             <StatCard label="Most Used" value="Concert" className="border-2 border-black" />
@@ -76,7 +76,7 @@ function EventCloneContent() {
             </TabsList>
 
             <TabPanel active={isActive('templates')}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {mockTemplates.map((template) => (
                   <Card key={template.id} className="border-2 border-black p-6 cursor-pointer hover:bg-ink-50" onClick={() => setSelectedTemplate(template)}>
                     <Stack gap={4}>
@@ -132,7 +132,7 @@ function EventCloneContent() {
                 <Stack gap={6}>
                   <H3>Start from Scratch</H3>
                   <Body className="text-ink-600">Create a new event without using a template. You will configure all settings manually.</Body>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Input placeholder="Event Name" className="border-2 border-black" />
                     <Select className="border-2 border-black">
                       <option value="">Event Type...</option>
@@ -143,7 +143,7 @@ function EventCloneContent() {
                       <option value="sports">Sports</option>
                     </Select>
                   </Grid>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Input type="date" className="border-2 border-black" />
                     <Select className="border-2 border-black">
                       <option value="">Select Venue...</option>
@@ -183,7 +183,7 @@ function EventCloneContent() {
                 </Stack>
               </Stack>
               <Input placeholder="New Event Name" className="border-2 border-black" />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Input type="date" className="border-2 border-black" />
                 <Select className="border-2 border-black">
                   <option value="">Select Venue...</option>
@@ -212,7 +212,7 @@ function EventCloneContent() {
                   <Badge variant="outline">{selectedEvent.type}</Badge>
                 </Stack>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Original Date</Label><Label>{selectedEvent.date}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Venue</Label><Label>{selectedEvent.venue}</Label></Stack>
               </Grid>
@@ -255,7 +255,7 @@ function EventCloneContent() {
             <Textarea placeholder="Description..." rows={2} className="border-2 border-black" />
             <Stack gap={2}>
               <Label className="text-ink-500">Include Sections</Label>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 {["Event Info", "Ticketing", "Seating", "Marketing", "Sponsors", "Lineup"].map((section, idx) => (
                   <Stack key={idx} direction="horizontal" gap={2}>
                     <Input type="checkbox" className="w-4 h-4" />

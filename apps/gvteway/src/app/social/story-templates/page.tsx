@@ -41,14 +41,14 @@ export default function StoryTemplatesPage() {
               <Body className="text-on-dark-muted">Branded Instagram and TikTok story templates</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
             <StatCard label="Total Uses" value={mockTemplates.reduce((s, t) => s + t.uses, 0)} className="border-2 border-black" />
             <StatCard label="Instagram" value={mockTemplates.filter(t => t.platform !== "TikTok").length} className="border-2 border-black" />
             <StatCard label="TikTok" value={mockTemplates.filter(t => t.platform !== "Instagram").length} className="border-2 border-black" />
           </Grid>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Input type="search" placeholder="Search templates..." className="border-2 border-black" />
             <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="border-2 border-black">
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -60,7 +60,7 @@ export default function StoryTemplatesPage() {
             </Select>
           </Grid>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             {filteredTemplates.map((template) => (
               <Card key={template.id} className="border-2 border-black overflow-hidden">
                 <Card className="h-48 bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -85,7 +85,7 @@ export default function StoryTemplatesPage() {
             ))}
           </Grid>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push("/social")}>Back to Social</Button>
             <Button variant="solid" inverted>Create Custom Template</Button>
           </Grid>
@@ -106,7 +106,7 @@ export default function StoryTemplatesPage() {
               </Stack>
               <Stack gap={2}>
                 <Label className="text-ink-500">Template Elements</Label>
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {selectedTemplate.elements.map((el, idx) => (
                     <Card key={idx} className="p-2 border-2 border-ink-200">
                       <Label>{el}</Label>

@@ -53,7 +53,7 @@ function MarketingAnalyticsPageContent() {
             </Select>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Spend" value={formatCurrency(totalSpend)} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} className="border-2 border-black" />
             <StatCard label="Conversions" value={totalConversions.toLocaleString()} className="border-2 border-black" />
@@ -69,7 +69,7 @@ function MarketingAnalyticsPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('overview')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Channel Performance</H3>
@@ -94,7 +94,7 @@ function MarketingAnalyticsPageContent() {
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Key Metrics</H3>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Card className="p-4 border-2 border-ink-200 text-center">
                         <Label className="font-mono text-h5-md">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
                         <Label className="text-ink-500">Avg CTR</Label>
@@ -151,7 +151,7 @@ function MarketingAnalyticsPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('attribution')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Attribution by Source</H3>

@@ -65,8 +65,8 @@ export default function ApiDocsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Code className="size-8 text-brand-pink" />
@@ -97,9 +97,9 @@ export default function ApiDocsPage() {
       </FullBleedSection>
 
       {/* Quick Start */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={3} gap={6}>
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {apiDocsData.quickStart.map((item) => (
               <Stack key={item.step} direction="horizontal" gap={4} className="items-start">
                 <Stack className="flex size-10 items-center justify-center border-2 border-ink-950 bg-grey-100">
@@ -116,8 +116,8 @@ export default function ApiDocsPage() {
       </FullBleedSection>
 
       {/* Code Example */}
-      <FullBleedSection background="ink" className="py-16">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Card inverted className="border-2 border-ink-800 bg-ink-900 p-6">
             <Stack gap={4}>
               <Stack direction="horizontal" className="items-center justify-between">
@@ -133,8 +133,8 @@ export default function ApiDocsPage() {
       </FullBleedSection>
 
       {/* Endpoints */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24" id="reference">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24" id="reference">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">API ENDPOINTS</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -142,7 +142,7 @@ export default function ApiDocsPage() {
             </Body>
           </Stack>
 
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {apiDocsData.endpoints.map((endpoint) => (
               <Card key={endpoint.category} className="border-2 border-ink-950 bg-white p-6 shadow-md">
                 <Stack gap={4}>
@@ -165,13 +165,13 @@ export default function ApiDocsPage() {
       </FullBleedSection>
 
       {/* Resources */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">DEVELOPER RESOURCES</H1>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {apiDocsData.resources.map((resource) => (
               <NextLink key={resource.title} href={resource.href}>
                 <Card className="border-2 border-ink-950 bg-white p-6 shadow-md transition-all hover:-translate-y-1 hover:shadow-lg">
@@ -190,8 +190,8 @@ export default function ApiDocsPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               NEED HELP?

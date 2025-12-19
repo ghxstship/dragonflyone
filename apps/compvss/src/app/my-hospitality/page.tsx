@@ -102,7 +102,7 @@ export default function MyHospitalityPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             label="Pending Requests"
             value={pendingCount.toString()}
@@ -139,7 +139,7 @@ export default function MyHospitalityPage() {
                   <CardBody>
                     <Stack gap={4}>
                       <H3 className="text-white">New Hospitality Request</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={2}>
                           <Label>Event</Label>
                           <Input placeholder="Select event..." />

@@ -195,7 +195,7 @@ export default function ProductionOverviewPage() {
           <CardBody>
             <Stack gap={4}>
               <H3 className="text-white">Quick Actions</H3>
-              <Grid cols={2} gap={3}>
+              <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Button variant="outline" size="sm" className="justify-start">
                   <Calendar size={16} className="mr-2" />
                   View Schedule

@@ -90,7 +90,7 @@ export default function SubsidiariesPage() {
 
   const detailSections: DetailSection[] = selectedEntity ? [
     { id: 'overview', title: 'Entity Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selectedEntity.name}</Body>
         <Body size="sm"><strong>Legal Name:</strong> {selectedEntity.legal_name}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedEntity.entity_type}</Body>

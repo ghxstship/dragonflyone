@@ -57,7 +57,7 @@ export default function ProductionInvestorsPage() {
         <StatCard label="Rounds" value={stats.totalRounds.toString()} icon={<Layers size={20} />} inverted />
         <StatCard label="Funded" value={`$${(stats.totalFunded / 1000).toFixed(0)}K`} icon={<TrendingUp size={20} />} trend="up" inverted />
       </Grid>
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/investors/rounds`)}>
           <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-800"><Layers size={24} className="text-primary" /></Box><Body className="font-weight-bold text-white">Rounds</Body></Stack></CardBody>
         </Card>

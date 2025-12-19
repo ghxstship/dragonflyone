@@ -241,7 +241,7 @@ export default function DirectoryPage() {
             {/* Primary Search and Filters */}
             <Card className="p-6">
               <Stack gap={6}>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Field label="Search">
                     <Input
                       value={searchTerm}
@@ -298,7 +298,7 @@ export default function DirectoryPage() {
 
               {/* Advanced Filters */}
               {showAdvancedFilters && (
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   <Field label="Experience Level">
                     <Select value={experienceFilter} onChange={(e) => setExperienceFilter(e.target.value)}>
                       {EXPERIENCE_LEVELS.map((level) => (
@@ -366,7 +366,7 @@ export default function DirectoryPage() {
             ) : (
               filtered.map((item: DirectoryMember) => (
                 <Card key={item.id} className="p-6">
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Stack gap={2}>
                       <Body className="font-display text-body-md">{item.name || item.full_name}</Body>
                       <Stack direction="horizontal" gap={2}>

@@ -59,7 +59,7 @@ function InfluencersPageContent() {
               <Body className="text-on-dark-muted">Track and manage influencer marketing campaigns</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Reach" value={formatNumber(totalReach)} className="border-2 border-black" />
             <StatCard label="Active Partners" value={activeCount} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={`$${formatNumber(totalRevenue)}`} className="border-2 border-black" />
@@ -78,7 +78,7 @@ function InfluencersPageContent() {
             <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Influencer</Button>
           </Stack>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             {filteredInfluencers.map((influencer) => (
               <Card key={influencer.id} className="border-2 border-black p-6">
                 <Stack gap={4}>
@@ -92,12 +92,12 @@ function InfluencersPageContent() {
                       <Label className={getStatusColor(influencer.status)}>{influencer.status}</Label>
                     </Stack>
                   </Stack>
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     <Stack gap={1}><Label size="xs" className="text-ink-600">Followers</Label><Label className="font-mono">{formatNumber(influencer.followers)}</Label></Stack>
                     <Stack gap={1}><Label size="xs" className="text-ink-600">Engagement</Label><Label className="font-mono">{influencer.engagement}%</Label></Stack>
                     <Stack gap={1}><Label size="xs" className="text-ink-600">Niche</Label><Badge variant="outline">{influencer.niche}</Badge></Stack>
                   </Grid>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}><Label size="xs" className="text-ink-600">Campaigns</Label><Label className="font-mono">{influencer.campaigns}</Label></Stack>
                     <Stack gap={1}><Label size="xs" className="text-ink-600">Revenue</Label><Label className="font-mono">${formatNumber(influencer.revenue)}</Label></Stack>
                   </Grid>
@@ -119,7 +119,7 @@ function InfluencersPageContent() {
                 <Label className="text-ink-500">{selectedInfluencer.handle}</Label>
                 <Badge variant="outline">{selectedInfluencer.platform}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-600">Followers</Label><Label className="font-mono text-h6-md">{formatNumber(selectedInfluencer.followers)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-600">Engagement</Label><Label className="font-mono text-h6-md">{selectedInfluencer.engagement}%</Label></Stack>
               </Grid>
@@ -127,7 +127,7 @@ function InfluencersPageContent() {
                 <Label className="text-ink-600">Performance</Label>
                 <ProgressBar value={selectedInfluencer.engagement * 10} className="h-2" />
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-600">Campaigns</Label><Label className="font-mono">{selectedInfluencer.campaigns}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-600">Revenue Generated</Label><Label className="font-mono">${formatNumber(selectedInfluencer.revenue)}</Label></Stack>
               </Grid>

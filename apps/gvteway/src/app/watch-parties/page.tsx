@@ -233,7 +233,7 @@ export default function WatchPartiesPage() {
         {liveParties.length > 0 && filter !== 'upcoming' && (
           <Stack className="mb-8" gap={4}>
             <H2>HAPPENING NOW</H2>
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {liveParties.map(party => (
                 <Card
                   key={party.id}
@@ -275,7 +275,7 @@ export default function WatchPartiesPage() {
           </Stack>
         )}
 
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           {parties
             .filter(p => filter === 'all' || p.status === filter)
             .filter(p => filter !== 'live' || p.status !== 'live') // Exclude live from grid if shown above
@@ -386,7 +386,7 @@ export default function WatchPartiesPage() {
                 />
               </Field>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Duration (minutes)">
                   <Input
                     type="number"

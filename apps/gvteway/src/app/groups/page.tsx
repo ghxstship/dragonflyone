@@ -72,7 +72,7 @@ export default function GroupsPage() {
               </Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.total_groups || 0).toString()}
                 label="Total Groups"
@@ -127,7 +127,7 @@ export default function GroupsPage() {
               inverted
             />
           ) : (
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {groups.map((group) => (
                 <Card key={group.id} inverted interactive>
                   <Stack gap={4}>

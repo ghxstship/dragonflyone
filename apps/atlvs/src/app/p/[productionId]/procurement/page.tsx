@@ -26,7 +26,7 @@ export default function ProductionProcurementPage() {
         <StatCard label="Purchase Orders" value={stats.purchaseOrders.toString()} icon={<Receipt size={20} />} inverted />
         <StatCard label="Total Spend" value={`$${(stats.totalSpend / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
       </Grid>
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/procurement/rfps`)}>
           <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-800"><FileSearch size={24} className="text-primary" /></Box><Body className="font-weight-bold text-white">RFPs</Body></Stack></CardBody>
         </Card>

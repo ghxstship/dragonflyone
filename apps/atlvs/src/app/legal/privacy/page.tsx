@@ -15,8 +15,8 @@ export default function PrivacyPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={6} className="text-center">
             <Label size="xs" className="text-on-dark-muted">
               LEGAL
@@ -32,8 +32,8 @@ export default function PrivacyPage() {
       </FullBleedSection>
 
       {/* Content */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-3xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4}>
               <H2 className="text-ink-950">1. Information We Collect</H2>

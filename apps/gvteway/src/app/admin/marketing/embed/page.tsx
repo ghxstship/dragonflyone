@@ -119,7 +119,7 @@ function EmbedCodePageContent() {
           <Body className="text-on-dark-muted">Generate embed codes to sell tickets on external websites</Body>
         </Stack>
 
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           <Card inverted className="p-6">
             <Stack gap={3}>
               <Stack direction="horizontal" gap={2} className="items-center">
@@ -160,7 +160,7 @@ function EmbedCodePageContent() {
           </TabsList>
 
           <TabPanel active={activeTab === 'generator'}>
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-6">
                 <Stack gap={6}>
                   <H3 className="text-white">Configuration</H3>
@@ -182,7 +182,7 @@ function EmbedCodePageContent() {
                     </Stack>
                     <Stack gap={2}>
                       <Label className="text-white">Embed Type</Label>
-                      <Grid cols={4} gap={2}>
+                      <Grid cols={4} gap={2} className="sm:grid-cols-2 lg:grid-cols-4">
                         {(['button', 'inline', 'popup', 'iframe'] as const).map((type) => (
                           <Button
                             key={type}
@@ -242,7 +242,7 @@ function EmbedCodePageContent() {
                       </>
                     )}
                     {config.type === 'iframe' && (
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={2}>
                           <Label className="text-white">Width</Label>
                           <Input
@@ -364,7 +364,7 @@ function EmbedCodePageContent() {
           </TabPanel>
 
           <TabPanel active={activeTab === 'examples'}>
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {[
                 { name: 'WordPress', desc: 'Add to any post or page using HTML block' },
                 { name: 'Squarespace', desc: 'Use the Code Injection feature' },

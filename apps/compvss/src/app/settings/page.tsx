@@ -104,7 +104,7 @@ export default function SettingsPage() {
           <Card className="p-spacing-6 border-2 border-ink-800 bg-transparent">
             <Stack gap={6}>
               <H2>Radio Configuration</H2>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={2}>
                   <Body>Default Channel</Body>
                   <Select>

@@ -186,7 +186,7 @@ export default function WrapReportsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Production</Body>
             <Body>{selectedReport.production?.title || '—'}</Body>
@@ -210,7 +210,7 @@ export default function WrapReportsPage() {
       id: 'financials',
       title: 'Financial Summary',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Revenue</Body>
             <Body className="text-success">${selectedReport.total_revenue?.toLocaleString()}</Body>

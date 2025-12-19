@@ -128,7 +128,7 @@ export default function RevenueRecognitionPage() {
         )}
 
         {/* Analytics Dashboard */}
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Total Revenue"
             value={formatCurrency(analytics.totalRevenue)}

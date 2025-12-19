@@ -21,7 +21,7 @@ export default function AccessibilityPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Accessibility" description="Accessibility services and accommodations" colorScheme="on-dark" />
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={3}>

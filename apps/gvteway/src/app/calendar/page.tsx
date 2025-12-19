@@ -148,7 +148,7 @@ export default function CalendarPage() {
               </Stack>
             </Stack>
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Card inverted className="p-6">
               <Stack direction="horizontal" className="mb-6 items-center justify-between">

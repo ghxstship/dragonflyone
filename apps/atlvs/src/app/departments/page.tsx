@@ -118,7 +118,7 @@ export default function DepartmentsPage() {
       id: 'overview',
       title: 'Department Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Code:</strong> {selectedDepartment.code}</Body>
           <Body size="sm"><strong>Name:</strong> {selectedDepartment.name}</Body>
           <Body size="sm"><strong>Created:</strong> {new Date(selectedDepartment.created_at).toLocaleDateString()}</Body>

@@ -133,7 +133,7 @@ export default function EventTicketPage() {
           </Body>
         </Stack>
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             {activeTicket && (
               <Card className="p-8 border-2 border-black">
@@ -161,7 +161,7 @@ export default function EventTicketPage() {
                     </Stack>
                   </Card>
 
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     <Stack className="items-center p-4 bg-ink-50 rounded-card">
                       <Calendar className="w-6 h-6 mb-2 text-ink-600" />
                       <Body className="text-mono-xs text-ink-500">DATE</Body>

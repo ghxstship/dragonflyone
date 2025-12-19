@@ -293,7 +293,7 @@ export default function ApplyPage() {
                       </Body>
                     </Stack>
 
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Field label="First Name" inverted required>
                         <Input
                           value={formData.firstName}
@@ -378,7 +378,7 @@ export default function ApplyPage() {
                       </Body>
                     </Stack>
 
-                    <Grid cols={2} gap={3}>
+                    <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                       {experienceInterests.map((interest) => (
                         <Button
                           key={interest}
@@ -523,7 +523,7 @@ export default function ApplyPage() {
                       />
                     </Field>
 
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Field label="Instagram Handle" inverted>
                         <Input
                           value={formData.instagram}
@@ -546,7 +546,7 @@ export default function ApplyPage() {
                     <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                       <Stack gap={4}>
                         <H3 className="text-white">Application Summary</H3>
-                        <Grid cols={2} gap={4}>
+                        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           <Stack gap={1}>
                             <Label size="xs" className="text-on-dark-disabled">Name</Label>
                             <Body size="sm" className="text-white">

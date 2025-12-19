@@ -65,7 +65,7 @@ export default function TaxesPage() {
 
   const detailSections: DetailSection[] = selectedDoc ? [
     { id: 'overview', title: 'Tax Document Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Type:</strong> {selectedDoc.document_type}</Body>
         <Body size="sm"><strong>Entity:</strong> {selectedDoc.entity_name}</Body>
         <Body size="sm"><strong>Jurisdiction:</strong> {selectedDoc.jurisdiction}</Body>

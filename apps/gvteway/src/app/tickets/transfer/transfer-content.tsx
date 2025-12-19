@@ -109,7 +109,7 @@ export default function TicketTransferContent() {
           </Alert>
         )}
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={6}>
             <Card className="p-6">
               <H2 className="mb-6">SELECT TICKET TO TRANSFER</H2>

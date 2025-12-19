@@ -184,7 +184,7 @@ function CommunityPageContent() {
 
         {/* Groups Tab */}
         {isActive('groups') && (
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             {groups.map((group: CommunityGroup) => (
               <Card key={group.id} inverted interactive>
                 <Stack gap={4}>

@@ -130,7 +130,7 @@ function AffiliatesProgramPageContent() {
           <Body className="text-on-dark-muted">Manage affiliate partners and track performance</Body>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Revenue" value={`$${totalRevenue.toLocaleString()}`} inverted />
           <StatCard label="Total Commission" value={`$${totalCommission.toLocaleString()}`} inverted />
           <StatCard label="Total Clicks" value={totalClicks.toLocaleString()} inverted />
@@ -241,7 +241,7 @@ function AffiliatesProgramPageContent() {
           )}
         </Stack>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card inverted className="p-6">
             <Stack gap={4}>
               <H3 className="text-white">Top Performers</H3>
@@ -331,7 +331,7 @@ function AffiliatesProgramPageContent() {
               />
               <Label size="xs" className="text-ink-500">This will be used in referral links</Label>
             </Stack>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Commission Rate</Label>
                 <Input
@@ -380,7 +380,7 @@ function AffiliatesProgramPageContent() {
                   </Button>
                 </Stack>
               </Card>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Status</Label>
                   {getStatusBadge(selectedAffiliate.status)}
@@ -392,7 +392,7 @@ function AffiliatesProgramPageContent() {
                   </Label>
                 </Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Total Revenue</Label>
                   <Label className="font-mono">${selectedAffiliate.total_revenue.toLocaleString()}</Label>
@@ -406,7 +406,7 @@ function AffiliatesProgramPageContent() {
                   <Label className="font-mono">${selectedAffiliate.pending_payout.toLocaleString()}</Label>
                 </Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Clicks</Label>
                   <Label className="font-mono">{selectedAffiliate.clicks.toLocaleString()}</Label>

@@ -97,7 +97,7 @@ export default function CheckoutContent() {
 
           {/* Cart Step */}
           {step === 'cart' && (
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <Card className="col-span-2">
                 <Card className="p-6">
                   <H2 className="mb-4">ORDER SUMMARY</H2>
@@ -145,7 +145,7 @@ export default function CheckoutContent() {
 
           {/* Payment Step */}
           {step === 'payment' && (
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <Card className="col-span-2 p-6">
                 <H2 className="mb-6">PAYMENT INFORMATION</H2>
                 <Stack gap={4}>
@@ -165,7 +165,7 @@ export default function CheckoutContent() {
                       onChange={(e) => setFormData({...formData, cardNumber: e.target.value})}
                     />
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Input 
                         placeholder="MM/YY" 
                         value={formData.expiry}
@@ -186,7 +186,7 @@ export default function CheckoutContent() {
                           value={formData.street}
                           onChange={(e) => setFormData({...formData, street: e.target.value})}
                         />
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           <Input 
                             placeholder="City" 
                             value={formData.city}

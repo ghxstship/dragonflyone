@@ -176,8 +176,8 @@ export default function TutorialsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-20 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Video className="size-10 text-brand-pink" />
@@ -202,15 +202,15 @@ export default function TutorialsPage() {
       </FullBleedSection>
 
       {/* Featured Tutorials */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4}>
               <H2 className="text-ink-950">FEATURED TUTORIALS</H2>
               <Body className="text-grey-600">Start with our most popular and comprehensive guides</Body>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {featuredTutorials.map((tutorial) => (
                 <Card 
                   key={tutorial.id} 
@@ -243,8 +243,8 @@ export default function TutorialsPage() {
       </FullBleedSection>
 
       {/* All Tutorials */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack direction="horizontal" className="items-center justify-between">
               <Stack gap={2}>
@@ -271,7 +271,7 @@ export default function TutorialsPage() {
             </Stack>
 
             {/* Tutorial Grid */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {allTutorials.map((tutorial) => (
                 <Card 
                   key={tutorial.id} 
@@ -298,8 +298,8 @@ export default function TutorialsPage() {
       </FullBleedSection>
 
       {/* Learning Paths */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4} className="text-center">
               <H2 className="text-white">LEARNING PATHS</H2>
@@ -308,7 +308,7 @@ export default function TutorialsPage() {
               </Body>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {learningPaths.map((path) => (
                 <Card 
                   key={path.title} 
@@ -343,8 +343,8 @@ export default function TutorialsPage() {
       </FullBleedSection>
 
       {/* Progress Tracking */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 p-8">
             <Stack direction="horizontal" gap={8} className="items-center">
               <Stack gap={4} className="flex-1">

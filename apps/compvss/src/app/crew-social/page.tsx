@@ -138,7 +138,7 @@ export default function CrewSocialPage() {
             </Alert>
           )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Crew Members" value={crewMembers.length.toString()} />
               <StatCard label="Online Now" value={onlineCount.toString()} />
               <StatCard label="Connections" value={totalConnections.toString()} />
@@ -161,7 +161,7 @@ export default function CrewSocialPage() {
 
             {isActive('roster') && (
               <Stack gap={6}>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   <Input
                     type="search"
                     placeholder="Search crew..."
@@ -184,7 +184,7 @@ export default function CrewSocialPage() {
                   </Button>
                 </Grid>
 
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   {filteredMembers.map(member => (
                     <Card
                       key={member.id}
@@ -242,7 +242,7 @@ export default function CrewSocialPage() {
                   </Button>
                 </Stack>
 
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   {photos.map(photo => (
                     <Card key={photo.id}>
                       <Card className="h-48 flex items-center justify-center">
@@ -277,7 +277,7 @@ export default function CrewSocialPage() {
             {isActive('connections') && (
               <Stack gap={6}>
                 <H3>My Connections</H3>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   {crewMembers.filter(m => m.connections.includes('CREW-001')).map(member => (
                     <Card key={member.id}>
                       <Stack direction="horizontal" className="justify-between items-center">
@@ -309,7 +309,7 @@ export default function CrewSocialPage() {
               </Stack>
             )}
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Button variant="solid" onClick={() => router.push('/crew')}>Full Directory</Button>
               <Button variant="outline" onClick={() => router.push('/channels')}>Channels</Button>
               <Button variant="outline">My Profile</Button>
@@ -344,7 +344,7 @@ export default function CrewSocialPage() {
                 <Body>{selectedMember.bio}</Body>
               )}
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Location</Body>
                   <Body>{selectedMember.location || 'Not specified'}</Body>
@@ -364,7 +364,7 @@ export default function CrewSocialPage() {
                 </Stack>
               </Stack>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="text-center">
                   <Body className="font-display">{selectedMember.projects_count}</Body>
                   <Body size="sm" className="">Projects</Body>

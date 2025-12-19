@@ -79,8 +79,8 @@ export default function CareersPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Label size="xs" className="text-on-dark-muted">
               CAREERS AT ATLVS
@@ -101,8 +101,8 @@ export default function CareersPage() {
       </FullBleedSection>
 
       {/* Perks */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">WHY ATLVS</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -131,8 +131,8 @@ export default function CareersPage() {
       </FullBleedSection>
 
       {/* Open Positions */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24" id="openings">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24" id="openings">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">OPEN POSITIONS</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -190,8 +190,8 @@ export default function CareersPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               DON&apos;T SEE YOUR ROLE?

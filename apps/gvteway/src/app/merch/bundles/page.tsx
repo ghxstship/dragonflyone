@@ -108,7 +108,7 @@ function BundlesPageContent() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Bundles" value={activeBundles} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={`$${(totalBundleRevenue / 1000).toFixed(0)}K`} className="border-2 border-black" />
             <StatCard label="Avg Savings" value={`${avgSavings}%`} className="border-2 border-black" />
@@ -130,7 +130,7 @@ function BundlesPageContent() {
           </Tabs>
 
           {isActive('bundles') && (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {bundles.map(bundle => (
                 <Card key={bundle.id} className={`border-2 p-6 ${bundle.is_active ? 'border-black' : 'border-ink-200 opacity-60'}`}>
                   <Stack gap={4}>
@@ -164,7 +164,7 @@ function BundlesPageContent() {
                     </Stack>
 
                     <Card className="p-4 bg-ink-50 border-2">
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         <Stack gap={1}>
                           <Label className="text-ink-500">Original</Label>
                           <Body className="line-through text-ink-600">${bundle.original_price}</Body>
@@ -254,7 +254,7 @@ function BundlesPageContent() {
           )}
 
           {isActive('analytics') && (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card className="p-6 border-2 border-black">
                 <Stack gap={4}>
                   <H3>Bundle Performance</H3>
@@ -354,7 +354,7 @@ function BundlesPageContent() {
               <Body className="text-ink-500">Select products to add to this bundle</Body>
               <Button variant="outline" size="sm">Add Product</Button>
             </Stack>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Field label="Bundle Price">
                 <Input type="number" placeholder="0.00" />
               </Field>
@@ -397,7 +397,7 @@ function BundlesPageContent() {
                   </Card>
                 ))}
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Bundle Price">
                   <Input type="number" defaultValue={selectedBundle.bundle_price} />
                 </Field>

@@ -110,7 +110,7 @@ export default function MyReportsPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Reports" value={reports.length.toString()} icon={<BarChart3 size={20} />} inverted />
           <StatCard label="Total Impressions" value={`${(totalImpressions / 1000000).toFixed(1)}M`} icon={<Eye size={20} />} inverted />
           <StatCard label="Total Engagements" value={`${(totalEngagements / 1000).toFixed(0)}K`} icon={<Users size={20} />} inverted />

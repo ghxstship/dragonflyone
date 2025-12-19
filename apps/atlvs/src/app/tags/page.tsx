@@ -195,7 +195,7 @@ export default function TagsPage() {
           id: 'overview',
           title: 'Tag Details',
           content: (
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Body size="sm"><strong>Name:</strong> {selectedTag.tag_name}</Body>
               <Body size="sm"><strong>Type:</strong> {selectedTag.tag_type}</Body>
               <Body size="sm"><strong>Color:</strong> {selectedTag.color_hex || '—'}</Body>

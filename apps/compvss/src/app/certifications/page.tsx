@@ -224,7 +224,7 @@ export default function CertificationsPage() {
       id: 'overview',
       title: 'Certification Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}><Body className="font-display">ID</Body><Body>{selectedCert.id}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedCert.crew_member_name}</Body></Stack>
           <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedCert.certification_type}</Body></Stack>

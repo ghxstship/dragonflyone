@@ -157,7 +157,7 @@ export default function AuditLogsPage() {
       id: 'overview',
       title: 'Log Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Timestamp:</strong> {new Date(selectedLog.created_at).toLocaleString()}</Body>
           <Body size="sm"><strong>User:</strong> {selectedLog.user?.full_name || selectedLog.user?.email || 'System'}</Body>
           <Body size="sm"><strong>Action:</strong> {selectedLog.action}</Body>

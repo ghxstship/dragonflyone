@@ -62,7 +62,7 @@ function ExclusiveAccessPageContent() {
               <Body className="text-on-dark-muted">Fan club presale windows and member benefits</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Upcoming Windows" value={upcomingWindows} className="border-2 border-black" />
             <StatCard label="Tickets Claimed" value={totalClaimed} className="border-2 border-black" />
@@ -109,7 +109,7 @@ function ExclusiveAccessPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('tiers')}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {mockTiers.map((tier) => (
                   <Card key={tier.name} className={`border-2 ${tier.color} p-6`}>
                     <Stack gap={4}>
@@ -140,7 +140,7 @@ function ExclusiveAccessPageContent() {
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Member Benefits Configuration</H3>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     {[
                       { benefit: "Early Ticket Access", description: "Priority access to ticket sales", enabled: true },
                       { benefit: "Exclusive Merch", description: "Member-only merchandise", enabled: true },
@@ -183,7 +183,7 @@ function ExclusiveAccessPageContent() {
                 <option value="Silver">Silver</option>
                 <option value="All Members">All Members</option>
               </Select>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Start</Label>
                   <Input type="datetime-local" defaultValue={selectedWindow.startDate.replace(" ", "T")} className="border-2 border-black" />
@@ -228,7 +228,7 @@ function ExclusiveAccessPageContent() {
               <option value="Silver">Silver</option>
               <option value="All Members">All Members</option>
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="datetime-local" placeholder="Start" className="border-2 border-black" />
               <Input type="datetime-local" placeholder="End" className="border-2 border-black" />
             </Grid>

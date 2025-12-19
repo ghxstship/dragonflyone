@@ -161,7 +161,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
       {/* Main Details Card */}
       <Card className="p-6">
         <Stack gap={6}>
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             <Stack gap={1}>
               <Body size="sm" className="font-weight-medium text-ink-500">Organization</Body>
               <Body size="lg">{advance.organization?.name || 'N/A'}</Body>

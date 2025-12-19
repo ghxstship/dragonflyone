@@ -151,7 +151,7 @@ export default function LogisticsPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Shipments" value={summary.active} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="In Transit" value={summary.in_transit} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Delayed" value={summary.delayed} trend={summary.delayed > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
@@ -242,18 +242,18 @@ export default function LogisticsPage() {
                 <Badge variant="outline">{selectedShipment.carrier}</Badge>
                 <Label className={getStatusColor(selectedShipment.status)}>{formatStatus(selectedShipment.status)}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Origin</Label><Label className="text-white">{selectedShipment.origin}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Destination</Label><Label className="text-white">{selectedShipment.destination}</Label></Stack>
               </Grid>
               {selectedShipment.tracking_number && (
                 <Stack gap={1}><Label className="text-ink-400">Tracking Number</Label><Label className="font-mono text-white">{selectedShipment.tracking_number}</Label></Stack>
               )}
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Ship Date</Label><Label className="font-mono text-white">{selectedShipment.ship_date}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Expected Delivery</Label><Label className="font-mono text-white">{selectedShipment.expected_delivery}</Label></Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}><Label className="text-ink-400">Items</Label><Label className="font-mono text-white">{selectedShipment.items_count}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Weight</Label><Label className="font-mono text-white">{selectedShipment.weight.toLocaleString()} lbs</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Cost</Label><Label className="font-mono text-white">${selectedShipment.cost.toLocaleString()}</Label></Stack>
@@ -271,7 +271,7 @@ export default function LogisticsPage() {
         <ModalHeader><H3>New Shipment</H3></ModalHeader>
         <ModalBody>
           <Stack gap={4}>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input 
                 placeholder="Origin City, State" 
                 className="border-ink-700 bg-black text-white" 
@@ -293,7 +293,7 @@ export default function LogisticsPage() {
               <option value="">Select Carrier...</option>
               {carriers.slice(1).map(c => <option key={c} value={c}>{c}</option>)}
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Ship Date</Label>
                 <Input 
@@ -313,7 +313,7 @@ export default function LogisticsPage() {
                 />
               </Stack>
             </Grid>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Input 
                 type="number" 
                 placeholder="Items" 

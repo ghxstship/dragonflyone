@@ -84,7 +84,7 @@ export default function SchedulePage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.total || 0).toString()}
                 label="Total Items"

@@ -64,14 +64,14 @@ export default function EventSettlementPage() {
           </Stack>
         ) : (
           <>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Gross Revenue" value={`$${(settlement.grossRevenue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
               <StatCard label="Total Costs" value={`$${(settlement.totalCosts / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
               <StatCard label="Net Profit" value={`$${(settlement.netProfit / 1000).toFixed(1)}K`} icon={<TrendingUp size={20} />} trend="up" inverted />
               <StatCard label="Margin" value={`${settlement.profitMargin}%`} icon={<CheckCircle size={20} />} inverted />
             </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

@@ -118,7 +118,7 @@ export default function MyRefundsPage() {
       <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
       <MainContent padding="lg"><Container>
         <Stack gap={8}>
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Pending" value={pendingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Approved" value={approvedCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<DollarSign size={20} />} inverted />

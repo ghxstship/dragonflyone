@@ -109,7 +109,7 @@ export default function AccountProfilePage() {
           </Alert>
         )}
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>
@@ -117,7 +117,7 @@ export default function AccountProfilePage() {
                   <User size={20} />
                   <H3 className="text-white">Personal Information</H3>
                 </Stack>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Label>First Name</Label>
                     <Input value={localProfile.firstName} onChange={(e) => setLocalProfile(p => ({ ...p, firstName: e.target.value }))} />

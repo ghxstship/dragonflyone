@@ -176,7 +176,7 @@ export default function SponsorDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Contract Value"
                 value={`$${sponsor.contract_value?.toLocaleString() || 0}`}
@@ -201,7 +201,7 @@ export default function SponsorDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>

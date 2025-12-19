@@ -183,7 +183,7 @@ export default function ArtistMerchPage() {
           </Field>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product: Product) => (
               <Card
@@ -258,7 +258,7 @@ export default function ArtistMerchPage() {
         >
           {selectedProduct && (
             <Stack gap={6}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack className="relative aspect-square bg-ink-100 rounded overflow-hidden">
                   {selectedProduct.images[0] ? (
                     <Image

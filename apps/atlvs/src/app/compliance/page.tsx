@@ -127,7 +127,7 @@ export default function CompliancePage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Compliance Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Title:</strong> {selectedItem.title}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedItem.compliance_type}</Body>
         <Body size="sm"><strong>Provider:</strong> {selectedItem.provider_name || '—'}</Body>

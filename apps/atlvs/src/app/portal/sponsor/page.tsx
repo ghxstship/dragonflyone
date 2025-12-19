@@ -38,14 +38,14 @@ export default function SponsorPortalPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Sponsor Portal" title="My Dashboard" description="Track sponsorship performance and ROI" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Investment" value={`$${(totalInvestment / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Impressions" value={`${(totalImpressions / 1000000).toFixed(1)}M`} icon={<Eye size={20} />} inverted />
           <StatCard label="Avg Engagement" value={`${avgEngagement.toFixed(1)}%`} icon={<TrendingUp size={20} />} inverted />
           <StatCard label="Active Deals" value={sponsorships.filter(s => s.status === 'active').length.toString()} icon={<Users size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

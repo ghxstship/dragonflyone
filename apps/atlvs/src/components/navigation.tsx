@@ -53,7 +53,7 @@ export function CreatorNavigationPublic() {
       <header className="sticky top-0 z-modal border-b border-ink-800 bg-ink-950/90 backdrop-blur">
         <Stack
           direction="horizontal"
-          className="mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+          className="mx-auto max-w-7xl items-center justify-between px-4 py-4 sm:px-4 sm:px-6 lg:px-8"
         >
           {/* Logo */}
           <Link href="/" className="font-display text-h3-md uppercase text-white sm:text-h2-md">

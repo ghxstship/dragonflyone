@@ -103,8 +103,8 @@ export default function ActivationsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Stack direction="horizontal" gap={3} className="items-center">
               <Zap className="size-6 text-brand-pink" />
@@ -135,9 +135,9 @@ export default function ActivationsPage() {
       </FullBleedSection>
 
       {/* Stats Section */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={8}>
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={4} className="sm:gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {activationsData.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
                 <Display size="md" className="text-ink-950">
@@ -153,8 +153,8 @@ export default function ActivationsPage() {
       </FullBleedSection>
 
       {/* Features Grid */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">PURPOSE-BUILT FOR ACTIVATIONS</H1>
             <Body className="mx-auto max-w-2xl text-grey-600">
@@ -162,7 +162,7 @@ export default function ActivationsPage() {
             </Body>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={4} className="sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {activationsData.features.map((feature) => (
               <Card
                 key={feature.title}
@@ -186,13 +186,13 @@ export default function ActivationsPage() {
       </FullBleedSection>
 
       {/* Use Cases */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-white">BUILT FOR EVERY ACTIVATION TYPE</H1>
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={4} className="sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {activationsData.useCases.map((useCase) => (
               <Card key={useCase.title} inverted className="border-2 border-ink-800 bg-ink-900 p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
                 <Stack gap={4}>
@@ -220,8 +220,8 @@ export default function ActivationsPage() {
       </FullBleedSection>
 
       {/* Testimonial */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-12 shadow-brand-lg">
             <Stack gap={6} className="text-center">
               <Body size="lg" className="text-grey-700 italic">
@@ -241,8 +241,8 @@ export default function ActivationsPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO TRANSFORM YOUR ACTIVATIONS?

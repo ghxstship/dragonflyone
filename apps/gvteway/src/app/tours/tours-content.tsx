@@ -74,7 +74,7 @@ export default function ToursContent() {
         </Section>
 
         <Card className="p-6 mb-8">
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Search Artist or Tour">
               <Input
                 value={searchTerm}

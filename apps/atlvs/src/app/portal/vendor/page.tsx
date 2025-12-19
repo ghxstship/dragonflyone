@@ -37,14 +37,14 @@ export default function VendorPortalPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Vendor Portal" title="My Dashboard" description="Manage contracts, invoices, and payments" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Active Contracts" value={contracts.filter(c => c.status === 'active').length.toString()} icon={<FileText size={20} />} inverted />
           <StatCard label="Active Value" value={`$${(activeValue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Pending" value={`$${(pendingValue / 1000).toFixed(0)}K`} icon={<Clock size={20} />} inverted />
           <StatCard label="Paid YTD" value={`$${(completedValue / 1000).toFixed(0)}K`} icon={<CheckCircle size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

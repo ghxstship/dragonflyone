@@ -66,8 +66,8 @@ export default function PressPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Label size="xs" className="text-on-dark-muted">
               NEWSROOM
@@ -83,8 +83,8 @@ export default function PressPage() {
       </FullBleedSection>
 
       {/* Featured News */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16">
             <H1 className="text-ink-950">IN THE NEWS</H1>
           </Stack>
@@ -116,8 +116,8 @@ export default function PressPage() {
       </FullBleedSection>
 
       {/* Press Releases */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="sm:grid-cols-1">
             <Stack gap={8}>
               <H1 className="text-ink-950">PRESS RELEASES</H1>
@@ -163,8 +163,8 @@ export default function PressPage() {
       </FullBleedSection>
 
       {/* Contact */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               PRESS INQUIRIES

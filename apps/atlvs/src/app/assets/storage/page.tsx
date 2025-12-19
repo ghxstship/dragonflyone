@@ -57,7 +57,7 @@ export default function StorageOptimizationPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Location Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
         <Body size="sm"><strong>Type:</strong> {selected.type}</Body>
         <Body size="sm"><strong>Category:</strong> {selected.category}</Body>

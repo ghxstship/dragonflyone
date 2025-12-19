@@ -132,7 +132,7 @@ export default function SiteSurveysPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.total_surveys || 0).toString()}
                 label="Total Surveys"
@@ -154,7 +154,7 @@ export default function SiteSurveysPage() {
             <Card>
               <Stack gap={4}>
                 <H2>Survey Checklist Categories</H2>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Card>
                     <Stack gap={2}>
                       <Body size="sm" className="">Power/Electrical</Body>

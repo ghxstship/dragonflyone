@@ -89,7 +89,7 @@ function FanContentPageContent() {
               <Body className="text-on-dark-muted">Discover and share fan-created content from events</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Submissions" value={content.length.toString()} inverted />
               <StatCard label="Featured" value={featuredCount.toString()} inverted />
               <StatCard label="Total Likes" value={totalLikes.toLocaleString()} inverted />

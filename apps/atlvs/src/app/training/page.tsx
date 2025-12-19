@@ -84,7 +84,7 @@ export default function TrainingPage() {
 
   const detailSections: DetailSection[] = selectedProgram ? [
     { id: 'overview', title: 'Program Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Title:</strong> {selectedProgram.title}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedProgram.category}</Body>
         <Body size="sm"><strong>Duration:</strong> {selectedProgram.duration_hours} hours</Body>

@@ -265,7 +265,7 @@ export default function OpportunitiesPage() {
           id: 'overview',
           title: 'Opportunity Details',
           content: (
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Body size="sm"><strong>Name:</strong> {selectedOpportunity.name}</Body>
               <Body size="sm"><strong>Type:</strong> {typeLabels[selectedOpportunity.type] || selectedOpportunity.type}</Body>
               <Body size="sm"><strong>Stage:</strong> {selectedOpportunity.stage.replace(/_/g, ' ')}</Body>

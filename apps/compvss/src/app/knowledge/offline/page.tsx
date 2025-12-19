@@ -82,7 +82,7 @@ export default function OfflineAccessPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Synced Content" value={syncedCount.toString()} />
               <StatCard label="Needs Update" value={outdatedCount.toString()} trend={outdatedCount > 0 ? 'down' : 'neutral'} />
               <StatCard label="Downloaded" value={totalSize} />
@@ -141,7 +141,7 @@ export default function OfflineAccessPage() {
             )}
 
             {isActive('packages') && (
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {packages.map((pkg) => (
                   <Card key={pkg.id}>
                     <Stack gap={4}>
@@ -152,7 +152,7 @@ export default function OfflineAccessPage() {
                         </Stack>
                         <Badge variant={pkg.downloaded ? 'solid' : 'outline'}>{pkg.downloaded ? 'Downloaded' : 'Available'}</Badge>
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className="">Content Items</Body>
                           <Body className="font-mono">{pkg.contentCount}</Body>
@@ -177,7 +177,7 @@ export default function OfflineAccessPage() {
                 <Card>
                   <Stack gap={4}>
                     <H3>Sync Settings</H3>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={2}>
                         <Body>Auto-Sync</Body>
                         <Select>
@@ -245,7 +245,7 @@ export default function OfflineAccessPage() {
           {selectedPackage && (
             <Stack gap={4}>
               <Body>{selectedPackage.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Content Items</Body><Body className="font-mono">{selectedPackage.contentCount}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Total Size</Body><Body className="font-mono">{selectedPackage.totalSize}</Body></Stack>
               </Grid>

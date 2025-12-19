@@ -55,7 +55,7 @@ function AccessibilityPageContent() {
                 )}
               </Stack>
               <Body className="text-ink-600">{mockAgeRestriction.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="p-3 bg-ink-50 border-2 border-ink-200">
                   <Stack direction="horizontal" gap={2}>
                     <Label className={mockAgeRestriction.idRequired ? "text-success-600" : "text-ink-600"}>
@@ -84,7 +84,7 @@ function AccessibilityPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('services')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {mockServices.map((service) => (
                   <Card key={service.id} className={`border-2 p-4 ${service.available ? "border-black" : "border-ink-300 opacity-60"}`}>
                     <Stack gap={3}>
@@ -143,7 +143,7 @@ function AccessibilityPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('venue')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>VENUE ACCESSIBILITY</H3>
@@ -192,7 +192,7 @@ function AccessibilityPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
             <Button variant="solid" inverted onClick={() => setShowRequestModal(true)}>Request Accommodation</Button>
           </Grid>

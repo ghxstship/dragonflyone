@@ -166,7 +166,7 @@ export default function SafetyPage() {
 
           <Card>
             <H2 className="mb-4">SAFETY RESOURCES</H2>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { title: 'Emergency Procedures', icon: AlertTriangle, docs: 12 },
                 { title: 'Safety Protocols', icon: Shield, docs: 24 },

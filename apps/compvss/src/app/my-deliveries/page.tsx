@@ -95,7 +95,7 @@ export default function MyDeliveriesPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             label="Scheduled"
             value={scheduledCount.toString()}
@@ -159,7 +159,7 @@ export default function MyDeliveriesPage() {
                           <Body className="text-on-dark-muted">{delivery.id}</Body>
                         </Stack>
 
-                        <Grid cols={2} gap={4}>
+                        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           <Stack gap={2}>
                             <Body size="sm" className=" text-on-dark-muted">Items</Body>
                             <Stack gap={1}>

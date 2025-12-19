@@ -71,7 +71,7 @@ export default function AuditPage() {
 
   const detailSections: DetailSection[] = selectedLog ? [
     { id: 'overview', title: 'Audit Log Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Timestamp:</strong> {selectedLog.timestamp || new Date(selectedLog.created_at).toLocaleString()}</Body>
         <Body size="sm"><strong>User:</strong> {selectedLog.user?.email || selectedLog.user_email || '—'}</Body>
         <Body size="sm"><strong>Action:</strong> {selectedLog.action}</Body>

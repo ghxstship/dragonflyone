@@ -76,7 +76,7 @@ export default function WeatherPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={activeAlerts.toString()}
                 label="Active Alerts"
@@ -139,7 +139,7 @@ export default function WeatherPage() {
 
             <Stack gap={4}>
               <H3>3-Day Forecast: Ultra Miami 2025</H3>
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 {forecasts.map((day: Forecast, idx: number) => (
                   <Card key={idx}>
                     <Body className="font-mono">{day.date}</Body>

@@ -26,7 +26,7 @@ export default function ProductionQualityPage() {
         <StatCard label="Open Issues" value={stats.issues.toString()} icon={<AlertCircle size={20} />} trend={stats.issues > 0 ? "down" : "up"} />
         <StatCard label="Resolved" value={stats.resolved.toString()} icon={<CheckSquare size={20} />} trend="up" />
       </div>
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/quality/qa-checkpoints`)}>
           <CardBody><Stack gap={3} className="items-center text-center"><Box className="flex size-12 items-center justify-center rounded bg-ink-100"><ClipboardCheck size={24} className="text-primary" /></Box><Body className="font-weight-bold">QA Checkpoints</Body></Stack></CardBody>
         </Card>

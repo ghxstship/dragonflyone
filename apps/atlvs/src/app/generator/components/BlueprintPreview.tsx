@@ -58,8 +58,8 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
   });
 
   return (
-    <FullBleedSection background="white" className="py-16">
-      <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+    <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+      <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
         {/* Blueprint Header - Compact Hero */}
         <Box className="mb-10">
           <Stack gap={6} className="text-center">
@@ -114,7 +114,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
 
           {/* Concept Tab */}
           <TabPanel active={isActive('concept')}>
-            <Grid cols={2} gap={8}>
+            <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card className="border-2 border-ink-950 p-8 shadow-md">
                 <H3 className="mb-4 font-display text-h4-md uppercase text-ink-950">
                   Core Narrative
@@ -273,7 +273,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
               <H3 className="mb-4 font-display text-h4-md uppercase text-ink-950">
                 Experience Zones
               </H3>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {blueprint.spatialTemporal.zones.map((zone) => (
                   <Box
                     key={zone.code}
@@ -317,7 +317,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                       <Text className="mb-4 font-mono text-mono-sm italic text-grey-500">
                         Emotional State: {phase.emotionalState}
                       </Text>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Box>
                           <Text className="mb-2 font-mono text-mono-xs uppercase text-grey-400">
                             Touchpoints
@@ -352,7 +352,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
 
           {/* Documents Tab */}
           <TabPanel active={isActive('documents')}>
-            <Grid cols={2} gap={8}>
+            <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card className="border-2 border-ink-950 p-6 shadow-md">
                 <Box className="mb-4 flex items-center gap-3">
                   <FileText className="size-6 text-ink-950" />
@@ -414,7 +414,7 @@ export function BlueprintPreview({ blueprint }: BlueprintPreviewProps) {
                 <H3 className="mb-4 font-display text-h5-md uppercase text-ink-950">
                   Credential Types
                 </H3>
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {blueprint.documents.credentialTypes.map((cred, i) => (
                     <Box
                       key={i}

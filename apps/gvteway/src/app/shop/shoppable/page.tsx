@@ -55,7 +55,7 @@ function ShoppablePostsPageContent() {
               <Body className="text-on-dark-muted">Shop products featured in fan posts and social content</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Shoppable Posts" value={mockPosts.length} className="border-2 border-black" />
             <StatCard label="Products Tagged" value={totalProducts} className="border-2 border-black" />
             <StatCard label="Total Engagement" value={totalEngagement.toLocaleString()} className="border-2 border-black" />
@@ -71,7 +71,7 @@ function ShoppablePostsPageContent() {
             </TabsList>
 
             <TabPanel active={true}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredPosts.map((post) => (
                   <Card key={post.id} className="border-2 border-black overflow-hidden">
                     <Card className="h-64 bg-ink-100 relative flex items-center justify-center cursor-pointer" onClick={() => setSelectedPost(post)}>
@@ -92,7 +92,7 @@ function ShoppablePostsPageContent() {
                       {post.eventName && <Badge variant="outline">{post.eventName}</Badge>}
                       <Stack gap={2}>
                         <Label size="xs" className="text-ink-500">Shop Products:</Label>
-                        <Grid cols={3} gap={2}>
+                        <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
                           {post.products.map((product) => (
                             <Card key={product.id} className="p-2 border-2 border-ink-200 cursor-pointer hover:border-black" onClick={() => setSelectedProduct(product)}>
                               <Stack gap={1} className="text-center">
@@ -113,7 +113,7 @@ function ShoppablePostsPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push("/merch")}>Browse All Merch</Button>
             <Button variant="outlineInk" onClick={() => router.push("/community/fan-content")}>Fan Content</Button>
           </Grid>

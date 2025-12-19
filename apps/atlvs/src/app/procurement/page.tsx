@@ -202,7 +202,7 @@ export default function ProcurementPage() {
       id: 'overview',
       title: 'Purchase Order Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>PO Number:</strong> {selectedPO.id}</Body>
           <Body size="sm"><strong>Vendor:</strong> {selectedPO.vendor}</Body>
           <Body size="sm"><strong>Description:</strong> {selectedPO.description}</Body>

@@ -139,7 +139,7 @@ export default function CreatorsPage() {
 
         {/* Stats */}
         <Section border>
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {creatorHero.stats.map((stat) => (
               <Card key={stat.label} className="space-y-2 bg-transparent">
                 <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
@@ -156,7 +156,7 @@ export default function CreatorsPage() {
             title="Everything You Need to Sell Tickets"
             description="From event creation to post-show analytics, GVTEWAY provides the complete toolkit for modern event creators."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayEventBlueprint.map((card) => (
               <Article key={card.title} className="border-2 border-ink-800 bg-ink-950/60 p-6">
                 <Label size="xs" className="tracking-display text-ink-500">Feature</Label>
@@ -192,7 +192,7 @@ export default function CreatorsPage() {
             title="Dynamic Layouts + Capacity Telemetry"
             description="Configure seating charts, VIP zones, and capacity controls with real-time availability tracking."
           />
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {gvtewaySeatingBlueprint.map((node) => (
               <Article key={node.id} className="space-y-4 border-2 border-ink-800 p-6">
                 <Stack direction="horizontal" className="items-center justify-between">
@@ -268,7 +268,7 @@ export default function CreatorsPage() {
             description="Start free and scale as you grow. No hidden fees, transparent pricing."
             align="center"
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {pricingTiers.map((tier) => (
               <Article 
                 key={tier.name} 
@@ -307,7 +307,7 @@ export default function CreatorsPage() {
             title="Access, Trust, and Financial Controls"
             description="Multi-tier ticketing, anti-scalping protection, and financial guardrails for compliant operations."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayTicketingStack.map((card) => (
               <Article key={card.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{card.title}</H3>
@@ -332,7 +332,7 @@ export default function CreatorsPage() {
             title="Merchandise, Venue Operations, and Loyalty"
             description="Unified inventory, offline-ready POS, and loyalty orchestration for complete venue commerce."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayCommerceLanes.map((lane) => (
               <Article key={lane.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{lane.title}</H3>
@@ -353,7 +353,7 @@ export default function CreatorsPage() {
             title="Commerce, Marketing, and Membership Telemetry"
             description="Real-time analytics across all revenue streams with executive-level dashboards."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayRevenuePanels.map((panel) => (
               <Article key={panel.title} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{panel.kicker}</Label>
@@ -379,7 +379,7 @@ export default function CreatorsPage() {
             title="Payout Reconciliation + Variance Control"
             description="Nightly settlements with variance watchdogs and transparent payout tracking."
           />
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayReconciliationInsights.stats.map((stat) => (
               <Article key={stat.label} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="tracking-display text-ink-500">{stat.label}</Label>
@@ -435,7 +435,7 @@ export default function CreatorsPage() {
             description="See how organizers, venues, and promoters are growing with GVTEWAY."
             align="center"
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {testimonials.map((testimonial) => (
               <Article key={testimonial.author} className="border-2 border-ink-800 p-6">
                 <Body size="sm" className="italic text-ink-200">&ldquo;{testimonial.quote}&rdquo;</Body>
@@ -456,7 +456,7 @@ export default function CreatorsPage() {
             title="Connect Your Stack"
             description="Zapier, Make, n8n, and native integrations with the tools you already use."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayAutomationProgram.map((program) => (
               <Article key={program.title} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{program.title}</Label>
@@ -479,7 +479,7 @@ export default function CreatorsPage() {
             title="Tri-Platform Sync"
             description="GVTEWAY integrates seamlessly with ATLVS (finance) and COMPVSS (production) for end-to-end event operations."
           />
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {gvtewayIntegrationLinks.map((block) => (
               <Article key={block.title} className="border-2 border-ink-800 p-6">
                 <H3 size="sm">{block.title}</H3>
@@ -500,7 +500,7 @@ export default function CreatorsPage() {
             title="Foundation → Enhancement → Scale"
             description="Our commitment to continuous improvement and feature development."
           />
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {gvtewayDevelopmentPhases.map((phase) => (
               <Article key={phase.phase} className="border-2 border-ink-800 p-6">
                 <Label size="xs" className="font-code tracking-display text-ink-500">{phase.phase}</Label>

@@ -83,7 +83,7 @@ export default function ProposalsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={proposals.length.toString()} label="Total Proposals" />
               <StatCard value={formatCurrency(totalValue)} label="Pipeline Value" />
               <StatCard value={formatCurrency(wonValue)} label="Won Value" />
@@ -140,7 +140,7 @@ export default function ProposalsPage() {
               </TableBody>
             </Table>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
               <Button variant="outline" onClick={() => router.push("/rfp")}>RFPs</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -158,7 +158,7 @@ export default function ProposalsPage() {
                 <Badge variant="outline">v{selectedProposal.version}</Badge>
                 <Badge variant={getStatusVariant(selectedProposal.status)}>{selectedProposal.status}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Client</Body>
                   <Body>{selectedProposal.client}</Body>
@@ -168,7 +168,7 @@ export default function ProposalsPage() {
                   <Body className="font-display">{formatCurrency(selectedProposal.value)}</Body>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Due Date</Body>
                   <Body>{selectedProposal.dueDate}</Body>

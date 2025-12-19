@@ -83,7 +83,7 @@ export default function MobileJobSearchPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Available Jobs" value={jobs.length.toString()} />
               <StatCard label="Saved" value={savedJobs.length.toString()} />
               <StatCard label="Applied" value={appliedJobs.length.toString()} />
@@ -235,7 +235,7 @@ export default function MobileJobSearchPage() {
                 <Badge className={getTypeColor(selectedJob.type)}>{selectedJob.type}</Badge>
                 <Body className="font-mono">{selectedJob.rate}</Body>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Location</Body><Body>{selectedJob.location}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Posted</Body><Body>{selectedJob.posted}</Body></Stack>
               </Grid>

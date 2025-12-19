@@ -94,7 +94,7 @@ export default function CaseStudiesPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={caseStudies.length.toString()} label="Total Studies" />
               <StatCard value={caseStudies.filter(s => s.type === "Success").length.toString()} label="Success Stories" />
               <StatCard value={caseStudies.filter(s => s.type === "Post-Mortem").length.toString()} label="Post-Mortems" />
@@ -102,7 +102,7 @@ export default function CaseStudiesPage() {
             </Grid>
 
             {/* Filters */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Input type="search" placeholder="Search case studies..." />
               <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -113,7 +113,7 @@ export default function CaseStudiesPage() {
             </Grid>
 
             {/* Case Studies Grid */}
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredStudies.map((study) => (
                 <Card key={study.id} className="cursor-pointer p-6" onClick={() => setSelectedStudy(study)}>
                   <Stack gap={4}>
@@ -160,7 +160,7 @@ export default function CaseStudiesPage() {
                 <Body>{selectedStudy.summary}</Body>
               </Stack>
               {selectedStudy.metrics && (
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {selectedStudy.metrics.map((m, idx) => (
                     <Card key={idx} className="p-3 text-center">
                       <Body className="text-body-lg font-display">{m.value}</Body>

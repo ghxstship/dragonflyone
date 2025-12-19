@@ -54,7 +54,7 @@ function FloorConfigPageContent() {
               <Body className="text-on-dark-muted">Configure general admission areas and floor sections</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Capacity" value={totalCapacity.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Tickets Sold" value={totalSold.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Occupancy" value={`${((totalSold / totalCapacity) * 100).toFixed(0)}%`} className="border-2 border-black" />
@@ -140,7 +140,7 @@ function FloorConfigPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('capacity')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Capacity Overview</H3>
@@ -180,7 +180,7 @@ function FloorConfigPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
             <Button variant="outlineInk">Save Configuration</Button>
             <Button variant="solid" inverted>Publish Changes</Button>
@@ -200,7 +200,7 @@ function FloorConfigPageContent() {
               <option value="VIP">VIP</option>
               <option value="ADA">ADA</option>
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="number" placeholder="Capacity" />
               <Input type="number" placeholder="Price ($)" />
             </Grid>
@@ -222,7 +222,7 @@ function FloorConfigPageContent() {
           {selectedSection && (
             <Stack gap={4}>
               <Input defaultValue={selectedSection.name} />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Input type="number" defaultValue={selectedSection.capacity} />
                 <Input type="number" defaultValue={selectedSection.price} />
               </Grid>

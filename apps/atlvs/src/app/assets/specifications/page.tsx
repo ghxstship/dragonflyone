@@ -90,14 +90,14 @@ export default function AssetSpecificationsPage() {
         <Container>
           <Stack gap={8}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Spec Sheets" value={specs.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Documents" value={totalDocs} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Categories" value={7} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Linked Assets" value={specs.reduce((sum, s) => sum + s.relatedAssets, 0)} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Input type="search" placeholder="Search specifications..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="border-ink-700 bg-black text-white" />
             <Select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="border-ink-700 bg-black text-white">
               <option value="All">All Categories</option>
@@ -119,7 +119,7 @@ export default function AssetSpecificationsPage() {
             </TabsList>
 
             <TabPanel active={isActive('library')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredSpecs.map((spec) => (
                   <Card key={spec.id} className="border-2 border-ink-800 bg-ink-900/50 overflow-hidden">
                     <Card className="p-4 bg-ink-800">
@@ -132,7 +132,7 @@ export default function AssetSpecificationsPage() {
                       </Stack>
                     </Card>
                     <Stack className="p-4" gap={4}>
-                      <Grid cols={2} gap={2}>
+                      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                         {spec.specifications.slice(0, 4).map((s, idx) => (
                           <Stack key={idx} gap={0}>
                             <Label size="xs" className="text-ink-500">{s.label}</Label>
@@ -181,7 +181,7 @@ export default function AssetSpecificationsPage() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Button variant="outline" className="border-ink-700 text-ink-400">Import Specs</Button>
             <Button variant="outline" className="border-ink-700 text-ink-400">Export Library</Button>
             <Button variant="outline" className="border-ink-700 text-ink-400" onClick={() => router.push("/assets")}>Back to Assets</Button>
@@ -199,7 +199,7 @@ export default function AssetSpecificationsPage() {
               
               <Stack gap={2}>
                 <Label className="text-ink-400">Specifications</Label>
-                <Grid cols={2} gap={3}>
+                <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                   {selectedSpec.specifications.map((s, idx) => (
                     <Card key={idx} className="p-2 bg-ink-800 border-2 border-ink-700">
                       <Stack gap={0}>
@@ -247,7 +247,7 @@ export default function AssetSpecificationsPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Equipment Name" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input placeholder="Manufacturer" className="border-ink-700 bg-black text-white" />
               <Input placeholder="Model" className="border-ink-700 bg-black text-white" />
             </Grid>

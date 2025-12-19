@@ -40,7 +40,7 @@ export default function ProductionMetricsPage() {
         </Stack>
       </Stack>
 
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <StatCard label="Attendance" value={metrics.attendance.toLocaleString()} icon={<Users size={20} />} trend="up" trendValue="+12% vs target" inverted />
         <StatCard label="Revenue" value={`$${(metrics.revenue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} trend="up" trendValue="+8% vs budget" inverted />
         <StatCard label="Satisfaction" value={`${metrics.satisfaction}/5`} icon={<Target size={20} />} trend="up" trendValue="Above target" inverted />

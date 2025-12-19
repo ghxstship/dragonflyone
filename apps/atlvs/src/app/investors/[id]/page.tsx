@@ -125,7 +125,7 @@ export default function InvestorDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Investment Amount"
                 value={`$${investor.investment_amount?.toLocaleString() || 0}`}
@@ -148,7 +148,7 @@ export default function InvestorDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -156,7 +156,7 @@ export default function InvestorDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Investment Details</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Investment Amount</Body>
                           <Body className="font-weight-semibold">${investor.investment_amount?.toLocaleString()}</Body>

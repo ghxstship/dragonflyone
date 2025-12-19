@@ -112,7 +112,7 @@ export default function SiteAccessPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={`${openPoints}/${accessPoints.length}`} label="Open Access Points" />
               <StatCard value={activeVehicles.toString()} label="Vehicles On Site" />
               <StatCard value={activePasses.toString()} label="Active Passes" />
@@ -127,7 +127,7 @@ export default function SiteAccessPage() {
               </TabsList>
 
               <TabPanel active={isActive('access')}>
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   {accessPoints.map((point) => (
                     <Card key={point.id} className="p-6">
                       <Stack gap={4}>
@@ -203,7 +203,7 @@ export default function SiteAccessPage() {
                     <Stack gap={2}>
                       {vehiclePasses.map((pass) => (
                         <Card key={pass.id} className="p-4">
-                          <Grid cols={4} gap={4}>
+                          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                             <Stack gap={1}>
                               <Body size="sm" className="">Time</Body>
                               <Body>{new Date(pass.validFrom).toLocaleTimeString()}</Body>
@@ -229,7 +229,7 @@ export default function SiteAccessPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid" onClick={() => setShowAddPassModal(true)}>Issue Vehicle Pass</Button>
               <Button variant="outline">Print Manifest</Button>
               <Button variant="outline" onClick={() => router.push("/build-strike")}>Build & Strike</Button>
@@ -252,7 +252,7 @@ export default function SiteAccessPage() {
             <Input placeholder="License Plate" />
             <Input placeholder="Company" />
             <Input placeholder="Driver Name" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="datetime-local" />
               <Input type="datetime-local" />
             </Grid>
@@ -269,7 +269,7 @@ export default function SiteAccessPage() {
         <ModalBody>
           {selectedPass && (
             <Stack gap={4}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Vehicle</Body>
                   <Body>{selectedPass.vehicleType}</Body>

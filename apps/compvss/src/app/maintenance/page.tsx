@@ -130,7 +130,7 @@ export default function MaintenancePage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Equipment</Body><Body>{selectedItem.equipment_name}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Type</Body><Body>{formatStatus(selectedItem.type)}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Priority</Body><Body>{selectedItem.priority}</Body></Stack>

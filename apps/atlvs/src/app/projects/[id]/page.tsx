@@ -155,7 +155,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
               </StatusBadge>
             </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <Card className="border-2 border-ink-800 p-6">
             <Label className="font-mono text-mono-xs uppercase tracking-label text-ink-500">Budget</Label>
             <Body className="mt-3 font-display text-h4-md text-white">${(budget / 1000).toFixed(0)}K</Body>
@@ -177,7 +177,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           </Card>
         </Grid>
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack gap={6} className="md:col-span-2">
             <Section border>
               <H2 className="mb-4 text-white">Project Overview</H2>

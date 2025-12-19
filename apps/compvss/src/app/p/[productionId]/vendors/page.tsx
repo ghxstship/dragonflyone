@@ -85,7 +85,7 @@ export default function ProductionVendorsPage() {
           <Button variant="solid"><Plus size={16} className="mr-2" />Add Vendor</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Vendors" value={vendors.length.toString()} icon={<Building2 size={20} />} inverted />
           <StatCard label="Active" value={activeVendors.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Contract Value" value={`$${(totalContractValue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
@@ -107,7 +107,7 @@ export default function ProductionVendorsPage() {
                   <Spinner variant="grey" size="lg" />
                 </Stack>
               ) : (
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredVendors.map(vendor => (
                   <Card key={vendor.id} variant="elevated" inverted>
                     <CardBody>

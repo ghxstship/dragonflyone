@@ -229,7 +229,7 @@ export default function ExperiencesPage() {
               />
             ) : viewMode === "grid" ? (
               <StaggerChildren staggerDelay={100} animation="slide-up">
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   {filteredExperiences.map((exp) => (
                     <Card
                       key={exp.id}

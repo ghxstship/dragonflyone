@@ -42,7 +42,7 @@ function ContentCalendarPageContent() {
               <Body className="text-on-dark-muted">Schedule and manage social media content</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Scheduled" value={scheduledCount.toString()} inverted />
               <StatCard label="Published" value={publishedCount.toString()} inverted />
               <StatCard label="Drafts" value={mockPosts.filter(p => p.status === "Draft").length.toString()} inverted />
@@ -93,7 +93,7 @@ function ContentCalendarPageContent() {
             <Stack gap={4}>
               <Input defaultValue={selectedPost.title} />
               <Textarea defaultValue={selectedPost.content} rows={3} />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Select defaultValue={selectedPost.platform}>
                   <option value="All">All Platforms</option>
                   <option value="Instagram">Instagram</option>
@@ -108,7 +108,7 @@ function ContentCalendarPageContent() {
                   <option value="Story">Story</option>
                 </Select>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Input type="date" defaultValue={selectedPost.scheduledDate} />
                 <Input type="time" defaultValue={selectedPost.scheduledTime} />
               </Grid>
@@ -127,7 +127,7 @@ function ContentCalendarPageContent() {
           <Stack gap={4}>
             <Input placeholder="Post title" />
             <Textarea placeholder="Content..." rows={3} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Platform...</option>
                 <option value="All">All Platforms</option>
@@ -142,7 +142,7 @@ function ContentCalendarPageContent() {
                 <option value="Carousel">Carousel</option>
               </Select>
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="date" />
               <Input type="time" />
             </Grid>

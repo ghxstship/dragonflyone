@@ -202,7 +202,7 @@ export default function BillsPage() {
       id: 'overview',
       title: 'Bill Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Bill #:</strong> {selectedBill.bill_number}</Body>
           <Body size="sm"><strong>Status:</strong> <Badge variant={statusColors[selectedBill.status]}>{selectedBill.status.toUpperCase()}</Badge></Body>
           <Body size="sm"><strong>Vendor:</strong> {selectedBill.vendor?.name || '—'}</Body>

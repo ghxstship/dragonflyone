@@ -68,7 +68,7 @@ export default function SocialPage() {
               <Body className="text-on-dark-muted">Connect with the community</Body>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Feed */}
               <Card inverted variant="elevated" className="col-span-2 p-0">
                 <Stack gap={0}>

@@ -116,8 +116,8 @@ export default async function SolutionPage({ params }: PageProps) {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
@@ -164,8 +164,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Pain Points */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -193,8 +193,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Key Features */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500 uppercase tracking-kicker">THE SOLUTION</Label>
@@ -225,8 +225,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Product Integration */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -270,8 +270,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Testimonial Placeholder */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-8 lg:p-12 text-center shadow-brand-lg">
             <Stack gap={6} className="items-center">
               <Box className="flex h-16 w-16 items-center justify-center border-2 border-ink-950 bg-grey-100 rounded-avatar">
@@ -290,8 +290,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Related Solutions */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4} className="text-center">
               <H1 className="text-ink-950">EXPLORE OTHER SOLUTIONS</H1>
@@ -327,8 +327,8 @@ export default async function SolutionPage({ params }: PageProps) {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO GET STARTED?

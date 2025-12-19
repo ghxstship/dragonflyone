@@ -100,7 +100,7 @@ export default function MyInvoicesPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Pending Payment"
             value={`$${totalPending.toLocaleString()}`}

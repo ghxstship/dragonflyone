@@ -75,7 +75,7 @@ export default function VendorPortalPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Active Contracts"
             value={displayVendorData.activeContracts.toString()}
@@ -102,7 +102,7 @@ export default function VendorPortalPage() {
           />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card inverted>
             <CardBody>
               <Stack gap={4}>
@@ -185,7 +185,7 @@ export default function VendorPortalPage() {
           <CardBody>
             <Stack gap={4}>
               <H3 className="text-white">Quick Actions</H3>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Link href="/my-deliveries">
                   <Card className="cursor-pointer transition-colors hover:bg-ink-800">
                     <CardBody>

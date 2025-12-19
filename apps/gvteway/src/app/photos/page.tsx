@@ -106,7 +106,7 @@ export default function PhotoGalleriesPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Total Photos"
             value={totalPhotos.toString()}
@@ -147,7 +147,7 @@ export default function PhotoGalleriesPage() {
         </Stack>
 
         {activeView === 'galleries' && (
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {galleries.length > 0 ? (
               galleries.map(gallery => (
                 <Card
@@ -205,7 +205,7 @@ export default function PhotoGalleriesPage() {
         )}
 
         {activeView === 'feed' && (
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             {photos.length > 0 ? (
               photos.map(photo => (
                 <Card

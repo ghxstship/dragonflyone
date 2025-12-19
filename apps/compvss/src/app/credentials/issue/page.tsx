@@ -92,7 +92,7 @@ export default function IssueCredentialPage() {
               </Stack>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Left: Form */}
               <Box className="col-span-2">
                 <Card className="border-2 border-grey-200 p-6">
@@ -100,7 +100,7 @@ export default function IssueCredentialPage() {
                     {/* Credential Type Selection */}
                     <Stack gap={2}>
                       <H3>Select Credential Type</H3>
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         {credentialTypes?.filter(t => t.is_active).map(type => (
                           <Card
                             key={type.id}

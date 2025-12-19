@@ -83,8 +83,8 @@ export default function GuidesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <BookOpen className="size-8 text-brand-pink" />
@@ -103,8 +103,8 @@ export default function GuidesPage() {
       </FullBleedSection>
 
       {/* Featured Guide */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <NextLink href={`/guides/${guidesData.featured.slug}`}>
             <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
               <Stack direction="horizontal" className="flex-col items-center justify-between gap-8 sm:flex-row">
@@ -137,8 +137,8 @@ export default function GuidesPage() {
       </FullBleedSection>
 
       {/* Guide Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={8} className="sm:grid-cols-1">
             {guidesData.categories.map((category) => (
               <Card key={category.title} className="border-2 border-ink-950 bg-white p-8 shadow-md">
@@ -170,8 +170,8 @@ export default function GuidesPage() {
       </FullBleedSection>
 
       {/* Popular Downloads */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-12 text-center">
             <H1 className="text-white">POPULAR DOWNLOADS</H1>
             <Body size="lg" className="text-on-dark-secondary">
@@ -207,8 +207,8 @@ export default function GuidesPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               NEED MORE HELP?

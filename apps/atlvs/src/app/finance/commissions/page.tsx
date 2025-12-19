@@ -100,7 +100,7 @@ export default function CommissionsPage() {
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Commission Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Sales Rep:</strong> {selectedRecord.salesRep}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedRecord.status}</Body>
         <Body size="sm"><strong>Deal:</strong> {selectedRecord.dealName}</Body>

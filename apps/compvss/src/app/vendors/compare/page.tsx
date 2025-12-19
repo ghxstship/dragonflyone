@@ -79,7 +79,7 @@ export default function VendorComparePage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Vendors Available" value={vendors.length.toString()} />
               <StatCard label="Comparing" value={selectedVendors.length.toString()} />
               <StatCard label="Avg Rating" value="4.6" />
@@ -98,7 +98,7 @@ export default function VendorComparePage() {
                     <option value="Staging">Staging</option>
                   </Select>
                 </Stack>
-                <Grid cols={4} gap={3}>
+                <Grid cols={4} gap={3} className="sm:grid-cols-2 lg:grid-cols-4">
                   {vendors.filter(v => categoryFilter === "All" || v.category === categoryFilter).map((vendor) => (
                     <Card key={vendor.id} onClick={() => toggleVendor(vendor.id)}>
                       <Stack gap={2}>
@@ -120,7 +120,7 @@ export default function VendorComparePage() {
             {comparedVendors.length >= 2 && (
               <Card>
                 <Stack gap={4}>
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Body size="sm" className="">Comparison</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
@@ -141,7 +141,7 @@ export default function VendorComparePage() {
                     </Grid>
                   ))}
 
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Body size="sm" className="">Certifications</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
@@ -150,7 +150,7 @@ export default function VendorComparePage() {
                     ))}
                   </Grid>
 
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Body size="sm" className="">Specialties</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={1} className="text-center">
@@ -159,7 +159,7 @@ export default function VendorComparePage() {
                     ))}
                   </Grid>
 
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Body size="sm" className="">Rating</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={2}>
@@ -169,7 +169,7 @@ export default function VendorComparePage() {
                     ))}
                   </Grid>
 
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     <Body size="sm" className="">Actions</Body>
                     {comparedVendors.slice(0, 3).map((vendor) => (
                       <Stack key={vendor.id} gap={2}>
@@ -188,7 +188,7 @@ export default function VendorComparePage() {
               </Card>
             )}
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Export Comparison</Button>
               <Button variant="outline" onClick={() => router.push("/vendors")}>All Vendors</Button>
               <Button variant="outline" onClick={() => router.push("/procurement")}>Procurement</Button>

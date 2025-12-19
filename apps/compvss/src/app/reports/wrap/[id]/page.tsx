@@ -126,7 +126,7 @@ export default function WrapReportDetailPage() {
             </Stack>
 
             {/* Key Metrics */}
-            <Grid cols={5} gap={4}>
+            <Grid cols={5} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
               <StatCard
                 label="Total Shows"
                 value={report.total_shows}
@@ -157,7 +157,7 @@ export default function WrapReportDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -165,7 +165,7 @@ export default function WrapReportDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Performance Metrics</H3>
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Avg Attendance</Body>
                           <Body className="font-weight-semibold">{report.avg_attendance?.toLocaleString() || '—'}</Body>

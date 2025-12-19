@@ -158,7 +158,7 @@ export default function BudgetCategoriesPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Category Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selected.name}</Body>
         <Body size="sm"><strong>Description:</strong> {selected.description}</Body>
         <Body size="sm"><strong>Budgets:</strong> {selected.budget_count}</Body>

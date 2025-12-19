@@ -107,7 +107,7 @@ export default function FileSharingPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={totalFiles.toString()} label="Total Files" />
               <StatCard value={totalSize} label="Total Size" />
               <StatCard value={new Set(files.map(f => f.project)).size.toString()} label="Projects" />
@@ -173,7 +173,7 @@ export default function FileSharingPage() {
             </Card>
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
               <Button variant="outline" onClick={() => router.push("/documents")}>Documents</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -193,7 +193,7 @@ export default function FileSharingPage() {
                 <Badge variant="outline">{selectedFile.type}</Badge>
                 <Badge variant="solid">v{selectedFile.version}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body className="font-display">Project</Body>
                   <Body>{selectedFile.project}</Body>

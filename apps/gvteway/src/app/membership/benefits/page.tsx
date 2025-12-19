@@ -72,7 +72,7 @@ function MemberBenefitsPageContent() {
               <Body className="text-on-dark-muted">Configure membership tiers and benefits</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Members" value={stats.totalMembers.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Monthly Revenue" value={`$${(stats.monthlyRevenue / 1000).toFixed(1)}K`} className="border-2 border-black" />
             <StatCard label="Membership Tiers" value={tiers.length.toString()} className="border-2 border-black" />
@@ -87,7 +87,7 @@ function MemberBenefitsPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('tiers')}>
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 {tiers.map((tier) => (
                   <Card key={tier.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4" style={{ '--tier-color': tier.color, backgroundColor: 'var(--tier-color)' } as React.CSSProperties}>
@@ -135,7 +135,7 @@ function MemberBenefitsPageContent() {
                         <Badge className={getBenefitTypeColor(category.type)}>{category.type}</Badge>
                         <Button variant="ghost" size="sm" onClick={() => setShowAddBenefitModal(true)}>+ Add Custom</Button>
                       </Stack>
-                      <Grid cols={4} gap={2}>
+                      <Grid cols={4} gap={2} className="sm:grid-cols-2 lg:grid-cols-4">
                         {category.options.map((option) => (
                           <Card key={option} className="p-2 border-2 border-ink-200 text-center cursor-pointer hover:border-black">
                             <Label size="sm" className="">{option}</Label>
@@ -149,7 +149,7 @@ function MemberBenefitsPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('analytics')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Members by Tier</H3>
@@ -201,7 +201,7 @@ function MemberBenefitsPageContent() {
           {selectedTier && (
             <Stack gap={4}>
               <Input defaultValue={selectedTier.name} />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Input type="number" defaultValue={selectedTier.price} />
                 <Select defaultValue={selectedTier.billingCycle}>
                   <option value="Monthly">Monthly</option>

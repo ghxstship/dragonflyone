@@ -39,8 +39,8 @@ export default function DemoPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center sm:grid-cols-1">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
@@ -85,8 +85,8 @@ export default function DemoPage() {
       </FullBleedSection>
 
       {/* Stats */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={8} className="sm:grid-cols-1">
             {demoData.stats.map((stat) => (
               <Stack key={stat.label} className="items-center text-center">
@@ -104,8 +104,8 @@ export default function DemoPage() {
       </FullBleedSection>
 
       {/* Schedule Demo Form */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-3xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-8 shadow-lg lg:p-12">
             <Stack gap={8}>
               <Stack gap={4} className="text-center">

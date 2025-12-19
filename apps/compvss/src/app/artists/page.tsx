@@ -166,7 +166,7 @@ export default function ArtistsPage() {
 
   const detailSections: DetailSection[] = selectedArtist ? [
     { id: 'overview', title: 'Artist Profile', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Name</Body><Body>{selectedArtist.name}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Type</Body><Body>{selectedArtist.type}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Genre</Body><Body>{selectedArtist.genre}</Body></Stack>
@@ -178,7 +178,7 @@ export default function ArtistsPage() {
       </Grid>
     )},
     { id: 'documents', title: 'Documents on File', content: (
-      <Grid cols={2} gap={2}>
+      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body className="flex items-center gap-2">{selectedArtist.technicalRider ? <Check className="size-4" /> : <Circle className="size-4" />} Technical Rider</Body>
         <Body className="flex items-center gap-2">{selectedArtist.hospitalityRider ? <Check className="size-4" /> : <Circle className="size-4" />} Hospitality Rider</Body>
         <Body className="flex items-center gap-2">{selectedArtist.inputList ? <Check className="size-4" /> : <Circle className="size-4" />} Input List</Body>

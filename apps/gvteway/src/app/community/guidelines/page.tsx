@@ -138,7 +138,7 @@ export default function CommunityGuidelinesPage() {
           </Stack>
         </Card>
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <H2 className="text-white">Community Standards</H2>
             
@@ -182,7 +182,7 @@ export default function CommunityGuidelinesPage() {
 
             <Card inverted className="mt-4 p-6">
               <H2 className="mb-6 text-white">Content Policy</H2>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {CONTENT_POLICY.map(policy => (
                   <Stack key={policy.category}>
                     <H3 className="mb-3 text-white">{policy.category}</H3>

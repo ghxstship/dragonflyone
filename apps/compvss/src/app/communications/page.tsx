@@ -76,7 +76,7 @@ export default function CommunicationsPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={channels.filter(c => c.status === 'active').length.toString()} label="Active Channels" />
               <StatCard value={channels.reduce((sum, c) => sum + c.users, 0).toString()} label="Connected Users" />
               <StatCard value={messages.length.toString()} label="Recent Messages" />
@@ -84,7 +84,7 @@ export default function CommunicationsPage() {
             </Grid>
 
             {/* Main Content */}
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Radio Channels */}
               <Stack gap={4}>
                 <H2>RADIO CHANNELS</H2>
@@ -144,7 +144,7 @@ export default function CommunicationsPage() {
             {/* Emergency Contacts */}
             <Card className="p-6">
               <H3 className="mb-4">EMERGENCY CONTACTS</H3>
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 {[
                   { name: 'Medical', number: 'Channel 5', icon: Phone },
                   { name: 'Security', number: 'Channel 6', icon: AlertCircle },

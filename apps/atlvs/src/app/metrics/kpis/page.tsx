@@ -88,7 +88,7 @@ export default function KPIsPage() {
             <Card className="border-2 border-grey-200 p-6">
               <Stack gap={4}>
                 <H3>Overall KPI Health</H3>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Card className="border-2 border-grey-200 p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold">{totalKPIs}</Body>
@@ -139,7 +139,7 @@ export default function KPIsPage() {
                     {categoryIcons[category]}
                     <H3>{categoryLabels[category]} KPIs</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     {categoryKPIs?.map(kpi => (
                       <Card key={kpi.id} className="border-2 border-grey-200 p-4">
                         <Stack gap={4}>

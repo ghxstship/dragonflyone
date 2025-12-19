@@ -143,7 +143,7 @@ export function ContactWizard() {
       <Stack gap={8}>
         <Stack gap={4}>
           <Label className="font-code text-mono-xs uppercase tracking-display text-ink-400">Multi-Step Wizard</Label>
-          <Grid cols={3} gap={3}>
+          <Grid cols={3} gap={3} className="sm:grid-cols-2 lg:grid-cols-3">
             {wizardSteps.map((item, index) => (
               <Button
                 key={item.id}

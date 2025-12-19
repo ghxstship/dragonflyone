@@ -93,7 +93,7 @@ export default function MyTrainingPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={8}>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Completed"
             value={completedCount.toString()}

@@ -12,13 +12,13 @@ export default function ProjectsLoading() {
             <Skeleton className="h-5 w-80" />
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-28 rounded-card" />
             ))}
           </Grid>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Skeleton key={i} className="h-64 rounded-card" />
             ))}

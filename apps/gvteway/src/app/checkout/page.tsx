@@ -225,7 +225,7 @@ function CheckoutContent() {
 
             {/* Cart Step */}
             {step === 'cart' && (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Card inverted className="col-span-2 p-6">
                   <Stack gap={2} className="mb-6">
                     <Stack direction="horizontal" gap={2} className="items-center">
@@ -285,7 +285,7 @@ function CheckoutContent() {
 
             {/* Payment Step */}
             {step === 'payment' && (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Card inverted className="col-span-2 p-6">
                   <Stack gap={2} className="mb-6">
                     <Stack direction="horizontal" gap={2} className="items-center">
@@ -328,7 +328,7 @@ function CheckoutContent() {
                         <span id="cardNumber-error" className="text-body-xs text-error">{errors.cardNumber}</span>
                       )}
                     </Stack>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={1}>
                         <label htmlFor="expiry" className="text-body-sm text-on-dark-muted">Expiry Date <span className="text-error">*</span></label>
                         <Input 
@@ -388,7 +388,7 @@ function CheckoutContent() {
                           <span id="street-error" className="text-body-xs text-error">{errors.street}</span>
                         )}
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <label htmlFor="city" className="text-body-sm text-on-dark-muted">City <span className="text-error">*</span></label>
                           <Input 

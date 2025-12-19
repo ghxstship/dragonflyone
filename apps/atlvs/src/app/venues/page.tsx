@@ -215,7 +215,7 @@ export default function VenuesPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{venueTypeLabels[selectedVenue.venue_type] || selectedVenue.venue_type}</Body>
@@ -241,7 +241,7 @@ export default function VenuesPage() {
       id: 'contact',
       title: 'Contact',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Contact Name</Body>
             <Body>{selectedVenue.contact_name || '—'}</Body>

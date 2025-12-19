@@ -12,13 +12,13 @@ export default function FinanceLoading() {
             <Skeleton className="h-5 w-80" />
           </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-28 rounded-card" />
             ))}
           </Grid>
 
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             <Skeleton className="h-80 rounded-card" />
             <Skeleton className="h-80 rounded-card" />
           </Grid>

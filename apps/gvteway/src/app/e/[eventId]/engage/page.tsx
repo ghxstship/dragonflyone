@@ -26,7 +26,7 @@ export default function EventEngagePage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Engage" description="Interact with the event and community" colorScheme="on-dark" />
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/engage/qa`)}>
           <CardBody>
             <Stack gap={3} className="items-center text-center">

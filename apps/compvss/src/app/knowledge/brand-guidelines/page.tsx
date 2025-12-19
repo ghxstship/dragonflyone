@@ -78,7 +78,7 @@ export default function BrandGuidelinesPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={assets.length.toString()} label="Brand Assets" />
               <StatCard value={guidelines.length.toString()} label="Guidelines" />
               <StatCard value={assets.filter(a => a.type === "Template").length.toString()} label="Templates" />
@@ -94,7 +94,7 @@ export default function BrandGuidelinesPage() {
               </TabsList>
 
               <TabPanel active={isActive('assets')}>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {assets.map((asset) => (
                     <Card key={asset.id} className="p-4">
                       <Stack gap={3}>
@@ -133,7 +133,7 @@ export default function BrandGuidelinesPage() {
               </TabPanel>
 
               <TabPanel active={isActive('colors')}>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   <Card className="overflow-hidden">
                     <Card className="h-32 bg-black" />
                     <Stack className="p-4" gap={2}>
@@ -194,7 +194,7 @@ export default function BrandGuidelinesPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
               <Button variant="outline" onClick={() => router.push("/documents")}>Documents</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>

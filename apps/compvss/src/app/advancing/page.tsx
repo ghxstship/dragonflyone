@@ -65,7 +65,7 @@ export default function AdvancingPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={stats.pending.toString()} label="Pending Requests" />
               <StatCard value={stats.approved.toString()} label="Approved" />
               <StatCard value={stats.fulfilled.toString()} label="Fulfilled" />
@@ -118,7 +118,7 @@ export default function AdvancingPage() {
             </Card>
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push('/projects')}>
                 Projects
               </Button>

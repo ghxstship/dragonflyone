@@ -79,7 +79,7 @@ function EarlyBirdPageContent() {
           <Card className="border-2 border-black p-6 bg-warning-50">
             <Stack gap={4}>
               <H3>Active Campaign Countdown</H3>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { label: "Days", value: countdown.days },
                   { label: "Hours", value: countdown.hours },
@@ -96,7 +96,7 @@ function EarlyBirdPageContent() {
             </Stack>
           </Card>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Campaigns" value={activeCampaigns.length} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} className="border-2 border-black" />
             <StatCard label="Customer Savings" value={formatCurrency(totalSaved)} className="border-2 border-black" />
@@ -165,11 +165,11 @@ function EarlyBirdPageContent() {
             <Stack gap={4}>
               <Body className="font-weight-bold">{selectedCampaign.eventName}</Body>
               <Badge variant="outline">{selectedCampaign.tierName}</Badge>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Original Price</Label><Label className="line-through">{formatCurrency(selectedCampaign.originalPrice)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Discounted Price</Label><Label className="font-weight-bold text-success-600">{formatCurrency(selectedCampaign.discountedPrice)}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Start Date</Label><Label>{selectedCampaign.startDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">End Date</Label><Label>{selectedCampaign.endDate}</Label></Stack>
               </Grid>
@@ -205,11 +205,11 @@ function EarlyBirdPageContent() {
               <option value="e3">New Year Gala</option>
             </Select>
             <Input placeholder="Tier Name (e.g., Super Early Bird)" className="border-2 border-black" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="number" placeholder="Original Price" className="border-2 border-black" />
               <Input type="number" placeholder="Discounted Price" className="border-2 border-black" />
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="date" placeholder="Start Date" className="border-2 border-black" />
               <Input type="date" placeholder="End Date" className="border-2 border-black" />
             </Grid>

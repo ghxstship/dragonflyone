@@ -211,7 +211,7 @@ export default function PermitsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{permitTypeLabels[selectedPermit.permit_type] || selectedPermit.permit_type}</Body>
@@ -237,7 +237,7 @@ export default function PermitsPage() {
       id: 'dates',
       title: 'Dates',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Application Date</Body>
             <Body>{selectedPermit.application_date ? new Date(selectedPermit.application_date).toLocaleDateString() : '—'}</Body>

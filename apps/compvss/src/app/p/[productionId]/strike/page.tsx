@@ -89,7 +89,7 @@ export default function ProductionStrikePage() {
     <CompvssAppLayout>
       <EnterprisePageHeader title="Strike Checklist" subtitle="Track strike progress and completion" showFavorite showSettings />
       <MainContent padding="lg"><Container><Stack gap={8}>
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Tasks" value={tasks.length.toString()} icon={<Package size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<CheckCircle size={20} />} trend="up" inverted />
           <StatCard label="In Progress" value={tasks.filter(t => t.status === 'in-progress').length.toString()} icon={<Clock size={20} />} inverted />

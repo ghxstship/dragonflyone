@@ -12,7 +12,7 @@ export default function TicketsLoading() {
             <Skeleton className="h-5 w-80" />
           </Stack>
 
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-48 rounded-card" />
             ))}

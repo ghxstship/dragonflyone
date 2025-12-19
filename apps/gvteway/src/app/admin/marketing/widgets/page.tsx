@@ -80,7 +80,7 @@ function EventWidgetsPageContent() {
           <Body className="text-on-dark-muted">Create embeddable widgets for external websites</Body>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <Card inverted className="p-6">
             <Stack gap={2}>
               <Stack direction="horizontal" gap={2} className="items-center">
@@ -127,7 +127,7 @@ function EventWidgetsPageContent() {
           </TabsList>
 
           <TabPanel active={activeTab === 'widgets'}>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {widgets.map((widget) => (
                 <Card key={widget.id} inverted interactive className="p-6">
                   <Stack gap={4}>
@@ -147,7 +147,7 @@ function EventWidgetsPageContent() {
                         <Settings className="w-4 h-4" />
                       </Button>
                     </Stack>
-                    <Grid cols={3} gap={4}>
+                    <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                       <Stack gap={1}>
                         <Label size="xs" className="text-on-dark-muted">Installations</Label>
                         <Label className="font-mono text-white">{widget.installations}</Label>
@@ -181,7 +181,7 @@ function EventWidgetsPageContent() {
             <Card inverted className="p-6">
               <Stack gap={6}>
                 <H3 className="text-white">Create New Widget</H3>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={4}>
                     <Stack gap={2}>
                       <Label className="text-white">Widget Name</Label>
@@ -229,7 +229,7 @@ function EventWidgetsPageContent() {
                         </Button>
                       </Stack>
                     </Stack>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={2}>
                         <Label className="text-white">Width</Label>
                         <Input
@@ -268,7 +268,7 @@ function EventWidgetsPageContent() {
           </TabPanel>
 
           <TabPanel active={activeTab === 'templates'}>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { name: 'Event Calendar', type: 'calendar', desc: 'Display upcoming events in a calendar view' },
                 { name: 'Buy Tickets CTA', type: 'ticket_button', desc: 'Simple buy tickets button' },

@@ -104,7 +104,7 @@ export default function CrewSocialPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={crewMembers.length.toString()} label="Crew Members" />
               <StatCard value={onlineCount.toString()} label="Online Now" />
               <StatCard value={posts.length.toString()} label="Posts Today" />
@@ -120,7 +120,7 @@ export default function CrewSocialPage() {
               </TabsList>
 
               <TabPanel active={isActive('feed')}>
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   <Stack gap={4} className="col-span-2">
                     <Card className="p-4">
                       <Stack direction="horizontal" gap={3}>
@@ -203,7 +203,7 @@ export default function CrewSocialPage() {
               </TabPanel>
 
               <TabPanel active={isActive('roster')}>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {crewMembers.map((member) => (
                     <Card key={member.id} className="cursor-pointer p-4" onClick={() => setSelectedMember(member)}>
                       <Stack gap={3} className="text-center">
@@ -232,7 +232,7 @@ export default function CrewSocialPage() {
               </TabPanel>
 
               <TabPanel active={isActive('photos')}>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {Array.from({ length: 8 }).map((_, idx) => (
                     <Card key={idx} className="flex aspect-square cursor-pointer items-center justify-center">
                       <Camera className="size-12" />
@@ -284,7 +284,7 @@ export default function CrewSocialPage() {
                 <Badge variant="outline">{selectedMember.department}</Badge>
               </Stack>
               {selectedMember.bio && <Body className="text-center">{selectedMember.bio}</Body>}
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="p-3 text-center">
                   <Body className="text-h6-md font-display">{selectedMember.connections?.length || 0}</Body>
                   <Body size="sm" className="">Connections</Body>

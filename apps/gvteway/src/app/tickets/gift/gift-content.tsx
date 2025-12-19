@@ -132,7 +132,7 @@ export default function GiftTicketsContent() {
           </Alert>
         )}
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Stack gap={6}>
                 <Card className="p-6">
@@ -192,7 +192,7 @@ export default function GiftTicketsContent() {
                   <H2 className="mb-6">RECIPIENT DETAILS</H2>
                   
                   <Stack gap={4}>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Field label="Recipient Name" required>
                         <Input
                           value={formData.recipient_name}
@@ -247,7 +247,7 @@ export default function GiftTicketsContent() {
                 <Card className="p-6">
                   <H2 className="mb-6">GIFT WRAP STYLE</H2>
                   
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     {[
                       { id: 'classic', name: 'Classic', icon: Gift },
                       { id: 'celebration', name: 'Celebration', icon: PartyPopper },

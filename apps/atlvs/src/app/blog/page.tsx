@@ -95,8 +95,8 @@ export default function BlogPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               BLOG
@@ -112,8 +112,8 @@ export default function BlogPage() {
       </FullBleedSection>
 
       {/* Featured Post */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <NextLink href={`/blog/${blogData.featured.slug}`}>
             <Card className="border-2 border-ink-950 bg-white p-8 shadow-brand-lg transition-all hover:-translate-y-1 hover:shadow-brand-xl">
               <Grid cols={2} gap={8} className="items-center sm:grid-cols-1">
@@ -151,7 +151,7 @@ export default function BlogPage() {
 
       {/* Categories */}
       <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
             {blogData.categories.map((category) => (
               <Badge
@@ -167,8 +167,8 @@ export default function BlogPage() {
       </FullBleedSection>
 
       {/* Posts Grid */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {blogData.posts.map((post) => (
               <NextLink key={post.slug} href={`/blog/${post.slug}`}>
@@ -203,8 +203,8 @@ export default function BlogPage() {
       </FullBleedSection>
 
       {/* Newsletter */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               STAY UPDATED

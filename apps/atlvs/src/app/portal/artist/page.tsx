@@ -38,14 +38,14 @@ export default function ArtistPortalPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Artist Portal" title="My Dashboard" description="View bookings, riders, and payments" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Upcoming Shows" value={upcomingCount.toString()} icon={<Calendar size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<Music size={20} />} inverted />
           <StatCard label="Next Show" value="Nov 20" icon={<Clock size={20} />} inverted />
           <StatCard label="Earnings YTD" value={`$${(totalEarnings / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

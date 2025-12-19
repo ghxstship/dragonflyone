@@ -129,7 +129,7 @@ export default function ScenariosPage() {
 
   const detailSections: DetailSection[] = selectedScenario ? [
     { id: 'overview', title: 'Scenario Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Name:</strong> {selectedScenario.name}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedScenario.category}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedScenario.scenario_type?.replace("_", " ")}</Body>

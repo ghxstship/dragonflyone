@@ -55,7 +55,7 @@ export default function CreditCardsPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Transaction Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Merchant:</strong> {selected.merchant}</Body>
         <Body size="sm"><strong>Amount:</strong> ${selected.amount.toLocaleString()}</Body>
         <Body size="sm"><strong>Date:</strong> {selected.date}</Body>

@@ -93,14 +93,14 @@ export default function TroubleshootingPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Guides" value={guides.length.toString()} />
               <StatCard label="Categories" value={(categories.length - 1).toString()} />
               <StatCard label="Total Views" value={guides.reduce((s, g) => s + g.views, 0).toString()} />
               <StatCard label="Helpful Rate" value="81%" />
             </Grid>
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="search" placeholder="Describe your issue..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
               <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}

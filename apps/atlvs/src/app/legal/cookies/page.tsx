@@ -95,8 +95,8 @@ export default function CookiesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Cookie className="size-8 text-brand-pink" />
@@ -115,8 +115,8 @@ export default function CookiesPage() {
       </FullBleedSection>
 
       {/* Content */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-3xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             {cookiesData.sections.map((section) => (
               <Stack key={section.title} gap={4}>
@@ -131,8 +131,8 @@ export default function CookiesPage() {
       </FullBleedSection>
 
       {/* Related Links */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <H1 className="text-white">RELATED POLICIES</H1>
             <Stack direction="horizontal" gap={4}>

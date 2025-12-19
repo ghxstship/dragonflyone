@@ -78,7 +78,7 @@ export default function LanguageSettingsPage() {
                 <Globe className="size-5 text-on-dark-muted" />
                 <H3 className="text-white">Available Languages</H3>
               </Stack>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {mockLanguages.map((lang) => (
                   <Card 
                     key={lang.code} 
@@ -117,7 +117,7 @@ export default function LanguageSettingsPage() {
             <Card inverted className="p-6">
               <Stack gap={4}>
                 <H3 className="text-white">Translation Information</H3>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Label size="sm" className="text-on-dark-muted">What gets translated:</Label>
                     <Stack gap={1}>

@@ -92,7 +92,7 @@ export function EventCreationForm() {
   return (
     <Form onSubmit={handleSubmit}>
       <Stack gap={4}>
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Field label="Title">
           <Input required value={form.title} onChange={(event) => handleChange("title", event.target.value)} />
         </Field>
@@ -105,7 +105,7 @@ export function EventCreationForm() {
           />
         </Field>
       </Grid>
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Field label="Headliner">
           <Input required value={form.headliner} onChange={(event) => handleChange("headliner", event.target.value)} />
         </Field>
@@ -113,7 +113,7 @@ export function EventCreationForm() {
           <Input required value={form.venue} onChange={(event) => handleChange("venue", event.target.value)} />
         </Field>
       </Grid>
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Field label="City">
           <Input required value={form.city} onChange={(event) => handleChange("city", event.target.value)} />
         </Field>
@@ -135,7 +135,7 @@ export function EventCreationForm() {
           </Select>
         </Field>
       </Grid>
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Field label="Price Band">
           <Select value={form.priceRange} onChange={(event) => handleChange("priceRange", event.target.value as PriceBand)}>
             {priceBands.map((band) => (

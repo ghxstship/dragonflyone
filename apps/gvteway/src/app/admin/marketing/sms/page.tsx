@@ -141,7 +141,7 @@ function SMSMarketingPageContent() {
               <Body className="text-on-dark-muted">Create and manage SMS campaigns for events</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Messages Sent" value={totalSent.toLocaleString()} inverted />
               <StatCard label="Delivery Rate" value={`${deliveryRate}%`} inverted />
               <StatCard label="Total Clicks" value={totalClicks.toLocaleString()} inverted />
@@ -214,7 +214,7 @@ function SMSMarketingPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('audiences')}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {audienceSegments.map((segment) => (
                   <Card key={segment.id} inverted>
                     <Stack gap={3}>
@@ -236,7 +236,7 @@ function SMSMarketingPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('templates')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {[
                   { name: "Event Reminder", message: "Don't forget! [EVENT] is tomorrow. Gates open at [TIME]. See you there!" },
                   { name: "Flash Sale", message: "FLASH SALE! [DISCOUNT]% off tickets for the next [HOURS] hours only. Shop now: [LINK]" },
@@ -305,7 +305,7 @@ function SMSMarketingPageContent() {
             </Stack>
             <Stack gap={2}>
               <Label>Schedule</Label>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Input type="date" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} />
                 <Input type="time" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} />
               </Grid>
@@ -330,11 +330,11 @@ function SMSMarketingPageContent() {
               <Card className="border-2 p-3">
                 <Body size="sm">{selectedCampaign.message}</Body>
               </Card>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Status</Label>{getStatusBadge(selectedCampaign.status)}</Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Audience</Label><Label>{selectedCampaign.audience_size.toLocaleString()}</Label></Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Sent</Label><Label className="font-mono">{selectedCampaign.sent_count.toLocaleString()}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Delivered</Label><Label className="font-mono">{selectedCampaign.delivered_count.toLocaleString()}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Clicks</Label><Label className="font-mono">{selectedCampaign.click_count.toLocaleString()}</Label></Stack>

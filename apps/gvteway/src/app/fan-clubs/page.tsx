@@ -73,7 +73,7 @@ export default function FanClubsPage() {
               </Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               value={(summary?.total_clubs || 0).toString()}
               label="Fan Clubs"
@@ -99,7 +99,7 @@ export default function FanClubsPage() {
           <Card inverted variant="elevated" className="p-6">
             <Stack gap={4}>
               <H2 className="text-white">Member Benefits</H2>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Stack gap={2}>
                   <Ticket className="size-8" />
                   <Body className="font-display text-white">Presale Access</Body>
@@ -163,7 +163,7 @@ export default function FanClubsPage() {
               inverted
             />
           ) : (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {clubs.map((club) => (
                 <Card key={club.id} inverted className="p-6">
                   <Stack gap={4}>

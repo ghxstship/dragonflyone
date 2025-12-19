@@ -80,7 +80,7 @@ function BadgesPageContent() {
         )}
 
         <Card className="p-6 mb-8 bg-success-100 text-success-800">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             <Stack className="items-center">
               <Body className="text-ink-600">TOTAL BADGES</Body>
               <H2 className="text-white">{earnedBadges.length}</H2>
@@ -120,7 +120,7 @@ function BadgesPageContent() {
         </Stack>
 
         {isActive('earned') && (
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             {earnedBadges.length > 0 ? (
               earnedBadges.map(badge => (
                 <Card key={badge.id} className="p-4 text-center">
@@ -163,7 +163,7 @@ function BadgesPageContent() {
         )}
 
         {isActive('available') && (
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             {availableBadges.filter(b => !b.is_earned).map(badge => (
               <Card key={badge.id} className="p-4">
                 <Stack direction="horizontal" gap={4}>
@@ -229,7 +229,7 @@ function BadgesPageContent() {
                       </Stack>
                       <Stack className="mt-4">
                         <Label className="text-ink-500 mb-2">PERKS</Label>
-                        <Grid cols={2} gap={2}>
+                        <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                           {tier.perks.map((perk, i) => (
                             <Body key={i} size="sm" className="">✓ {perk}</Body>
                           ))}

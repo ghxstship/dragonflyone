@@ -56,7 +56,7 @@ function EarlyBirdPageContent() {
               <Body className="text-on-dark-muted">Create and manage early bird pricing campaigns with countdown timers</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Campaigns" value={activeCampaigns.toString()} inverted />
               <StatCard label="Total Revenue" value={`$${(totalRevenue / 1000).toFixed(1)}K`} inverted />
               <StatCard label="Tickets Sold" value={totalTicketsSold.toLocaleString()} inverted />
@@ -143,7 +143,7 @@ function EarlyBirdPageContent() {
               <Card inverted variant="elevated" className="p-6 text-center">
                 <Stack gap={4}>
                   <Label className="text-accent">EARLY BIRD ENDS IN</Label>
-                  <Grid cols={4} gap={4}>
+                  <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                     {[{ value: "05", label: "DAYS" }, { value: "12", label: "HOURS" }, { value: "34", label: "MINS" }, { value: "56", label: "SECS" }].map((item) => (
                       <Stack key={item.label} gap={1}>
                         <Label className="font-mono text-h3-md text-white">{item.value}</Label>
@@ -172,14 +172,14 @@ function EarlyBirdPageContent() {
               <option value="EVT-001">Summer Fest 2024</option>
               <option value="EVT-002">Winter Gala</option>
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="Percentage">Percentage Off</option>
                 <option value="Fixed">Fixed Amount Off</option>
               </Select>
               <Input type="number" placeholder="Discount Value" />
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Start Date</Label>
                 <Input type="date" />
@@ -209,11 +209,11 @@ function EarlyBirdPageContent() {
           {selectedCampaign && (
             <Stack gap={4}>
               <Body className="font-display">{selectedCampaign.name}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Event</Label><Label>{selectedCampaign.eventName}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Status</Label>{getStatusBadge(selectedCampaign.status)}</Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Discount</Label><Label>{selectedCampaign.discountType === "Percentage" ? `${selectedCampaign.discountValue}%` : `$${selectedCampaign.discountValue}`}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Revenue</Label><Label className="font-mono">${selectedCampaign.revenue.toLocaleString()}</Label></Stack>
               </Grid>

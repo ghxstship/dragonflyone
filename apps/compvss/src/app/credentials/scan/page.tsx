@@ -121,7 +121,7 @@ export default function ScanCredentialPage() {
               </Stack>
             </Stack>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Left: Scanner */}
               <Stack gap={6}>
                 {/* Zone Selection */}

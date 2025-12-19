@@ -80,7 +80,7 @@ export default function EventBoxOfficePage() {
           </Stack>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Total Sold"
             value={totals.sold.toLocaleString()}
@@ -110,7 +110,7 @@ export default function EventBoxOfficePage() {
           />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           {tiers.map((tier: TicketTier) => {
             const tierSoldPct = Math.round((tier.sold / tier.capacity) * 100);
             return (
@@ -123,7 +123,7 @@ export default function EventBoxOfficePage() {
                         {tierSoldPct}% Sold
                       </Badge>
                     </Stack>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={1}>
                         <Body size="sm" className=" text-on-dark-muted">Price</Body>
                         <Body className="font-weight-semibold text-white">${tier.price}</Body>

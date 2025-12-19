@@ -77,7 +77,7 @@ export default function RisksPage() {
 
   const detailSections: DetailSection[] = selectedRisk ? [
     { id: 'overview', title: 'Risk Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>ID:</strong> {selectedRisk.id.substring(0, 12).toUpperCase()}</Body>
         <Body size="sm"><strong>Title:</strong> {selectedRisk.title}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedRisk.category}</Body>

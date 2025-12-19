@@ -69,13 +69,13 @@ export default function EventScanPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Ticket Scanner" description="Scan and validate tickets" colorScheme="on-dark" />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard label="Valid Scans" value={scanCount.valid.toString()} icon={<CheckCircle size={20} />} trend="up" inverted />
           <StatCard label="Invalid" value={scanCount.invalid.toString()} icon={<XCircle size={20} />} inverted />
           <StatCard label="Total Scans" value={scanCount.total.toString()} icon={<Scan size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

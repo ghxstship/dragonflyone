@@ -161,7 +161,7 @@ export default function TicketTrackingPage() {
                 {getStatusBadge(searchResult.delivery_status)}
               </Stack>
 
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={4}>
                   <Stack>
                     <Label className="text-ink-500">Delivery Method</Label>

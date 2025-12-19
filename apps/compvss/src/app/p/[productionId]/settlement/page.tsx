@@ -89,7 +89,7 @@ export default function ProductionSettlementPage() {
           <Button variant="outline"><Download size={16} className="mr-2" />Export</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Contract Total" value={`$${(totalContract / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Final Total" value={`$${(totalFinal / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Settlements" value={settlements.length.toString()} icon={<Users size={20} />} inverted />

@@ -147,8 +147,8 @@ export default function PricingPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               PRICING
@@ -164,13 +164,13 @@ export default function PricingPage() {
       </FullBleedSection>
 
       {/* Pricing Cards */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
-          <Grid cols={4} gap={6} className="md:grid-cols-2 sm:grid-cols-1">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-7xl px-4 sm:px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={6} className="lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
             {pricingData.plans.map((plan) => (
               <Card
                 key={plan.name}
-                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-8 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"
+                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6 lg:p-8"
               >
                 {plan.popular && (
                   <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">
@@ -193,8 +193,8 @@ export default function PricingPage() {
                   </Stack>
                   <Stack gap={3}>
                     {plan.features.map((feature) => (
-                      <Stack key={feature} direction="horizontal" gap={2} className="items-center">
-                        <Check className="size-4 text-brand-pink" />
+                      <Stack key={feature} direction="horizontal" gap={2} className="items-start">
+                        <Check className="size-4 shrink-0 mt-0.5 text-brand-pink" />
                         <Label size="xs" className="text-grey-700">{feature}</Label>
                       </Stack>
                     ))}
@@ -221,8 +221,8 @@ export default function PricingPage() {
       </FullBleedSection>
 
       {/* Feature Comparison Table */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <H1 className="text-ink-950">FEATURE COMPARISON</H1>
@@ -329,8 +329,8 @@ export default function PricingPage() {
       </FullBleedSection>
 
       {/* Add-ons */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500 uppercase tracking-kicker">ADD-ONS</Label>
@@ -394,8 +394,8 @@ export default function PricingPage() {
       </FullBleedSection>
 
       {/* FAQ */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1>
           </Stack>
@@ -414,8 +414,8 @@ export default function PricingPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO GET STARTED?

@@ -80,7 +80,7 @@ export default function SoundcheckPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={completed.toString()} label="Completed" />
               <StatCard value={inProgress ? "1" : "0"} label="In Progress" />
               <StatCard value={remaining.toString()} label="Remaining" />
@@ -167,7 +167,7 @@ export default function SoundcheckPage() {
             </TabPanel>
 
             <TabPanel active={isActive('by-stage')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {["Main Stage", "Side Stage"].map((stage) => (
                   <Card key={stage} className="p-4">
                     <Stack gap={4}>
@@ -191,7 +191,7 @@ export default function SoundcheckPage() {
               </Grid>
             </TabPanel>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Export Schedule</Button>
               <Button variant="outline" onClick={() => router.push("/tech-rehearsal")}>Tech Rehearsals</Button>
               <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
@@ -206,7 +206,7 @@ export default function SoundcheckPage() {
           {selectedSlot && (
             <Stack gap={4}>
               <Body className="font-display">{selectedSlot.artistName}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Stage</Body>
                   <Body>{selectedSlot.stage}</Body>
@@ -216,7 +216,7 @@ export default function SoundcheckPage() {
                   <Badge variant={getStatusVariant(selectedSlot.status)}>{selectedSlot.status}</Badge>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Scheduled</Body>
                   <Body>{selectedSlot.scheduledStart} - {selectedSlot.scheduledEnd}</Body>
@@ -263,7 +263,7 @@ export default function SoundcheckPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Artist Name" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Stage...</option>
                 <option value="Main Stage">Main Stage</option>
@@ -271,7 +271,7 @@ export default function SoundcheckPage() {
               </Select>
               <Input type="number" placeholder="Duration (min)" />
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Body className="font-display">Start Time</Body>
                 <Input type="time" />

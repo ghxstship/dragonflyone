@@ -85,7 +85,7 @@ export default function RegulationsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Regulations" value={regulations.length.toString()} />
               <StatCard label="Categories" value={(categories.length - 1).toString()} />
               <StatCard label="Recently Updated" value={updatedCount.toString()} />
@@ -102,7 +102,7 @@ export default function RegulationsPage() {
               <Button variant="solid">Request Update</Button>
             </Stack>
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredRegulations.map((reg) => (
                 <Card key={reg.id}>
                   <Stack gap={4}>
@@ -135,7 +135,7 @@ export default function RegulationsPage() {
             <Card>
               <Stack gap={4}>
                 <H3>Quick Reference by Category</H3>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {categories.slice(1).map((cat) => (
                     <Card key={cat} onClick={() => setCategoryFilter(cat)}>
                       <Stack gap={2} className="text-center">
@@ -149,7 +149,7 @@ export default function RegulationsPage() {
               </Stack>
             </Card>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
               <Button variant="outline" onClick={() => router.push("/safety")}>Safety</Button>
               <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>

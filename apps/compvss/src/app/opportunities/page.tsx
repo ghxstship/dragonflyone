@@ -208,7 +208,7 @@ export default function OpportunitiesPage() {
                       </Stack>
                       <Body size="sm" className="">{rfp.client}</Body>
                       
-                      <Grid cols={3} gap={4}>
+                      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                         <Stack gap={2} direction="horizontal" className="items-center">
                           <DollarSign className="size-4" />
                           <Body>{rfp.budget}</Body>
@@ -280,7 +280,7 @@ export default function OpportunitiesPage() {
                     <Stack gap={4} className="flex-1">
                       <H2 className="mb-4">{gig.title}</H2>
                       
-                      <Grid cols={4} gap={4}>
+                      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                         <Stack gap={2} direction="horizontal" className="items-center">
                           <Clock className="size-4" />
                           <Body>{new Date(gig.date).toLocaleDateString()}</Body>

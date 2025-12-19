@@ -84,14 +84,14 @@ export default function WinLossPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Win Rate" value={`${winRate}%`} trend={winRate >= 50 ? "up" : "down"} />
               <StatCard label="Won Value" value={formatCurrency(wonValue)} />
               <StatCard label="Lost Value" value={formatCurrency(lostValue)} />
               <StatCard label="Total Opportunities" value={records.length.toString()} />
             </Grid>
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card>
                 <Stack gap={4}>
                   <H3>Win Rate Trend</H3>
@@ -102,7 +102,7 @@ export default function WinLossPage() {
                     </Stack>
                     <ProgressBar value={winRate} />
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Card>
                       <Stack className="text-center">
                         <Body className="font-mono">{wonRecords.length}</Body>
@@ -174,7 +174,7 @@ export default function WinLossPage() {
               </TableBody>
             </Table>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
               <Button variant="outline" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
               <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
@@ -190,11 +190,11 @@ export default function WinLossPage() {
             <Stack gap={4}>
               <Body className="font-display">{selectedRecord.opportunity}</Body>
               <Badge variant={selectedRecord.result === "Won" ? "solid" : "outline"}>{selectedRecord.result}</Badge>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Client</Body><Body>{selectedRecord.client}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Value</Body><Body className="font-mono">{formatCurrency(selectedRecord.value)}</Body></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Close Date</Body><Body>{selectedRecord.closeDate}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Sales Rep</Body><Body>{selectedRecord.salesRep}</Body></Stack>
               </Grid>

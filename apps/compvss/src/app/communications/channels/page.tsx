@@ -78,7 +78,7 @@ export default function ChannelsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={channels.length.toString()} label="Total Channels" />
               <StatCard value={activeChannels.toString()} label="Active" />
               <StatCard value={totalMembers.toString()} label="Total Members" />
@@ -102,7 +102,7 @@ export default function ChannelsPage() {
               <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Channel</Button>
             </Stack>
 
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredChannels.filter(c => activeTab === "all" || c.type.toLowerCase() === activeTab).map((channel) => (
                 <Card key={channel.id} className="p-6">
                   <Stack gap={4}>
@@ -132,7 +132,7 @@ export default function ChannelsPage() {
               ))}
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/communications")}>Communications Hub</Button>
               <Button variant="outline" onClick={() => router.push("/crew")}>Crew Directory</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
@@ -192,7 +192,7 @@ export default function ChannelsPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Channel Name" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Department...</option>
                 {departments.slice(1).map(d => <option key={d} value={d}>{d}</option>)}

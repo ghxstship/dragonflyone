@@ -89,7 +89,7 @@ function UrgencyTacticsPageContent() {
                 </Stack>
                 <Button variant="solid">Get Tickets</Button>
               </Stack>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { label: "Days", value: countdown.days },
                   { label: "Hours", value: countdown.hours },
@@ -105,7 +105,7 @@ function UrgencyTacticsPageContent() {
             </Stack>
           </Card>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Tactics" value={activeTactics} className="border-2 border-black" />
             <StatCard label="Total Conversions" value={totalConversions} className="border-2 border-black" />
             <StatCard label="Avg Lift" value="+23%" trend="up" className="border-2 border-black" />
@@ -161,7 +161,7 @@ function UrgencyTacticsPageContent() {
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
               <H3>Low Inventory Alert Preview</H3>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="p-4 border-2 border-warning-500 bg-warning-50">
                   <Stack direction="horizontal" gap={3}>
                     <Flame className="size-5" />
@@ -200,7 +200,7 @@ function UrgencyTacticsPageContent() {
               </Stack>
               <Input defaultValue={selectedTactic.message} placeholder="Message" className="border-2 border-black" />
               {selectedTactic.type === "Countdown" && (
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Input type="datetime-local" placeholder="Start" className="border-2 border-black" />
                   <Input type="datetime-local" defaultValue={selectedTactic.endDate} placeholder="End" className="border-2 border-black" />
                 </Grid>
@@ -251,7 +251,7 @@ function UrgencyTacticsPageContent() {
               <option value="last">Last Chance</option>
             </Select>
             <Input placeholder="Message (use {count} for inventory)" className="border-2 border-black" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="datetime-local" placeholder="Start" className="border-2 border-black" />
               <Input type="datetime-local" placeholder="End" className="border-2 border-black" />
             </Grid>

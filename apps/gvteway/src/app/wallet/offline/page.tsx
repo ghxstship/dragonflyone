@@ -108,7 +108,7 @@ export default function OfflineWalletPage() {
                       </Stack>
                     </Card>
 
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={1}>
                         <Label size="xs" className="text-ink-500">Cached</Label>
                         <Label>{formatDate(ticket.cachedAt)}</Label>

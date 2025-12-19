@@ -51,7 +51,7 @@ export default function OrdersPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard
                 value={displayOrders.length.toString()}
                 label="Total Orders"

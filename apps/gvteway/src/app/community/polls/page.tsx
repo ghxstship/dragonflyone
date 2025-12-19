@@ -121,7 +121,7 @@ export default function CommunityPollsPage() {
         </Stack>
 
         {polls.length > 0 ? (
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             {polls.map(poll => (
               <Card key={poll.id} inverted className="p-6">
                 <Stack gap={4}>

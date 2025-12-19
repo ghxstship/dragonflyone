@@ -71,7 +71,7 @@ function FanClubPageContent() {
               <Body className="text-on-dark-muted">Join exclusive fan communities and unlock special perks</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Premium Members" value={premiumMembers.toLocaleString()} className="border-2 border-black" />
             <StatCard label="Fan Clubs" value={summary.total_clubs.toString()} className="border-2 border-black" />
@@ -103,7 +103,7 @@ function FanClubPageContent() {
                   inverted
                 />
               ) : (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 {fanClubs.map((club) => (
                   <Card key={club.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
@@ -134,7 +134,7 @@ function FanClubPageContent() {
                           <Label className="text-ink-500">+{club.benefits.length - 3} more</Label>
                         )}
                       </Stack>
-                      <Grid cols={2} gap={2}>
+                      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Card className="p-2 bg-ink-50 text-center">
                           <Label className="font-mono text-body-md">{club.exclusiveContent}</Label>
                           <Label size="xs" className="text-ink-500">Content</Label>

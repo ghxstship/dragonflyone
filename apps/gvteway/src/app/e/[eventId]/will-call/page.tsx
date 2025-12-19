@@ -61,7 +61,7 @@ export default function EventWillCallPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Will Call" description="Manage will call ticket pickups" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Orders" value={tickets.length.toString()} icon={<Ticket size={20} />} inverted />
           <StatCard label="Pending" value={pendingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Picked Up" value={pickedUpCount.toString()} icon={<CheckCircle size={20} />} inverted />

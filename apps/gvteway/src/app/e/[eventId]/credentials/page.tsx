@@ -54,7 +54,7 @@ export default function EventCredentialsPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Credentials" description="Manage event credentials and access" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Credentials" value={credentials.length.toString()} icon={<CreditCard size={20} />} inverted />
           <StatCard label="Active" value={activeCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Checked In" value={checkedInCount.toString()} icon={<CheckCircle size={20} />} inverted />
@@ -76,7 +76,7 @@ export default function EventCredentialsPage() {
                   <Spinner variant="grey" size="lg" />
                 </Stack>
               ) : (
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredCredentials.map((cred: Credential) => (
                   <Card key={cred.id} variant="elevated" inverted>
                     <CardBody>

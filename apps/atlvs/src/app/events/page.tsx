@@ -234,7 +234,7 @@ export default function EventsPage() {
       id: 'overview',
       title: 'Event Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {selectedEvent.name}</Body>
           <Body size="sm"><strong>Type:</strong> {typeLabels[selectedEvent.event_type] || selectedEvent.event_type}</Body>
           <Body size="sm"><strong>Venue:</strong> {selectedEvent.venue_name || '—'}</Body>

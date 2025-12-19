@@ -91,7 +91,7 @@ export default function VendorAuditsPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Upcoming Audits" value={upcomingAudits.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Overdue" value={overdueCount} trend={overdueCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Completed (YTD)" value={completedCount} className="bg-transparent border-2 border-ink-800" />
@@ -169,7 +169,7 @@ export default function VendorAuditsPage() {
                 <Badge variant="outline">{selectedAudit.auditType}</Badge>
                 <Label className={getStatusColor(selectedAudit.status)}>{selectedAudit.status}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Scheduled Date</Label><Label className="font-mono text-white">{selectedAudit.scheduledDate}</Label></Stack>
                 {selectedAudit.completedDate && <Stack gap={1}><Label className="text-ink-400">Completed Date</Label><Label className="font-mono text-white">{selectedAudit.completedDate}</Label></Stack>}
               </Grid>

@@ -41,7 +41,7 @@ export default function SOPsPage() {
         <SectionHeader kicker={production?.name || 'Production'} title="Standard Operating Procedures" description="SOPs and operational guidelines" />
         <Button variant="solid" size="sm"><Plus size={16} className="mr-2" />New SOP</Button>
       </Stack>
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total SOPs" value={sopStats.total.toString()} icon={<BookOpen size={20} />} />
         <StatCard label="Approved" value={sopStats.approved.toString()} icon={<CheckCircle size={20} />} />
         <StatCard label="Under Review" value={sopStats.review.toString()} icon={<Clock size={20} />} />

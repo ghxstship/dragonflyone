@@ -91,7 +91,7 @@ function SEOSettingsPageContent() {
           <Body className="text-on-dark-muted">Optimize your site for search engines</Body>
         </Stack>
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <Card inverted className="p-6">
             <Stack gap={2}>
               <Stack direction="horizontal" gap={2} className="items-center">
@@ -195,7 +195,7 @@ function SEOSettingsPageContent() {
             <Card inverted className="p-6">
               <Stack gap={6}>
                 <H3 className="text-white">Social Media Preview</H3>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={4}>
                     <Stack gap={2}>
                       <Label className="text-white">Open Graph Title</Label>

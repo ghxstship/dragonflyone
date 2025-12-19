@@ -35,8 +35,16 @@ const publicPaths = [
   '/auth/callback',
   '/api/auth',
   
-  // Marketing & product pages
+  // Products (mega menu)
+  '/products',
+  
+  // Solutions (mega menu)
+  '/solutions',
+  
+  // Verticals (mega menu)
   '/verticals',
+  
+  // Marketing & feature pages
   '/features',
   '/pricing',
   '/generator',
@@ -45,15 +53,19 @@ const publicPaths = [
   '/changelog',
   '/demo',
   
-  // Resources
+  // Resources (mega menu)
+  '/resources',
   '/help',
   '/docs',
   '/blog',
   '/guides',
   '/case-studies',
   '/templates',
+  '/community',
+  '/training',
+  '/webinars',
   
-  // Company
+  // Company (mega menu)
   '/about',
   '/careers',
   '/press',

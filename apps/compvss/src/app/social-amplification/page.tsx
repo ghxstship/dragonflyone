@@ -116,7 +116,7 @@ export default function SocialAmplificationPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={formatNumber(totalReach)} label="Total Reach" />
               <StatCard value={activeArtists.toString()} label="Active Artists" />
               <StatCard value={activeCampaigns.toString()} label="Active Campaigns" />
@@ -135,7 +135,7 @@ export default function SocialAmplificationPage() {
             </Stack>
 
             <TabPanel active={isActive('artists')}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {artists.map((artist) => (
                   <Card key={artist.id} className="p-6">
                     <Stack gap={4}>
@@ -159,7 +159,7 @@ export default function SocialAmplificationPage() {
                           </Stack>
                         ))}
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className="">Scheduled</Body>
                           <Body>{artist.scheduledPosts} posts</Body>
@@ -206,7 +206,7 @@ export default function SocialAmplificationPage() {
             </TabPanel>
 
             <TabPanel active={isActive('content')}>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
                   <Card key={idx} className="cursor-pointer p-4">
                     <Stack gap={2} className="text-center">
@@ -227,7 +227,7 @@ export default function SocialAmplificationPage() {
               </Grid>
             </TabPanel>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Analytics</Button>
               <Button variant="outline" onClick={() => router.push("/marketing")}>Marketing</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
@@ -263,7 +263,7 @@ export default function SocialAmplificationPage() {
                   </Card>
                 ))}
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Scheduled Posts</Body>
                   <Body>{selectedArtist.scheduledPosts}</Body>
@@ -291,7 +291,7 @@ export default function SocialAmplificationPage() {
               <option value="">Select Event...</option>
               <option value="EVT-001">Summer Fest 2024</option>
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="date" />
               <Input type="date" />
             </Grid>
@@ -312,7 +312,7 @@ export default function SocialAmplificationPage() {
         <ModalBody>
           {selectedCampaign && (
             <Stack gap={4}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className=" text-ink-500">Event</Body>
                   <Body className="font-display">{selectedCampaign.event}</Body>

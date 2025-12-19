@@ -111,7 +111,7 @@ export default function AccountTicketsPage() {
           <Button variant={filter === 'past' ? 'solid' : 'outline'} onClick={() => setFilter('past')}>Past</Button>
         </Stack>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           {filteredTickets.map(ticket => (
             <Card key={ticket.id} variant="elevated" inverted>
               <CardBody>

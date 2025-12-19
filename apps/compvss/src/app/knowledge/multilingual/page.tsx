@@ -87,7 +87,7 @@ export default function MultilingualPage() {
               </Select>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Languages" value={enabledLanguages.toString()} />
               <StatCard label="Translated Content" value={totalTranslations.toString()} />
               <StatCard label="Pending" value={pendingTranslations.toString()} />
@@ -155,7 +155,7 @@ export default function MultilingualPage() {
             )}
 
             {isActive('languages') && (
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {languages.map((lang) => (
                   <Card key={lang.code}>
                     <Stack gap={3}>
@@ -166,7 +166,7 @@ export default function MultilingualPage() {
                         </Stack>
                         <Badge variant={lang.enabled ? 'solid' : 'outline'}>{lang.enabled ? 'Enabled' : 'Disabled'}</Badge>
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className="">Content Items</Body>
                           <Body className="font-mono">{lang.contentCount}</Body>
@@ -188,7 +188,7 @@ export default function MultilingualPage() {
                 <Card>
                   <Stack gap={4}>
                     <H3>Translation Settings</H3>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={2}>
                         <Body>Default Language</Body>
                         <Select>

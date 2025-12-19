@@ -62,7 +62,7 @@ export default function ProductionAssetsPage() {
           </Stack>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Assets" value={assets.length.toString()} icon={<Package size={20} />} inverted />
           <StatCard label="Total Value" value={`$${(totalValue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="In Use" value={inUseCount.toString()} icon={<CheckCircle size={20} />} inverted />
@@ -79,7 +79,7 @@ export default function ProductionAssetsPage() {
                   <Button variant="outline"><Search size={16} /></Button>
                 </Stack>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredAssets.map(asset => (
                   <Card key={asset.id} variant="elevated" inverted>
                     <CardBody>

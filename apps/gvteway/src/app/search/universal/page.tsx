@@ -191,7 +191,7 @@ function UniversalSearchContent() {
                 <Spinner variant="grey" size="lg" />
               </Stack>
             ) : filteredResults.length > 0 ? (
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 {filteredResults.map(result => (
                   <Card
                     key={`${result.type}-${result.id}`}
@@ -249,7 +249,7 @@ function UniversalSearchContent() {
         {!query && (
           <Stack>
             <H2 className="mb-6">BROWSE BY CATEGORY</H2>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               {['Concerts', 'Festivals', 'Theater', 'Sports', 'Comedy', 'Nightlife', 'Family', 'Arts'].map(category => (
                 <Card
                   key={category}

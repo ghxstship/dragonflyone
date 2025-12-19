@@ -64,21 +64,21 @@ export default function SpecSheetsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={specSheets.length.toString()} label="Total Specs" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
               <StatCard value={new Set(specSheets.map(s => s.manufacturer)).size.toString()} label="Manufacturers" />
               <StatCard value={specSheets.reduce((sum, s) => sum + s.downloads, 0).toString()} label="Downloads" />
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Input type="search" placeholder="Search specs..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="col-span-2" />
               <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
               </Select>
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {filteredSpecs.map((spec) => (
                 <Card key={spec.id} className="cursor-pointer p-4" onClick={() => setSelectedSpec(spec)}>
                   <Stack gap={4}>
@@ -89,7 +89,7 @@ export default function SpecSheetsPage() {
                       </Stack>
                       <Badge variant="outline">{spec.category}</Badge>
                     </Stack>
-                    <Grid cols={3} gap={2}>
+                    <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
                       {spec.specs.slice(0, 3).map((s, idx) => (
                         <Stack key={idx} gap={0}>
                           <Body size="sm" className="">{s.label}</Body>
@@ -106,7 +106,7 @@ export default function SpecSheetsPage() {
               ))}
             </Grid>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid">Upload Spec Sheet</Button>
               <Button variant="outline" onClick={() => router.push("/equipment")}>Equipment</Button>
               <Button variant="outline" onClick={() => router.push("/knowledge")}>Knowledge Base</Button>
@@ -127,7 +127,7 @@ export default function SpecSheetsPage() {
                 </Stack>
                 <Badge variant="outline">{selectedSpec.category}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Model</Body>
                   <Body>{selectedSpec.model}</Body>
@@ -150,7 +150,7 @@ export default function SpecSheetsPage() {
                   </TableBody>
                 </Table>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Last Updated</Body>
                   <Body>{selectedSpec.lastUpdated}</Body>

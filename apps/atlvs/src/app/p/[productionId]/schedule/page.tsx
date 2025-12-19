@@ -173,7 +173,7 @@ export default function ProductionSchedulePage() {
       </Grid>
 
       {/* Quick Navigation */}
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card
           variant="elevated"
           inverted

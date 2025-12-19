@@ -48,8 +48,8 @@ export default function ProductsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               THE GHXSTSHIP PLATFORM
@@ -65,8 +65,8 @@ export default function ProductsPage() {
       </FullBleedSection>
 
       {/* Products Grid */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={8} className="sm:grid-cols-1 lg:grid-cols-3">
             {products.map((product) => {
               const IconComponent = iconMap[product.icon] || Briefcase;
@@ -124,8 +124,8 @@ export default function ProductsPage() {
       </FullBleedSection>
 
       {/* Platform Benefits */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={16}>
             <Stack gap={4} className="text-center">
               <H1 className="text-ink-950">BETTER TOGETHER</H1>
@@ -170,8 +170,8 @@ export default function ProductsPage() {
       </FullBleedSection>
 
       {/* Compare CTA */}
-      <FullBleedSection background="ink" className="py-16">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack direction="horizontal" className="items-center justify-between flex-wrap gap-6">
             <Stack gap={2}>
               <H3 className="text-white">Not sure which product you need?</H3>
@@ -187,8 +187,8 @@ export default function ProductsPage() {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               READY TO TRANSFORM YOUR PRODUCTIONS?

@@ -58,7 +58,7 @@ export default function ProjectsPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard value={filteredProjects.length.toString()} label="Total Projects" />
               <StatCard value={`$${(totalBudget / 1000000).toFixed(1)}M`} label="Total Budget" />
               <StatCard value={filteredProjects.filter((p: { status?: string }) => p.status === 'active').length.toString()} label="Active Projects" />

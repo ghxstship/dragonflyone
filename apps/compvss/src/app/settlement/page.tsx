@@ -73,7 +73,7 @@ export default function SettlementPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={pendingCount.toString()} label="Pending Settlements" />
               <StatCard value={`$${(totalProfit / 1000).toFixed(0)}K`} label="Total Profit (MTD)" />
               <StatCard value={`${avgMargin}%`} label="Avg Margin" />
@@ -102,7 +102,7 @@ export default function SettlementPage() {
                             <Badge variant={getStatusVariant(settlement.status)}>{settlement.status}</Badge>
                           </Stack>
 
-                          <Grid cols={4} gap={4}>
+                          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                             <Card className="p-3">
                               <Stack gap={1}>
                                 <Body size="sm" className="">Contract Value</Body>
@@ -158,7 +158,7 @@ export default function SettlementPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid">Create Settlement</Button>
               <Button variant="outline">Export Report</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Back to Projects</Button>
@@ -173,7 +173,7 @@ export default function SettlementPage() {
           {selectedSettlement && (
             <Stack gap={4}>
               <Body className="font-display">{selectedSettlement.projectName}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className="">Event Date</Body>
                   <Body>{selectedSettlement.eventDate}</Body>
@@ -185,7 +185,7 @@ export default function SettlementPage() {
               </Grid>
 
               <H3 className="mt-4">Revenue</H3>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 {selectedSettlement.ticketRevenue && (
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="">Ticket Revenue</Body>
@@ -207,7 +207,7 @@ export default function SettlementPage() {
               </Grid>
 
               <H3 className="mt-4">Costs</H3>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 {selectedSettlement.artistGuarantee && (
                   <Stack direction="horizontal" className="justify-between">
                     <Body size="sm" className="">Artist Guarantee</Body>
@@ -247,7 +247,7 @@ export default function SettlementPage() {
               </Grid>
 
               <Card className="mt-4 p-4">
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   <Stack gap={1}>
                     <Body size="sm" className="">Total Revenue</Body>
                     <Body className="font-display">${selectedSettlement.contractValue.toLocaleString()}</Body>
@@ -284,7 +284,7 @@ export default function SettlementPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Description" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="number" placeholder="Amount" />
               <Select>
                 <option value="Credit">Credit (+)</option>

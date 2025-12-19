@@ -67,7 +67,7 @@ function EventLanguagesPageContent() {
               <Body className="text-on-dark-muted">Event information translations and localization</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Languages" value={mockTranslations.length} className="border-2 border-black" />
             <StatCard label="Complete" value={completeCount} className="border-2 border-black" />
             <StatCard label="Avg Progress" value={`${avgProgress}%`} className="border-2 border-black" />
@@ -86,7 +86,7 @@ function EventLanguagesPageContent() {
           </Stack>
 
           <TabPanel active={isActive('overview')}>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {mockTranslations.map((translation) => (
                 <Card key={translation.id} className="border-2 border-black p-6">
                   <Stack gap={4}>

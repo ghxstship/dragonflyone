@@ -110,7 +110,7 @@ export default function ProductionIncidentsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(true)}><Plus size={16} className="mr-2" />Report Incident</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Incidents" value={incidents.length.toString()} icon={<FileText size={20} />} inverted />
           <StatCard label="Open" value={openCount.toString()} icon={<AlertTriangle size={20} />} inverted />
           <StatCard label="Resolved" value={resolvedCount.toString()} icon={<CheckCircle size={20} />} inverted />
@@ -149,7 +149,7 @@ export default function ProductionIncidentsPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Incident title" value={newIncident.title} onChange={(e) => setNewIncident(prev => ({ ...prev, title: e.target.value }))} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select value={newIncident.severity} onChange={(e) => setNewIncident(prev => ({ ...prev, severity: e.target.value }))}>
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>

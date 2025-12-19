@@ -54,8 +54,8 @@ export default function AtlvsProductPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
@@ -104,8 +104,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Core Capabilities */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500">CORE CAPABILITIES</Label>
@@ -136,8 +136,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Venue Management Module (V3 Expansion) */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -176,8 +176,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Vendor Services Module (V3 Expansion) */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Box className="hidden lg:block order-2 lg:order-1">
               <Card className="border-2 aspect-square border-ink-700 bg-ink-900 shadow-brand-lg">
@@ -216,8 +216,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Blue Ocean Differentiators */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500">WHAT SETS US APART</Label>
@@ -248,8 +248,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Integration & Security */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="sm:grid-cols-1">
             <Card className="border-2 border-ink-950 bg-white p-8">
               <Stack gap={6}>
@@ -317,8 +317,8 @@ export default function AtlvsProductPage() {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO TAKE CONTROL?

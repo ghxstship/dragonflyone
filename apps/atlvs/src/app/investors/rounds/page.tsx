@@ -220,7 +220,7 @@ export default function InvestmentRoundsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{roundTypeLabels[selectedRound.round_type] || selectedRound.round_type}</Body>
@@ -242,7 +242,7 @@ export default function InvestmentRoundsPage() {
       id: 'financials',
       title: 'Financials',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Target Amount</Body>
             <Body>${selectedRound.target_amount?.toLocaleString()}</Body>
@@ -271,7 +271,7 @@ export default function InvestmentRoundsPage() {
       id: 'dates',
       title: 'Timeline',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Open Date</Body>
             <Body>{selectedRound.open_date ? new Date(selectedRound.open_date).toLocaleDateString() : 'Not set'}</Body>

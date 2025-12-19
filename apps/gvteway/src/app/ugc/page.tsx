@@ -208,7 +208,7 @@ function UGCPageContent() {
               </Field>
             </Stack>
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               {posts.length > 0 ? (
                 posts.map(post => (
                   <Card
@@ -293,7 +293,7 @@ function UGCPageContent() {
                         <Badge className="bg-error-500 text-white"><Flame className="size-3 inline mr-1" /> Trending</Badge>
                       )}
                     </Stack>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack>
                         <Body className="text-h5-md font-weight-bold">{formatNumber(hashtag.post_count)}</Body>
                         <Body className="text-mono-xs text-ink-500">Posts</Body>
@@ -343,7 +343,7 @@ function UGCPageContent() {
                         {campaign.end_date && ` - ${new Date(campaign.end_date).toLocaleDateString()}`}
                       </Body>
                     </Stack>
-                    <Grid cols={2} gap={6}>
+                    <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack className="text-center">
                         <Body className="text-h4-md font-weight-bold">{formatNumber(campaign.post_count)}</Body>
                         <Body className="text-mono-xs text-ink-500">Posts</Body>

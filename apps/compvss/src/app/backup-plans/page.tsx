@@ -129,7 +129,7 @@ export default function BackupPlansPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={plans.length.toString()} label="Total Plans" />
               <StatCard value={activePlans.toString()} label="Active" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
@@ -148,7 +148,7 @@ export default function BackupPlansPage() {
             </Stack>
 
             {/* Plans Grid */}
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {filteredPlans.map((plan) => (
                 <Card key={plan.id} className="p-6">
                   <Stack gap={4}>
@@ -180,7 +180,7 @@ export default function BackupPlansPage() {
             </Grid>
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/weather")}>Weather</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -245,7 +245,7 @@ export default function BackupPlansPage() {
               value={newPlan.name}
               onChange={(e) => setNewPlan({ ...newPlan, name: e.target.value })}
             />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select
                 value={newPlan.category}
                 onChange={(e) => setNewPlan({ ...newPlan, category: e.target.value })}

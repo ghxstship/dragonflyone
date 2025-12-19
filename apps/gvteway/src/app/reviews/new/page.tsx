@@ -169,7 +169,7 @@ function NewReviewContent() {
           </Alert>
         )}
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2">
             <Form onSubmit={handleSubmit}>
               <Stack gap={6}>
@@ -180,7 +180,7 @@ function NewReviewContent() {
 
                 <Card className="p-6">
                   <H3 className="mb-6">DETAILED RATINGS</H3>
-                  <Grid cols={3} gap={6}>
+                  <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                     {renderStars(venueRating, setVenueRating, 'Venue')}
                     {renderStars(valueRating, setValueRating, 'Value for Money')}
                     {renderStars(atmosphereRating, setAtmosphereRating, 'Atmosphere')}

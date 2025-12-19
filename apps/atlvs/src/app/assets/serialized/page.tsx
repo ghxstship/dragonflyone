@@ -110,7 +110,7 @@ export default function SerializedComponentsPage() {
         <Container>
           <Stack gap={8}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Components" value={components.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Active" value={activeCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="In Repair" value={inRepairCount} trend={inRepairCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
@@ -121,7 +121,7 @@ export default function SerializedComponentsPage() {
             <Alert variant="warning">{warrantyExpiringSoon} component(s) have warranties expiring within 30 days</Alert>
           )}
 
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             <Input
               type="search"
               placeholder="Search serial numbers..."
@@ -211,7 +211,7 @@ export default function SerializedComponentsPage() {
             </TableBody>
           </Table>
 
-          <Grid cols={3} gap={4}>
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
             <Button variant="outline" className="border-ink-700 text-ink-400">
               Export Report
             </Button>
@@ -238,7 +238,7 @@ export default function SerializedComponentsPage() {
                 <Badge variant="outline">{selectedComponent.componentType}</Badge>
                 <Label className={getStatusColor(selectedComponent.status)}>{selectedComponent.status}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">
                     Parent Asset
@@ -252,7 +252,7 @@ export default function SerializedComponentsPage() {
                   <Label className="text-white">{selectedComponent.location}</Label>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">
                     Manufacturer
@@ -266,7 +266,7 @@ export default function SerializedComponentsPage() {
                   <Label className="text-white">{selectedComponent.model}</Label>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">
                     Install Date
@@ -348,11 +348,11 @@ export default function SerializedComponentsPage() {
                 </option>
               ))}
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input placeholder="Manufacturer" className="border-ink-700 bg-black text-white" />
               <Input placeholder="Model" className="border-ink-700 bg-black text-white" />
             </Grid>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={2}>
                 <Label>Install Date</Label>
                 <Input type="date" className="border-ink-700 bg-black text-white" />

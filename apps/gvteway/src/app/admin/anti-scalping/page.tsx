@@ -206,7 +206,7 @@ function AntiScalpingPageContent() {
             </Alert>
           )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Alerts" value={alerts.filter((a: ScalpingAlert) => a.status === 'pending' || a.status === 'investigating').length.toString()} inverted />
               <StatCard label="Critical" value={criticalCount.toString()} inverted />
               <StatCard label="Blocked Today" value={blockedToday.toString()} inverted />
@@ -387,7 +387,7 @@ function AntiScalpingPageContent() {
           )}
 
           {isActive('analytics') && (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Detection Summary</H3>
@@ -444,7 +444,7 @@ function AntiScalpingPageContent() {
               </Stack>
               <Body className="font-weight-bold text-h6-md">{selectedAlert.event_name}</Body>
               <Body>{selectedAlert.details}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Ticket Count</Label>
                   <Body className="font-weight-bold">{selectedAlert.ticket_count}</Body>

@@ -71,7 +71,7 @@ export default function EventOverviewPage() {
       </Stack>
 
       {/* Quick Actions */}
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/tickets`)}>
           <CardBody>
             <Stack gap={4} className="items-center text-center">

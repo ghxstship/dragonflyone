@@ -205,7 +205,7 @@ export default function EditEventPage() {
                 />
               </Field>
 
-              <Grid cols={2}>
+              <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Category" required>
                   <Select
                     value={formData.category}
@@ -230,7 +230,7 @@ export default function EditEventPage() {
                 </Field>
               </Grid>
 
-              <Grid cols={2}>
+              <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Start Date" required>
                   <Input
                     type="date"
@@ -255,7 +255,7 @@ export default function EditEventPage() {
             <H2 className="mb-6">TICKETING</H2>
 
             <Stack gap={6}>
-              <Grid cols={2}>
+              <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Capacity" required>
                   <Input
                     type="number"

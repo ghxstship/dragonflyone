@@ -153,7 +153,7 @@ function CashlessPaymentPageContent() {
             </Alert>
           )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Online Terminals" value={`${onlineTerminals}/${terminals.length}`} inverted />
               <StatCard label="Today's Revenue" value={`$${totalRevenue.toLocaleString()}`} inverted />
               <StatCard label="Transactions" value={totalTransactions.toString()} inverted />
@@ -204,7 +204,7 @@ function CashlessPaymentPageContent() {
                 </Field>
               </Stack>
 
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {filteredTerminals.map(terminal => (
                   <Card key={terminal.id} inverted className={`p-4 ${terminal.status === 'online' ? 'ring-2 ring-success' : ''}`}>
                     <Stack gap={4}>
@@ -234,7 +234,7 @@ function CashlessPaymentPageContent() {
                         </Stack>
                       </Stack>
 
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Label className="text-on-dark-muted">Transactions</Label>
                           <Body className="font-display text-white">{terminal.transactions_today}</Body>
@@ -393,7 +393,7 @@ function CashlessPaymentPageContent() {
           )}
 
           {isActive('settings') && (
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Processing Settings</H3>
@@ -448,7 +448,7 @@ function CashlessPaymentPageContent() {
                 <Body className="font-weight-bold text-h6-md">{selectedTerminal.name}</Body>
                 {getStatusBadge(selectedTerminal.status)}
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Location</Label>
                   <Body>{selectedTerminal.location}</Body>

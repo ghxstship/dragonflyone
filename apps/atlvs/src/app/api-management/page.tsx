@@ -59,7 +59,7 @@ export default function ApiManagementPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Active API Keys"
                 value={stats?.activeKeys || 0}
@@ -83,7 +83,7 @@ export default function ApiManagementPage() {
               />
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* API Keys Overview */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -170,7 +170,7 @@ export default function ApiManagementPage() {
             <Card className="border-2 border-grey-200 p-6">
               <Stack gap={4}>
                 <H3>Quick Actions</H3>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Button
                     onClick={() => router.push('/api-management/keys')}
                     className="flex items-center justify-center gap-2 border-2 border-grey-300 bg-white p-4"

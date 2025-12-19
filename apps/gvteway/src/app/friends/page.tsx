@@ -140,7 +140,7 @@ export default function FriendsPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Total Friends"
                 value={friends.length.toString()}
@@ -170,7 +170,7 @@ export default function FriendsPage() {
                   <Kicker colorScheme="on-dark">Live Now</Kicker>
                   <H2 className="text-white">Friends at Events</H2>
                 </Stack>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   {friendsAtEvents.map(friend => (
                     <Card key={friend.id} inverted interactive>
                       <Stack direction="horizontal" gap={4} className="items-center">
@@ -211,7 +211,7 @@ export default function FriendsPage() {
             {success && <Alert variant="success">{success}</Alert>}
             {(error || localError) && <Alert variant="error">{error instanceof Error ? error.message : localError || String(error)}</Alert>}
 
-            <Grid cols={2} gap={8}>
+            <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* All Friends */}
               <Stack gap={6}>
                 <Stack direction="horizontal" className="items-center justify-between">

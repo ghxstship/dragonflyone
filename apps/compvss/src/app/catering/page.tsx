@@ -149,7 +149,7 @@ export default function CateringPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.upcoming_meals || 0).toString()}
                 label="Upcoming Meals"
@@ -168,11 +168,11 @@ export default function CateringPage() {
               />
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card>
                 <Stack gap={4}>
                   <H2>Dietary Requirements</H2>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Card>
                       <Stack gap={2}>
                         <Body size="sm" className="">Vegetarian</Body>

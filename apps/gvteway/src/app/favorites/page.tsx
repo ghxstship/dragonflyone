@@ -97,7 +97,7 @@ export default function FavoritesPage() {
                   <Kicker colorScheme="on-dark">Coming Up</Kicker>
                   <H2 className="text-white">Upcoming Events</H2>
                 </Stack>
-                <Grid cols={3} gap={6}>
+                <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                   {upcomingFavorites.map(favorite => (
                     <Card key={favorite.id} inverted interactive className="group relative overflow-hidden">
                       <Button
@@ -138,7 +138,7 @@ export default function FavoritesPage() {
             {pastFavorites.length > 0 && (
               <Stack gap={6}>
                 <H2 className="text-on-dark-muted">Past Events</H2>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {pastFavorites.map(favorite => (
                     <Card key={favorite.id} inverted className="p-4 opacity-60">
                       <Stack gap={2}>

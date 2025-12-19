@@ -105,7 +105,7 @@ export default function NewEventsPage() {
               <H2>JUST ANNOUNCED</H2>
               <Badge>New</Badge>
             </Stack>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {justAnnouncedEvents.map(event => (
                 <Card key={event.id} className="overflow-hidden">
                   <Stack className="relative">
@@ -143,7 +143,7 @@ export default function NewEventsPage() {
         {thisWeekEvents.length > 0 && (
           <Section className="mb-12">
             <H2 className="mb-6">THIS WEEK</H2>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {thisWeekEvents.map(event => (
                 <Card key={event.id} className="overflow-hidden">
                   <Stack className="relative">
@@ -167,7 +167,7 @@ export default function NewEventsPage() {
         {olderEvents.length > 0 && (
           <Section className="mb-12">
             <H2 className="mb-6">RECENTLY ANNOUNCED</H2>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {olderEvents.map(event => (
                 <ProjectCard
                   key={event.id}

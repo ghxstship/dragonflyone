@@ -135,7 +135,7 @@ export default function MyDeliverablesPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total" value={deliverables.length.toString()} icon={<FileText size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="In Progress" value={inProgressCount.toString()} icon={<Clock size={20} />} inverted />

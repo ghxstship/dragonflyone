@@ -56,7 +56,7 @@ export default function UnionRulesPage() {
 
   const detailSections: DetailSection[] = selected ? [
     { id: 'overview', title: 'Rule Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Union:</strong> {selected.union}</Body>
         <Body size="sm"><strong>Category:</strong> {selected.category}</Body>
         <Body size="sm"><strong>Rule:</strong> {selected.rule}</Body>

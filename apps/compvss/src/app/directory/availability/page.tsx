@@ -59,7 +59,7 @@ export default function AvailabilityPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={crewAvailability.length.toString()} label="Total Crew" />
               <StatCard value={availableCount.toString()} label="Available Now" />
               <StatCard value={crewAvailability.filter(c => c.status === "Busy").length.toString()} label="On Projects" />
@@ -86,7 +86,7 @@ export default function AvailabilityPage() {
             </Stack>
 
             <Card className="overflow-hidden">
-              <Grid cols={4} gap={0}>
+              <Grid cols={4} gap={0} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Card className="border-b border-r p-3">
                   <Body className="font-display">Crew Member</Body>
                 </Card>
@@ -94,7 +94,7 @@ export default function AvailabilityPage() {
                   <Body className="font-display">Status</Body>
                 </Card>
                 <Card className="col-span-2 border-b p-3">
-                  <Grid cols={6} gap={2}>
+                  <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                     {weekDays.slice(0, 6).map((day) => (
                       <Body key={day} className="text-center">{day}</Body>
                     ))}
@@ -121,7 +121,7 @@ export default function AvailabilityPage() {
                       </Stack>
                     </Card>
                     <Card className="col-span-2 border-b p-3">
-                      <Grid cols={6} gap={2}>
+                      <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                         {crew.weekAvailability.slice(0, 6).map((available, idx) => (
                           <Card key={idx} className="flex h-8 items-center justify-center rounded-card">
                             <Body size="sm" className="">{available ? "✓" : "—"}</Body>
@@ -155,7 +155,7 @@ export default function AvailabilityPage() {
               </Stack>
             </Card>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/directory")}>Directory</Button>
               <Button variant="outline" onClick={() => router.push("/crew")}>Crew</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -194,7 +194,7 @@ export default function AvailabilityPage() {
               )}
               <Stack gap={2}>
                 <Body className="font-display">This Week</Body>
-                <Grid cols={6} gap={2}>
+                <Grid cols={6} gap={2} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                   {weekDays.slice(0, 6).map((day, idx) => (
                     <Stack key={day} gap={1} className="text-center">
                       <Body size="sm" className="">{day}</Body>

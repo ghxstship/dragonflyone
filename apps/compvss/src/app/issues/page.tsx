@@ -145,7 +145,7 @@ export default function IssuesPage() {
 
   const detailSections: DetailSection[] = selectedIssue ? [
     { id: 'overview', title: 'Issue Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Title</Body><Body>{selectedIssue.title}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Category</Body><Body>{selectedIssue.category}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Priority</Body><Body>{selectedIssue.priority}</Body></Stack>

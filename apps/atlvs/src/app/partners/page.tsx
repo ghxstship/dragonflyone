@@ -57,8 +57,8 @@ export default function PartnersPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="max-w-3xl">
             <Label size="xs" className="text-on-dark-muted">
               PARTNER PROGRAM
@@ -79,8 +79,8 @@ export default function PartnersPage() {
       </FullBleedSection>
 
       {/* Stats */}
-      <FullBleedSection background="white" className="py-16">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={4} gap={8} className="sm:grid-cols-2">
             {partnersData.stats.map((stat) => (
               <Stack key={stat.label} className="text-center">
@@ -97,8 +97,8 @@ export default function PartnersPage() {
       </FullBleedSection>
 
       {/* Partner Types */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">PARTNERSHIP PROGRAMS</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -140,8 +140,8 @@ export default function PartnersPage() {
       </FullBleedSection>
 
       {/* Integrations */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack gap={4}>
               <H1 className="text-white">INTEGRATION ECOSYSTEM</H1>
@@ -161,8 +161,8 @@ export default function PartnersPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-12 shadow-brand-lg">
             <Stack gap={8} className="items-center">
               <Stack className="flex size-16 items-center justify-center border-2 border-ink-950 bg-grey-100">

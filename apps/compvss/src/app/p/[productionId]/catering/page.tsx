@@ -110,14 +110,14 @@ export default function CateringPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={8}>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Crew" value={totalHeadcount.toString()} icon={<Users size={20} />} inverted />
           <StatCard label="Meals Served" value={mealsServed.toString()} icon={<Utensils size={20} />} inverted />
           <StatCard label="Total Servings" value={totalMealsServed.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Dietary Needs" value={`${totalVegetarian + totalVegan + totalGlutenFree}`} icon={<Calendar size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>
@@ -221,7 +221,7 @@ export default function CateringPage() {
 
                 <Stack className="rounded-card bg-ink-800 p-4">
                   <H3 className="text-white mb-3">Dietary Summary</H3>
-                  <Grid cols={2} gap={3}>
+                  <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-on-dark-muted">Vegetarian</Body>
                       <Body className="font-weight-semibold text-white">{totalVegetarian} ({((totalVegetarian / totalHeadcount) * 100).toFixed(1)}%)</Body>

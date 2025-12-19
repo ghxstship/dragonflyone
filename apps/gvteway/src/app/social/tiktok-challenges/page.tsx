@@ -60,7 +60,7 @@ function TikTokChallengesPageContent() {
               <Body className="text-on-dark-muted">Create and manage viral TikTok challenge campaigns</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Views" value={formatNumber(totalViews)} className="border-2 border-black" />
             <StatCard label="Participants" value={formatNumber(totalParticipants)} className="border-2 border-black" />
             <StatCard label="Active Challenges" value={activeCount} className="border-2 border-black" />
@@ -119,11 +119,11 @@ function TikTokChallengesPageContent() {
                 <Label className={getStatusColor(selectedChallenge.status)}>{selectedChallenge.status}</Label>
               </Stack>
               <Stack gap={1}><Label className="text-ink-500">Event</Label><Label>{selectedChallenge.eventName}</Label></Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Start Date</Label><Label>{selectedChallenge.startDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">End Date</Label><Label>{selectedChallenge.endDate}</Label></Stack>
               </Grid>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack gap={1}><Label className="text-ink-500">Participants</Label><Label className="font-mono text-h6-md">{formatNumber(selectedChallenge.participants)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Views</Label><Label className="font-mono text-h6-md">{formatNumber(selectedChallenge.views)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Engagement</Label><Label className="font-mono text-h6-md">{selectedChallenge.engagement}%</Label></Stack>
@@ -158,7 +158,7 @@ function TikTokChallengesPageContent() {
               <option value="EVT-001">Summer Fest 2024</option>
               <option value="EVT-002">Fall Concert</option>
             </Select>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Input type="date" className="border-2 border-black" />
               <Input type="date" className="border-2 border-black" />
             </Grid>

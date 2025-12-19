@@ -91,7 +91,7 @@ export default function CreateEventPage() {
                   />
                 </Field>
 
-                <Grid cols={2}>
+                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Field label="Event Type" required>
                     <Select
                       value={formData.eventType}
@@ -116,7 +116,7 @@ export default function CreateEventPage() {
                   </Field>
                 </Grid>
 
-                <Grid cols={2}>
+                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Field label="Date" required>
                     <Input
                       type="date"
@@ -152,7 +152,7 @@ export default function CreateEventPage() {
                   />
                 </Field>
 
-                <Grid cols={2}>
+                <Grid cols={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Field label="GA Ticket Price" required>
                     <Input
                       type="number"

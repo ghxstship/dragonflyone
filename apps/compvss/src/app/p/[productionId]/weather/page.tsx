@@ -90,7 +90,7 @@ export default function ProductionWeatherPage() {
           </Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Today" value={`${forecast[0]?.tempHigh}°F`} icon={<Thermometer size={20} />} inverted />
           <StatCard label="Precipitation" value={`${forecast[0]?.precipitation}%`} icon={<CloudRain size={20} />} inverted />
           <StatCard label="Wind" value={`${forecast[0]?.wind} mph`} icon={<Wind size={20} />} inverted />
@@ -117,7 +117,7 @@ export default function ProductionWeatherPage() {
           <CardBody>
             <Stack gap={4}>
               <H3 className="text-white">5-Day Forecast</H3>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {forecast.map((day, index) => (
                   <Card key={index} variant="elevated" inverted>
                     <CardBody>

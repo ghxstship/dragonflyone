@@ -120,7 +120,7 @@ END:VCALENDAR`;
                 <Stack gap={4}>
                   {events.map(event => (
                     <Card key={event.id} inverted interactive className="overflow-hidden">
-                      <Grid cols={4} gap={0}>
+                      <Grid cols={4} gap={0} className="sm:grid-cols-2 lg:grid-cols-4">
                         {event.image && (
                           <Figure className="relative h-full min-h-[200px]">
                             <Image
@@ -217,7 +217,7 @@ END:VCALENDAR`;
             {pastEvents.length > 0 && (
               <Stack gap={6}>
                 <H2 className="text-on-dark-muted">Past Events</H2>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   {pastEvents.slice(0, 6).map(event => (
                     <Card key={event.id} inverted className="p-4">
                       <Stack gap={3}>

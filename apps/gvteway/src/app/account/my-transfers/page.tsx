@@ -105,7 +105,7 @@ export default function MyTransfersPage() {
       <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
       <MainContent padding="lg"><Container>
         <Stack gap={8}>
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Transfers" value={transfers.length.toString()} icon={<ArrowRightLeft size={20} />} inverted />
           <StatCard label="Sent" value={sentCount.toString()} icon={<Send size={20} />} inverted />
           <StatCard label="Received" value={receivedCount.toString()} icon={<Inbox size={20} />} inverted />

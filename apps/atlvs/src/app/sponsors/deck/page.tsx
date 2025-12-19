@@ -81,7 +81,7 @@ export default function SponsorshipDeckPage() {
               </Stack>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -126,7 +126,7 @@ export default function SponsorshipDeckPage() {
                     <Stack gap={4}>
                       <H3>Sponsorship Tiers in Deck</H3>
                       {tiers && tiers.length > 0 ? (
-                        <Grid cols={2} gap={4}>
+                        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           {tiers.filter(t => t.is_active).map(tier => (
                             <Card key={tier.id} className="border-2 border-grey-200 p-4">
                               <Stack gap={2}>

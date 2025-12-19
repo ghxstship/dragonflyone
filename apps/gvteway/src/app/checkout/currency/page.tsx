@@ -44,7 +44,7 @@ function CurrencyPageContent() {
               <Body className="text-on-dark-muted">Multi-currency support with localized pricing</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Currencies" value={mockCurrencies.length.toString()} inverted />
             <StatCard label="Enabled" value={enabledCount.toString()} inverted />
             <StatCard label="Base Currency" value="USD" inverted />
@@ -112,7 +112,7 @@ function CurrencyPageContent() {
                           <Badge variant="outline">{price.baseCurrency}</Badge>
                         </Stack>
                       </Stack>
-                      <Grid cols={4} gap={4}>
+                      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                         {price.localizedPrices.map((lp, lpIdx) => {
                           const curr = mockCurrencies.find(c => c.code === lp.currency);
                           return (
@@ -141,7 +141,7 @@ function CurrencyPageContent() {
               <Card inverted className="p-6">
                 <Stack gap={6}>
                   <H3 className="text-white">Currency Settings</H3>
-                  <Grid cols={2} gap={6}>
+                  <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={4}>
                       <Stack gap={2}>
                         <Label className="font-display text-white">Base Currency</Label>
@@ -201,7 +201,7 @@ function CurrencyPageContent() {
                 <Badge variant="outline">{selectedCurrency.code}</Badge>
                 <Label className="font-display">{selectedCurrency.name}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-on-light-muted">Symbol</Label>
                   <Input defaultValue={selectedCurrency.symbol} />

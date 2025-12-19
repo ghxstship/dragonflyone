@@ -72,7 +72,7 @@ function CrisisManagementPageContent() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Incidents" value={activeIncidents} trend={activeIncidents > 0 ? "down" : "neutral"} className="border-2 border-black" />
             <StatCard label="Critical" value={criticalCount} className="border-2 border-black" />
             <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
@@ -127,7 +127,7 @@ function CrisisManagementPageContent() {
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Template</Button>
                 </Stack>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {mockTemplates.map((template) => (
                     <Card key={template.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
@@ -148,7 +148,7 @@ function CrisisManagementPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('playbook')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Crisis Response Steps</H3>
@@ -208,11 +208,11 @@ function CrisisManagementPageContent() {
           {selectedIncident && (
             <Stack gap={4}>
               <Body className="font-weight-bold">{selectedIncident.title}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Severity</Label><Badge variant="outline" className={getSeverityColor(selectedIncident.severity)}>{selectedIncident.severity}</Badge></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Status</Label><Label className={getStatusColor(selectedIncident.status)}>{selectedIncident.status}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Platform</Label><Label>{selectedIncident.platform}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Mentions</Label><Label className="font-mono">{selectedIncident.mentions}</Label></Stack>
               </Grid>

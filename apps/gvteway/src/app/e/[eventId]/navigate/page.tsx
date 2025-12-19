@@ -22,7 +22,7 @@ export default function EventNavigatePage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Navigate" description="Directions, parking, and accessibility info" colorScheme="on-dark" />
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/e/${eventId}/navigate/directions`)}>
           <CardBody>
             <Stack gap={3} className="items-center text-center">

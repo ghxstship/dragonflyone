@@ -56,7 +56,7 @@ function PhotoBoothPageContent() {
               <Body className="text-on-dark-muted">Capture memories and share instantly to social media</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Booths" value={activeBooths} className="border-2 border-black" />
             <StatCard label="Total Sessions" value={totalSessions} className="border-2 border-black" />
             <StatCard label="Photos Taken" value={totalPhotos.toLocaleString()} className="border-2 border-black" />
@@ -71,7 +71,7 @@ function PhotoBoothPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('booths')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {mockBooths.map((booth) => (
                   <Card key={booth.id} className="border-2 border-black overflow-hidden">
                     <Card className="p-4 bg-black text-white">
@@ -82,7 +82,7 @@ function PhotoBoothPageContent() {
                     </Card>
                     <Stack className="p-4" gap={4}>
                       <Label className="text-ink-500">{booth.location}</Label>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Label size="xs" className="text-ink-500">Sessions</Label>
                           <Label className="font-mono text-h6-md">{booth.sessionCount}</Label>
@@ -101,7 +101,7 @@ function PhotoBoothPageContent() {
 
             <TabPanel active={isActive('gallery')}>
               <Stack gap={4}>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
                     <Card key={i} className="aspect-square bg-ink-100 border-2 border-black flex items-center justify-center cursor-pointer hover:bg-ink-200">
                       <Stack gap={2} className="text-center">
@@ -150,14 +150,14 @@ function PhotoBoothPageContent() {
             <Stack gap={4}>
               <H3>Share Your Photos</H3>
               <Body className="text-ink-600">Enter your session code to access and share your photos</Body>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Input placeholder="Session Code (e.g., SES-001)" className="col-span-2 border-2 border-black" />
                 <Button variant="solid">Find My Photos</Button>
               </Grid>
             </Stack>
           </Card>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}`)}>Back to Event</Button>
             <Button variant="outlineInk" onClick={() => router.push(`/events/${eventId}/photos`)}>Photo Gallery</Button>
           </Grid>
@@ -169,11 +169,11 @@ function PhotoBoothPageContent() {
           {selectedBooth && (
             <Stack gap={4}>
               <Body className="font-weight-bold text-body-md">{selectedBooth.name}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Location</Label><Label>{selectedBooth.location}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Status</Label><Label className={getStatusColor(selectedBooth.status)}>{selectedBooth.status}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Sessions Today</Label><Label className="font-mono text-h6-md">{selectedBooth.sessionCount}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-ink-500">Photos Taken</Label><Label className="font-mono text-h6-md">{selectedBooth.photosTaken}</Label></Stack>
               </Grid>

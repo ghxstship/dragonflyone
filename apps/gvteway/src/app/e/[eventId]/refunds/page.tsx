@@ -75,7 +75,7 @@ export default function EventRefundsPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Refunds" description="Manage ticket refund requests" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Pending Refunds" value={pendingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Pending Amount" value={`$${totalPending.toLocaleString()}`} icon={<DollarSign size={20} />} inverted />
           <StatCard label="Processed" value={`$${totalProcessed.toLocaleString()}`} icon={<CheckCircle size={20} />} inverted />

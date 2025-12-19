@@ -74,7 +74,7 @@ export default function RewardsPage() {
 
             {/* Points Balance Card */}
             <Card inverted variant="elevated" className="p-8">
-              <Grid cols={2} gap={8}>
+              <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={4}>
                   <Label size="xs" className="text-on-dark-muted">Your Points</Label>
                   <H2 size="lg" className="font-display text-white">{userPoints.toLocaleString()}</H2>
@@ -123,7 +123,7 @@ export default function RewardsPage() {
                 <Gift className="size-5 text-on-dark-muted" />
                 <H3 className="text-white">Available Rewards</H3>
               </Stack>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {rewards.map((reward) => (
                   <Card 
                     key={reward.id} 
@@ -164,7 +164,7 @@ export default function RewardsPage() {
                   <Star className="size-5 text-on-dark-muted" />
                   <H3 className="text-white">Earn Points</H3>
                 </Stack>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {earnActivities.map((activity, idx) => (
                     <Card key={idx} inverted interactive>
                       <Stack gap={3} direction="horizontal" className="items-center justify-between">

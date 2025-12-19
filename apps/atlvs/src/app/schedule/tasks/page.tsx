@@ -237,7 +237,7 @@ export default function ScheduleTasksPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Type</Body>
             <Body>{selectedTask.task_type.replace('_', ' ').toUpperCase()}</Body>
@@ -265,7 +265,7 @@ export default function ScheduleTasksPage() {
       id: 'assignment',
       title: 'Assignment',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Assigned To</Body>
             <Body>{selectedTask.assignee ? `${selectedTask.assignee.first_name} ${selectedTask.assignee.last_name}` : 'Unassigned'}</Body>

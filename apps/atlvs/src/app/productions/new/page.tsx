@@ -163,7 +163,7 @@ export default function NewProductionPage() {
 
   const renderBasicsStep = () => (
     <Stack gap={6}>
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Production Title</Label>
           <Input
@@ -219,7 +219,7 @@ export default function NewProductionPage() {
   const renderDatesStep = () => (
     <Stack gap={6}>
       <H3>Marketing Dates</H3>
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Announcement Date</Label>
           <Input
@@ -239,7 +239,7 @@ export default function NewProductionPage() {
       </Grid>
 
       <H3>Production Dates</H3>
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Load-In Start</Label>
           <Input
@@ -300,7 +300,7 @@ export default function NewProductionPage() {
         </Body>
       </Stack>
 
-      <Grid cols={3} gap={6}>
+      <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Capacity Per Show</Label>
           <Input
@@ -335,7 +335,7 @@ export default function NewProductionPage() {
   const renderBudgetStep = () => (
     <Stack gap={6}>
       <H3>Production Budget</H3>
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Production Budget</Label>
           <Input
@@ -357,7 +357,7 @@ export default function NewProductionPage() {
       </Grid>
 
       <H3>Revenue Projections</H3>
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={2}>
           <Label className="font-weight-semibold">Ticket Price Min</Label>
           <Input
@@ -423,7 +423,7 @@ export default function NewProductionPage() {
         </CardBody>
       </Card>
 
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Card>
           <CardBody>
             <Stack gap={3}>

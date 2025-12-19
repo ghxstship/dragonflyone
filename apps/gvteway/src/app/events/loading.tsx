@@ -18,7 +18,7 @@ export default function EventsLoading() {
             <Skeleton className="h-10 w-32" />
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <Skeleton key={i} className="h-72 rounded-card" />
             ))}

@@ -120,7 +120,7 @@ export default function MyActivationsPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard label="Upcoming" value={upcomingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Active" value={activeCount.toString()} icon={<Calendar size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<Users size={20} />} inverted />

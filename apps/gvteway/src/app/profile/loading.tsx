@@ -14,7 +14,7 @@ export default function ProfileLoading() {
             </Stack>
           </Stack>
 
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
               <Skeleton key={i} className="h-28 rounded-card" />
             ))}

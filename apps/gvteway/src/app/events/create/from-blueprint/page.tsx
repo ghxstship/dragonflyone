@@ -119,7 +119,7 @@ export default function CreateFromBlueprintPage() {
         {step === 'select' && (
           <Stack gap={4}>
             <H3 className="text-white">Select a Blueprint</H3>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {mockBlueprints.map((blueprint) => (
                 <Card
                   key={blueprint.id}
@@ -211,7 +211,7 @@ export default function CreateFromBlueprintPage() {
               </Button>
             </Stack>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted>
                 <CardBody>
                   <Stack gap={4}>
@@ -227,7 +227,7 @@ export default function CreateFromBlueprintPage() {
                       />
                     </Stack>
 
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={2}>
                         <Body size="sm" className=" text-on-dark-muted">Start Date</Body>
                         <Input
@@ -258,7 +258,7 @@ export default function CreateFromBlueprintPage() {
                       />
                     </Stack>
 
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={2}>
                         <Body size="sm" className=" text-on-dark-muted">Capacity</Body>
                         <Input
@@ -342,7 +342,7 @@ export default function CreateFromBlueprintPage() {
           <Stack gap={4}>
             <H3 className="text-white">Review & Create Event</H3>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted>
                 <CardBody>
                   <Stack gap={4}>

@@ -90,7 +90,7 @@ export default function HandbookPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Handbook Sections" value={DEMO_HANDBOOK_SECTIONS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Requires Acknowledgment" value={requiresAckCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Compliance Rate" value={`${complianceRate}%`} className="bg-transparent border-2 border-ink-800" />
@@ -126,7 +126,7 @@ export default function HandbookPage() {
                 <Button variant="outlineWhite">Add Section</Button>
               </Stack>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredSections.map((section) => (
                   <Card key={section.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
@@ -233,7 +233,7 @@ export default function HandbookPage() {
                     </Stack>
                     <ProgressBar value={complianceRate} className="h-3" />
                   </Stack>
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     <Card className="p-4 border-2 border-success-800 bg-success-900/20 text-center">
                       <Label className="font-mono text-success-400 text-h5-md">{acknowledgedCount}</Label>
                       <Label size="xs" className="text-ink-400">
@@ -279,7 +279,7 @@ export default function HandbookPage() {
             </Stack>
           )}
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="border-ink-800 text-grey-400">
                 Export Report
               </Button>

@@ -290,7 +290,7 @@ export default function BrowseContent() {
 
         {paginatedEvents.length > 0 ? (
           <Stack gap={8}>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {paginatedEvents.map((event: BrowseEvent) => (
                 <ProjectCard
                   key={event.id}

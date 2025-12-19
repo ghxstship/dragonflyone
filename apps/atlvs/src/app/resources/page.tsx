@@ -118,8 +118,8 @@ export default function ResourcesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               RESOURCES
@@ -135,8 +135,8 @@ export default function ResourcesPage() {
       </FullBleedSection>
 
       {/* Featured Resources */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500 uppercase tracking-kicker">FEATURED</Label>
@@ -173,8 +173,8 @@ export default function ResourcesPage() {
       </FullBleedSection>
 
       {/* Resource Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={16}>
             {resourcesNavigation.groups.map((group) => (
               <Stack key={group.title} gap={8}>
@@ -215,8 +215,8 @@ export default function ResourcesPage() {
       </FullBleedSection>
 
       {/* Upcoming Webinars */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -256,8 +256,8 @@ export default function ResourcesPage() {
       </FullBleedSection>
 
       {/* Community Section */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white p-8 lg:p-12 shadow-brand-lg">
             <Grid cols={2} gap={8} className="items-center">
               <Stack gap={6}>
@@ -297,8 +297,8 @@ export default function ResourcesPage() {
       </FullBleedSection>
 
       {/* Request Demo CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               PREFER A GUIDED TOUR?

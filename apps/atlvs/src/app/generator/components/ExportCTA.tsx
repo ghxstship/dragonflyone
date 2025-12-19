@@ -122,7 +122,7 @@ export function ExportCTA({ blueprint, onReset }: ExportCTAProps) {
 
   return (
     <FullBleedSection className="bg-ink-950 py-24">
-      <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
         <Grid cols={2} gap={12} className="items-center lg:grid-cols-2">
           {/* Left: CTA Content */}
           <Stack gap={6}>

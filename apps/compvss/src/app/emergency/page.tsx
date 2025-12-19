@@ -103,7 +103,7 @@ export default function EmergencyPage() {
             </Alert>
 
             {/* Quick Access Cards */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Card className="cursor-pointer p-4" onClick={() => setSelectedProcedure(procedures.find(p => p.type === "Medical") || null)}>
                 <Stack gap={2} className="text-center">
                   <Ambulance className="size-8 mx-auto" />
@@ -142,7 +142,7 @@ export default function EmergencyPage() {
                       <Card key={category} className="p-4">
                         <Stack gap={3}>
                           <H3>{category}</H3>
-                          <Grid cols={2} gap={3}>
+                          <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                             {contacts.filter(c => c.category === category).sort((a, b) => a.priority - b.priority).map((contact) => (
                               <Card key={contact.id} className="p-3">
                                 <Stack direction="horizontal" className="items-start justify-between">
@@ -192,7 +192,7 @@ export default function EmergencyPage() {
                   <Card className="mt-6 p-6">
                     <Stack gap={4}>
                       <H3>Emergency Assembly Points</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Card className="p-4">
                           <Stack gap={2}>
                             <Badge variant="solid">Primary</Badge>
@@ -229,7 +229,7 @@ export default function EmergencyPage() {
             </Card>
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid">Download Emergency Plan</Button>
               <Button variant="outline">Print Contact Cards</Button>
               <Button variant="outline" onClick={() => router.push("/safety")}>Safety Protocols</Button>

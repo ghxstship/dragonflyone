@@ -227,7 +227,7 @@ export default function SponsorsPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Company</Body>
             <Body>{selectedSponsor.company_name}</Body>
@@ -251,7 +251,7 @@ export default function SponsorsPage() {
       id: 'financials',
       title: 'Financials',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Contract Value</Body>
             <Body>${selectedSponsor.contract_value?.toLocaleString()}</Body>

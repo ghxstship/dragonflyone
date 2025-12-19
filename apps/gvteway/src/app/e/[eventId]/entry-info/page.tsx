@@ -34,7 +34,7 @@ export default function EventEntryInfoPage() {
         colorScheme="on-dark"
       />
 
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         {infoSections.map((section) => (
           <Card key={section.id} variant="elevated" inverted>
             <CardBody>

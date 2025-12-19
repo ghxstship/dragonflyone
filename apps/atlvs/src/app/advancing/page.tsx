@@ -112,7 +112,7 @@ export default function AdvancingPage() {
 
   const detailSections: DetailSection[] = selectedRequest ? [
     { id: 'overview', title: 'Request Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Request:</strong> {selectedRequest.team_workspace || selectedRequest.activation_name || 'Untitled'}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedRequest.status.replace('_', ' ')}</Body>
         <Body size="sm"><strong>Project:</strong> {selectedRequest.project?.name || '—'}</Body>

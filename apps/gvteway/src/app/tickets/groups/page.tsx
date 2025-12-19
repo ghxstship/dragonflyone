@@ -56,7 +56,7 @@ function GroupTicketsPageContent() {
               <Body className="text-on-dark-muted">Group organizer tools and registration management</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Group Orders" value={totalGroups} className="border-2 border-black" />
             <StatCard label="Total Attendees" value={totalAttendees} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} className="border-2 border-black" />
@@ -166,7 +166,7 @@ function GroupTicketsPageContent() {
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Group Order Settings</H3>
-                  <Grid cols={2} gap={6}>
+                  <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={4}>
                       <Stack gap={2}>
                         <Label className="font-weight-bold">Minimum Group Size</Label>
@@ -221,7 +221,7 @@ function GroupTicketsPageContent() {
                 <Label>{selectedGroup.eventName}</Label>
                 <Badge variant="outline">{selectedGroup.ticketType}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Group Size</Label><Label className="font-mono">{selectedGroup.groupSize}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Registered</Label><Label className="font-mono">{selectedGroup.attendeesRegistered}</Label></Stack>
               </Grid>
@@ -232,7 +232,7 @@ function GroupTicketsPageContent() {
                 </Stack>
                 <ProgressBar value={(selectedGroup.attendeesRegistered / selectedGroup.groupSize) * 100} className="h-3" />
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Total Amount</Label><Label className="font-mono">{formatCurrency(selectedGroup.totalAmount)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Discount Applied</Label><Label className="text-success-600">{selectedGroup.discount}%</Label></Stack>
               </Grid>

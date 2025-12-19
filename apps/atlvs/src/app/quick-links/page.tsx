@@ -180,7 +180,7 @@ export default function QuickLinksPage() {
         />
 
         {/* Stats */}
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Total Forms"
             value={quickLinks?.length?.toString() || "0"}
@@ -258,7 +258,7 @@ export default function QuickLinksPage() {
               title="Your Favorites"
               description={`${favoriteCount} of 10 favorites`}
             />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {favorites?.map((fav) => {
                 const link = fav.quick_link;
                 if (!link) return null;
@@ -320,7 +320,7 @@ export default function QuickLinksPage() {
                 title={`${categoryLabels[category] || category} Forms`}
                 description={`${links.length} forms available`}
               />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {links.map((link) => {
                   const isFavorited = favoritedIds.has(link.id);
                   return (

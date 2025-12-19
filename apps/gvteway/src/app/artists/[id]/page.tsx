@@ -153,7 +153,7 @@ export default function ArtistPage() {
         <Stack gap={6}>
           <H2 className="text-white">Upcoming Events</H2>
           {events.length > 0 ? (
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {events.map(event => (
                 <ProjectCard
                   key={event.id}

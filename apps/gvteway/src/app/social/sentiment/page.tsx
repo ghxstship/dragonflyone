@@ -69,7 +69,7 @@ function SentimentAnalysisPageContent() {
             </Alert>
           )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Overall Sentiment" value={`${(mockMetrics.overall * 100).toFixed(0)}%`} inverted />
               <StatCard label="Mentions (24h)" value={mockMetrics.volume.toLocaleString()} inverted />
               <StatCard label="Active Alerts" value={activeAlerts.toString()} inverted />
@@ -84,7 +84,7 @@ function SentimentAnalysisPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('dashboard')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card inverted>
                   <Stack gap={4}>
                     <H3>Sentiment Breakdown</H3>
@@ -167,7 +167,7 @@ function SentimentAnalysisPageContent() {
               <Card className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <H3>Monitored Keywords</H3>
-                  <Grid cols={3} gap={4}>
+                  <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                     {["Summer Fest", "tickets", "lineup", "VIP", "refund", "parking", "merch", "security", "weather"].map((kw, idx) => (
                       <Card key={idx} inverted>
                         <Stack direction="horizontal" className="justify-between items-center">
@@ -198,11 +198,11 @@ function SentimentAnalysisPageContent() {
                 <Label>{selectedAlert.type}</Label>
                 <Badge variant="outline" className={getSeverityColor(selectedAlert.severity)}>{selectedAlert.severity}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Source</Label><Label>{selectedAlert.source}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Keyword</Label><Label className="font-mono">{selectedAlert.keyword}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Mentions</Label><Label className="font-mono">{selectedAlert.mentions}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Sentiment</Label><Label className={selectedAlert.sentiment < 0 ? "text-error-600" : "text-success-600"}>{(selectedAlert.sentiment * 100).toFixed(0)}%</Label></Stack>
               </Grid>

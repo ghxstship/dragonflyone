@@ -138,7 +138,7 @@ export default function MetricsReportsPage() {
             </Stack>
 
             {/* Quick Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Card className="border-2 border-grey-200 p-4">
                 <Stack gap={2}>
                   <Stack direction="horizontal" gap={2} className="items-center">
@@ -185,7 +185,7 @@ export default function MetricsReportsPage() {
                     <FileText className="size-5 text-grey-500" />
                     <H3>{categoryLabels[category]} Reports</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     {reports.map(report => (
                       <Card key={report.id} className="border-2 border-grey-200 p-4">
                         <Stack gap={4}>
@@ -225,7 +225,7 @@ export default function MetricsReportsPage() {
                 <Body className="text-grey-600">
                   Create a custom report with specific date ranges and metrics.
                 </Body>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Body size="sm" className=" font-weight-semibold">Date Range</Body>
                     <Stack direction="horizontal" gap={2}>
@@ -255,7 +255,7 @@ export default function MetricsReportsPage() {
                 </Grid>
                 <Stack gap={2}>
                   <Body size="sm" className=" font-weight-semibold">Include Metrics</Body>
-                  <Grid cols={3} gap={2}>
+                  <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
                     {['Budget vs Actual', 'Task Completion', 'Sponsor Revenue', 'Expense Breakdown', 'Team Performance', 'Timeline Status'].map((metric) => (
                       <Button
                         key={metric}

@@ -275,7 +275,7 @@ export default function OnboardingPage() {
                     <Body size="sm" className="text-center text-on-dark-muted">
                       Select the types of events you&apos;re interested in:
                     </Body>
-                    <Grid cols={2} gap={3}>
+                    <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                       {EVENT_INTERESTS.map((interest) => (
                         <Button
                           key={interest}

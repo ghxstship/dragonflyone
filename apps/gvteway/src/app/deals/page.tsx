@@ -121,7 +121,7 @@ export default function DealsPage() {
               <H2 className="text-white">Flash Sales</H2>
               <Badge variant="solid" className="animate-pulse">Limited Time</Badge>
             </Stack>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {flashSales.map(deal => (
                 <Card key={deal.id} inverted interactive className="overflow-hidden ring-2 ring-error-500">
                   <Stack className="relative">
@@ -175,7 +175,7 @@ export default function DealsPage() {
               <H2 className="text-white">Last Minute Deals</H2>
               <Body className="text-on-dark-muted">Events happening soon</Body>
             </Stack>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {lastMinute.map(deal => (
                 <Card key={deal.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">
@@ -216,7 +216,7 @@ export default function DealsPage() {
         {otherDeals.length > 0 && (
           <Stack gap={6}>
             <H2 className="text-white">More Deals</H2>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {otherDeals.map(deal => (
                 <Card key={deal.id} inverted interactive className="overflow-hidden">
                   <Stack className="relative">

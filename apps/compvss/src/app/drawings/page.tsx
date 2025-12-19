@@ -103,7 +103,7 @@ export default function DrawingsPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={drawings.length.toString()} label="Total Drawings" />
               <StatCard value={(categories.length - 1).toString()} label="Categories" />
               <StatCard value={totalMarkups.toString()} label="Active Markups" />
@@ -127,7 +127,7 @@ export default function DrawingsPage() {
 
             {/* Drawings Display */}
             {viewMode === "grid" ? (
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {filteredDrawings.map((drawing) => (
                   <Card key={drawing.id} className="overflow-hidden">
                     <Card className="flex h-40 items-center justify-center">
@@ -184,7 +184,7 @@ export default function DrawingsPage() {
             )}
 
             {/* Quick Links */}
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/files")}>All Files</Button>
               <Button variant="outline" onClick={() => router.push("/projects")}>Projects</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -207,7 +207,7 @@ export default function DrawingsPage() {
                 <Badge variant="outline">{selectedDrawing.type}</Badge>
                 <Badge variant="solid">v{selectedDrawing.version}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body className="font-display">Project</Body>
                   <Body>{selectedDrawing.project}</Body>
@@ -217,7 +217,7 @@ export default function DrawingsPage() {
                   <Body>{selectedDrawing.size}</Body>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body className="font-display">Uploaded By</Body>
                   <Body>{selectedDrawing.uploadedBy}</Body>
@@ -259,7 +259,7 @@ export default function DrawingsPage() {
               </Stack>
             </Card>
             <Input placeholder="Drawing Name" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Category...</option>
                 {categories.slice(1).map(c => <option key={c} value={c}>{c}</option>)}

@@ -84,7 +84,7 @@ export default function UnionCompliancePage() {
             </Alert>
           )}
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Union Locals" value={DEMO_UNION_LOCALS.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Active Rules" value={DEMO_UNION_COMPLIANCE_RULES.length} className="bg-transparent border-2 border-ink-800" />
@@ -99,7 +99,7 @@ export default function UnionCompliancePage() {
             </TabsList>
 
             <TabPanel active={isActive('locals')}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 {DEMO_UNION_LOCALS.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
@@ -110,7 +110,7 @@ export default function UnionCompliancePage() {
                         </Stack>
                         <Label className={getStatusColor(local.status)}>{local.status}</Label>
                       </Stack>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}><Label size="xs" className="text-ink-500">Jurisdiction</Label><Label className="text-white">{local.jurisdiction}</Label></Stack>
                         <Stack gap={1}><Label size="xs" className="text-ink-500">Members</Label><Label className="font-mono text-white">{local.memberCount.toLocaleString()}</Label></Stack>
                       </Grid>
@@ -183,7 +183,7 @@ export default function UnionCompliancePage() {
             </TabPanel>
           </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/workforce")}>Workforce</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/employees")}>Employees</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
@@ -195,7 +195,7 @@ export default function UnionCompliancePage() {
           {selectedLocal && (
             <Stack gap={4}>
               <Badge variant="outline">{selectedLocal.code}</Badge>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-grey-400">Jurisdiction</Label><Label className="text-white">{selectedLocal.jurisdiction}</Label></Stack>
                 <Stack gap={1}><Label className="text-grey-400">Members</Label><Label className="font-mono text-white">{selectedLocal.memberCount.toLocaleString()}</Label></Stack>
               </Grid>

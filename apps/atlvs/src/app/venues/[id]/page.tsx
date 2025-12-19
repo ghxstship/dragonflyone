@@ -124,7 +124,7 @@ export default function VenueDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Capacity"
                 value={venue.capacity?.toLocaleString() || '—'}
@@ -147,7 +147,7 @@ export default function VenueDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -155,7 +155,7 @@ export default function VenueDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Location</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Address</Body>
                           <Body>{venue.address || 'Not provided'}</Body>
@@ -184,7 +184,7 @@ export default function VenueDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Schedule</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Contract Start</Body>
                           <Stack direction="horizontal" gap={2} className="items-center">
@@ -230,7 +230,7 @@ export default function VenueDetailPage() {
                         </Button>
                       </Stack>
                       {zones && zones.length > 0 ? (
-                        <Grid cols={2} gap={3}>
+                        <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                           {zones.slice(0, 6).map(zone => (
                             <Card 
                               key={zone.id} 

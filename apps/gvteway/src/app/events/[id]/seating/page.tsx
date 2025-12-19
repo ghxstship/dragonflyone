@@ -103,7 +103,7 @@ export default function SeatingPage() {
           </Alert>
         )}
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Card className="p-6">
               <Stack gap={4} className="items-center mb-8">

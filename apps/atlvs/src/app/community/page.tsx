@@ -209,8 +209,8 @@ export default function CommunityForumPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <Users className="size-8 text-brand-pink" />
@@ -233,7 +233,7 @@ export default function CommunityForumPage() {
 
       {/* Stats */}
       <FullBleedSection background="white" className="py-8 border-b border-grey-200">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={4} gap={8} className="sm:grid-cols-2">
             {DEMO_STATS.map((stat) => (
               <Stack key={stat.label} className="text-center">
@@ -247,8 +247,8 @@ export default function CommunityForumPage() {
 
       {/* Main Content */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={4} gap={8}>
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={4} gap={8} className="sm:grid-cols-2 lg:grid-cols-4">
             {/* Sidebar - Categories */}
             <Stack gap={6} className="col-span-1">
               <H3 size="sm" className="text-ink-950">CATEGORIES</H3>

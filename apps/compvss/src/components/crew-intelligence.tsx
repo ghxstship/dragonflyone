@@ -63,7 +63,7 @@ export function CrewIntelligence() {
         </Stack>
       </Grid>
 
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         {filteredCrew.map((crew) => (
           <Article key={crew.name} variant="bordered" className="p-spacing-4">
             <Stack direction="horizontal" className="items-start justify-between gap-3">
@@ -90,7 +90,7 @@ export function CrewIntelligence() {
 
       <Stack gap={4}>
         <H3 className="text-h6-md uppercase">Upcoming calls</H3>
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           {compvssCrewCallSchedule.map((call) => (
             <Article key={call.id} variant="bordered" className="p-spacing-4">
               <Label className="text-mono-xs uppercase tracking-kicker text-ink-500">{call.department}</Label>

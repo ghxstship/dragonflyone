@@ -63,14 +63,14 @@ export default function DirectoryFiltersPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={filteredEntries.length.toString()} label="Total Results" />
               <StatCard value={filteredEntries.filter(e => e.type === 'Crew').length.toString()} label="Crew" />
               <StatCard value={filteredEntries.filter(e => e.type === 'Vendor').length.toString()} label="Vendors" />
               <StatCard value={filteredEntries.filter(e => e.type === 'Venue').length.toString()} label="Venues" />
             </Grid>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <Card className="col-span-1 p-4">
                 <Stack gap={4}>
                   <H3>Filters</H3>

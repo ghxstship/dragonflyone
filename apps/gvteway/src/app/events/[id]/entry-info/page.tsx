@@ -68,11 +68,11 @@ export default function EntryInfoPage() {
           </Alert>
         )}
 
-        <Grid cols={3} gap={8}>
+        <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2" gap={6}>
             <Card className="p-6">
               <H2 className="mb-6">TIMING</H2>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack className="p-4 bg-ink-50 rounded">
                   <Label className="text-ink-500">Doors Open</Label>
                   <H3>{info.doors_open}</H3>

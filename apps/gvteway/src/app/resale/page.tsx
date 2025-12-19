@@ -116,7 +116,7 @@ export default function ResalePage() {
 
   const detailSections: DetailSection[] = selectedListing ? [
     { id: 'overview', title: 'Listing Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Event:</strong> {selectedListing.event_name}</Body>
         <Body size="sm"><strong>Venue:</strong> {selectedListing.venue_name}</Body>
         <Body size="sm"><strong>Date:</strong> {new Date(selectedListing.event_date).toLocaleDateString()}</Body>

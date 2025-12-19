@@ -191,7 +191,7 @@ export default function EventAnalyticsPage() {
       {/* Sales Metrics */}
       <Stack gap={4}>
         <H3>Sales Performance</H3>
-        <Grid cols={4}>
+        <Grid cols={4} className="sm:grid-cols-2 lg:grid-cols-4">
           {metrics.map((metric) => (
             <Card key={metric.label} className="p-6">
               <Stack gap={4}>
@@ -226,7 +226,7 @@ export default function EventAnalyticsPage() {
       {/* Engagement Metrics */}
       <Stack gap={4}>
         <H3>Engagement Metrics</H3>
-        <Grid cols={4}>
+        <Grid cols={4} className="sm:grid-cols-2 lg:grid-cols-4">
           {engagementMetrics.map((metric) => (
             <Card key={metric.label} className="p-6">
               <Stack gap={4}>
@@ -310,7 +310,7 @@ export default function EventAnalyticsPage() {
       <Stack gap={4}>
         <H3>Event Details</H3>
         <Card className="p-6">
-          <Grid cols={3}>
+          <Grid cols={3} className="sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <Body className="text-muted text-body-sm">Event Date</Body>
               <Body className="font-weight-semibold flex items-center gap-2">

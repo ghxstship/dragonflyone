@@ -100,7 +100,7 @@ export default function ReferralProgramPage() {
 
   const detailSections: DetailSection[] = selectedReferral ? [
     { id: "overview", title: "Referral Details", content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Candidate:</strong> {selectedReferral.candidateName}</Body>
         <Body size="sm"><strong>Position:</strong> {selectedReferral.position}</Body>
         <Body size="sm"><strong>Referred By:</strong> {selectedReferral.referredBy}</Body>

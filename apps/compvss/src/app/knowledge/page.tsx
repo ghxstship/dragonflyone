@@ -97,7 +97,7 @@ export default function KnowledgePage() {
 
             <Stack gap={4}>
               <H2>FEATURED CONTENT</H2>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {articles.filter(a => a.featured).map((article) => (
                   <Card key={article.id}>
                     <Stack gap={4}>
@@ -158,7 +158,7 @@ export default function KnowledgePage() {
               </Stack>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value="342" label="Total Articles" />
               <StatCard value="89" label="Video Tutorials" />
               <StatCard value="156" label="Templates" />

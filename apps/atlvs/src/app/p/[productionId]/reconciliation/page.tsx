@@ -110,7 +110,7 @@ export default function ProductionReconciliationPage() {
         </Stack>
       </Stack>
 
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Budgeted Net"
           value={`$${(totals.budgeted / 1000).toFixed(0)}K`}

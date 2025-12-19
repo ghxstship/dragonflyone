@@ -138,7 +138,7 @@ export default function DailyReportDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Attendance"
                 value={report.attendance?.toLocaleString() || '—'}
@@ -161,7 +161,7 @@ export default function DailyReportDetailPage() {
               />
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Main Content */}
               <Stack gap={4}>
                 {/* Highlights */}

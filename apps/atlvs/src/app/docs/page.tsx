@@ -126,8 +126,8 @@ export default function DocsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-16 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <BookOpen className="size-8 text-brand-pink" />
@@ -156,7 +156,7 @@ export default function DocsPage() {
 
       {/* Quick Links */}
       <FullBleedSection background="white" className="py-12 border-b border-grey-200">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={4} gap={6} className="sm:grid-cols-2">
             {docsData.quickLinks.map((link) => (
               <NextLink key={link.title} href={link.href}>
@@ -178,8 +178,8 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Documentation Categories */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">BROWSE BY TOPIC</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -226,8 +226,8 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Popular Articles */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-white">POPULAR ARTICLES</H1>
           </Stack>
@@ -258,8 +258,8 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Developer Resources */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">DEVELOPER RESOURCES</H1>
             <Body size="lg" className="mx-auto max-w-2xl text-grey-600">
@@ -288,8 +288,8 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               CAN&apos;T FIND WHAT YOU&apos;RE LOOKING FOR?

@@ -79,7 +79,7 @@ export default function BackgroundChecksPage() {
               </Alert>
             )}
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={backgroundChecks.length.toString()} label="Total Checks" />
               <StatCard value={pendingCount.toString()} label="In Progress" />
               <StatCard value={expiringCount.toString()} label="Expiring Soon" />
@@ -150,7 +150,7 @@ export default function BackgroundChecksPage() {
               </Table>
             </Card>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/crew")}>Crew</Button>
               <Button variant="outline" onClick={() => router.push("/certifications")}>Certifications</Button>
               <Button variant="outline" onClick={() => router.push("/dashboard")}>Dashboard</Button>
@@ -169,7 +169,7 @@ export default function BackgroundChecksPage() {
                 <Badge variant="outline">{selectedCheck.department}</Badge>
                 <Badge variant="outline">{selectedCheck.checkType}</Badge>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body className="font-display">Status</Body>
                   <Badge variant={selectedCheck.status === "Cleared" ? "solid" : "outline"}>{selectedCheck.status}</Badge>
@@ -179,7 +179,7 @@ export default function BackgroundChecksPage() {
                   <Body>{selectedCheck.status === "Cleared" ? "Clear" : "Pending"}</Body>
                 </Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body className="font-display">Submitted</Body>
                   <Body>{selectedCheck.submittedDate}</Body>
@@ -229,7 +229,7 @@ export default function BackgroundChecksPage() {
             <Card className="p-4">
               <Stack gap={2}>
                 <Body className="font-display">Check Pricing</Body>
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Body size="sm" className="">Criminal: $25</Body>
                   <Body size="sm" className="">Employment: $35</Body>
                   <Body size="sm" className="">Education: $30</Body>

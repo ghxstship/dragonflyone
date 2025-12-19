@@ -63,7 +63,7 @@ export default function PerformancePage() {
 
   const detailSections: DetailSection[] = selectedReview ? [
     { id: 'overview', title: 'Review Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Employee:</strong> {selectedReview.employee?.full_name || '—'}</Body>
         <Body size="sm"><strong>Reviewer:</strong> {selectedReview.reviewer?.full_name || '—'}</Body>
         <Body size="sm"><strong>Period:</strong> {selectedReview.review_period}</Body>

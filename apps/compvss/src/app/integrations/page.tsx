@@ -55,7 +55,7 @@ export default function CompvssIntegrationsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard value="24" label="Projects from ATLVS" />
               <StatCard value="18" label="Events to GVTEWAY" />
               <StatCard value="142" label="Asset Allocations" />
@@ -112,7 +112,7 @@ export default function CompvssIntegrationsPage() {
                   </Body>
                 </Stack>
 
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Card>
                     <Stack gap={4}>
                       <H3>Event Publishing</H3>

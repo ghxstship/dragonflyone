@@ -123,7 +123,7 @@ export default function BackgroundChecksPage() {
 
   const detailSections: DetailSection[] = selectedCheck ? [
     { id: "overview", title: "Background Check Details", content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Employee:</strong> {selectedCheck.employeeName}</Body>
         <Body size="sm"><strong>Department:</strong> {selectedCheck.department}</Body>
         <Body size="sm"><strong>Check Type:</strong> {selectedCheck.checkType}</Body>

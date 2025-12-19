@@ -67,7 +67,7 @@ export default function SchedulePage() {
         <Container>
           <Stack gap={6}>
             {/* Key Metrics */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Total Tasks"
                 value={taskStats?.total || 0}
@@ -92,7 +92,7 @@ export default function SchedulePage() {
             </Grid>
 
             {/* Quick Actions */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Card 
                 className="cursor-pointer border-2 border-grey-200 p-6 transition-all hover:border-primary hover:shadow-md"
                 onClick={() => router.push('/schedule/tasks')}
@@ -151,7 +151,7 @@ export default function SchedulePage() {
               </Card>
             </Grid>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Upcoming Tasks */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -251,7 +251,7 @@ export default function SchedulePage() {
             <Card className="border-2 border-grey-200 p-6">
               <Stack gap={4}>
                 <H3>Task Status Overview</H3>
-                <Grid cols={5} gap={4}>
+                <Grid cols={5} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                   <Card className="border-2 border-grey-200 p-4 text-center">
                     <Stack gap={2}>
                       <Body className="text-body-lg font-weight-bold">{taskStats?.pending || 0}</Body>

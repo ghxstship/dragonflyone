@@ -205,7 +205,7 @@ function VenueZonesPageContent() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Venue</Body>
             <Body>{selectedZone.venue?.name || '—'}</Body>
@@ -233,7 +233,7 @@ function VenueZonesPageContent() {
       id: 'capacity',
       title: 'Capacity & Size',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Capacity</Body>
             <Body>{selectedZone.capacity?.toLocaleString() || '—'}</Body>

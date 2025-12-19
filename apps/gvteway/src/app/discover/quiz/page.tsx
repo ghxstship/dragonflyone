@@ -197,7 +197,7 @@ export default function DiscoveryQuizPage() {
                 <Body className="text-on-dark-muted">Based on your preferences, here&apos;s what we recommend</Body>
               </Stack>
 
-          <Grid cols={3} gap={8}>
+          <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
             <Stack className="col-span-2" gap={6}>
               <Card className="p-6">
                 <H2 className="mb-6">RECOMMENDED EVENTS</H2>
@@ -321,7 +321,7 @@ export default function DiscoveryQuizPage() {
               <Body className="text-ink-500 mb-4">Select all that apply</Body>
             )}
 
-            <Grid cols={2} gap={3}>
+            <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
               {currentQuestion.options.map(option => (
                 <Card
                   key={option.id}

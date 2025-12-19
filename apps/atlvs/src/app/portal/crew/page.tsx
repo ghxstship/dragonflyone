@@ -37,14 +37,14 @@ export default function CrewPortalPage() {
       <Stack gap={8}>
         <SectionHeader kicker="Crew Portal" title="My Dashboard" description="View your assignments, documents, and payments" colorScheme="on-dark" />
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Upcoming" value={upcomingCount.toString()} icon={<Calendar size={20} />} inverted />
           <StatCard label="Completed" value={completedCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Hours This Month" value="48" icon={<Clock size={20} />} inverted />
           <StatCard label="Earnings YTD" value={`$${totalEarnings.toLocaleString()}`} icon={<DollarSign size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>

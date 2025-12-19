@@ -25,7 +25,7 @@ export default function EventMapPage() {
   return (
     <Stack gap={8}>
       <SectionHeader kicker={event.name} title="Venue Map" description="Interactive venue map and points of interest" colorScheme="on-dark" />
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <Card variant="elevated" inverted>
           <CardBody className="text-center">
             <Stack gap={2} className="items-center">

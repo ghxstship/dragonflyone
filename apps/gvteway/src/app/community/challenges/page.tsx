@@ -91,7 +91,7 @@ function ChallengesPageContent() {
               <Body className="text-on-dark-muted">Complete challenges, earn rewards, and climb the leaderboard</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Challenges" value={activeChallengesCount.toString()} inverted />
               <StatCard label="Total Participants" value={totalParticipants.toLocaleString()} inverted />
               <StatCard label="Your Completed" value={completedByUser.toString()} inverted />
@@ -107,7 +107,7 @@ function ChallengesPageContent() {
             </TabsList>
 
             <TabPanel active={!isActive('leaderboard')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 {filteredChallenges.map((challenge) => (
                   <Card key={challenge.id} inverted variant={challenge.userCompleted ? "elevated" : "default"} className="overflow-hidden">
                     <Card inverted className={`p-4 ${challenge.type === "Community" ? "bg-primary-600" : ""}`}>
@@ -143,7 +143,7 @@ function ChallengesPageContent() {
                         </Stack>
                       )}
 
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Label size="xs" className="text-on-light-muted">Reward</Label>
                           <Label size="sm">{challenge.reward}</Label>
@@ -230,7 +230,7 @@ function ChallengesPageContent() {
           {selectedChallenge && (
             <Stack gap={4}>
               <Body className="text-on-light-muted">{selectedChallenge.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Type</Label><Badge variant="outline">{selectedChallenge.type}</Badge></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Category</Label>{getCategoryBadge(selectedChallenge.category)}</Stack>
               </Grid>
@@ -246,7 +246,7 @@ function ChallengesPageContent() {
                   <Badge variant="solid">+{selectedChallenge.rewardPoints} points</Badge>
                 </Stack>
               </Card>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Participants</Label><Label className="font-mono">{selectedChallenge.participants.toLocaleString()}</Label></Stack>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Ends</Label><Label className="font-mono">{selectedChallenge.endDate}</Label></Stack>
               </Grid>

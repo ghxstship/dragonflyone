@@ -117,7 +117,7 @@ export default function MatchPage() {
           </Alert>
         )}
 
-        <Grid cols={4} gap={6}>
+        <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard
             label="Your Interests"
             value={userInterests.length.toString()}
@@ -150,7 +150,7 @@ export default function MatchPage() {
         )}
 
         <H2 className="mb-4 text-white">Recommended For You</H2>
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           {recommendedEvents.length > 0 ? (
             recommendedEvents.slice(0, 4).map(event => (
               <Card
@@ -187,7 +187,7 @@ export default function MatchPage() {
         </Grid>
 
         <H2 className="mb-4 text-white">Fans Like You</H2>
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           {matches.length > 0 ? (
             matches.map(match => (
               <Card
@@ -342,7 +342,7 @@ export default function MatchPage() {
                 </Stack>
               </Stack>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack className="text-center p-4 bg-ink-50 rounded">
                   <Body className="text-h5-md font-weight-bold">{selectedMatch.events_attended}</Body>
                   <Body className="text-mono-xs text-ink-500">Events Attended</Body>

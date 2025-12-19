@@ -196,7 +196,7 @@ export default function WebhooksPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1} className="col-span-2">
             <Body size="sm" className=" text-grey-500">Endpoint URL</Body>
             <Body className="break-all font-mono">{selectedWebhook.url}</Body>

@@ -89,7 +89,7 @@ export default function ForumsPage() {
               </Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={(summary?.total_threads || 0).toString()}
                 label="Discussions"
@@ -115,7 +115,7 @@ export default function ForumsPage() {
           <Card inverted variant="elevated">
             <Stack gap={4}>
               <H2 className="text-white">Categories</H2>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {categories.map((cat) => (
                   <Card 
                     key={cat.id} 

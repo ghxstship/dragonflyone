@@ -162,7 +162,7 @@ export default function EventServicesPage() {
             </Button>
           </Card>
         ) : (
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {filteredServices.map(service => (
               <Card key={service.id} className="p-6 border-2 border-black hover:shadow-lg transition-shadow">
                 <Stack gap={4}>
@@ -226,7 +226,7 @@ export default function EventServicesPage() {
         )}
 
         <Card className="p-6 bg-ink-900 text-white">
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             <Stack gap={3}>
               <Phone className="w-8 h-8" />
               <H3 className="text-white">Need Assistance?</H3>

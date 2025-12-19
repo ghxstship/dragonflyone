@@ -84,7 +84,7 @@ export default function BidDecisionPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Pending Review" value={pendingCount.toString()} />
               <StatCard label="Bid Decisions" value={bidCount.toString()} />
               <StatCard label="No-Bid" value={noBidCount.toString()} />
@@ -135,7 +135,7 @@ export default function BidDecisionPage() {
               })}
             </Stack>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" onClick={() => router.push("/opportunities")}>Opportunities</Button>
               <Button variant="outline" onClick={() => router.push("/opportunities/proposals")}>Proposals</Button>
               <Button variant="outline" onClick={() => router.push("/")}>Dashboard</Button>
@@ -150,7 +150,7 @@ export default function BidDecisionPage() {
           {selectedOpp && (
             <Stack gap={4}>
               <Body className="font-display">{selectedOpp.title}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Client</Body><Body>{selectedOpp.client}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Value</Body><Body className="font-mono">{formatCurrency(selectedOpp.value)}</Body></Stack>
               </Grid>

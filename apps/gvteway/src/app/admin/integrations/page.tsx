@@ -56,7 +56,7 @@ export default function GvtewayIntegrationsPage() {
               <Body className="text-on-dark-muted">Connect ticket sales, guest data, and event operations with backend systems.</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value="38" label="Events Synced" inverted />
               <StatCard value="$124K" label="Revenue Ingested" inverted />
               <StatCard value="2,847" label="Guest Profiles" inverted />
@@ -73,7 +73,7 @@ export default function GvtewayIntegrationsPage() {
                 </Stack>
 
                 <Stack gap={4}>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Field>
                       <Label size="xs" className="text-on-dark-muted">Event Code</Label>
                       <Input
@@ -95,7 +95,7 @@ export default function GvtewayIntegrationsPage() {
                     </Field>
                   </Grid>
 
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Field>
                       <Label size="xs" className="text-on-dark-muted">Tickets Sold</Label>
                       <Input

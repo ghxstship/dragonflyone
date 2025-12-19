@@ -129,7 +129,7 @@ export default function OrderHistoryPage() {
         </Grid>
 
         <Card className="p-6 mb-8">
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             <Field label="Search" className="col-span-2">
               <Input
                 value={searchTerm}

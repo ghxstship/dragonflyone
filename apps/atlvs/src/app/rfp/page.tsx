@@ -88,7 +88,7 @@ export default function RFPPage() {
 
   const detailSections: DetailSection[] = selectedRfp ? [
     { id: 'overview', title: 'RFP Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Title:</strong> {selectedRfp.title}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedRfp.project_type || 'General'}</Body>
         <Body size="sm"><strong>Budget:</strong> {selectedRfp.budget_min && selectedRfp.budget_max ? `${formatCurrency(selectedRfp.budget_min)} - ${formatCurrency(selectedRfp.budget_max)}` : '—'}</Body>

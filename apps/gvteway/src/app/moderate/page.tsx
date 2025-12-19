@@ -59,7 +59,7 @@ export default function ModeratePage() {
         <Stack gap={4}>
           {items.map(item => (
             <Card key={item.id} className="p-6">
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Stack gap={2}>
                   <Badge>{item.type.toUpperCase()}</Badge>
                   <Body size="sm">{item.timestamp}</Body>

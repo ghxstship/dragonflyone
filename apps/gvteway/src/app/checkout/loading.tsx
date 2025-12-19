@@ -12,7 +12,7 @@ export default function CheckoutLoading() {
             <Skeleton className="h-5 w-80" />
           </Stack>
 
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             <Stack gap={4}>
               <Skeleton className="h-64 rounded-card" />
               <Skeleton className="h-48 rounded-card" />

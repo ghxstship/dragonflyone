@@ -119,7 +119,7 @@ function SessionsPageContent() {
               <Body className="text-on-dark-muted">View and manage your active login sessions across devices</Body>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               <StatCard label="Active Sessions" value={sessions.length.toString()} inverted />
               <StatCard label="Other Devices" value={otherSessions.length.toString()} inverted />
               <StatCard label="Current Device" value={currentSession ? '1' : '0'} inverted />

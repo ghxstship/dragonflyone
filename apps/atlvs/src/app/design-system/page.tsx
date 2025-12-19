@@ -206,7 +206,7 @@ export default function DesignSystemPage() {
               {/* Border Widths */}
               <H2 className="mb-6 text-ink-50">Border Widths</H2>
               <Body className="mb-4 text-ink-400">Thick borders for bold pop art aesthetic</Body>
-              <Grid cols={4} gap={6}>
+              <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
                 <div className="border-2 border-ink-50 bg-ink-900 p-4">
                   <Label className="text-ink-400">border (1px)</Label>
                   <Body size="sm" className=" text-ink-500">Subtle dividers</Body>
@@ -271,7 +271,7 @@ export default function DesignSystemPage() {
               <Body className="mb-6 text-ink-400">
                 For categories, tags, and decorative elements - visual distinction only
               </Body>
-              <Grid cols={6} gap={4}>
+              <Grid cols={6} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {ACCENT_COLORS.map((color) => (
                   <Card key={color.name} className="border-2 border-ink-700 bg-ink-900 p-4">
                     <div 
@@ -373,7 +373,7 @@ export default function DesignSystemPage() {
 
               {/* Text Treatment */}
               <H2 className="mb-6 text-ink-50">Text Treatment</H2>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-4 text-ink-400">Headings</Label>
                   <H3 className="text-ink-50">UPPERCASE + TIGHT TRACKING</H3>
@@ -445,7 +445,7 @@ export default function DesignSystemPage() {
               {/* Form Controls */}
               <H2 className="mb-6 text-ink-50">Form Controls</H2>
               <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Field label="Text Input" hint="Helper text appears here">
                     <Input placeholder="Enter text..." inverted />
                   </Field>
@@ -615,7 +615,7 @@ export default function DesignSystemPage() {
               {/* Skeleton */}
               <H2 className="mb-6 text-ink-50">Skeleton Loading</H2>
               <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <SkeletonCard />
                   <Stack gap={3}>
                     <Skeleton height="1.5rem" width="60%" />
@@ -694,7 +694,7 @@ export default function DesignSystemPage() {
 
               {/* Transitions */}
               <H2 className="mb-6 text-ink-50">Transition Timing</H2>
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Card className="border-2 border-ink-700 bg-ink-900 p-6">
                   <Label className="mb-2 text-ink-400">transition-fast</Label>
                   <Body className="text-ink-500">100ms ease-in-out</Body>

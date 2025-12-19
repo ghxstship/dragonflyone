@@ -79,7 +79,7 @@ export default function EmergencyProcurementPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Pending Requests" value={pendingCount} trend={pendingCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Critical Pending" value={criticalCount} trend={criticalCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Amount" value={`$${(totalAmount / 1000).toFixed(0)}K`} className="bg-transparent border-2 border-ink-800" />
@@ -93,7 +93,7 @@ export default function EmergencyProcurementPage() {
           <Card className="border-2 border-ink-800 bg-ink-900/50 p-6">
             <Stack gap={4}>
               <H3>Emergency Procurement Guidelines</H3>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Card className="p-4 border-2 border-error-800 bg-error-900/20">
                   <Stack gap={2}>
                     <Label className="text-error-400 font-weight-bold">CRITICAL</Label>
@@ -189,7 +189,7 @@ export default function EmergencyProcurementPage() {
                 <Label className={getUrgencyColor(selectedRequest.urgency)}>{selectedRequest.urgency}</Label>
                 <Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Requestor</Label><Label className="text-white">{selectedRequest.requestor}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Department</Label><Label className="text-white">{selectedRequest.department}</Label></Stack>
               </Grid>
@@ -216,7 +216,7 @@ export default function EmergencyProcurementPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Description" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select className="border-ink-700 bg-black text-white">
                 <option value="">Department...</option>
                 <option value="Production">Production</option>

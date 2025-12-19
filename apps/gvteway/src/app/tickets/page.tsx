@@ -52,7 +52,7 @@ export default function TicketsPage() {
                             </Stack>
                             <Body className="text-on-dark-muted">{ticket.event?.venue || 'Venue'}</Body>
                           </Stack>
-                          <Grid cols={2} gap={4}>
+                          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                             <Stack gap={1}>
                               <Stack direction="horizontal" gap={1} className="items-center">
                                 <Calendar className="size-3 text-on-dark-disabled" />

@@ -177,7 +177,7 @@ function WebhooksPageContent() {
               <Body className="text-on-dark-muted">Configure webhook endpoints to receive real-time event notifications</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Total Endpoints" value={webhooks.length.toString()} inverted />
               <StatCard label="Active" value={activeCount.toString()} inverted />
               <StatCard label="Total Deliveries" value={totalDeliveries.toLocaleString()} inverted />
@@ -348,7 +348,7 @@ function WebhooksPageContent() {
             <Stack gap={2}>
               <Label>Events to Subscribe</Label>
               <Card className="p-4 max-h-[200px] overflow-y-auto">
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {ALL_WEBHOOK_EVENTS.map((event) => (
                     <Stack key={event} direction="horizontal" gap={2} className="items-center">
                       <Checkbox
@@ -415,7 +415,7 @@ function WebhooksPageContent() {
                 <Label size="xs" className="text-ink-500">URL</Label>
                 <Body size="sm" className="font-mono break-all">{selectedWebhook.url}</Body>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Status</Label>
                   {getStatusBadge(selectedWebhook.status)}
@@ -433,7 +433,7 @@ function WebhooksPageContent() {
                   ))}
                 </Stack>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label size="xs" className="text-ink-500">Successful Deliveries</Label>
                   <Body className="font-mono">{selectedWebhook.success_count}</Body>

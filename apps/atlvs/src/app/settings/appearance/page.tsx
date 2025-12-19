@@ -84,7 +84,7 @@ export default function AppearanceSettingsPage() {
           <Stack gap={10}>
             {/* Quick Presets */}
             <Section border-2 noPadding title="Quick Presets">
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Button
                   variant="outlineInk"
                   fullWidth
@@ -131,7 +131,7 @@ export default function AppearanceSettingsPage() {
             {/* Theme Settings */}
             <Section border-2 noPadding title="Theme">
               <Stack gap={4}>
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Label>Color Mode</Label>
                     <Select
@@ -163,7 +163,7 @@ export default function AppearanceSettingsPage() {
 
             {/* Accent Color */}
             <Section border-2 noPadding title="Accent Color">
-              <Grid cols={6} gap={3}>
+              <Grid cols={6} gap={3} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {ACCENT_COLOR_OPTIONS.map((option) => (
                   <button
                     key={option.value}
@@ -220,7 +220,7 @@ export default function AppearanceSettingsPage() {
 
             {/* Typography */}
             <Section border-2 noPadding title="Typography">
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={2}>
                   <Label>Font Scale</Label>
                   <Select

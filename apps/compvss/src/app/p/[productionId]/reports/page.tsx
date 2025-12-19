@@ -34,7 +34,7 @@ export default function ProductionReportsPage() {
         </Button>
       </Stack>
 
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         {reportTypes.map((report) => (
           <Card key={report.id} variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(report.href)}>
             <CardBody>

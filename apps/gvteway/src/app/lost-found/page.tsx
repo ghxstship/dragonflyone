@@ -170,7 +170,7 @@ export default function LostFoundPage() {
         </Stack>
 
         {filteredItems.length > 0 ? (
-          <Grid cols={3} gap={6}>
+          <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
             {filteredItems.map(item => (
               <Card key={item.id} inverted interactive className="overflow-hidden">
                 {item.photos && item.photos.length > 0 && (

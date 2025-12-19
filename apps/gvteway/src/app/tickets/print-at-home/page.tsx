@@ -45,7 +45,7 @@ export default function PrintAtHomePage() {
               <Body className="text-on-dark-muted">Secure printable tickets with security features</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Tickets" value={mockTickets.length} className="border-2 border-black" />
             <StatCard label="Printed" value={printedCount} className="border-2 border-black" />
             <StatCard label="Total Prints" value={totalPrints} className="border-2 border-black" />
@@ -55,7 +55,7 @@ export default function PrintAtHomePage() {
           <Card className="border-2 border-black p-6">
             <Stack gap={4}>
               <H3>Ticket Security Features</H3>
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { Icon: KeyRound, name: "Unique QR Code", desc: "One-time scan validation" },
                   { Icon: Lock, name: "Watermark", desc: "Purchaser name embedded" },
@@ -127,7 +127,7 @@ export default function PrintAtHomePage() {
                       <Label className="text-white text-mono-xs">QR CODE</Label>
                     </Card>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}><Label className="text-ink-500">Ticket ID</Label><Label className="font-mono">{selectedTicket.id}</Label></Stack>
                     <Stack gap={1}><Label className="text-ink-500">Order</Label><Label className="font-mono">{selectedTicket.orderId}</Label></Stack>
                   </Grid>
@@ -138,7 +138,7 @@ export default function PrintAtHomePage() {
                   <Label className="text-ink-600 text-center">This ticket contains security features to prevent counterfeiting</Label>
                 </Stack>
               </Card>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Purchase Date</Label><Label>{selectedTicket.purchaseDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Times Printed</Label><Label>{selectedTicket.printCount}</Label></Stack>
               </Grid>
@@ -172,7 +172,7 @@ export default function PrintAtHomePage() {
             </Stack>
             <Stack gap={2}>
               <Label className="font-weight-bold">Print Limits</Label>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Max prints per ticket</Label>
                   <Input type="number" defaultValue={3} className="border-2 border-black" />

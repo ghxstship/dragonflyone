@@ -180,11 +180,11 @@ export default function AssetScanPage() {
           />
         </Grid>
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card className="p-8 border-2 border-black">
             <Stack gap={6}>
               <H2>SCAN MODE</H2>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Button
                   variant={scanMode === 'check_in' ? 'solid' : 'outline'}
                   onClick={() => setScanMode('check_in')}
@@ -318,7 +318,7 @@ export default function AssetScanPage() {
                 </Stack>
               </Card>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Location</Label>
                   <Body>{scannedAsset.location}</Body>

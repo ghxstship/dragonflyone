@@ -92,7 +92,7 @@ function POSPageContent() {
               <Badge variant="solid">Terminal: Box Office 1</Badge>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Today Sales" value={`$${(totalSales / 1000).toFixed(1)}K`} inverted />
               <StatCard label="Transactions" value={totalTransactions.toString()} inverted />
               <StatCard label="Avg Transaction" value={`$${(totalSales / totalTransactions).toFixed(0)}`} inverted />
@@ -107,7 +107,7 @@ function POSPageContent() {
             </TabsList>
 
             <TabPanel active={isActive('register')}>
-              <Grid cols={3} gap={6}>
+              <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Card inverted variant="elevated" className="col-span-2 p-4">
                   <Stack gap={4}>
                     <Stack direction="horizontal" gap={2}>
@@ -159,7 +159,7 @@ function POSPageContent() {
                         <H3 className="text-white">${cartTotal.toFixed(2)}</H3>
                       </Stack>
                     </Card>
-                    <Grid cols={2} gap={2}>
+                    <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Button variant="outlineInk" onClick={() => setCart([])}>Clear</Button>
                       <Button variant="solid" inverted disabled={cart.length === 0} onClick={() => setShowPaymentModal(true)}>Pay</Button>
                     </Grid>
@@ -169,7 +169,7 @@ function POSPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('terminals')}>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 {terminals.map(terminal => (
                   <Card key={terminal.id} inverted>
                     <Stack gap={3}>
@@ -183,7 +183,7 @@ function POSPageContent() {
                         </Badge>
                       </Stack>
                       <Badge variant="outline">{terminal.type}</Badge>
-                      <Grid cols={2} gap={2}>
+                      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={0}>
                           <Label size="xs" className="text-on-dark-disabled">Sales</Label>
                           <Label className="font-mono text-white">${terminal.todaySales.toLocaleString()}</Label>
@@ -256,7 +256,7 @@ function POSPageContent() {
             </Card>
             <Stack gap={2}>
               <Label>Payment Method</Label>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 {["Card", "Cash", "Apple Pay", "Gift Card"].map(method => (
                   <Card 
                     key={method} 

@@ -160,7 +160,7 @@ export default function PortfolioPage() {
 
   const detailSections: DetailSection[] = selectedProject ? [
     { id: 'overview', title: 'Project Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Title:</strong> {selectedProject.title}</Body>
         <Body size="sm"><strong>Client:</strong> {selectedProject.client_name || '—'}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedProject.item_type}</Body>
@@ -171,7 +171,7 @@ export default function PortfolioPage() {
       </Grid>
     )},
     ...(selectedProject.metrics ? [{ id: 'metrics', title: 'Key Metrics', content: (
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         {selectedProject.metrics.map((m: { label: string; value: string }, idx: number) => (
           <Stack key={idx} className="text-center">
             <Body className="font-mono text-body-lg">{m.value}</Body>

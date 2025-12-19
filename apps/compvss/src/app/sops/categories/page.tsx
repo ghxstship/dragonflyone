@@ -146,7 +146,7 @@ export default function SOPCategoriesPage() {
       id: 'overview',
       title: 'Overview',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={1}>
             <Body size="sm" className=" text-grey-500">Name</Body>
             <Body>{selectedCategory.name}</Body>

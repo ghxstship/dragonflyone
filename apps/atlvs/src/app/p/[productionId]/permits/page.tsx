@@ -43,14 +43,14 @@ export default function ProductionPermitsPage() {
           <Button variant="solid"><Plus size={16} className="mr-2" />Add Permit</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Permits" value={permits.length.toString()} icon={<FileCheck size={20} />} inverted />
           <StatCard label="Approved" value={approvedCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Pending" value={pendingCount.toString()} icon={<Clock size={20} />} inverted />
           <StatCard label="Compliance" value={`${Math.round((approvedCount / permits.length) * 100)}%`} icon={<CheckCircle size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           {permits.map(permit => (
             <Card key={permit.id} variant="elevated" inverted>
               <CardBody>

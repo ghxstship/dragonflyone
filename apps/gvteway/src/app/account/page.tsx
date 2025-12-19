@@ -54,14 +54,14 @@ export default function AccountPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={8}>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Upcoming Events" value={upcomingEvents.length.toString()} icon={<Calendar size={20} />} inverted />
           <StatCard label="Total Tickets" value={upcomingEvents.reduce((sum, e) => sum + e.ticketCount, 0).toString()} icon={<Ticket size={20} />} inverted />
           <StatCard label="Saved Events" value="5" icon={<Heart size={20} />} inverted />
           <StatCard label="Rewards Points" value="1,250" icon={<Settings size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card variant="elevated" inverted>
             <CardBody>
               <Stack gap={4}>
@@ -102,7 +102,7 @@ export default function AccountPage() {
               <CardBody>
                 <Stack gap={4}>
                   <H3 className="text-white">Quick Actions</H3>
-                  <Grid cols={2} gap={3}>
+                  <Grid cols={2} gap={3} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Link href="/account/tickets">
                       <Button variant="outline" className="w-full justify-start">
                         <Ticket size={16} className="mr-2" />My Tickets

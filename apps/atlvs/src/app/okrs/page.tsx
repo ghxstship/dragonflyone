@@ -163,7 +163,7 @@ export default function OKRsPage() {
 
   const detailSections: DetailSection[] = selectedOKR ? [
     { id: 'overview', title: 'OKR Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>ID:</strong> {selectedOKR.id.slice(0, 8)}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedOKR.okr_type}</Body>
         <Body size="sm" className="col-span-2"><strong>Title:</strong> {selectedOKR.title}</Body>

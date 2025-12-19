@@ -88,7 +88,7 @@ export default function VenueMapsPage() {
             </Stack>
 
             {selectedVenueId && selectedVenue ? (
-              <Grid cols={4} gap={6}>
+              <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
                 {/* Map Area */}
                 <Box className="col-span-3">
                   <Card className="border-2 border-grey-200 p-6">

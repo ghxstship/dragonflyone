@@ -78,7 +78,7 @@ function ConnectedAppsPageContent() {
               <Body className="text-on-dark-muted">Manage third-party applications connected to your account</Body>
             </Stack>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <StatCard label="Connected Apps" value={apps.length.toString()} inverted />
               <StatCard label="Total Permissions" value={apps.reduce((sum, app) => sum + app.scopes.length, 0).toString()} inverted />
             </Grid>

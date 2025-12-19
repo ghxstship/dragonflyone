@@ -56,7 +56,7 @@ export default function FriendFinderPage() {
 
           <Stack gap={4}>
             <H3>FRIENDS ATTENDING ({attendingFriends.length})</H3>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               {attendingFriends.map((friend) => (
                 <Card key={friend.id} className="p-4 border-2 border-black">
                   <Stack gap={3}>
@@ -87,7 +87,7 @@ export default function FriendFinderPage() {
 
           <Stack gap={4}>
             <H3>SUGGESTED MEETUP SPOTS</H3>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               {meetupSpots.map((spot) => (
                 <Card key={spot.id} className="p-4 border-2 border-ink-200">
                   <Stack gap={2}>
@@ -105,7 +105,7 @@ export default function FriendFinderPage() {
             <Card className="p-4 border-2 border-ink-200">
               <Stack gap={4}>
                 <Input placeholder="Search contacts..." className="border-ink-300" />
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {mockFriends.filter(f => f.status !== "attending").map((friend) => (
                     <Card key={friend.id} className="p-3 border-2 border-ink-200">
                       <Stack direction="horizontal" className="justify-between items-center">

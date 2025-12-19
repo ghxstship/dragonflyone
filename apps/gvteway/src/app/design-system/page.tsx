@@ -163,7 +163,7 @@ function DesignSystemPageContent() {
                 ))}
               </Grid>
               <H2 className="mb-6 text-ink-50">Accent Colors</H2>
-              <Grid cols={6} gap={4}>
+              <Grid cols={6} gap={4} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {ACCENT_COLORS.map((c) => (
                   <Card key={c.name} className="border-2 border-ink-700 bg-ink-900 p-4">
                     <div className="mb-3 h-12 w-full border-2 border-ink-600" style={{ backgroundColor: c.hex }} />
@@ -241,7 +241,7 @@ function DesignSystemPageContent() {
 
               <H2 className="mb-6 text-ink-50">Form Controls</H2>
               <Card className="mb-8 border-2 border-ink-700 bg-ink-900 p-6">
-                <Grid cols={2} gap={6}>
+                <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Field label="Text Input"><Input placeholder="Enter text..." inverted /></Field>
                   <Field label="Select"><Select inverted><option>Option 1</option></Select></Field>
                   <Field label="Textarea"><Textarea placeholder="Multi-line..." rows={3} inverted /></Field>

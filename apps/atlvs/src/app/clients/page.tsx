@@ -161,7 +161,7 @@ export default function ClientsPage() {
       id: 'overview',
       title: 'Client Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Company:</strong> {selectedClient.company_name}</Body>
           <Body size="sm"><strong>Status:</strong> <Badge variant={statusColors[selectedClient.status]}>{selectedClient.status.toUpperCase()}</Badge></Body>
           <Body size="sm"><strong>Contact:</strong> {selectedClient.contact_name || '—'}</Body>

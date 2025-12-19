@@ -229,7 +229,7 @@ export default function PaymentsPage() {
       id: 'overview',
       title: 'Payment Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Amount:</strong> {formatCurrency(selectedPayment.amount, selectedPayment.currency)}</Body>
           <Body size="sm"><strong>Method:</strong> {methodLabels[selectedPayment.payment_method] || selectedPayment.payment_method}</Body>
           <Body size="sm"><strong>Status:</strong> {selectedPayment.status}</Body>

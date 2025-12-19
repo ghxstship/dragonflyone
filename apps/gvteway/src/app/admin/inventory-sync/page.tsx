@@ -90,7 +90,7 @@ export default function InventorySyncPage() {
 
   const detailSections: DetailSection[] = selectedItem ? [
     { id: 'overview', title: 'Inventory Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>SKU:</strong> {selectedItem.sku}</Body>
         <Body size="sm"><strong>Name:</strong> {selectedItem.name}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedItem.category}</Body>

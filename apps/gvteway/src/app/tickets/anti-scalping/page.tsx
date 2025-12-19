@@ -65,7 +65,7 @@ function AntiScalpingPageContent() {
               <Body className="text-on-dark-muted">Protect ticket sales from scalpers and bots</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Blocked Today" value={blockedCount} className="border-2 border-black" />
             <StatCard label="Under Review" value={underReview} className="border-2 border-black" />
             <StatCard label="Active Rules" value={enabledRules} className="border-2 border-black" />
@@ -149,11 +149,11 @@ function AntiScalpingPageContent() {
             </TabPanel>
 
             <TabPanel active={isActive('analytics')}>
-              <Grid cols={2} gap={6}>
+              <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Card className="border-2 border-black p-6">
                   <Stack gap={4}>
                     <H3>Detection Summary (Last 30 Days)</H3>
-                    <Grid cols={2} gap={4}>
+                    <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={1}><Label className="text-ink-500">Total Flagged</Label><Label className="font-mono text-h5-md">247</Label></Stack>
                       <Stack gap={1}><Label className="text-ink-500">Blocked</Label><Label className="font-mono text-h5-md text-error-600">89</Label></Stack>
                       <Stack gap={1}><Label className="text-ink-500">Cleared</Label><Label className="font-mono text-h5-md text-success-600">142</Label></Stack>
@@ -184,7 +184,7 @@ function AntiScalpingPageContent() {
             </TabPanel>
           </Tabs>
 
-          <Grid cols={2} gap={4}>
+          <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
             <Button variant="outlineInk" onClick={() => router.push("/admin/tickets")}>Ticket Management</Button>
             <Button variant="outlineInk" onClick={() => router.push("/admin")}>Admin Dashboard</Button>
           </Grid>
@@ -194,13 +194,13 @@ function AntiScalpingPageContent() {
         <ModalBody>
           {selectedTransaction && (
             <Stack gap={4}>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Order ID</Label><Label className="font-mono">{selectedTransaction.orderId}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Risk Score</Label><Label className={getRiskColor(selectedTransaction.riskScore)}>{selectedTransaction.riskScore}%</Label></Stack>
               </Grid>
               <Stack gap={1}><Label className="text-ink-500">Event</Label><Label>{selectedTransaction.eventName}</Label></Stack>
               <Stack gap={1}><Label className="text-ink-500">Buyer</Label><Label>{selectedTransaction.buyerEmail}</Label></Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Quantity</Label><Label className="font-mono">{selectedTransaction.quantity}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Timestamp</Label><Label>{selectedTransaction.timestamp}</Label></Stack>
               </Grid>

@@ -89,7 +89,7 @@ export default function ShowCallPage() {
               </Card>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={checkedInCount.toString()} label="Checked In" />
               <StatCard value={lateCount.toString()} label="Late" />
               <StatCard value={noShowCount.toString()} label="No Show" />
@@ -97,7 +97,7 @@ export default function ShowCallPage() {
             </Grid>
 
             <Card className="p-4">
-              <Grid cols={4} gap={4}>
+              <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                 <Stack gap={1} className="text-center">
                   <Body className="text-h4-md font-display">{checkedInCount}</Body>
                   <Body size="sm" className="">Present</Body>
@@ -128,7 +128,7 @@ export default function ShowCallPage() {
               </TabsList>
 
               <TabPanel active={true}>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {filteredCrew.map((crew) => (
                     <Card key={crew.id} className="p-4">
                       <Grid cols={3} gap={4} className="items-center">
@@ -160,7 +160,7 @@ export default function ShowCallPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <Button variant="solid">Manual Check-In</Button>
               <Button variant="outline">Send Reminder</Button>
               <Button variant="outline">Export Report</Button>

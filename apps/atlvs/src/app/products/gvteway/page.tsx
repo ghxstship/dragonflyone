@@ -71,8 +71,8 @@ export default function GvtewayProductPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
@@ -119,8 +119,8 @@ export default function GvtewayProductPage() {
       </FullBleedSection>
 
       {/* Core Capabilities */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <Label size="xs" className="text-grey-500">CORE CAPABILITIES</Label>
@@ -151,8 +151,8 @@ export default function GvtewayProductPage() {
       </FullBleedSection>
 
       {/* Ticketing */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -191,8 +191,8 @@ export default function GvtewayProductPage() {
       </FullBleedSection>
 
       {/* Fan Engagement */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Box className="hidden lg:block">
               <Card className="border-2 aspect-square border-ink-700 bg-ink-900 shadow-brand-lg">
@@ -232,8 +232,8 @@ export default function GvtewayProductPage() {
 
       {/* Gamification Highlight (V3) */}
       {gamificationFeature && (
-        <FullBleedSection background="white" className="py-24">
-          <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+          <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
             <Card className="border-2 border-brand-yellow bg-white p-8 lg:p-12 shadow-brand-xl">
               <Grid cols={2} gap={8} className="items-center">
                 <Stack gap={6}>
@@ -281,8 +281,8 @@ export default function GvtewayProductPage() {
       )}
 
       {/* Marketing Tools */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={2} gap={12} className="items-center">
             <Stack gap={8}>
               <Stack gap={2}>
@@ -321,8 +321,8 @@ export default function GvtewayProductPage() {
       </FullBleedSection>
 
       {/* Integration with ATLVS */}
-      <FullBleedSection background="ink" className="py-16">
-        <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-8 sm:py-12 lg:py-16">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
           <Stack direction="horizontal" className="items-center justify-between flex-wrap gap-6">
             <Stack gap={2}>
               <H3 className="text-white">Powered by ATLVS</H3>
@@ -338,8 +338,8 @@ export default function GvtewayProductPage() {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               READY TO CREATE SUPERFANS?

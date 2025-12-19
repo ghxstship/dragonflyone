@@ -44,7 +44,7 @@ export default function ProductionMarketingPage() {
         <StatCard label="Ad Spend" value={`$${(marketingStats.spend / 1000).toFixed(0)}K`} icon={<BarChart size={20} />} inverted />
       </Grid>
 
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/marketing/social`)}>
           <CardBody>
             <Stack gap={4} className="items-center text-center">

@@ -165,7 +165,7 @@ export default function ArtistsPage() {
       id: 'overview',
       title: 'Artist Details',
       content: (
-        <Grid cols={2} gap={4}>
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
           <Body size="sm"><strong>Name:</strong> {selectedArtist.name}</Body>
           <Body size="sm"><strong>Type:</strong> {selectedArtist.artist_type}</Body>
           <Body size="sm"><strong>Genres:</strong> {selectedArtist.genres?.join(', ') || '—'}</Body>

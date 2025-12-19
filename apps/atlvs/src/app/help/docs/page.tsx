@@ -167,8 +167,8 @@ export default function DocsPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Stack className="flex size-20 items-center justify-center border-2 border-ink-700 bg-ink-800">
               <FileText className="size-10 text-brand-pink" />
@@ -208,15 +208,15 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Documentation Categories */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8}>
             <Stack gap={4}>
               <H2 className="text-ink-950">BROWSE BY CATEGORY</H2>
               <Body className="text-grey-600">Find documentation organized by topic</Body>
             </Stack>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {docCategories.map((category) => (
                 <NextLink key={category.id} href={`/help/docs/${category.id}`}>
                   <Card className="h-full border-2 border-grey-200 p-6 transition-all hover:border-primary hover:shadow-md">
@@ -253,9 +253,9 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Popular Articles & Recent Updates */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
-          <Grid cols={2} gap={8}>
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
             {/* Popular Articles */}
             <Stack gap={6}>
               <H2 className="text-ink-950">POPULAR ARTICLES</H2>
@@ -338,8 +338,8 @@ export default function DocsPage() {
       </FullBleedSection>
 
       {/* Help CTA */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <H2 className="text-white">CAN&apos;T FIND WHAT YOU NEED?</H2>
             <Body size="lg" className="text-on-dark-secondary">

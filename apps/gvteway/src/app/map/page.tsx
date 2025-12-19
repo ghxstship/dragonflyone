@@ -213,7 +213,7 @@ function MapViewContent() {
         )}
 
         <Card className="p-4 mb-6">
-          <Grid cols={4} gap={4}>
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
             <Field label="Category">
               <Select value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value="all">All Categories</option>
@@ -252,7 +252,7 @@ function MapViewContent() {
           </Grid>
         </Card>
 
-        <Grid cols={3} gap={6}>
+        <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
           <Stack className="col-span-2">
             {loading ? (
               <GvtewayLoadingLayout text="Loading map..." />

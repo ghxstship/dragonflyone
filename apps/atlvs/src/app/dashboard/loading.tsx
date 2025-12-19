@@ -14,14 +14,14 @@ export default function DashboardLoading() {
           </Stack>
 
           {/* Stats grid skeleton */}
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <Skeleton key={i} className="h-32 rounded-card" />
             ))}
           </Grid>
 
           {/* Content skeleton */}
-          <Grid cols={2} gap={6}>
+          <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
             <Skeleton className="h-64 rounded-card" />
             <Skeleton className="h-64 rounded-card" />
           </Grid>

@@ -98,7 +98,7 @@ export default function BidPortalPage() {
           <Stack gap={10}>
 
             {/* Stats Grid */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard value={openBids.toString()} label="Open" />
               <StatCard value={submittedBids.toString()} label="Submitted" />
               <StatCard value={bidOpportunities.filter(b => b.status === "Won").length.toString()} label="Won" />
@@ -127,7 +127,7 @@ export default function BidPortalPage() {
                             <Badge variant={bid.status === "Won" ? "solid" : "outline"}>{bid.status}</Badge>
                           </Stack>
                           <Body size="sm" className="">{bid.description}</Body>
-                          <Grid cols={4} gap={4}>
+                          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                             <Stack gap={1}>
                               <Body size="sm" className=" font-display">Due</Body>
                               <Body size="sm" className="">{bid.dueDate}</Body>
@@ -197,7 +197,7 @@ export default function BidPortalPage() {
               <Body className="text-body-md font-display">{selectedBid.title}</Body>
               <Body size="sm" className="">{selectedBid.client}</Body>
               <Body>{selectedBid.description}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Body size="sm" className=" font-display">Due</Body>
                   <Body>{selectedBid.dueDate}</Body>

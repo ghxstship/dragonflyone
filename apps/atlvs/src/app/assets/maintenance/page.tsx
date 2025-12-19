@@ -106,7 +106,7 @@ export default function AssetMaintenancePage() {
 
   const detailSections: DetailSection[] = selectedRecord ? [
     { id: 'overview', title: 'Maintenance Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Asset:</strong> {selectedRecord.assetName}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedRecord.category}</Body>
         <Body size="sm"><strong>Type:</strong> {selectedRecord.type}</Body>

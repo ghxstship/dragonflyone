@@ -97,7 +97,7 @@ export default function ScheduledReportsPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Schedules" value={mockReports.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Active" value={activeReports} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Failed" value={failedReports} trend={failedReports > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
@@ -156,7 +156,7 @@ export default function ScheduledReportsPage() {
             </TableBody>
           </Table>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="border-ink-800 text-grey-400">Report History</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400">Delivery Log</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
@@ -169,7 +169,7 @@ export default function ScheduledReportsPage() {
           {selectedReport && (
             <Stack gap={4}>
               <Input defaultValue={selectedReport.name} className="border-ink-700 bg-black text-white" />
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Select defaultValue={selectedReport.type} className="border-ink-700 bg-black text-white">
                   {reportTypes.map(t => <option key={t} value={t}>{t}</option>)}
                 </Select>
@@ -198,7 +198,7 @@ export default function ScheduledReportsPage() {
         <ModalBody>
           <Stack gap={4}>
             <Input placeholder="Report Name" className="border-ink-700 bg-black text-white" />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select className="border-ink-700 bg-black text-white">
                 <option value="">Type...</option>
                 {reportTypes.map(t => <option key={t} value={t}>{t}</option>)}

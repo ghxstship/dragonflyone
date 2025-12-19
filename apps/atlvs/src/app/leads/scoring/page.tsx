@@ -486,7 +486,7 @@ export default function LeadScoringPage() {
               <Card className="p-4 border-2">
                 <Stack gap={3}>
                   <H3>Score Breakdown</H3>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Label className="text-ink-500">Demographic</Label>
                       <Body className="font-weight-bold">{selectedLead.score_breakdown.demographic} pts</Body>
@@ -507,7 +507,7 @@ export default function LeadScoringPage() {
                 </Stack>
               </Card>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}>
                   <Label className="text-ink-500">Estimated Value</Label>
                   <Body className="font-weight-bold text-h6-md">${selectedLead.estimated_value.toLocaleString()}</Body>

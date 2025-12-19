@@ -65,7 +65,7 @@ function MediaKitPageContent() {
               <Body className="text-on-dark-muted">Press materials and media asset distribution</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Media Assets" value={mockAssets.length} className="border-2 border-black" />
             <StatCard label="Press Releases" value={mockReleases.length} className="border-2 border-black" />
             <StatCard label="Total Downloads" value={totalDownloads} className="border-2 border-black" />
@@ -89,7 +89,7 @@ function MediaKitPageContent() {
                   </Select>
                   <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Asset</Button>
                 </Stack>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   {mockAssets.map((asset) => (
                     <Card key={asset.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
@@ -147,7 +147,7 @@ function MediaKitPageContent() {
               <Card className="border-2 border-black p-6">
                 <Stack gap={6}>
                   <H3>Press Contact Information</H3>
-                  <Grid cols={2} gap={6}>
+                  <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Card className="p-4 border-2 border-ink-200">
                       <Stack gap={2}>
                         <Label className="font-weight-bold">Media Inquiries</Label>
@@ -165,7 +165,7 @@ function MediaKitPageContent() {
                   </Grid>
                   <Stack gap={2}>
                     <Label className="font-weight-bold">Distribution Lists</Label>
-                    <Grid cols={3} gap={4}>
+                    <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                       {[
                         { name: "Music Press", count: 245 },
                         { name: "Local Media", count: 89 },
@@ -208,11 +208,11 @@ function MediaKitPageContent() {
                 <Label className="text-h1-sm">{getTypeIcon(selectedAsset.type)}</Label>
               </Card>
               <Body className="font-weight-bold">{selectedAsset.name}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Type</Label><Badge variant="outline">{selectedAsset.type}</Badge></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Format</Label><Label>{selectedAsset.format}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Size</Label><Label>{selectedAsset.size}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Updated</Label><Label>{selectedAsset.lastUpdated}</Label></Stack>
               </Grid>

@@ -171,7 +171,7 @@ export default function RateCardsPage() {
 
   const detailSections: DetailSection[] = selectedRateCard ? [
     { id: "overview", title: "Rate Card Details", content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Body size="sm"><strong>Vendor:</strong> {selectedRateCard.vendorName}</Body>
         <Body size="sm"><strong>Category:</strong> {selectedRateCard.category}</Body>
         <Body size="sm"><strong>Status:</strong> {selectedRateCard.status}</Body>

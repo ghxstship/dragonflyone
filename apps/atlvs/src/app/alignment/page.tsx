@@ -116,7 +116,7 @@ export default function StrategicAlignmentPage() {
         )}
 
             {/* Stats Grid - Comic panel aesthetic with hard shadows */}
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Overall Alignment"
                 value={`${overallAlignment}%`}
@@ -147,7 +147,7 @@ export default function StrategicAlignmentPage() {
               />
             </Grid>
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={6}>
             <H2>STRATEGIC GOALS</H2>
             {goals.length > 0 ? (
@@ -248,7 +248,7 @@ export default function StrategicAlignmentPage() {
         {metrics.length > 0 && (
           <Section className="mt-12">
             <H2 className="mb-6">ALIGNMENT METRICS BY GOAL</H2>
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {metrics.map(metric => (
                 <Card key={metric.goal_id} className="p-6">
                   <H3 className="mb-4">{metric.goal_name}</H3>

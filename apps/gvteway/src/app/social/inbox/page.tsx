@@ -79,7 +79,7 @@ function SocialInboxPageContent() {
               <Body className="text-on-dark-muted">Unified social customer service inbox</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="New Messages" value={newCount.toString()} inverted />
               <StatCard label="Escalated" value={escalatedCount.toString()} inverted />
               <StatCard label="Negative Sentiment" value={negativeCount.toString()} inverted />
@@ -150,7 +150,7 @@ function SocialInboxPageContent() {
                 <Body>{selectedMessage.content}</Body>
               </Card>
               <Label className="text-ink-500">{selectedMessage.timestamp}</Label>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Sentiment</Label><Label className={getSentimentColor(selectedMessage.sentiment)}>{selectedMessage.sentiment}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">Priority</Label><Label className={selectedMessage.priority === "High" ? "text-error-600" : "text-ink-600"}>{selectedMessage.priority}</Label></Stack>
               </Grid>

@@ -90,7 +90,7 @@ export default function TravelPage() {
 
   const detailSections: DetailSection[] = selectedBooking ? [
     { id: 'overview', title: 'Booking Details', content: (
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         <Stack gap={1}><Body className="font-display">Reference</Body><Body>{selectedBooking.booking_reference}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Crew Member</Body><Body>{selectedBooking.crew_member_name}</Body></Stack>
         <Stack gap={1}><Body className="font-display">Project</Body><Body>{selectedBooking.project_name}</Body></Stack>

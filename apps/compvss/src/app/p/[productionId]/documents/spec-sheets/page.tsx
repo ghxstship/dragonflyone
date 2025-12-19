@@ -73,7 +73,7 @@ export default function SpecSheetsPage() {
           <Button variant="solid" size="sm"><Plus size={16} className="mr-2" />New Spec</Button>
         </Stack>
       </Stack>
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Total" value={stats.total.toString()} icon={<FileSpreadsheet size={20} />} />
         <StatCard label="Current" value={stats.current.toString()} icon={<CheckCircle size={20} />} />
         <StatCard label="Outdated" value={stats.outdated.toString()} icon={<Clock size={20} />} />

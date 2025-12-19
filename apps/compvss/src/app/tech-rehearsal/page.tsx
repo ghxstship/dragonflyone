@@ -119,7 +119,7 @@ export default function TechRehearsalPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Today Sessions" value={todaySessions.length.toString()} />
               <StatCard label="In Progress" value={inProgressSession ? "1" : "0"} />
               <StatCard label="Unresolved Issues" value={unresolvedIssues.toString()} />
@@ -236,7 +236,7 @@ export default function TechRehearsalPage() {
               </TabPanel>
             </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="solid" onClick={() => setShowAddModal(true)}>Schedule Rehearsal</Button>
               <Button variant="outline">Export Notes</Button>
               <Button variant="outline" onClick={() => router.push("/run-of-show")}>Run of Show</Button>
@@ -258,7 +258,7 @@ export default function TechRehearsalPage() {
               <option value="Sound Check">Sound Check</option>
               <option value="Focus Call">Focus Call</option>
             </Select>
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Input type="date" />
               <Input type="time" placeholder="Start" />
               <Input type="time" placeholder="End" />
@@ -278,7 +278,7 @@ export default function TechRehearsalPage() {
         <ModalBody>
           <Stack gap={4}>
             {selectedSession && <Body size="sm" className="">{selectedSession.name}</Body>}
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Department...</option>
                 <option value="Audio">Audio</option>
@@ -295,7 +295,7 @@ export default function TechRehearsalPage() {
               </Select>
             </Grid>
             <Textarea placeholder="Description..." rows={3} />
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Select>
                 <option value="">Priority...</option>
                 <option value="Low">Low</option>
@@ -324,11 +324,11 @@ export default function TechRehearsalPage() {
           {selectedSession && (
             <Stack gap={4}>
               <Body className="font-display">{selectedSession.name}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Type</Body><Badge variant="outline">{selectedSession.type}</Badge></Stack>
                 <Stack gap={1}><Body size="sm" className="">Status</Body><Badge variant={getStatusVariant(selectedSession.status)}>{selectedSession.status}</Badge></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Date</Body><Body>{selectedSession.date}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Time</Body><Body>{selectedSession.startTime} - {selectedSession.endTime}</Body></Stack>
               </Grid>

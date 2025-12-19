@@ -107,7 +107,7 @@ export default function WaitlistPage() {
           </Alert>
         )}
 
-        <Grid cols={2} gap={8}>
+        <Grid cols={2} gap={8} className="sm:grid-cols-1 lg:grid-cols-2">
           <Stack gap={6}>
             <Card className="p-6">
               <H2 className="mb-6">JOIN THE WAITLIST</H2>
@@ -137,7 +137,7 @@ export default function WaitlistPage() {
                     />
                   </Field>
 
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Field label="Ticket Type">
                       <Input
                         value={formData.ticket_type}

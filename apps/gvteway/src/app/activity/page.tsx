@@ -109,7 +109,7 @@ export default function ActivityFeedPage() {
               </Stack>
             </Card>
 
-            <Grid cols={3} gap={8}>
+            <Grid cols={3} gap={8} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Activity Feed */}
               <Stack className="col-span-2" gap={4}>
                 {activities.length > 0 ? (

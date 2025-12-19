@@ -62,7 +62,7 @@ function ABTestingPageContent() {
               <Body className="text-on-dark-muted">Test landing pages, pricing, and marketing elements</Body>
             </Stack>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Running Tests" value={runningTests} className="border-2 border-black" />
             <StatCard label="Completed" value={completedTests} className="border-2 border-black" />
             <StatCard label="Avg Lift" value={`+${avgLift}%`} trend="up" className="border-2 border-black" />
@@ -104,12 +104,12 @@ function ABTestingPageContent() {
                     </Stack>
                   </Stack>
 
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     {test.variants.map((variant, idx) => (
                       <Card key={idx} className={`p-4 border-2 ${test.winner === variant.name ? "border-success-500 bg-success-50" : "border-ink-200"}`}>
                         <Stack gap={3}>
                           <Label className="font-weight-medium">{variant.name}</Label>
-                          <Grid cols={3} gap={2}>
+                          <Grid cols={3} gap={2} className="sm:grid-cols-2 lg:grid-cols-3">
                             <Stack gap={0}>
                               <Label className="font-mono">{variant.visitors.toLocaleString()}</Label>
                               <Label size="xs" className="text-ink-500">Visitors</Label>
@@ -159,7 +159,7 @@ function ABTestingPageContent() {
                 <Badge variant="outline">{selectedTest.type}</Badge>
                 <Label className={getStatusColor(selectedTest.status)}>{selectedTest.status}</Label>
               </Stack>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-500">Start Date</Label><Label>{selectedTest.startDate}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-500">End Date</Label><Label>{selectedTest.endDate || "Ongoing"}</Label></Stack>
               </Grid>
@@ -220,7 +220,7 @@ function ABTestingPageContent() {
               <Input placeholder="Variant A" className="border-2 border-black" />
               <Button variant="outline" size="sm">+ Add Variant</Button>
             </Stack>
-            <Grid cols={2} gap={4}>
+            <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
               <Stack gap={1}>
                 <Label className="text-ink-500">Traffic Split</Label>
                 <Select className="border-2 border-black">

@@ -93,8 +93,8 @@ export default function CaseStudiesPage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               CASE STUDIES
@@ -110,8 +110,8 @@ export default function CaseStudiesPage() {
       </FullBleedSection>
 
       {/* Featured Case Study */}
-      <FullBleedSection background="white" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Card className="border-2 border-ink-950 bg-white shadow-brand-lg">
             <Grid cols={2} className="sm:grid-cols-1">
               <Stack className="flex items-center justify-center border-r-2 border-ink-950 bg-grey-100 p-12 sm:border-r-0 sm:border-b-2">
@@ -160,7 +160,7 @@ export default function CaseStudiesPage() {
 
       {/* Industry Filter */}
       <FullBleedSection background="white" className="py-8">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack direction="horizontal" gap={3} className="flex-wrap justify-center">
             {caseStudiesData.industries.map((industry) => (
               <Badge
@@ -176,8 +176,8 @@ export default function CaseStudiesPage() {
       </FullBleedSection>
 
       {/* Case Studies Grid */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={6} className="sm:grid-cols-1">
             {caseStudiesData.studies.map((study) => (
               <NextLink key={study.slug} href={`/case-studies/${study.slug}`}>
@@ -207,8 +207,8 @@ export default function CaseStudiesPage() {
       </FullBleedSection>
 
       {/* CTA */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-white">
               READY TO WRITE YOUR SUCCESS STORY?

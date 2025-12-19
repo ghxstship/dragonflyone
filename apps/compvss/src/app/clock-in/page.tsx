@@ -121,7 +121,7 @@ export default function ClockInPage() {
           colorScheme="on-dark"
         />
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           <Card inverted>
             <CardBody>
               <Stack gap={6} className="items-center py-8">
@@ -230,7 +230,7 @@ export default function ClockInPage() {
           </Card>
         </Grid>
 
-        <Grid cols={3} gap={4}>
+        <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             label="This Week"
             value={status?.totalHoursWeek?.toFixed(1) || '0'}

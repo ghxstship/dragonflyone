@@ -152,8 +152,8 @@ export default function ProductComparePage() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero Section */}
-      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
             <Label size="xs" className="text-on-dark-muted">
               PRODUCT COMPARISON
@@ -170,7 +170,7 @@ export default function ProductComparePage() {
 
       {/* Product Cards */}
       <FullBleedSection background="white" className="py-12">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Grid cols={3} gap={6} className="sm:grid-cols-1 lg:grid-cols-3">
             {products.map(({ key, data }) => {
               const IconComponent = productIcons[data.icon] || Briefcase;
@@ -202,8 +202,8 @@ export default function ProductComparePage() {
       </FullBleedSection>
 
       {/* Comparison Table */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
               <H1 className="text-ink-950">FEATURE COMPARISON</H1>
@@ -276,8 +276,8 @@ export default function ProductComparePage() {
       </FullBleedSection>
 
       {/* Bundle Pricing */}
-      <FullBleedSection background="ink" className="py-24">
-        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12} className="items-center text-center">
             <Stack gap={4}>
               <H1 className="text-white">BETTER TOGETHER</H1>
@@ -325,8 +325,8 @@ export default function ProductComparePage() {
       </FullBleedSection>
 
       {/* Final CTA */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
-        <Container className="mx-auto max-w-container-4xl px-6 text-center lg:px-8">
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
             <Display size="md" className="text-ink-950">
               STILL NOT SURE?

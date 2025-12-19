@@ -187,7 +187,7 @@ PREFERENCES:
           <CardBody>
             <Stack gap={4}>
               <H3 className="text-white">Rider Documents</H3>
-              <Grid cols={3} gap={4}>
+              <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                 <Stack
                   direction="horizontal"
                   className="items-center justify-between rounded-card border-2 border-ink-700 p-4"

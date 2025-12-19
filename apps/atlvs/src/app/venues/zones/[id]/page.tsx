@@ -125,7 +125,7 @@ export default function ZoneDetailPage() {
             </Stack>
 
             {/* Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Capacity"
                 value={zone.capacity?.toLocaleString() || '—'}
@@ -148,7 +148,7 @@ export default function ZoneDetailPage() {
               />
             </Grid>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content */}
               <Box className="col-span-2">
                 <Stack gap={4}>
@@ -166,7 +166,7 @@ export default function ZoneDetailPage() {
                   <Card className="border-2 border-grey-200 p-6">
                     <Stack gap={4}>
                       <H3>Zone Details</H3>
-                      <Grid cols={2} gap={4}>
+                      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Zone Type</Body>
                           <Body>{zoneTypeLabels[zone.zone_type] || zone.zone_type}</Body>
@@ -194,7 +194,7 @@ export default function ZoneDetailPage() {
                     <Card className="border-2 border-grey-200 p-6">
                       <Stack gap={4}>
                         <H3>Map Position</H3>
-                        <Grid cols={4} gap={4}>
+                        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                           <Stack gap={1}>
                             <Body size="sm" className=" text-grey-500">X Position</Body>
                             <Body>{zone.coordinates.x}</Body>

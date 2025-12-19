@@ -97,7 +97,7 @@ export default function MarketingAttributionPage() {
         <Container>
           <Stack gap={10}>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Leads" value={totalLeads} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Marketing Spend" value={formatCurrency(totalCost)} className="bg-transparent border-2 border-ink-800" />
@@ -162,7 +162,7 @@ export default function MarketingAttributionPage() {
                         </Stack>
                         <ProgressBar value={(campaign.spent / campaign.budget) * 100} className="h-2" />
                       </Stack>
-                      <Grid cols={2} gap={2}>
+                      <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={0}><Label className="font-mono text-white">{campaign.leads}</Label><Label size="xs" className="text-ink-500">Leads</Label></Stack>
                         <Stack gap={0}><Label className="font-mono text-white">{campaign.conversions}</Label><Label size="xs" className="text-ink-500">Conv</Label></Stack>
                       </Grid>
@@ -203,7 +203,7 @@ export default function MarketingAttributionPage() {
             </TabPanel>
           </Tabs>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/deals")}>Deals</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/analytics")}>Analytics</Button>
               <Button variant="outline" className="border-ink-800 text-grey-400" onClick={() => router.push("/")}>Dashboard</Button>
@@ -215,11 +215,11 @@ export default function MarketingAttributionPage() {
           {selectedSource && (
             <Stack gap={4}>
               <Badge variant="outline">{selectedSource.channel}</Badge>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Leads</Label><Label className="font-mono text-white text-h6-md">{selectedSource.leads}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Conversions</Label><Label className="font-mono text-white text-h6-md">{selectedSource.conversions}</Label></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-ink-400">Revenue</Label><Label className="font-mono text-success-400 text-h6-md">{formatCurrency(selectedSource.revenue)}</Label></Stack>
                 <Stack gap={1}><Label className="text-ink-400">Cost</Label><Label className="font-mono text-ink-400 text-h6-md">{formatCurrency(selectedSource.cost)}</Label></Stack>
               </Grid>

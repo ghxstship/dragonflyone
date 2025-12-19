@@ -66,7 +66,7 @@ export default function ProductionWrapPage() {
         colorScheme="on-dark"
       />
 
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Total Shows"
           value={wrapMetrics.totalShows.toString()}
@@ -95,7 +95,7 @@ export default function ProductionWrapPage() {
         />
       </Grid>
 
-      <Grid cols={2} gap={6}>
+      <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
         <Card variant="elevated" inverted>
           <CardBody>
             <Stack gap={4}>

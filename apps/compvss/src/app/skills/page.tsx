@@ -143,7 +143,7 @@ export default function SkillsPage() {
         <Container>
           <Stack gap={10}>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 value={crewWithSkills.length.toString()}
                 label="Total Crew"

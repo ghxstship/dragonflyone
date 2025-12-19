@@ -122,7 +122,7 @@ export default function WeatherContingencyPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Plans" value={activePlans.toString()} />
               <StatCard label="Triggered" value={triggeredPlans.toString()} />
               <StatCard label="High Risk" value={highRiskCount.toString()} />
@@ -186,7 +186,7 @@ export default function WeatherContingencyPage() {
 
                       <Stack gap={2}>
                         <Body size="sm" className="">Contingency Actions ({plan.contingencyPlans.length})</Body>
-                        <Grid cols={2} gap={2}>
+                        <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                           {plan.contingencyPlans.map((action) => (
                             <Card key={action.id}>
                               <Stack gap={2}>
@@ -212,7 +212,7 @@ export default function WeatherContingencyPage() {
                 ))}
             </Stack>
 
-            <Grid cols={3} gap={4}>
+            <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
               <Button variant="outline">Weather Forecast</Button>
               <Button variant="outline" onClick={() => router.push("/emergency")}>Emergency Procedures</Button>
               <Button variant="outline" onClick={() => router.push("/risk-register")}>Risk Register</Button>
@@ -227,11 +227,11 @@ export default function WeatherContingencyPage() {
           {selectedPlan && (
             <Stack gap={4}>
               <Body className="font-display">{selectedPlan.projectName}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Venue</Body><Body>{selectedPlan.venue}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Type</Body><Badge variant="outline">{selectedPlan.venueType}</Badge></Stack>
               </Grid>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Body size="sm" className="">Event Date</Body><Body>{selectedPlan.eventDate}</Body></Stack>
                 <Stack gap={1}><Body size="sm" className="">Risk Level</Body><Badge variant={getRiskColor(selectedPlan.riskLevel)} className={getRiskBg(selectedPlan.riskLevel)}>{selectedPlan.riskLevel}</Badge></Stack>
               </Grid>

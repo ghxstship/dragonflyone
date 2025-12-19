@@ -45,7 +45,7 @@ export default function ProductionSettingsPage() {
         colorScheme="on-light"
       />
 
-      <Grid cols={2} gap={4}>
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
         {settingsSections.map((section) => (
           <Card key={section.id} variant="elevated" className="cursor-pointer transition-all hover:border-primary">
             <CardBody>

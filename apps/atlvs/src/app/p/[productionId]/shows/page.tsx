@@ -70,7 +70,7 @@ export default function ProductionShowsPage() {
         <StatCard label="Revenue" value={`$${(stats.totalRevenue / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
       </Grid>
 
-      <Grid cols={3} gap={4}>
+      <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
         <Card variant="elevated" inverted className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(`/p/${productionId}/shows/run-of-show`)}>
           <CardBody>
             <Stack gap={4} className="items-center text-center">

@@ -70,7 +70,7 @@ export default function MetricsPage() {
             </Stack>
 
             {/* Key Stats */}
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard
                 label="Budget Utilization"
                 value={`${metrics?.budgetUtilization || 0}%`}
@@ -109,7 +109,7 @@ export default function MetricsPage() {
                     View All
                   </Button>
                 </Stack>
-                <Grid cols={3} gap={4}>
+                <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
                   {kpis?.slice(0, 6).map(kpi => (
                     <Card key={kpi.id} className="border-2 border-grey-200 p-4">
                       <Stack gap={3}>
@@ -139,7 +139,7 @@ export default function MetricsPage() {
               </Stack>
             </Card>
 
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               {/* Financial Overview */}
               <Card className="border-2 border-grey-200 p-6">
                 <Stack gap={4}>
@@ -147,7 +147,7 @@ export default function MetricsPage() {
                     <DollarSign className="size-5 text-grey-500" />
                     <H3>Financial Overview</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-grey-500">Total Budget</Body>
                       <Body className="text-body-lg font-weight-bold">${(metrics?.totalBudget || 0).toLocaleString()}</Body>
@@ -175,7 +175,7 @@ export default function MetricsPage() {
                     <CheckSquare className="size-5 text-grey-500" />
                     <H3>Operations Overview</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-grey-500">Total Tasks</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalTasks || 0}</Body>
@@ -203,7 +203,7 @@ export default function MetricsPage() {
                     <Shield className="size-5 text-grey-500" />
                     <H3>Compliance Overview</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-grey-500">Total Permits</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalPermits || 0}</Body>
@@ -231,7 +231,7 @@ export default function MetricsPage() {
                     <Building2 className="size-5 text-grey-500" />
                     <H3>Venues Overview</H3>
                   </Stack>
-                  <Grid cols={2} gap={4}>
+                  <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                     <Stack gap={1}>
                       <Body size="sm" className=" text-grey-500">Total Venues</Body>
                       <Body className="text-body-lg font-weight-bold">{metrics?.totalVenues || 0}</Body>
@@ -257,7 +257,7 @@ export default function MetricsPage() {
             <Card className="border-2 border-grey-200 p-6">
               <Stack gap={4}>
                 <H3>Quick Actions</H3>
-                <Grid cols={4} gap={4}>
+                <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
                   <Button
                     onClick={() => router.push('/expenses')}
                     className="flex items-center justify-center gap-2 border-2 border-grey-300 bg-white p-4"

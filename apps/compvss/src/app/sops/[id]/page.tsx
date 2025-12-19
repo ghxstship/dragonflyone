@@ -176,7 +176,7 @@ export default function SOPDetailPage() {
               </Stack>
             </Stack>
 
-            <Grid cols={3} gap={6}>
+            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
               {/* Main Content - Steps */}
               <Box className="col-span-2">
                 <Card className="border-2 border-grey-200 p-6">

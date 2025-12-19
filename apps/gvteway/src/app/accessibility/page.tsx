@@ -77,7 +77,7 @@ function AccessibilityPageContent() {
               We are committed to providing an inclusive experience for all guests. Please submit your accessibility requests at least 7 days before the event.
             </Alert>
 
-          <Grid cols={4} gap={6}>
+          <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Services Available" value={accessibilityServices.filter(s => s.available).length.toString()} inverted />
             <StatCard label="Active Requests" value={requests.length.toString()} inverted />
             <StatCard label="Pending Review" value={pendingRequests.toString()} inverted />
@@ -96,7 +96,7 @@ function AccessibilityPageContent() {
           </Stack>
 
           <TabPanel active={isActive('services')}>
-            <Grid cols={4} gap={4}>
+            <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
               {accessibilityServices.map((service) => (
                 <Card key={service.id} inverted interactive className="p-4">
                   <Stack gap={3} className="text-center">
@@ -147,7 +147,7 @@ function AccessibilityPageContent() {
           </TabPanel>
 
           <TabPanel active={isActive('info')}>
-            <Grid cols={2} gap={6}>
+            <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
               <Card inverted className="p-6">
                 <Stack gap={4}>
                   <H3 className="text-white">Venue Accessibility Features</H3>
@@ -208,7 +208,7 @@ function AccessibilityPageContent() {
             <PhoneInput placeholder="Phone number" fullWidth />
             <Stack gap={2}>
               <Label>Services Needed (select all that apply)</Label>
-              <Grid cols={2} gap={2}>
+              <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                 {accessibilityServices.slice(0, 6).map(service => (
                   <Card key={service.id} className="cursor-pointer border-2 border-ink-200 p-2 hover:border-black">
                     <Stack direction="horizontal" gap={2}>
@@ -234,7 +234,7 @@ function AccessibilityPageContent() {
           {selectedRequest && (
             <Stack gap={4}>
               <Body className="font-display">{selectedRequest.event_title}</Body>
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Stack gap={1}><Label className="text-on-light-muted">Event Date</Label><Label>{new Date(selectedRequest.event_date).toLocaleDateString()}</Label></Stack>
                 <Stack gap={1}><Label className="text-on-light-muted">Status</Label><Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status.toUpperCase()}</Label></Stack>
               </Grid>

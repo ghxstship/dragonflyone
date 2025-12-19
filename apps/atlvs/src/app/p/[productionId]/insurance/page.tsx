@@ -43,14 +43,14 @@ export default function ProductionInsurancePage() {
           <Button variant="solid"><Plus size={16} className="mr-2" />Add Policy</Button>
         </Stack>
 
-        <Grid cols={4} gap={4}>
+        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Coverage" value={`$${(totalCoverage / 1000000).toFixed(1)}M`} icon={<Shield size={20} />} inverted />
           <StatCard label="Total Premium" value={`$${totalPremium.toLocaleString()}`} icon={<FileText size={20} />} inverted />
           <StatCard label="Active Policies" value={activeCount.toString()} icon={<CheckCircle size={20} />} inverted />
           <StatCard label="Pending" value={policies.filter(p => p.status === 'pending').length.toString()} icon={<AlertTriangle size={20} />} inverted />
         </Grid>
 
-        <Grid cols={2} gap={6}>
+        <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
           {policies.map(policy => (
             <Card key={policy.id} variant="elevated" inverted>
               <CardBody>

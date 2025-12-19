@@ -284,7 +284,7 @@ export default function SavedSearchesPage() {
                 />
               </Field>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Category">
                   <Select
                     value={formData.category}
@@ -308,7 +308,7 @@ export default function SavedSearchesPage() {
                 </Field>
               </Grid>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Min Price ($)">
                   <Input
                     type="number"
@@ -328,7 +328,7 @@ export default function SavedSearchesPage() {
                 </Field>
               </Grid>
 
-              <Grid cols={2} gap={4}>
+              <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                 <Field label="Date From">
                   <Input
                     type="date"

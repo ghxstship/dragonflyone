@@ -70,7 +70,7 @@ function PixelsPageContent() {
               <Body className="text-on-dark-muted">Manage tracking pixels and conversion events</Body>
             </Stack>
 
-            <Grid cols={4} gap={6}>
+            <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Pixels" value={activePixels} className="border-2 border-black" />
               <StatCard label="Events Tracked" value={totalEvents.toLocaleString()} className="border-2 border-black" />
               <StatCard label="Conversions" value={totalConversions.toLocaleString()} className="border-2 border-black" />
@@ -89,7 +89,7 @@ function PixelsPageContent() {
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Pixel</Button>
                 </Stack>
-                <Grid cols={2} gap={4}>
+                <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   {mockPixels.map((pixel) => (
                     <Card key={pixel.id} className="border-2 border-black p-6">
                       <Stack gap={4}>
@@ -103,7 +103,7 @@ function PixelsPageContent() {
                           </Stack>
                           <Label className={getStatusColor(pixel.status)}>{pixel.status}</Label>
                         </Stack>
-                        <Grid cols={2} gap={4}>
+                        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                           <Stack gap={1}>
                             <Label className="text-ink-500">Events Tracked</Label>
                             <Label className="font-mono">{pixel.eventsTracked.toLocaleString()}</Label>
@@ -209,7 +209,7 @@ function PixelsPageContent() {
               <Input defaultValue={selectedPixel.pixelId} placeholder="Pixel ID" className="border-2 border-black font-mono" />
               <Stack gap={2}>
                 <Label className="text-ink-500">Events to Track</Label>
-                <Grid cols={2} gap={2}>
+                <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
                   {["PageView", "Purchase", "AddToCart", "InitiateCheckout", "Lead", "ViewContent"].map((event) => (
                     <Stack key={event} direction="horizontal" gap={2}>
                       <Input type="checkbox" defaultChecked={selectedPixel.events.includes(event)} className="w-4 h-4" />

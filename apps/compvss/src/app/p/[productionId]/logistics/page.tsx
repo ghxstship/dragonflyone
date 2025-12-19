@@ -30,7 +30,7 @@ export default function ProductionLogisticsPage() {
         colorScheme="on-light"
       />
 
-      <Grid cols={4} gap={4}>
+      <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
         {sections.map((section) => (
           <Card key={section.id} variant="elevated" className="cursor-pointer transition-all hover:border-primary" onClick={() => router.push(section.href)}>
             <CardBody>
