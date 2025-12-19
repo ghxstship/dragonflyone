@@ -14,133 +14,140 @@ import {
   Box,
   Text,
 } from "@ghxstship/ui";
-import { Check, Minus, ArrowRight, User, Users, Rocket, Crown, Zap, Shield, Headphones } from "lucide-react";
+import { Check, Minus, ArrowRight, Ticket, Users, Briefcase, Layers, Zap, Rocket, Crown, Shield, Headphones, X } from "lucide-react";
 import NextLink from "next/link";
 
 export const runtime = "edge";
 
-const pricingData = {
-  hero: {
-    headline: "SIMPLE, TRANSPARENT PRICING",
-    description: "Choose the plan that fits your production needs. Annual plans get 2 months free.",
+const singleProducts = [
+  {
+    id: 'gvteway',
+    name: 'GVTEWAY',
+    tagline: 'OWN THE DOOR',
+    price: '$0',
+    period: '+ 3.5% + $0.75/ticket',
+    valueProposition: 'Keep HubSpot. Keep ConnectTeam. Just add ticketing.',
+    byo: ['CRM', 'Finance', 'Crews'],
+    byoCompetitors: 'Salesforce, HubSpot, ConnectTeam',
+    replaces: 'Eventbrite, DICE, Ticketmaster',
+    features: ['Full ticketing platform', 'Event publishing & discovery', 'Fan engagement tools', 'Box office & will-call', 'Own your fan data'],
+    icon: Ticket,
+    color: 'brand-yellow',
+    ctaText: 'START GVTEWAY',
+    ctaHref: '/auth/signup?plan=gvteway',
   },
-  plans: [
-    {
-      name: "DEVIATOR",
-      price: "$49",
-      annualPrice: "$490",
-      period: "/month",
-      annualPeriod: "/year",
-      description: "Perfect for solo operators who like to keep things lean.",
-      icon: User,
-      features: [
-        "ATLVS only",
-        "1 Seat included",
-        "Unlimited Projects",
-        "Unlimited Records",
-        "Email Support",
-        "7-day data retention",
-        "Community access",
-      ],
-      cta: "START FREE",
-      href: "/auth/signup?plan=deviator",
-      popular: false,
-    },
-    {
-      name: "NAVIGATOR",
-      price: "$149",
-      annualPrice: "$1,490",
-      period: "/month",
-      annualPeriod: "/year",
-      description: "For teams who are done playing spreadsheet roulette.",
-      icon: Users,
-      features: [
-        "ATLVS + COMPVSS",
-        "Unlimited Seats",
-        "Unlimited Projects",
-        "Unlimited Records",
-        "Priority Support",
-        "90-day data retention",
-        "API access",
-        "Advanced analytics",
-      ],
-      cta: "START TRIAL",
-      href: "/auth/signup?plan=navigator",
-      popular: true,
-    },
-    {
-      name: "AVIATOR",
-      price: "$399",
-      annualPrice: "$3,990",
-      period: "/month",
-      annualPeriod: "/year",
-      description: "The whole enchilada. For those who refuse to compromise.",
-      icon: Rocket,
-      features: [
-        "ATLVS + COMPVSS + GVTEWAY",
-        "Unlimited Seats",
-        "Unlimited Projects",
-        "Unlimited Records",
-        "Dedicated CSM",
-        "Unlimited data retention",
-        "Full API access",
-        "SSO & advanced security",
-        "Custom integrations",
-      ],
-      cta: "START TRIAL",
-      href: "/auth/signup?plan=aviator",
-      popular: false,
-    },
-    {
-      name: "ENTERPRISE",
-      price: "Custom",
-      annualPrice: "Custom",
-      period: "",
-      annualPeriod: "",
-      description: "For large organizations with complex production operations.",
-      icon: Crown,
-      features: [
-        "Everything in Aviator",
-        "Unlimited Seats",
-        "White-label options",
-        "On-premise deployment",
-        "SLA guarantees",
-        "On-site training",
-        "Dedicated infrastructure",
-        "Custom contracts",
-      ],
-      cta: "CONTACT SALES",
-      href: "/contact",
-      popular: false,
-    },
-  ],
-  faq: [
-    {
-      question: "Can I switch plans anytime?",
-      answer: "Yes, you can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate your billing.",
-    },
-    {
-      question: "What payment methods do you accept?",
-      answer: "We accept all major credit cards, ACH transfers, and wire transfers for enterprise customers.",
-    },
-    {
-      question: "Is there a free trial?",
-      answer: "Yes! All paid plans come with a 14-day free trial. No credit card required to start.",
-    },
-    {
-      question: "What's included in 'unlimited'?",
-      answer: "Unlimited means unlimited. No caps on projects, records, integrations, or automations. Seats are unlimited on Navigator and above.",
-    },
-    {
-      question: "What's the difference between tiers?",
-      answer: "Deviator is ATLVS only with 1 seat. Navigator adds COMPVSS and unlimited seats. Aviator includes the full suite with GVTEWAY, dedicated support, and enterprise security.",
-    },
-    {
-      question: "Do you offer annual billing?",
-      answer: "Yes! Annual plans save you 2 months compared to monthly billing. That's over 16% off.",
-    },
-  ],
-  footnote: "All plans include: Unlimited Projects, Records, Integrations, Automations, and 24/7/365 Support",
+  {
+    id: 'compvss',
+    name: 'COMPVSS',
+    tagline: 'WORK THE SITE',
+    price: '$299',
+    period: '/month',
+    valueProposition: 'Keep your CRM. Keep your ticketing. Manage crews here.',
+    byo: ['CRM', 'Finance', 'Ticketing'],
+    byoCompetitors: 'Salesforce, QuickBooks, Eventbrite',
+    replaces: 'ConnectTeam, Deputy, When I Work',
+    features: ['Unlimited crew members', 'Punch lists & task mgmt', 'Digital timekeeping', 'Site communications', 'Cross-org JOIN'],
+    icon: Users,
+    color: 'brand-cyan',
+    ctaText: 'START COMPVSS',
+    ctaHref: '/auth/signup?plan=compvss',
+  },
+  {
+    id: 'atlvs',
+    name: 'ATLVS',
+    tagline: 'RUN THE SHOW',
+    price: '$799',
+    period: '/month',
+    valueProposition: 'Keep your crew app. Keep your ticketing. Run the business here.',
+    byo: ['Crews', 'Ticketing'],
+    byoCompetitors: 'ConnectTeam, Deputy, Eventbrite',
+    replaces: 'Monday + QuickBooks + HubSpot',
+    features: ['Full CRM (deals, venues, artists)', 'Project management', 'Financial management', 'Vendor management', 'Reporting & analytics'],
+    icon: Briefcase,
+    color: 'brand-pink',
+    ctaText: 'START ATLVS',
+    ctaHref: '/auth/signup?plan=atlvs',
+  },
+];
+
+const bundleProducts = [
+  {
+    id: 'operations',
+    name: 'OPERATIONS',
+    tagline: 'CREWS + TICKETS. BYO BUSINESS.',
+    products: ['GVTEWAY', 'COMPVSS'],
+    price: '$299',
+    period: '/mo + 2.5% + $0.50/ticket',
+    valueProposition: "Love Salesforce? Keep it. We'll handle crews and tickets.",
+    byo: ['CRM', 'Finance'],
+    byoCompetitors: 'Salesforce, HubSpot, QuickBooks',
+    features: ['Everything in GVTEWAY', 'Everything in COMPVSS', 'Crew-to-event sync', 'Lower transaction fees'],
+    icon: Layers,
+    color: 'brand-purple',
+    ctaText: 'START OPERATIONS',
+    ctaHref: '/auth/signup?plan=operations',
+  },
+  {
+    id: 'experience',
+    name: 'EXPERIENCE',
+    tagline: 'DEALS + TICKETS. BYO CREWS.',
+    products: ['ATLVS', 'GVTEWAY'],
+    price: '$799',
+    period: '/mo + 2.5% + $0.50/ticket',
+    valueProposition: "Love your crew app? Keep it. We'll handle the rest.",
+    byo: ['Crews'],
+    byoCompetitors: 'ConnectTeam, Deputy, labor vendors',
+    features: ['Everything in ATLVS', 'Everything in GVTEWAY', 'Deal-to-door tracking', 'Lower transaction fees'],
+    icon: Zap,
+    color: 'brand-pink',
+    ctaText: 'START EXPERIENCE',
+    ctaHref: '/auth/signup?plan=experience',
+  },
+  {
+    id: 'production',
+    name: 'PRODUCTION',
+    tagline: 'BOARDROOM TO BUILD SITE',
+    products: ['ATLVS', 'COMPVSS'],
+    price: '$999',
+    period: '/month',
+    valueProposition: "Love your ticketing? Keep it. We'll run the operation.",
+    byo: ['Ticketing'],
+    byoCompetitors: 'Eventbrite, DICE, Ticketmaster',
+    features: ['Everything in ATLVS', 'Everything in COMPVSS', 'Native business-site sync', 'Consolidated financials'],
+    icon: Rocket,
+    color: 'brand-cyan',
+    popular: true,
+    ctaText: 'START PRODUCTION',
+    ctaHref: '/auth/signup?plan=production',
+  },
+];
+
+const enterpriseTier = {
+  id: 'enterprise',
+  name: 'ENTERPRISE',
+  tagline: 'REPLACE EVERYTHING',
+  price: '$1,499',
+  period: '/mo + 2.0% + $0.40/ticket',
+  valueProposition: 'Replace Salesforce. Replace ConnectTeam. Replace Eventbrite. One platform.',
+  features: ['Everything in PRODUCTION + EXPERIENCE', 'Lowest transaction fees', 'Multi-property dashboard', 'Advanced analytics & BI', 'Full API access', 'Dedicated CSM + SLA'],
+  ctaText: 'GO ENTERPRISE',
+  ctaHref: '/contact?plan=enterprise',
+};
+
+const faqData = [
+  { question: 'I already have Salesforce—what do I need?', answer: 'Keep it! Choose OPERATIONS (crews + tickets) or PRODUCTION (crews only) and integrate with your existing CRM.' },
+  { question: 'I already have ConnectTeam—what do I need?', answer: 'Stick with it. Choose EXPERIENCE (business + tickets) or just ATLVS + GVTEWAY separately.' },
+  { question: 'I already have Eventbrite—what do I need?', answer: "Use PRODUCTION (business + crews). You can always migrate ticketing later for lower fees." },
+  { question: 'Can I start with one product and add more later?', answer: 'Absolutely. Every tier has clear upgrade paths, and your data migrates seamlessly.' },
+  { question: 'How does GHXSTSHIP compare to Ticketmaster?', answer: 'Lower fees (2.0-3.5% vs 5-10%), you own your fan data, no exclusivity contracts.' },
+  { question: 'Why no per-seat charges?', answer: 'COMPVSS includes unlimited crew members. ATLVS includes unlimited users. Scale without scaling your bill.' },
+];
+
+const colorMap: Record<string, string> = {
+  'brand-yellow': 'text-brand-yellow border-brand-yellow',
+  'brand-cyan': 'text-brand-cyan border-brand-cyan',
+  'brand-pink': 'text-brand-pink border-brand-pink',
+  'brand-purple': 'text-purple-500 border-purple-500',
 };
 
 export default function PricingPage() {
@@ -148,179 +155,156 @@ export default function PricingPage() {
     <AtlvsAppLayout variant="public" background="white" rawContent>
       {/* Hero */}
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">
-              PRICING
-            </Label>
-            <Display size="lg" className="text-white">
-              {pricingData.hero.headline}
-            </Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              {pricingData.hero.description}
-            </Body>
+            <Label size="xs" className="text-on-dark-muted">PRICING</Label>
+            <Display size="lg" className="text-white">PRICING THAT DOESN&apos;T PLAY GAMES</Display>
+            <Body size="lg" className="max-w-2xl text-on-dark-secondary">Seven tiers. Three products. Keep what works. Add what&apos;s missing.</Body>
           </Stack>
         </Container>
       </FullBleedSection>
 
-      {/* Pricing Cards */}
-      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-7xl px-4 sm:px-4 sm:px-6 lg:px-8">
-          <Grid cols={4} gap={6} className="lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
-            {pricingData.plans.map((plan) => (
-              <Card
-                key={plan.name}
-                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-6 lg:p-8"
-              >
-                {plan.popular && (
-                  <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">
-                    MOST POPULAR
-                  </Label>
-                )}
-                <Stack gap={6}>
-                  <Stack className="flex size-12 items-center justify-center border-2 border-ink-950 bg-grey-100">
-                    <plan.icon className="size-6 text-ink-950" />
-                  </Stack>
-                  <Stack gap={2}>
-                    <H3 className="text-ink-950">{plan.name}</H3>
-                    <Stack direction="horizontal" className="items-baseline gap-1">
-                      <Display size="md" className="text-ink-950">{plan.price}</Display>
-                      {plan.period && <Label size="sm" className="text-grey-500">{plan.period}</Label>}
-                    </Stack>
-                    <Body size="sm" className="text-grey-600">
-                      {plan.description}
-                    </Body>
-                  </Stack>
-                  <Stack gap={3}>
-                    {plan.features.map((feature) => (
-                      <Stack key={feature} direction="horizontal" gap={2} className="items-start">
-                        <Check className="size-4 shrink-0 mt-0.5 text-brand-pink" />
-                        <Label size="xs" className="text-grey-700">{feature}</Label>
-                      </Stack>
-                    ))}
-                  </Stack>
-                  <NextLink href={plan.href} className="mt-auto">
-                    <Button
-                      variant={plan.popular ? "pop" : "outline"}
-                      size="lg"
-                      className="w-full"
-                      icon={<ArrowRight />}
-                    >
-                      {plan.cta}
-                    </Button>
-                  </NextLink>
-                </Stack>
-              </Card>
-            ))}
-          </Grid>
-
-          <Label size="xs" className="mt-8 block text-center text-grey-500">
-            {pricingData.footnote}
-          </Label>
+      {/* Entry Point Selector */}
+      <FullBleedSection background="white" className="py-8 sm:py-12">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={4} className="text-center">
+            <H3 className="text-ink-950">WHAT DO YOU NEED?</H3>
+            <Grid cols={3} gap={4} className="sm:grid-cols-1">
+              <NextLink href="#single"><Card className="border-2 border-ink-950 p-4 hover:bg-grey-50 transition-colors cursor-pointer"><Stack gap={2} className="items-center"><Label size="xs" className="text-grey-500">SINGLE PRODUCTS</Label><Body size="sm" className="text-grey-600">BYO everything else</Body></Stack></Card></NextLink>
+              <NextLink href="#bundles"><Card className="border-2 border-brand-pink p-4 hover:bg-grey-50 transition-colors cursor-pointer"><Stack gap={2} className="items-center"><Label size="xs" className="text-brand-pink">BUNDLES</Label><Body size="sm" className="text-grey-600">Fill the gaps</Body></Stack></Card></NextLink>
+              <NextLink href="#enterprise"><Card className="border-2 border-ink-950 p-4 hover:bg-grey-50 transition-colors cursor-pointer"><Stack gap={2} className="items-center"><Label size="xs" className="text-grey-500">FULL STACK</Label><Body size="sm" className="text-grey-600">Replace everything</Body></Stack></Card></NextLink>
+            </Grid>
+          </Stack>
         </Container>
       </FullBleedSection>
 
-      {/* Feature Comparison Table */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+      {/* Single Products */}
+      <FullBleedSection id="single" background="white" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
             <Stack gap={4} className="text-center">
-              <H1 className="text-ink-950">FEATURE COMPARISON</H1>
-              <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">
-                See exactly what&apos;s included in each plan.
-              </Body>
+              <Label size="xs" className="text-grey-500">SINGLE PRODUCTS</Label>
+              <H1 className="text-ink-950">BYO EVERYTHING ELSE</H1>
+              <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">Already have tools you love? Keep them. Just add what&apos;s missing.</Body>
             </Stack>
+            <Grid cols={3} gap={6} className="sm:grid-cols-1">
+              {singleProducts.map((tier) => {
+                const IconComponent = tier.icon;
+                const colors = colorMap[tier.color] || 'text-ink-950 border-ink-950';
+                return (
+                  <Card key={tier.id} className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
+                    <Stack gap={5}>
+                      <Stack direction="horizontal" gap={3} className="items-center">
+                        <Box className={`p-2 border-2 ${colors}`}><IconComponent className={`h-5 w-5 ${colors.split(' ')[0]}`} /></Box>
+                        <Stack gap={0}><H3 size="sm" className="text-ink-950">{tier.name}</H3><Label size="xs" className="text-grey-500">{tier.tagline}</Label></Stack>
+                      </Stack>
+                      <Stack direction="horizontal" className="items-baseline gap-1"><Display size="md" className="text-ink-950">{tier.price}</Display><Label size="sm" className="text-grey-500">{tier.period}</Label></Stack>
+                      <Body size="sm" className="text-grey-700 italic">&ldquo;{tier.valueProposition}&rdquo;</Body>
+                      <Stack gap={2}>
+                        <Label size="xs" className="text-grey-500">BYO (BRING YOUR OWN)</Label>
+                        <Stack gap={1}>{tier.byo.map((item) => (<Stack key={item} direction="horizontal" gap={2} className="items-center"><X className="h-3 w-3 text-grey-400" /><Text size="xs" className="text-grey-500">{item}</Text></Stack>))}</Stack>
+                        <Text size="xs" className="text-grey-400 italic">Keep using {tier.byoCompetitors}</Text>
+                      </Stack>
+                      <Stack gap={1}><Label size="xs" className="text-success">REPLACES</Label><Text size="xs" className="text-grey-600">{tier.replaces}</Text></Stack>
+                      <Stack gap={2}>{tier.features.map((feature) => (<Stack key={feature} direction="horizontal" gap={2} className="items-start"><Check className={`h-4 w-4 mt-0.5 shrink-0 ${colors.split(' ')[0]}`} /><Text size="xs" className="text-grey-700">{feature}</Text></Stack>))}</Stack>
+                      <NextLink href={tier.ctaHref} className="mt-auto"><Button variant="outline" size="md" fullWidth icon={<ArrowRight />}>{tier.ctaText}</Button></NextLink>
+                    </Stack>
+                  </Card>
+                );
+              })}
+            </Grid>
+          </Stack>
+        </Container>
+      </FullBleedSection>
 
+      {/* Bundle Products */}
+      <FullBleedSection id="bundles" background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={12}>
+            <Stack gap={4} className="text-center">
+              <Label size="xs" className="text-brand-pink">BUNDLES</Label>
+              <H1 className="text-ink-950">FILL THE GAPS</H1>
+              <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">Two products that work together. Keep what you love, add what you need.</Body>
+            </Stack>
+            <Grid cols={3} gap={6} className="sm:grid-cols-1">
+              {bundleProducts.map((tier) => {
+                const IconComponent = tier.icon;
+                const colors = colorMap[tier.color] || 'text-ink-950 border-ink-950';
+                return (
+                  <Card key={tier.id} className={`relative flex h-full flex-col border-2 ${tier.popular ? 'border-brand-pink' : 'border-ink-950'} bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl`}>
+                    {tier.popular && (<Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>)}
+                    <Stack gap={5}>
+                      <Stack direction="horizontal" gap={3} className="items-center">
+                        <Box className={`p-2 border-2 ${colors}`}><IconComponent className={`h-5 w-5 ${colors.split(' ')[0]}`} /></Box>
+                        <Stack gap={0}><H3 size="sm" className="text-ink-950">{tier.name}</H3><Label size="xs" className="text-grey-500">{tier.tagline}</Label></Stack>
+                      </Stack>
+                      <Stack direction="horizontal" className="items-baseline gap-1"><Display size="md" className="text-ink-950">{tier.price}</Display><Label size="sm" className="text-grey-500">{tier.period}</Label></Stack>
+                      <Body size="sm" className="text-grey-700 italic">&ldquo;{tier.valueProposition}&rdquo;</Body>
+                      <Stack gap={1}><Label size="xs" className="text-grey-500">INCLUDES</Label><Text size="xs" className="text-grey-600">{tier.products.join(' + ')}</Text></Stack>
+                      {tier.byo.length > 0 && (
+                        <Stack gap={2}>
+                          <Label size="xs" className="text-grey-500">BYO (BRING YOUR OWN)</Label>
+                          <Stack gap={1}>{tier.byo.map((item) => (<Stack key={item} direction="horizontal" gap={2} className="items-center"><X className="h-3 w-3 text-grey-400" /><Text size="xs" className="text-grey-500">{item}</Text></Stack>))}</Stack>
+                          <Text size="xs" className="text-grey-400 italic">Keep using {tier.byoCompetitors}</Text>
+                        </Stack>
+                      )}
+                      <Stack gap={2}>{tier.features.map((feature) => (<Stack key={feature} direction="horizontal" gap={2} className="items-start"><Check className={`h-4 w-4 mt-0.5 shrink-0 ${tier.popular ? 'text-brand-pink' : colors.split(' ')[0]}`} /><Text size="xs" className="text-grey-700">{feature}</Text></Stack>))}</Stack>
+                      <NextLink href={tier.ctaHref} className="mt-auto"><Button variant={tier.popular ? "pop" : "outline"} size="md" fullWidth icon={<ArrowRight />}>{tier.ctaText}</Button></NextLink>
+                    </Stack>
+                  </Card>
+                );
+              })}
+            </Grid>
+          </Stack>
+        </Container>
+      </FullBleedSection>
+
+      {/* Enterprise */}
+      <FullBleedSection id="enterprise" background="ink" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
+          <Grid cols={2} gap={12} className="items-center sm:grid-cols-1">
+            <Stack gap={6}>
+              <Stack gap={2}><Label size="xs" className="text-grey-500">FULL STACK</Label><Display size="md" className="text-white">{enterpriseTier.name}</Display><H3 className="text-brand-pink">{enterpriseTier.tagline}</H3></Stack>
+              <Stack direction="horizontal" className="items-baseline gap-1"><Display size="lg" className="text-white">{enterpriseTier.price}</Display><Label size="sm" className="text-grey-500">{enterpriseTier.period}</Label></Stack>
+              <Body size="lg" className="text-grey-300">{enterpriseTier.valueProposition}</Body>
+              <NextLink href={enterpriseTier.ctaHref}><Button variant="pop" size="lg" icon={<ArrowRight />}>{enterpriseTier.ctaText}</Button></NextLink>
+            </Stack>
+            <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+              <Stack gap={4}>
+                <Label size="xs" className="text-grey-500">EVERYTHING INCLUDED</Label>
+                {enterpriseTier.features.map((feature) => (<Stack key={feature} direction="horizontal" gap={3} className="items-start"><Check className="h-5 w-5 mt-0.5 shrink-0 text-brand-pink" /><Text size="sm" className="text-grey-300">{feature}</Text></Stack>))}
+              </Stack>
+            </Card>
+          </Grid>
+        </Container>
+      </FullBleedSection>
+
+      {/* Comparison Table */}
+      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-7xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={12}>
+            <Stack gap={4} className="text-center"><H1 className="text-ink-950">WHAT&apos;S INCLUDED</H1><Body size="lg" className="text-grey-600 max-w-2xl mx-auto">See exactly which products are in each tier.</Body></Stack>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[700px]">
+              <table className="w-full min-w-[900px]">
                 <thead>
                   <tr className="border-b-2 border-ink-950">
-                    <th className="pb-4 text-left font-display text-h6-md uppercase text-ink-950 w-1/3">Feature</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Deviator</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">Navigator</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Aviator</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Enterprise</th>
+                    <th className="pb-4 text-left font-display text-h6-md uppercase text-ink-950 w-1/4">Product</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-yellow">GVTE</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">COMP</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">ATLVS</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-purple-500">OPS</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">EXP</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">PROD</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">ENT</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-t border-grey-200">
-                    <td colSpan={5} className="py-3">
-                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Products Included</Label>
-                    </td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">ATLVS (Production Management)</Text></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">COMPVSS (Crew & Operations)</Text></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">GVTEWAY (Ticketing & Experience)</Text></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
-                  <tr className="border-t border-grey-200">
-                    <td colSpan={5} className="py-3">
-                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Team & Support</Label>
-                    </td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">Team seats</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">1</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">Support level</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Email</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Priority</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Dedicated CSM</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">24/7 Phone + CSM</Text></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">Data retention</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">7 days</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">90 days</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
-                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
-                  </tr>
-                  <tr className="border-t border-grey-200">
-                    <td colSpan={5} className="py-3">
-                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Security & Compliance</Label>
-                    </td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">SSO / SAML</Text></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">Advanced audit logs</Text></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
-                  <tr className="border-t border-grey-100">
-                    <td className="py-3"><Text size="sm" className="text-grey-700">On-premise deployment</Text></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
-                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
-                  </tr>
+                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">GVTEWAY (Ticketing)</Text></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
+                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">COMPVSS (Crews)</Text></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
+                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">ATLVS (Business)</Text></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
+                  <tr className="border-t border-grey-200"><td colSpan={8} className="py-3"><Label size="xs" className="text-grey-500 uppercase tracking-kicker">Pricing</Label></td></tr>
+                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">Monthly base</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$0</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$999</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$1,499</Text></td></tr>
+                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">Transaction fee</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">3.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-success">2.0%</Text></td></tr>
                 </tbody>
               </table>
             </div>
@@ -332,62 +316,11 @@ export default function PricingPage() {
       <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={12}>
-            <Stack gap={4} className="text-center">
-              <Label size="xs" className="text-grey-500 uppercase tracking-kicker">ADD-ONS</Label>
-              <H1 className="text-white">ENHANCE YOUR PLAN</H1>
-              <Body size="lg" className="text-grey-400 max-w-2xl mx-auto">
-                Add these optional features to any plan for additional capabilities.
-              </Body>
-            </Stack>
-
+            <Stack gap={4} className="text-center"><Label size="xs" className="text-grey-500 uppercase tracking-kicker">ADD-ONS</Label><H1 className="text-white">ENHANCE ANY TIER</H1></Stack>
             <Grid cols={3} gap={6} className="sm:grid-cols-1">
-              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
-                <Stack gap={4}>
-                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-pink bg-ink-800">
-                    <Zap className="h-6 w-6 text-brand-pink" />
-                  </Box>
-                  <H3 size="sm" className="text-white">API Access</H3>
-                  <Body size="sm" className="text-grey-400">
-                    Full REST API access for custom integrations and automations.
-                  </Body>
-                  <Stack direction="horizontal" gap={1} className="items-baseline">
-                    <Display size="md" className="text-white">$99</Display>
-                    <Label size="sm" className="text-grey-500">/month</Label>
-                  </Stack>
-                </Stack>
-              </Card>
-
-              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
-                <Stack gap={4}>
-                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-cyan bg-ink-800">
-                    <Shield className="h-6 w-6 text-brand-cyan" />
-                  </Box>
-                  <H3 size="sm" className="text-white">Advanced Security</H3>
-                  <Body size="sm" className="text-grey-400">
-                    SSO, advanced audit logs, and custom security policies.
-                  </Body>
-                  <Stack direction="horizontal" gap={1} className="items-baseline">
-                    <Display size="md" className="text-white">$149</Display>
-                    <Label size="sm" className="text-grey-500">/month</Label>
-                  </Stack>
-                </Stack>
-              </Card>
-
-              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
-                <Stack gap={4}>
-                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-yellow bg-ink-800">
-                    <Headphones className="h-6 w-6 text-brand-yellow" />
-                  </Box>
-                  <H3 size="sm" className="text-white">Premium Support</H3>
-                  <Body size="sm" className="text-grey-400">
-                    24/7 phone support with dedicated success manager.
-                  </Body>
-                  <Stack direction="horizontal" gap={1} className="items-baseline">
-                    <Display size="md" className="text-white">$199</Display>
-                    <Label size="sm" className="text-grey-500">/month</Label>
-                  </Stack>
-                </Stack>
-              </Card>
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6"><Stack gap={4}><Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-pink bg-ink-800"><Zap className="h-6 w-6 text-brand-pink" /></Box><H3 size="sm" className="text-white">API Access</H3><Body size="sm" className="text-grey-400">Full REST API for custom integrations.</Body><Stack direction="horizontal" gap={1} className="items-baseline"><Display size="md" className="text-white">$99</Display><Label size="sm" className="text-grey-500">/month</Label></Stack></Stack></Card>
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6"><Stack gap={4}><Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-cyan bg-ink-800"><Shield className="h-6 w-6 text-brand-cyan" /></Box><H3 size="sm" className="text-white">Advanced Security</H3><Body size="sm" className="text-grey-400">SSO, audit logs, custom policies.</Body><Stack direction="horizontal" gap={1} className="items-baseline"><Display size="md" className="text-white">$149</Display><Label size="sm" className="text-grey-500">/month</Label></Stack></Stack></Card>
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6"><Stack gap={4}><Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-yellow bg-ink-800"><Headphones className="h-6 w-6 text-brand-yellow" /></Box><H3 size="sm" className="text-white">Premium Support</H3><Body size="sm" className="text-grey-400">24/7 phone + dedicated CSM.</Body><Stack direction="horizontal" gap={1} className="items-baseline"><Display size="md" className="text-white">$199</Display><Label size="sm" className="text-grey-500">/month</Label></Stack></Stack></Card>
             </Grid>
           </Stack>
         </Container>
@@ -396,19 +329,9 @@ export default function PricingPage() {
       {/* FAQ */}
       <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-4xl px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-16 text-center">
-            <H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1>
-          </Stack>
-
+          <Stack gap={4} className="mb-16 text-center"><H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1></Stack>
           <Grid cols={2} gap={6} className="sm:grid-cols-1">
-            {pricingData.faq.map((item) => (
-              <Card key={item.question} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl">
-                <Stack gap={3}>
-                  <H3 size="sm" className="text-ink-950">{item.question}</H3>
-                  <Body size="sm" className="text-grey-600">{item.answer}</Body>
-                </Stack>
-              </Card>
-            ))}
+            {faqData.map((item) => (<Card key={item.question} className="border-2 border-ink-950 bg-white p-6 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl"><Stack gap={3}><H3 size="sm" className="text-ink-950">{item.question}</H3><Body size="sm" className="text-grey-600">{item.answer}</Body></Stack></Card>))}
           </Grid>
         </Container>
       </FullBleedSection>
@@ -417,23 +340,11 @@ export default function PricingPage() {
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center">
-            <Display size="md" className="text-white">
-              READY TO GET STARTED?
-            </Display>
-            <Body size="lg" className="text-on-dark-secondary">
-              Start your 14-day free trial today. No credit card required.
-            </Body>
+            <Display size="md" className="text-white">NOT SURE WHERE TO START?</Display>
+            <Body size="lg" className="text-on-dark-secondary">Tell us what tools you already use—we&apos;ll recommend the right tier.</Body>
             <Stack direction="horizontal" gap={4}>
-              <NextLink href="/auth/signup">
-                <Button variant="pop" size="lg" icon={<ArrowRight />}>
-                  Start Free Trial
-                </Button>
-              </NextLink>
-              <NextLink href="/demo">
-                <Button variant="outlineWhite" size="lg">
-                  Schedule Demo
-                </Button>
-              </NextLink>
+              <NextLink href="/demo"><Button variant="pop" size="lg" icon={<ArrowRight />}>Get a Recommendation</Button></NextLink>
+              <NextLink href="/products/compare"><Button variant="outlineWhite" size="lg">Compare All Tiers</Button></NextLink>
             </Stack>
           </Stack>
         </Container>

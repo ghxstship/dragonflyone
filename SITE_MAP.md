@@ -1,6 +1,7 @@
 # DRAGONFLYONE PLATFORM SITE MAP
-**Generated:** 2024-12-18
+**Generated:** 2024-12-19
 **Total Pages:** 734
+**Last Marketing Update:** 2024-12-19 (7-Tier BYO Model)
 
 ---
 
@@ -188,7 +189,7 @@
 - `/case-studies` - Case studies
 - `/changelog` - Changelog
 - `/contact` - Contact us
-- `/demo` - Request demo
+- `/demo` - Request demo ✅ **Updated 12/19** (BYO tool stack form)
 - `/docs/api` - API documentation
 - `/features` - Features
 - `/guides` - Guides
@@ -204,21 +205,32 @@
 - `/legal/terms` - Terms of service
 - `/partners` - Partners
 - `/press` - Press
-- `/pricing` - Pricing
-- `/products` - Products
+- `/pricing` - Pricing ✅ **Updated 12/19** (7-tier BYO model)
+- `/products` - Products ✅ **Updated 12/19** (competitor replacement messaging)
 - `/products/atlvs` - ATLVS product
-- `/products/compare` - Product comparison
+- `/products/compare` - Product comparison ✅ **Updated 12/19** (7-tier matrix + scenarios)
 - `/products/compvss` - COMPVSS product
 - `/products/gvteway` - GVTEWAY product
 - `/resources` - Resources
 - `/security` - Security
-- `/solutions` - Solutions
+- `/solutions` - Solutions ✅ **Updated 12/19** (role-tier-BYO mapping)
 - `/solutions/[slug]` - Solution detail
 - `/status` - Status page
 - `/verticals/activations` - Activations vertical
 - `/verticals/destinations` - Destinations vertical
 - `/verticals/installations` - Installations vertical
 - `/verticals/productions` - Productions vertical
+
+#### 7-Tier Pricing Structure (Updated 12/19)
+| Tier | Products | Category | BYO |
+|------|----------|----------|-----|
+| GVTEWAY | Ticketing | Single | CRM, Finance, Crews |
+| COMPVSS | Crews | Single | CRM, Finance, Ticketing |
+| ATLVS | Business | Single | Crews, Ticketing |
+| OPERATIONS | GVTEWAY + COMPVSS | Bundle | CRM, Finance |
+| EXPERIENCE | ATLVS + GVTEWAY | Bundle | Crews |
+| PRODUCTION | ATLVS + COMPVSS | Bundle | Ticketing |
+| ENTERPRISE | All Three | Full Stack | Nothing |
 
 ### Finance & Accounting
 - `/advances` - Advances
