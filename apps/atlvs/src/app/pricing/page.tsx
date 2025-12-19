@@ -14,7 +14,7 @@ import {
   Box,
   Text,
 } from "@ghxstship/ui";
-import { Check, Minus, ArrowRight, Ticket, Users, Briefcase, Layers, Zap, Rocket, Crown, Shield, Headphones, X } from "lucide-react";
+import { Check, Minus, ArrowRight, Ticket, Users, Briefcase, Layers, Zap, Rocket, Shield, Headphones, X } from "lucide-react";
 import NextLink from "next/link";
 
 export const runtime = "edge";
