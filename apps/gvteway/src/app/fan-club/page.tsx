@@ -43,7 +43,7 @@ function FanClubPageContent() {
 
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case "VIP": return "bg-purple-100 text-purple-800";
+      case "VIP": return "bg-success-100 text-success-800";
       case "Premium": return "bg-warning-100 text-warning-800";
       case "Free": return "bg-ink-100 text-ink-800";
       default: return "bg-ink-100 text-ink-800";
@@ -52,8 +52,8 @@ function FanClubPageContent() {
 
   const getPerkTypeColor = (type: string) => {
     switch (type) {
-      case "Presale": return "bg-info-100 text-info-800";
-      case "Content": return "bg-purple-100 text-purple-800";
+      case "Presale": return "bg-warning-100 text-warning-800";
+      case "Content": return "bg-success-100 text-success-800";
       case "Merch": return "bg-pink-100 text-pink-800";
       case "Meet & Greet": return "bg-success-100 text-success-800";
       case "Discount": return "bg-warning-100 text-warning-800";

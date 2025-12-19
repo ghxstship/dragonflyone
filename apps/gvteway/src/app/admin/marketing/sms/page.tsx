@@ -12,14 +12,8 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_SMS_CAMPAIGNS,
-  DEMO_AUDIENCE_SEGMENTS,
-  type DemoSMSCampaign as SMSCampaign,
-} from "@/lib/demo-data";
-
-const mockCampaigns = DEMO_SMS_CAMPAIGNS;
-const audienceSegments = DEMO_AUDIENCE_SEGMENTS;
+import { MessageSquare } from "lucide-react";
+import { useSMSCampaignsData, type SMSCampaign } from "@/hooks/useSMSCampaigns";
 
 function SMSMarketingPageContent() {
   const router = useRouter();
@@ -32,10 +26,27 @@ function SMSMarketingPageContent() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState<SMSCampaign | null>(null);
   const [messageText, setMessageText] = useState("");
+  const [campaignName, setCampaignName] = useState("");
+  const [selectedEvent, setSelectedEvent] = useState("");
+  const [selectedAudience, setSelectedAudience] = useState("");
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
 
-  const totalSent = mockCampaigns.reduce((sum, c) => sum + c.sentCount, 0);
-  const totalDelivered = mockCampaigns.reduce((sum, c) => sum + c.deliveredCount, 0);
-  const totalClicks = mockCampaigns.reduce((sum, c) => sum + c.clickCount, 0);
+  const {
+    campaigns,
+    audienceSegments,
+    isLoading,
+    error,
+    refetch,
+    createCampaign,
+    isCreating,
+    updateStatus,
+    deleteCampaign,
+  } = useSMSCampaignsData();
+
+  const totalSent = campaigns.reduce((sum: number, c: SMSCampaign) => sum + c.sent_count, 0);
+  const totalDelivered = campaigns.reduce((sum: number, c: SMSCampaign) => sum + c.delivered_count, 0);
+  const totalClicks = campaigns.reduce((sum: number, c: SMSCampaign) => sum + c.click_count, 0);
   const deliveryRate = totalSent > 0 ? ((totalDelivered / totalSent) * 100).toFixed(1) : 0;
 
   const getStatusBadge = (status: string) => {
@@ -52,6 +63,74 @@ function SMSMarketingPageContent() {
   const characterCount = messageText.length;
   const segmentCount = Math.ceil(characterCount / 160);
 
+  const handleCreateCampaign = async () => {
+    try {
+      const scheduledDate = scheduleDate && scheduleTime 
+        ? new Date(`${scheduleDate}T${scheduleTime}`).toISOString() 
+        : undefined;
+      await createCampaign({
+        name: campaignName,
+        message: messageText,
+        eventId: selectedEvent || undefined,
+        audienceSegmentId: selectedAudience || undefined,
+        scheduledDate,
+      });
+      setShowCreateModal(false);
+      setCampaignName("");
+      setMessageText("");
+      setSelectedEvent("");
+      setSelectedAudience("");
+      setScheduleDate("");
+      setScheduleTime("");
+    } catch {
+      // Error handled by hook
+    }
+  };
+
+  const handleSendCampaign = async (id: string) => {
+    try {
+      await updateStatus({ id, status: 'Sending' });
+    } catch {
+      // Error handled by hook
+    }
+  };
+
+  const handleDeleteCampaign = async (id: string) => {
+    if (confirm('Are you sure you want to delete this campaign?')) {
+      try {
+        await deleteCampaign(id);
+      } catch {
+        // Error handled by hook
+      }
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <MessageSquare className="w-12 h-12 mx-auto mb-4 text-on-dark-muted animate-pulse" />
+            <Body className="text-on-dark-muted">Loading SMS campaigns...</Body>
+          </div>
+        </div>
+      </GvtewayAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <Alert variant="error">
+          <Body>Failed to load campaigns: {error instanceof Error ? error.message : 'Unknown error'}</Body>
+          <Button variant="outline" size="sm" onClick={() => refetch()} className="mt-2">
+            Retry
+          </Button>
+        </Alert>
+      </GvtewayAppLayout>
+    );
+  }
+
   return (
     <GvtewayAppLayout>
           <Stack gap={10}>
@@ -66,7 +145,7 @@ function SMSMarketingPageContent() {
               <StatCard label="Messages Sent" value={totalSent.toLocaleString()} inverted />
               <StatCard label="Delivery Rate" value={`${deliveryRate}%`} inverted />
               <StatCard label="Total Clicks" value={totalClicks.toLocaleString()} inverted />
-              <StatCard label="Active Campaigns" value={mockCampaigns.filter(c => c.status === "Sending" || c.status === "Scheduled").length.toString()} inverted />
+              <StatCard label="Active Campaigns" value={campaigns.filter((c: SMSCampaign) => c.status === "Sending" || c.status === "Scheduled").length.toString()} inverted />
             </Grid>
 
           <Tabs>
@@ -97,33 +176,33 @@ function SMSMarketingPageContent() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {mockCampaigns.map((campaign) => (
+                      {campaigns.map((campaign: SMSCampaign) => (
                         <TableRow key={campaign.id} className="border-b border-ink-700">
                           <TableCell>
                             <Stack gap={1}>
                               <Body className="font-display text-white">{campaign.name}</Body>
-                              {campaign.eventName && <Label size="xs" className="text-on-dark-muted">{campaign.eventName}</Label>}
+                              {campaign.event_name && <Label size="xs" className="text-on-dark-muted">{campaign.event_name}</Label>}
                             </Stack>
                           </TableCell>
                           <TableCell>{getStatusBadge(campaign.status)}</TableCell>
-                          <TableCell><Label className="font-mono text-white">{campaign.audienceSize.toLocaleString()}</Label></TableCell>
-                          <TableCell><Label className="font-mono text-white">{campaign.sentCount.toLocaleString()}</Label></TableCell>
+                          <TableCell><Label className="font-mono text-white">{campaign.audience_size.toLocaleString()}</Label></TableCell>
+                          <TableCell><Label className="font-mono text-white">{campaign.sent_count.toLocaleString()}</Label></TableCell>
                           <TableCell>
                             <Stack gap={0}>
-                              <Label className="font-mono text-white">{campaign.deliveredCount.toLocaleString()}</Label>
-                              {campaign.sentCount > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.deliveredCount / campaign.sentCount) * 100).toFixed(1)}%</Label>}
+                              <Label className="font-mono text-white">{campaign.delivered_count.toLocaleString()}</Label>
+                              {campaign.sent_count > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.delivered_count / campaign.sent_count) * 100).toFixed(1)}%</Label>}
                             </Stack>
                           </TableCell>
                           <TableCell>
                             <Stack gap={0}>
-                              <Label className="font-mono text-white">{campaign.clickCount.toLocaleString()}</Label>
-                              {campaign.deliveredCount > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.clickCount / campaign.deliveredCount) * 100).toFixed(1)}% CTR</Label>}
+                              <Label className="font-mono text-white">{campaign.click_count.toLocaleString()}</Label>
+                              {campaign.delivered_count > 0 && <Label size="xs" className="text-on-dark-disabled">{((campaign.click_count / campaign.delivered_count) * 100).toFixed(1)}% CTR</Label>}
                             </Stack>
                           </TableCell>
                           <TableCell>
                             <Stack direction="horizontal" gap={2}>
                               <Button variant="ghost" size="sm" onClick={() => setSelectedCampaign(campaign)}>View</Button>
-                              {campaign.status === "Draft" && <Button variant="outlineInk" size="sm">Send</Button>}
+                              {campaign.status === "Draft" && <Button variant="outlineInk" size="sm" onClick={() => handleSendCampaign(campaign.id)}>Send</Button>}
                             </Stack>
                           </TableCell>
                         </TableRow>
@@ -185,11 +264,15 @@ function SMSMarketingPageContent() {
           <Stack gap={4}>
             <Stack gap={2}>
               <Label>Campaign Name</Label>
-              <Input placeholder="e.g., Early Bird Reminder" />
+              <Input 
+                placeholder="e.g., Early Bird Reminder" 
+                value={campaignName}
+                onChange={(e) => setCampaignName(e.target.value)}
+              />
             </Stack>
             <Stack gap={2}>
               <Label>Select Event (optional)</Label>
-              <Select>
+              <Select value={selectedEvent} onChange={(e) => setSelectedEvent(e.target.value)}>
                 <option value="">No specific event</option>
                 <option value="EVT-001">Summer Fest 2024</option>
                 <option value="EVT-002">Winter Gala</option>
@@ -197,7 +280,7 @@ function SMSMarketingPageContent() {
             </Stack>
             <Stack gap={2}>
               <Label>Target Audience</Label>
-              <Select>
+              <Select value={selectedAudience} onChange={(e) => setSelectedAudience(e.target.value)}>
                 {audienceSegments.map(seg => (
                   <option key={seg.id} value={seg.id}>{seg.name} ({seg.count.toLocaleString()})</option>
                 ))}
@@ -223,16 +306,18 @@ function SMSMarketingPageContent() {
             <Stack gap={2}>
               <Label>Schedule</Label>
               <Grid cols={2} gap={2}>
-                <Input type="date" />
-                <Input type="time" />
+                <Input type="date" value={scheduleDate} onChange={(e) => setScheduleDate(e.target.value)} />
+                <Input type="time" value={scheduleTime} onChange={(e) => setScheduleTime(e.target.value)} />
               </Grid>
             </Stack>
           </Stack>
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowCreateModal(false)}>Cancel</Button>
-          <Button variant="outline">Save Draft</Button>
-          <Button variant="solid">Schedule</Button>
+          <Button variant="outline" onClick={handleCreateCampaign} disabled={isCreating}>Save Draft</Button>
+          <Button variant="solid" onClick={handleCreateCampaign} disabled={isCreating}>
+            {isCreating ? 'Creating...' : 'Schedule'}
+          </Button>
         </ModalFooter>
       </Modal>
 
@@ -247,18 +332,23 @@ function SMSMarketingPageContent() {
               </Card>
               <Grid cols={2} gap={4}>
                 <Stack gap={1}><Label size="xs" className="text-on-light-muted">Status</Label>{getStatusBadge(selectedCampaign.status)}</Stack>
-                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Audience</Label><Label>{selectedCampaign.audienceSize.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Audience</Label><Label>{selectedCampaign.audience_size.toLocaleString()}</Label></Stack>
               </Grid>
               <Grid cols={3} gap={4}>
-                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Sent</Label><Label className="font-mono">{selectedCampaign.sentCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Delivered</Label><Label className="font-mono">{selectedCampaign.deliveredCount.toLocaleString()}</Label></Stack>
-                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Clicks</Label><Label className="font-mono">{selectedCampaign.clickCount.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Sent</Label><Label className="font-mono">{selectedCampaign.sent_count.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Delivered</Label><Label className="font-mono">{selectedCampaign.delivered_count.toLocaleString()}</Label></Stack>
+                <Stack gap={1}><Label size="xs" className="text-on-light-muted">Clicks</Label><Label className="font-mono">{selectedCampaign.click_count.toLocaleString()}</Label></Stack>
               </Grid>
             </Stack>
           )}
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedCampaign(null)}>Close</Button>
+          {selectedCampaign?.status === "Draft" && (
+            <Button variant="outline" onClick={() => { handleDeleteCampaign(selectedCampaign.id); setSelectedCampaign(null); }}>
+              Delete
+            </Button>
+          )}
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>

@@ -65,10 +65,10 @@ export default function ArtistMerchPage() {
   const getCategoryBadge = (category: string) => {
     const variants: Record<string, string> = {
       apparel: 'bg-info-500 text-white',
-      accessories: 'bg-purple-500 text-white',
+      accessories: 'bg-violet-500 text-white',
       music: 'bg-success-500 text-white',
       collectibles: 'bg-warning-500 text-white',
-      posters: 'bg-error-500 text-white',
+      posters: 'bg-success-100 text-success-800',
     };
     return <Badge className={variants[category] || ''}>{category}</Badge>;
   };
@@ -219,7 +219,7 @@ export default function ArtistMerchPage() {
                   )}
                   {product.inventory_count < 10 && product.inventory_count > 0 && (
                     <Stack className="absolute bottom-2 left-2">
-                      <Badge className="bg-error-500 text-white">Low Stock</Badge>
+                      <Badge className="bg-success-100 text-success-800">Low Stock</Badge>
                     </Stack>
                   )}
                 </Stack>

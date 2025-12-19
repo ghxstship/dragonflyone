@@ -1,26 +1,26 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Spinner, Container, EmptyState } from "@ghxstship/ui";
 import { Plus, Hammer, CheckCircle } from "lucide-react";
-import { compvssDemoProductions } from "../../../../../data/compvss";
+import { useProject } from "../../../../../hooks/useProjects";
+import { useBuildStrikeTasks } from "../../../../../hooks/useBuildStrike";
 
 export default function BuildStrikePage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production } = useProject(productionId);
+  const { data: tasksData, isLoading, error } = useBuildStrikeTasks(productionId);
+  
+  const tasks = tasksData || [];
 
-  const tasks = [
-    { id: "1", task: "Unload trucks", phase: "build", duration: "2 hrs", status: "completed" },
-    { id: "2", task: "Stage deck assembly", phase: "build", duration: "3 hrs", status: "completed" },
-    { id: "3", task: "Truss rigging", phase: "build", duration: "4 hrs", status: "in_progress" },
-    { id: "4", task: "Audio system hang", phase: "build", duration: "2 hrs", status: "pending" },
-    { id: "5", task: "Lighting focus", phase: "build", duration: "3 hrs", status: "pending" },
-    { id: "6", task: "Video wall assembly", phase: "build", duration: "2 hrs", status: "pending" },
-    { id: "7", task: "Strike lighting", phase: "strike", duration: "2 hrs", status: "pending" },
-    { id: "8", task: "Strike audio", phase: "strike", duration: "2 hrs", status: "pending" },
-    { id: "9", task: "Load trucks", phase: "strike", duration: "3 hrs", status: "pending" },
-  ];
+  if (isLoading) {
+    return <Container className="flex min-h-[60vh] items-center justify-center"><Spinner variant="grey" size="lg" text="Loading..." /></Container>;
+  }
+
+  if (error) {
+    return <Container><EmptyState title="Failed to Load" description="Unable to load build/strike tasks." action={{ label: "Try Again", onClick: () => window.location.reload() }} /></Container>;
+  }
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     completed: "success", in_progress: "warning", pending: "solid",

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import { Eye, Trash2, CheckCircle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { usePayments, usePaymentStats, useCreatePayment, useUpdatePayment, useDeletePayment } from '../../hooks/usePayments';
 import {
@@ -12,7 +12,6 @@ import {
   DetailDrawer,
   ConfirmDialog,
   Grid,
-  Stack,
   Body,
   type ListPageColumn,
   type ListPageFilter,
@@ -174,8 +173,7 @@ export default function PaymentsPage() {
       label: 'View Details',
       icon: <Eye className="size-4" />,
       onClick: (row) => {
-        setSelectedPayment(row);
-        setDrawerOpen(true);
+        router.push(`/payments/${row.id}`);
       },
     },
     {

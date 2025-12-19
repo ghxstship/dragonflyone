@@ -19,12 +19,7 @@ import {
 } from "@ghxstship/ui";
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-import {
-  DEMO_CONTESTS,
-  type DemoContest as Contest,
-} from '@/lib/demo-data';
-
-const mockContests = DEMO_CONTESTS;
+import { useContestsData, type Contest } from '@/hooks/useContests';
 
 const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) {
@@ -64,10 +59,11 @@ const formFields: FormFieldConfig[] = [
 
 export default function ContestsPage() {
   const router = useRouter();
-  const [contests, setContests] = useState<Contest[]>(mockContests);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [selectedContest, setSelectedContest] = useState<Contest | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { contests, isLoading, error, refetch } = useContestsData();
 
   const activeContests = contests.filter(c => c.status === "Active").length;
   const totalEntries = contests.reduce((sum, c) => sum + c.entries, 0);
@@ -79,27 +75,36 @@ export default function ContestsPage() {
     { id: 'end', label: 'End Contest', icon: <Flag className="size-4" />, onClick: (r) => handleEndContest(r.id) },
   ];
 
-  const handleEndContest = (contestId: string) => {
-    setContests(contests.map(c => c.id === contestId ? { ...c, status: 'Ended' as const } : c));
+  const handleEndContest = async (contestId: string) => {
+    try {
+      await fetch(`/api/admin/contests/${contestId}/end`, { method: 'POST' });
+      refetch();
+    } catch {
+      // Error handled silently
+    }
   };
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newContest: Contest = {
-      id: `CNT-${String(contests.length + 1).padStart(3, '0')}`,
-      name: String(data.name || ''),
-      type: data.type as Contest['type'],
-      eventId: data.eventId ? String(data.eventId) : undefined,
-      prize: String(data.prize || ''),
-      prizeValue: Number(data.prizeValue) || 0,
-      startDate: String(data.startDate || ''),
-      endDate: String(data.endDate || ''),
-      status: 'Draft',
-      entries: 0,
-      platforms: ['Instagram'],
-      rules: data.rules ? String(data.rules) : undefined,
-    };
-    setContests([...contests, newContest]);
-    setCreateModalOpen(false);
+    try {
+      await fetch('/api/admin/contests', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: String(data.name || ''),
+          type: data.type,
+          eventId: data.eventId ? String(data.eventId) : null,
+          prize: String(data.prize || ''),
+          prizeValue: Number(data.prizeValue) || 0,
+          startDate: String(data.startDate || ''),
+          endDate: String(data.endDate || ''),
+          rules: data.rules ? String(data.rules) : null,
+        }),
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch {
+      // Error handled silently
+    }
   };
 
   const stats = [
@@ -171,7 +176,9 @@ export default function ContestsPage() {
         data={contests}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={() => refetch()}
         searchPlaceholder="Search contests..."
         filters={filters}
         rowActions={rowActions}

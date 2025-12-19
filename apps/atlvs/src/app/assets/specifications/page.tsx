@@ -66,6 +66,16 @@ export default function AssetSpecificationsPage() {
 
   const totalDocs = specs.reduce((sum, s) => sum + s.documents.length, 0);
 
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <div className="p-6 flex items-center justify-center min-h-[400px]">
+          <div className="animate-pulse text-muted-foreground">Loading specifications...</div>
+        </div>
+      </AtlvsAppLayout>
+    );
+  }
+
   return (
     <AtlvsAppLayout>
       <EnterprisePageHeader

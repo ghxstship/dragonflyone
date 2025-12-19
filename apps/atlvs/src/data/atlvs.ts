@@ -2202,3 +2202,978 @@ export const atlvsAboutData = {
   },
   investors: ["Andreessen Horowitz", "Founders Fund", "Index Ventures", "General Catalyst"],
 };
+
+// =============================================================================
+// PUBLIC NAVIGATION DATA
+// Mega-menu navigation structure for marketing pages
+// =============================================================================
+
+export interface PublicNavItem {
+  label: string;
+  href: string;
+  description?: string;
+  features?: string[];
+  icon?: string;
+}
+
+export interface PublicNavGroup {
+  title: string;
+  items: PublicNavItem[];
+}
+
+export interface PublicNavSection {
+  label: string;
+  items?: PublicNavItem[];
+  groups?: PublicNavGroup[];
+  quickLinks?: PublicNavItem[];
+  featured?: PublicNavItem[];
+  verticals?: PublicNavItem[];
+}
+
+export const atlvsPublicNavigation: Record<string, PublicNavSection> = {
+  products: {
+    label: "Products",
+    items: [
+      {
+        label: "ATLVS",
+        href: "/products/atlvs",
+        description: "Production Management",
+        icon: "Briefcase",
+        features: [
+          "Project Management",
+          "Financial Tools",
+          "Asset Tracking",
+          "Vendor Management",
+        ],
+      },
+      {
+        label: "COMPVSS",
+        href: "/products/compvss",
+        description: "Crew & Operations",
+        icon: "Users",
+        features: [
+          "Crew Database",
+          "Scheduling",
+          "Timekeeping",
+          "Communications",
+        ],
+      },
+      {
+        label: "GVTEWAY",
+        href: "/products/gvteway",
+        description: "Ticketing & Experience",
+        icon: "Ticket",
+        features: [
+          "Event Discovery",
+          "Ticket Sales",
+          "Fan Engagement",
+          "Merch & Upsells",
+        ],
+      },
+    ],
+    quickLinks: [
+      { label: "Compare Products", href: "/products/compare", icon: "GitCompare" },
+      { label: "Integrations", href: "/integrations", icon: "Plug" },
+      { label: "Security", href: "/security", icon: "Shield" },
+      { label: "API Documentation", href: "/docs/api", icon: "Code" },
+    ],
+  },
+  solutions: {
+    label: "Solutions",
+    groups: [
+      {
+        title: "Business Leaders",
+        items: [
+          { label: "Producers", href: "/solutions/producers", icon: "Clapperboard" },
+          { label: "Promoters", href: "/solutions/promoters", icon: "Megaphone" },
+          { label: "Investors", href: "/solutions/investors", icon: "TrendingUp" },
+          { label: "Sponsors", href: "/solutions/sponsors", icon: "Award" },
+        ],
+      },
+      {
+        title: "Operations",
+        items: [
+          { label: "Project Managers", href: "/solutions/project-managers", icon: "ClipboardList" },
+          { label: "Contractors", href: "/solutions/contractors", icon: "Wrench" },
+          { label: "Subcontractors", href: "/solutions/subcontractors", icon: "HardHat" },
+          { label: "Independent Contractors", href: "/solutions/independent-contractors", icon: "UserCheck" },
+        ],
+      },
+      {
+        title: "Venues & Destinations",
+        items: [
+          { label: "Venues", href: "/solutions/venues", icon: "Building" },
+          { label: "Destinations", href: "/solutions/destinations", icon: "MapPin" },
+        ],
+      },
+      {
+        title: "Creative",
+        items: [
+          { label: "Artists", href: "/solutions/artists", icon: "Mic2" },
+          { label: "Vendors", href: "/solutions/vendors", icon: "Store" },
+        ],
+      },
+      {
+        title: "Workforce",
+        items: [
+          { label: "Production Crews", href: "/solutions/production-crews", icon: "HardHat" },
+          { label: "Event Staff", href: "/solutions/event-staff", icon: "Users" },
+          { label: "Brand Ambassadors", href: "/solutions/brand-ambassadors", icon: "Star" },
+        ],
+      },
+      {
+        title: "Safety & Services",
+        items: [
+          { label: "Public Safety Teams", href: "/solutions/public-safety", icon: "Shield" },
+        ],
+      },
+    ],
+    verticals: [
+      { label: "Productions", href: "/verticals/productions", icon: "Clapperboard" },
+      { label: "Brand Activations", href: "/verticals/activations", icon: "Zap" },
+      { label: "Art Installations", href: "/verticals/installations", icon: "Palette" },
+      { label: "Destination Events", href: "/verticals/destinations", icon: "MapPin" },
+    ],
+  },
+  resources: {
+    label: "Resources",
+    groups: [
+      {
+        title: "Learn",
+        items: [
+          { label: "Help Center", href: "/help", icon: "HelpCircle" },
+          { label: "Guides & Tutorials", href: "/guides", icon: "BookOpen" },
+          { label: "API Documentation", href: "/docs/api", icon: "Code" },
+          { label: "Blog", href: "/blog", icon: "FileText" },
+          { label: "Case Studies", href: "/case-studies", icon: "Trophy" },
+          { label: "Templates", href: "/templates", icon: "LayoutTemplate" },
+        ],
+      },
+      {
+        title: "Support",
+        items: [
+          { label: "Contact Support", href: "/contact", icon: "MessageSquare" },
+          { label: "System Status", href: "/status", icon: "Activity" },
+          { label: "Community", href: "/community", icon: "Users" },
+          { label: "Training", href: "/training", icon: "GraduationCap" },
+          { label: "Webinars", href: "/webinars", icon: "Video" },
+        ],
+      },
+      {
+        title: "Company",
+        items: [
+          { label: "About Us", href: "/about", icon: "Building2" },
+          { label: "Careers", href: "/careers", icon: "Briefcase" },
+          { label: "Press", href: "/press", icon: "Newspaper" },
+          { label: "Partners", href: "/partners", icon: "Handshake" },
+          { label: "Contact", href: "/contact", icon: "Mail" },
+        ],
+      },
+    ],
+    featured: [
+      { label: "Getting Started Guide", href: "/guides/getting-started", icon: "Rocket" },
+      { label: "Watch Demo", href: "/demo", icon: "Play" },
+      { label: "Request Demo", href: "/demo/request", icon: "Calendar" },
+      { label: "Changelog", href: "/changelog", icon: "Sparkles" },
+    ],
+  },
+};
+
+// =============================================================================
+// V3 EXPANSION FEATURES DATA
+// New features from V3Expansion document for marketing pages
+// =============================================================================
+
+export const atlvsV3Features = {
+  venueManagement: {
+    title: "Venue Management",
+    description: "Complete venue sales, booking, and event management",
+    features: [
+      {
+        id: "LM-001",
+        name: "Lead Capture Web Forms",
+        description: "Embeddable forms with drag-and-drop builder, conditional logic, and AI-powered optimization",
+        priority: "critical",
+      },
+      {
+        id: "LM-002",
+        name: "Visual Pipeline Management",
+        description: "Kanban-style drag-and-drop pipeline with AI deal coaching and predictive win probability",
+        priority: "critical",
+      },
+      {
+        id: "LM-003",
+        name: "Contact & Account Database",
+        description: "Centralized CRM with automatic data enrichment and lifetime value tracking",
+        priority: "critical",
+      },
+      {
+        id: "BK-001",
+        name: "Master Event Calendar",
+        description: "Multi-venue calendar with drag-and-drop scheduling and weather integration",
+        priority: "critical",
+      },
+      {
+        id: "BK-002",
+        name: "Space/Room Management",
+        description: "Capacity configurations, dynamic pricing, and 3D visualization",
+        priority: "critical",
+      },
+      {
+        id: "BK-003",
+        name: "Availability & Holds System",
+        description: "Real-time availability with waitlists and alternative date suggestions",
+        priority: "critical",
+      },
+      {
+        id: "BK-004",
+        name: "Event Booking Workflow",
+        description: "Step-by-step booking wizard with templates and one-click rebooking",
+        priority: "critical",
+      },
+      {
+        id: "DG-001",
+        name: "Proposal Builder",
+        description: "Drag-and-drop proposals with interactive customization and video intros",
+        priority: "critical",
+      },
+      {
+        id: "DG-002",
+        name: "Contract Generation & E-Signatures",
+        description: "Smart contract assembly with multi-language support and negotiation tracking",
+        priority: "critical",
+      },
+      {
+        id: "DG-003",
+        name: "BEO Generation",
+        description: "Banquet Event Orders with department-specific views and visual diagrams",
+        priority: "critical",
+      },
+      {
+        id: "DG-004",
+        name: "Invoice & Payment Generation",
+        description: "Automated invoicing with smart payment schedules and AR intelligence",
+        priority: "critical",
+      },
+      {
+        id: "PM-001",
+        name: "Integrated Payment Gateway",
+        description: "Stripe/Square integration with fraud detection and cryptocurrency support",
+        priority: "critical",
+      },
+      {
+        id: "PM-002",
+        name: "Deposit & Payment Schedule",
+        description: "Dynamic payment terms with autopay and cash flow forecasting",
+        priority: "critical",
+      },
+      {
+        id: "FP-001",
+        name: "2D Floor Plan Designer",
+        description: "Drag-and-drop floor plans with AI layout generation and AR preview",
+        priority: "high",
+      },
+      {
+        id: "FP-002",
+        name: "3D Venue Visualization",
+        description: "First-person walkthroughs with time-of-day simulation and VR support",
+        priority: "medium",
+      },
+      {
+        id: "CP-001",
+        name: "Client Self-Service Portal",
+        description: "White-label portal with vendor access and gamified action center",
+        priority: "high",
+      },
+      {
+        id: "CP-002",
+        name: "Email Management & Tracking",
+        description: "AI email writing with sentiment analysis and optimal send timing",
+        priority: "high",
+      },
+      {
+        id: "RP-001",
+        name: "Real-Time Analytics Dashboard",
+        description: "AI-powered insights with predictive analytics and goal tracking",
+        priority: "high",
+      },
+      {
+        id: "RP-002",
+        name: "Custom Report Builder",
+        description: "Natural language queries with AI report suggestions",
+        priority: "high",
+      },
+      {
+        id: "MB-001",
+        name: "Venue Staff Mobile App",
+        description: "Native iOS/Android with voice commands and AR features",
+        priority: "high",
+      },
+      {
+        id: "INT-001",
+        name: "Core Integration Suite",
+        description: "Pre-built integrations with one-click setup and custom builder",
+        priority: "high",
+      },
+    ],
+  },
+  vendorServices: {
+    title: "Vendor Services",
+    description: "Comprehensive vendor and supplier management",
+    features: [
+      {
+        id: "VD-001",
+        name: "Vendor/Supplier Database",
+        description: "Centralized vendor profiles aligned to 24 Global Asset Categories with auto-enrichment",
+        priority: "critical",
+      },
+      {
+        id: "VD-002",
+        name: "Preferred Vendor Lists",
+        description: "Curated vendor lists with smart matching and performance-based ranking",
+        priority: "high",
+      },
+      {
+        id: "VD-003",
+        name: "Vendor Performance Tracking",
+        description: "Scorecards with AI analysis and predictive reliability forecasting",
+        priority: "high",
+      },
+      {
+        id: "PC-001",
+        name: "Global Product/Service Catalog",
+        description: "329+ standardized items with visual search and smart substitutions",
+        priority: "critical",
+      },
+      {
+        id: "PC-002",
+        name: "Production Technical Catalog",
+        description: "Audio, lighting, video, staging specs with power and load calculators",
+        priority: "critical",
+      },
+      {
+        id: "PC-003",
+        name: "Site Operations Catalog",
+        description: "Structures, furniture, climate, safety equipment with ADA compliance checking",
+        priority: "high",
+      },
+      {
+        id: "PC-004",
+        name: "People & Services Catalog",
+        description: "Staffing roles with smart calculators and certification validation",
+        priority: "high",
+      },
+      {
+        id: "PC-005",
+        name: "Logistics & Travel Catalog",
+        description: "Transportation and accommodation with routing optimization",
+        priority: "medium",
+      },
+      {
+        id: "PC-006",
+        name: "Marketing & Merchandise Catalog",
+        description: "Signage, printing, merchandise with design studio integration",
+        priority: "medium",
+      },
+      {
+        id: "VO-001",
+        name: "Vendor Order/Request System",
+        description: "One-click ordering from BEOs with smart consolidation and vendor portal",
+        priority: "critical",
+      },
+      {
+        id: "VO-002",
+        name: "RFP/Quote Request System",
+        description: "Multi-vendor RFPs with AI quote analysis and negotiation suggestions",
+        priority: "high",
+      },
+      {
+        id: "VO-003",
+        name: "Purchase Order Management",
+        description: "PO workflow with three-way matching and budget integration",
+        priority: "high",
+      },
+      {
+        id: "IM-001",
+        name: "Equipment Inventory System",
+        description: "Asset tracking with IoT integration and predictive maintenance",
+        priority: "high",
+      },
+      {
+        id: "IM-002",
+        name: "Rental Management System",
+        description: "Sub-rental and client rental tracking with damage documentation",
+        priority: "high",
+      },
+      {
+        id: "IM-003",
+        name: "Consumables & Supplies Tracking",
+        description: "Par levels with auto-reorder and consumption analytics",
+        priority: "medium",
+      },
+      {
+        id: "VF-001",
+        name: "Vendor Invoice Management",
+        description: "OCR extraction with three-way matching and duplicate detection",
+        priority: "high",
+      },
+      {
+        id: "VF-002",
+        name: "Vendor Payment Processing",
+        description: "Multi-method payments with 1099 tracking and optimization",
+        priority: "high",
+      },
+      {
+        id: "VF-003",
+        name: "Event Cost Tracking & Profitability",
+        description: "Real-time margin tracking with cost prediction and optimization",
+        priority: "high",
+      },
+      {
+        id: "VS-001",
+        name: "Vendor Scheduling & Load-In",
+        description: "Smart scheduling with real-time arrival tracking and parking optimization",
+        priority: "high",
+      },
+      {
+        id: "VS-002",
+        name: "Vendor Communication Hub",
+        description: "Event-specific channels with broadcast updates and auto-translation",
+        priority: "high",
+      },
+      {
+        id: "VS-003",
+        name: "Vendor Contracts & Agreements",
+        description: "Contract intelligence with renewal automation and compliance tracking",
+        priority: "high",
+      },
+    ],
+  },
+  differentiation: {
+    title: "Blue Ocean Features",
+    description: "Unique features no competitor offers",
+    features: [
+      {
+        id: "DF-001",
+        name: "Immersive Experience Design Studio",
+        description: "5 Senses Framework planning with emotional journey mapping and experience scoring",
+        priority: "high",
+      },
+      {
+        id: "DF-002",
+        name: "XYZ Spatial-Temporal Experience Engine",
+        description: "3D venue modeling with guest flow simulation and optimal layout generation",
+        priority: "medium",
+      },
+      {
+        id: "DF-003",
+        name: "Pre-Event Engagement & Gamification",
+        description: "Countdown content, challenges, badges, and AR venue previews",
+        priority: "high",
+      },
+      {
+        id: "DF-004",
+        name: "Global Asset Category Intelligence",
+        description: "Industry benchmarking with cost optimization AI and vendor recommendations",
+        priority: "high",
+      },
+    ],
+  },
+};
+
+// =============================================================================
+// SOLUTIONS PAGE DATA
+// Content for each solution/persona page
+// =============================================================================
+
+export const atlvsSolutionsData: Record<string, {
+  slug: string;
+  title: string;
+  headline: string;
+  description: string;
+  primaryProduct: string;
+  painPoints: string[];
+  keyFeatures: { title: string; description: string; icon: string }[];
+  cta: { label: string; href: string };
+}> = {
+  producers: {
+    slug: "producers",
+    title: "For Producers",
+    headline: "FROM VISION TO REALITY, WITHOUT THE CHAOS",
+    description: "ATLVS gives producers the command center they need to manage complex productions, track finances, and coordinate vendors—all in one place.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Juggling spreadsheets, emails, and disconnected tools",
+      "Losing visibility into budgets and expenses",
+      "Chasing vendors and contractors for updates",
+      "Missing critical details in the production chaos",
+    ],
+    keyFeatures: [
+      { title: "Visual Pipeline", description: "Kanban-style deal tracking with AI coaching", icon: "GitBranch" },
+      { title: "Proposal Builder", description: "Create stunning proposals in minutes", icon: "FileText" },
+      { title: "Budget Control", description: "Real-time budget tracking with alerts", icon: "PieChart" },
+      { title: "Vendor Management", description: "Centralized vendor database with performance tracking", icon: "Building" },
+      { title: "Client Portal", description: "White-label portal for client collaboration", icon: "Users" },
+      { title: "Analytics", description: "Profitability insights and forecasting", icon: "BarChart3" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=producer" },
+  },
+  venues: {
+    slug: "venues",
+    title: "For Venues",
+    headline: "FILL YOUR CALENDAR. STREAMLINE YOUR OPS.",
+    description: "Complete venue management with lead capture, booking, BEOs, and client portals—designed for the pace of live events.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Leads falling through the cracks",
+      "Double-bookings and availability confusion",
+      "Manual BEO creation taking hours",
+      "Payment collection headaches",
+    ],
+    keyFeatures: [
+      { title: "Lead Capture Forms", description: "AI-optimized forms that convert", icon: "FormInput" },
+      { title: "Availability System", description: "Real-time booking with holds and waitlists", icon: "Calendar" },
+      { title: "BEO Generator", description: "One-click BEOs with department views", icon: "FileCheck" },
+      { title: "Floor Plan Designer", description: "Drag-and-drop layouts with 3D preview", icon: "LayoutGrid" },
+      { title: "Payment Processing", description: "Integrated payments with autopay", icon: "CreditCard" },
+      { title: "Client Portal", description: "Self-service access for clients and vendors", icon: "Globe" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=venue" },
+  },
+  "project-managers": {
+    slug: "project-managers",
+    title: "For Project Managers",
+    headline: "ORCHESTRATE COMPLEXITY WITH CONFIDENCE",
+    description: "The project management tools you need to keep productions on track, teams aligned, and stakeholders informed.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Tracking tasks across multiple projects",
+      "Keeping stakeholders updated manually",
+      "Resource conflicts and scheduling nightmares",
+      "Missing dependencies and deadlines",
+    ],
+    keyFeatures: [
+      { title: "Multi-Project Dashboard", description: "See all projects at a glance", icon: "LayoutDashboard" },
+      { title: "Task Management", description: "Dependencies, assignments, and deadlines", icon: "CheckSquare" },
+      { title: "Resource Allocation", description: "Crew and equipment scheduling", icon: "Users" },
+      { title: "Timeline Views", description: "Gantt charts and milestone tracking", icon: "Calendar" },
+      { title: "Automated Reports", description: "Stakeholder updates on autopilot", icon: "FileText" },
+      { title: "Risk Tracking", description: "Identify and mitigate project risks", icon: "AlertTriangle" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=pm" },
+  },
+  "production-crews": {
+    slug: "production-crews",
+    title: "For Production Crews",
+    headline: "KNOW YOUR CALL. DO YOUR JOB. GET PAID.",
+    description: "COMPVSS puts everything crews need in their pocket—schedules, show calls, communications, and timesheets.",
+    primaryProduct: "COMPVSS",
+    painPoints: [
+      "Confusing schedules and last-minute changes",
+      "Missing important communications",
+      "Paper timesheets and payment delays",
+      "No visibility into upcoming opportunities",
+    ],
+    keyFeatures: [
+      { title: "Mobile-First Schedules", description: "Your call times, always updated", icon: "Calendar" },
+      { title: "Push Notifications", description: "Never miss a schedule change", icon: "Bell" },
+      { title: "Digital Timesheets", description: "Clock in/out with geofencing", icon: "Clock" },
+      { title: "Load-In Coordination", description: "Know where to be and when", icon: "Truck" },
+      { title: "Crew Communications", description: "Team chat and announcements", icon: "MessageSquare" },
+      { title: "Opportunity Matching", description: "Find your next gig", icon: "Briefcase" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=crew" },
+  },
+  vendors: {
+    slug: "vendors",
+    title: "For Vendors",
+    headline: "WIN MORE BUSINESS. GET PAID FASTER.",
+    description: "Join the vendor network, respond to RFPs, manage orders, and track your performance—all from one platform.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Missing RFPs and quote requests",
+      "Chasing clients for payments",
+      "No visibility into performance feedback",
+      "Managing orders across multiple clients",
+    ],
+    keyFeatures: [
+      { title: "RFP Notifications", description: "Get notified of new opportunities", icon: "Bell" },
+      { title: "Quote Management", description: "Create and track quotes easily", icon: "FileText" },
+      { title: "Order Dashboard", description: "All orders in one place", icon: "ShoppingCart" },
+      { title: "Performance Scores", description: "See how clients rate you", icon: "Star" },
+      { title: "Payment Tracking", description: "Invoice status and payment history", icon: "DollarSign" },
+      { title: "Catalog Integration", description: "Sync your products and pricing", icon: "Package" },
+    ],
+    cta: { label: "Join Vendor Network", href: "/auth/signup?role=vendor" },
+  },
+  promoters: {
+    slug: "promoters",
+    title: "For Promoters",
+    headline: "SELL OUT YOUR SHOWS. MAXIMIZE YOUR ROI.",
+    description: "GVTEWAY gives promoters the marketing and sales tools to fill venues, engage fans, and optimize revenue.",
+    primaryProduct: "GVTEWAY",
+    painPoints: [
+      "Struggling to reach new audiences",
+      "No visibility into ticket sales performance",
+      "Manual marketing processes",
+      "Lost revenue from scalping",
+    ],
+    keyFeatures: [
+      { title: "Dynamic Pricing", description: "Optimize revenue with demand-based pricing", icon: "TrendingUp" },
+      { title: "Email Campaigns", description: "Targeted marketing automation", icon: "Mail" },
+      { title: "Sales Analytics", description: "Real-time ticket sales dashboards", icon: "BarChart3" },
+      { title: "Anti-Scalping", description: "Protect your tickets and fans", icon: "Shield" },
+      { title: "Social Integration", description: "Reach fans where they are", icon: "Share2" },
+      { title: "Audience Insights", description: "Understand your fan demographics", icon: "Users" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=promoter" },
+  },
+  investors: {
+    slug: "investors",
+    title: "For Investors",
+    headline: "VISIBILITY INTO EVERY DOLLAR.",
+    description: "ATLVS provides investors and stakeholders with real-time financial visibility and production insights.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Waiting weeks for financial reports",
+      "No visibility into production progress",
+      "Manual data requests and consolidation",
+      "Lack of standardized metrics",
+    ],
+    keyFeatures: [
+      { title: "Real-Time Dashboards", description: "Financial KPIs updated live", icon: "BarChart3" },
+      { title: "Budget Tracking", description: "Actual vs. budget comparisons", icon: "PieChart" },
+      { title: "Production Milestones", description: "Track key deliverables", icon: "CheckSquare" },
+      { title: "Cash Flow Forecasting", description: "Predict future cash positions", icon: "TrendingUp" },
+      { title: "Multi-Entity Views", description: "Consolidated portfolio reporting", icon: "Building" },
+      { title: "Audit Trail", description: "Complete transaction history", icon: "FileText" },
+    ],
+    cta: { label: "Request Demo", href: "/demo/request?role=investor" },
+  },
+  sponsors: {
+    slug: "sponsors",
+    title: "For Sponsors",
+    headline: "MAXIMIZE YOUR BRAND ACTIVATION.",
+    description: "Track sponsorship deliverables, measure activation success, and connect with engaged audiences.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "No visibility into deliverable completion",
+      "Difficulty measuring activation ROI",
+      "Disconnected from event operations",
+      "Manual reporting from event teams",
+    ],
+    keyFeatures: [
+      { title: "Deliverable Tracking", description: "Real-time status of all commitments", icon: "CheckSquare" },
+      { title: "Activation Metrics", description: "Measure engagement and impressions", icon: "BarChart3" },
+      { title: "Asset Library", description: "Manage brand assets and approvals", icon: "Image" },
+      { title: "Event Access", description: "Coordinate sponsor activities", icon: "Calendar" },
+      { title: "ROI Reporting", description: "Demonstrate sponsorship value", icon: "TrendingUp" },
+      { title: "Fan Data", description: "Understand audience engagement", icon: "Users" },
+    ],
+    cta: { label: "Request Demo", href: "/demo/request?role=sponsor" },
+  },
+  contractors: {
+    slug: "contractors",
+    title: "For Contractors",
+    headline: "MANAGE YOUR JOBS. GROW YOUR BUSINESS.",
+    description: "ATLVS helps contractors manage multiple projects, track expenses, and coordinate with production teams.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Juggling multiple client projects",
+      "Tracking expenses across jobs",
+      "Coordinating with production schedules",
+      "Managing subcontractor work",
+    ],
+    keyFeatures: [
+      { title: "Multi-Project Dashboard", description: "See all jobs at a glance", icon: "LayoutDashboard" },
+      { title: "Expense Tracking", description: "Log expenses by project", icon: "DollarSign" },
+      { title: "Schedule Integration", description: "Sync with production calendars", icon: "Calendar" },
+      { title: "Subcontractor Management", description: "Coordinate your team", icon: "Users" },
+      { title: "Invoice Generation", description: "Bill clients quickly", icon: "FileText" },
+      { title: "Document Storage", description: "Access contracts and specs", icon: "FolderOpen" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=contractor" },
+  },
+  "event-staff": {
+    slug: "event-staff",
+    title: "For Event Staff",
+    headline: "SHOW UP PREPARED. GET PAID ON TIME.",
+    description: "COMPVSS puts everything front-of-house staff needs in their pocket—schedules, assignments, and communications.",
+    primaryProduct: "COMPVSS",
+    painPoints: [
+      "Unclear schedules and assignments",
+      "Missing important updates",
+      "Paper-based check-ins",
+      "Payment delays and disputes",
+    ],
+    keyFeatures: [
+      { title: "Shift Schedules", description: "Know exactly when and where", icon: "Calendar" },
+      { title: "Assignment Details", description: "Clear role and location info", icon: "MapPin" },
+      { title: "Team Chat", description: "Communicate with supervisors", icon: "MessageSquare" },
+      { title: "Digital Check-In", description: "Fast and accurate timekeeping", icon: "Clock" },
+      { title: "Event Maps", description: "Navigate the venue", icon: "Map" },
+      { title: "Tip Tracking", description: "Record and report tips", icon: "DollarSign" },
+    ],
+    cta: { label: "Download App", href: "/auth/signup?role=staff" },
+  },
+  "brand-ambassadors": {
+    slug: "brand-ambassadors",
+    title: "For Brand Ambassadors",
+    headline: "REPRESENT BRANDS. BUILD YOUR CAREER.",
+    description: "Find activation opportunities, track your performance, and build your reputation as a brand ambassador.",
+    primaryProduct: "COMPVSS",
+    painPoints: [
+      "Finding quality activation gigs",
+      "No portfolio of past work",
+      "Inconsistent scheduling",
+      "Slow payment processing",
+    ],
+    keyFeatures: [
+      { title: "Opportunity Matching", description: "Find gigs that fit your profile", icon: "Briefcase" },
+      { title: "Performance Portfolio", description: "Build your track record", icon: "Star" },
+      { title: "Shift Scheduling", description: "Manage your availability", icon: "Calendar" },
+      { title: "Training Content", description: "Brand and product training", icon: "BookOpen" },
+      { title: "Photo Uploads", description: "Document your activations", icon: "Camera" },
+      { title: "Fast Pay", description: "Get paid quickly", icon: "DollarSign" },
+    ],
+    cta: { label: "Join Network", href: "/auth/signup?role=ambassador" },
+  },
+  "public-safety": {
+    slug: "public-safety",
+    title: "For Public Safety Teams",
+    headline: "PROTECT YOUR EVENT. RESPOND FASTER.",
+    description: "Coordinate security, medical, and emergency services with real-time communication and incident tracking.",
+    primaryProduct: "COMPVSS",
+    painPoints: [
+      "Fragmented radio communications",
+      "Manual incident documentation",
+      "No real-time situation awareness",
+      "Difficulty coordinating multiple agencies",
+    ],
+    keyFeatures: [
+      { title: "Incident Tracking", description: "Log and manage all incidents", icon: "AlertTriangle" },
+      { title: "Team Dispatch", description: "Deploy resources quickly", icon: "Radio" },
+      { title: "Real-Time Maps", description: "Track team locations", icon: "Map" },
+      { title: "Crowd Monitoring", description: "Density and flow tracking", icon: "Users" },
+      { title: "Medical Logs", description: "Document treatments", icon: "Heart" },
+      { title: "Agency Coordination", description: "Connect with external teams", icon: "Link" },
+    ],
+    cta: { label: "Request Demo", href: "/demo/request?role=safety" },
+  },
+  destinations: {
+    slug: "destinations",
+    title: "For Destinations",
+    headline: "PUT YOUR DESTINATION ON THE MAP.",
+    description: "Attract events, manage venue partnerships, and showcase your destination to producers worldwide.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Competing for event bookings",
+      "No unified venue inventory",
+      "Manual RFP responses",
+      "Difficulty showcasing capabilities",
+    ],
+    keyFeatures: [
+      { title: "Venue Portfolio", description: "Showcase all destination venues", icon: "Building" },
+      { title: "RFP Management", description: "Respond to event inquiries", icon: "FileText" },
+      { title: "Destination Marketing", description: "Promote to producers", icon: "Megaphone" },
+      { title: "Economic Impact", description: "Track event contributions", icon: "BarChart3" },
+      { title: "Partner Coordination", description: "Connect hotels, transport", icon: "Link" },
+      { title: "Event Calendar", description: "Manage destination events", icon: "Calendar" },
+    ],
+    cta: { label: "Request Demo", href: "/demo/request?role=destination" },
+  },
+  artists: {
+    slug: "artists",
+    title: "For Artists",
+    headline: "FOCUS ON YOUR CRAFT. WE'LL HANDLE THE REST.",
+    description: "Manage your tour, track your bookings, and connect with fans—all from one platform.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Tracking tour finances",
+      "Managing multiple booking requests",
+      "Coordinating with tour crew",
+      "Disconnected fan engagement",
+    ],
+    keyFeatures: [
+      { title: "Tour Management", description: "Dates, venues, and logistics", icon: "Calendar" },
+      { title: "Booking Requests", description: "Manage incoming offers", icon: "Mail" },
+      { title: "Financial Tracking", description: "Revenue and expenses", icon: "DollarSign" },
+      { title: "Crew Coordination", description: "Manage your tour team", icon: "Users" },
+      { title: "Fan Engagement", description: "Connect with your audience", icon: "Heart" },
+      { title: "Merch Sales", description: "Track merchandise revenue", icon: "ShoppingBag" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=artist" },
+  },
+  subcontractors: {
+    slug: "subcontractors",
+    title: "For Subcontractors",
+    headline: "GET THE JOB. DO THE WORK. GET PAID.",
+    description: "Connect with contractors, receive work orders, and manage your specialized services efficiently.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Finding quality contract work",
+      "Managing work orders from multiple contractors",
+      "Tracking payments across clients",
+      "Coordinating with other trades",
+    ],
+    keyFeatures: [
+      { title: "Work Order Management", description: "Track all assignments", icon: "ClipboardList" },
+      { title: "Schedule Coordination", description: "Sync with project timelines", icon: "Calendar" },
+      { title: "Payment Tracking", description: "Monitor invoices and payments", icon: "DollarSign" },
+      { title: "Document Access", description: "Specs and requirements", icon: "FileText" },
+      { title: "Communication Hub", description: "Connect with contractors", icon: "MessageSquare" },
+      { title: "Certification Tracking", description: "Maintain compliance", icon: "Shield" },
+    ],
+    cta: { label: "Join Network", href: "/auth/signup?role=subcontractor" },
+  },
+  "independent-contractors": {
+    slug: "independent-contractors",
+    title: "For Independent Contractors",
+    headline: "BUILD YOUR FREELANCE BUSINESS.",
+    description: "Manage your independent work, track your clients, and grow your production career.",
+    primaryProduct: "ATLVS",
+    painPoints: [
+      "Finding consistent work",
+      "Tracking income and expenses",
+      "Managing multiple clients",
+      "Building professional reputation",
+    ],
+    keyFeatures: [
+      { title: "Client Management", description: "Track all your relationships", icon: "Users" },
+      { title: "Project Tracking", description: "Manage active engagements", icon: "FolderKanban" },
+      { title: "Time & Expense", description: "Log billable work", icon: "Clock" },
+      { title: "Invoicing", description: "Bill clients professionally", icon: "FileText" },
+      { title: "Portfolio", description: "Showcase your work", icon: "Briefcase" },
+      { title: "Opportunity Feed", description: "Find new gigs", icon: "Search" },
+    ],
+    cta: { label: "Start Free Trial", href: "/auth/signup?role=freelancer" },
+  },
+};
+
+// =============================================================================
+// PRODUCTS PAGE DATA
+// Content for product overview and comparison
+// =============================================================================
+
+export const atlvsProductsData = {
+  atlvs: {
+    name: "ATLVS",
+    tagline: "Production Management",
+    headline: "THE COMMAND CENTER FOR LIVE EVENT PRODUCTION",
+    description: "ATLVS is the all-in-one platform for producers, venues, and production companies to manage projects, finances, assets, vendors, and teams.",
+    color: "brand-pink",
+    icon: "Briefcase",
+    capabilities: [
+      {
+        title: "Project Management",
+        description: "Multi-project dashboards, timelines, tasks, and document collaboration",
+        icon: "FolderKanban",
+      },
+      {
+        title: "Financial Tools",
+        description: "Budgets, invoicing, expense tracking, and multi-entity accounting",
+        icon: "DollarSign",
+      },
+      {
+        title: "Asset Tracking",
+        description: "Inventory, maintenance, rentals, and utilization analytics",
+        icon: "Package",
+      },
+      {
+        title: "Vendor Management",
+        description: "Vendor database, RFPs, purchase orders, and performance tracking",
+        icon: "Building",
+      },
+      {
+        title: "CRM & Sales",
+        description: "Pipeline management, proposals, contracts, and client portal",
+        icon: "Users",
+      },
+      {
+        title: "Analytics & Reporting",
+        description: "KPIs, custom dashboards, and AI-powered insights",
+        icon: "BarChart3",
+      },
+    ],
+  },
+  compvss: {
+    name: "COMPVSS",
+    tagline: "Crew & Operations",
+    headline: "WORKFORCE MANAGEMENT FOR PRODUCTION CREWS",
+    description: "COMPVSS is the mobile-first platform for managing production crews, schedules, communications, and timekeeping.",
+    color: "brand-cyan",
+    icon: "Users",
+    capabilities: [
+      {
+        title: "Crew Database",
+        description: "Skills, certifications, availability, and performance profiles",
+        icon: "Users",
+      },
+      {
+        title: "Scheduling",
+        description: "Shift management, show calls, and conflict detection",
+        icon: "Calendar",
+      },
+      {
+        title: "Timekeeping",
+        description: "Clock in/out, overtime tracking, and payroll integration",
+        icon: "Clock",
+      },
+      {
+        title: "Communications",
+        description: "Team channels, announcements, and push notifications",
+        icon: "MessageSquare",
+      },
+      {
+        title: "Load-In Coordination",
+        description: "Vendor scheduling, dock assignments, and day sheets",
+        icon: "Truck",
+      },
+      {
+        title: "Mobile App",
+        description: "Everything crews need in their pocket",
+        icon: "Smartphone",
+      },
+    ],
+  },
+  gvteway: {
+    name: "GVTEWAY",
+    tagline: "Ticketing & Experience",
+    headline: "THE FAN-FACING PLATFORM FOR LIVE EXPERIENCES",
+    description: "GVTEWAY is the consumer platform for ticket sales, event discovery, fan engagement, and merchandise.",
+    color: "brand-yellow",
+    icon: "Ticket",
+    capabilities: [
+      {
+        title: "Event Discovery",
+        description: "Search, browse, and personalized recommendations",
+        icon: "Search",
+      },
+      {
+        title: "Ticket Sales",
+        description: "Multiple ticket types, dynamic pricing, and anti-scalping",
+        icon: "Ticket",
+      },
+      {
+        title: "Self-Service Booking",
+        description: "Widget-based booking for venues and events",
+        icon: "Calendar",
+      },
+      {
+        title: "Fan Engagement",
+        description: "Gamification, challenges, badges, and community",
+        icon: "Heart",
+      },
+      {
+        title: "Merchandise",
+        description: "Event merch, bundles, and upsells",
+        icon: "ShoppingBag",
+      },
+      {
+        title: "Marketing Tools",
+        description: "Email, SMS, social, and influencer campaigns",
+        icon: "Megaphone",
+      },
+    ],
+  },
+};

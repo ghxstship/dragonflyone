@@ -62,7 +62,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function BackgroundChecksPage() {
-  const { data: checks = [], refetch } = useBackgroundChecks();
+  const { data: checks = [], isLoading, refetch } = useBackgroundChecks();
   const createCheckMutation = useCreateBackgroundCheck();
   const renewCheckMutation = useRenewBackgroundCheck();
   const deleteCheckMutation = useDeleteBackgroundCheck();
@@ -177,7 +177,7 @@ export default function BackgroundChecksPage() {
         data={checks}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
         searchPlaceholder="Search crew members..."
         filters={filters}
         rowActions={rowActions}

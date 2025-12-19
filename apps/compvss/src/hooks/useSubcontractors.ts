@@ -30,18 +30,13 @@ export interface SubcontractorSummary {
   average_rating: number;
 }
 
-const DEMO_SUBCONTRACTORS: Subcontractor[] = [
-  { id: 'demo-1', company_name: 'SoundWave Audio', contact_name: 'Mike Johnson', email: 'mike@soundwave.com', phone: '(555) 123-4567', specialty: 'Audio', location: 'Los Angeles, CA', rating: 4.8, total_projects: 24, active_projects: 3, insurance_status: 'valid', insurance_expiry: new Date(Date.now() + 180 * 86400000).toISOString(), contract_status: 'active', hourly_rate: 75, day_rate: 600 },
-  { id: 'demo-2', company_name: 'Bright Lights Co', contact_name: 'Sarah Lee', email: 'sarah@brightlights.com', phone: '(555) 987-6543', specialty: 'Lighting', location: 'New York, NY', rating: 4.6, total_projects: 18, active_projects: 2, insurance_status: 'valid', contract_status: 'active', hourly_rate: 85, day_rate: 680 },
-];
-
-const DEMO_SUMMARY: SubcontractorSummary = {
-  total_subcontractors: 45,
-  active_engagements: 12,
-  pending_contracts: 3,
-  expiring_insurance: 2,
-  total_spend_ytd: 285000,
-  average_rating: 4.5,
+const DEFAULT_SUMMARY: SubcontractorSummary = {
+  total_subcontractors: 0,
+  active_engagements: 0,
+  pending_contracts: 0,
+  expiring_insurance: 0,
+  total_spend_ytd: 0,
+  average_rating: 0,
 };
 
 export const subcontractorKeys = {
@@ -54,16 +49,13 @@ export function useSubcontractorsList() {
     queryKey: subcontractorKeys.list(),
     queryFn: async () => {
       const response = await fetch('/api/subcontractors');
-      if (response.status === 401) {
-        return { subcontractors: DEMO_SUBCONTRACTORS, summary: DEMO_SUMMARY };
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch subcontractors');
       }
       const data = await response.json();
       return {
         subcontractors: data.subcontractors || [],
-        summary: data.summary || DEMO_SUMMARY,
+        summary: data.summary || DEFAULT_SUMMARY,
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -73,7 +65,7 @@ export function useSubcontractorsList() {
 export function useSubcontractorsData() {
   const subcontractorsQuery = useSubcontractorsList();
 
-  const data = subcontractorsQuery.data || { subcontractors: [], summary: DEMO_SUMMARY };
+  const data = subcontractorsQuery.data || { subcontractors: [], summary: DEFAULT_SUMMARY };
 
   return {
     subcontractors: data.subcontractors,

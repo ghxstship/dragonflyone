@@ -34,7 +34,7 @@ export function useUserProfile() {
   return useQuery({
     queryKey: profileKeys.user(),
     queryFn: async () => {
-      const response = await fetch('/api/user/profile');
+      const response = await fetch('/api/auth/me');
       if (response.status === 401) {
         return { profile: DEMO_PROFILE, roles: [] };
       }
@@ -43,9 +43,19 @@ export function useUserProfile() {
       }
       const data = await response.json();
       if (data.user) {
+        const nameParts = (data.user.full_name || '').split(' ');
         return {
-          profile: { ...DEMO_PROFILE, ...data.user },
-          roles: data.user.platformRoles || [],
+          profile: {
+            firstName: nameParts[0] || DEMO_PROFILE.firstName,
+            lastName: nameParts.slice(1).join(' ') || DEMO_PROFILE.lastName,
+            email: data.user.email || DEMO_PROFILE.email,
+            phone: data.user.phone || DEMO_PROFILE.phone,
+            department: data.user.department?.name || DEMO_PROFILE.department,
+            title: data.user.title || DEMO_PROFILE.title,
+            role: (data.user.platform_roles || [])[0] || DEMO_PROFILE.role,
+            platformRoles: data.user.platform_roles || [],
+          },
+          roles: data.user.platform_roles || [],
         };
       }
       return { profile: DEMO_PROFILE, roles: [] };
@@ -59,10 +69,13 @@ export function useUpdateProfile() {
 
   return useMutation({
     mutationFn: async (profile: UserProfile) => {
-      const response = await fetch('/api/user/profile', {
-        method: 'PUT',
+      const response = await fetch('/api/auth/me', {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
+        body: JSON.stringify({
+          full_name: `${profile.firstName} ${profile.lastName}`.trim(),
+          phone: profile.phone,
+        }),
       });
       if (!response.ok) {
         throw new Error('Failed to save profile');

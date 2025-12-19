@@ -43,7 +43,7 @@ import {
 
 export default function VIPManagementPage() {
   const router = useRouter();
-  const { data: vipGuests = [] } = useVIPGuests();
+  const { data: vipGuests = [], isLoading, error } = useVIPGuests();
   const { data: accessZones = [] } = useAccessZones();
   
   // URL-synced tab state for deep-linking support
@@ -54,6 +54,39 @@ export default function VIPManagementPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedGuest, setSelectedGuest] = useState<VIPGuest | null>(null);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading VIP data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load VIP data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const filteredGuests = vipGuests.filter((g) =>
     g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

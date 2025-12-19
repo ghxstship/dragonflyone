@@ -34,7 +34,8 @@ import {
   type BrandAsset,
 } from "../../../hooks/useBrandAssets";
 
-const categories = ["All", "Logo Usage", "Color", "Typography", "Photography", "Messaging"];
+const BRAND_CATEGORIES = ["All", "Logo Usage", "Color", "Typography", "Photography", "Messaging"];
+const categories = BRAND_CATEGORIES;
 
 export default function BrandGuidelinesPage() {
   const router = useRouter();

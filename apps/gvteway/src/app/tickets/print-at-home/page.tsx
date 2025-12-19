@@ -8,6 +8,7 @@ import {
   Card, Badge,
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
+import { KeyRound, Lock, Shield, ClipboardList } from "lucide-react";
 
 import {
   DEMO_PRINT_TICKETS,
@@ -56,14 +57,14 @@ export default function PrintAtHomePage() {
               <H3>Ticket Security Features</H3>
               <Grid cols={4} gap={4}>
                 {[
-                  { icon: "🔐", name: "Unique QR Code", desc: "One-time scan validation" },
-                  { icon: "🔒", name: "Watermark", desc: "Purchaser name embedded" },
-                  { icon: "🛡️", name: "Holographic Pattern", desc: "Anti-counterfeit design" },
-                  { icon: "📋", name: "Barcode Backup", desc: "Secondary validation" },
+                  { Icon: KeyRound, name: "Unique QR Code", desc: "One-time scan validation" },
+                  { Icon: Lock, name: "Watermark", desc: "Purchaser name embedded" },
+                  { Icon: Shield, name: "Holographic Pattern", desc: "Anti-counterfeit design" },
+                  { Icon: ClipboardList, name: "Barcode Backup", desc: "Secondary validation" },
                 ].map((feature, idx) => (
                   <Card key={idx} className="p-4 border-2 border-ink-200 text-center">
                     <Stack gap={2}>
-                      <Label className="text-h5-md">{feature.icon}</Label>
+                      <feature.Icon className="h-6 w-6 mx-auto text-ink-700" />
                       <Label className="font-weight-bold">{feature.name}</Label>
                       <Label className="text-ink-500">{feature.desc}</Label>
                     </Stack>

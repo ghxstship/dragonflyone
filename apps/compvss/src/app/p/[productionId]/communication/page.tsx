@@ -1,25 +1,25 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Spinner, Container } from "@ghxstship/ui";
 import { MessageSquare, Hash, Users, Bell } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionCommunicationPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production, isLoading } = useProject(productionId);
 
-  if (!production) {
-    return <Stack gap={4}><SectionHeader kicker="Communication" title="Production Not Found" /></Stack>;
+  if (isLoading) {
+    return <Container className="flex min-h-[60vh] items-center justify-center"><Spinner variant="grey" size="lg" text="Loading..." /></Container>;
   }
 
   const stats = { messages: 456, channels: 12, stakeholders: 24, unread: 8 };
 
   return (
     <Stack gap={8}>
-      <SectionHeader kicker={production.name} title="Communication" description="Messages, channels, and stakeholder portal" />
+      <SectionHeader kicker={production?.name || "Production"} title="Communication" description="Messages, channels, and stakeholder portal" />
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Messages" value={stats.messages.toString()} icon={<MessageSquare size={20} />} />
         <StatCard label="Channels" value={stats.channels.toString()} icon={<Hash size={20} />} />

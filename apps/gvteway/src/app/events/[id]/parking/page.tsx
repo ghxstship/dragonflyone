@@ -36,11 +36,11 @@ function ParkingTransportPageContent() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case "VIP": return "bg-purple-100 text-purple-800";
+      case "VIP": return "bg-success-100 text-success-800";
       case "Premium": return "bg-warning-100 text-warning-800";
-      case "Accessible": return "bg-info-100 text-info-800";
+      case "Accessible": return "bg-warning-100 text-warning-800";
       case "Rideshare": return "bg-success-100 text-success-800";
-      default: return "bg-ink-100 text-ink-800";
+      default: return "bg-error-100 text-error-800";
     }
   };
 
@@ -185,7 +185,7 @@ function ParkingTransportPageContent() {
                   <Grid cols={4} gap={2}>
                     <Card className="p-2 bg-info-100 text-center"><Label size="sm" className="">🅿️ Parking</Label></Card>
                     <Card className="p-2 bg-success-100 text-center"><Label size="sm" className="">🚌 Shuttle</Label></Card>
-                    <Card className="p-2 bg-purple-100 text-center"><Label size="sm" className="">🚇 Metro</Label></Card>
+                    <Card className="p-2 bg-violet-100 text-center"><Label size="sm" className="">🚇 Metro</Label></Card>
                     <Card className="p-2 bg-warning-100 text-center"><Label size="sm" className="">🚗 Rideshare</Label></Card>
                   </Grid>
                 </Stack>

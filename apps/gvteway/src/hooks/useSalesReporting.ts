@@ -34,7 +34,7 @@ export function useSalesData(filters?: { location_type?: string; date?: string }
       const params = new URLSearchParams();
       if (filters?.location_type) params.append('location_type', filters.location_type);
       if (filters?.date) params.append('date', filters.date);
-      const response = await fetch(`/api/admin/sales?${params.toString()}`);
+      const response = await fetch(`/api/sales-reporting?type=summary&${params.toString()}`);
       if (!response.ok) return DEMO_SALES;
       const data = await response.json();
       return data.sales || DEMO_SALES;

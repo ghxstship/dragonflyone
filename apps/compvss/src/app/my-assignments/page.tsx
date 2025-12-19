@@ -28,8 +28,37 @@ import {
 } from '../../hooks/useMyAssignments';
 
 export default function MyAssignmentsPage() {
-  const { data: assignments = [] } = useMyAssignments();
+  const { data: assignments = [], isLoading, error } = useMyAssignments();
   const updateStatus = useUpdateAssignmentStatus();
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
+          <Stack gap={4} className="items-center">
+            <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+            <Body>Loading assignments...</Body>
+          </Stack>
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <Stack gap={8} className="p-6">
+          <Card className="p-6 border-destructive bg-destructive/10">
+            <Stack gap={4} className="items-center text-center">
+              <Body className="text-destructive font-display">Failed to load assignments</Body>
+              <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+              <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
 
   const pendingCount = assignments.filter(a => a.status === 'pending').length;
   const acceptedCount = assignments.filter(a => a.status === 'accepted').length;

@@ -60,8 +60,8 @@ function ExclusiveContentPageContent() {
 
   const getTypeBadge = (type: string) => {
     const variants: Record<string, { color: string; icon: React.ReactNode }> = {
-      video: { color: 'bg-error-500 text-white', icon: <Video className="size-3 inline mr-1" /> },
-      audio: { color: 'bg-purple-500 text-white', icon: <Music className="size-3 inline mr-1" /> },
+      video: { color: 'bg-success-100 text-success-800', icon: <Video className="size-3 inline mr-1" /> },
+      audio: { color: 'bg-violet-500 text-white', icon: <Music className="size-3 inline mr-1" /> },
       photo_gallery: { color: 'bg-info-500 text-white', icon: <Camera className="size-3 inline mr-1" /> },
       document: { color: 'bg-ink-500 text-white', icon: <FileText className="size-3 inline mr-1" /> },
       behind_the_scenes: { color: 'bg-warning-500 text-white', icon: <Theater className="size-3 inline mr-1" /> },
@@ -78,7 +78,7 @@ function ExclusiveContentPageContent() {
     const variants: Record<string, string> = {
       all: 'bg-success-500 text-white',
       attendees: 'bg-info-500 text-white',
-      vip: 'bg-purple-500 text-white',
+      vip: 'bg-violet-500 text-white',
       members: 'bg-warning-500 text-white',
     };
     return <Badge className={variants[level] || ''}>{level}</Badge>;

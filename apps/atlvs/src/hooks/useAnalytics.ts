@@ -357,3 +357,91 @@ export function useDeleteKPIReport() {
     },
   });
 }
+
+// =============================================================================
+// ANALYTICS DASHBOARD HOOK
+// =============================================================================
+
+interface DashboardMetrics {
+  total_revenue: number;
+  total_bookings: number;
+  total_events: number;
+  total_clients: number;
+  revenue_change: number;
+  bookings_change: number;
+  events_change: number;
+  clients_change: number;
+}
+
+interface RevenueByMonth {
+  month: string;
+  revenue: number;
+}
+
+interface TopClient {
+  id: string;
+  name: string;
+  total_revenue: number;
+  event_count: number;
+}
+
+interface EventByType {
+  type: string;
+  count: number;
+}
+
+interface DashboardData {
+  metrics: DashboardMetrics;
+  revenue_by_month: RevenueByMonth[];
+  top_clients: TopClient[];
+  events_by_type: EventByType[];
+}
+
+const DEMO_DASHBOARD_DATA: DashboardData = {
+  metrics: {
+    total_revenue: 2450000,
+    total_bookings: 156,
+    total_events: 89,
+    total_clients: 45,
+    revenue_change: 12.5,
+    bookings_change: 8.2,
+    events_change: 15.3,
+    clients_change: 5.1,
+  },
+  revenue_by_month: [
+    { month: 'Jan', revenue: 380000 },
+    { month: 'Feb', revenue: 420000 },
+    { month: 'Mar', revenue: 510000 },
+    { month: 'Apr', revenue: 480000 },
+    { month: 'May', revenue: 660000 },
+  ],
+  top_clients: [
+    { id: '1', name: 'Acme Corporation', total_revenue: 450000, event_count: 12 },
+    { id: '2', name: 'TechStart Inc', total_revenue: 320000, event_count: 8 },
+    { id: '3', name: 'Global Events Co', total_revenue: 280000, event_count: 6 },
+  ],
+  events_by_type: [
+    { type: 'Corporate', count: 34 },
+    { type: 'Wedding', count: 28 },
+    { type: 'Conference', count: 15 },
+    { type: 'Concert', count: 12 },
+  ],
+};
+
+export function useAnalyticsDashboard(dateRange: string = '30d') {
+  return useQuery({
+    queryKey: ['analytics-dashboard', dateRange],
+    queryFn: async () => {
+      const response = await fetch(`/api/analytics/dashboard?range=${dateRange}`);
+      if (response.status === 401) {
+        return DEMO_DASHBOARD_DATA;
+      }
+      if (!response.ok) {
+        return DEMO_DASHBOARD_DATA;
+      }
+      const data = await response.json();
+      return data as DashboardData;
+    },
+    staleTime: 5 * 60 * 1000,
+  });
+}

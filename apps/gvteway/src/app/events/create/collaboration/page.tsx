@@ -47,11 +47,11 @@ function EventCollaborationPageContent() {
 
   const getRoleColor = (role: string) => {
     switch (role) {
-      case "Promoter": return "bg-info-100 text-info-800";
-      case "Venue": return "bg-purple-100 text-purple-800";
+      case "Promoter": return "bg-primary-100 text-primary-800";
+      case "Venue": return "bg-secondary-100 text-secondary-800";
       case "Artist": return "bg-success-100 text-success-800";
       case "Sponsor": return "bg-warning-100 text-warning-800";
-      case "Production": return "bg-error-100 text-error-800";
+      case "Production": return "bg-success-100 text-success-800";
       default: return "bg-ink-100 text-ink-800";
     }
   };

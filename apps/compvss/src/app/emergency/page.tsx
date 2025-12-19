@@ -38,7 +38,7 @@ export default function EmergencyPage() {
   const router = useRouter();
   
   // Fetch emergency data from API
-  const { data: contacts = [] } = useEmergencyContacts();
+  const { data: contacts = [], isLoading, error } = useEmergencyContacts();
   const { data: procedures = [] } = useEmergencyProcedures();
   
   // URL-synced tab state for deep-linking support
@@ -49,6 +49,39 @@ export default function EmergencyPage() {
   const [selectedProcedure, setSelectedProcedure] = useState<EmergencyProcedure | null>(null);
   const [showCallModal, setShowCallModal] = useState(false);
   const [selectedContact, setSelectedContact] = useState<EmergencyContact | null>(null);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading emergency data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load emergency data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   return (
     <CompvssAppLayout>

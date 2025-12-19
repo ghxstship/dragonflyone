@@ -1,21 +1,43 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, Box, H3, Spinner, Container, EmptyState } from "@ghxstship/ui";
 import { FileText, FolderOpen, BookOpen, FileSpreadsheet, Shield } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
+import { useProjectFiles } from "../../../../hooks/useFiles";
 
 export default function ProductionDocumentsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  
+  const { data: production, isLoading: productionLoading, error: productionError } = useProject(productionId);
+  const { data: filesData, isLoading: filesLoading } = useProjectFiles(productionId);
+  
+  const isLoading = productionLoading || filesLoading;
+  const files = filesData?.files || [];
 
-  if (!production) {
-    return <Stack gap={4}><SectionHeader kicker="Documents" title="Production Not Found" /></Stack>;
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading documents..." />
+      </Container>
+    );
   }
 
-  const stats = { files: 156, sops: 24, specSheets: 45, templates: 18 };
+  if (productionError || !production) {
+    return (
+      <Container>
+        <EmptyState
+          title="Production Not Found"
+          description="The requested production could not be found."
+          action={{ label: "Go Back", onClick: () => window.history.back() }}
+        />
+      </Container>
+    );
+  }
+
+  const stats = { files: files.length, sops: 24, specSheets: 45, templates: 18 };
 
   return (
     <Stack gap={8}>

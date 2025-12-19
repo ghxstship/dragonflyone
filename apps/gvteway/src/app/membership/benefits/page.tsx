@@ -54,8 +54,8 @@ function MemberBenefitsPageContent() {
   const getBenefitTypeColor = (type: string) => {
     switch (type) {
       case "Discount": return "bg-success-100 text-success-800";
-      case "Access": return "bg-info-100 text-info-800";
-      case "Content": return "bg-purple-100 text-purple-800";
+      case "Access": return "bg-success-100 text-success-800";
+      case "Content": return "bg-violet-100 text-violet-800";
       case "Experience": return "bg-warning-100 text-warning-800";
       case "Merchandise": return "bg-pink-100 text-pink-800";
       default: return "bg-ink-100 text-ink-800";

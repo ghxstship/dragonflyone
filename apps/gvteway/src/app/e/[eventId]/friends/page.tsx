@@ -1,14 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Spinner } from "@ghxstship/ui";
 import { Users, UserPlus, MessageCircle } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventFriendsPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading friends..." />
+      </Stack>
+    );
+  }
 
   const friends = [
     { id: "1", name: "Alex Johnson", status: "going", mutualFriends: 5 },

@@ -206,3 +206,9 @@ export * from './hooks/useDashboardBuilder';
 
 // Catalog types
 export type * from './types/catalog';
+
+// Unified catalog category system
+export * from './catalog-categories';
+
+// Catalog categories hooks
+export * from './hooks/useCatalogCategories';

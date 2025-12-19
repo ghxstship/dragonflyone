@@ -42,7 +42,7 @@ import {
 
 export default function SiteAccessPage() {
   const router = useRouter();
-  const { data: accessPoints = [] } = useAccessPoints();
+  const { data: accessPoints = [], isLoading, error } = useAccessPoints();
   const { data: vehiclePasses = [] } = useVehiclePasses();
   
   // URL-synced tab state for deep-linking support
@@ -52,6 +52,39 @@ export default function SiteAccessPage() {
   });
   const [showAddPassModal, setShowAddPassModal] = useState(false);
   const [selectedPass, setSelectedPass] = useState<VehiclePass | null>(null);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading site access data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load site access data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const openPoints = accessPoints.filter(p => p.status === "Open").length;
   const activeVehicles = accessPoints.reduce((sum, p) => sum + (p.currentVehicles || 0), 0);

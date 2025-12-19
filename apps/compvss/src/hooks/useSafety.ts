@@ -169,19 +169,11 @@ export interface SafetyIncidentSimple {
   created_at: string;
 }
 
-const DEMO_INCIDENTS: SafetyIncidentSimple[] = [
-  { id: 'demo-1', type: 'near_miss', description: 'Loose cable near stage left entrance', location: 'Stage Left', reported_by: 'John Smith', date: new Date().toISOString(), status: 'investigating', severity: 'medium', created_at: new Date().toISOString() },
-  { id: 'demo-2', type: 'minor_injury', description: 'Minor cut while handling equipment', location: 'Loading Dock', reported_by: 'Jane Doe', date: new Date(Date.now() - 86400000).toISOString(), status: 'resolved', severity: 'low', created_at: new Date(Date.now() - 86400000).toISOString() },
-];
-
 export function useSafetyPageData() {
   const incidentsQuery = useQuery({
     queryKey: ['safety-page-incidents'],
     queryFn: async () => {
       const response = await fetch('/api/safety/incidents');
-      if (response.status === 401) {
-        return DEMO_INCIDENTS;
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch incidents');
       }

@@ -1,31 +1,43 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Spinner, Container, EmptyState } from "@ghxstship/ui";
 import { Plus, Clock } from "lucide-react";
-import { compvssDemoProductions } from "../../../../../data/compvss";
+import { useProject } from "../../../../../hooks/useProjects";
+import { useCues } from "../../../../../hooks/useRunOfShow";
 
 export default function RunOfShowPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
-
-  const runOfShow = [
-    { id: "1", time: "06:00", item: "Crew Call - Load In", duration: "2 hrs", type: "setup" },
-    { id: "2", time: "08:00", item: "Stage Build Begins", duration: "4 hrs", type: "setup" },
-    { id: "3", time: "12:00", item: "Lunch Break", duration: "1 hr", type: "break" },
-    { id: "4", time: "13:00", item: "Sound Check - Support", duration: "1 hr", type: "technical" },
-    { id: "5", time: "14:00", item: "Sound Check - Headliner", duration: "2 hrs", type: "technical" },
-    { id: "6", time: "16:00", item: "Doors Open", duration: "-", type: "event" },
-    { id: "7", time: "17:00", item: "Support Act", duration: "45 min", type: "performance" },
-    { id: "8", time: "18:00", item: "Changeover", duration: "30 min", type: "technical" },
-    { id: "9", time: "18:30", item: "Headliner", duration: "2 hrs", type: "performance" },
-    { id: "10", time: "20:30", item: "Show End - Strike Begins", duration: "-", type: "setup" },
-  ];
+  
+  const { data: production } = useProject(productionId);
+  const { data: cues, isLoading, error } = useCues(productionId);
 
   const typeColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    setup: "solid", technical: "info", break: "warning", event: "success", performance: "error",
+    setup: "solid", technical: "info", break: "warning", event: "success", performance: "error", pending: "warning", ready: "info", complete: "success",
   };
+
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading run of show..." />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <EmptyState
+          title="Failed to Load Run of Show"
+          description={error instanceof Error ? error.message : "An error occurred."}
+          action={{ label: "Try Again", onClick: () => window.location.reload() }}
+        />
+      </Container>
+    );
+  }
+
+  const runOfShow = cues || [];
 
   return (
     <Stack gap={8}>
@@ -45,17 +57,20 @@ export default function RunOfShowPage() {
       <Card variant="elevated">
         <CardBody>
           <Stack gap={0}>
-            {runOfShow.map((item, index) => (
-              <div key={item.id} className={`flex items-center gap-4 border-grey-200 p-4 ${index < runOfShow.length - 1 ? "border-b" : ""}`}>
+            {runOfShow.length === 0 ? (
+              <Body className="p-4 text-grey-500">No cues scheduled yet</Body>
+            ) : runOfShow.map((cueItem, index) => (
+              <div key={cueItem.id} className={`flex items-center gap-4 border-grey-200 p-4 ${index < runOfShow.length - 1 ? "border-b" : ""}`}>
                 <div className="flex w-20 items-center gap-2">
                   <Clock size={14} className="text-grey-400" />
-                  <Body className="font-weight-bold">{item.time}</Body>
+                  <Body className="font-weight-bold">{cueItem.time}</Body>
                 </div>
                 <div className="flex-1">
-                  <Body className="font-weight-medium">{item.item}</Body>
+                  <Body className="font-weight-medium">{cueItem.cue}</Body>
+                  {cueItem.notes && <Body size="sm" className="text-grey-500">{cueItem.notes}</Body>}
                 </div>
-                <Body size="sm" className=" text-grey-500">{item.duration}</Body>
-                <Badge variant={typeColors[item.type]}>{item.type.toUpperCase()}</Badge>
+                <Body size="sm" className=" text-grey-500">{cueItem.department}</Body>
+                <Badge variant={typeColors[cueItem.status]}>{cueItem.status.toUpperCase()}</Badge>
               </div>
             ))}
           </Stack>

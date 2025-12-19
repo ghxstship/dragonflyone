@@ -1,17 +1,21 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3, Button, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Button, Box, Spinner, EmptyState } from "@ghxstship/ui";
 import { QrCode, Download, Share2 } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventTicketPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading, error } = useEvent(eventId);
 
-  if (!event) {
-    return <Stack gap={4}><SectionHeader kicker="Ticket" title="Event Not Found" colorScheme="on-dark" /></Stack>;
+  if (isLoading) {
+    return <Stack gap={4} className="flex items-center justify-center py-20"><Spinner variant="grey" size="lg" text="Loading..." /></Stack>;
+  }
+
+  if (error || !event) {
+    return <Stack gap={4}><EmptyState title="Event Not Found" description="Unable to load event data" inverted /></Stack>;
   }
 
   return (
@@ -53,7 +57,7 @@ export default function EventTicketPage() {
               </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Body className="text-on-dark-muted">Date</Body>
-                <Body className="text-white">{event.date}</Body>
+                <Body className="text-white">{event.start_date ? new Date(event.start_date).toLocaleDateString() : 'TBD'}</Body>
               </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Body className="text-on-dark-muted">Venue</Body>

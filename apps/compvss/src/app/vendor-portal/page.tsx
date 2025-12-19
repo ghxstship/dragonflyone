@@ -30,9 +30,38 @@ import {
 } from '../../hooks/useVendorPortal';
 
 export default function VendorPortalPage() {
-  const { data: vendorData } = useVendorData();
+  const { data: vendorData, isLoading, error } = useVendorData();
   const { data: upcomingDeliveries = [] } = useVendorDeliveries();
   const { data: recentInvoices = [] } = useVendorInvoices();
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
+          <Stack gap={4} className="items-center">
+            <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+            <Body>Loading vendor data...</Body>
+          </Stack>
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <Stack gap={8} className="p-6">
+          <Card className="p-6 border-destructive bg-destructive/10">
+            <Stack gap={4} className="items-center text-center">
+              <Body className="text-destructive font-display">Failed to load vendor data</Body>
+              <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+              <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </CompvssAppLayout>
+    );
+  }
 
   const displayVendorData = vendorData || { companyName: 'Vendor', activeContracts: 0, pendingDeliveries: 0, pendingInvoices: 0, totalRevenue: 0 };
 

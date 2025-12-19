@@ -337,7 +337,7 @@ export default function MatchPage() {
                 <Label className="text-ink-500">Favorite Genres</Label>
                 <Stack direction="horizontal" gap={2} className="flex-wrap">
                   {selectedMatch.favorite_genres.map(genre => (
-                    <Badge key={genre} className="bg-purple-500 text-white">{genre}</Badge>
+                    <Badge key={genre} className="bg-success-100 text-success-800">{genre}</Badge>
                   ))}
                 </Stack>
               </Stack>

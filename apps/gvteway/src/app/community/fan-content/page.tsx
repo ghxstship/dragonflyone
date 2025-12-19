@@ -11,12 +11,7 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_FAN_CONTENT,
-  type DemoFanContent as FanContent,
-} from "@/lib/demo-data";
-
-const mockContent = DEMO_FAN_CONTENT;
+import { useFanContentData, type FanContent } from "@/hooks/useFanContent";
 
 function FanContentPageContent() {
   const router = useRouter();
@@ -29,8 +24,11 @@ function FanContentPageContent() {
   const [selectedContent, setSelectedContent] = useState<FanContent | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
 
-  const featuredCount = mockContent.filter(c => c.featured).length;
-  const totalLikes = mockContent.reduce((sum, c) => sum + c.likes, 0);
+  // React Query hook for fan content data
+  const { content, isLoading, error, likeContent, shareContent, isSubmitting } = useFanContentData();
+
+  const featuredCount = content.filter((c: FanContent) => c.is_featured).length;
+  const totalLikes = content.reduce((sum: number, c: FanContent) => sum + c.likes, 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -42,9 +40,44 @@ function FanContentPageContent() {
     }
   };
 
-  const filteredContent = activeTab === "all" ? mockContent :
-    activeTab === "featured" ? mockContent.filter(c => c.featured) :
-    mockContent.filter(c => c.type.toLowerCase() === activeTab);
+  const filteredContent = activeTab === "all" ? content :
+    activeTab === "featured" ? content.filter((c: FanContent) => c.is_featured) :
+    content.filter((c: FanContent) => c.type.toLowerCase() === activeTab);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={10}>
+          <Stack gap={2}>
+            <Kicker colorScheme="on-dark">Community</Kicker>
+            <H2 size="lg" className="text-white">Fan Content Showcase</H2>
+          </Stack>
+          <Card inverted className="p-8 text-center">
+            <Body className="text-on-dark-muted">Loading fan content...</Body>
+          </Card>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <Stack gap={10}>
+          <Stack gap={2}>
+            <Kicker colorScheme="on-dark">Community</Kicker>
+            <H2 size="lg" className="text-white">Fan Content Showcase</H2>
+          </Stack>
+          <Card inverted className="p-8 text-center">
+            <Body className="text-on-dark-muted">Failed to load fan content. Please try again.</Body>
+            <Button variant="outline" onClick={() => window.location.reload()} className="mt-4">Retry</Button>
+          </Card>
+        </Stack>
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>
@@ -57,10 +90,10 @@ function FanContentPageContent() {
             </Stack>
 
             <Grid cols={4} gap={6}>
-              <StatCard label="Total Submissions" value={mockContent.length.toString()} inverted />
+              <StatCard label="Total Submissions" value={content.length.toString()} inverted />
               <StatCard label="Featured" value={featuredCount.toString()} inverted />
               <StatCard label="Total Likes" value={totalLikes.toLocaleString()} inverted />
-              <StatCard label="This Week" value={mockContent.filter(c => c.createdAt >= "2024-11-20").length.toString()} inverted />
+              <StatCard label="Approved" value={content.filter((c: FanContent) => c.status === 'approved' || c.status === 'featured').length.toString()} inverted />
             </Grid>
 
           <Stack direction="horizontal" className="justify-between">
@@ -76,30 +109,34 @@ function FanContentPageContent() {
             <Button variant="solid" onClick={() => setShowSubmitModal(true)}>Share Your Content</Button>
           </Stack>
 
+          {filteredContent.length === 0 ? (
+            <Card inverted className="p-8 text-center">
+              <Body className="text-on-dark-muted">No fan content found. Be the first to share!</Body>
+            </Card>
+          ) : (
           <Grid cols={3} gap={4} className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredContent.map((content) => (
-              <Card key={content.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(content)} onKeyDown={(e) => e.key === 'Enter' && setSelectedContent(content)} role="button" tabIndex={0} aria-label={`${content.title} by ${content.creator}, ${content.likes} likes`}>
+            {filteredContent.map((item: FanContent) => (
+              <Card key={item.id} inverted interactive className="cursor-pointer overflow-hidden" onClick={() => setSelectedContent(item)} onKeyDown={(e) => e.key === 'Enter' && setSelectedContent(item)} role="button" tabIndex={0} aria-label={`${item.title} by ${item.creator_name}, ${item.likes} likes`}>
                 <Stack className="flex h-48 items-center justify-center bg-ink-900">
-                  {getTypeIcon(content.type)}
+                  {getTypeIcon(item.type)}
                 </Stack>
                 <Stack className="p-4" gap={3}>
                   <Stack direction="horizontal" className="items-start justify-between">
-                    <Body className="font-display text-white">{content.title}</Body>
-                    {content.featured && <Badge variant="solid">Featured</Badge>}
+                    <Body className="font-display text-white">{item.title}</Body>
+                    {item.is_featured && <Badge variant="solid">Featured</Badge>}
                   </Stack>
-                  <Label className="text-on-dark-muted">by {content.creator}</Label>
-                  <Label size="xs" className="text-on-dark-disabled">{content.eventName}</Label>
+                  <Label className="text-on-dark-muted">by {item.creator_name}</Label>
+                  <Label size="xs" className="text-on-dark-disabled">{item.event_name || 'General'}</Label>
                   <Stack direction="horizontal" gap={4}>
-                    <Label size="xs"><Heart className="size-3 inline mr-1" /> {content.likes}</Label>
-                    <Label size="xs"><MessageCircle className="size-3 inline mr-1" /> {content.comments}</Label>
+                    <Label size="xs"><Heart className="size-3 inline mr-1" /> {item.likes}</Label>
+                    <Label size="xs"><MessageCircle className="size-3 inline mr-1" /> {item.comments}</Label>
                   </Stack>
-                  <Stack direction="horizontal" gap={2}>
-                    {content.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
-                  </Stack>
+                  <Badge variant="outline">{item.status}</Badge>
                 </Stack>
               </Card>
             ))}
           </Grid>
+          )}
 
           <Button variant="outlineInk" onClick={() => router.push("/community")}>Back to Community</Button>
           </Stack>
@@ -114,25 +151,23 @@ function FanContentPageContent() {
               </Stack>
               <Stack direction="horizontal" className="justify-between">
                 <Stack gap={1}>
-                  <Body className="font-display">{selectedContent.creator}</Body>
-                  <Label className="text-on-light-muted">{selectedContent.eventName}</Label>
+                  <Body className="font-display">{selectedContent.creator_name}</Body>
+                  <Label className="text-on-light-muted">{selectedContent.event_name || 'General'}</Label>
                 </Stack>
-                <Label className="text-on-light-muted">{selectedContent.createdAt}</Label>
+                <Label className="text-on-light-muted">{new Date(selectedContent.submitted_at).toLocaleDateString()}</Label>
               </Stack>
               <Stack direction="horizontal" gap={6}>
                 <Label><Heart className="size-4 inline mr-1" /> {selectedContent.likes} likes</Label>
                 <Label><MessageCircle className="size-4 inline mr-1" /> {selectedContent.comments} comments</Label>
               </Stack>
-              <Stack direction="horizontal" gap={2}>
-                {selectedContent.tags.map(tag => <Badge key={tag} variant="outline">#{tag}</Badge>)}
-              </Stack>
+              <Badge variant="outline">{selectedContent.status}</Badge>
             </Stack>
           )}
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setSelectedContent(null)}>Close</Button>
-          <Button variant="solid">Like</Button>
-          <Button variant="outline">Share</Button>
+          <Button variant="solid" onClick={() => selectedContent && likeContent(selectedContent.id)}>Like</Button>
+          <Button variant="outline" onClick={() => selectedContent && shareContent(selectedContent.id)}>Share</Button>
         </ModalFooter>
       </Modal>
 
@@ -162,7 +197,7 @@ function FanContentPageContent() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowSubmitModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => setShowSubmitModal(false)}>Submit</Button>
+          <Button variant="solid" onClick={() => setShowSubmitModal(false)} disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>

@@ -3,13 +3,13 @@
 import { useParams, useRouter } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
 import { Monitor, Music, Crown, UtensilsCrossed, Plane } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionOperationsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production } = useProject(productionId);
 
   const sections = [
     { id: "stage-management", name: "Stage Management", description: "Stage operations and cues", icon: Monitor, href: `/p/${productionId}/operations/stage-management` },

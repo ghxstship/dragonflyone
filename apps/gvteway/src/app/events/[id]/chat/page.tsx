@@ -90,7 +90,7 @@ export default function EventChatPage() {
             <Stack gap={8}>
               <Stack gap={2}>
                 <Kicker colorScheme="on-dark">Events</Kicker>
-                <Badge className="bg-ink-500 text-white mb-2 w-fit">Archived</Badge>
+                <Badge className="bg-success-100 text-success-800 mb-2 w-fit">Archived</Badge>
                 <H2 size="lg" className="text-white">{chatRoom.event_title}</H2>
                 <Body className="text-on-dark-muted">Event Chat Archive</Body>
               </Stack>
@@ -186,7 +186,7 @@ export default function EventChatPage() {
                       <Stack direction="horizontal" gap={2} className="items-center">
                         <Body className="font-weight-medium">{message.user_name}</Body>
                         {message.is_moderator && (
-                          <Badge className="bg-purple-500 text-white text-mono-xs">MOD</Badge>
+                          <Badge className="bg-violet-500 text-white text-mono-xs">MOD</Badge>
                         )}
                         {message.is_pinned && (
                           <Badge className="bg-warning-500 text-white text-mono-xs">PINNED</Badge>

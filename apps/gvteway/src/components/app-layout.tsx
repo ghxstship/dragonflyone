@@ -31,7 +31,8 @@ import {
   CreatorNavigationAuthenticated,
 } from "./navigation";
 import type { ContextLevel, BreadcrumbContextItem, ContextOptions } from "@ghxstship/ui";
-import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations, gvtewayDemoEvents } from "../data/gvteway";
+import { gvtewaySidebarNavigation, gvtewayEventNavigation, gvtewayQuickActions, gvtewayBottomNavigation, gvtewayDemoOrganizations } from "../data/gvteway";
+import { useEvents } from "@/hooks/useEvents";
 import {
   useCommandPalette,
   buildNavigationCommands,
@@ -132,6 +133,10 @@ export function GvtewayAppLayout({
   eventId,
 }: AppLayoutProps) {
   const router = useRouter();
+
+  // Fetch events for navigation context
+  const { data: eventsData } = useEvents({ status: 'published' });
+  const events = eventsData || [];
 
   // Get user roles from auth context
   const { user } = useAuth();
@@ -269,7 +274,7 @@ export function GvtewayAppLayout({
   };
 
   // Find current event if in event context
-  const currentEvent = eventId ? gvtewayDemoEvents.find(e => e.id === eventId) : undefined;
+  const currentEvent = eventId ? events.find(e => e.id === eventId) : undefined;
 
   // Handle context switch at any level
   const handleContextSwitch = (type: BreadcrumbContextItem["type"], id: string) => {
@@ -315,7 +320,7 @@ export function GvtewayAppLayout({
   // Build context options for dropdowns
   const contextOptions: ContextOptions = {
     organizations: gvtewayDemoOrganizations,
-    projects: gvtewayDemoEvents.map(e => ({
+    projects: events.map(e => ({
       id: e.id,
       name: e.name,
       status: e.status,

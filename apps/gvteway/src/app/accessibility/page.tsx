@@ -3,21 +3,25 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, PhoneInput, Select, Button,
-  Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
+  Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, EmptyState,
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
+import { useAccessibilityRequestsData, type AccessibilityRequest } from "@/hooks/useAccessibilityRequests";
 
-import {
-  DEMO_ACCESSIBILITY_REQUESTS,
-  DEMO_ACCESSIBILITY_SERVICES,
-  type DemoAccessibilityRequest as AccessibilityRequest,
-} from "@/lib/demo-data";
-
-const mockRequests = DEMO_ACCESSIBILITY_REQUESTS;
-const mockServices = DEMO_ACCESSIBILITY_SERVICES;
+// Static services configuration (these don't change frequently)
+const accessibilityServices = [
+  { id: "svc-1", name: "Wheelchair Access", description: "Reserved accessible seating", icon: "♿", available: true },
+  { id: "svc-2", name: "Sign Language", description: "ASL interpreters available", icon: "👐", available: true },
+  { id: "svc-3", name: "Audio Description", description: "Live audio descriptions", icon: "🎧", available: true },
+  { id: "svc-4", name: "Service Animals", description: "Service animal accommodations", icon: "🐕", available: true },
+  { id: "svc-5", name: "Accessible Parking", description: "Reserved accessible parking", icon: "🅿️", available: true },
+  { id: "svc-6", name: "Sensory Room", description: "Quiet space for sensory breaks", icon: "🤫", available: false },
+  { id: "svc-7", name: "Mobility Assistance", description: "Staff assistance available", icon: "🚶", available: true },
+  { id: "svc-8", name: "Large Print", description: "Large print programs", icon: "📄", available: true },
+];
 
 function AccessibilityPageContent() {
   const router = useRouter();
@@ -30,7 +34,25 @@ function AccessibilityPageContent() {
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<AccessibilityRequest | null>(null);
 
-  const pendingRequests = mockRequests.filter(r => r.status === "Pending").length;
+  const { requests, isLoading, error, refetch } = useAccessibilityRequestsData();
+  const pendingRequests = requests.filter((r) => r.status === "pending").length;
+
+  if (isLoading) {
+    return <GvtewayLoadingLayout text="Loading accessibility services..." />;
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <EmptyState
+          title="Error Loading Services"
+          description="Unable to load accessibility services. Please try again."
+          action={{ label: "Retry", onClick: () => refetch() }}
+          inverted
+        />
+      </GvtewayAppLayout>
+    );
+  }
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -56,8 +78,8 @@ function AccessibilityPageContent() {
             </Alert>
 
           <Grid cols={4} gap={6}>
-            <StatCard label="Services Available" value={mockServices.filter(s => s.available).length.toString()} inverted />
-            <StatCard label="Active Requests" value={mockRequests.length.toString()} inverted />
+            <StatCard label="Services Available" value={accessibilityServices.filter(s => s.available).length.toString()} inverted />
+            <StatCard label="Active Requests" value={requests.length.toString()} inverted />
             <StatCard label="Pending Review" value={pendingRequests.toString()} inverted />
             <StatCard label="Satisfaction" value="98%" inverted />
           </Grid>
@@ -75,7 +97,7 @@ function AccessibilityPageContent() {
 
           <TabPanel active={isActive('services')}>
             <Grid cols={4} gap={4}>
-              {mockServices.map((service) => (
+              {accessibilityServices.map((service) => (
                 <Card key={service.id} inverted interactive className="p-4">
                   <Stack gap={3} className="text-center">
                     <Label className="text-h3-md">{service.icon}</Label>
@@ -92,25 +114,35 @@ function AccessibilityPageContent() {
 
           <TabPanel active={isActive('requests')}>
             <Stack gap={4}>
-              {mockRequests.map((request) => (
-                <Card key={request.id} inverted className="p-4">
-                  <Grid cols={6} gap={4} className="items-center">
-                    <Stack gap={1}>
-                      <Body className="font-display text-white">{request.eventName}</Body>
-                      <Label className="text-on-dark-disabled">{request.submittedDate}</Label>
-                    </Stack>
-                    <Stack gap={1}>
-                      <Label className="text-on-dark-disabled">Guest</Label>
-                      <Label className="text-white">{request.guestName}</Label>
-                    </Stack>
-                    <Stack direction="horizontal" gap={1} className="col-span-2 flex-wrap">
-                      {request.requestType.map(type => <Badge key={type} variant="outline">{type}</Badge>)}
-                    </Stack>
-                    <Label className={getStatusColor(request.status)}>{request.status}</Label>
-                    <Button variant="outlineInk" size="sm" onClick={() => setSelectedRequest(request)}>Details</Button>
-                  </Grid>
-                </Card>
-              ))}
+              {requests.length > 0 ? (
+                requests.map((request) => (
+                  <Card key={request.id} inverted className="p-4">
+                    <Grid cols={4} gap={4} className="items-center">
+                      <Stack gap={1}>
+                        <Body className="font-display text-white">{request.event_title}</Body>
+                        <Label className="text-on-dark-disabled">{new Date(request.created_at).toLocaleDateString()}</Label>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Label className="text-on-dark-disabled">Type</Label>
+                        <Badge variant="outline">{request.request_type}</Badge>
+                      </Stack>
+                      <Stack gap={1}>
+                        <Label className="text-on-dark-disabled">Event Date</Label>
+                        <Label className="text-white">{new Date(request.event_date).toLocaleDateString()}</Label>
+                      </Stack>
+                      <Label className={getStatusColor(request.status)}>{request.status.toUpperCase()}</Label>
+                      <Button variant="outlineInk" size="sm" onClick={() => setSelectedRequest(request)}>Details</Button>
+                    </Grid>
+                  </Card>
+                ))
+              ) : (
+                <EmptyState
+                  title="No Requests Yet"
+                  description="You haven't submitted any accessibility requests."
+                  action={{ label: "Request Accommodation", onClick: () => setShowRequestModal(true) }}
+                  inverted
+                />
+              )}
             </Stack>
           </TabPanel>
 
@@ -177,7 +209,7 @@ function AccessibilityPageContent() {
             <Stack gap={2}>
               <Label>Services Needed (select all that apply)</Label>
               <Grid cols={2} gap={2}>
-                {mockServices.slice(0, 6).map(service => (
+                {accessibilityServices.slice(0, 6).map(service => (
                   <Card key={service.id} className="cursor-pointer border-2 border-ink-200 p-2 hover:border-black">
                     <Stack direction="horizontal" gap={2}>
                       <Label>{service.icon}</Label>
@@ -201,21 +233,19 @@ function AccessibilityPageContent() {
         <ModalBody>
           {selectedRequest && (
             <Stack gap={4}>
-              <Body className="font-display">{selectedRequest.eventName}</Body>
+              <Body className="font-display">{selectedRequest.event_title}</Body>
               <Grid cols={2} gap={4}>
-                <Stack gap={1}><Label className="text-on-light-muted">Guest</Label><Label>{selectedRequest.guestName}</Label></Stack>
-                <Stack gap={1}><Label className="text-on-light-muted">Status</Label><Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status}</Label></Stack>
+                <Stack gap={1}><Label className="text-on-light-muted">Event Date</Label><Label>{new Date(selectedRequest.event_date).toLocaleDateString()}</Label></Stack>
+                <Stack gap={1}><Label className="text-on-light-muted">Status</Label><Label className={getStatusColor(selectedRequest.status)}>{selectedRequest.status.toUpperCase()}</Label></Stack>
               </Grid>
               <Stack gap={2}>
-                <Label className="text-on-light-muted">Requested Services</Label>
-                <Stack direction="horizontal" gap={2} className="flex-wrap">
-                  {selectedRequest.requestType.map(type => <Badge key={type} variant="outline">{type}</Badge>)}
-                </Stack>
+                <Label className="text-on-light-muted">Requested Service</Label>
+                <Badge variant="outline">{selectedRequest.request_type}</Badge>
               </Stack>
               {selectedRequest.notes && (
                 <Stack gap={1}><Label className="text-on-light-muted">Notes</Label><Label>{selectedRequest.notes}</Label></Stack>
               )}
-              <Stack gap={1}><Label className="text-on-light-muted">Submitted</Label><Label>{selectedRequest.submittedDate}</Label></Stack>
+              <Stack gap={1}><Label className="text-on-light-muted">Submitted</Label><Label>{new Date(selectedRequest.created_at).toLocaleDateString()}</Label></Stack>
             </Stack>
           )}
         </ModalBody>
@@ -230,7 +260,7 @@ function AccessibilityPageContent() {
 
 export default function AccessibilityPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-ink-950"><div className="text-white">Loading...</div></div>}>
+    <Suspense fallback={<GvtewayLoadingLayout text="Loading accessibility services..." />}>
       <AccessibilityPageContent />
     </Suspense>
   );

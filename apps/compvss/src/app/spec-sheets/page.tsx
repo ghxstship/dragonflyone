@@ -32,7 +32,9 @@ import {
 } from '../../hooks/useSpecSheets';
 
 
-const categories = ["All", "Audio", "Lighting", "Video", "Staging", "Rigging", "Power"];
+import { getSubcategoryNames } from "@ghxstship/config";
+
+const categories = ['All', ...getSubcategoryNames('TECH')];
 
 export default function SpecSheetsPage() {
   const router = useRouter();

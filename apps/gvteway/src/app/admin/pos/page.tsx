@@ -12,10 +12,7 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_POS_TERMINALS,
-  DEMO_POS_MENU_ITEMS,
-} from "@/lib/demo-data";
+import { usePOSData, type POSMenuItem } from "@/hooks/usePOS";
 
 interface CartItem {
   id: string;
@@ -24,9 +21,6 @@ interface CartItem {
   quantity: number;
   category: string;
 }
-
-const mockTerminals = DEMO_POS_TERMINALS;
-const menuItems = DEMO_POS_MENU_ITEMS;
 
 function POSPageContent() {
   const router = useRouter();
@@ -41,11 +35,34 @@ function POSPageContent() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("");
 
-  const totalSales = mockTerminals.reduce((sum, t) => sum + t.todaySales, 0);
-  const totalTransactions = mockTerminals.reduce((sum, t) => sum + t.transactionCount, 0);
-  const onlineTerminals = mockTerminals.filter(t => t.status !== "Offline").length;
+  const { terminals, menuItems, isLoading, processSale } = usePOSData();
 
-  const addToCart = (item: typeof menuItems[0]) => {
+  const handleCompleteSale = async () => {
+    if (cart.length === 0) return;
+    await processSale({
+      items: cart.map(item => ({ id: item.id, quantity: item.quantity })),
+      paymentMethod,
+      terminalId: 'terminal-1',
+    });
+    setCart([]);
+    setShowPaymentModal(false);
+  };
+
+  if (isLoading) {
+    return (
+      <GvtewayAppLayout>
+        <div className="flex min-h-[50vh] items-center justify-center">
+          <Body className="text-on-dark-muted">Loading POS data...</Body>
+        </div>
+      </GvtewayAppLayout>
+    );
+  }
+
+  const totalSales = terminals.reduce((sum: number, t) => sum + t.todaySales, 0);
+  const totalTransactions = terminals.reduce((sum: number, t) => sum + t.transactionCount, 0);
+  const onlineTerminals = terminals.filter(t => t.status !== "Offline").length;
+
+  const addToCart = (item: POSMenuItem) => {
     const existing = cart.find(c => c.id === item.id);
     if (existing) {
       setCart(cart.map(c => c.id === item.id ? { ...c, quantity: c.quantity + 1 } : c));
@@ -79,7 +96,7 @@ function POSPageContent() {
               <StatCard label="Today Sales" value={`$${(totalSales / 1000).toFixed(1)}K`} inverted />
               <StatCard label="Transactions" value={totalTransactions.toString()} inverted />
               <StatCard label="Avg Transaction" value={`$${(totalSales / totalTransactions).toFixed(0)}`} inverted />
-              <StatCard label="Terminals Online" value={`${onlineTerminals}/${mockTerminals.length}`} inverted />
+              <StatCard label="Terminals Online" value={`${onlineTerminals}/${terminals.length}`} inverted />
             </Grid>
 
           <Tabs>
@@ -153,7 +170,7 @@ function POSPageContent() {
 
             <TabPanel active={isActive('terminals')}>
               <Grid cols={3} gap={4}>
-                {mockTerminals.map(terminal => (
+                {terminals.map(terminal => (
                   <Card key={terminal.id} inverted>
                     <Stack gap={3}>
                       <Stack direction="horizontal" className="items-start justify-between">
@@ -262,7 +279,7 @@ function POSPageContent() {
         </ModalBody>
         <ModalFooter>
           <Button variant="outline" onClick={() => setShowPaymentModal(false)}>Cancel</Button>
-          <Button variant="solid" onClick={() => { setShowPaymentModal(false); setCart([]); }}>Complete Sale</Button>
+          <Button variant="solid" onClick={handleCompleteSale}>Complete Sale</Button>
         </ModalFooter>
       </Modal>
     </GvtewayAppLayout>

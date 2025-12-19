@@ -17,12 +17,7 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-import {
-  DEMO_SALES_DATA,
-  type DemoSalesData as SalesData,
-} from '@/lib/demo-data';
-
-const mockSalesData = DEMO_SALES_DATA;
+import { useSalesReportingData, type SalesData } from '@/hooks/useSalesReporting';
 
 const formatCurrency = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
@@ -56,10 +51,12 @@ export default function SalesReportingPage() {
   const [selectedPeriod, setSelectedPeriod] = useState<SalesData | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const totalSales = mockSalesData.reduce((sum, s) => sum + s.net_sales, 0);
-  const totalTransactions = mockSalesData.reduce((sum, s) => sum + s.transactions, 0);
-  const totalRefunds = mockSalesData.reduce((sum, s) => sum + s.refunds, 0);
-  const avgTransaction = totalSales / totalTransactions;
+  const { sales, isLoading, error, refetch } = useSalesReportingData();
+
+  const totalSales = sales.reduce((sum: number, s: SalesData) => sum + s.net_sales, 0);
+  const totalTransactions = sales.reduce((sum: number, s: SalesData) => sum + s.transactions, 0);
+  const totalRefunds = sales.reduce((sum: number, s: SalesData) => sum + s.refunds, 0);
+  const avgTransaction = totalTransactions > 0 ? totalSales / totalTransactions : 0;
 
   const rowActions: ListPageAction<SalesData>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPeriod(r); setDrawerOpen(true); } },
@@ -150,10 +147,12 @@ export default function SalesReportingPage() {
       <ListPage<SalesData>
         title="Sales Reporting"
         subtitle="Sales analytics by location and time period"
-        data={mockSalesData}
+        data={sales}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={() => refetch()}
         searchPlaceholder="Search locations..."
         filters={filters}
         rowActions={rowActions}
@@ -167,7 +166,7 @@ export default function SalesReportingPage() {
         importSampleFields={['Beer', 'Cocktails', 'Beer', 'Wine', 'Hoodie', 'Poster', 'Cap']}
         onExport={createExportHandler({
           filename: "sales-report",
-          getData: () => mockSalesData.map(s => ({
+          getData: () => sales.map((s: SalesData) => ({
             id: s.id,
             location: s.location,
             location_type: s.location_type,

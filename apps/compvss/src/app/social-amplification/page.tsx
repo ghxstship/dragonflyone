@@ -39,7 +39,7 @@ import {
 
 export default function SocialAmplificationPage() {
   const router = useRouter();
-  const { data: artists = [] } = useArtistProfiles();
+  const { data: artists = [], isLoading, error } = useArtistProfiles();
   const { data: campaigns = [] } = useAmplificationCampaigns();
   
   // URL-synced tab state for deep-linking support
@@ -50,6 +50,39 @@ export default function SocialAmplificationPage() {
   const [selectedArtist, setSelectedArtist] = useState<ArtistProfile | null>(null);
   const [selectedCampaign, setSelectedCampaign] = useState<AmplificationCampaign | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading social amplification data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const totalReach = artists.reduce((sum, a) => sum + a.followers, 0);
   const activeArtists = artists.filter(a => a.status === "Active").length;
@@ -177,6 +210,7 @@ export default function SocialAmplificationPage() {
                 {["Promo Graphics", "Video Clips", "Story Templates", "Post Captions", "Hashtag Sets", "Bio Links", "Press Photos", "Logo Pack"].map((item, idx) => (
                   <Card key={idx} className="cursor-pointer p-4">
                     <Stack gap={2} className="text-center">
+                      {/* eslint-disable-next-line jsx-a11y/alt-text */}
                       {idx === 0 && <Image className="size-8 mx-auto" />}
                       {idx === 1 && <Video className="size-8 mx-auto" />}
                       {idx === 2 && <Smartphone className="size-8 mx-auto" />}

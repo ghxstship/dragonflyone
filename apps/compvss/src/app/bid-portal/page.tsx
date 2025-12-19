@@ -35,7 +35,7 @@ import {
 
 export default function BidPortalPage() {
   const router = useRouter();
-  const { data: bidOpportunities = [] } = useBidOpportunities();
+  const { data: bidOpportunities = [], isLoading, error } = useBidOpportunities();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -44,6 +44,39 @@ export default function BidPortalPage() {
   });
   const [selectedBid, setSelectedBid] = useState<BidOpportunity | null>(null);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading bid opportunities...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load bid opportunities</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const openBids = bidOpportunities.filter(b => b.status === "Open").length;
   const submittedBids = bidOpportunities.filter(b => b.status === "Submitted" || b.status === "Under Review").length;

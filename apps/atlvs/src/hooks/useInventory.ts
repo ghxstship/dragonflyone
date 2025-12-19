@@ -173,3 +173,115 @@ export function useDeleteInventoryItem() {
     },
   });
 }
+
+// =============================================================================
+// INVENTORY SCAN HOOK
+// =============================================================================
+
+interface ScanInput {
+  barcode: string;
+  action: 'lookup' | 'check_out' | 'check_in';
+  booking_id?: string;
+  checked_out_to?: string;
+  notes?: string;
+}
+
+interface ScanResult {
+  success: boolean;
+  action: string;
+  item?: {
+    id: string;
+    name: string;
+    sku: string;
+    barcode?: string;
+    category: string;
+    quantity_total: number;
+    quantity_available: number;
+    location?: string;
+    status: string;
+  };
+  transaction?: {
+    id: string;
+  };
+  remaining_quantity?: number;
+  available_quantity?: number;
+  error?: string;
+}
+
+export function useInventoryScan() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input: ScanInput): Promise<ScanResult> => {
+      const response = await fetch('/api/inventory/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Scan failed');
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['inventory'] });
+      queryClient.invalidateQueries({ queryKey: ['inventory-availability'] });
+    },
+  });
+}
+
+// =============================================================================
+// INVENTORY AVAILABILITY HOOK
+// =============================================================================
+
+interface AvailabilityFilters {
+  start_date?: string;
+  end_date?: string;
+  item_id?: string;
+  category_id?: string;
+}
+
+interface AvailabilityItem {
+  id: string;
+  name: string;
+  sku: string;
+  category: string;
+  quantity_total: number;
+  quantity_available: number;
+  quantity_reserved: number;
+  quantity_free: number;
+  utilization_rate: number;
+  is_available: boolean;
+  unit_cost?: number;
+}
+
+interface AvailabilityResponse {
+  items: AvailabilityItem[];
+  summary: {
+    total_items: number;
+    available_items: number;
+    fully_booked_items: number;
+    average_utilization: number;
+  };
+  date_range: { start: string; end: string } | null;
+}
+
+export function useInventoryAvailability(filters?: AvailabilityFilters) {
+  return useQuery({
+    queryKey: ['inventory-availability', filters],
+    queryFn: async () => {
+      const params = new URLSearchParams();
+      if (filters?.start_date) params.append('start_date', filters.start_date);
+      if (filters?.end_date) params.append('end_date', filters.end_date);
+      if (filters?.item_id) params.append('item_id', filters.item_id);
+      if (filters?.category_id) params.append('category_id', filters.category_id);
+
+      const response = await fetch(`/api/inventory/availability?${params.toString()}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch inventory availability');
+      }
+      return response.json() as Promise<AvailabilityResponse>;
+    },
+  });
+}

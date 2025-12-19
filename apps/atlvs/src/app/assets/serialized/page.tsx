@@ -85,6 +85,16 @@ export default function SerializedComponentsPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <div className="p-6 flex items-center justify-center min-h-[400px]">
+          <div className="animate-pulse text-muted-foreground">Loading serialized components...</div>
+        </div>
+      </AtlvsAppLayout>
+    );
+  }
+
   return (
     <AtlvsAppLayout>
       <EnterprisePageHeader

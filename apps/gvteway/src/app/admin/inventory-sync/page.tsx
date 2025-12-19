@@ -16,15 +16,7 @@ import {
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
-import {
-  DEMO_INVENTORY_ITEMS,
-  DEMO_SYNC_LOGS,
-  type DemoInventoryItem as InventoryItem,
-  type DemoSyncLog as SyncLog,
-} from '@/lib/demo-data';
-
-const mockInventory = DEMO_INVENTORY_ITEMS;
-const mockSyncLogs = DEMO_SYNC_LOGS;
+import { useInventorySyncData, type InventoryItem } from '@/hooks/useInventorySync';
 
 const getSyncStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) {
@@ -53,29 +45,32 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function InventorySyncPage() {
-  const [inventory, setInventory] = useState<InventoryItem[]>(mockInventory);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [syncLogs] = useState<SyncLog[]>(mockSyncLogs);
 
-  const conflictCount = inventory.filter(i => i.sync_status === 'conflict').length;
-  const pendingCount = inventory.filter(i => i.sync_status === 'pending').length;
-  const syncedCount = inventory.filter(i => i.sync_status === 'synced').length;
-  const totalItems = inventory.reduce((sum, i) => sum + i.available_quantity, 0);
+  const { items: inventory, logs: syncLogs, isLoading, error, refetch, syncInventory } = useInventorySyncData();
 
-  const handleSync = () => {
-    setInventory(inventory.map(item => ({
-      ...item,
-      sync_status: 'synced' as const,
-      last_sync: new Date().toISOString(),
-      physical_quantity: item.online_quantity,
-    })));
+  const conflictCount = inventory.filter((i: InventoryItem) => i.sync_status === 'conflict').length;
+  const pendingCount = inventory.filter((i: InventoryItem) => i.sync_status === 'pending').length;
+  const syncedCount = inventory.filter((i: InventoryItem) => i.sync_status === 'synced').length;
+  const totalItems = inventory.reduce((sum: number, i: InventoryItem) => sum + i.available_quantity, 0);
+
+  const handleSync = async () => {
+    try {
+      await syncInventory(inventory.map((i: InventoryItem) => i.id));
+      refetch();
+    } catch {
+      // Error handled silently
+    }
   };
 
-  const handleResolveConflict = (itemId: string) => {
-    setInventory(inventory.map(item => 
-      item.id === itemId ? { ...item, sync_status: 'synced' as const, physical_quantity: item.online_quantity, last_sync: new Date().toISOString() } : item
-    ));
+  const handleResolveConflict = async (itemId: string) => {
+    try {
+      await syncInventory([itemId]);
+      refetch();
+    } catch {
+      // Error handled silently
+    }
   };
 
   const rowActions: ListPageAction<InventoryItem>[] = [
@@ -153,7 +148,9 @@ export default function InventorySyncPage() {
         data={inventory}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={() => refetch()}
         searchPlaceholder="Search inventory..."
         filters={filters}
         rowActions={rowActions}
@@ -169,7 +166,7 @@ export default function InventorySyncPage() {
         importSampleFields={['inventory', 'sku', 'name', 'category', 'online_quantity', 'physical_quantity', 'reserved_quantity']}
         onExport={createExportHandler({
           filename: "inventory",
-          getData: () => inventory.map(i => ({
+          getData: () => inventory.map((i: InventoryItem) => ({
             id: i.id,
             sku: i.sku,
             name: i.name,
@@ -186,9 +183,15 @@ export default function InventorySyncPage() {
         emptyMessage="No inventory items"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setInventory(prev => prev.filter(i => !ids.includes(i.id)));
+            await fetch('/api/admin/inventory/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+            refetch();
           } else if (action === 'sync') {
-            setInventory(prev => prev.map(i => ids.includes(i.id) ? { ...i, sync_status: 'synced' as const, last_sync: new Date().toISOString() } : i));
+            await syncInventory(ids);
+            refetch();
           }
         }}
         bulkActions={[

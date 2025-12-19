@@ -45,7 +45,7 @@ function ExclusiveAccessPageContent() {
 
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case "Platinum": return "bg-purple-100 text-purple-800";
+      case "Platinum": return "bg-success-100 text-success-800";
       case "Gold": return "bg-warning-100 text-warning-800";
       case "Silver": return "bg-ink-100 text-ink-800";
       default: return "bg-info-100 text-info-800";

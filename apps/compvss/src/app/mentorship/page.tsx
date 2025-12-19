@@ -40,7 +40,7 @@ import {
 
 export default function MentorshipPage() {
   const router = useRouter();
-  const { data: mentors = [] } = useMentors();
+  const { data: mentors = [], isLoading, error } = useMentors();
   const { data: programs = [] } = useMentorshipPrograms();
   
   // URL-synced tab state for deep-linking support
@@ -52,6 +52,39 @@ export default function MentorshipPage() {
   const [selectedProgram, setSelectedProgram] = useState<MentorshipProgram | null>(null);
   const [showRequestModal, setShowRequestModal] = useState(false);
 
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading mentorship data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-error">
+                <Body className="text-error font-display">Failed to load mentorship data</Body>
+                <Body className="text-error">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
   const availableMentors = mentors.filter(m => m.availability !== "Full").length;
   const totalMentees = mentors.reduce((sum, m) => sum + m.mentees, 0);
 
@@ -59,7 +92,7 @@ export default function MentorshipPage() {
     switch (level) {
       case "Entry": return "bg-success-900/20 border-success-800";
       case "Intermediate": return "bg-warning-900/20 border-warning-800";
-      case "Advanced": return "bg-purple-900/20 border-purple-800";
+      case "Advanced": return "bg-violet-900/20 border-violet-800";
       default: return "bg-ink-900/50 border-ink-800";
     }
   };

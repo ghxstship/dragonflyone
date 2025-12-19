@@ -1,14 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Input } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Input, Spinner } from "@ghxstship/ui";
 import { Send, Users } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventChatPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading chat..." />
+      </Stack>
+    );
+  }
 
   const messages = [
     { id: "1", user: "Alex", message: "So excited for this event!", time: "2 min ago" },

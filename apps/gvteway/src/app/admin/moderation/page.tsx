@@ -16,12 +16,7 @@ import {
   type DetailSection,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_FLAGGED_CONTENT,
-  type DemoFlaggedContent as FlaggedContent,
-} from '@/lib/demo-data';
-
-const mockFlagged = DEMO_FLAGGED_CONTENT;
+import { useModerationData, type FlaggedContent } from '@/hooks/useModeration';
 
 const getTypeIcon = (type: string) => {
   switch (type) {
@@ -58,23 +53,28 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function ModerationPage() {
-  const [flaggedContent, setFlaggedContent] = useState<FlaggedContent[]>(mockFlagged);
   const [selectedContent, setSelectedContent] = useState<FlaggedContent | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { flaggedContent, isLoading, error, refetch, moderateContent } = useModerationData();
 
   const pendingCount = flaggedContent.filter(f => f.status === "Pending").length;
   const removedToday = flaggedContent.filter(f => f.status === "Removed").length;
   const autoFlagged = flaggedContent.filter(f => f.reportedBy === "auto-filter").length;
+
+  const handleModerate = async (contentId: string, newStatus: FlaggedContent['status']) => {
+    try {
+      await moderateContent({ contentId, status: newStatus });
+    } catch {
+      // Error handled by mutation
+    }
+  };
 
   const rowActions: ListPageAction<FlaggedContent>[] = [
     { id: 'view', label: 'Review', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedContent(r); setDrawerOpen(true); } },
     { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => handleModerate(r.id, 'Approved') },
     { id: 'remove', label: 'Remove', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => handleModerate(r.id, 'Removed') },
   ];
-
-  const handleModerate = (contentId: string, newStatus: FlaggedContent['status']) => {
-    setFlaggedContent(flaggedContent.map(c => c.id === contentId ? { ...c, status: newStatus } : c));
-  };
 
   const stats = [
     { label: 'Pending Review', value: pendingCount },
@@ -109,7 +109,9 @@ export default function ModerationPage() {
         data={flaggedContent}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error}
+        onRetry={() => refetch()}
         searchPlaceholder="Search content..."
         filters={filters}
         rowActions={rowActions}

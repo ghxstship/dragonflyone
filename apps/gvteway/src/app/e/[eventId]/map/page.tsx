@@ -1,17 +1,25 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, H3, Grid, Box, Spinner, EmptyState } from "@ghxstship/ui";
 import { Map, MapPin, Navigation, Layers } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventMapPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading, error } = useEvent(eventId);
 
-  if (!event) {
-    return <Stack gap={4}><SectionHeader kicker="Map" title="Event Not Found" colorScheme="on-dark" /></Stack>;
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading map..." />
+      </Stack>
+    );
+  }
+
+  if (error || !event) {
+    return <Stack gap={4}><EmptyState title="Event Not Found" description="Unable to load event data" inverted /></Stack>;
   }
 
   return (

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Heart, Shield, Users } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
   ListPage,
@@ -10,15 +10,13 @@ import {
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,
-  Grid,
-  Body,
   type ListPageColumn,
   type ListPageFilter,
   type ListPageAction,
   type FormFieldConfig,
   type DetailSection,
 } from '@ghxstship/ui';
-import { useBenefitPlans, useBenefitEnrollments, useCreateBenefitPlan, useDeleteBenefitPlan } from '../../hooks/useBenefits';
+import { useBenefitPlans, useCreateBenefitPlan, useDeleteBenefitPlan } from '../../hooks/useBenefits';
 
 interface BenefitPlan {
   id: string;

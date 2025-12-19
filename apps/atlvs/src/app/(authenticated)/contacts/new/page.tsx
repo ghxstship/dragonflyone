@@ -1,0 +1,227 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowLeft, Save, User, Mail, Building2 } from 'lucide-react';
+import { useCreateContact } from '@/hooks/useContacts';
+
+export default function NewContactPage() {
+  const router = useRouter();
+
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    company: '',
+    title: '',
+    type: 'contact',
+  });
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const createContact = useCreateContact();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = 'First name is required';
+    }
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = 'Last name is required';
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    try {
+      await createContact.mutateAsync({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        phone: formData.phone || undefined,
+        company: formData.company || undefined,
+        title: formData.title || undefined,
+        organization_id: '', // Will be set by backend
+      });
+      router.push('/contacts');
+    } catch (error) {
+      setErrors({ submit: 'Failed to create contact. Please try again.' });
+    }
+  };
+
+  return (
+    <div className="p-6 max-w-2xl mx-auto">
+      <div className="flex items-center gap-4 mb-6">
+        <Link
+          href="/contacts"
+          className="p-2 hover:bg-muted rounded-button transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5 text-muted-foreground" />
+        </Link>
+        <div>
+          <h1 className="text-h2-md font-weight-bold text-foreground">New Contact</h1>
+          <p className="text-body-sm text-muted-foreground mt-1">
+            Add a new contact to your CRM
+          </p>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-background border-2 border-border rounded-card p-6">
+          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <User className="h-5 w-5" />
+            Personal Information
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                First Name *
+              </label>
+              <input
+                type="text"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                className={`w-full px-4 py-2 border-2 rounded-button ${
+                  errors.first_name ? 'border-destructive' : 'border-border'
+                } focus:outline-none focus:border-primary`}
+              />
+              {errors.first_name && (
+                <p className="text-body-xs text-destructive mt-1">{errors.first_name}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                Last Name *
+              </label>
+              <input
+                type="text"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                className={`w-full px-4 py-2 border-2 rounded-button ${
+                  errors.last_name ? 'border-destructive' : 'border-border'
+                } focus:outline-none focus:border-primary`}
+              />
+              {errors.last_name && (
+                <p className="text-body-xs text-destructive mt-1">{errors.last_name}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-background border-2 border-border rounded-card p-6">
+          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <Mail className="h-5 w-5" />
+            Contact Information
+          </h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                Email *
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full px-4 py-2 border-2 rounded-button ${
+                  errors.email ? 'border-destructive' : 'border-border'
+                } focus:outline-none focus:border-primary`}
+              />
+              {errors.email && (
+                <p className="text-body-xs text-destructive mt-1">{errors.email}</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                Phone
+              </label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-background border-2 border-border rounded-card p-6">
+          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <Building2 className="h-5 w-5" />
+            Company Information
+          </h2>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                Company
+              </label>
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                Job Title
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
+              />
+            </div>
+          </div>
+        </div>
+
+        {errors.submit && (
+          <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
+            <p className="text-body-sm text-destructive">{errors.submit}</p>
+          </div>
+        )}
+
+        <div className="flex items-center justify-end gap-3">
+          <Link
+            href="/contacts"
+            className="px-6 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
+          >
+            Cancel
+          </Link>
+          <button
+            type="submit"
+            disabled={createContact.isPending}
+            className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
+          >
+            <Save className="h-4 w-4" />
+            {createContact.isPending ? 'Creating...' : 'Create Contact'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

@@ -75,7 +75,7 @@ const zoneColors: Record<VenueZone['type'], string> = {
   medical: 'bg-error-500',
   exit: 'bg-warning-500',
   parking: 'bg-ink-500',
-  merchandise: 'bg-purple-500',
+  merchandise: 'bg-violet-500',
 };
 
 export default function EventMapPage() {
@@ -250,7 +250,7 @@ export default function EventMapPage() {
               </Stack>
             </Card>
 
-            <Card className="p-6 bg-ink-900 text-white">
+            <Card className="p-6 bg-success-100 text-success-800">
               <Stack direction="horizontal" gap={3} className="items-center mb-4">
                 <Layers className="w-6 h-6" />
                 <H3 className="text-white">ACCESSIBILITY</H3>

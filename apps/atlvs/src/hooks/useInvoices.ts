@@ -20,38 +20,6 @@ export interface Invoice {
   notes?: string;
 }
 
-// Demo data
-const DEMO_INVOICES: Invoice[] = [
-  {
-    id: '1',
-    invoice_number: 'INV-2025-001',
-    client_id: '1',
-    client_name: 'Acme Corp',
-    project_id: '1',
-    project_name: 'Summer Festival 2025',
-    total_amount: 50000,
-    amount_paid: 25000,
-    amount_due: 25000,
-    issue_date: '2025-01-15',
-    due_date: '2025-02-15',
-    status: 'partial',
-  },
-  {
-    id: '2',
-    invoice_number: 'INV-2025-002',
-    client_id: '2',
-    client_name: 'TechStart Inc',
-    project_id: '2',
-    project_name: 'Product Launch Event',
-    total_amount: 15000,
-    amount_paid: 15000,
-    amount_due: 0,
-    issue_date: '2025-01-10',
-    due_date: '2025-02-10',
-    status: 'paid',
-  },
-];
-
 // Query keys
 export const invoiceKeys = {
   all: ['invoices'] as const,
@@ -62,11 +30,9 @@ export const invoiceKeys = {
 // Fetch functions
 async function fetchInvoices(): Promise<Invoice[]> {
   const response = await fetch('/api/invoices');
-  if (response.status === 401) {
-    return DEMO_INVOICES;
-  }
   if (!response.ok) {
-    throw new Error('Failed to fetch invoices');
+    const error = await response.json().catch(() => ({ error: 'Failed to fetch invoices' }));
+    throw new Error(error.error || 'Failed to fetch invoices');
   }
   const data = await response.json();
   return data.invoices || [];
@@ -112,11 +78,48 @@ async function sendReminder(invoiceId: string): Promise<void> {
   }
 }
 
+async function fetchInvoice(id: string): Promise<Invoice> {
+  const response = await fetch(`/api/invoices/${id}`);
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Failed to fetch invoice' }));
+    throw new Error(error.error || 'Failed to fetch invoice');
+  }
+  const data = await response.json();
+  return data.invoice || data;
+}
+
+interface RecordPaymentInput {
+  invoice_id: string;
+  amount: number;
+  payment_method: string;
+  reference?: string;
+}
+
+async function recordPayment(input: RecordPaymentInput): Promise<void> {
+  const response = await fetch(`/api/invoices/${input.invoice_id}/payments`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to record payment');
+  }
+}
+
 // Hooks
 export function useInvoices() {
   return useQuery({
     queryKey: invoiceKeys.list(),
     queryFn: fetchInvoices,
+    staleTime: 5 * 60 * 1000,
+  });
+}
+
+export function useInvoice(id: string) {
+  return useQuery({
+    queryKey: invoiceKeys.detail(id),
+    queryFn: () => fetchInvoice(id),
+    enabled: !!id,
     staleTime: 5 * 60 * 1000,
   });
 }
@@ -168,6 +171,21 @@ export function useSendReminder() {
     mutationFn: sendReminder,
     onError: (error) => {
       log.error('Failed to send reminder:', error);
+    },
+  });
+}
+
+export function useRecordPayment() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: recordPayment,
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: invoiceKeys.detail(variables.invoice_id) });
+      queryClient.invalidateQueries({ queryKey: invoiceKeys.all });
+    },
+    onError: (error) => {
+      log.error('Failed to record payment:', error);
     },
   });
 }

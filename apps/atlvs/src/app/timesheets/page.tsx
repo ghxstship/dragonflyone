@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Eye, Trash2, CheckCircle, XCircle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useTimesheets, useCreateTimesheet, useDeleteTimesheet, useApproveTimesheet, useRejectTimesheet } from '../../hooks/useTimesheets';
 import {
@@ -126,7 +125,6 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function TimesheetsPage() {
-  const router = useRouter();
   const { data: timesheets, isLoading, error, refetch } = useTimesheets();
   const createMutation = useCreateTimesheet();
   const deleteMutation = useDeleteTimesheet();

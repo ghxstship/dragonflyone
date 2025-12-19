@@ -1839,6 +1839,37 @@ Currently only 8 loading.tsx files exist for 581 pages. Add route-level loading 
 
 ---
 
+### BACK-081: ATLVS Lint Error Remediation - Anchor Tags to Link Components
+
+| Field | Value |
+|-------|-------|
+| **Status** | Pending |
+| **Priority** | P2 |
+| **Effort** | S (1-2 days) |
+| **App** | ATLVS |
+| **Source** | Workflow Validation - December 2025 |
+
+**Description:**  
+Convert remaining 50 anchor `<a>` tags to Next.js `<Link>` components across ATLVS pages. Also includes fixing remaining raw Tailwind violations (rounded-full, tracking, border width).
+
+**Files Affected:**
+- `apps/atlvs/src/app/(authenticated)/contracts/[id]/page.tsx`
+- `apps/atlvs/src/app/(authenticated)/contracts/new/page.tsx`
+- `apps/atlvs/src/app/(authenticated)/contracts/page.tsx`
+- `apps/atlvs/src/app/(authenticated)/floor-plans/[id]/page.tsx`
+- `apps/atlvs/src/app/(authenticated)/floor-plans/new/page.tsx`
+- `apps/atlvs/src/app/(authenticated)/analytics/revenue/page.tsx`
+- And ~15 additional files
+
+**Acceptance Criteria:**
+- [ ] All `<a href="/...">` tags replaced with `<Link href="/...">` components
+- [ ] All `rounded-full` replaced with `rounded-avatar` or `rounded-badge`
+- [ ] All `tracking-tight/wide` replaced with `tracking-label/kicker/display`
+- [ ] Zero lint errors in `pnpm lint` for ATLVS
+- [ ] Build passes without errors
+
+---
+
 ## P2 - Medium Priority (Supporting Workflows)
 
 ### BACK-033: Production-Level Insurance & Permits (ATLVS)
@@ -4130,3 +4161,2107 @@ Several GVTEWAY pages have React Query hooks with API integration, but the corre
 - 400 responses for missing required parameters (expected)
 - Timeout failures during first page compilation in dev mode (dev server warm-up issue)
 - Static asset 404s during compilation (dev server timing issue)
+
+---
+
+## P1 - V3 EXPANSION: MULTI-APP VENUE & VENDOR MODULE
+
+> **Source:** V3Expansion Document (December 2025 v2.0)  
+> **Total Features:** 31 | **CRITICAL:** 15 | **HIGH:** 12 | **MEDIUM:** 4
+
+### APP ASSIGNMENT MATRIX
+
+Features are assigned based on app responsibilities:
+
+| App | Purpose | Feature Categories |
+|-----|---------|-------------------|
+| **ATLVS** | Business operations, finance, vendor management, CRM | Lead Management, Venue Booking, Proposals, Contracts, Invoices, Payments, Floor Plans, Client Portal, Analytics, Vendor Database, Procurement, Inventory, Financials |
+| **COMPVSS** | Production operations, crew management, event execution | BEO Generation, Vendor Day-of Scheduling, Experience Design, XYZ Positioning, Team Gamification |
+| **GVTEWAY** | Consumer-facing ticketing, fan engagement | Public Ticketing, Self-Service Booking Widget |
+
+**Feature Distribution:**
+- **ATLVS:** 24 features (executive/business functions)
+- **COMPVSS:** 5 features (operations/execution functions)
+- **GVTEWAY:** 2 features (consumer-facing functions)
+
+This section contains the comprehensive implementation checklist aligned with GHXSTSHIP's standardized 24-category Global Asset Catalog.
+
+---
+
+### NEW UI COMPONENTS REQUIRED
+
+Before implementing features, the following atomic UI system components must be created:
+
+#### Atoms (packages/ui/src/atoms/)
+- [ ] `color-picker.tsx` - Color selection for branding/customization
+- [ ] `signature-pad.tsx` - Touch/mouse signature capture for e-signatures
+- [ ] `currency-input.tsx` - Currency-formatted number input with locale support
+- [ ] `date-range-picker.tsx` - Date range selection with presets
+- [ ] `time-slot-picker.tsx` - Time slot selection grid
+
+#### Molecules (packages/ui/src/molecules/)
+- [ ] `kanban-board.tsx` - Drag-and-drop kanban board for pipeline management
+- [ ] `kanban-column.tsx` - Individual kanban column with card count/value
+- [ ] `kanban-card.tsx` - Draggable card with quick actions
+- [ ] `calendar-grid.tsx` - Multi-day/week/month calendar grid view
+- [ ] `calendar-event.tsx` - Draggable calendar event block
+- [ ] `floor-plan-canvas.tsx` - 2D floor plan editor canvas
+- [ ] `floor-plan-toolbar.tsx` - Floor plan editor tools (select, pan, zoom)
+- [ ] `floor-plan-object.tsx` - Draggable floor plan objects (tables, chairs)
+- [ ] `form-builder.tsx` - Drag-and-drop form field builder
+- [ ] `form-field-config.tsx` - Form field configuration panel
+- [ ] `proposal-block.tsx` - Drag-and-drop proposal content block
+- [ ] `contract-clause.tsx` - Selectable contract clause with variables
+- [ ] `payment-schedule.tsx` - Payment milestone timeline visualization
+- [ ] `space-card.tsx` - Venue space card with capacity/pricing
+- [ ] `availability-grid.tsx` - Availability heatmap/grid view
+- [ ] `hold-indicator.tsx` - Hold status with expiration countdown
+- [ ] `quote-comparison.tsx` - Side-by-side quote comparison table
+- [ ] `vendor-scorecard.tsx` - Vendor performance metrics card
+
+#### Organisms (packages/ui/src/organisms/)
+- [ ] `pipeline-view.tsx` - Full pipeline with stages and metrics
+- [ ] `master-calendar.tsx` - Multi-venue master calendar
+- [ ] `floor-plan-editor.tsx` - Complete floor plan design system
+- [ ] `proposal-builder.tsx` - Full proposal builder with preview
+- [ ] `contract-builder.tsx` - Contract assembly with e-signature
+- [ ] `beo-generator.tsx` - BEO document generator
+- [ ] `invoice-builder.tsx` - Invoice creation with line items
+- [ ] `client-portal-shell.tsx` - Client portal layout wrapper
+- [ ] `vendor-portal-shell.tsx` - Vendor portal layout wrapper
+- [ ] `catalog-browser.tsx` - Product/service catalog with filters
+- [ ] `order-builder.tsx` - Multi-vendor order creation
+
+#### Templates (packages/ui/src/templates/)
+- [ ] `booking-wizard.tsx` - Multi-step booking flow template
+- [ ] `document-preview.tsx` - PDF-style document preview template
+
+---
+
+### PART A: VENUE MANAGEMENT FEATURES (22 Features)
+
+---
+
+#### BACK-100: [LM-001] Lead Capture Web Forms
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/leads`, `/crm` |
+| **Reference** | Tripleseat, Perfect Venue, Event Temple |
+
+**Description:**  
+Embeddable forms for venue websites that automatically create leads in the CRM pipeline.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Create migration `0045_v3_venue_module.sql`
+- [x] Table `lead_capture_forms`: id, organization_id, name, slug, fields (jsonb), settings (jsonb), styling (jsonb), active, created_at, updated_at
+- [x] Table `lead_form_submissions`: id, form_id, lead_id, data (jsonb), source, utm_params (jsonb), ip_address, user_agent, created_at
+- [x] Fields stored in JSONB (no separate table needed)
+- [x] Indexes: form_id, organization_id, lead_id, created_at
+- [x] RLS policies for organization-scoped access
+- [x] Trigger for auto-creating lead from submission
+
+**LAYER 2 - API:**
+- [x] `POST /api/lead-forms` - Create form
+- [x] `GET /api/lead-forms` - List forms
+- [x] `GET /api/lead-forms/[id]` - Get form details
+- [x] `PUT /api/lead-forms/[id]` - Update form
+- [x] `DELETE /api/lead-forms/[id]` - Delete form
+- [x] `POST /api/lead-forms/[id]/submit` - Public submission endpoint (no auth)
+- [x] `GET /api/lead-forms/[id]/submissions` - List submissions with status breakdown
+- [x] `GET /api/lead-forms/[id]/analytics` - Form analytics with conversion metrics
+- [x] Zod validation schemas for all endpoints
+- [ ] Rate limiting on public submission endpoint
+
+**LAYER 3 - FRONTEND:**
+- [x] `/lead-forms` - List page with cards
+- [x] `/lead-forms/new` - Form builder with drag-drop fields
+- [x] `/lead-forms/[id]` - Form detail with preview
+- [x] `/lead-forms/[id]/submissions` - Submissions list with filters
+- [x] `/lead-forms/[id]/analytics` - Form analytics with charts
+- [x] `/lead-forms/[id]/embed` - Embed code generator with customization
+- [ ] `components/lead-form-builder.tsx` - Drag-drop form builder
+- [ ] `components/lead-form-preview.tsx` - Live form preview
+- [ ] `components/lead-form-embed.tsx` - Embeddable form widget
+
+**LAYER 4 - HOOKS:**
+- [x] `useLeadForms.ts` - CRUD operations for forms
+- [x] `useLeadFormSubmissions.ts` - Submission queries
+- [x] `useLeadFormAnalytics.ts` - Analytics queries
+- [ ] Cache invalidation on mutations
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Form builder saves new form
+- [ ] READ: List forms, view form details, list submissions
+- [ ] UPDATE: Edit form fields, settings, styling
+- [ ] DELETE: Delete form with confirmation
+
+**LAYER 6 - EDGE CASES:**
+- [ ] File upload size limits
+- [ ] UTM parameter extraction
+- [ ] Auto-responder email trigger
+- [ ] Duplicate lead detection
+- [ ] Form load time < 3 seconds
+- [ ] Progressive disclosure (max 7 fields visible)
+
+---
+
+#### BACK-101: [LM-002] Visual Pipeline Management
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/pipeline` |
+| **Reference** | Event Temple, Tripleseat, HubSpot |
+
+**Description:**  
+Kanban-style drag-and-drop pipeline for managing leads through sales stages.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Create migration `0045_v3_venue_module.sql`
+- [x] Table `pipeline_stages`: id, organization_id, name, order_index, probability, color, is_won, is_lost, created_at
+- [x] Leads table enhanced with stage_id, weighted_value
+- [x] Table `lead_activities`: id, lead_id, activity_type, description, user_id, created_at
+- [x] Indexes: stage_id, lead_id, assigned_to, expected_close_date
+- [x] RLS policies for organization-scoped access
+
+**LAYER 2 - API:**
+- [x] `GET /api/pipeline-stages` - List stages with lead counts
+- [x] `POST /api/pipeline-stages` - Create stage
+- [x] `PUT /api/pipeline-stages/[id]` - Update stage (via batch endpoint)
+- [x] `DELETE /api/pipeline-stages/[id]` - Delete stage (pending)
+- [x] `PUT /api/pipeline-stages` - Reorder stages (batch update)
+- [x] `GET /api/pipeline/deals` - List deals with filters and summary
+- [x] `POST /api/pipeline/deals` - Create deal with auto-numbering
+- [x] `PUT /api/pipeline/deals/[id]` - Update deal with activity logging
+- [x] `PUT /api/pipeline/deals/[id]/move` - Move deal to stage with probability update
+- [x] `DELETE /api/pipeline/deals/[id]` - Delete deal
+- [x] `GET /api/pipeline/analytics` - Pipeline analytics with conversion rates
+
+**LAYER 3 - FRONTEND:**
+- [x] `/pipeline` - Main Kanban view with drag-drop
+- [x] `/pipeline/settings` - Stage configuration with colors
+- [x] `/pipeline/analytics` - Pipeline analytics with metrics
+- [x] `/pipeline/deals/[id]` - Deal detail page with actions
+- [x] `/pipeline/deals/new` - New deal form
+- [ ] `components/pipeline-board.tsx` - Kanban board with drag-drop
+- [ ] `components/pipeline-stage.tsx` - Stage column
+- [ ] `components/deal-card.tsx` - Draggable deal card
+- [ ] `components/deal-quick-view.tsx` - Deal preview panel
+
+**LAYER 4 - HOOKS:**
+- [x] `usePipelineStages.ts` - Stage CRUD with reorder
+- [x] `usePipelineDeals.ts` - Deal CRUD with optimistic updates (in usePipeline.ts)
+- [x] `usePipelineAnalytics.ts` - Analytics queries
+- [x] `useDealActivities.ts` - Activity log queries (in usePipelineAnalytics.ts)
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: New deal from lead or manual entry
+- [ ] READ: Kanban view, deal details, activity log
+- [ ] UPDATE: Drag-drop stage change, edit deal
+- [ ] DELETE: Delete deal with cascade
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Optimistic UI updates on drag
+- [ ] Rollback on API failure
+- [ ] Stale lead indicators (days since activity)
+- [ ] Concurrent edit handling
+- [ ] Stage probability validation (0-100%)
+
+---
+
+#### BACK-102: [LM-003] Contact & Account Database
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/contacts`, `/contacts/relationships` |
+| **Reference** | Tripleseat, Salesforce, Event Temple |
+
+**Description:**  
+Centralized database of contacts and organizations with complete interaction history.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Enhance existing `contacts` table with: role, address, preferences (jsonb), lifetime_value, total_events
+- [ ] Enhance existing `organizations` table with: industry, size, website, social_links (jsonb)
+- [ ] Table `contact_interactions`: id, contact_id, interaction_type, subject, body, user_id, metadata (jsonb), created_at
+- [ ] Table `contact_tags`: id, contact_id, tag
+- [ ] Table `contact_custom_fields`: id, organization_id, field_name, field_type, options (jsonb)
+- [ ] Indexes: contact_id, organization_id, interaction_type, tag
+
+**LAYER 2 - API:**
+- [x] `GET /api/contacts` - List with search/filter
+- [x] `POST /api/contacts` - Create contact
+- [x] `GET /api/contacts/[id]` - Contact with interactions
+- [x] `PUT /api/contacts/[id]` - Update contact
+- [x] `DELETE /api/contacts/[id]` - Delete contact
+- [x] `POST /api/contacts/[id]/interactions` - Log interaction
+- [x] `GET /api/contacts/[id]/timeline` - Interaction timeline
+- [x] `POST /api/contacts/merge` - Merge duplicates
+- [x] `GET /api/contacts/duplicates` - Find duplicates
+
+**LAYER 3 - FRONTEND:**
+- [x] `/contacts` - Contact list with search/filters
+- [x] `/contacts/new` - Create contact form
+- [x] `/contacts/[id]` - 360-degree contact view
+- [x] `/contacts/[id]/timeline` - Interaction timeline
+- [x] `/contacts/duplicates` - Duplicate detection and merge
+- [ ] `components/contact-card.tsx` - Contact summary card
+- [ ] `components/interaction-timeline.tsx` - Timeline view
+- [ ] `components/contact-merge-dialog.tsx` - Merge UI
+
+**LAYER 4 - HOOKS:**
+- [x] `useContacts.ts` - Contact CRUD (existing)
+- [x] `useContactInteractions.ts` - Interaction logging, timeline
+- [x] `useContactDuplicates.ts` - Duplicate detection and merge
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: New contact with organization link
+- [ ] READ: List, search, 360-view, timeline
+- [ ] UPDATE: Edit contact, add tags, log interactions
+- [ ] DELETE: Delete with cascade option
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Duplicate detection on create
+- [ ] Email signature enrichment
+- [ ] Interaction auto-logging from emails
+- [ ] CLV calculation trigger
+
+---
+
+#### BACK-103: [BK-001] Master Event Calendar
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/schedule` |
+| **Reference** | Tripleseat, Planning Pod, Event Temple |
+
+**Description:**  
+Central calendar displaying all events, holds, and availability across all venue spaces.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Table `venue_events`: id, venue_id, space_id, name, event_type, status (tentative/confirmed/completed), start_datetime, end_datetime, setup_time_minutes, breakdown_time_minutes, contact_id, notes, color, created_by, created_at, updated_at
+- [ ] Table `venue_spaces`: id, venue_id, name, description, photos (jsonb), capacity_configs (jsonb), base_pricing (jsonb), amenities (jsonb), active
+- [ ] Table `space_holds`: id, space_id, start_date, end_date, priority, contact_id, expires_at, notes, status, created_at
+- [ ] Indexes: venue_id, space_id, start_datetime, status, expires_at
+
+**LAYER 2 - API:**
+- [x] `GET /api/calendar` - Calendar events with date range and holds
+- [x] `GET /api/calendar/availability` - Space availability check
+- [x] `POST /api/calendar/events` - Create event with recurring support
+- [x] `GET/PUT/DELETE /api/calendar/events/[id]` - Event CRUD
+- [x] `PUT /api/calendar/events/[id]/reschedule` - Drag-drop reschedule with history
+- [x] `GET /api/calendar/ical` - iCal feed generation
+- [x] `GET/POST /api/spaces/[id]/hold` - Create and list space holds
+- [x] `GET/DELETE /api/spaces/[id]/hold/[holdId]` - Get and release hold
+
+**LAYER 3 - FRONTEND:**
+- [x] `/calendar` - Master calendar (month/week/day/agenda)
+- [x] `/calendar/spaces` - Space availability grid
+- [x] `/calendar/timeline` - Gantt-style timeline view
+- [ ] `components/calendar-grid.tsx` - Calendar grid component
+- [ ] `components/calendar-event-block.tsx` - Event display block
+- [ ] `components/space-availability-row.tsx` - Space row in timeline
+- [ ] `components/hold-badge.tsx` - Hold indicator with countdown
+
+**LAYER 4 - HOOKS:**
+- [x] `useInventoryScan.ts` - Scan mutation (integrated in useInventory.ts)
+- [x] `useInventoryAvailability.ts` - Availability queries (integrated in useInventory.ts)
+- [x] `useSpaceHolds.ts` - Hold management
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: New event, new hold
+- [ ] READ: Calendar views, availability
+- [ ] UPDATE: Drag-drop reschedule, edit event
+- [ ] DELETE: Delete event, release hold
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Setup/breakdown buffer visualization
+- [ ] Auto-expire holds (cron job)
+- [ ] Conflict detection on create/update
+- [ ] Timezone handling
+- [ ] Calendar load < 1 second
+
+---
+
+#### BACK-104: [BK-002] Space/Room Management
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/venues`, `/venues/zones` |
+| **Reference** | Tripleseat, Planning Pod, Skedda |
+
+**Description:**  
+Configuration and management of all bookable spaces with capacity and pricing.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `venue_spaces` in `0045_v3_venue_module.sql`
+- [x] Table `space_capacity_configs`: id, space_id, setup_type, capacity, diagram_url
+- [x] Table `space_pricing_rules`: id, space_id, pricing_type, base_price, conditions (jsonb)
+- [x] Combinable spaces via is_combinable and combine_with fields
+- [x] Indexes: space_id, setup_type, pricing_type
+
+**LAYER 2 - API:**
+- [x] `GET /api/venue-spaces` - List spaces with filters
+- [x] `POST /api/venue-spaces` - Create space
+- [x] `GET /api/venue-spaces/[id]` - Space details
+- [x] `PUT /api/venue-spaces/[id]` - Update space
+- [x] `DELETE /api/venue-spaces/[id]` - Delete space (soft delete)
+- [x] `GET/POST /api/spaces/[id]/capacity-configs` - Capacity config CRUD
+- [x] `GET/POST /api/spaces/[id]/pricing-rules` - Pricing rule CRUD
+- [x] `GET /api/spaces/recommend` - Smart capacity recommendation with scoring
+- [x] `GET/POST /api/spaces/combinations` - Space combinations CRUD
+
+**LAYER 3 - FRONTEND:**
+- [x] `/spaces` - Space directory with grid/list views
+- [x] `/spaces/new` - Create space with amenities
+- [x] `/spaces/[id]` - Space detail with capacity/pricing
+- [x] `/spaces/[id]/pricing` - Pricing rule management
+- [x] `/spaces/[id]/capacity` - Layout configurations
+- [x] `/spaces/combinations` - Space combinations
+- [ ] `components/space-card.tsx` - Space summary card
+- [ ] `components/capacity-config-form.tsx` - Capacity setup form
+- [ ] `components/pricing-rule-builder.tsx` - Dynamic pricing rules
+
+**LAYER 4 - HOOKS:**
+- [x] `useVenueSpaces.ts` - Space CRUD
+- [x] `useSpaceCapacity.ts` - Capacity config CRUD
+- [x] `useSpacePricing.ts` - Pricing rules CRUD
+- [x] `useSpaceRecommend.ts` - Smart recommendations
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: New space, capacity configs, pricing rules
+- [ ] READ: Space list, details, pricing, capacity
+- [ ] UPDATE: Edit space, modify rules
+- [ ] DELETE: Delete space/configs with cascade
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Photo upload and gallery management
+- [ ] Dynamic pricing calculation
+- [ ] Capacity validation against fire codes
+- [ ] Combined space availability logic
+
+---
+
+#### BACK-105: [BK-003] Availability & Holds System
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | LOW |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Reference** | Tripleseat, Event Temple, Perfect Venue |
+
+**Description:**  
+Real-time availability lookup and temporary hold system for spaces.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `space_holds` in `0045_v3_venue_module.sql`
+- [x] Add `hold_priority` enum: first_right, standard, low
+- [x] Add `hold_status` enum: active, expired, released, converted
+- [ ] Table `availability_widgets`: id, organization_id, space_ids (array), settings (jsonb), embed_code, created_at
+- [x] Function for auto-releasing expired holds
+
+**LAYER 2 - API:**
+- [x] `GET /api/availability` - Check availability for date range (existing)
+- [x] `GET /api/availability/widget/[id]` - Public widget data with view tracking
+- [x] `POST /api/holds` - Create hold
+- [x] `PUT /api/holds/[id]` - Update hold
+- [x] `DELETE /api/holds/[id]` - Release hold
+- [x] `POST /api/holds/[id]/convert` - Convert hold to booking
+- [x] `GET /api/holds/expiring` - Expiring holds list
+
+**LAYER 3 - FRONTEND:**
+- [x] `/availability` - Availability checker with date range and space status
+- [x] `/availability/widget` - Widget configuration
+- [x] `/holds` - Active holds list with filters and actions
+- [x] `/holds/expiring` - Expiring holds alerts with extend/convert
+- [x] `components/availability-checker.tsx` - Date range availability check (integrated in page)
+- [x] `components/hold-manager.tsx` - Hold management (integrated in pages)
+- [ ] `components/availability-widget.tsx` - Embeddable widget
+
+**LAYER 4 - HOOKS:**
+- [x] `useAvailability.ts` - Availability queries
+- [x] `useHolds.ts` - Hold CRUD with expiring holds
+- [x] `useExpiringHolds.ts` - Expiring hold alerts (integrated in useAvailability)
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: New hold with priority (via holds page)
+- [x] READ: Availability check, holds list (pages created)
+- [x] UPDATE: Extend hold, change priority (expiring page)
+- [x] DELETE: Release hold (holds pages)
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Hold auto-expiration (48-72 hours default)
+- [ ] Priority conflict resolution
+- [ ] Waitlist for booked dates
+- [ ] Demand indicator badges
+- [ ] Alternative date suggestions
+
+---
+
+#### BACK-106: [BK-004] Event Booking Workflow
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Reference** | Tripleseat, Event Temple, Planning Pod |
+
+**Description:**  
+Guided workflow for creating and managing event bookings.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `bookings` in `0045_v3_venue_module.sql` with full schema
+- [x] Table `booking_spaces` for multi-space bookings
+- [x] Table `booking_templates` for event type templates
+- [x] Enum `booking_status`: draft, pending, confirmed, in_progress, completed, cancelled
+- [x] Auto-generate booking_number trigger
+
+**LAYER 2 - API:**
+- [x] `POST /api/bookings` - Create booking with spaces
+- [x] `GET /api/bookings` - List bookings with filters
+- [x] `GET /api/bookings/[id]` - Booking details with related data
+- [x] `PUT /api/bookings/[id]` - Update booking
+- [x] `DELETE /api/bookings/[id]` - Cancel booking (soft delete)
+- [x] `POST /api/bookings/[id]/clone` - Clone booking with line items
+- [x] `GET/POST /api/bookings/draft` - Save and list draft bookings
+- [x] `GET/POST /api/booking-templates` - List and create templates
+- [x] `GET/POST /api/booking-packages` - List and create packages
+- [x] `GET/POST /api/booking-add-ons` - List and create add-ons
+
+**LAYER 3 - FRONTEND:**
+- [x] `/bookings` - Booking list with filters
+- [x] `/bookings/new` - Multi-step booking wizard
+- [x] `/bookings/[id]` - Booking details with line items
+- [x] `/bookings/[id]/edit` - Edit booking form
+- [x] `/bookings/templates` - Template management
+- [x] `/bookings/packages` - Package management with pricing
+- [ ] `components/booking-wizard.tsx` - Multi-step wizard
+- [ ] `components/package-selector.tsx` - Package selection
+- [ ] `components/add-on-picker.tsx` - Add-on selection
+- [ ] `components/booking-summary.tsx` - Price summary
+
+**LAYER 4 - HOOKS:**
+- [x] `useBookings.ts` - Booking CRUD with filters
+- [ ] `useBookingWizard.ts` - Wizard state management
+- [x] `useBookingTemplates.ts` - Template CRUD
+- [x] `useBookingPackages.ts` - Package queries
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Multi-step wizard with auto-save
+- [ ] READ: Booking list, details, draft recovery
+- [ ] UPDATE: Edit booking, change package/add-ons
+- [ ] DELETE: Cancel booking with refund logic
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Auto-save draft every 30 seconds
+- [ ] Validation before each wizard step
+- [ ] One-click rebooking for repeat clients
+- [ ] Collaborative booking share link
+- [ ] Booking under 5 minutes completion
+
+---
+
+#### BACK-107: [DG-001] Proposal Builder
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Reference** | Tripleseat, Perfect Venue, HoneyBook |
+
+**Description:**  
+Create branded proposals with event details, pricing, and terms.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `proposals` in `0045_v3_venue_module.sql` with full schema
+- [x] Table `proposal_templates` for reusable templates
+- [x] Enum `proposal_status`: draft, sent, viewed, accepted, declined, expired
+- [x] Auto-generate proposal_number trigger
+- [x] Public token for sharing
+
+**LAYER 2 - API:**
+- [x] `POST /api/proposals` - Create proposal with public token
+- [x] `GET /api/proposals` - List proposals with filters
+- [x] `GET /api/proposals/[id]` - Proposal details
+- [x] `PUT /api/proposals/[id]` - Update proposal
+- [x] `POST /api/proposals/[id]/send` - Send proposal
+- [x] `GET /api/proposals/[id]/view` - Public view with tracking
+- [x] `POST /api/proposals/[id]/accept` - Accept proposal (existing)
+- [x] `POST /api/proposals/[id]/decline` - Decline proposal with feedback
+- [x] `GET /api/proposals/[id]/analytics` - View analytics with metrics
+- [x] `GET/POST /api/proposal-templates` - Template CRUD
+
+**LAYER 3 - FRONTEND:**
+- [x] `/proposals` - Proposal list with status and filters
+- [x] `/proposals/new` - Proposal builder with line items
+- [x] `/proposals/[id]` - Proposal edit/preview
+- [x] `/proposals/[id]/analytics` - View tracking
+- [x] `/proposals/templates` - Template management
+- [x] `/proposal/[token]` - Public proposal view (for clients)
+- [ ] `components/proposal-builder.tsx` - Drag-drop builder
+- [ ] `components/proposal-block.tsx` - Content block types
+- [x] `components/pricing-table-editor.tsx` - Line item editor (integrated in new page)
+- [ ] `components/proposal-preview.tsx` - Live preview
+
+**LAYER 4 - HOOKS:**
+- [x] `useProposals.ts` - Proposal CRUD with send mutation
+- [ ] `useProposalBuilder.ts` - Builder state
+- [x] `useProposalAnalytics.ts` - View tracking
+- [x] `useProposalTemplates.ts` - Template CRUD
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Build proposal from scratch with line items
+- [x] READ: List with filters and stats
+- [ ] UPDATE: Edit content, pricing, terms
+- [ ] DELETE: Delete draft proposals
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Version history and comparison
+- [ ] Mobile-responsive viewing
+- [ ] Accept/decline with signature
+- [ ] View tracking heatmaps
+- [ ] Proposal load < 3 seconds
+
+---
+
+#### BACK-108: [DG-002] Contract Generation & E-Signatures
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/contracts` |
+| **Reference** | Tripleseat, HoneyBook, DocuSign |
+
+**Description:**  
+Generate legally-binding contracts with integrated electronic signatures.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `contracts` in `0052_v3_contracts.sql` with full e-signature support
+- [x] Table `contract_templates` for reusable templates
+- [x] Table `contract_clauses` for clause library
+- [x] Table `contract_signatures` for individual signer tracking
+- [x] Table `contract_audit_logs` for audit trail
+
+**LAYER 2 - API:**
+- [x] `POST /api/contracts` - Create contract
+- [x] `GET /api/contracts` - List contracts
+- [x] `GET /api/contracts/[id]` - Contract details
+- [x] `PUT /api/contracts/[id]` - Update contract
+- [x] `POST /api/contracts/[id]/send` - Send for signatures
+- [x] `GET /api/contracts/[id]/sign` - Public signing page
+- [x] `POST /api/contracts/[id]/sign` - Submit signature
+- [x] `POST /api/contracts/[id]/void` - Void contract
+- [x] `GET /api/contracts/[id]/audit` - Audit trail
+- [x] `GET /api/contract-clauses` - Clause library
+
+**LAYER 3 - FRONTEND:**
+- [x] `/contracts` - Contract list with filters and stats
+- [x] `/contracts/new` - Contract builder with signers
+- [x] `/contracts/[id]` - Contract detail with send/download actions
+- [x] `/contracts/[id]/audit` - Audit trail view
+- [x] `/contracts/clauses` - Clause library
+- [x] `/contracts/templates` - Template management
+- [x] `/sign/[token]` - Public signing page
+- [ ] `components/contract-builder.tsx` - Clause assembly
+- [ ] `components/clause-picker.tsx` - Clause selection
+- [ ] `components/signature-capture.tsx` - E-signature pad
+- [x] `components/signer-assignment.tsx` - Signer configuration (in new page)
+
+**LAYER 4 - HOOKS:**
+- [x] `useContracts.ts` - Contract CRUD with useSendContract
+- [x] `useContractBuilder.ts` - Builder state
+- [x] `useContractClauses.ts` - Clause library
+- [x] `useSignatures.ts` - Signature management
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Build contract from clauses
+- [ ] READ: List, view, audit trail
+- [ ] UPDATE: Edit draft, add signers
+- [ ] DELETE: Void contract with reason
+
+**LAYER 6 - EDGE CASES:**
+- [ ] ESIGN Act compliance
+- [ ] Multi-signer with order
+- [ ] Amendment workflow
+- [ ] Signature reminders
+- [ ] Mobile signing support
+- [ ] Variable substitution from booking
+
+---
+
+#### BACK-109: [DG-003] Banquet Event Order (BEO) Generation
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | COMPVSS |
+| **Type** | NEW |
+| **Status** | IN PROGRESS |
+| **Rationale** | BEOs are operational documents used day-of by production teams |
+| **Reference** | Tripleseat, Planning Pod, Caterease |
+
+**Description:**  
+Create detailed operational documents for event execution.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `beos` in `0053_v3_beos.sql` with sections JSONB
+- [x] Table `beo_templates` for reusable templates
+- [x] Table `beo_versions` for version history
+- [x] Table `beo_distributions` for tracking distribution
+**LAYER 2 - API:**
+- [x] `POST /api/beos` - Create BEO
+- [x] `GET /api/beos` - List BEOs with filters
+- [x] `GET /api/beos/[id]` - BEO details with versions
+- [x] `PUT /api/beos/[id]` - Update BEO
+- [x] `DELETE /api/beos/[id]` - Delete BEO
+- [x] `POST /api/beos/[id]/approve` - Approve BEO
+- [x] `POST /api/beos/[id]/distribute` - Distribute BEO
+- [ ] `POST /api/beos/[id]/generate` - Auto-generate from booking
+- [ ] `GET /api/beos/[id]/pdf` - Generate PDF
+- [ ] `GET /api/beos/[id]/versions` - Version history
+- [ ] `GET /api/beos/[id]/department/[dept]` - Department-specific view
+
+**LAYER 3 - FRONTEND:**
+- [x] `/beos` - BEO list with filters, stats, status badges
+- [x] `/beos/new` - BEO builder with timeline, room setup
+- [x] `/beos/[id]` - BEO detail with approve/distribute actions
+- [x] `/beos/[id]/preview` - Print preview
+- [ ] `/beos/[id]/versions` - Version comparison
+- [x] `/beos/templates` - Template management
+- [ ] `components/beo-builder.tsx` - Section editor
+- [ ] `components/beo-section.tsx` - Section components
+- [ ] `components/beo-timeline.tsx` - Timeline editor
+- [ ] `components/beo-dietary.tsx` - Dietary requirements
+
+**LAYER 4 - HOOKS:**
+- [x] `useBEOs.ts` - BEO CRUD with filters, mutations
+- [x] `useBEOBuilder.ts` - Builder state
+- [x] `useBEOTemplates.ts` - Template management
+- [x] `useBEODistribution.ts` - Distribution tracking
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Generate from booking or manual
+- [ ] READ: List, view, department views
+- [ ] UPDATE: Edit sections, track changes
+- [ ] DELETE: Archive old versions
+
+**LAYER 6 - EDGE CASES:**
+- [ ] One-click generation from booking
+- [ ] Version comparison diff view
+- [ ] Change tracking and notifications
+- [ ] Department-filtered views (Kitchen, Bar, AV)
+- [ ] Critical item highlighting (allergies, VIPs)
+
+---
+
+#### BACK-110: [DG-004] Invoice & Payment Generation
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/invoices` |
+| **Reference** | Tripleseat, Perfect Venue, QuickBooks |
+
+**Description:**  
+Create and send professional invoices with integrated payment collection.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `invoices` in `0054_v3_invoices.sql` with full payment tracking
+- [x] Table `invoice_payments` for payment transactions
+- [x] Table `tax_rates` for configurable tax rates
+- [x] Table `stored_payment_methods` for saved payment methods
+- [x] Table `invoice_templates` for reusable templates
+
+**LAYER 2 - API:**
+- [x] `POST /api/invoices` - Create invoice with line items
+- [x] `GET /api/invoices` - List invoices with filters and summary
+- [x] `GET /api/invoices/[id]` - Invoice details
+- [x] `PUT /api/invoices/[id]` - Update invoice
+- [ ] `POST /api/invoices/[id]/send` - Send invoice
+- [ ] `GET /api/invoices/[id]/view` - Public view (no auth)
+- [ ] `POST /api/invoices/[id]/pay` - Process payment
+- [ ] `POST /api/invoices/[id]/reminder` - Send reminder
+- [ ] `GET /api/invoices/[id]/export/quickbooks` - QuickBooks export
+
+**LAYER 3 - FRONTEND:**
+- [x] `/invoices` - Invoice list with AR aging, stats, actions
+- [x] `/invoices/new` - Create invoice with line items
+- [x] `/invoices/[id]` - Invoice detail with payment recording
+- [x] `/invoices/[id]/preview` - Print preview
+- [x] `/pay/[token]` - Public payment page
+- [ ] `components/invoice-builder.tsx` - Line item editor
+- [ ] `components/payment-schedule.tsx` - Milestone editor
+- [ ] `components/invoice-preview.tsx` - Preview component
+
+**LAYER 4 - HOOKS:**
+- [x] `useInvoices.ts` - Invoice CRUD with send, delete, reminder, useInvoice, useRecordPayment
+- [x] `useInvoicePayments.ts` - Payment processing
+- [x] `useTaxRates.ts` - Tax rate management
+- [x] `useARReporting.ts` - Accounts receivable
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Generate from booking or manual
+- [ ] READ: List, view, AR reporting
+- [ ] UPDATE: Edit line items, payment terms
+- [ ] DELETE: Void invoice with reason
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Automatic late fee calculation
+- [ ] Payment reminder automation
+- [ ] Receipt generation on payment
+- [ ] Partial payment handling
+- [ ] QuickBooks/Xero export
+
+---
+
+#### BACK-111: [PM-001] Integrated Payment Gateway
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/payments` |
+| **Reference** | Tripleseat PartyPay, Perfect Venue, Stripe |
+
+**Description:**  
+Accept credit card, ACH, and digital wallet payments directly.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `payment_gateways` in `0055_v3_payments.sql` with gateway configs
+- [x] Table `payment_transactions` with full transaction tracking
+- [x] Table `payment_refunds` for refund processing
+- [x] Table `payment_webhook_events` for webhook handling
+
+**LAYER 2 - API:**
+- [ ] `POST /api/payments/intent` - Create payment intent
+- [ ] `POST /api/payments/confirm` - Confirm payment
+- [ ] `GET /api/payments` - List transactions
+- [ ] `GET /api/payments/[id]` - Transaction details
+- [ ] `POST /api/payments/[id]/refund` - Process refund
+- [ ] `POST /api/payments/webhook` - Stripe webhook handler
+- [ ] `GET /api/payments/methods` - List payment methods
+- [ ] `POST /api/payments/methods` - Add payment method
+
+**LAYER 3 - FRONTEND:**
+- [x] `/payments` - Transaction list (existing)
+- [x] `/payments/settings` - Gateway configuration with toggle settings
+- [x] `/payments/[id]` - Transaction details
+- [ ] `components/payment-form.tsx` - Stripe Elements wrapper
+- [ ] `components/payment-method-selector.tsx` - Method selection
+- [ ] `components/refund-dialog.tsx` - Refund processing
+
+**LAYER 4 - HOOKS:**
+- [x] `usePayments.ts` - Payment operations
+- [x] `usePaymentMethods.ts` - Method management
+- [ ] `useStripe.ts` - Stripe SDK wrapper
+- [x] `useRefunds.ts` - Refund processing
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Process payment, add method
+- [ ] READ: Transaction list, details
+- [ ] UPDATE: N/A (payments are immutable)
+- [ ] DELETE: Process refund
+
+**LAYER 6 - EDGE CASES:**
+- [ ] PCI DSS compliance (Stripe Elements)
+- [ ] Webhook signature verification
+- [ ] Failed payment retry logic
+- [ ] Apple Pay / Google Pay support
+- [ ] ACH bank transfer support
+
+---
+
+#### BACK-112: [PM-002] Deposit & Payment Schedule
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | LOW |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Reference** | Tripleseat, Perfect Venue, HoneyBook |
+
+**Description:**  
+Configure and track payment milestones with automated reminders.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `payment_schedules` in `0045_v3_venue_module.sql`
+- [x] Table `payment_milestones` for individual milestone tracking
+- [x] Table `payment_reminders` for scheduled reminders
+
+**LAYER 2 - API:**
+- [x] `POST /api/payment-schedules` - Create schedule with milestones
+- [x] `GET /api/payment-schedules` - List schedules with filters
+- [x] `GET /api/payment-schedules/[id]` - Schedule details
+- [x] `PUT /api/payment-schedules/[id]` - Update schedule
+- [x] `DELETE /api/payment-schedules/[id]` - Delete schedule
+- [x] `POST /api/payment-schedules/[id]/reminder` - Send reminder
+- [x] `GET /api/payment-schedules/upcoming` - Upcoming due dates
+
+**LAYER 3 - FRONTEND:**
+- [x] `/payment-schedules` - Schedule list with filters and summary
+- [x] `/payment-schedules/upcoming` - Upcoming payments with reminders
+- [x] `/payment-schedules/overdue` - Overdue payments with actions
+- [ ] `components/payment-schedule-editor.tsx` - Milestone editor
+- [ ] `components/payment-timeline.tsx` - Visual timeline
+- [ ] `components/reminder-settings.tsx` - Reminder config
+
+**LAYER 4 - HOOKS:**
+- [x] `usePaymentSchedules.ts` - Schedule CRUD with milestones
+- [x] `useSendPaymentReminder` - Reminder sending
+- [x] `useUpcomingPayments.ts` - Due date queries
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Build schedule from template (via API)
+- [x] READ: List, upcoming, overdue (pages created)
+- [x] UPDATE: Send reminders (via pages)
+- [ ] DELETE: Remove milestone
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Auto-calculate from event date
+- [ ] Late fee application
+- [ ] Reminder automation (cron job)
+- [ ] Autopay enrollment option
+
+---
+
+#### BACK-113: [FP-001] Floor Plan Designer (2D)
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Reference** | AllSeated, Social Tables, Cvent |
+
+**Description:**  
+Drag-and-drop 2D floor plan designer with furniture library and capacity calculations.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `floor_plans` in `0046_v3_high_priority.sql`
+- [x] Table `floor_plan_objects` with default object library
+- [x] Indexes: space_id, organization_id, category
+
+**LAYER 2 - API:**
+- [x] `POST /api/floor-plans` - Create floor plan
+- [x] `GET /api/floor-plans` - List floor plans
+- [x] `GET /api/floor-plans/[id]` - Floor plan details
+- [x] `PUT /api/floor-plans/[id]` - Update floor plan
+- [x] `DELETE /api/floor-plans/[id]` - Delete floor plan
+- [x] `GET /api/floor-plan-objects` - Object library
+- [ ] `GET /api/floor-plans/[id]/pdf` - Export to PDF
+
+**LAYER 3 - FRONTEND:**
+- [x] `/floor-plans` - Floor plan list
+- [x] `/floor-plans/new` - Floor plan creation form
+- [x] `/floor-plans/[id]` - Floor plan detail view
+- [ ] `components/floor-plan-canvas.tsx` - Canvas with pan/zoom
+- [ ] `components/floor-plan-toolbar.tsx` - Tools and actions
+- [ ] `components/floor-plan-object-library.tsx` - Draggable objects
+
+**LAYER 4 - HOOKS:**
+- [x] `useFloorPlans.ts` - Floor plan CRUD
+- [x] `useFloorPlanCanvas.ts` - Canvas state management
+- [x] `useFloorPlanObjects.ts` - Object library queries (in useFloorPlans.ts)
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: New floor plan with form
+- [x] READ: List with search, filter, delete actions
+- [ ] UPDATE: Add/remove/move objects, save
+- [x] DELETE: Delete floor plan
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Auto-save every 30 seconds
+- [ ] Undo/redo (10+ levels)
+- [ ] Auto-capacity calculation
+- [ ] Grid snap and alignment guides
+
+---
+
+#### BACK-114: [CP-001] Client Portal
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/portal/vendor`, `/portal/artist`, `/portal/crew`, `/portal/sponsor`, `/portal/investor` |
+| **Rationale** | B2B client portal for venue clients, not consumer-facing |
+| **Reference** | Tripleseat, Event Temple, HoneyBook |
+
+**Description:**  
+Self-service portal for clients to view event details, documents, and make payments.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `client_portal_access` in `0046_v3_high_priority.sql`
+- [x] Table `client_portal_activities` in `0046_v3_high_priority.sql`
+- [x] Table `client_portal_messages` in `0046_v3_high_priority.sql`
+
+**LAYER 2 - API:**
+- [x] `POST /api/client-portal/invite` - Send portal invite
+- [x] `GET /api/client-portal/auth` - Authenticate with token
+- [x] `GET /api/client-portal/events` - List client's events
+- [x] `GET /api/client-portal/documents` - Documents list
+- [x] `GET /api/client-portal/invoices` - Invoices list
+- [ ] `POST /api/client-portal/messages` - Send message
+
+**LAYER 3 - FRONTEND:**
+- [x] `/client-portal` - Portal management with invite sending
+- [x] `/client-portal/events` - Event list with search/filter
+- [x] `/client-portal/documents` - Document hub with proposals/contracts
+- [x] `/client-portal/invoices` - Invoice list with payment actions
+- [ ] `components/client-portal-shell.tsx` - Portal layout
+- [ ] `components/client-event-card.tsx` - Event summary card
+
+**LAYER 4 - HOOKS:**
+- [x] `useClientPortal.ts` - Portal authentication, events, documents, invoices
+- [x] `useClientEvents.ts` - (integrated in useClientPortal.ts)
+- [x] `useClientDocuments.ts` - (integrated in useClientPortal.ts)
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Send message, request changes
+- [ ] READ: View events, documents, invoices
+- [ ] UPDATE: Update guest count, dietary needs
+- [ ] DELETE: N/A (clients can't delete)
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Token expiration and refresh
+- [ ] Mobile-optimized views
+- [ ] Real-time message notifications
+
+---
+
+#### BACK-115: [TK-001] Event Ticketing System
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | HIGH |
+| **App** | GVTEWAY |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/tickets`, `/checkout`, `/cart` (8+ subdirectories) |
+| **Rationale** | Consumer-facing ticket purchase flow |
+| **Reference** | Tripleseat, Eventbrite, Universe |
+
+**Description:**  
+Sell tickets for public events with guest management and check-in.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `ticket_types` in `0046_v3_high_priority.sql`
+- [x] Table `ticket_orders` in `0046_v3_high_priority.sql`
+- [x] Table `tickets` in `0046_v3_high_priority.sql`
+- [x] Table `ticket_check_ins` in `0046_v3_high_priority.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/events/[id]/tickets` - List ticket types
+- [x] `POST /api/events/[id]/tickets` - Create ticket type
+- [x] `POST /api/ticket-orders` - Create order
+- [x] `POST /api/tickets/[id]/check-in` - Check in ticket
+- [x] `GET /api/events/[id]/guest-list` - Export guest list
+
+**LAYER 3 - FRONTEND:**
+- [x] `/events/[id]/ticketing` - Ticketing setup with CRUD
+- [x] `/events/[id]/orders` - Order list with cancel/refund
+- [x] `/events/[id]/check-in` - Check-in interface with search
+- [ ] `components/ticket-type-form.tsx` - Ticket config
+- [ ] `components/check-in-scanner.tsx` - Barcode scanner
+
+**LAYER 4 - HOOKS:**
+- [x] `useTicketing.ts` - Ticket types, orders, guest list, check-in
+- [x] `useTicketOrders.ts` - (integrated in useTicketing.ts)
+- [x] `useCheckIn.ts` - (integrated in useTicketing.ts)
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Ticket types, orders, check-ins
+- [ ] READ: Types, orders, guest list
+- [ ] UPDATE: Edit types, modify orders
+- [ ] DELETE: Cancel tickets/orders
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Inventory management (overselling prevention)
+- [ ] Promo code support
+- [ ] Mobile check-in support
+
+---
+
+#### BACK-116: [RP-001] Real-Time Analytics Dashboard
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/analytics` (7 subdirectories) |
+| **Reference** | Tripleseat, Event Temple, Looker |
+
+**Description:**  
+Executive dashboard with KPIs, forecasts, and trend analysis.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `report_definitions` in `0046_v3_high_priority.sql`
+- [x] Table `report_executions` in `0046_v3_high_priority.sql`
+- [x] Table `dashboard_widgets` in `0046_v3_high_priority.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/analytics/dashboard` - Dashboard metrics (existing)
+- [x] `GET /api/analytics/reports` - Reports list (existing)
+- [x] `POST /api/analytics/reports` - Create report (existing)
+- [x] `GET /api/analytics/predictive` - Predictive analytics (existing)
+- [x] `GET /api/analytics/cross-platform` - Cross-platform analytics (existing)
+
+**LAYER 3 - FRONTEND:**
+- [x] `/analytics` - Main dashboard with KPIs and trends
+- [x] `/analytics/revenue` - Revenue deep dive
+- [x] `/analytics/pipeline` - Pipeline analysis
+- [ ] `/reports` - Saved reports
+- [ ] `components/analytics-dashboard.tsx` - Dashboard layout
+- [ ] `components/metric-card.tsx` - KPI card
+- [ ] `components/trend-chart.tsx` - Trend visualization
+
+**LAYER 4 - HOOKS:**
+- [x] `useAnalytics.ts` - Dashboard metrics (existing)
+- [x] `useRevenueAnalytics.ts` - Revenue queries
+- [x] `useSavedReports.ts` - Report CRUD
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Saved reports
+- [ ] READ: Dashboard, analytics, reports
+- [ ] UPDATE: Edit saved reports
+- [ ] DELETE: Delete saved reports
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Real-time data refresh (30 seconds)
+- [ ] Date range comparisons
+- [ ] Export to Excel/PDF
+- [ ] Dashboard load < 2 seconds
+
+---
+
+#### BACK-117: [INT-001] Integration Suite
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/integrations` |
+| **Reference** | Zapier, Make, native integrations |
+
+**Description:**  
+Integrations with accounting, marketing, and productivity tools.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `integrations` in `0047_v3_vendor_integration.sql`
+- [x] Table `integration_sync_logs` in `0047_v3_vendor_integration.sql`
+- [x] Table `integration_field_mappings` in `0047_v3_vendor_integration.sql`
+- [x] Table `webhooks_outgoing` in `0047_v3_vendor_integration.sql`
+- [x] Table `webhook_deliveries` in `0047_v3_vendor_integration.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/integrations` - List integrations
+- [x] `POST /api/integrations` - Connect integration
+- [x] `GET /api/integrations/[id]` - Integration details
+- [x] `PUT /api/integrations/[id]` - Update integration
+- [x] `DELETE /api/integrations/[id]` - Disconnect
+- [x] `POST /api/integrations/[id]/sync` - Trigger sync
+- [x] `GET /api/webhooks` - List webhooks
+- [x] `POST /api/webhooks` - Create webhook
+- [x] `GET /api/webhooks/[id]` - Webhook details
+- [x] `PUT /api/webhooks/[id]` - Update webhook
+- [x] `DELETE /api/webhooks/[id]` - Delete webhook
+
+**LAYER 3 - FRONTEND:**
+- [x] `/integrations` - Integration marketplace (existing)
+- [x] `/integrations/[provider]` - Integration config with settings and sync options
+- [x] `/webhooks` - Webhook management
+- [ ] `components/integration-card.tsx` - Integration tile
+- [ ] `components/oauth-connect.tsx` - OAuth flow
+
+**LAYER 4 - HOOKS:**
+- [x] `useIntegrations.ts` - Integration CRUD, sync
+- [x] `useIntegrationSync.ts` - (integrated in useIntegrations.ts)
+- [x] `useWebhooks.ts` - Webhook CRUD
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Connect integration, create webhook
+- [x] READ: List, logs, status
+- [ ] UPDATE: Update settings
+- [x] DELETE: Disconnect, delete webhook
+
+**LAYER 6 - EDGE CASES:**
+- [ ] OAuth token refresh
+- [ ] Rate limiting per provider
+- [ ] Retry logic for failed syncs
+
+**Supported:** QuickBooks, Xero, Stripe, Mailchimp, Google Calendar, Slack, Zapier
+
+---
+
+### PART B: VENDOR SERVICES FEATURES (21 Features)
+
+---
+
+#### BACK-118: [VD-001] Vendor Database
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/vendors`, `/procurement` |
+| **Reference** | Prismm, Event Temple |
+
+**Description:**  
+Centralized database of vendors with categories, certifications, and contact info.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `vendor_profiles` in `0047_v3_vendor_integration.sql`
+- [x] Table `vendor_categories` with default categories
+- [x] Table `vendor_contacts` in `0047_v3_vendor_integration.sql`
+- [x] Table `vendor_documents` in `0047_v3_vendor_integration.sql`
+- [x] Table `vendor_ratings` in `0047_v3_vendor_integration.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/vendor-profiles` - List with filters
+- [x] `POST /api/vendor-profiles` - Create vendor
+- [x] `GET /api/vendor-profiles/[id]` - Vendor details
+- [x] `PUT /api/vendor-profiles/[id]` - Update vendor
+- [x] `GET /api/vendor-categories` - Category tree
+- [ ] `POST /api/vendor-profiles/import` - Bulk import
+
+**LAYER 3 - FRONTEND:**
+- [x] `/vendors` - Vendor directory
+- [x] `/vendors/new` - Add vendor
+- [x] `/vendors/[id]` - Vendor profile
+- [x] `/vendors/categories` - Category management with tree view
+- [ ] `components/vendor-card.tsx` - Vendor summary card
+- [ ] `components/vendor-search.tsx` - Search with filters
+
+**LAYER 4 - HOOKS:**
+- [x] `useVendorProfiles.ts` - Vendor CRUD, categories
+- [x] `useVendorCategories.ts` - (integrated in useVendorProfiles.ts)
+- [x] `useVendorRatings.ts` - Rating queries
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Add vendor, upload documents
+- [x] READ: Search, filter, view profile
+- [ ] UPDATE: Edit vendor, verify documents
+- [x] DELETE: Archive vendor
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Document expiration alerts
+- [ ] Insurance verification
+- [ ] Duplicate detection on import
+
+---
+
+#### BACK-119: [VD-002] Preferred Vendor Lists
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | LOW |
+| **App** | ATLVS |
+| **Type** | NEW |
+
+**Description:**  
+Curated lists of preferred vendors by category and venue.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `preferred_vendor_lists` in `0048_v3_catalog_vendor_services.sql`
+- [x] Table `preferred_vendor_list_items` in `0048_v3_catalog_vendor_services.sql`
+- [x] Existing `preferred_vendors` table with status tracking
+
+**LAYER 2 - API:**
+- [x] `GET /api/preferred-vendors` - List preferred vendors (existing, full implementation)
+- [x] `POST /api/preferred-vendors` - Add preferred vendor (existing)
+- [x] `POST /api/preferred-vendors/[id]/add` - Add vendor to list
+- [x] `POST /api/preferred-vendors/[id]/remove` - Remove vendor from list (existing)
+
+**LAYER 3 - FRONTEND:**
+- [x] `/preferred-vendors` - Preferred vendors list with matrix view
+- [x] `/preferred-vendors/new` - Add preferred vendor form
+- [x] `/preferred-vendors/[id]` - Preferred vendor detail page
+- [ ] `components/preferred-vendor-list.tsx` - List component
+
+**LAYER 4 - HOOKS:**
+- [x] `usePreferredVendors.ts` - List CRUD, matrix, reorder
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Add vendors (via new page)
+- [x] READ: View lists, details
+- [x] UPDATE: Status changes, toggle active
+- [x] DELETE: Remove from preferred list
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Exclusive list enforcement
+
+---
+
+#### BACK-120: [VD-003] Vendor Performance Tracking
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/procurement/vendor-audits` |
+
+**Description:**  
+Track vendor performance metrics and collect feedback.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `vendor_reviews` in `0048_v3_catalog_vendor_services.sql`
+- [x] Table `vendor_metrics` in `0048_v3_catalog_vendor_services.sql`
+- [x] Table `vendor_issues` in `0048_v3_catalog_vendor_services.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/vendor-profiles/[id]/reviews` - Vendor reviews
+- [x] `POST /api/vendor-profiles/[id]/reviews` - Submit review
+- [x] `GET /api/vendors/[id]/performance` - Performance metrics with trends
+- [x] `GET/POST /api/vendors/[id]/scorecard` - Vendor scorecard CRUDs
+- [x] `POST /api/vendor-profiles/[id]/issues` - Report issue
+- [x] `PUT /api/vendor-profiles/[id]/issues` - Update issue
+
+**LAYER 3 - FRONTEND:**
+- [x] `/vendors/[id]/reviews` - Review list with form
+- [x] `/vendors/[id]/performance` - Performance dashboard with trends
+- [x] `/vendors/[id]/issues` - Issue tracking page
+- [x] `components/vendor-scorecard.tsx` - Performance card
+- [x] `components/review-form.tsx` - Review submission (integrated in reviews page)
+
+**LAYER 4 - HOOKS:**
+- [x] `useVendorPerformance.ts` - Performance queries (integrated in useVendors.ts), issues
+- [x] `useVendorMetrics.ts` - (integrated in useVendorPerformance.ts)
+- [x] `useVendorIssues.ts` - (integrated in useVendorPerformance.ts)
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Reviews, issues (forms in pages)
+- [x] READ: Reviews, metrics, issues
+- [x] UPDATE: Issue resolution (Mark Resolved button)
+- [ ] DELETE: Remove review (admin)
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Review moderation
+- [ ] Automatic metric calculation
+
+---
+
+#### BACK-121: [PC-001] Global Product/Service Catalog
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/assets` (extend with catalog pricing) |
+| **Reference** | Global Asset Catalog (24 categories) |
+
+**Description:**  
+Standardized catalog aligned with the 24-category Global Asset Catalog taxonomy.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `catalog_items` in `0048_v3_catalog_vendor_services.sql`
+- [x] Table `catalog_categories` with 24 Global Asset Catalog categories
+- [x] Table `catalog_pricing_tiers` in `0048_v3_catalog_vendor_services.sql`
+- [x] Table `catalog_variants` in `0048_v3_catalog_vendor_services.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/catalog` - List items with filters
+- [x] `POST /api/catalog` - Create item
+- [x] `GET /api/catalog/[id]` - Item details
+- [x] `PUT /api/catalog/[id]` - Update item
+- [x] `GET /api/catalog/categories` - Category tree
+- [ ] `GET /api/catalog/search` - Full-text search
+
+**LAYER 3 - FRONTEND:**
+- [x] `/catalog` - Catalog browser (grid/list view with filters)
+- [x] `/catalog/new` - Add item
+- [x] `/catalog/[id]` - Item detail
+- [x] `/catalog/categories` - Category management with tree view
+- [ ] `components/catalog-browser.tsx` - Browse with filters
+- [ ] `components/catalog-item-card.tsx` - Item card
+
+**LAYER 4 - HOOKS:**
+- [x] `useCatalog.ts` - Catalog CRUD, categories
+- [x] `useCatalogCategories.ts` - (integrated in useCatalog.ts)
+- [x] `useCatalogSearch.ts` - Search queries
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Add items, categories
+- [x] READ: Browse, search, filter (catalog page with hooks)
+- [ ] UPDATE: Edit items, pricing
+- [x] DELETE: Archive items
+
+**LAYER 6 - EDGE CASES:**
+- [ ] SKU uniqueness validation
+- [ ] Bulk price updates
+- [ ] Image optimization
+
+**Global Asset Categories (24):** Audio, Lighting, Video, Staging/Rigging, Power/Electrical, Backline, Communication, Climate, Furniture/Decor, Tenting, Fencing, Sanitation, Catering Equipment, Transportation, Medical/Safety, Security, Signage, Merchandise/POS, Guest Services, Technical Personnel, Production Staff, Security Personnel, Service Staff, Specialty Talent
+
+---
+
+#### BACK-122: [VO-001] Vendor Order System
+| Field | Value |
+|-------|-------|
+| **Priority** | CRITICAL |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | NEW |
+
+**Description:**  
+Create and manage orders to vendors with approval workflows.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `vendor_orders` in `0049_v3_vendor_orders.sql`
+- [x] Table `vendor_order_items` in `0049_v3_vendor_orders.sql`
+- [x] Table `vendor_order_approvals` in `0049_v3_vendor_orders.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/vendor-orders` - List orders
+- [x] `POST /api/vendor-orders` - Create order
+- [x] `GET /api/vendor-orders/[id]` - Order details
+- [x] `PUT /api/vendor-orders/[id]` - Update order
+- [x] `POST /api/vendor-orders/[id]/approve` - Approve order
+- [x] `POST /api/vendor-orders/[id]/send` - Send to vendor
+
+**LAYER 3 - FRONTEND:**
+- [x] `/vendor-orders` - Order list with status cards and filters
+- [x] `/vendor-orders/new` - Create order with item builder
+- [x] `/vendor-orders/[id]` - Order detail with approve/send actions
+- [x] `/vendor-orders/approvals` - Approval queue with actions
+- [ ] `components/order-builder.tsx` - Order creation
+- [ ] `components/approval-workflow.tsx` - Approval status
+
+**LAYER 4 - HOOKS:**
+- [x] `useVendorOrders.ts` - Order CRUD, approve, send
+- [x] `useOrderApprovals.ts` - Approval workflow
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: New order
+- [x] READ: List, details
+- [x] UPDATE: Edit, approve (via hooks)
+- [x] DELETE: Cancel order
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Approval threshold rules
+- [ ] Order revision tracking
+- [ ] Budget validation
+
+---
+
+#### BACK-123: [VO-002] RFP & Quote Management
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/rfp` |
+
+**Description:**  
+Send RFPs to multiple vendors and compare quotes.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `rfps` in `0049_v3_vendor_orders.sql`
+- [x] Table `rfp_vendors` in `0049_v3_vendor_orders.sql`
+- [x] Table `rfp_quotes` in `0049_v3_vendor_orders.sql`
+- [x] Table `rfp_awards` in `0049_v3_vendor_orders.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/rfps` - List RFPs (existing + new route)
+- [x] `POST /api/rfps` - Create RFP
+- [x] `GET /api/rfps/[id]` - RFP details
+- [x] `PUT /api/rfps/[id]` - Update RFP
+- [x] `POST /api/rfps/[id]/send` - Send to vendors
+- [x] `GET /api/rfps/[id]/quotes` - List quotes with stats
+- [x] `POST /api/rfps/[id]/award` - Award to vendor
+- [x] `GET /api/rfps/[id]/compare` - Compare quotes with savings analysis
+
+**LAYER 3 - FRONTEND:**
+- [x] `/p/[productionId]/procurement/rfps` - RFP list (existing)
+- [x] `/rfps/new` - Create RFP
+- [x] `/rfps/[id]/compare` - Quote comparison
+- [ ] `components/rfp-builder.tsx` - RFP creation (integrated in new page)
+- [ ] `components/quote-comparison.tsx` - Side-by-side comparison (integrated in compare page)
+
+**LAYER 4 - HOOKS:**
+- [x] `useRFPs.ts` - RFP CRUD (existing)
+- [x] `useRFPQuotes.ts` - Quote management
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: RFP (via new page)
+- [x] READ: List, compare
+- [ ] UPDATE: Edit RFP
+- [ ] DELETE: Cancel RFP
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Blind bidding option
+- [ ] Deadline enforcement
+
+---
+
+#### BACK-124: [VO-003] Purchase Order System
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | NEW |
+
+**Description:**  
+Generate formal purchase orders with approval workflow.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `purchase_orders` in `0049_v3_vendor_orders.sql`
+- [x] Table `po_receipts` in `0049_v3_vendor_orders.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/purchase-orders` - List POs (existing)
+- [x] `POST /api/purchase-orders` - Create PO (existing)
+- [x] `POST /api/purchase-orders/[id]/issue` - Issue to vendor
+- [x] `POST /api/purchase-orders/[id]/receive` - Record receipt
+- [ ] `GET /api/purchase-orders/[id]/pdf` - Generate PDF
+
+**LAYER 3 - FRONTEND:**
+- [x] `/p/[productionId]/procurement/purchase-orders` - PO list (existing)
+- [x] `/purchase-orders/new` - Create PO
+- [x] `/purchase-orders/[id]` - PO detail page
+- [x] `/purchase-orders/[id]/receive` - Receipt form
+- [ ] `components/po-form.tsx` - PO creation form (integrated in new page)
+- [ ] `components/receipt-form.tsx` - Receipt logging
+
+**LAYER 4 - HOOKS:**
+- [x] `usePurchaseOrders.ts` - PO CRUD (existing)
+- [x] `usePOReceipts.ts` - Receipt management (useReceivePurchaseOrder in usePurchaseOrders.ts)
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: PO (via new page)
+- [x] READ: List, details
+- [x] UPDATE: Edit PO, issue to vendor
+- [ ] DELETE: Void PO
+
+**LAYER 6 - EDGE CASES:**
+- [ ] PO number generation
+- [ ] Partial receipt handling
+- [ ] Three-way matching
+
+---
+
+#### BACK-125: [IM-001] Equipment Inventory Management
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/assets` (15 subdirectories), `/inventory` |
+
+**Description:**  
+Track equipment inventory with check-out/check-in and maintenance.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `inventory_items` in `0050_v3_inventory_invoices.sql`
+- [x] Table `inventory_transactions` in `0050_v3_inventory_invoices.sql`
+- [x] Table `inventory_maintenance` in `0050_v3_inventory_invoices.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/inventory` - List items (existing)
+- [x] `POST /api/inventory` - Add item (existing)
+- [x] `POST /api/inventory/[id]/check-out` - Check out
+- [x] `POST /api/inventory/[id]/check-in` - Check in
+- [x] `POST /api/inventory/scan` - Scan barcode with check-out/check-in
+- [x] `GET /api/inventory/availability` - Availability check with utilization
+
+**LAYER 3 - FRONTEND:**
+- [x] `/inventory` - Inventory list (existing)
+- [x] `/inventory/new` - Add inventory item form (needs hook update for new schema)
+- [x] `/inventory/scan` - Barcode scanner with check-out/check-in
+- [x] `/inventory/availability` - Availability with utilization tracking
+- [x] `components/inventory-scanner.tsx` - Barcode scanner (integrated in page)
+- [x] `components/availability-calendar.tsx` - Availability view (integrated in page)
+
+**LAYER 4 - HOOKS:**
+- [x] `useInventory.ts` - Inventory CRUD (existing)
+- [x] `useInventoryTransactions.ts` - Transaction logging
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Items (existing hook, needs update for new schema)
+- [x] READ: List (existing)
+- [ ] UPDATE: Status, location
+- [ ] DELETE: Retire item
+
+**NOTE:** Existing useInventory hook uses stock/product model. New DB schema (0050) supports full asset tracking. Hooks need update to use new schema.
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Double-booking prevention
+- [ ] Maintenance scheduling
+- [ ] Barcode generation
+
+---
+
+#### BACK-126: [VF-001] Vendor Invoice Management
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | ATLVS |
+| **Type** | NEW |
+| **Note** | Distinct from `/invoices` (AR) - this is Accounts Payable |
+
+**Description:**  
+Manage vendor invoices and payments.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `vendor_invoices` in `0050_v3_inventory_invoices.sql`
+- [x] Table `vendor_payments` in `0050_v3_inventory_invoices.sql`
+- [x] Table `project_costs` in `0050_v3_inventory_invoices.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/vendor-invoices` - List invoices with aging buckets
+- [x] `POST /api/vendor-invoices` - Record invoice
+- [x] `POST /api/vendor-invoices/[id]/pay` - Record payment
+- [x] `GET /api/project-costs/[bookingId]` - Project costs with budget vs actual
+
+**LAYER 3 - FRONTEND:**
+- [x] `/vendor-invoices` - Invoice list (AP aging with status filters)
+- [x] `/vendor-invoices/new` - Record invoice form
+- [x] `/vendor-invoices/[id]` - Invoice detail with payment recording
+- [x] `/project-costs` - Cost tracking with budget vs actual
+- [x] `components/ap-aging.tsx` - Aging report
+- [x] `components/budget-vs-actual.tsx` - Variance report
+
+**LAYER 4 - HOOKS:**
+- [x] `useVendorInvoices.ts` - Invoice CRUD, aging, payments
+- [x] `useProjectCosts.ts` - Cost queries and updates
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Invoices, payments
+- [x] READ: Lists, summaries, detail view
+- [ ] UPDATE: Edit invoice
+- [x] DELETE: Void invoice
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Three-way matching
+- [ ] Duplicate invoice detection
+
+---
+
+#### BACK-127: [VS-001] Vendor Scheduling
+| Field | Value |
+|-------|-------|
+| **Priority** | HIGH |
+| **Complexity** | MEDIUM |
+| **App** | COMPVSS |
+| **Type** | NEW |
+| **Rationale** | Day-of vendor coordination is operational/production team function |
+
+**Description:**  
+Coordinate vendor schedules and load-in/load-out.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [x] Table `vendor_schedules` in `0051_v3_vendor_scheduling.sql`
+- [x] Table `vendor_communications` in `0051_v3_vendor_scheduling.sql`
+- [x] Table `vendor_schedule_notifications` in `0051_v3_vendor_scheduling.sql`
+
+**LAYER 2 - API:**
+- [x] `GET /api/vendor-schedules` - List schedules with filters
+- [x] `POST /api/vendor-schedules` - Create schedule
+- [x] `POST /api/vendor-schedules/[id]/notify` - Send notification
+- [ ] `GET /api/vendor-communications/[bookingId]` - Communication history
+
+**LAYER 3 - FRONTEND:**
+- [x] `/vendor-schedules` - Schedule overview with timeline
+- [x] `/vendor-schedules/new` - Create schedule form
+- [x] `/vendor-communications` - Communication hub with message history
+- [ ] `components/vendor-timeline.tsx` - Visual timeline
+- [ ] `components/load-in-scheduler.tsx` - Load-in scheduling
+
+**LAYER 4 - HOOKS:**
+- [x] `useVendorSchedules.ts` - Schedule CRUD, confirmations, notifications
+- [x] `useVendorCommunications.ts` - Message CRUD
+
+**LAYER 5 - CRUD:**
+- [x] CREATE: Schedules
+- [x] READ: Lists, grouped by date
+- [ ] UPDATE: Edit schedules, confirm
+- [ ] DELETE: Cancel schedule
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Schedule conflict detection
+- [ ] Automated reminders
+
+---
+
+### PART C: DIFFERENTIATION FEATURES (4 Features)
+
+---
+
+#### BACK-128: [DF-001] Experience Design Studio
+| Field | Value |
+|-------|-------|
+| **Priority** | MEDIUM |
+| **Complexity** | HIGH |
+| **App** | COMPVSS |
+| **Type** | NEW |
+| **Rationale** | Production design and execution planning |
+
+**Description:**  
+Template-based experience design with multi-sensory journey mapping.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Table `experience_templates`: id, organization_id, name, event_type, journey_map (jsonb), sensory_elements (jsonb), touchpoints (jsonb)
+
+**LAYER 2 - API:**
+- [ ] `GET /api/experiences` - List templates
+- [ ] `POST /api/experiences` - Create template
+- [ ] `POST /api/experiences/[id]/apply` - Apply to booking
+
+**LAYER 3 - FRONTEND:**
+- [ ] `/experiences` - Experience library
+- [ ] `/experiences/new` - Experience designer
+- [ ] `components/journey-map-editor.tsx` - Journey mapping
+
+**LAYER 4 - HOOKS:**
+- [x] `useExperiences.ts` - Experience CRUD
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Templates
+- [ ] READ: Library
+- [ ] UPDATE: Edit templates
+- [ ] DELETE: Archive
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Template versioning
+
+---
+
+#### BACK-129: [DF-002] XYZ Coordinate Engine
+| Field | Value |
+|-------|-------|
+| **Priority** | MEDIUM |
+| **Complexity** | HIGH |
+| **App** | COMPVSS |
+| **Type** | NEW |
+| **Rationale** | Operational asset positioning for production teams |
+
+**Description:**  
+Time-space positioning system for assets and activities.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Table `venue_zones`: id, venue_id, name, coordinates (jsonb: polygon), z_level, capacity
+- [ ] Table `asset_positions`: id, booking_id, asset_id, zone_id, x, y, z, time_start, time_end
+
+**LAYER 2 - API:**
+- [ ] `GET /api/zones/[venueId]` - List zones
+- [ ] `POST /api/asset-positions` - Position asset
+- [ ] `GET /api/asset-positions/[bookingId]` - Get positions by time
+
+**LAYER 3 - FRONTEND:**
+- [ ] `/zones` - Zone editor
+- [ ] `/asset-positions` - Position manager
+- [ ] `components/xyz-visualizer.tsx` - 3D position view
+
+**LAYER 4 - HOOKS:**
+- [x] `useZones.ts` - Zone CRUD
+- [x] `useAssetPositions.ts` - Position CRUD
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Zones, positions
+- [ ] READ: Visualize
+- [ ] UPDATE: Move assets
+- [ ] DELETE: Remove positions
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Collision detection
+- [ ] Time-based animation
+
+---
+
+#### BACK-130: [DF-003] Gamification Engine
+| Field | Value |
+|-------|-------|
+| **Priority** | MEDIUM |
+| **Complexity** | MEDIUM |
+| **App** | COMPVSS |
+| **Type** | NEW |
+| **Rationale** | Team engagement and training for production crew |
+
+**Description:**  
+Achievement system for team engagement and training.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Table `achievements`: id, organization_id, name, description, icon, criteria (jsonb), points
+- [ ] Table `user_achievements`: id, user_id, achievement_id, earned_at, metadata (jsonb)
+- [ ] Table `leaderboards`: id, organization_id, name, metric, period, entries (jsonb)
+
+**LAYER 2 - API:**
+- [ ] `GET /api/achievements` - List achievements
+- [ ] `GET /api/achievements/user/[id]` - User achievements
+- [ ] `GET /api/leaderboards` - Leaderboards
+- [ ] `POST /api/achievements/award` - Award achievement
+
+**LAYER 3 - FRONTEND:**
+- [ ] `/achievements` - Achievement library
+- [ ] `/achievements/my` - My achievements
+- [ ] `/leaderboards` - Leaderboards
+- [ ] `components/achievement-badge.tsx` - Badge display
+- [ ] `components/leaderboard.tsx` - Leaderboard view
+
+**LAYER 4 - HOOKS:**
+- [x] `useAchievements.ts` - Achievement queries
+- [x] `useLeaderboards.ts` - Leaderboard queries
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Achievements, awards
+- [ ] READ: Lists, user progress
+- [ ] UPDATE: Edit achievements
+- [ ] DELETE: Remove achievement
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Real-time notifications
+- [ ] Period reset logic
+
+---
+
+#### BACK-131: [DF-004] Asset Intelligence
+| Field | Value |
+|-------|-------|
+| **Priority** | MEDIUM |
+| **Complexity** | HIGH |
+| **App** | ATLVS |
+| **Type** | ENHANCE EXISTING |
+| **Existing Path** | `/assets/utilization`, `/assets/performance` |
+| **Rationale** | Executive-level analytics and predictive maintenance |
+
+**Description:**  
+Predictive analytics for equipment utilization and maintenance.
+
+**6-LAYER IMPLEMENTATION CHECKLIST:**
+
+**LAYER 1 - DATABASE:**
+- [ ] Table `asset_metrics`: id, asset_id, metric_date, utilization_rate, hours_used, revenue_generated
+- [ ] Table `maintenance_predictions`: id, asset_id, predicted_issue, probability, recommended_action, due_date
+
+**LAYER 2 - API:**
+- [ ] `GET /api/assets/[id]/analytics` - Asset analytics
+- [ ] `GET /api/assets/utilization` - Utilization report
+- [ ] `GET /api/assets/maintenance-forecast` - Predicted maintenance
+
+**LAYER 3 - FRONTEND:**
+- [ ] `/assets/analytics` - Asset analytics dashboard
+- [ ] `/assets/maintenance` - Maintenance forecast
+- [ ] `components/utilization-chart.tsx` - Utilization visualization
+- [ ] `components/maintenance-alert.tsx` - Maintenance alerts
+
+**LAYER 4 - HOOKS:**
+- [x] `useAssetAnalytics.ts` - Analytics queries
+- [x] `useMaintenanceForecast.ts` - Prediction queries
+
+**LAYER 5 - CRUD:**
+- [ ] CREATE: Predictions (automated)
+- [ ] READ: Analytics, forecasts
+- [ ] UPDATE: N/A
+- [ ] DELETE: N/A
+
+**LAYER 6 - EDGE CASES:**
+- [ ] Prediction accuracy tracking
+- [ ] Alert thresholds
+
+---
+
+### V3 EXPANSION IMPLEMENTATION SUMMARY
+
+#### BY APP DISTRIBUTION
+
+| App | Features | Priority Breakdown | ENHANCE | NEW |
+|-----|----------|-------------------|---------|-----|
+| **ATLVS** | 24 | 12 CRITICAL, 9 HIGH, 3 MEDIUM | 15 | 9 |
+| **COMPVSS** | 5 | 1 CRITICAL, 1 HIGH, 3 MEDIUM | 0 | 5 |
+| **GVTEWAY** | 1 | 0 CRITICAL, 1 HIGH, 0 MEDIUM | 1 | 0 |
+| **Total** | **30** | 13 CRITICAL, 11 HIGH, 6 MEDIUM | **16** | **14** |
+
+#### ATLVS FEATURES (24) - 15 ENHANCE, 9 NEW
+
+**ENHANCE EXISTING (15):**
+- LM-001 Lead Forms → `/leads`, `/crm`
+- LM-002 Pipeline → `/pipeline`
+- LM-003 Contacts → `/contacts`
+- BK-001 Calendar → `/schedule`
+- BK-002 Spaces → `/venues`, `/venues/zones`
+- DG-002 Contracts → `/contracts`
+- DG-004 Invoices → `/invoices`
+- PM-001 Payments → `/payments`
+- CP-001 Client Portal → `/portal/*`
+- RP-001 Analytics → `/analytics`
+- INT-001 Integrations → `/integrations`
+- VD-001 Vendors → `/vendors`, `/procurement`
+- VD-003 Performance → `/procurement/vendor-audits`
+- PC-001 Catalog → `/assets`
+- VO-002 RFPs → `/rfp`
+- IM-001 Inventory → `/assets`, `/inventory`
+- DF-004 Asset Intel → `/assets/utilization`, `/assets/performance`
+
+**NEW (9):**
+- BK-003 Holds System
+- BK-004 Booking Workflow
+- DG-001 Proposals
+- PM-002 Payment Schedules
+- FP-001 Floor Plans
+- VD-002 Preferred Lists
+- VO-001 Vendor Orders
+- VO-003 Purchase Orders
+- VF-001 Vendor Invoices (AP)
+
+#### COMPVSS FEATURES (5) - 0 ENHANCE, 5 NEW
+
+**NEW (5):**
+- DG-003 BEO Generation
+- VS-001 Vendor Scheduling
+- DF-001 Experience Studio
+- DF-002 XYZ Engine
+- DF-003 Gamification
+
+#### GVTEWAY FEATURES (1) - 1 ENHANCE, 0 NEW
+
+**ENHANCE EXISTING (1):**
+- TK-001 Ticketing → `/tickets`, `/checkout`, `/cart`
+
+#### BY PRIORITY
+
+| Priority | Count | ENHANCE | NEW |
+|----------|-------|---------|-----|
+| CRITICAL | 13 | 7 | 6 |
+| HIGH | 11 | 8 | 3 |
+| MEDIUM | 6 | 1 | 5 |
+| **Total** | **30** | **16** | **14** |
+
+**Dependencies:**
+1. Complete NEW UI COMPONENTS before feature implementation
+2. Database migrations must be created in order
+3. API endpoints require authentication middleware
+4. Frontend pages require React Query hooks
+5. Shared components may need to be in `packages/ui` for cross-app use
+
+**Estimated Effort:**
+- UI Components: 2 weeks
+- ATLVS Features: 8 weeks
+- COMPVSS Features: 2 weeks
+- GVTEWAY Features: 2 weeks
+- **Total: 14 weeks**
+
+---
+
+### REDUNDANCY ANALYSIS
+
+The following V3 Expansion features overlap with existing application functionality and require **ENHANCEMENT** rather than new page creation:
+
+#### CRITICAL REDUNDANCIES (14 features - Enhance Existing)
+
+| V3 Feature | Existing Path | Action |
+|------------|---------------|--------|
+| LM-001 Lead Capture | `atlvs/leads/`, `atlvs/crm/` | ENHANCE with embeddable form builder |
+| LM-002 Pipeline | `atlvs/pipeline/` | ENHANCE with kanban drag-drop UI |
+| LM-003 Contacts | `atlvs/contacts/` | ENHANCE with interaction history, CLV |
+| BK-001 Calendar | `atlvs/schedule/` | ENHANCE or ADD `/venue-calendar` |
+| BK-002 Spaces | `atlvs/venues/`, `atlvs/venues/zones/` | ENHANCE with space/room management |
+| DG-002 Contracts | `atlvs/contracts/` | ENHANCE with e-signature integration |
+| DG-004 Invoices | `atlvs/invoices/` | ENHANCE with Stripe payment links |
+| PM-001 Payments | `atlvs/payments/` | ENHANCE with Stripe gateway |
+| RP-001 Analytics | `atlvs/analytics/` (7 subdirs) | ENHANCE existing dashboard |
+| INT-001 Integrations | `atlvs/integrations/` | ENHANCE with OAuth marketplace |
+| VD-001 Vendors | `atlvs/vendors/`, `atlvs/procurement/` | ENHANCE with expanded database |
+| VO-002 RFPs | `atlvs/rfp/` | ENHANCE with quote comparison |
+| IM-001 Inventory | `atlvs/assets/` (15 subdirs) | MERGE with assets module |
+| TK-001 Ticketing | `gvteway/tickets/` (8 subdirs) | ENHANCE existing ticketing |
+| CP-001 Client Portal | `atlvs/portal/` (5 portals) | ENHANCE existing portal system |
+
+#### MODERATE REDUNDANCIES (3 features)
+
+| V3 Feature | Related Path | Action |
+|------------|--------------|--------|
+| VD-003 Performance | `atlvs/procurement/vendor-audits/` | ENHANCE with scorecard metrics |
+| PC-001 Catalog | `atlvs/assets/` | EXTEND assets to include catalog pricing |
+| DF-004 Asset Intel | `atlvs/assets/utilization/`, `/performance/` | ENHANCE with predictive ML |
+
+#### NO REDUNDANCY (14 features - New Implementation)
+
+| V3 Feature | Notes |
+|------------|-------|
+| BK-003 Holds System | New temporary reservation system |
+| BK-004 Booking Workflow | New guided wizard |
+| DG-001 Proposals | New proposal builder |
+| DG-003 BEOs | New operational document |
+| PM-002 Payment Schedules | New milestone tracking |
+| FP-001 Floor Plans | New 2D designer |
+| VD-002 Preferred Lists | New curated lists |
+| VO-001 Vendor Orders | New order workflow |
+| VO-003 Purchase Orders | New formal PO system |
+| VF-001 Vendor Invoices | New AP management |
+| VS-001 Vendor Scheduling | New COMPVSS scheduling |
+| DF-001 Experience Studio | New design tool |
+| DF-002 XYZ Engine | New positioning system |
+| DF-003 Gamification | New team engagement |
+
+#### IMPLEMENTATION STRATEGY
+
+1. **Phase 1 (Enhance Existing):** Update 14 existing pages with V3 functionality
+2. **Phase 2 (New Features):** Build 14 new pages/features
+3. **Phase 3 (Merge):** Consolidate inventory/assets, catalog/assets
+
+**Revised Effort Estimate:**
+- Phase 1 (Enhancements): 4 weeks
+- Phase 2 (New Features): 6 weeks
+- Phase 3 (Consolidation): 1 week
+- UI Components: 2 weeks
+- **Revised Total: 13 weeks** (1 week saved by leveraging existing)
+
+---
+
+## P3 - Third-Party Integration Placeholders
+
+### BACK-090: API Validation - Third-Party Integration Completion
+
+| Field | Value |
+|-------|-------|
+| **Status** | Documented |
+| **Priority** | P3 |
+| **Effort** | XL (varies by integration) |
+| **App** | All |
+| **Source** | API Endpoint Validation - December 18, 2025 |
+
+**Description:**  
+During comprehensive API validation (1,088 endpoints across GVTEWAY, ATLVS, COMPVSS), 42 files were identified with third-party integration placeholders. These endpoints have real database operations but external API calls are commented as future work. All endpoints are functional with internal database operations; external integrations require API keys and OAuth setup.
+
+**Validation Summary:**
+- **Total Endpoints Scanned:** 1,088
+- **Fully Functional:** 1,086 (99.8%)
+- **Third-Party Placeholders:** 42 files (acceptable - require external API keys)
+- **Blocking Issues Fixed:** 2 (directions mock data, visual search fake results)
+
+**Third-Party Integrations to Complete:**
+
+| Category | File | External Service Needed |
+|----------|------|------------------------|
+| Payroll | `atlvs/api/integrations/payroll/route.ts` | ADP, Gusto, Paychex OAuth |
+| Calendar | `atlvs/api/calendar-integration/route.ts` | Google Calendar, Outlook API |
+| Streaming | `gvteway/api/integrations/streaming/route.ts` | Spotify, Apple Music API |
+| Music | `gvteway/api/music-integration/route.ts` | Spotify, Apple Music API |
+| Payment | `atlvs/api/payment-processing/route.ts` | Stripe Connect, PayPal |
+| Email | `atlvs/api/email-integration/route.ts` | SendGrid, Mailchimp API |
+| HR Systems | `atlvs/api/integrations/hr-systems/route.ts` | BambooHR, Workday API |
+| CRM Sync | `atlvs/api/integrations/crm-sync/route.ts` | Salesforce, HubSpot API |
+| BI | `atlvs/api/bi-integration/route.ts` | Tableau, Power BI API |
+| SSO | `atlvs/api/sso/providers/route.ts` | Okta, Auth0 SAML |
+| Zapier | `atlvs/api/zapier/oauth/authorize/route.ts` | Zapier OAuth |
+| n8n | `atlvs/api/n8n/nodes/route.ts` | n8n Webhook |
+| Background Checks | `compvss/api/background-checks/route.ts` | Checkr, Sterling API |
+| Drone | `compvss/api/integrations/drone/route.ts` | DJI FlightHub API |
+| PDF | `compvss/api/pdf-generation/route.ts` | Puppeteer/PDF service |
+| Digital Wallet | `gvteway/api/digital-wallet/route.ts` | Apple Wallet, Google Pay |
+| NFT | `gvteway/api/nft-tickets/route.ts` | Ethereum/Polygon RPC |
+| IoT | `gvteway/api/integrations/iot/route.ts` | AWS IoT, Azure IoT |
+| Social Media | `gvteway/api/integrations/social-media/route.ts` | Twitter, Instagram API |
+| Marketing | `gvteway/api/integrations/marketing-sync/route.ts` | Mailchimp, Klaviyo API |
+
+**AI Fallback Patterns (Acceptable):**
+- `atlvs/api/generator/generate/route.ts` - OpenAI with mock fallback
+- `atlvs/api/nl-query/route.ts` - RPC with mock fallback on error
+
+**Acceptance Criteria:**
+- [ ] Each integration has environment variables documented
+- [ ] OAuth flows implemented for each provider
+- [ ] Webhook handlers registered where applicable
+- [ ] Rate limiting implemented per provider limits
+- [ ] Error handling for API failures
+- [ ] Fallback behavior documented
+
+**Implementation Notes:**
+- All endpoints currently work with internal database operations
+- External API calls require provider API keys in environment variables
+- OAuth integrations need redirect URIs configured in provider dashboards
+- Consider implementing integration status dashboard for monitoring
+
+---

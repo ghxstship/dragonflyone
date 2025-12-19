@@ -1,15 +1,23 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Spinner } from "@ghxstship/ui";
 import { Ticket, Clock, Grid } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventTicketsPage() {
   const params = useParams();
   const router = useRouter();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading tickets..." />
+      </Stack>
+    );
+  }
 
   const ticketTypes = [
     { id: "1", name: "General Admission", price: 75, available: 300, status: "available" },

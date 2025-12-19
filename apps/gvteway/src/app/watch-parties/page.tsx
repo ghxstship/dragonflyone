@@ -116,7 +116,7 @@ export default function WatchPartiesPage() {
   const getStatusBadge = (status: string) => {
     const variants: Record<string, string> = {
       upcoming: 'bg-info-500 text-white',
-      live: 'bg-error-500 text-white animate-pulse',
+      live: 'bg-success-100 text-success-800 animate-pulse',
       ended: 'bg-ink-500 text-white',
     };
     return <Badge className={variants[status] || ''}>{status.toUpperCase()}</Badge>;
@@ -124,9 +124,9 @@ export default function WatchPartiesPage() {
 
   const getContentTypeBadge = (type: string) => {
     const variants: Record<string, { color: string; icon: string; label: string }> = {
-      livestream: { color: 'bg-error-500 text-white', icon: 'radio', label: 'Live' },
+      livestream: { color: 'bg-success-100 text-success-800', icon: 'radio', label: 'Live' },
       recording: { color: 'bg-info-500 text-white', icon: 'video', label: 'Recording' },
-      premiere: { color: 'bg-purple-500 text-white', icon: 'clapperboard', label: 'Premiere' },
+      premiere: { color: 'bg-violet-500 text-white', icon: 'clapperboard', label: 'Premiere' },
       rewatch: { color: 'bg-success-500 text-white', icon: 'refresh', label: 'Rewatch' },
     };
     const variant = variants[type] || { color: '', icon: '', label: type };

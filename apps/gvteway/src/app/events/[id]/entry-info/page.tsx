@@ -15,6 +15,7 @@ import {
   Alert,
   Kicker,
 } from '@ghxstship/ui';
+import { Lightbulb } from 'lucide-react';
 import { useEventEntryInfoData } from '@/hooks/useEventEntryInfo';
 
 export default function EntryInfoPage() {
@@ -63,7 +64,7 @@ export default function EntryInfoPage() {
 
         {error && (
           <Alert variant="error" className="mb-6">
-            {error}
+            {error instanceof Error ? error.message : 'An error occurred'}
           </Alert>
         )}
 
@@ -153,7 +154,7 @@ export default function EntryInfoPage() {
                 </Stack>
                 {info.parking_info.tips && (
                   <Body className="mt-4 text-ink-600">
-                    💡 {info.parking_info.tips}
+                    <Lightbulb className="h-4 w-4 inline mr-1" />{info.parking_info.tips}
                   </Body>
                 )}
               </Card>
@@ -239,8 +240,8 @@ export default function EntryInfoPage() {
                 <Stack gap={3}>
                   {info.tips.map((tip, index) => (
                     <Stack key={index} direction="horizontal" gap={2}>
-                      <Body>💡</Body>
-                      <Body size="sm" className="">{tip}</Body>
+                      <Lightbulb className="h-4 w-4 text-warning-600 flex-shrink-0" />
+                      <Body size="sm">{tip}</Body>
                     </Stack>
                   ))}
                 </Stack>

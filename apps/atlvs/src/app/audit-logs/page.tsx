@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Eye, Shield, Clock } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useAuditLogs, useAuditLogStats } from '../../hooks/useAuditLogs';
 import {
@@ -78,13 +77,13 @@ const columns: ListPageColumn<AuditLog>[] = [
     key: 'resource_name',
     label: 'Name',
     accessor: 'resource_name',
-    render: (value) => value || '—',
+    render: (value): React.ReactNode => (value ? String(value) : '—'),
   },
   {
     key: 'ip_address',
     label: 'IP Address',
     accessor: 'ip_address',
-    render: (value) => value || '—',
+    render: (value): React.ReactNode => (value ? String(value) : '—'),
   },
   {
     key: 'response_status',
@@ -127,7 +126,6 @@ const filters: ListPageFilter[] = [
 ];
 
 export default function AuditLogsPage() {
-  const router = useRouter();
   const { data: logsData, isLoading, error, refetch } = useAuditLogs();
   const { data: stats } = useAuditLogStats();
 
@@ -197,9 +195,10 @@ export default function AuditLogsPage() {
         emptyMessage="No audit logs found"
       />
 
-      <DetailDrawer
+      <DetailDrawer<AuditLog>
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        record={selectedLog}
         title="Audit Log Details"
         sections={detailSections}
       />

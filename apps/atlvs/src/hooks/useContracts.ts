@@ -117,3 +117,23 @@ export function useDeleteContract() {
     },
   });
 }
+
+export function useSendContract() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/contracts/${id}/send`, {
+        method: 'POST',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to send contract');
+      }
+      return response.json();
+    },
+    onSuccess: (_, id) => {
+      queryClient.invalidateQueries({ queryKey: ['contracts'] });
+      queryClient.invalidateQueries({ queryKey: ['contracts', id] });
+    },
+  });
+}

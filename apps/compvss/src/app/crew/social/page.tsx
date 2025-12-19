@@ -36,7 +36,7 @@ import {
 
 export default function CrewSocialPage() {
   const router = useRouter();
-  const { data: crewMembers = [] } = useSocialCrewMembers();
+  const { data: crewMembers = [], isLoading, error } = useSocialCrewMembers();
   const { data: posts = [] } = useCrewPosts();
   
   // URL-synced tab state for deep-linking support
@@ -45,6 +45,39 @@ export default function CrewSocialPage() {
     validTabs: ['feed', 'roster', 'photos', 'connections'],
   });
   const [selectedMember, setSelectedMember] = useState<CrewMember | null>(null);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading crew social...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load crew social data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const onlineCount = crewMembers.filter(c => c.is_online).length;
 
@@ -119,6 +152,7 @@ export default function CrewSocialPage() {
                           <Body>{post.content}</Body>
                           {post.type === "Photo" && (
                             <Card className="flex h-48 items-center justify-center">
+                              {/* eslint-disable-next-line jsx-a11y/alt-text */}
                               <Image className="size-12" />
                             </Card>
                           )}

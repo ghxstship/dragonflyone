@@ -3,15 +3,21 @@
 import { useParams, useRouter } from "next/navigation";
 import { EnterprisePageHeader, MainContent, Container, Card, CardBody, Stack, Button, Body, Box, StatCard, Grid } from "@ghxstship/ui";
 import { IdCard, Plus, QrCode, Layers, BarChart } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useCredentials } from "../../../../hooks/useCredentials";
 
 export default function CredentialsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
-
-  const credentialStats = { issued: 120, active: 95, revoked: 5, pending: 20 };
+  const { data: credentialsData } = useCredentials();
+  
+  const credentials = credentialsData || [];
+  const credentialStats = { 
+    issued: credentials.length, 
+    active: credentials.filter((c: { status: string }) => c.status === 'active').length, 
+    revoked: credentials.filter((c: { status: string }) => c.status === 'revoked').length, 
+    pending: credentials.filter((c: { status: string }) => c.status === 'pending').length 
+  };
 
   return (
     <>

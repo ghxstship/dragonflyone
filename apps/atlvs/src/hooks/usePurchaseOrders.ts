@@ -128,3 +128,39 @@ export function useDeletePurchaseOrder() {
     },
   });
 }
+
+interface ReceiveItemInput {
+  item_id: string;
+  quantity_received: number;
+  notes?: string;
+}
+
+interface ReceivePurchaseOrderInput {
+  id: string;
+  received_items: ReceiveItemInput[];
+  received_by?: string;
+  receipt_date?: string;
+  notes?: string;
+}
+
+export function useReceivePurchaseOrder() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, ...data }: ReceivePurchaseOrderInput) => {
+      const response = await fetch(`/api/purchase-orders/${id}/receive`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to record receipt');
+      }
+      return response.json();
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['purchase-orders'] });
+      queryClient.invalidateQueries({ queryKey: ['purchase-orders', variables.id] });
+    },
+  });
+}

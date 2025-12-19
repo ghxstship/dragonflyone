@@ -30,15 +30,50 @@ import {
   type Template,
 } from '../../hooks/useTemplates';
 
-const categories = ["Contract", "Checklist", "Form", "Rider", "Report", "SOP"];
+import { getSubcategoryNames } from "@ghxstship/config";
+
+const categories = getSubcategoryNames('PROF');
 
 export default function TemplatesPage() {
   const router = useRouter();
-  const { data: templates = [] } = useTemplates();
+  const { data: templates = [], isLoading, error } = useTemplates();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading templates...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load templates</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const filteredTemplates = templates.filter(t => {
     const matchesCategory = selectedCategory === "All" || t.category === selectedCategory;

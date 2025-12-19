@@ -55,10 +55,10 @@ export default function PhotoDocumentationPage() {
     switch (phase) {
       case "Load-In": return "bg-info-900/20 border-info-800";
       case "Build": return "bg-warning-900/20 border-warning-800";
-      case "Tech Rehearsal": return "bg-purple-900/20 border-purple-800";
+      case "Tech Rehearsal": return "bg-violet-900/20 border-violet-800";
       case "Show": return "bg-success-900/20 border-success-800";
       case "Strike": return "bg-warning-900/20 border-warning-800";
-      case "Load-Out": return "bg-error-900/20 border-error-800";
+      case "Load-Out": return "bg-success-100 text-error-800";
       default: return "bg-ink-900/50 border-ink-800";
     }
   };

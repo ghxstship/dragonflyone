@@ -2,12 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Building2 } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useDepartments, useCreateDepartment, useDeleteDepartment } from '../../hooks/useDepartments';
 import {
   ListPage,
-  Badge,
   RecordFormModal,
   DetailDrawer,
   ConfirmDialog,

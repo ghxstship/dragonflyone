@@ -1,28 +1,49 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, StatCard, Grid, Spinner, Container, EmptyState } from "@ghxstship/ui";
 import { Shield, AlertTriangle, Siren, Cloud, FileCheck, FileWarning, Plus } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
+import { useSafetyPageData } from "../../../../hooks/useSafety";
 
 export default function ProductionSafetyPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  
+  const { data: production } = useProject(productionId);
+  const { incidents, openCount, resolvedCount, isLoading, error } = useSafetyPageData();
 
-  const safetyStats = { incidents: 0, openIssues: 3, permits: 8, riskItems: 5 };
-
-  const recentItems = [
-    { id: "1", title: "Fire Safety Inspection", type: "permit", status: "approved", date: "2025-06-10" },
-    { id: "2", title: "Crowd Management Plan", type: "plan", status: "approved", date: "2025-06-08" },
-    { id: "3", title: "Barrier placement concern", type: "issue", status: "open", date: "2025-06-12" },
-    { id: "4", title: "Weather contingency", type: "risk", status: "monitoring", date: "2025-06-11" },
-  ];
+  const safetyStats = { 
+    incidents: incidents.length, 
+    openIssues: openCount, 
+    permits: 8, 
+    riskItems: resolvedCount 
+  };
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
-    approved: "success", open: "warning", monitoring: "info", resolved: "success",
+    approved: "success", open: "warning", monitoring: "info", resolved: "success", closed: "success",
   };
+
+  if (isLoading) {
+    return (
+      <Container className="flex min-h-[60vh] items-center justify-center">
+        <Spinner variant="grey" size="lg" text="Loading safety data..." />
+      </Container>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <EmptyState
+          title="Failed to Load Safety Data"
+          description={error instanceof Error ? error.message : "An error occurred while loading safety data."}
+          action={{ label: "Try Again", onClick: () => window.location.reload() }}
+        />
+      </Container>
+    );
+  }
 
   return (
     <Stack gap={8}>
@@ -97,18 +118,22 @@ export default function ProductionSafetyPage() {
       <Card variant="elevated">
         <CardBody>
           <Stack gap={4}>
-            <Body className="font-weight-bold">Recent Activity</Body>
-            <Stack gap={0}>
-              {recentItems.map((item, index) => (
-                <div key={item.id} className={`flex items-center justify-between border-grey-200 p-4 ${index < recentItems.length - 1 ? "border-b" : ""}`}>
-                  <Stack gap={1}>
-                    <Body className="font-weight-medium">{item.title}</Body>
-                    <Body size="sm" className=" text-grey-500">{item.type} · {item.date}</Body>
-                  </Stack>
-                  <Badge variant={statusColors[item.status]}>{item.status.toUpperCase()}</Badge>
-                </div>
-              ))}
-            </Stack>
+            <Body className="font-weight-bold">Recent Incidents</Body>
+            {incidents.length === 0 ? (
+              <Body size="sm" className="text-grey-500">No incidents reported</Body>
+            ) : (
+              <Stack gap={0}>
+                {incidents.slice(0, 5).map((incident: { id: string; description: string; type: string; date: string; status: string }, index: number) => (
+                  <div key={incident.id} className={`flex items-center justify-between border-grey-200 p-4 ${index < Math.min(incidents.length, 5) - 1 ? "border-b" : ""}`}>
+                    <Stack gap={1}>
+                      <Body className="font-weight-medium">{incident.description}</Body>
+                      <Body size="sm" className=" text-grey-500">{incident.type} · {incident.date}</Body>
+                    </Stack>
+                    <Badge variant={statusColors[incident.status] || "info"}>{incident.status?.toUpperCase() || 'OPEN'}</Badge>
+                  </div>
+                ))}
+              </Stack>
+            )}
           </Stack>
         </CardBody>
       </Card>

@@ -63,8 +63,8 @@ export default function MobileJobSearchPage() {
     switch (type) {
       case 'Full-Time': return 'bg-info-800';
       case 'Gig': return 'bg-success-800';
-      case 'Contract': return 'bg-purple-800';
-      case 'Freelance': return 'bg-warning-800';
+      case 'Contract': return 'bg-violet-800';
+      case 'Freelance': return 'bg-success-100 text-success-800';
       default: return 'bg-ink-700';
     }
   };

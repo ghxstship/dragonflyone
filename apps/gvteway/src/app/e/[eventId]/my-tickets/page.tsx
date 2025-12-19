@@ -1,19 +1,36 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Spinner } from "@ghxstship/ui";
 import { Ticket, QrCode, Download, Share2 } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
+import { useTickets } from "@/hooks/useTickets";
 
 export default function MyTicketsPage() {
   const params = useParams();
   const router = useRouter();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading: eventLoading } = useEvent(eventId);
+  const { data: ticketsData, isLoading: ticketsLoading } = useTickets();
 
-  const myTickets = [
-    { id: "1", type: "General Admission", quantity: 2, orderNumber: "ORD-12345", status: "confirmed" },
-  ];
+  if (eventLoading || ticketsLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading tickets..." />
+      </Stack>
+    );
+  }
+
+  // Filter tickets for this event
+  const myTickets = (ticketsData || [])
+    .filter(t => t.event_id === eventId)
+    .map(t => ({
+      id: t.id,
+      type: t.ticket_type?.name || "General Admission",
+      quantity: 1,
+      orderNumber: `ORD-${t.id.slice(0, 8)}`,
+      status: t.status === 'sold' ? 'confirmed' : t.status || "confirmed",
+    }));
 
   return (
     <Stack gap={8}>

@@ -108,9 +108,9 @@ export default function AssetScanPage() {
   const getStatusBadge = (status: string) => {
     const colors: Record<string, string> = {
       available: 'bg-success-500 text-white',
-      checked_out: 'bg-warning-500 text-black',
-      maintenance: 'bg-warning-500 text-white',
-      retired: 'bg-ink-500 text-white',
+      checked_out: 'bg-success-100 text-success-800black',
+      maintenance: 'bg-success-100 text-success-800white',
+      retired: 'bg-error-100 text-error-800white',
     };
     return <Badge className={colors[status] || ''}>{status.replace('_', ' ')}</Badge>;
   };
@@ -118,9 +118,9 @@ export default function AssetScanPage() {
   const getActionBadge = (action: string) => {
     const colors: Record<string, string> = {
       check_in: 'bg-success-500 text-white',
-      check_out: 'bg-info-500 text-white',
-      inventory: 'bg-purple-500 text-white',
-      transfer: 'bg-warning-500 text-white',
+      check_out: 'bg-warning-100 text-warning-800hite',
+      inventory: 'bg-violet-500 text-white',
+      transfer: 'bg-success-100 text-success-800white',
     };
     return <Badge className={colors[action] || ''}>{action.replace('_', ' ')}</Badge>;
   };

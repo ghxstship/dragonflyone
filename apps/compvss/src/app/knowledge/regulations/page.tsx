@@ -29,7 +29,9 @@ import {
   type Regulation,
 } from "../../../hooks/useRegulations";
 
-const categories = ["All", "OSHA", "Fire", "Electrical", "Labor", "ADA", "Environmental", "Noise"];
+import { getSubcategoryNames } from "@ghxstship/config";
+
+const categories = ['All', ...getSubcategoryNames('PERMIT')];
 
 export default function RegulationsPage() {
   const router = useRouter();

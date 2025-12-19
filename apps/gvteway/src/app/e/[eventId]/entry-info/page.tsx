@@ -1,14 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid, Spinner } from "@ghxstship/ui";
 import { DoorOpen, Car, Accessibility, Globe, MapPin, Clock } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventEntryInfoPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading entry info..." />
+      </Stack>
+    );
+  }
 
   const infoSections = [
     { id: "entry", title: "Entry Points", description: "Main entrance on North Street. VIP entrance on East Side.", icon: DoorOpen },

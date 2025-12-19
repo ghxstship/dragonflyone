@@ -359,9 +359,11 @@ export async function registerServiceWorker(
 
   try {
     const registration = await navigator.serviceWorker.register(swPath);
+    // eslint-disable-next-line no-console
     console.log('Service Worker registered:', registration.scope);
     return registration;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Service Worker registration failed:', error);
     return null;
   }

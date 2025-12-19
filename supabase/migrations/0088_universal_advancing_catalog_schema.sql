@@ -306,8 +306,8 @@ INSERT INTO catalog_categories (category_code, category_name, description, icon_
 ('MKTG-DIG', 'Digital Marketing', 'Social media, email, and digital campaigns', 'globe', 470),
 ('MKTG-MER', 'Merchandise', 'Branded merchandise and giveaways', 'gift', 480),
 
--- Technology Services Categories
-('TECH-SVC', 'Technology Services', 'Software, apps, and digital services', 'laptop', 15),
+-- Applications & Technology Services Categories
+('APPS', 'Applications & Technology Services', 'Software, apps, and digital services', 'laptop', 15),
 ('TECH-REG', 'Registration Systems', 'Ticketing and registration platforms', 'ticket', 490),
 ('TECH-APP', 'Event Apps', 'Mobile apps and digital experiences', 'smartphone', 500),
 ('TECH-ANA', 'Analytics', 'Data collection and reporting', 'bar-chart', 510),
@@ -338,7 +338,7 @@ UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categ
 UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'PERMIT') WHERE category_code LIKE 'PERMIT-%';
 UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'PROF') WHERE category_code LIKE 'PROF-%';
 UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'MKTG') WHERE category_code LIKE 'MKTG-%';
-UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'TECH-SVC') WHERE category_code IN ('TECH-REG', 'TECH-APP', 'TECH-ANA');
+UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'APPS') WHERE category_code IN ('TECH-REG', 'TECH-APP', 'TECH-ANA');
 UPDATE catalog_categories SET parent_category_id = (SELECT id FROM catalog_categories WHERE category_code = 'STAFF') WHERE category_code LIKE 'STAFF-%';
 
 -- ============================================================================

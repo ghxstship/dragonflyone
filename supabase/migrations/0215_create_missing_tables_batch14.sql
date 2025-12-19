@@ -360,6 +360,26 @@ CREATE TABLE IF NOT EXISTS public.schedules (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Add missing columns to existing tables
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'schedule_tasks' AND column_name = 'schedule_id') THEN
+    ALTER TABLE schedule_tasks ADD COLUMN schedule_id UUID;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'schedule_items' AND column_name = 'schedule_id') THEN
+    ALTER TABLE schedule_items ADD COLUMN schedule_id UUID;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'scheduled_maintenance' AND column_name = 'asset_id') THEN
+    ALTER TABLE scheduled_maintenance ADD COLUMN asset_id UUID;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'scheduled_notifications' AND column_name = 'scheduled_for') THEN
+    ALTER TABLE scheduled_notifications ADD COLUMN scheduled_for TIMESTAMPTZ;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'schedules' AND column_name = 'event_id') THEN
+    ALTER TABLE schedules ADD COLUMN event_id UUID;
+  END IF;
+END $$;
+
 -- Create indexes
 CREATE INDEX IF NOT EXISTS idx_rider_items_rider ON public.rider_items(rider_id);
 CREATE INDEX IF NOT EXISTS idx_rigging_plans_event ON public.rigging_plans(event_id);

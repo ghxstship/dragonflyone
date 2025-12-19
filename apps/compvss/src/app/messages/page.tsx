@@ -26,11 +26,44 @@ import {
 
 export default function MessagesPage() {
   const router = useRouter();
-  const { data: conversations = [] } = useConversations();
+  const { data: conversations = [], isLoading, error } = useConversations();
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(null);
   const { data: messages = [] } = useDirectMessages(selectedConversation?.id || '');
   const [newMessage, setNewMessage] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading messages...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load messages</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const totalUnread = conversations.reduce((s, c) => s + c.unread, 0);
   const onlineCount = conversations.filter(c => c.online).length;

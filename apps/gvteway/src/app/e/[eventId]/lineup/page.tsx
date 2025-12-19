@@ -1,14 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Box, Badge, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Box, Badge, Grid, Spinner } from "@ghxstship/ui";
 import { Music, Star } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventLineupPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading lineup..." />
+      </Stack>
+    );
+  }
 
   const lineup = [
     { id: "1", name: "Headliner", genre: "Electronic", setTime: "18:30", isHeadliner: true },

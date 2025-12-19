@@ -38,7 +38,7 @@ import {
 
 export default function StakeholderPortalPage() {
   const router = useRouter();
-  const { data: stakeholders = [] } = useStakeholders();
+  const { data: stakeholders = [], isLoading, error } = useStakeholders();
   const { data: updates = [] } = useStakeholderUpdates();
   
   // URL-synced tab state for deep-linking support
@@ -49,12 +49,45 @@ export default function StakeholderPortalPage() {
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
 
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading stakeholder data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load stakeholder data</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
   const activeStakeholders = stakeholders.filter(s => s.status === "Active").length;
 
   const getRoleColor = (role: string) => {
     switch (role) {
       case "Client": return "bg-info-900/30 border-info-800";
-      case "Sponsor": return "bg-purple-900/30 border-purple-800";
+      case "Sponsor": return "bg-violet-900/30 border-violet-800";
       case "Vendor": return "bg-success-900/30 border-success-800";
       case "Partner": return "bg-warning-900/30 border-warning-800";
       default: return "bg-ink-800 border-ink-700";

@@ -64,7 +64,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function IssuesPage() {
-  const { data: issues = [], refetch } = useIssues();
+  const { data: issues = [], isLoading, refetch } = useIssues();
   const createIssueMutation = useCreateIssue();
   const updateStatusMutation = useUpdateIssueStatus();
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -178,7 +178,7 @@ primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) 
           data={issues}
           columns={columns}
           rowKey="id"
-          loading={false}
+          loading={isLoading}
           searchPlaceholder="Search issues..."
           filters={filters}
           rowActions={rowActions}

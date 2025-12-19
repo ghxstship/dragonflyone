@@ -1,22 +1,26 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Spinner, Container, EmptyState } from "@ghxstship/ui";
 import { Clock, Plus, Users } from "lucide-react";
-import { compvssDemoProductions } from "../../../../../data/compvss";
+import { useProject } from "../../../../../hooks/useProjects";
+import { useTimekeeping } from "../../../../../hooks/useTimekeeping";
 
 export default function TimekeepingPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production } = useProject(productionId);
+  const { data: timekeepingData, isLoading, error } = useTimekeeping();
+  
+  const timeEntries = timekeepingData?.entries || [];
 
-  const timeEntries = [
-    { id: "1", name: "John Smith", clockIn: "06:00", clockOut: "18:00", hours: 12, status: "approved" },
-    { id: "2", name: "Sarah Jones", clockIn: "06:00", clockOut: "20:00", hours: 14, status: "approved" },
-    { id: "3", name: "Mike Wilson", clockIn: "07:00", clockOut: "-", hours: 8, status: "active" },
-    { id: "4", name: "Emily Brown", clockIn: "07:00", clockOut: "-", hours: 8, status: "active" },
-    { id: "5", name: "Tom Davis", clockIn: "08:00", clockOut: "-", hours: 7, status: "active" },
-  ];
+  if (isLoading) {
+    return <Container className="flex min-h-[60vh] items-center justify-center"><Spinner variant="grey" size="lg" text="Loading..." /></Container>;
+  }
+
+  if (error) {
+    return <Container><EmptyState title="Failed to Load" description="Unable to load timekeeping data." action={{ label: "Try Again", onClick: () => window.location.reload() }} /></Container>;
+  }
 
   const statusColors: Record<string, "success" | "warning" | "error" | "info" | "solid"> = {
     approved: "success", pending: "warning", active: "info",

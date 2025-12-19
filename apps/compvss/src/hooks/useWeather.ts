@@ -20,19 +20,11 @@ export const useWeather = (location?: string) => {
   return useQuery({
     queryKey: ['weather', location],
     queryFn: async () => {
-      const mockWeather: WeatherData = {
-        location: location || 'Miami, FL',
-        temperature: 78,
-        condition: 'Partly Cloudy',
-        humidity: 65,
-        windSpeed: 12,
-        forecast: [
-          { date: '2024-11-25', high: 80, low: 72, condition: 'Sunny' },
-          { date: '2024-11-26', high: 79, low: 71, condition: 'Cloudy' },
-          { date: '2024-11-27', high: 77, low: 70, condition: 'Rain' },
-        ],
-      };
-      return mockWeather;
+      const response = await fetch(`/api/weather?location=${encodeURIComponent(location || '')}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch weather data');
+      }
+      return response.json() as Promise<WeatherData>;
     },
     enabled: !!location,
   });
@@ -63,22 +55,13 @@ export interface Forecast {
   wind: number;
 }
 
-const DEMO_ALERTS: WeatherAlert[] = [
-  { id: '1', event: 'Heat Advisory', location: 'Central Park', alertType: 'advisory', severity: 'moderate', issued: new Date().toISOString(), validUntil: new Date(Date.now() + 86400000).toISOString(), impactedEvents: 2 },
-];
-
-const DEMO_FORECASTS: Forecast[] = [
-  { project: 'Summer Festival', date: new Date().toISOString(), high: 85, low: 72, condition: 'Sunny', precipitation: 10, wind: 8 },
-  { project: 'Corporate Gala', date: new Date(Date.now() + 86400000).toISOString(), high: 78, low: 65, condition: 'Cloudy', precipitation: 30, wind: 12 },
-];
-
 export function useWeatherPageData() {
   const alertsQuery = useQuery({
     queryKey: ['weather-alerts'],
     queryFn: async () => {
       const response = await fetch('/api/weather/alerts');
-      if (response.status === 401 || !response.ok) {
-        return DEMO_ALERTS;
+      if (!response.ok) {
+        throw new Error('Failed to fetch weather alerts');
       }
       const data = await response.json();
       return data.alerts || [];
@@ -90,8 +73,8 @@ export function useWeatherPageData() {
     queryKey: ['weather-forecasts'],
     queryFn: async () => {
       const response = await fetch('/api/weather/forecasts');
-      if (response.status === 401 || !response.ok) {
-        return DEMO_FORECASTS;
+      if (!response.ok) {
+        throw new Error('Failed to fetch weather forecasts');
       }
       const data = await response.json();
       return data.forecasts || [];

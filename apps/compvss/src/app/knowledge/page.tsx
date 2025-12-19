@@ -19,6 +19,7 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 import { Search, BookOpen, Video, FileText, Download, Star } from 'lucide-react';
+import { getTopLevelCategories } from "@ghxstship/config";
 
 export default function KnowledgePage() {
   const router = useRouter();
@@ -57,7 +58,7 @@ export default function KnowledgePage() {
     },
   ];
 
-  const categories = ['All', 'Safety', 'Technical', 'Operations', 'Equipment', 'Compliance'];
+  const categories = ['All', ...getTopLevelCategories().map(c => c.name)];
 
   return (
     <CompvssAppLayout>

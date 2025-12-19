@@ -76,6 +76,7 @@ import {
   atlvsSocialProof,
   atlvsPricing,
   atlvsLandingCta,
+  atlvsV3Features,
 } from "../data/atlvs";
 
 export const runtime = "edge";
@@ -287,10 +288,94 @@ export default function Home() {
         </Container>
       </FullBleedSection>
 
-      {/* SECTION 6: COMPVSS */}
+      {/* SECTION 6: V3 EXPANSION - NEW VENUE & VENDOR FEATURES */}
       <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
-          <Box className="border-2 border-ink-800 bg-ink-900 p-4 sm:p-8 lg:p-12">
+          <Stack gap={4} className="text-center">
+            <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">NEW IN V3</Label>
+            <H1 className="text-white">VENUE & VENDOR POWERHOUSE</H1>
+            <Body className="mx-auto max-w-2xl text-grey-400">
+              Two new modules that transform how you manage venues and vendors. From lead capture to payment collection, from RFP to delivery.
+            </Body>
+          </Stack>
+
+          <Grid cols={2} gap={6} className="mt-12">
+            {/* Venue Management Module */}
+            <Article className="border-2 border-ink-800 bg-ink-900 p-6 sm:p-8">
+              <Stack gap={6}>
+                <Stack direction="horizontal" gap={3} className="items-center">
+                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-pink bg-ink-800">
+                    <Building className="h-6 w-6 text-brand-pink" />
+                  </Box>
+                  <Stack gap={1}>
+                    <H3 className="font-display text-h5-md uppercase tracking-label text-white">{atlvsV3Features.venueManagement.title}</H3>
+                    <Label size="xs" className="text-brand-pink">NEW MODULE</Label>
+                  </Stack>
+                </Stack>
+                <Body className="text-grey-400">{atlvsV3Features.venueManagement.description}</Body>
+                <Grid cols={2} gap={3}>
+                  {atlvsV3Features.venueManagement.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
+                    <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
+                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-pink" />
+                      <Text size="sm" className="text-grey-300">{feature.name}</Text>
+                    </Stack>
+                  ))}
+                </Grid>
+              </Stack>
+            </Article>
+
+            {/* Vendor Services Module */}
+            <Article className="border-2 border-ink-800 bg-ink-900 p-6 sm:p-8">
+              <Stack gap={6}>
+                <Stack direction="horizontal" gap={3} className="items-center">
+                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-cyan bg-ink-800">
+                    <Handshake className="h-6 w-6 text-brand-cyan" />
+                  </Box>
+                  <Stack gap={1}>
+                    <H3 className="font-display text-h5-md uppercase tracking-label text-white">{atlvsV3Features.vendorServices.title}</H3>
+                    <Label size="xs" className="text-brand-cyan">NEW MODULE</Label>
+                  </Stack>
+                </Stack>
+                <Body className="text-grey-400">{atlvsV3Features.vendorServices.description}</Body>
+                <Grid cols={2} gap={3}>
+                  {atlvsV3Features.vendorServices.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
+                    <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
+                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-cyan" />
+                      <Text size="sm" className="text-grey-300">{feature.name}</Text>
+                    </Stack>
+                  ))}
+                </Grid>
+              </Stack>
+            </Article>
+          </Grid>
+
+          {/* Blue Ocean Differentiators */}
+          <Box className="mt-12 border-t border-ink-800 pt-12">
+            <Stack gap={4} className="text-center">
+              <Label className="font-mono text-mono-xs uppercase tracking-label text-grey-500">WHAT SETS US APART</Label>
+              <H3 className="text-white">FEATURES NO ONE ELSE HAS</H3>
+            </Stack>
+            <Grid cols={4} gap={4} className="mt-8">
+              {atlvsV3Features.differentiation.features.map((feature) => (
+                <Article key={feature.id} className="border-2 border-ink-800 bg-ink-800 p-4 transition-all duration-150 hover:-translate-y-2 hover:border-brand-pink">
+                  <Stack gap={3}>
+                    <Box className="flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
+                      <Sparkles className="h-5 w-5 text-brand-pink" />
+                    </Box>
+                    <H3 className="font-display text-h6-md uppercase tracking-label text-white">{feature.name}</H3>
+                    <Body size="sm" className="text-grey-400">{feature.description}</Body>
+                  </Stack>
+                </Article>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
+      </FullBleedSection>
+
+      {/* SECTION 7: COMPVSS */}
+      <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-6xl px-4 sm:px-6 lg:px-8">
+          <Box className="border-2 border-ink-950 bg-ink-950 p-4 sm:p-8 lg:p-12">
             <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-cyan">{atlvsCompvssSection.kicker}</Label>
             <Display className="mt-4 font-display text-display-sm uppercase text-white md:text-display-md">{atlvsCompvssSection.title}</Display>
             <Body className="mt-4 text-body-md text-grey-400 sm:text-body-lg">{atlvsCompvssSection.subtitle}</Body>

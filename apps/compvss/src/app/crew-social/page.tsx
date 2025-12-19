@@ -40,7 +40,7 @@ import {
 
 export default function CrewSocialPage() {
   const router = useRouter();
-  const { data: crewMembers = [] } = useSocialCrewMembers();
+  const { data: crewMembers = [], isLoading, error: fetchError } = useSocialCrewMembers();
   const { data: photos = [] } = useCrewPhotos();
   const likePhotoMutation = useLikePhoto();
   
@@ -55,6 +55,39 @@ export default function CrewSocialPage() {
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading crew social data...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load crew social data</Body>
+                <Body className="text-destructive">{fetchError instanceof Error ? fetchError.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const handleConnect = (memberId: string) => {
     // In a real app, this would send a connection request to the API

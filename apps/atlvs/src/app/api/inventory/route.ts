@@ -70,6 +70,14 @@ export async function GET(request: NextRequest) {
       query = query.eq('location_id', locationId);
     }
 
+    if (category) {
+      query = query.eq('category', category);
+    }
+
+    if (lowStock) {
+      query = query.lte('current_quantity', supabase.rpc('get_min_quantity'));
+    }
+
     const { data, error, count } = await query;
 
     if (error) {

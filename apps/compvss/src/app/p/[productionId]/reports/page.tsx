@@ -3,13 +3,13 @@
 import { useParams, useRouter } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Grid } from "@ghxstship/ui";
 import { FileText, FileCheck, Receipt, Camera, DollarSign, Plus } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionReportsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production } = useProject(productionId);
 
   const reportTypes = [
     { id: "daily", name: "Daily Reports", description: "End of day summaries", icon: FileText, href: `/p/${productionId}/reports/daily` },

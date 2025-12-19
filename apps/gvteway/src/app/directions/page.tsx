@@ -76,10 +76,10 @@ function DirectionsContent() {
 
   const getParkingTypeBadge = (type: string) => {
     const variants: Record<string, string> = {
-      garage: 'bg-info-500 text-white',
+      garage: 'bg-success-100 text-success-800',
       lot: 'bg-success-500 text-white',
       street: 'bg-warning-500 text-white',
-      valet: 'bg-purple-500 text-white',
+      valet: 'bg-violet-500 text-white',
     };
     return <Badge className={variants[type] || ''}>{type}</Badge>;
   };

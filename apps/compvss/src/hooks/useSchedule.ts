@@ -153,15 +153,10 @@ export interface ScheduleSummary {
   };
 }
 
-const DEMO_SCHEDULE: ScheduleItem[] = [
-  { id: 'demo-1', title: 'Load-In: Audio Equipment', type: 'load_in', start_time: new Date().toISOString(), end_time: new Date(Date.now() + 4 * 3600000).toISOString(), status: 'in_progress', priority: 'high', crew_roles_required: ['Audio Tech', 'Stagehand'], assignments: [{ id: 'a1', crew_member: { id: 'c1', full_name: 'John Smith', role: 'Audio Tech' }, status: 'confirmed' }] },
-  { id: 'demo-2', title: 'Lighting Setup', type: 'setup', start_time: new Date(Date.now() + 5 * 3600000).toISOString(), end_time: new Date(Date.now() + 9 * 3600000).toISOString(), status: 'scheduled', priority: 'medium', crew_roles_required: ['Lighting Tech'] },
-];
-
-const DEMO_SCHEDULE_SUMMARY: ScheduleSummary = {
-  total: 12,
-  by_type: { load_in: 3, setup: 4, rehearsal: 2, show: 2, strike: 1 },
-  by_status: { scheduled: 5, in_progress: 2, completed: 4, cancelled: 1 },
+const DEFAULT_SUMMARY: ScheduleSummary = {
+  total: 0,
+  by_type: {},
+  by_status: { scheduled: 0, in_progress: 0, completed: 0, cancelled: 0 },
 };
 
 export function useSchedulePageData() {
@@ -169,22 +164,19 @@ export function useSchedulePageData() {
     queryKey: ['schedule-page'],
     queryFn: async () => {
       const response = await fetch('/api/schedule');
-      if (response.status === 401) {
-        return { items: DEMO_SCHEDULE, summary: DEMO_SCHEDULE_SUMMARY };
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch schedule');
       }
       const data = await response.json();
       return {
         items: data.items || data.schedule || [],
-        summary: data.summary || DEMO_SCHEDULE_SUMMARY,
+        summary: data.summary || DEFAULT_SUMMARY,
       };
     },
     staleTime: 5 * 60 * 1000,
   });
 
-  const data = scheduleQuery.data || { items: [], summary: DEMO_SCHEDULE_SUMMARY };
+  const data = scheduleQuery.data || { items: [], summary: DEFAULT_SUMMARY };
 
   return {
     items: data.items,

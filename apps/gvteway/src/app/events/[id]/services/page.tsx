@@ -52,14 +52,14 @@ const categoryIcons: Record<EventService['category'], React.ReactNode> = {
 };
 
 const categoryColors: Record<EventService['category'], string> = {
-  food: 'bg-success-100 text-success-700',
-  parking: 'bg-info-100 text-info-700',
-  merchandise: 'bg-purple-100 text-purple-700',
-  accessibility: 'bg-primary-100 text-primary-700',
-  family: 'bg-pink-100 text-pink-700',
-  wifi: 'bg-secondary-100 text-secondary-700',
-  payment: 'bg-accent-100 text-accent-700',
-  support: 'bg-warning-100 text-warning-700',
+  food: 'bg-food-100 text-food-700',
+  parking: 'bg-parking-100 text-parking-700',
+  merchandise: 'bg-merchandise-100 text-merchandise-700',
+  accessibility: 'bg-accessibility-100 text-accessibility-700',
+  family: 'bg-family-100 text-family-700',
+  wifi: 'bg-wifi-100 text-wifi-700',
+  payment: 'bg-payment-100 text-payment-800',
+  support: 'bg-support-100 text-support-700',
 };
 
 function useEventServices(eventId: string) {

@@ -51,7 +51,7 @@ export default function VendorComparePage() {
     switch (availability) {
       case "Available": return "text-success-400";
       case "Limited": return "text-warning-400";
-      case "Booked": return "text-error-400";
+      case "Booked": return "bg-success-100 text-success-800";
       default: return "text-ink-400";
     }
   };
@@ -60,7 +60,7 @@ export default function VendorComparePage() {
     switch (pricing) {
       case "Budget": return "bg-success-900/20 border-success-800";
       case "Mid-Range": return "bg-warning-900/20 border-warning-800";
-      case "Premium": return "bg-purple-900/20 border-purple-800";
+      case "Premium": return "bg-violet-900/20 border-violet-800";
       default: return "bg-ink-900/50 border-ink-800";
     }
   };

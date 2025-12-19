@@ -32,18 +32,13 @@ export interface CateringSummary {
   dietary_requirements: DietaryRequirement[];
 }
 
-const DEMO_SERVICES: MealService[] = [
-  { id: 'demo-1', project_id: 'proj-001', project_name: 'Summer Festival 2024', service_date: new Date().toISOString(), meal_type: 'breakfast', headcount: 45, vendor_name: 'Gourmet Catering Co', location: 'Backstage Area A', cost_per_head: 18, total_cost: 810, status: 'confirmed' },
-  { id: 'demo-2', project_id: 'proj-001', project_name: 'Summer Festival 2024', service_date: new Date().toISOString(), meal_type: 'lunch', headcount: 60, vendor_name: 'Gourmet Catering Co', location: 'Main Stage', cost_per_head: 22, total_cost: 1320, status: 'pending' },
-];
-
-const DEMO_SUMMARY: CateringSummary = {
-  total_services: 2,
-  upcoming_meals: 2,
-  total_headcount: 105,
-  total_cost: 2130,
-  average_cost_per_head: 20.29,
-  dietary_requirements: [{ type: 'vegetarian', count: 12 }, { type: 'vegan', count: 5 }],
+const DEFAULT_SUMMARY: CateringSummary = {
+  total_services: 0,
+  upcoming_meals: 0,
+  total_headcount: 0,
+  total_cost: 0,
+  average_cost_per_head: 0,
+  dietary_requirements: [],
 };
 
 export const cateringKeys = {
@@ -60,16 +55,13 @@ export function useCateringServices(filters?: { projectId?: string; mealType?: s
       if (filters?.mealType && filters.mealType !== 'all') params.append('meal_type', filters.mealType);
       
       const response = await fetch(`/api/catering?${params.toString()}`);
-      if (response.status === 401) {
-        return { services: DEMO_SERVICES, summary: DEMO_SUMMARY };
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch catering data');
       }
       const data = await response.json();
       return {
         services: data.services || [],
-        summary: data.summary || DEMO_SUMMARY,
+        summary: data.summary || DEFAULT_SUMMARY,
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -79,7 +71,7 @@ export function useCateringServices(filters?: { projectId?: string; mealType?: s
 export function useCateringData(filters?: { projectId?: string; mealType?: string }) {
   const cateringQuery = useCateringServices(filters);
 
-  const data = cateringQuery.data || { services: [], summary: DEMO_SUMMARY };
+  const data = cateringQuery.data || { services: [], summary: DEFAULT_SUMMARY };
 
   return {
     services: data.services,

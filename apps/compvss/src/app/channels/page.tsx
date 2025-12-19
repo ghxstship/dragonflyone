@@ -38,7 +38,7 @@ export default function ChannelsPage() {
   const router = useRouter();
   
   // Fetch data from API
-  const { data: channels = [], refetch: refetchChannels } = useChannels();
+  const { data: channels = [], isLoading, error: fetchError, refetch: refetchChannels } = useChannels();
   const { data: allMembers = [] } = useChannelMembers();
   const createChannelMutation = useCreateChannel();
   const sendMessageMutation = useSendMessage();
@@ -51,13 +51,45 @@ export default function ChannelsPage() {
   const [filter, setFilter] = useState('all');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
   const [newChannel, setNewChannel] = useState({
     name: '',
     type: 'department',
     department: '',
     description: '',
   });
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading channels...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load channels</Body>
+                <Body className="text-destructive">{fetchError instanceof Error ? fetchError.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedChannel || allMembers.length === 0) return;
@@ -100,10 +132,10 @@ export default function ChannelsPage() {
 
   const getTypeBadge = (type: string) => {
     const colors: Record<string, string> = {
-      department: 'bg-info-500 text-white',
-      project: 'bg-purple-500 text-white',
+      department: 'bg-success-100 text-success-800',
+      project: 'bg-violet-500 text-white',
       broadcast: 'bg-warning-500 text-white',
-      private: 'bg-ink-500 text-white',
+      private: 'bg-error-100 text-error-800',
     };
     return <Badge className={colors[type] || ''}>{type}</Badge>;
   };

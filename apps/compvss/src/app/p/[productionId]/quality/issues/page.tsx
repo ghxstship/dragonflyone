@@ -1,17 +1,17 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3, Button } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Body, H3, Button, Spinner, Container } from "@ghxstship/ui";
 import { AlertCircle, CheckCircle, Clock, XCircle, Plus } from "lucide-react";
-import { compvssDemoProductions } from "../../../../../data/compvss";
+import { useProject } from "../../../../../hooks/useProjects";
 
 export default function QualityIssuesPage() {
   const params = useParams();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production, isLoading } = useProject(productionId);
 
-  if (!production) {
-    return <Stack gap={4}><SectionHeader kicker="Issues" title="Production Not Found" /></Stack>;
+  if (isLoading) {
+    return <Container className="flex min-h-[60vh] items-center justify-center"><Spinner variant="grey" size="lg" text="Loading..." /></Container>;
   }
 
   const stats = { open: 8, inProgress: 5, resolved: 42, closed: 38 };
@@ -19,7 +19,7 @@ export default function QualityIssuesPage() {
   return (
     <Stack gap={8}>
       <Stack gap={4}>
-        <SectionHeader kicker={production.name} title="Quality Issues" description="Track and resolve quality issues" />
+        <SectionHeader kicker={production?.name || "Production"} title="Quality Issues" description="Track and resolve quality issues" />
         <Button variant="solid" size="sm"><Plus size={16} className="mr-2" />Report Issue</Button>
       </Stack>
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

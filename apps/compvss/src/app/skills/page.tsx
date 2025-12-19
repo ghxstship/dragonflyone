@@ -26,8 +26,9 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { getSubcategoryNames } from "@ghxstship/config";
 
-const skillCategories = ["Rigging", "Audio", "Video", "Lighting", "Staging", "Electrical", "Safety"];
+const skillCategories = getSubcategoryNames('TECH');
 
 interface CrewSkill {
   id: string;

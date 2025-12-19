@@ -28,14 +28,49 @@ import {
 } from '../../hooks/useTroubleshooting';
 
 
-const categories = ["All", "Audio", "Video", "Lighting", "Communications", "Power", "Rigging"];
+import { getSubcategoryNames } from "@ghxstship/config";
+
+const categories = ['All', ...getSubcategoryNames('TECH')];
 
 export default function TroubleshootingPage() {
   const router = useRouter();
-  const { data: guides = [] } = useTroubleshootingGuides();
+  const { data: guides = [], isLoading, error } = useTroubleshootingGuides();
   const [selectedGuide, setSelectedGuide] = useState<TroubleshootingGuide | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading troubleshooting guides...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load guides</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const filteredGuides = guides.filter(g => {
     const matchesCategory = categoryFilter === "All" || g.category === categoryFilter;

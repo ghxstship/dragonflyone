@@ -32,19 +32,14 @@ export interface ExpenseSummary {
   approved_amount: number;
 }
 
-const DEMO_EXPENSES: Expense[] = [
-  { id: '1', expense_number: 'EXP-001', project_id: 'proj-1', project_name: 'Summer Festival', crew_member_id: 'crew-1', crew_member_name: 'John Smith', category: 'travel', description: 'Flight to venue', amount: 450, currency: 'USD', expense_date: '2025-01-15', submitted_date: '2025-01-16', status: 'pending' },
-  { id: '2', expense_number: 'EXP-002', project_id: 'proj-1', project_name: 'Summer Festival', crew_member_id: 'crew-2', crew_member_name: 'Sarah Johnson', category: 'per-diem', description: 'Daily allowance', amount: 75, currency: 'USD', expense_date: '2025-01-15', submitted_date: '2025-01-15', status: 'approved' },
-];
-
-const DEMO_SUMMARY: ExpenseSummary = {
-  total_expenses: 2,
-  pending_count: 1,
-  approved_count: 1,
+const DEFAULT_SUMMARY: ExpenseSummary = {
+  total_expenses: 0,
+  pending_count: 0,
+  approved_count: 0,
   rejected_count: 0,
-  total_amount: 525,
-  pending_amount: 450,
-  approved_amount: 75,
+  total_amount: 0,
+  pending_amount: 0,
+  approved_amount: 0,
 };
 
 export const expenseKeys = {
@@ -57,16 +52,13 @@ export function useExpensesList() {
     queryKey: expenseKeys.list(),
     queryFn: async () => {
       const response = await fetch('/api/expenses');
-      if (response.status === 401) {
-        return { expenses: DEMO_EXPENSES, summary: DEMO_SUMMARY };
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch expenses');
       }
       const data = await response.json();
       return {
         expenses: data.expenses || [],
-        summary: data.summary || DEMO_SUMMARY,
+        summary: data.summary || DEFAULT_SUMMARY,
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -114,7 +106,7 @@ export function useExpensesData() {
   const createMutation = useCreateExpense();
   const updateStatusMutation = useUpdateExpenseStatus();
 
-  const data = expensesQuery.data || { expenses: [], summary: DEMO_SUMMARY };
+  const data = expensesQuery.data || { expenses: [], summary: DEFAULT_SUMMARY };
 
   return {
     expenses: data.expenses,

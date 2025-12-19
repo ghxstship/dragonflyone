@@ -103,7 +103,7 @@ export default function LeadScoringPage() {
     const colors: Record<string, string> = {
       unqualified: 'bg-ink-500 text-white',
       mql: 'bg-info-500 text-white',
-      sql: 'bg-purple-500 text-white',
+      sql: 'bg-violet-500 text-white',
       opportunity: 'bg-success-500 text-white',
     };
     return <Badge className={colors[status] || ''}>{status.toUpperCase()}</Badge>;
@@ -111,8 +111,8 @@ export default function LeadScoringPage() {
 
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
-      demographic: 'bg-info-100 text-info-800',
-      behavioral: 'bg-purple-100 text-purple-800',
+      demographic: 'bg-success-100 text-success-600',
+      behavioral: 'bg-violet-100 text-violet-800',
       engagement: 'bg-success-100 text-success-800',
       fit: 'bg-warning-100 text-warning-800',
     };

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout } from "@/components/app-layout";
+import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
@@ -22,23 +22,42 @@ import {
   TableRow,
   TableHead,
   TableCell,
+  EmptyState,
 } from "@ghxstship/ui";
 import { CreditCard, Plus, Trash2, Star, Wallet, ArrowUpRight, ArrowDownLeft } from "lucide-react";
-
-const paymentMethods = [
-  { id: "PM-001", type: "Credit Card", brand: "Visa", last4: "4242", expiry: "12/2025", isDefault: true },
-  { id: "PM-002", type: "Credit Card", brand: "Mastercard", last4: "8888", expiry: "06/2026", isDefault: false },
-];
-
-const transactionHistory = [
-  { id: "TXN-12345", date: "2024-11-20", description: "Ultra Music Festival 2024 - GA Ticket", amount: -450, status: "Completed" },
-  { id: "TXN-12344", date: "2024-11-18", description: "Refund - Rolling Loud", amount: 120, status: "Completed" },
-  { id: "TXN-12343", date: "2024-11-15", description: "Art Basel VIP Pass", amount: -250, status: "Completed" },
-];
+import { useWalletData } from "@/hooks/useWalletData";
 
 export default function WalletPage() {
   const router = useRouter();
   const [showAddCard, setShowAddCard] = useState(false);
+  const {
+    paymentMethods,
+    transactions,
+    totalSpent,
+    isLoading,
+    error,
+    addPaymentMethod,
+    removePaymentMethod,
+    setDefaultPaymentMethod,
+    isUpdating,
+  } = useWalletData();
+
+  if (isLoading) {
+    return <GvtewayLoadingLayout text="Loading wallet..." />;
+  }
+
+  if (error) {
+    return (
+      <GvtewayAppLayout>
+        <EmptyState
+          title="Error Loading Wallet"
+          description="Unable to load your wallet data. Please try again."
+          action={{ label: "Retry", onClick: () => window.location.reload() }}
+          inverted
+        />
+      </GvtewayAppLayout>
+    );
+  }
 
   return (
     <GvtewayAppLayout>
@@ -58,12 +77,12 @@ export default function WalletPage() {
                 inverted
               />
               <StatCard
-                value="$820"
+                value={`$${totalSpent.toLocaleString()}`}
                 label="Total Spent"
                 inverted
               />
               <StatCard
-                value={transactionHistory.length.toString()}
+                value={transactions.length.toString()}
                 label="Transactions"
                 inverted
               />
@@ -96,8 +115,16 @@ export default function WalletPage() {
                       <Input type="text" placeholder="CVV" inverted />
                     </Grid>
                     <Input type="text" placeholder="Cardholder Name" inverted />
-                    <Button variant="solid" inverted onClick={() => { alert('Card saved!'); setShowAddCard(false); }}>
-                      Save Card
+                    <Button 
+                      variant="solid" 
+                      inverted 
+                      disabled={isUpdating}
+                      onClick={async () => { 
+                        await addPaymentMethod({ cardNumber: '', expiry: '', cvv: '', name: '' }); 
+                        setShowAddCard(false); 
+                      }}
+                    >
+                      {isUpdating ? 'Saving...' : 'Save Card'}
                     </Button>
                   </Stack>
                 </Card>
@@ -109,7 +136,7 @@ export default function WalletPage() {
                     <Stack gap={1}>
                       <Stack gap={3} direction="horizontal" className="items-center">
                         <CreditCard className="size-5 text-on-dark-muted" />
-                        <Body className="font-display text-white">{method.brand} •••• {method.last4}</Body>
+                        <Body className="font-display text-white">{method.type.toUpperCase()} •••• {method.last4}</Body>
                         {method.isDefault && <Badge variant="solid">Default</Badge>}
                       </Stack>
                       <Label size="xs" className="text-on-dark-disabled">Expires {method.expiry}</Label>
@@ -119,7 +146,8 @@ export default function WalletPage() {
                         <Button 
                           variant="ghost" 
                           size="sm" 
-                          onClick={() => alert(`Set ${method.brand} as default`)}
+                          disabled={isUpdating}
+                          onClick={() => setDefaultPaymentMethod(method.id)}
                           icon={<Star className="size-4" />}
                           iconPosition="left"
                         >
@@ -129,7 +157,8 @@ export default function WalletPage() {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        onClick={() => alert(`Remove ${method.brand}?`)}
+                        disabled={isUpdating}
+                        onClick={() => removePaymentMethod(method.id)}
                         icon={<Trash2 className="size-4" />}
                       />
                     </Stack>
@@ -155,7 +184,7 @@ export default function WalletPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {transactionHistory.map((txn) => (
+                    {transactions.map((txn) => (
                       <TableRow key={txn.id} className="cursor-pointer hover:bg-ink-800" onClick={() => router.push(`/wallet/transactions/${txn.id}`)}>
                         <TableCell>
                           <Label size="xs" className="font-mono text-on-dark-muted">{txn.date}</Label>
@@ -165,13 +194,13 @@ export default function WalletPage() {
                         </TableCell>
                         <TableCell>
                           <Stack direction="horizontal" gap={1} className="items-center">
-                            {txn.amount > 0 ? (
+                            {txn.type === 'refund' || txn.type === 'credit' ? (
                               <ArrowDownLeft className="size-4 text-success" />
                             ) : (
                               <ArrowUpRight className="size-4 text-on-dark-muted" />
                             )}
-                            <Body size="sm" className={`font-mono ${txn.amount > 0 ? 'text-success' : 'text-white'}`}>
-                              {txn.amount > 0 ? '+' : ''}${Math.abs(txn.amount)}
+                            <Body size="sm" className={`font-mono ${txn.type === 'refund' || txn.type === 'credit' ? 'text-success' : 'text-white'}`}>
+                              {txn.type === 'refund' || txn.type === 'credit' ? '+' : '-'}${txn.amount.toFixed(2)}
                             </Body>
                           </Stack>
                         </TableCell>

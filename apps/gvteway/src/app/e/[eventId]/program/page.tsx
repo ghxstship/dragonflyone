@@ -1,14 +1,22 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Body, Badge, Box } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Body, Badge, Box, Spinner } from "@ghxstship/ui";
 import { Clock, Music, MapPin } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 export default function EventProgramPage() {
   const params = useParams();
   const eventId = params?.eventId as string;
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading } = useEvent(eventId);
+
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading program..." />
+      </Stack>
+    );
+  }
 
   const program = [
     { id: "1", time: "14:00", title: "Doors Open", type: "event", stage: "Main Entrance" },

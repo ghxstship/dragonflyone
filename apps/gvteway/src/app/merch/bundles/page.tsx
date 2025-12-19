@@ -68,8 +68,8 @@ function BundlesPageContent() {
 
   const getTypeBadge = (type: string) => {
     const colors: Record<string, string> = {
-      ticket: 'bg-info-500 text-white',
-      merch: 'bg-purple-500 text-white',
+      ticket: 'bg-success-100 text-success-800',
+      merch: 'bg-violet-500 text-white',
       parking: 'bg-success-500 text-white',
       upgrade: 'bg-warning-500 text-white',
       experience: 'bg-pink-500 text-white',

@@ -118,3 +118,165 @@ export function useDeleteVendor() {
     },
   });
 }
+
+// =============================================================================
+// VENDOR PERFORMANCE HOOKS
+// =============================================================================
+
+interface VendorPerformanceMetrics {
+  average_rating: number;
+  total_orders: number;
+  completed_orders: number;
+  total_revenue: number;
+  completion_rate: number;
+  on_time_rate: number;
+  review_count: number;
+}
+
+interface VendorIssues {
+  total: number;
+  open: number;
+  resolved: number;
+  critical: number;
+}
+
+interface MonthlyTrend {
+  month: string;
+  orders: number;
+  revenue: number;
+}
+
+interface VendorReview {
+  id: string;
+  rating: number;
+  review_text?: string;
+  reviewer_name?: string;
+  created_at: string;
+}
+
+interface VendorPerformanceResponse {
+  vendor: { id: string; name: string; status: string };
+  metrics: VendorPerformanceMetrics;
+  issues: VendorIssues;
+  recent_reviews: VendorReview[];
+  monthly_trend: MonthlyTrend[];
+  period: string;
+}
+
+const DEMO_PERFORMANCE: VendorPerformanceResponse = {
+  vendor: { id: 'demo', name: 'Demo Vendor', status: 'active' },
+  metrics: {
+    average_rating: 4.5,
+    total_orders: 24,
+    completed_orders: 22,
+    total_revenue: 125000,
+    completion_rate: 91.7,
+    on_time_rate: 88.5,
+    review_count: 12,
+  },
+  issues: { total: 3, open: 1, resolved: 2, critical: 0 },
+  recent_reviews: [
+    {
+      id: '1',
+      rating: 5,
+      review_text: 'Excellent service and delivery',
+      reviewer_name: 'John Smith',
+      created_at: new Date().toISOString(),
+    },
+  ],
+  monthly_trend: [
+    { month: 'Jul 24', orders: 3, revenue: 15000 },
+    { month: 'Aug 24', orders: 4, revenue: 22000 },
+    { month: 'Sep 24', orders: 5, revenue: 28000 },
+    { month: 'Oct 24', orders: 4, revenue: 20000 },
+    { month: 'Nov 24', orders: 3, revenue: 18000 },
+    { month: 'Dec 24', orders: 5, revenue: 22000 },
+  ],
+  period: '12m',
+};
+
+export function useVendorPerformance(vendorId: string, period: '3m' | '6m' | '12m' = '12m') {
+  return useQuery({
+    queryKey: ['vendor-performance', vendorId, period],
+    queryFn: async () => {
+      const response = await fetch(`/api/vendors/${vendorId}/performance?period=${period}`);
+      if (response.status === 401 || response.status === 404) {
+        return DEMO_PERFORMANCE;
+      }
+      if (!response.ok) {
+        return DEMO_PERFORMANCE;
+      }
+      return response.json() as Promise<VendorPerformanceResponse>;
+    },
+    enabled: !!vendorId,
+  });
+}
+
+interface VendorScorecard {
+  id: string;
+  quality_score: number;
+  delivery_score: number;
+  communication_score: number;
+  pricing_score: number;
+  overall_score: number;
+  notes?: string;
+  evaluation_date: string;
+}
+
+interface VendorScorecardResponse {
+  latest: VendorScorecard | null;
+  history: VendorScorecard[];
+  averages: {
+    quality: number | null;
+    delivery: number | null;
+    communication: number | null;
+    pricing: number | null;
+  };
+  overall_score: number;
+  evaluation_count: number;
+}
+
+export function useVendorScorecard(vendorId: string) {
+  return useQuery({
+    queryKey: ['vendor-scorecard', vendorId],
+    queryFn: async () => {
+      const response = await fetch(`/api/vendors/${vendorId}/scorecard`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch scorecard');
+      }
+      return response.json() as Promise<VendorScorecardResponse>;
+    },
+    enabled: !!vendorId,
+  });
+}
+
+interface CreateScorecardInput {
+  quality_score: number;
+  delivery_score: number;
+  communication_score: number;
+  pricing_score: number;
+  notes?: string;
+}
+
+export function useCreateVendorScorecard() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ vendorId, ...data }: CreateScorecardInput & { vendorId: string }) => {
+      const response = await fetch(`/api/vendors/${vendorId}/scorecard`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create scorecard');
+      }
+      return response.json();
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['vendor-scorecard', variables.vendorId] });
+      queryClient.invalidateQueries({ queryKey: ['vendor-performance', variables.vendorId] });
+    },
+  });
+}

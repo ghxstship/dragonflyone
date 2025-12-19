@@ -9,29 +9,6 @@
     · cpus
 
    Creating an optimized production build ...
-<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
- ⚠ Compiled with warnings
-
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
-../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
-Learn more: https://nextjs.org/docs/api-reference/edge-runtime
-
-Import trace for requested module:
-../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
-../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
-
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -65,35 +42,41 @@ Error in protection rules API: n [Error]: Dynamic server usage: Route /api/admin
   description: "Route /api/admin/anti-scalping/rules couldn't be rendered statically because it used `cookies`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
   digest: 'DYNAMIC_SERVER_USAGE'
 }
- ✓ Generating static pages (141/141)
+ ✓ Generating static pages (152/152)
    Collecting build traces     ✓ Collecting build traces 
    Finalizing page optimization     ✓ Finalizing page optimization 
 
 Route (app)                                   Size     First Load JS
-┌ ƒ /                                         8.56 kB         472 kB
+┌ ƒ /                                         6.54 kB         651 kB
 ├ ○ /_not-found                               143 B          87.8 kB
-├ ○ /accessibility                            3.4 kB          478 kB
-├ ○ /accessibility/request                    5.35 kB         462 kB
-├ ○ /account                                  3.15 kB         646 kB
-├ ○ /account/my-refunds                       3.17 kB         459 kB
-├ ○ /account/my-transfers                     3.17 kB         459 kB
-├ ○ /account/orders                           3.04 kB         639 kB
-├ ○ /account/profile                          2.56 kB         462 kB
-├ ○ /account/tickets                          3.39 kB         639 kB
-├ ○ /activity                                 3.24 kB         466 kB
-├ ○ /admin/anti-scalping                      6.82 kB         481 kB
-├ ○ /admin/content-calendar                   2.61 kB         477 kB
-├ ○ /admin/contests                           3.9 kB          658 kB
-├ ○ /admin/integrations                       4.54 kB         461 kB
-├ ○ /admin/inventory-sync                     3.25 kB         657 kB
-├ ○ /admin/marketing/sms                      3.64 kB         478 kB
-├ ○ /admin/moderation                         3.39 kB         478 kB
-├ ○ /admin/pos                                3.4 kB          478 kB
-├ ○ /admin/pos/cashless                       4.76 kB         479 kB
-├ ○ /admin/pricing/early-bird                 3.46 kB         478 kB
-├ ○ /admin/promo-codes                        5.97 kB         642 kB
-├ ○ /admin/sales-reporting                    3.3 kB          657 kB
-├ ○ /admin/will-call                          5.53 kB         641 kB
+├ ○ /accessibility                            4.26 kB         642 kB
+├ ○ /accessibility/request                    3.74 kB         641 kB
+├ ○ /account                                  2.99 kB         648 kB
+├ ○ /account/my-refunds                       3.19 kB         641 kB
+├ ○ /account/my-transfers                     3.19 kB         641 kB
+├ ○ /account/orders                           2.88 kB         641 kB
+├ ○ /account/profile                          3.83 kB         642 kB
+├ ○ /account/tickets                          3.24 kB         641 kB
+├ ○ /activity                                 3.25 kB         647 kB
+├ ○ /admin/anti-scalping                      4.58 kB         659 kB
+├ ○ /admin/content-calendar                   2.01 kB         657 kB
+├ ○ /admin/contests                           4.36 kB         642 kB
+├ ○ /admin/integrations                       2.87 kB         641 kB
+├ ○ /admin/inventory-sync                     3.81 kB         642 kB
+├ ○ /admin/marketing/affiliates               5.77 kB         643 kB
+├ ○ /admin/marketing/email                    6.76 kB         644 kB
+├ ○ /admin/marketing/embed                    4.59 kB         642 kB
+├ ○ /admin/marketing/push                     6.02 kB         644 kB
+├ ○ /admin/marketing/seo                      4.35 kB         642 kB
+├ ○ /admin/marketing/sms                      4.36 kB         659 kB
+├ ○ /admin/marketing/widgets                  4 kB            642 kB
+├ ○ /admin/moderation                         3.26 kB         658 kB
+├ ○ /admin/pos                                3.4 kB          658 kB
+├ ○ /admin/pos/cashless                       4.15 kB         659 kB
+├ ○ /admin/pricing/early-bird                 2.87 kB         658 kB
+├ ○ /admin/promo-codes                        4.08 kB         642 kB
+├ ○ /admin/sales-reporting                    3.72 kB         641 kB
+├ ○ /admin/will-call                          3.86 kB         642 kB
 ├ ƒ /api/ab-testing                           0 B                0 B
 ├ ƒ /api/abandoned-cart                       0 B                0 B
 ├ ƒ /api/accessibility                        0 B                0 B
@@ -188,10 +171,12 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/events/[id]/box-office               0 B                0 B
 ├ ƒ /api/events/[id]/chat                     0 B                0 B
 ├ ƒ /api/events/[id]/entry-info               0 B                0 B
+├ ƒ /api/events/[id]/guest-list               0 B                0 B
 ├ ƒ /api/events/[id]/partners                 0 B                0 B
 ├ ƒ /api/events/[id]/program                  0 B                0 B
 ├ ƒ /api/events/[id]/qr-checkin               0 B                0 B
 ├ ƒ /api/events/[id]/seating                  0 B                0 B
+├ ƒ /api/events/[id]/tickets                  0 B                0 B
 ├ ƒ /api/events/[id]/tickets/generate         0 B                0 B
 ├ ƒ /api/events/[id]/waitlist                 0 B                0 B
 ├ ƒ /api/events/create                        0 B                0 B
@@ -323,6 +308,10 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/secondary-market                     0 B                0 B
 ├ ƒ /api/sentiment-alerts                     0 B                0 B
 ├ ƒ /api/series-management                    0 B                0 B
+├ ƒ /api/settings/api-keys                    0 B                0 B
+├ ƒ /api/settings/connected-apps              0 B                0 B
+├ ƒ /api/settings/sessions                    0 B                0 B
+├ ƒ /api/settings/webhooks                    0 B                0 B
 ├ ƒ /api/shoppable-posts                      0 B                0 B
 ├ ƒ /api/similar-events                       0 B                0 B
 ├ ƒ /api/sms-campaigns                        0 B                0 B
@@ -348,8 +337,10 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/tax-calculation                      0 B                0 B
 ├ ƒ /api/third-party-listings                 0 B                0 B
 ├ ƒ /api/ticket-insurance                     0 B                0 B
+├ ƒ /api/ticket-orders                        0 B                0 B
 ├ ƒ /api/tickets                              0 B                0 B
 ├ ƒ /api/tickets/[id]                         0 B                0 B
+├ ƒ /api/tickets/[id]/check-in                0 B                0 B
 ├ ƒ /api/tickets/addons                       0 B                0 B
 ├ ƒ /api/tickets/deliveries                   0 B                0 B
 ├ ƒ /api/tickets/enhanced                     0 B                0 B
@@ -397,177 +388,188 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /api/webhooks/stripe                      0 B                0 B
 ├ ƒ /api/will-call                            0 B                0 B
 ├ ƒ /api/wishlist                             0 B                0 B
-├ ○ /apply                                    9.13 kB         472 kB
-├ ○ /apply/confirmation                       4.46 kB         468 kB
-├ ○ /artists                                  3.19 kB         646 kB
-├ ƒ /artists/[id]                             3.98 kB         646 kB
-├ ○ /auth/forgot-password                     6.36 kB         398 kB
-├ ○ /auth/magic-link                          6.58 kB         398 kB
-├ ○ /auth/reset-password                      6.64 kB         398 kB
-├ ○ /auth/signin                              3.15 kB         630 kB
-├ ○ /auth/signup                              7.04 kB         398 kB
+├ ○ /apply                                    5.28 kB         650 kB
+├ ○ /apply/confirmation                       2.36 kB         647 kB
+├ ○ /artists                                  3.03 kB         648 kB
+├ ƒ /artists/[id]                             2.32 kB         646 kB
+├ ○ /auth/forgot-password                     5.46 kB         398 kB
+├ ○ /auth/magic-link                          5.68 kB         398 kB
+├ ○ /auth/reset-password                      5.75 kB         398 kB
+├ ○ /auth/signin                              2.02 kB         630 kB
+├ ○ /auth/signup                              6.15 kB         398 kB
 ├ ○ /auth/verify-email                        3.95 kB         392 kB
-├ ○ /browse                                   3.39 kB         628 kB
-├ ○ /calendar                                 3.31 kB         639 kB
-├ ○ /cart                                     5.93 kB         641 kB
-├ ○ /checkout                                 5.01 kB         641 kB
-├ ○ /checkout/currency                        3.37 kB         478 kB
-├ ƒ /collections/[id]                         2.26 kB         458 kB
-├ ○ /community                                4 kB            460 kB
-├ ○ /community/challenges                     6.08 kB         481 kB
-├ ○ /community/fan-content                    3.76 kB         478 kB
-├ ○ /community/guidelines                     4.13 kB         460 kB
-├ ○ /community/polls                          4.95 kB         461 kB
-├ ○ /confirmation                             3 kB            459 kB
-├ ○ /content                                  5.67 kB         468 kB
-├ ƒ /creators                                 2.33 kB         387 kB
-├ ○ /dashboard                                5.18 kB         641 kB
-├ ○ /deals                                    3.55 kB         460 kB
-├ ○ /design-system                            4.56 kB         461 kB
-├ ○ /destinations                             3.39 kB         460 kB
-├ ○ /directions                               5.94 kB         641 kB
-├ ○ /discover                                 4 kB            460 kB
-├ ○ /discover/quiz                            4.47 kB         467 kB
-├ ƒ /e/[eventId]                              2.58 kB         387 kB
-├ ƒ /e/[eventId]/box-office                   6.16 kB         462 kB
-├ ƒ /e/[eventId]/chat                         1.93 kB         387 kB
-├ ƒ /e/[eventId]/check-in                     3.5 kB          481 kB
-├ ƒ /e/[eventId]/credentials                  3.02 kB         462 kB
-├ ƒ /e/[eventId]/engage                       2.04 kB         387 kB
-├ ƒ /e/[eventId]/engage/challenges            665 B           385 kB
-├ ƒ /e/[eventId]/engage/polls                 654 B           385 kB
-├ ƒ /e/[eventId]/engage/qa                    1.42 kB         386 kB
-├ ƒ /e/[eventId]/engage/ugc                   1.44 kB         386 kB
-├ ƒ /e/[eventId]/entry-info                   2.49 kB         387 kB
-├ ƒ /e/[eventId]/friends                      1.99 kB         387 kB
-├ ƒ /e/[eventId]/lineup                       1.91 kB         387 kB
-├ ƒ /e/[eventId]/map                          2 kB            387 kB
-├ ƒ /e/[eventId]/my-tickets                   2.26 kB         387 kB
-├ ƒ /e/[eventId]/navigate                     2.16 kB         387 kB
-├ ƒ /e/[eventId]/navigate/accessibility       2.09 kB         387 kB
-├ ƒ /e/[eventId]/navigate/directions          2.08 kB         387 kB
-├ ƒ /e/[eventId]/navigate/parking             1.75 kB         387 kB
-├ ƒ /e/[eventId]/photos                       1.72 kB         387 kB
-├ ƒ /e/[eventId]/program                      1.95 kB         387 kB
-├ ƒ /e/[eventId]/refunds                      5.92 kB         462 kB
-├ ƒ /e/[eventId]/reviews                      2.19 kB         387 kB
-├ ƒ /e/[eventId]/scan                         3.23 kB         462 kB
-├ ƒ /e/[eventId]/seating                      1.88 kB         387 kB
-├ ƒ /e/[eventId]/services                     1.86 kB         387 kB
-├ ƒ /e/[eventId]/services/emergency           2.03 kB         387 kB
-├ ƒ /e/[eventId]/services/lost-found          1.43 kB         386 kB
-├ ƒ /e/[eventId]/services/support             663 B           385 kB
-├ ƒ /e/[eventId]/settlement                   6 kB            462 kB
-├ ƒ /e/[eventId]/shop                         1.96 kB         387 kB
-├ ƒ /e/[eventId]/ticket                       2.04 kB         387 kB
-├ ƒ /e/[eventId]/tickets                      2.06 kB         387 kB
-├ ƒ /e/[eventId]/will-call                    5.85 kB         462 kB
-├ ○ /events                                   2.81 kB         645 kB
-├ ƒ /events/[id]                              1.94 kB         644 kB
-├ ƒ /events/[id]/accessibility                3.32 kB         478 kB
-├ ƒ /events/[id]/chat                         5.5 kB          468 kB
-├ ƒ /events/[id]/engage                       4.38 kB         461 kB
-├ ƒ /events/[id]/entry-info                   3.56 kB         460 kB
-├ ƒ /events/[id]/floor-config                 3.57 kB         478 kB
-├ ƒ /events/[id]/friends                      2.44 kB         477 kB
-├ ƒ /events/[id]/landing-builder              4.2 kB          479 kB
-├ ƒ /events/[id]/languages                    3.31 kB         478 kB
-├ ƒ /events/[id]/map                          2.71 kB         465 kB
-├ ƒ /events/[id]/parking                      3.45 kB         478 kB
-├ ƒ /events/[id]/photo-booth                  3.18 kB         478 kB
-├ ƒ /events/[id]/program                      2.25 kB         465 kB
-├ ƒ /events/[id]/rfid                         2.99 kB         638 kB
-├ ƒ /events/[id]/seating                      3.44 kB         460 kB
-├ ƒ /events/[id]/services                     4 kB            460 kB
-├ ƒ /events/[id]/social-wall                  3.91 kB         478 kB
-├ ƒ /events/[id]/ticket                       3.42 kB         460 kB
-├ ƒ /events/[id]/waitlist                     5.11 kB         461 kB
-├ ○ /events/clone                             4.01 kB         478 kB
-├ ○ /events/compare                           1.91 kB         464 kB
-├ ○ /events/create                            4.25 kB         460 kB
-├ ○ /events/create/collaboration              3.28 kB         478 kB
-├ ○ /events/create/from-blueprint             3.93 kB         478 kB
-├ ○ /events/templates                         2.49 kB         477 kB
-├ ○ /experiences                              3.7 kB          645 kB
-├ ○ /fan-club                                 5.98 kB         462 kB
-├ ○ /fan-club/exclusive-access                3.43 kB         478 kB
-├ ○ /fan-clubs                                5.86 kB         462 kB
-├ ○ /favorites                                5.41 kB         462 kB
-├ ○ /forums                                   3.28 kB         478 kB
-├ ○ /friends                                  5.19 kB         468 kB
-├ ○ /gift-cards                               5.87 kB         462 kB
-├ ○ /groups                                   4.88 kB         461 kB
-├ ○ /help                                     2.85 kB         459 kB
-├ ○ /login                                    4.17 kB         448 kB
-├ ○ /lost-found                               4.38 kB         467 kB
-├ ○ /map                                      3.04 kB         465 kB
-├ ○ /marketing/ab-testing                     3.39 kB         478 kB
-├ ○ /marketing/analytics                      3.25 kB         478 kB
-├ ○ /marketing/early-bird                     3.5 kB          478 kB
-├ ○ /marketing/influencers                    2.92 kB         477 kB
-├ ○ /marketing/media-kit                      4.16 kB         479 kB
-├ ○ /marketing/pixels                         3.99 kB         478 kB
-├ ○ /match                                    5.3 kB          647 kB
-├ ○ /membership                               6.46 kB         470 kB
-├ ○ /membership/benefits                      6.11 kB         481 kB
-├ ○ /merch                                    2.87 kB         638 kB
-├ ƒ /merch/[artistId]                         5.51 kB         468 kB
-├ ○ /merch/bundles                            3.8 kB          478 kB
-├ ○ /messages                                 4.96 kB         467 kB
-├ ○ /moderate                                 1.9 kB          476 kB
-├ ○ /my-events                                4.91 kB         467 kB
-├ ○ /nearby                                   3.67 kB         460 kB
-├ ○ /new-events                               3.07 kB         459 kB
-├ ○ /notifications                            5.47 kB         462 kB
-├ ○ /offline                                  4.3 kB          467 kB
-├ ○ /onboarding                               6.92 kB         633 kB
-├ ○ /orders                                   3.1 kB          639 kB
-├ ○ /orders/history                           5.41 kB         462 kB
-├ ○ /packages                                 4.09 kB         460 kB
-├ ○ /photos                                   5.08 kB         467 kB
-├ ○ /price-alerts                             5.11 kB         461 kB
-├ ○ /profile                                  2.38 kB         462 kB
-├ ○ /profile/badges                           5.55 kB         462 kB
-├ ○ /profile/reputation                       4.66 kB         461 kB
-├ ○ /qa-sessions                              5.07 kB         467 kB
-├ ○ /referrals                                3.31 kB         639 kB
-├ ○ /resale                                   6.02 kB         642 kB
-├ ○ /reviews                                  2.42 kB         459 kB
-├ ○ /reviews/new                              4.07 kB         466 kB
-├ ○ /rewards                                  5.88 kB         641 kB
-├ ○ /saved-searches                           5.69 kB         462 kB
-├ ○ /search                                   2.41 kB         459 kB
-├ ○ /search/universal                         2.63 kB         465 kB
-├ ○ /settings                                 5.05 kB         461 kB
-├ ○ /settings/language                        2.8 kB          477 kB
-├ ○ /settings/notifications                   5.81 kB         462 kB
-├ ○ /settings/privacy                         5.01 kB         647 kB
-├ ○ /shop/shoppable                           3.78 kB         478 kB
+├ ○ /browse                                   3.37 kB         630 kB
+├ ○ /calendar                                 2.96 kB         641 kB
+├ ○ /cart                                     4.05 kB         642 kB
+├ ○ /checkout                                 4.85 kB         643 kB
+├ ○ /checkout/currency                        2.77 kB         658 kB
+├ ƒ /collections/[id]                         2.28 kB         640 kB
+├ ○ /community                                4.02 kB         642 kB
+├ ○ /community/challenges                     3.81 kB         659 kB
+├ ○ /community/fan-content                    4.82 kB         643 kB
+├ ○ /community/guidelines                     4.15 kB         642 kB
+├ ○ /community/polls                          3.31 kB         641 kB
+├ ○ /confirmation                             3.02 kB         641 kB
+├ ○ /content                                  4 kB            648 kB
+├ ƒ /creators                                 1.85 kB         387 kB
+├ ○ /dashboard                                4.93 kB         643 kB
+├ ○ /deals                                    3.57 kB         641 kB
+├ ○ /design-system                            4.57 kB         642 kB
+├ ○ /destinations                             3.41 kB         641 kB
+├ ○ /directions                               4.26 kB         642 kB
+├ ○ /discover                                 4.01 kB         642 kB
+├ ○ /discover/quiz                            2.83 kB         647 kB
+├ ƒ /e/[eventId]                              3.28 kB         630 kB
+├ ƒ /e/[eventId]/analytics                    5.83 kB         632 kB
+├ ƒ /e/[eventId]/box-office                   4.29 kB         642 kB
+├ ƒ /e/[eventId]/capacity                     5.48 kB         632 kB
+├ ƒ /e/[eventId]/chat                         2.52 kB         629 kB
+├ ƒ /e/[eventId]/check-in                     3.96 kB         659 kB
+├ ƒ /e/[eventId]/credentials                  4.09 kB         642 kB
+├ ƒ /e/[eventId]/edit                         3.86 kB         630 kB
+├ ƒ /e/[eventId]/engage                       2.65 kB         629 kB
+├ ƒ /e/[eventId]/engage/challenges            1.29 kB         628 kB
+├ ƒ /e/[eventId]/engage/polls                 1.28 kB         628 kB
+├ ƒ /e/[eventId]/engage/qa                    2.03 kB         629 kB
+├ ƒ /e/[eventId]/engage/ugc                   2.05 kB         629 kB
+├ ƒ /e/[eventId]/entry-info                   3.08 kB         630 kB
+├ ƒ /e/[eventId]/friends                      2.57 kB         629 kB
+├ ƒ /e/[eventId]/lineup                       2.48 kB         629 kB
+├ ƒ /e/[eventId]/map                          2.61 kB         629 kB
+├ ƒ /e/[eventId]/my-tickets                   3.06 kB         630 kB
+├ ƒ /e/[eventId]/navigate                     2.76 kB         629 kB
+├ ƒ /e/[eventId]/navigate/accessibility       2.7 kB          629 kB
+├ ƒ /e/[eventId]/navigate/directions          2.68 kB         629 kB
+├ ƒ /e/[eventId]/navigate/parking             2.35 kB         629 kB
+├ ƒ /e/[eventId]/photos                       2.31 kB         629 kB
+├ ƒ /e/[eventId]/program                      2.54 kB         629 kB
+├ ƒ /e/[eventId]/refunds                      4.03 kB         642 kB
+├ ƒ /e/[eventId]/reviews                      2.79 kB         629 kB
+├ ƒ /e/[eventId]/scan                         4.3 kB          642 kB
+├ ƒ /e/[eventId]/seating                      2.45 kB         629 kB
+├ ƒ /e/[eventId]/services                     2.46 kB         629 kB
+├ ƒ /e/[eventId]/services/emergency           2.64 kB         629 kB
+├ ƒ /e/[eventId]/services/lost-found          2.04 kB         629 kB
+├ ƒ /e/[eventId]/services/support             1.29 kB         628 kB
+├ ƒ /e/[eventId]/settlement                   4.14 kB         642 kB
+├ ƒ /e/[eventId]/shop                         2.58 kB         629 kB
+├ ƒ /e/[eventId]/ticket                       2.65 kB         629 kB
+├ ƒ /e/[eventId]/tickets                      2.65 kB         629 kB
+├ ƒ /e/[eventId]/will-call                    3.96 kB         642 kB
+├ ○ /events                                   2.46 kB         646 kB
+├ ƒ /events/[id]                              1.78 kB         646 kB
+├ ƒ /events/[id]/accessibility                2.71 kB         658 kB
+├ ƒ /events/[id]/chat                         3.83 kB         648 kB
+├ ƒ /events/[id]/check-in                     4.03 kB         101 kB
+├ ƒ /events/[id]/engage                       4.39 kB         642 kB
+├ ƒ /events/[id]/entry-info                   3.74 kB         641 kB
+├ ƒ /events/[id]/floor-config                 2.96 kB         658 kB
+├ ƒ /events/[id]/friends                      1.83 kB         657 kB
+├ ƒ /events/[id]/landing-builder              3.6 kB          659 kB
+├ ƒ /events/[id]/languages                    2.71 kB         658 kB
+├ ƒ /events/[id]/map                          2.73 kB         647 kB
+├ ƒ /events/[id]/orders                       4.29 kB         102 kB
+├ ƒ /events/[id]/parking                      2.84 kB         658 kB
+├ ƒ /events/[id]/photo-booth                  2.58 kB         657 kB
+├ ƒ /events/[id]/program                      2.27 kB         646 kB
+├ ƒ /events/[id]/rfid                         2.15 kB         636 kB
+├ ƒ /events/[id]/seating                      3.46 kB         641 kB
+├ ƒ /events/[id]/services                     4.01 kB         642 kB
+├ ƒ /events/[id]/social-wall                  3.3 kB          658 kB
+├ ƒ /events/[id]/ticket                       3.44 kB         641 kB
+├ ƒ /events/[id]/ticketing                    4.57 kB         102 kB
+├ ƒ /events/[id]/waitlist                     3.46 kB         641 kB
+├ ○ /events/clone                             3.39 kB         658 kB
+├ ○ /events/compare                           1.93 kB         646 kB
+├ ○ /events/create                            2.59 kB         640 kB
+├ ○ /events/create/collaboration              2.66 kB         658 kB
+├ ○ /events/create/from-blueprint             3.3 kB          658 kB
+├ ○ /events/templates                         1.88 kB         657 kB
+├ ○ /experiences                              3.35 kB         647 kB
+├ ○ /fan-club                                 4.32 kB         642 kB
+├ ○ /fan-club/exclusive-access                2.82 kB         658 kB
+├ ○ /fan-clubs                                3.98 kB         642 kB
+├ ○ /favorites                                3.53 kB         641 kB
+├ ○ /forums                                   2.69 kB         658 kB
+├ ○ /friends                                  3.56 kB         648 kB
+├ ○ /gift-cards                               4.24 kB         642 kB
+├ ○ /groups                                   3.22 kB         641 kB
+├ ○ /help                                     2.87 kB         641 kB
+├ ○ /login                                    1.09 kB         448 kB
+├ ○ /lost-found                               2.75 kB         647 kB
+├ ○ /map                                      3.06 kB         647 kB
+├ ○ /marketing/ab-testing                     2.8 kB          658 kB
+├ ○ /marketing/analytics                      2.65 kB         658 kB
+├ ○ /marketing/early-bird                     2.91 kB         658 kB
+├ ○ /marketing/influencers                    2.33 kB         657 kB
+├ ○ /marketing/media-kit                      3.54 kB         658 kB
+├ ○ /marketing/pixels                         3.37 kB         658 kB
+├ ○ /match                                    3.64 kB         648 kB
+├ ○ /membership                               4.36 kB         649 kB
+├ ○ /membership/benefits                      3.84 kB         659 kB
+├ ○ /merch                                    2.71 kB         640 kB
+├ ƒ /merch/[artistId]                         3.84 kB         648 kB
+├ ○ /merch/bundles                            3.19 kB         658 kB
+├ ○ /messages                                 3.3 kB          647 kB
+├ ○ /moderate                                 1.3 kB          656 kB
+├ ○ /my-events                                3.24 kB         647 kB
+├ ○ /nearby                                   3.69 kB         641 kB
+├ ○ /new-events                               3.09 kB         641 kB
+├ ○ /notifications                            3.58 kB         641 kB
+├ ○ /offline                                  2.18 kB         647 kB
+├ ○ /onboarding                               5.56 kB         633 kB
+├ ○ /orders                                   2.95 kB         641 kB
+├ ○ /orders/history                           3.76 kB         641 kB
+├ ○ /packages                                 4.11 kB         642 kB
+├ ○ /photos                                   3.43 kB         647 kB
+├ ○ /price-alerts                             3.45 kB         641 kB
+├ ○ /profile                                  3.69 kB         641 kB
+├ ○ /profile/badges                           3.9 kB          642 kB
+├ ○ /profile/reputation                       4.68 kB         642 kB
+├ ○ /qa-sessions                              3.42 kB         647 kB
+├ ○ /referrals                                3.14 kB         641 kB
+├ ○ /resale                                   4.13 kB         642 kB
+├ ○ /reviews                                  2.44 kB         640 kB
+├ ○ /reviews/new                              2.43 kB         646 kB
+├ ○ /rewards                                  3.81 kB         642 kB
+├ ○ /saved-searches                           4.05 kB         642 kB
+├ ○ /search                                   2.43 kB         640 kB
+├ ○ /search/universal                         2.65 kB         647 kB
+├ ○ /settings                                 3.2 kB          641 kB
+├ ○ /settings/api-access                      4.63 kB         642 kB
+├ ○ /settings/api-keys                        5.43 kB         643 kB
+├ ○ /settings/connected-apps                  3.6 kB          641 kB
+├ ○ /settings/language                        2.19 kB         657 kB
+├ ○ /settings/notifications                   3.95 kB         642 kB
+├ ○ /settings/privacy                         3.35 kB         647 kB
+├ ○ /settings/sessions                        3.79 kB         641 kB
+├ ○ /settings/webhooks                        5.75 kB         643 kB
+├ ○ /shop/shoppable                           3.17 kB         658 kB
 ├ ○ /sitemap.xml                              0 B                0 B
-├ ○ /social                                   3.38 kB         460 kB
-├ ○ /social/crisis-management                 3.57 kB         478 kB
-├ ○ /social/inbox                             3.46 kB         478 kB
-├ ○ /social/sentiment                         3.21 kB         478 kB
-├ ○ /social/story-templates                   2.42 kB         477 kB
-├ ○ /social/tiktok-challenges                 2.91 kB         477 kB
-├ ○ /support/chat                             5.42 kB         462 kB
-├ ƒ /surveys/[id]                             4.37 kB         467 kB
-├ ○ /tickets                                  3.09 kB         639 kB
-├ ○ /tickets/anti-scalping                    3.3 kB          478 kB
-├ ○ /tickets/gift                             6.66 kB         463 kB
-├ ○ /tickets/groups                           3.58 kB         478 kB
-├ ○ /tickets/print-at-home                    3.01 kB         477 kB
-├ ○ /tickets/tracking                         5.01 kB         461 kB
-├ ○ /tickets/transfer                         4.54 kB         394 kB
-├ ○ /tickets/urgency                          4.07 kB         479 kB
-├ ○ /tours                                    2.18 kB         465 kB
-├ ○ /ugc                                      6.99 kB         469 kB
-├ ○ /venues                                   3.12 kB         639 kB
-├ ƒ /venues/[id]                              3.97 kB         466 kB
-├ ○ /wallet                                   3.23 kB         459 kB
-├ ○ /wallet/offline                           2.8 kB          477 kB
-├ ○ /watch-parties                            7.07 kB         469 kB
-└ ○ /wishlist                                 5.4 kB          462 kB
+├ ○ /social                                   3.39 kB         641 kB
+├ ○ /social/crisis-management                 2.95 kB         658 kB
+├ ○ /social/inbox                             2.85 kB         658 kB
+├ ○ /social/sentiment                         2.6 kB          658 kB
+├ ○ /social/story-templates                   1.83 kB         657 kB
+├ ○ /social/tiktok-challenges                 2.32 kB         657 kB
+├ ○ /support/chat                             3.78 kB         641 kB
+├ ƒ /surveys/[id]                             2.73 kB         647 kB
+├ ○ /tickets                                  2.94 kB         641 kB
+├ ○ /tickets/anti-scalping                    2.68 kB         658 kB
+├ ○ /tickets/gift                             4.78 kB         642 kB
+├ ○ /tickets/groups                           2.97 kB         658 kB
+├ ○ /tickets/print-at-home                    2.81 kB         658 kB
+├ ○ /tickets/tracking                         3.36 kB         641 kB
+├ ○ /tickets/transfer                         2.84 kB         394 kB
+├ ○ /tickets/urgency                          3.47 kB         658 kB
+├ ○ /tours                                    2.2 kB          646 kB
+├ ○ /ugc                                      5.16 kB         649 kB
+├ ○ /venues                                   2.96 kB         641 kB
+├ ƒ /venues/[id]                              2.31 kB         646 kB
+├ ○ /wallet                                   4.06 kB         642 kB
+├ ○ /wallet/offline                           2.2 kB          657 kB
+├ ○ /watch-parties                            5.24 kB         649 kB
+└ ○ /wishlist                                 3.52 kB         641 kB
 + First Load JS shared by all                 87.7 kB
   ├ chunks/26fe0b10-d33d795dc99cbfe7.js       53.6 kB
   ├ chunks/4142-3f71e49f9aa5f383.js           31.9 kB

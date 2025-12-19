@@ -32,18 +32,13 @@ export interface SurveySummary {
   photos_captured: number;
 }
 
-const DEMO_SURVEYS: SiteSurvey[] = [
-  { id: 'demo-1', survey_number: 'SS-2024-001', project_id: 'proj-001', project_name: 'Summer Festival 2024', venue_id: 'venue-001', venue_name: 'Central Park Amphitheater', venue_address: '123 Park Ave, New York, NY', survey_date: new Date().toISOString(), surveyor_id: 'user-001', surveyor_name: 'John Smith', survey_type: 'initial', status: 'completed', findings_count: 5, photos_count: 24, documents_count: 3, power_assessment: 'Good', rigging_assessment: 'Adequate', load_in_assessment: 'Good' },
-  { id: 'demo-2', survey_number: 'SS-2024-002', project_id: 'proj-002', project_name: 'Corporate Gala', venue_id: 'venue-002', venue_name: 'Grand Ballroom', venue_address: '456 Main St, Los Angeles, CA', survey_date: new Date(Date.now() + 604800000).toISOString(), surveyor_id: 'user-002', surveyor_name: 'Jane Doe', survey_type: 'technical', status: 'scheduled', findings_count: 0, photos_count: 0, documents_count: 1 },
-];
-
-const DEMO_SUMMARY: SurveySummary = {
-  total_surveys: 12,
-  pending_surveys: 3,
-  completed_surveys: 9,
-  venues_surveyed: 8,
-  issues_identified: 15,
-  photos_captured: 156,
+const DEFAULT_SUMMARY: SurveySummary = {
+  total_surveys: 0,
+  pending_surveys: 0,
+  completed_surveys: 0,
+  venues_surveyed: 0,
+  issues_identified: 0,
+  photos_captured: 0,
 };
 
 export const siteSurveyKeys = {
@@ -56,16 +51,13 @@ export function useSiteSurveysList() {
     queryKey: siteSurveyKeys.list(),
     queryFn: async () => {
       const response = await fetch('/api/site-surveys');
-      if (response.status === 401) {
-        return { surveys: DEMO_SURVEYS, summary: DEMO_SUMMARY };
-      }
       if (!response.ok) {
         throw new Error('Failed to fetch site surveys');
       }
       const data = await response.json();
       return {
         surveys: data.surveys || [],
-        summary: data.summary || DEMO_SUMMARY,
+        summary: data.summary || DEFAULT_SUMMARY,
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -75,7 +67,7 @@ export function useSiteSurveysList() {
 export function useSiteSurveysData() {
   const surveysQuery = useSiteSurveysList();
 
-  const data = surveysQuery.data || { surveys: [], summary: DEMO_SUMMARY };
+  const data = surveysQuery.data || { surveys: [], summary: DEFAULT_SUMMARY };
 
   return {
     surveys: data.surveys,

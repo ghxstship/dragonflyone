@@ -1,8 +1,9 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
+import { useNotifications } from "@ghxstship/ui";
 import {
   H2,
   Body,
@@ -26,6 +27,46 @@ import { CreatorNavigationPublic } from "@/components/navigation";
 function VerifyEmailContent() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const [resending, setResending] = useState(false);
+  const { addNotification } = useNotifications();
+
+  const handleResend = async () => {
+    if (!email) {
+      addNotification({
+        type: "error",
+        title: "Error",
+        message: "No email address provided. Please try signing up again.",
+      });
+      return;
+    }
+
+    setResending(true);
+    try {
+      const response = await fetch("/api/auth/resend-verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to resend verification email");
+      }
+
+      addNotification({
+        type: "success",
+        title: "Email Sent",
+        message: "Verification email has been resent. Please check your inbox.",
+      });
+    } catch (error) {
+      addNotification({
+        type: "error",
+        title: "Error",
+        message: "Failed to resend verification email. Please try again.",
+      });
+    } finally {
+      setResending(false);
+    }
+  };
 
   return (
     <Card className="border-2 border-black/10 bg-white p-6 shadow-md sm:p-8">
@@ -52,11 +93,12 @@ function VerifyEmailContent() {
             variant="outline"
             size="lg"
             fullWidth
-            onClick={() => alert("Verification email resent!")}
-            icon={<RefreshCw className="size-4" />}
+            onClick={handleResend}
+            disabled={resending}
+            icon={<RefreshCw className={`size-4 ${resending ? "animate-spin" : ""}`} />}
             iconPosition="left"
           >
-            Resend Verification Email
+            {resending ? "Sending..." : "Resend Verification Email"}
           </Button>
         </Stack>
 

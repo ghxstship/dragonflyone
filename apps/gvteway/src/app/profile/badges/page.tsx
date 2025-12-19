@@ -51,7 +51,7 @@ function BadgesPageContent() {
       case 'bronze': return 'bg-warning-600';
       case 'silver': return 'bg-ink-400';
       case 'gold': return 'bg-warning-500';
-      case 'platinum': return 'bg-purple-500';
+      case 'platinum': return 'bg-violet-500';
       case 'diamond': return 'bg-cyan-400';
       default: return 'bg-ink-500';
     }
@@ -79,7 +79,7 @@ function BadgesPageContent() {
           </Alert>
         )}
 
-        <Card className="p-6 mb-8 bg-ink-950 text-white">
+        <Card className="p-6 mb-8 bg-success-100 text-success-800">
           <Grid cols={3} gap={6}>
             <Stack className="items-center">
               <Body className="text-ink-600">TOTAL BADGES</Body>

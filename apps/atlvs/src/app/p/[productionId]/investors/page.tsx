@@ -75,7 +75,7 @@ export default function ProductionInvestorsPage() {
             {apiInvestors && apiInvestors.length > 0 ? (
               <Stack gap={2}>
                 {apiInvestors.slice(0, 5).map((investor) => (
-                  <Box key={investor.id} className="flex items-center justify-between rounded border border-ink-700 p-3">
+                  <Box key={investor.id} className="flex items-center justify-between rounded border-2 border-ink-700 p-3">
                     <Body className="text-white">{investor.name}</Body>
                     <Body className="text-on-dark-muted">${investor.investment_amount?.toLocaleString() || 0}</Body>
                   </Box>

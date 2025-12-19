@@ -11,8 +11,10 @@ import {
   Display,
   Button,
   FullBleedSection,
+  Box,
+  Text,
 } from "@ghxstship/ui";
-import { Check, ArrowRight, User, Users, Rocket, Crown } from "lucide-react";
+import { Check, Minus, ArrowRight, User, Users, Rocket, Crown, Zap, Shield, Headphones } from "lucide-react";
 import NextLink from "next/link";
 
 export const runtime = "edge";
@@ -218,8 +220,181 @@ export default function PricingPage() {
         </Container>
       </FullBleedSection>
 
-      {/* FAQ */}
+      {/* Feature Comparison Table */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-24">
+        <Container className="mx-auto max-w-container-6xl px-6 lg:px-8">
+          <Stack gap={12}>
+            <Stack gap={4} className="text-center">
+              <H1 className="text-ink-950">FEATURE COMPARISON</H1>
+              <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">
+                See exactly what&apos;s included in each plan.
+              </Body>
+            </Stack>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[700px]">
+                <thead>
+                  <tr className="border-b-2 border-ink-950">
+                    <th className="pb-4 text-left font-display text-h6-md uppercase text-ink-950 w-1/3">Feature</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Deviator</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">Navigator</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Aviator</th>
+                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Enterprise</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t border-grey-200">
+                    <td colSpan={5} className="py-3">
+                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Products Included</Label>
+                    </td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">ATLVS (Production Management)</Text></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">COMPVSS (Crew & Operations)</Text></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">GVTEWAY (Ticketing & Experience)</Text></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                  <tr className="border-t border-grey-200">
+                    <td colSpan={5} className="py-3">
+                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Team & Support</Label>
+                    </td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">Team seats</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">1</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">Support level</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Email</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Priority</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Dedicated CSM</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">24/7 Phone + CSM</Text></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">Data retention</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">7 days</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">90 days</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
+                    <td className="py-3 text-center"><Text size="sm" className="text-grey-600">Unlimited</Text></td>
+                  </tr>
+                  <tr className="border-t border-grey-200">
+                    <td colSpan={5} className="py-3">
+                      <Label size="xs" className="text-grey-500 uppercase tracking-kicker">Security & Compliance</Label>
+                    </td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">SSO / SAML</Text></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">Advanced audit logs</Text></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                  <tr className="border-t border-grey-100">
+                    <td className="py-3"><Text size="sm" className="text-grey-700">On-premise deployment</Text></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td>
+                    <td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </Stack>
+        </Container>
+      </FullBleedSection>
+
+      {/* Add-ons */}
+      <FullBleedSection background="ink" className="py-24">
+        <Container className="mx-auto max-w-container-5xl px-6 lg:px-8">
+          <Stack gap={12}>
+            <Stack gap={4} className="text-center">
+              <Label size="xs" className="text-grey-500 uppercase tracking-kicker">ADD-ONS</Label>
+              <H1 className="text-white">ENHANCE YOUR PLAN</H1>
+              <Body size="lg" className="text-grey-400 max-w-2xl mx-auto">
+                Add these optional features to any plan for additional capabilities.
+              </Body>
+            </Stack>
+
+            <Grid cols={3} gap={6} className="sm:grid-cols-1">
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack gap={4}>
+                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-pink bg-ink-800">
+                    <Zap className="h-6 w-6 text-brand-pink" />
+                  </Box>
+                  <H3 size="sm" className="text-white">API Access</H3>
+                  <Body size="sm" className="text-grey-400">
+                    Full REST API access for custom integrations and automations.
+                  </Body>
+                  <Stack direction="horizontal" gap={1} className="items-baseline">
+                    <Display size="md" className="text-white">$99</Display>
+                    <Label size="sm" className="text-grey-500">/month</Label>
+                  </Stack>
+                </Stack>
+              </Card>
+
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack gap={4}>
+                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-cyan bg-ink-800">
+                    <Shield className="h-6 w-6 text-brand-cyan" />
+                  </Box>
+                  <H3 size="sm" className="text-white">Advanced Security</H3>
+                  <Body size="sm" className="text-grey-400">
+                    SSO, advanced audit logs, and custom security policies.
+                  </Body>
+                  <Stack direction="horizontal" gap={1} className="items-baseline">
+                    <Display size="md" className="text-white">$149</Display>
+                    <Label size="sm" className="text-grey-500">/month</Label>
+                  </Stack>
+                </Stack>
+              </Card>
+
+              <Card className="border-2 border-ink-700 bg-ink-900 p-6">
+                <Stack gap={4}>
+                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-yellow bg-ink-800">
+                    <Headphones className="h-6 w-6 text-brand-yellow" />
+                  </Box>
+                  <H3 size="sm" className="text-white">Premium Support</H3>
+                  <Body size="sm" className="text-grey-400">
+                    24/7 phone support with dedicated success manager.
+                  </Body>
+                  <Stack direction="horizontal" gap={1} className="items-baseline">
+                    <Display size="md" className="text-white">$199</Display>
+                    <Label size="sm" className="text-grey-500">/month</Label>
+                  </Stack>
+                </Stack>
+              </Card>
+            </Grid>
+          </Stack>
+        </Container>
+      </FullBleedSection>
+
+      {/* FAQ */}
+      <FullBleedSection background="white" className="py-24">
         <Container className="mx-auto max-w-container-4xl px-6 lg:px-8">
           <Stack gap={4} className="mb-16 text-center">
             <H1 className="text-ink-950">FREQUENTLY ASKED QUESTIONS</H1>

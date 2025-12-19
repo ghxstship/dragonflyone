@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Zap, Play, Pause } from 'lucide-react';
+import { Eye, Pencil, Trash2, Zap, Play } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useWorkflows, useCreateWorkflow, useDeleteWorkflow, useToggleWorkflow } from '../../hooks/useWorkflows';
 import {

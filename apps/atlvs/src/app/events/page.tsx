@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2, Calendar, MapPin } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useEvents, useEventStats, useCreateEvent, useDeleteEvent } from '../../hooks/useEvents';
 import {
@@ -12,7 +12,6 @@ import {
   DetailDrawer,
   ConfirmDialog,
   Grid,
-  Stack,
   Body,
   type ListPageColumn,
   type ListPageFilter,

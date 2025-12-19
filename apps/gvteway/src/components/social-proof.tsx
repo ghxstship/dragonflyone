@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Card, Label, Stack, Badge } from "@ghxstship/ui";
+import { Flame, Users, Ticket, Hand, AlertTriangle, User } from "lucide-react";
 
 interface SocialProofProps {
   eventId?: string;
@@ -58,17 +59,17 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
     return (
       <Stack direction="horizontal" gap={4} className="flex-wrap">
         {data.trending && (
-          <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>
+          <Badge variant="solid" className="bg-error-500"><Flame className="h-3 w-3 inline mr-1" />Trending</Badge>
         )}
         <Label size="xs" className="text-ink-500">
-          👥 {data.viewingNow} viewing now
+          <Users className="h-3 w-3 inline mr-1" />{data.viewingNow} viewing now
         </Label>
         <Label size="xs" className="text-ink-500">
-          🎟️ {data.recentPurchases} bought in last hour
+          <Ticket className="h-3 w-3 inline mr-1" />{data.recentPurchases} bought in last hour
         </Label>
         {data.friendsAttending > 0 && (
           <Label size="xs" className="text-info-600">
-            👋 {data.friendsAttending} friends going
+            <Hand className="h-3 w-3 inline mr-1" />{data.friendsAttending} friends going
           </Label>
         )}
       </Stack>
@@ -80,28 +81,28 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
       <Stack gap={4}>
         <Stack direction="horizontal" className="justify-between items-center">
           <Label className="font-weight-bold">Live Activity</Label>
-          {data.trending && <Badge variant="solid" className="bg-error-500">🔥 Trending</Badge>}
+          {data.trending && <Badge variant="solid" className="bg-error-500"><Flame className="h-3 w-3 inline mr-1" />Trending</Badge>}
         </Stack>
         
         <Stack gap={3}>
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-ink-600">👥 People viewing</Label>
+            <Label className="text-ink-600"><Users className="h-3 w-3 inline mr-1" />People viewing</Label>
             <Label className="font-mono">{data.viewingNow}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-ink-600">🎟️ Bought in last hour</Label>
+            <Label className="text-ink-600"><Ticket className="h-3 w-3 inline mr-1" />Bought in last hour</Label>
             <Label className="font-mono">{data.recentPurchases}</Label>
           </Stack>
           
           <Stack direction="horizontal" className="justify-between">
-            <Label className="text-ink-600">✅ Total attending</Label>
+            <Label className="text-ink-600"><Users className="h-3 w-3 inline mr-1" />Total attending</Label>
             <Label className="font-mono">{data.attendeeCount.toLocaleString()}</Label>
           </Stack>
           
           {data.friendsAttending > 0 && (
             <Stack direction="horizontal" className="justify-between">
-              <Label className="text-info-600">👋 Friends going</Label>
+              <Label className="text-info-600"><Hand className="h-3 w-3 inline mr-1" />Friends going</Label>
               <Label className="font-mono text-info-600">{data.friendsAttending}</Label>
             </Stack>
           )}
@@ -116,7 +117,7 @@ export function SocialProofWidget({ eventId, variant = "compact" }: SocialProofP
             <Card className={`h-full ${data.soldPercentage > 80 ? "bg-error-500" : data.soldPercentage > 50 ? "bg-warning-500" : "bg-success-500"}`} style={{ '--progress-width': `${data.soldPercentage}%`, width: 'var(--progress-width)' } as React.CSSProperties} />
           </Card>
           {data.soldPercentage > 75 && (
-            <Label size="xs" className="text-error-600">⚠️ Selling fast - only {100 - data.soldPercentage}% remaining!</Label>
+            <Label size="xs" className="text-error-600"><AlertTriangle className="h-3 w-3 inline mr-1" />Selling fast - only {100 - data.soldPercentage}% remaining!</Label>
           )}
         </Stack>
       </Stack>
@@ -152,7 +153,7 @@ export function RecentPurchaseToast() {
     <Card className="fixed bottom-4 left-4 p-4 bg-white border-2 border-black shadow-lg animate-slide-up z-50">
       <Stack direction="horizontal" gap={3}>
         <Card className="w-10 h-10 bg-success-100 flex items-center justify-center rounded-avatar">
-          <Label>🎟️</Label>
+          <Ticket className="h-5 w-5 text-success-600" />
         </Card>
         <Stack gap={1}>
           <Label className="font-weight-bold">{purchase.name} from {purchase.location}</Label>
@@ -166,13 +167,13 @@ export function RecentPurchaseToast() {
 }
 
 export function AttendeeAvatars({ count = 5 }: { count?: number }) {
-  const avatars = ["👤", "👩", "👨", "🧑", "👱"];
+  const avatarCount = count;
   
   return (
     <Stack direction="horizontal" gap={0}>
-      {avatars.slice(0, count).map((avatar, idx) => (
+      {Array.from({ length: avatarCount }).map((_, idx) => (
         <Card key={idx} className="w-8 h-8 bg-ink-100 border-2 border-white rounded-avatar flex items-center justify-center -ml-2 first:ml-0">
-          <Label size="xs">{avatar}</Label>
+          <User className="h-4 w-4 text-ink-500" />
         </Card>
       ))}
       <Label size="xs" className="ml-2 text-ink-500">+2,842 attending</Label>

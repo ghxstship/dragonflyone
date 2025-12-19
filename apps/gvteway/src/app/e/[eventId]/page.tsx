@@ -1,9 +1,9 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Grid } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, Button, Body, Box, Badge, Grid, Spinner, EmptyState } from "@ghxstship/ui";
 import { Calendar, Ticket, MapPin, Music, Users, Clock } from "lucide-react";
-import { gvtewayDemoEvents } from "../../../data/gvteway";
+import { useEvent } from "@/hooks/useEvents";
 
 /**
  * Event Overview Page
@@ -14,27 +14,35 @@ export default function EventOverviewPage() {
   const router = useRouter();
   const eventId = params?.eventId as string;
 
-  const event = gvtewayDemoEvents.find((e) => e.id === eventId);
+  const { data: event, isLoading, error } = useEvent(eventId);
 
-  if (!event) {
+  if (isLoading) {
+    return (
+      <Stack gap={4} className="flex items-center justify-center py-20">
+        <Spinner variant="grey" size="lg" text="Loading event..." />
+      </Stack>
+    );
+  }
+
+  if (error || !event) {
     return (
       <Stack gap={4}>
-        <SectionHeader
-          kicker="Event"
+        <EmptyState
           title="Event Not Found"
-          description="The requested event could not be found."
-          colorScheme="on-dark"
+          description={error ? (error instanceof Error ? error.message : "An error occurred") : "The requested event could not be found."}
+          action={{ label: "Browse Events", onClick: () => router.push('/events') }}
+          inverted
         />
       </Stack>
     );
   }
 
   const eventDetails = {
-    date: event.date || "TBD",
+    date: event.start_date ? new Date(event.start_date).toLocaleDateString() : "TBD",
     venue: event.venue || "TBD",
     lineup: ["Headliner", "Support Act 1", "Support Act 2"],
-    ticketsAvailable: 500,
-    ticketsSold: 4500,
+    ticketsAvailable: event.capacity ? Math.floor(event.capacity * 0.1) : 500,
+    ticketsSold: event.tickets_sold || 0,
   };
 
   return (
@@ -48,7 +56,7 @@ export default function EventOverviewPage() {
           colorScheme="on-dark"
         />
         <Stack direction="horizontal" gap={2} className="flex-wrap">
-          <Badge variant={event.status === "live" ? "success" : event.status === "upcoming" ? "info" : "solid"}>
+          <Badge variant={event.status === "published" ? "success" : event.status === "completed" ? "info" : "solid"}>
             {event.status.toUpperCase()}
           </Badge>
           <Badge variant="outline">

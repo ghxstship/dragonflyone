@@ -29,16 +29,51 @@ import {
   type BestPractice,
 } from "../../hooks/useKnowledge";
 
-const categories = ["All", "Safety", "Technical", "Operations", "Planning"];
-const disciplines = ["All", "Audio", "Lighting", "Video", "Stage", "Rigging", "Power", "General"];
+import { getTopLevelCategories, getSubcategoryNames } from "@ghxstship/config";
+
+const categories = ['All', ...getTopLevelCategories().map(c => c.name)];
+const disciplines = ['All', ...getSubcategoryNames('TECH')];
 
 export default function BestPracticesPage() {
   const router = useRouter();
-  const { data: bestPractices = [] } = useBestPractices();
+  const { data: bestPractices = [], isLoading, error } = useBestPractices();
   const [selectedPractice, setSelectedPractice] = useState<BestPractice | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [disciplineFilter, setDisciplineFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading best practices...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load best practices</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const filteredPractices = bestPractices.filter(p => {
     const matchesCategory = categoryFilter === "All" || p.category === categoryFilter;

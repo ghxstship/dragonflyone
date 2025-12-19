@@ -27,7 +27,7 @@ const GIFT_CARD_AMOUNTS = [25, 50, 75, 100, 150, 200, 250, 500];
 
 const GIFT_CARD_DESIGNS = [
   { id: 'classic', name: 'Classic Black', color: 'bg-ink-950' },
-  { id: 'concert', name: 'Concert Vibes', color: 'bg-purple-600' },
+  { id: 'concert', name: 'Concert Vibes', color: 'bg-violet-600' },
   { id: 'festival', name: 'Festival Fun', color: 'bg-brand-pink' },
   { id: 'sports', name: 'Game Day', color: 'bg-success-600' },
   { id: 'theater', name: 'Theater Night', color: 'bg-error-800' },
@@ -124,7 +124,7 @@ function GiftCardsPageContent() {
       case 'redeemed':
         return <Badge className="bg-ink-500 text-white">Redeemed</Badge>;
       case 'expired':
-        return <Badge className="bg-error-500 text-white">Expired</Badge>;
+        return <Badge className="bg-success-100 text-success-800">Expired</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }

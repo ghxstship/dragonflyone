@@ -31,11 +31,13 @@ import {
   type BackupPlan,
 } from "../../hooks/useBackupPlans";
 
-const categories = ["All", "Weather", "Technical", "Staffing", "Vendor", "Venue", "Safety"];
+import { getSubcategoryNames } from "@ghxstship/config";
+
+const categories = ['All', ...getSubcategoryNames('SAFE')];
 
 export default function BackupPlansPage() {
   const router = useRouter();
-  const { data: plans = [], refetch } = useBackupPlans();
+  const { data: plans = [], isLoading, error, refetch } = useBackupPlans();
   const createPlanMutation = useCreateBackupPlan();
   const [selectedPlan, setSelectedPlan] = useState<BackupPlan | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -48,6 +50,39 @@ export default function BackupPlansPage() {
     steps: '',
     owner: '',
   });
+
+  if (isLoading) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container className="flex min-h-[60vh] items-center justify-center">
+            <Stack gap={4} className="items-center">
+              <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
+              <Body>Loading backup plans...</Body>
+            </Stack>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <CompvssAppLayout>
+        <MainContent padding="lg">
+          <Container>
+            <Card className="p-6 border-destructive bg-destructive/10">
+              <Stack gap={4} className="items-center text-center">
+                <Body className="text-destructive font-display">Failed to load backup plans</Body>
+                <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
+                <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+              </Stack>
+            </Card>
+          </Container>
+        </MainContent>
+      </CompvssAppLayout>
+    );
+  }
 
   const handleCreatePlan = async (status: 'Active' | 'Draft') => {
     if (!newPlan.name || !newPlan.category) return;

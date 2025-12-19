@@ -3,13 +3,13 @@
 import { useParams, useRouter } from "next/navigation";
 import { SectionHeader, Card, CardBody, Stack, Body, Box, Grid } from "@ghxstship/ui";
 import { Truck, Package, PackageCheck, Building, MapPin, Key, PenTool } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionLogisticsPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production } = useProject(productionId);
 
   const sections = [
     { id: "equipment", name: "Equipment", description: "Gear and inventory", icon: Package, href: `/p/${productionId}/logistics/equipment` },

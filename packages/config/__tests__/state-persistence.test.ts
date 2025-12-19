@@ -198,7 +198,7 @@ describe('state-persistence', () => {
   describe('hydrateQueryCache', () => {
     it('should hydrate cache with default key', () => {
       localStorageMock.getItem.mockReturnValue(JSON.stringify({ queries: [] }));
-      const result = hydrateQueryCache();
+      hydrateQueryCache();
       expect(localStorageMock.getItem).toHaveBeenCalledWith('ghxstship-query-cache');
     });
 

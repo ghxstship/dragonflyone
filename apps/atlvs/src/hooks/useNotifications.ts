@@ -51,14 +51,23 @@ async function fetchNotifications(filterType?: string): Promise<Notification[]> 
     params.append('type', filterType);
   }
   const response = await fetch(`/api/notifications?${params.toString()}`);
-  if (response.status === 401) {
+  if (response.status === 401 || response.status === 403) {
     return DEMO_NOTIFICATIONS;
   }
   if (!response.ok) {
     throw new Error('Failed to fetch notifications');
   }
   const data = await response.json();
-  return data.notifications || [];
+  // Map API response (is_read) to hook interface (read)
+  return (data.notifications || []).map((n: Record<string, unknown>) => ({
+    id: n.id as string,
+    type: n.type as string,
+    title: n.title as string,
+    message: n.message as string,
+    read: n.is_read as boolean,
+    created_at: n.created_at as string,
+    user_id: n.user_id as string | undefined,
+  }));
 }
 
 interface MarkReadParams {
@@ -70,7 +79,7 @@ async function markNotificationRead({ notificationId, read }: MarkReadParams): P
   const response = await fetch(`/api/notifications/${notificationId}`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ read }),
+    body: JSON.stringify({ is_read: read }),
   });
   if (!response.ok) {
     throw new Error('Failed to update notification');

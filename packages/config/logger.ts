@@ -35,6 +35,7 @@ class Logger {
       ...(error && { error }),
     };
 
+    // eslint-disable-next-line no-console
     const logMethod = level === 'error' ? console.error : level === 'warn' ? console.warn : console.log;
     
     if (process.env.NODE_ENV === 'production') {

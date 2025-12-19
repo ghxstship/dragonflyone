@@ -1,25 +1,25 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, StatCard, Grid, Body, Box, H3 } from "@ghxstship/ui";
+import { SectionHeader, Card, CardBody, Stack, StatCard, Grid, Body, Box, H3, Spinner, Container } from "@ghxstship/ui";
 import { CheckSquare, ListTodo, AlertCircle, Wrench, ClipboardCheck } from "lucide-react";
-import { compvssDemoProductions } from "../../../../data/compvss";
+import { useProject } from "../../../../hooks/useProjects";
 
 export default function ProductionQualityPage() {
   const params = useParams();
   const router = useRouter();
   const productionId = params?.productionId as string;
-  const production = compvssDemoProductions.find((p) => p.id === productionId);
+  const { data: production, isLoading } = useProject(productionId);
 
-  if (!production) {
-    return <Stack gap={4}><SectionHeader kicker="Quality" title="Production Not Found" /></Stack>;
+  if (isLoading) {
+    return <Container className="flex min-h-[60vh] items-center justify-center"><Spinner variant="grey" size="lg" text="Loading..." /></Container>;
   }
 
   const stats = { checkpoints: 24, punchList: 8, issues: 3, resolved: 45 };
 
   return (
     <Stack gap={8}>
-      <SectionHeader kicker={production.name} title="Quality" description="QA checkpoints, punch lists, and issue tracking" />
+      <SectionHeader kicker={production?.name || "Production"} title="Quality" description="QA checkpoints, punch lists, and issue tracking" />
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="QA Checkpoints" value={stats.checkpoints.toString()} icon={<ClipboardCheck size={20} />} />
         <StatCard label="Punch List Items" value={stats.punchList.toString()} icon={<ListTodo size={20} />} />
