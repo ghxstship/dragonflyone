@@ -65,10 +65,10 @@ export default function ProductsPage() {
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">THE GHXSTSHIP PLATFORM</Label>
-            <Display size="lg" className="text-white">THREE PRODUCTS. ZERO COMPROMISES.</Display>
+            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
+            <Display size="lg" className="text-white">THREE PRODUCTS. ONE INDUSTRY STANDARD.</Display>
             <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              Use one. Use two. Use all three. Keep what you love—replace what you don&apos;t.
+              Modular by design. Use one, two, or all three. Built for every vertical, compatible with every stack.
             </Body>
           </Stack>
         </Container>

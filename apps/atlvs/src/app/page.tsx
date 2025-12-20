@@ -67,17 +67,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import {
-  atlvsLandingHero,
   atlvsVerticals,
   atlvsProblemSection,
   atlvsPillarsSolution,
   atlvsFeatureGrid,
   atlvsCompvssSection,
   atlvsSocialProof,
-  atlvsPricing,
-  atlvsLandingCta,
-  atlvsV3Features,
 } from "../data/atlvs";
+import { ArrowRight } from "lucide-react";
 
 export const runtime = "edge";
 
@@ -90,60 +87,33 @@ export const runtime = "edge";
 export default function Home() {
   return (
     <AtlvsAppLayout variant="public" background="white" rawContent>
-      {/* SECTION 1: HERO */}
-      <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="relative min-h-screen">
-        <Container className="relative mx-auto max-w-container-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
-          <Grid cols={2} gap={12} className="items-center">
-            <Stack gap={8}>
-              <Label className="font-mono text-mono-sm uppercase tracking-label text-grey-500">
-                {atlvsLandingHero.kicker}
-              </Label>
-              <Display className="font-display text-display-md uppercase leading-none text-ink-950 md:text-display-lg">
-                {atlvsLandingHero.headline}
-              </Display>
-              <Body className="max-w-xl text-body-lg text-grey-600">
-                {atlvsLandingHero.description}
-              </Body>
-              <Stack direction="horizontal" gap={4} className="flex-wrap">
-                <NextLink href={atlvsLandingHero.primaryCta.href}>
-                  <Button variant="pop" size="lg">
-                    {atlvsLandingHero.primaryCta.label}
-                  </Button>
-                </NextLink>
-                <NextLink href={atlvsLandingHero.secondaryCta.href}>
-                  <Button variant="outline" size="lg">
-                    {atlvsLandingHero.secondaryCta.label}
-                  </Button>
-                </NextLink>
-              </Stack>
+      {/* SECTION 1: HERO - Industry Leader Positioning */}
+      <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={8} className="items-center text-center">
+            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
+            <Display size="lg" className="text-white">THE PLATFORM FOR LIVE ENTERTAINMENT</Display>
+            <Body size="lg" className="max-w-3xl text-on-dark-secondary">
+              Modular. Compatible. Scalable. Built for productions, activations, installations, and destinations of any size.
+            </Body>
+            <Stack direction="horizontal" gap={4} className="flex-wrap justify-center">
+              <NextLink href="/products">
+                <Button variant="pop" size="lg" icon={<ArrowRight />}>EXPLORE PRODUCTS</Button>
+              </NextLink>
+              <NextLink href="/pricing">
+                <Button variant="outlineWhite" size="lg">SEE PRICING</Button>
+              </NextLink>
             </Stack>
-            <Box className="relative hidden lg:block">
-              <Card className="border-2 aspect-video border-ink-950 bg-grey-100 shadow-brand-xl">
-                <Box className="flex h-full items-center justify-center">
-                  <Stack gap={4} className="text-center">
-                    <Text className="font-mono text-mono-sm uppercase tracking-label text-grey-400">
-                      Product Dashboard
-                    </Text>
-                    <Text className="font-display text-h4-md uppercase text-grey-300">
-                      Screenshot Placeholder
-                    </Text>
-                  </Stack>
-                </Box>
-              </Card>
-            </Box>
-          </Grid>
-          <Box className="mt-12 border-t-2 border-grey-200 pt-6 sm:mt-16 sm:pt-8">
-            <Label className="mb-4 block text-center font-mono text-mono-xs uppercase tracking-label text-grey-400 sm:mb-6">
-              Trusted by industry leaders
-            </Label>
-            <Stack direction="horizontal" gap={4} className="flex-wrap items-center justify-center sm:gap-8">
-              {atlvsLandingHero.trustedBy.map((company) => (
-                <Text key={company} className="font-display text-h5-md uppercase tracking-label text-grey-300">
-                  {company}
-                </Text>
-              ))}
+            <Stack direction="horizontal" gap={6} className="mt-4 flex-wrap justify-center">
+              <Text size="sm" className="text-grey-400">PRODUCTIONS</Text>
+              <Text size="sm" className="text-grey-500">·</Text>
+              <Text size="sm" className="text-grey-400">ACTIVATIONS</Text>
+              <Text size="sm" className="text-grey-500">·</Text>
+              <Text size="sm" className="text-grey-400">INSTALLATIONS</Text>
+              <Text size="sm" className="text-grey-500">·</Text>
+              <Text size="sm" className="text-grey-400">DESTINATIONS</Text>
             </Stack>
-          </Box>
+          </Stack>
         </Container>
       </FullBleedSection>
 
@@ -288,91 +258,7 @@ export default function Home() {
         </Container>
       </FullBleedSection>
 
-      {/* SECTION 6: V3 EXPANSION - NEW VENUE & VENDOR FEATURES */}
-      <FullBleedSection background="ink" className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="text-center">
-            <Label className="font-mono text-mono-xs uppercase tracking-label text-brand-pink">New for 2026</Label>
-            <H1 className="text-white">VENUE & VENDOR POWERHOUSE</H1>
-            <Body className="mx-auto max-w-2xl text-grey-400">
-              Two new modules that transform how you manage venues and vendors. From lead capture to payment collection, from RFP to delivery.
-            </Body>
-          </Stack>
-
-          <Grid cols={2} gap={6} className="mt-12">
-            {/* Venue Management Module */}
-            <Article className="border-2 border-ink-800 bg-ink-900 p-6 sm:p-8">
-              <Stack gap={6}>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-pink bg-ink-800">
-                    <Building className="h-6 w-6 text-brand-pink" />
-                  </Box>
-                  <Stack gap={1}>
-                    <H3 className="font-display text-h5-md uppercase tracking-label text-white">{atlvsV3Features.venueManagement.title}</H3>
-                    <Label size="xs" className="text-brand-pink">NEW MODULE</Label>
-                  </Stack>
-                </Stack>
-                <Body className="text-grey-400">{atlvsV3Features.venueManagement.description}</Body>
-                <Stack gap={2}>
-                  {atlvsV3Features.venueManagement.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
-                    <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
-                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-pink" />
-                      <Text size="sm" className="text-grey-300">{feature.name}</Text>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Stack>
-            </Article>
-
-            {/* Vendor Services Module */}
-            <Article className="border-2 border-ink-800 bg-ink-900 p-6 sm:p-8">
-              <Stack gap={6}>
-                <Stack direction="horizontal" gap={3} className="items-center">
-                  <Box className="flex h-12 w-12 items-center justify-center border-2 border-brand-cyan bg-ink-800">
-                    <Handshake className="h-6 w-6 text-brand-cyan" />
-                  </Box>
-                  <Stack gap={1}>
-                    <H3 className="font-display text-h5-md uppercase tracking-label text-white">{atlvsV3Features.vendorServices.title}</H3>
-                    <Label size="xs" className="text-brand-cyan">NEW MODULE</Label>
-                  </Stack>
-                </Stack>
-                <Body className="text-grey-400">{atlvsV3Features.vendorServices.description}</Body>
-                <Stack gap={2}>
-                  {atlvsV3Features.vendorServices.features.filter(f => f.priority === "critical").slice(0, 6).map((feature) => (
-                    <Stack key={feature.id} direction="horizontal" gap={2} className="items-start">
-                      <Check className="h-4 w-4 mt-0.5 shrink-0 text-brand-cyan" />
-                      <Text size="sm" className="text-grey-300">{feature.name}</Text>
-                    </Stack>
-                  ))}
-                </Stack>
-              </Stack>
-            </Article>
-          </Grid>
-
-          {/* Blue Ocean Differentiators */}
-          <Box className="mt-12 border-t border-ink-800 pt-12">
-            <Stack gap={4} className="text-center">
-              <Label className="font-mono text-mono-xs uppercase tracking-label text-grey-500">WHAT SETS US APART</Label>
-              <H3 className="text-white">FEATURES NO ONE ELSE HAS</H3>
-            </Stack>
-            <Grid cols={4} gap={4} className="mt-8">
-              {atlvsV3Features.differentiation.features.map((feature) => (
-                <Article key={feature.id} className="border-2 border-ink-800 bg-ink-800 p-4 transition-all duration-150 hover:-translate-y-2 hover:border-brand-pink">
-                  <Stack gap={3}>
-                    <Box className="flex h-10 w-10 items-center justify-center border-2 border-grey-600 bg-ink-900">
-                      <Sparkles className="h-5 w-5 text-brand-pink" />
-                    </Box>
-                    <H3 className="font-display text-h6-md uppercase tracking-label text-white">{feature.name}</H3>
-                    <Body size="sm" className="text-grey-400">{feature.description}</Body>
-                  </Stack>
-                </Article>
-              ))}
-            </Grid>
-          </Box>
-        </Container>
-      </FullBleedSection>
-
-      {/* SECTION 7: COMPVSS */}
+      {/* SECTION 6: COMPVSS */}
       <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-6xl px-4 sm:px-4 sm:px-6 lg:px-8">
           <Box className="border-2 border-ink-950 bg-ink-950 p-4 sm:p-8 lg:p-12">
@@ -440,83 +326,91 @@ export default function Home() {
         </Container>
       </FullBleedSection>
 
-      {/* SECTION 8: PRICING */}
+      {/* SECTION 8: PRICING PREVIEW - 7-Tier BYO Model */}
       <FullBleedSection id="pricing" background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-5xl px-4 sm:px-4 sm:px-6 lg:px-8">
-          <Stack gap={4} className="mb-8 text-center sm:mb-16">
-            <H1 className="text-ink-950">{atlvsPricing.headline}</H1>
-            <Body className="text-grey-600">{atlvsPricing.subheadline}</Body>
+        <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
+          <Stack gap={4} className="mb-12 text-center">
+            <Label size="xs" className="text-grey-500">PRICING</Label>
+            <H1 className="text-ink-950">MODULAR BY DESIGN</H1>
+            <Body size="lg" className="text-grey-600 max-w-2xl mx-auto">Seven tiers. Three products. Use what you need. Keep what you have.</Body>
           </Stack>
 
-          <Grid cols={3} gap={4} className="sm:gap-6">
-            {atlvsPricing.tiers.map((tier) => (
-              <Card
-                key={tier.id}
-                className="relative flex h-full flex-col border-2 border-ink-950 bg-white p-4 shadow-subtle-sm transition-all duration-150 hover:-translate-y-2 hover:shadow-brand-xl sm:p-8"
-              >
-                {tier.popular && (
-                  <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-4 py-1 text-white">
-                    MOST POPULAR
-                  </Label>
-                )}
-
-                <Stack gap={6} className="flex-1">
-                  <H3 className="text-ink-950">{tier.name}</H3>
-
-                  <Stack direction="horizontal" className="items-baseline gap-1">
-                    <Display size="md" className="text-ink-950">{tier.price}</Display>
-                    <Label size="sm" className="text-grey-500">{tier.period}</Label>
-                  </Stack>
-
-                  <Body size="sm" className="text-grey-600">
-                    {tier.description}
-                  </Body>
-
-                  <Stack gap={3} className="flex-1 border-t border-grey-200 py-4">
-                    {tier.features.map((feature) => (
-                      <Stack key={feature} direction="horizontal" gap={3} className="items-start">
-                        <Check className="mt-0.5 size-4 shrink-0 text-brand-pink" />
-                        <Label size="xs" className="text-grey-700">{feature}</Label>
-                      </Stack>
-                    ))}
-                  </Stack>
+          <Grid cols={3} gap={6} className="sm:grid-cols-1">
+            {/* Single Products */}
+            <Card className="border-2 border-ink-950 bg-white p-6 text-center">
+              <Stack gap={4} className="items-center">
+                <Label size="xs" className="text-grey-500">SINGLE PRODUCTS</Label>
+                <H3 className="text-ink-950">BYO EVERYTHING ELSE</H3>
+                <Display size="md" className="text-ink-950">From $0</Display>
+                <Body size="sm" className="text-grey-600">Use one product. Keep your existing tools for everything else.</Body>
+                <Stack gap={2} className="w-full text-left">
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-yellow" /><Text size="sm" className="text-grey-700">GVTEWAY — Ticketing</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-cyan" /><Text size="sm" className="text-grey-700">COMPVSS — Crews</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-700">ATLVS — Business</Text></Stack>
                 </Stack>
+                <NextLink href="/pricing#single" className="w-full"><Button variant="outline" size="md" fullWidth>See Options</Button></NextLink>
+              </Stack>
+            </Card>
 
-                <NextLink href={tier.cta.href} className="mt-6 w-full">
-                  <Button variant={tier.popular ? "pop" : "outline"} size="md" fullWidth>
-                    {tier.cta.label}
-                  </Button>
-                </NextLink>
-              </Card>
-            ))}
+            {/* Bundles */}
+            <Card className="border-2 border-brand-pink bg-white p-6 text-center relative">
+              <Label size="xs" className="absolute -top-3 left-1/2 -translate-x-1/2 border-2 border-brand-pink bg-brand-pink px-3 py-1 text-white">MOST POPULAR</Label>
+              <Stack gap={4} className="items-center">
+                <Label size="xs" className="text-brand-pink">BUNDLES</Label>
+                <H3 className="text-ink-950">FILL THE GAPS</H3>
+                <Display size="md" className="text-ink-950">From $299</Display>
+                <Body size="sm" className="text-grey-600">Two products that work together. Keep what you love.</Body>
+                <Stack gap={2} className="w-full text-left">
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-700">OPERATIONS — Crews + Tickets</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-700">EXPERIENCE — Business + Tickets</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-700">PRODUCTION — Business + Crews</Text></Stack>
+                </Stack>
+                <NextLink href="/pricing#bundles" className="w-full"><Button variant="pop" size="md" fullWidth>See Bundles</Button></NextLink>
+              </Stack>
+            </Card>
+
+            {/* Enterprise */}
+            <Card className="border-2 border-ink-950 bg-ink-950 p-6 text-center">
+              <Stack gap={4} className="items-center">
+                <Label size="xs" className="text-grey-500">FULL STACK</Label>
+                <H3 className="text-white">REPLACE EVERYTHING</H3>
+                <Display size="md" className="text-white">$1,499</Display>
+                <Body size="sm" className="text-grey-400">All three products. Lowest fees. One platform.</Body>
+                <Stack gap={2} className="w-full text-left">
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">ATLVS + COMPVSS + GVTEWAY</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">2.0% transaction fees</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">Dedicated CSM + SLA</Text></Stack>
+                </Stack>
+                <NextLink href="/contact?plan=enterprise" className="w-full"><Button variant="outlineWhite" size="md" fullWidth>Go Enterprise</Button></NextLink>
+              </Stack>
+            </Card>
           </Grid>
 
-          <Label size="xs" className="mt-8 block text-center text-grey-500">
-            {atlvsPricing.footnote}
-          </Label>
+          <Stack gap={4} className="mt-12 text-center">
+            <Body size="sm" className="text-grey-500">No per-seat charges. Unlimited users on ATLVS and COMPVSS.</Body>
+            <NextLink href="/pricing"><Button variant="outline" size="md" icon={<ArrowRight />}>See Full Pricing</Button></NextLink>
+          </Stack>
         </Container>
       </FullBleedSection>
 
       {/* SECTION 9: FINAL CTA */}
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.05} className="py-12 sm:py-16 lg:py-24">
-        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-4 sm:px-6 lg:px-8">
-          <Display className="font-display text-display-sm uppercase text-white sm:text-display-md md:text-display-lg">{atlvsLandingCta.headline}</Display>
-          <Body className="mx-auto mt-4 max-w-xl text-body-md text-grey-400 sm:mt-6 sm:text-body-lg">{atlvsLandingCta.subheadline}</Body>
-          <Stack direction="horizontal" gap={3} className="mt-6 flex-wrap justify-center sm:mt-8 sm:gap-4">
-            <NextLink href={atlvsLandingCta.primaryCta.href}>
-              <Button variant="pop" size="lg" inverted>
-                {atlvsLandingCta.primaryCta.label}
-              </Button>
-            </NextLink>
-            <NextLink href={atlvsLandingCta.secondaryCta.href}>
-              <Button variant="outlineWhite" size="lg">
-                {atlvsLandingCta.secondaryCta.label}
-              </Button>
-            </NextLink>
+        <Container className="mx-auto max-w-container-4xl px-4 text-center sm:px-6 lg:px-8">
+          <Display size="md" className="text-white">NOT SURE WHERE TO START?</Display>
+          <Body size="lg" className="mx-auto mt-4 max-w-xl text-grey-400">Modular by design. Find the tier that fits your stack.</Body>
+          <Stack direction="horizontal" gap={4} className="mt-8 flex-wrap justify-center">
+            <NextLink href="/products"><Button variant="pop" size="lg" icon={<ArrowRight />}>EXPLORE PRODUCTS</Button></NextLink>
+            <NextLink href="/pricing"><Button variant="outlineWhite" size="lg">SEE PRICING</Button></NextLink>
           </Stack>
-          <Label size="xs" className="mt-8 block text-center text-grey-500">
-            {atlvsLandingCta.footnote}
-          </Label>
+          <Stack direction="horizontal" gap={6} className="mt-8 flex-wrap justify-center">
+            <Text size="sm" className="text-grey-500">PRODUCTIONS</Text>
+            <Text size="sm" className="text-grey-600">·</Text>
+            <Text size="sm" className="text-grey-500">ACTIVATIONS</Text>
+            <Text size="sm" className="text-grey-600">·</Text>
+            <Text size="sm" className="text-grey-500">INSTALLATIONS</Text>
+            <Text size="sm" className="text-grey-600">·</Text>
+            <Text size="sm" className="text-grey-500">DESTINATIONS</Text>
+          </Stack>
         </Container>
       </FullBleedSection>
     </AtlvsAppLayout>

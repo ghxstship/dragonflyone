@@ -23,14 +23,10 @@ import {
   Heart,
   ShoppingBag,
   Megaphone,
-  Star,
-  Trophy,
-  Gift,
-  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import NextLink from "next/link";
-import { atlvsProductsData, atlvsV3Features } from "../../../data/atlvs";
+import { atlvsProductsData } from "../../../data/atlvs";
 
 export const runtime = "edge";
 
@@ -45,7 +41,6 @@ const capabilityIcons: Record<string, LucideIcon> = {
 
 export default function GvtewayProductPage() {
   const product = atlvsProductsData.gvteway;
-  const gamificationFeature = atlvsV3Features.differentiation.features.find(f => f.id === "DF-003");
 
   const ticketingFeatures = [
     { title: "Multiple Ticket Types", description: "GA, VIP, reserved seating, packages, and add-ons" },
@@ -229,56 +224,6 @@ export default function GvtewayProductPage() {
           </Grid>
         </Container>
       </FullBleedSection>
-
-      {/* Gamification Highlight (V3) */}
-      {gamificationFeature && (
-        <FullBleedSection background="white" className="py-12 sm:py-16 lg:py-24">
-          <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
-            <Card className="border-2 border-brand-yellow bg-white p-8 lg:p-12 shadow-brand-xl">
-              <Grid cols={2} gap={8} className="items-center">
-                <Stack gap={6}>
-                  <Stack direction="horizontal" gap={3} className="items-center">
-                    <Box className="flex h-10 w-10 items-center justify-center border-2 border-brand-yellow bg-grey-100">
-                      <Sparkles className="h-5 w-5 text-brand-yellow" />
-                    </Box>
-                    <Label size="xs" className="text-brand-yellow">EXCLUSIVE FEATURE</Label>
-                  </Stack>
-                  <H1 className="text-ink-950">{gamificationFeature.name.toUpperCase()}</H1>
-                  <Body size="lg" className="text-grey-600">
-                    {gamificationFeature.description}. Transform the pre-event period into an engaging experience that builds anticipation and reduces no-shows.
-                  </Body>
-                  <Stack gap={2}>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Trophy className="h-4 w-4 text-brand-yellow" />
-                      <Text size="sm" className="text-grey-700">Challenges and missions</Text>
-                    </Stack>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Star className="h-4 w-4 text-brand-yellow" />
-                      <Text size="sm" className="text-grey-700">Achievement badges</Text>
-                    </Stack>
-                    <Stack direction="horizontal" gap={2} className="items-center">
-                      <Gift className="h-4 w-4 text-brand-yellow" />
-                      <Text size="sm" className="text-grey-700">Points and rewards</Text>
-                    </Stack>
-                  </Stack>
-                </Stack>
-                <Box className="hidden lg:block">
-                  <Card className="border-2 aspect-video border-ink-950 bg-grey-100">
-                    <Box className="flex h-full items-center justify-center">
-                      <Stack gap={4} className="text-center">
-                        <Trophy className="h-12 w-12 text-grey-400 mx-auto" />
-                        <Text className="font-mono text-mono-xs uppercase tracking-label text-grey-400">
-                          Gamification Dashboard
-                        </Text>
-                      </Stack>
-                    </Box>
-                  </Card>
-                </Box>
-              </Grid>
-            </Card>
-          </Container>
-        </FullBleedSection>
-      )}
 
       {/* Marketing Tools */}
       <FullBleedSection background="white" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">

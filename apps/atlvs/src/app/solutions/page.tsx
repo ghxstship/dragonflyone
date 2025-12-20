@@ -111,10 +111,10 @@ export default function SolutionsPage() {
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">SOLUTIONS</Label>
-            <Display size="lg" className="text-white">BUILT FOR YOUR ROLE</Display>
+            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
+            <Display size="lg" className="text-white">BUILT FOR YOUR WORLD</Display>
             <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              Whether you run the business, manage the site, or sell the tickets—find the tier that fits your stack.
+              By role. By vertical. By scale. The industry standard for productions, activations, installations, and destinations.
             </Body>
           </Stack>
         </Container>
@@ -144,7 +144,7 @@ export default function SolutionsPage() {
                           <Stack gap={2}>
                             <Stack gap={1}>
                               <Label size="xs" className="text-success">RECOMMENDED TIER</Label>
-                              <Text size="sm" className="text-ink-950 font-semibold">{item.tier}</Text>
+                              <Text size="sm" className="text-ink-950 font-weight-semibold">{item.tier}</Text>
                             </Stack>
                             <Stack gap={1}>
                               <Label size="xs" className="text-grey-500">BYO</Label>

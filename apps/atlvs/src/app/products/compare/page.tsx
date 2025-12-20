@@ -46,10 +46,10 @@ export default function ComparePage() {
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">COMPARE</Label>
-            <Display size="lg" className="text-white">FIND YOUR FIT</Display>
+            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
+            <Display size="lg" className="text-white">MODULAR BY DESIGN</Display>
             <Body size="lg" className="max-w-2xl text-on-dark-secondary">
-              Seven tiers. Three products. Keep what works—add what&apos;s missing.
+              Find the tier that fits your stack. Keep what works—add what&apos;s missing.
             </Body>
           </Stack>
         </Container>
@@ -99,15 +99,15 @@ export default function ComparePage() {
                     <tr key={tier.id} className={`border-t border-grey-100 ${tier.popular ? 'bg-brand-pink/5' : ''}`}>
                       <td className="py-4">
                         <Stack gap={1}>
-                          <Text size="sm" className="font-semibold text-ink-950">{tier.name}</Text>
+                          <Text size="sm" className="font-weight-semibold text-ink-950">{tier.name}</Text>
                           {tier.popular && <Label size="xs" className="text-brand-pink">MOST POPULAR</Label>}
                         </Stack>
                       </td>
-                      <td className="py-4 text-center"><Text size="sm" className="text-ink-950 font-semibold">{tier.price}</Text></td>
+                      <td className="py-4 text-center"><Text size="sm" className="text-ink-950 font-weight-semibold">{tier.price}</Text></td>
                       <td className="py-4 text-center">{tier.products[0] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
                       <td className="py-4 text-center">{tier.products[1] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
                       <td className="py-4 text-center">{tier.products[2] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
-                      <td className="py-4 text-center"><Text size="sm" className={tier.fee === '2.0%' ? 'text-success font-semibold' : 'text-grey-600'}>{tier.fee}</Text></td>
+                      <td className="py-4 text-center"><Text size="sm" className={tier.fee === '2.0%' ? 'text-success font-weight-semibold' : 'text-grey-600'}>{tier.fee}</Text></td>
                       <td className="py-4">
                         {tier.byo.length > 0 ? (
                           <Stack direction="horizontal" gap={2} className="flex-wrap">
@@ -158,7 +158,7 @@ export default function ComparePage() {
                       <Label size="xs" className="text-grey-500">SITUATION</Label>
                       <Body size="sm" className="text-grey-700">&ldquo;{scenario.situation}&rdquo;</Body>
                       <Label size="xs" className="text-grey-500 mt-2">NEED</Label>
-                      <Body size="sm" className="text-ink-950 font-semibold">{scenario.need}</Body>
+                      <Body size="sm" className="text-ink-950 font-weight-semibold">{scenario.need}</Body>
                     </Stack>
                     <Stack gap={1}>
                       <Label size="xs" className="text-success">RECOMMENDATION</Label>

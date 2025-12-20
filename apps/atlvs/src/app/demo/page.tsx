@@ -49,11 +49,11 @@ export default function DemoPage() {
             <Stack gap={8}>
               <Stack direction="horizontal" gap={3} className="items-center">
                 <Play className="size-6 text-brand-pink" />
-                <Label size="xs" className="text-on-dark-muted">PRODUCT DEMO</Label>
+                <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
               </Stack>
-              <Display size="lg" className="text-white">TELL US WHAT YOU USE</Display>
+              <Display size="lg" className="text-white">SEE WHY INDUSTRY LEADERS CHOOSE GHXSTSHIP</Display>
               <Body size="lg" className="text-on-dark-secondary">
-                We&apos;ll show you exactly which tier fills your gaps—and what you can keep.
+                30 minutes. Personalized. Tell us what you use—we&apos;ll show you why the leaders switched.
               </Body>
               <Stack gap={3}>
                 {benefits.map((benefit) => (

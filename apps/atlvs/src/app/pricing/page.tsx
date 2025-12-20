@@ -157,9 +157,9 @@ export default function PricingPage() {
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
           <Stack gap={8} className="items-center text-center">
-            <Label size="xs" className="text-on-dark-muted">PRICING</Label>
-            <Display size="lg" className="text-white">PRICING THAT DOESN&apos;T PLAY GAMES</Display>
-            <Body size="lg" className="max-w-2xl text-on-dark-secondary">Seven tiers. Three products. Keep what works. Add what&apos;s missing.</Body>
+            <Label size="xs" className="text-brand-pink">THE INDUSTRY STANDARD</Label>
+            <Display size="lg" className="text-white">TRANSPARENT PRICING FOR INDUSTRY LEADERS</Display>
+            <Body size="lg" className="max-w-2xl text-on-dark-secondary">Seven tiers. Three products. Modular by design. Scale without surprises.</Body>
           </Stack>
         </Container>
       </FullBleedSection>
