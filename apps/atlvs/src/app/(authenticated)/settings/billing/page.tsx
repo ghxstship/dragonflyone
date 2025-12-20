@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CreditCard, Check, Download, Calendar } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface BillingInfo {
   plan: {
@@ -154,12 +155,9 @@ export default function BillingSettingsPage() {
                   {formatCurrency(data?.plan.price || 0)}/{data?.plan.interval}
                 </p>
               </div>
-              <button
-                onClick={() => setShowChangePlan(true)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors text-body-sm"
-              >
+              <Button variant="outline" size="sm" onClick={() => setShowChangePlan(true)}>
                 Change Plan
-              </button>
+              </Button>
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="p-3 bg-muted/30 rounded-card">
@@ -209,17 +207,17 @@ export default function BillingSettingsPage() {
                     </p>
                   </div>
                 </div>
-                <button className="text-body-sm text-primary hover:underline">
+                <Button variant="ghost" size="sm">
                   Update
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="text-center py-8 bg-muted/30 rounded-card">
                 <CreditCard className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
                 <p className="text-body-sm text-muted-foreground">No payment method on file</p>
-                <button className="mt-2 text-primary text-body-sm hover:underline">
+                <Button variant="ghost" size="sm" className="mt-2">
                   Add Payment Method
-                </button>
+                </Button>
               </div>
             )}
             <div className="mt-4 flex items-center gap-2 text-body-xs text-muted-foreground">
@@ -258,9 +256,9 @@ export default function BillingSettingsPage() {
                       <span className="text-body-sm font-weight-medium text-foreground">
                         {formatCurrency(invoice.amount)}
                       </span>
-                      <button className="p-1 hover:bg-muted rounded transition-colors">
+                      <Button variant="ghost" size="icon" className="p-1">
                         <Download className="h-4 w-4 text-muted-foreground" />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -310,26 +308,22 @@ export default function BillingSettingsPage() {
                       </li>
                     ))}
                   </ul>
-                  <button
-                    className={`w-full mt-4 px-4 py-2 rounded-button text-body-sm ${
-                      data?.plan.name === plan.name
-                        ? 'bg-muted text-muted-foreground'
-                        : 'bg-primary text-primary-foreground hover:bg-primary/90'
-                    }`}
+                  <Button
+                    variant={data?.plan.name === plan.name ? 'ghost' : 'solid'}
+                    size="sm"
+                    fullWidth
+                    className="mt-4"
                     disabled={data?.plan.name === plan.name}
                   >
                     {data?.plan.name === plan.name ? 'Current Plan' : 'Select'}
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
             <div className="mt-6 flex justify-end">
-              <button
-                onClick={() => setShowChangePlan(false)}
-                className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-              >
+              <Button variant="outline" size="sm" onClick={() => setShowChangePlan(false)}>
                 Cancel
-              </button>
+              </Button>
             </div>
           </div>
         </div>

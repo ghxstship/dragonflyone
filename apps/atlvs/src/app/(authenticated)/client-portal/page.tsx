@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Search, Users, Calendar, Clock, Mail, ExternalLink } from 'lucide-react';
 import { useClientPortalAccess, useSendPortalInvite } from '@/hooks/useClientPortal';
+import { Button } from '@ghxstship/ui';
 
 interface PortalAccess {
   id: string;
@@ -181,9 +182,9 @@ export default function ClientPortalPage() {
                         </p>
                       )}
                     </div>
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );

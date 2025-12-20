@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, Filter, Calendar, Users, MoreVertical } from 'lucide-react';
 import { useBookings } from '@/hooks/useBookings';
+import { Button } from '@ghxstship/ui';
 
 export default function BookingsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -216,9 +217,9 @@ export default function BookingsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}

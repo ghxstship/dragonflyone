@@ -1,5 +1,4 @@
 
-
 > atlvs@0.1.0 build /Users/julianclarkson/Documents/Dragonflyone/apps/atlvs
 > NODE_OPTIONS='--max-old-space-size=8192' next build --no-lint
 
@@ -11,11 +10,15 @@
    Using tsconfig file: tsconfig.build.json
  ✓ Compiled successfully
    Skipping validation of types
+   Collecting page data ...
  ⚠ Using edge runtime on a page currently disables static generation for that page
-   Collecting page data     ✓ Collecting page data 
+   Generating static pages (0/270) ...
+   Generating static pages (67/270) 
+   Generating static pages (134/270) 
+   Generating static pages (202/270) 
  ✓ Generating static pages (270/270)
-   Collecting build traces     ✓ Collecting build traces 
-   Finalizing page optimization     ✓ Finalizing page optimization 
+   Finalizing page optimization ...
+   Collecting build traces ...
 
 Route (app)                                        Size     First Load JS
 ┌ ƒ /                                              136 B           827 kB
@@ -28,7 +31,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /advances/[id]                                 2.29 kB         829 kB
 ├ ○ /advancing                                     2.12 kB         829 kB
 ├ ƒ /advancing/requests/[id]                       1.49 kB         828 kB
-├ ○ /alignment                                     3.37 kB         830 kB
+├ ○ /alignment                                     3.38 kB         830 kB
 ├ ○ /analytics                                     2.41 kB         829 kB
 ├ ○ /analytics/pipeline                            1.76 kB         645 kB
 ├ ○ /analytics/revenue                             1.78 kB         645 kB
@@ -541,7 +544,7 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /api/vendor-orders/[id]                        0 B                0 B
 ├ ƒ /api/vendor-orders/[id]/approve                0 B                0 B
 ├ ƒ /api/vendor-orders/[id]/send                   0 B                0 B
-├ ƒ /api/vendor-payment-terms                      0 B                0 B
+├ ƒ /api/vendor-payment-terms                      0 B                0 B
 ├ ƒ /api/vendor-portal                             0 B                0 B
 ├ ƒ /api/vendor-profiles                           0 B                0 B
 ├ ƒ /api/vendor-profiles/[id]                      0 B                0 B
@@ -587,7 +590,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /assets/maintenance                            2.34 kB         829 kB
 ├ ○ /assets/optimization                           2.19 kB         829 kB
 ├ ○ /assets/performance                            1.88 kB         829 kB
-├ ○ /assets/rentals                                2.14 kB         829 kB
+├ ○ /assets/rentals                                2.15 kB         829 kB
 ├ ○ /assets/scan                                   2.63 kB         829 kB
 ├ ○ /assets/serialized                             2.64 kB         829 kB
 ├ ○ /assets/specifications                         2.41 kB         829 kB
@@ -595,7 +598,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /assets/tracking                               1.98 kB         829 kB
 ├ ○ /assets/utilization                            1.95 kB         829 kB
 ├ ○ /audit                                         2.04 kB         829 kB
-├ ○ /audit-logs                                    1.71 kB         828 kB
+├ ○ /audit-logs                                    1.71 kB         829 kB
 ├ ○ /auth/forgot-password                          1.26 kB         828 kB
 ├ ○ /auth/magic-link                               1.31 kB         828 kB
 ├ ○ /auth/reset-password                           1.34 kB         828 kB
@@ -605,23 +608,23 @@ Route (app)                                        Size     First Load JS
 ├ ○ /availability                                  2.11 kB         646 kB
 ├ ○ /availability/widget                           2.44 kB         646 kB
 ├ ○ /benefits                                      2.16 kB         829 kB
-├ ƒ /beos/[id]/preview                             1.99 kB         645 kB
-├ ○ /beos/templates                                2.24 kB         646 kB
+├ ƒ /beos/[id]/preview                             2.02 kB         829 kB
+├ ○ /beos/templates                                2.23 kB         829 kB
 ├ ○ /billing                                       2.38 kB         829 kB
 ├ ○ /bills                                         3.53 kB         830 kB
 ├ ƒ /blog                                          136 B           827 kB
-├ ○ /bookings                                      1.94 kB         829 kB
+├ ○ /bookings                                      1.96 kB         829 kB
 ├ ƒ /bookings/[id]                                 2.42 kB         829 kB
 ├ ƒ /bookings/[id]/edit                            2 kB            829 kB
 ├ ○ /bookings/new                                  2.53 kB         829 kB
-├ ○ /bookings/packages                             2.34 kB         646 kB
-├ ○ /bookings/templates                            2.32 kB         646 kB
+├ ○ /bookings/packages                             2.37 kB         829 kB
+├ ○ /bookings/templates                            2.32 kB         829 kB
 ├ ○ /budgets                                       2.31 kB         829 kB
 ├ ○ /budgets/categories                            2.65 kB         829 kB
 ├ ○ /budgets/forecasting                           2.6 kB          646 kB
 ├ ○ /calendar                                      2.17 kB         829 kB
 ├ ○ /calendar/spaces                               1.82 kB         829 kB
-├ ○ /calendar/timeline                             1.71 kB         828 kB
+├ ○ /calendar/timeline                             1.71 kB         829 kB
 ├ ƒ /careers                                       136 B           827 kB
 ├ ƒ /case-studies                                  136 B           827 kB
 ├ ○ /catalog                                       2.21 kB         829 kB
@@ -629,32 +632,32 @@ Route (app)                                        Size     First Load JS
 ├ ○ /catalog/categories                            1.9 kB          829 kB
 ├ ○ /catalog/new                                   2.2 kB          829 kB
 ├ ƒ /changelog                                     136 B           827 kB
-├ ○ /client-portal                                 2 kB            829 kB
-├ ○ /client-portal/documents                       1.8 kB          829 kB
+├ ○ /client-portal                                 2.03 kB         829 kB
+├ ○ /client-portal/documents                       1.82 kB         829 kB
 ├ ○ /client-portal/events                          1.86 kB         829 kB
-├ ○ /client-portal/invoices                        2.03 kB         829 kB
+├ ○ /client-portal/invoices                        2.04 kB         829 kB
 ├ ○ /clients                                       2.59 kB         829 kB
-├ ○ /community                                     3.7 kB          830 kB
+├ ○ /community                                     3.7 kB          831 kB
 ├ ○ /compliance                                    2.19 kB         829 kB
 ├ ƒ /contact                                       136 B           827 kB
-├ ○ /contacts                                      1.86 kB         829 kB
+├ ○ /contacts                                      1.88 kB         829 kB
 ├ ƒ /contacts/[id]                                 1.6 kB          828 kB
-├ ƒ /contacts/[id]/edit                            1.71 kB         828 kB
+├ ƒ /contacts/[id]/edit                            1.71 kB         829 kB
 ├ ƒ /contacts/[id]/timeline                        1.35 kB         828 kB
 ├ ○ /contacts/duplicates                           2.14 kB         646 kB
 ├ ○ /contacts/new                                  1.58 kB         828 kB
 ├ ○ /contracts                                     2.41 kB         829 kB
 ├ ƒ /contracts/[id]                                2.21 kB         829 kB
 ├ ƒ /contracts/[id]/audit                          1.64 kB         645 kB
-├ ○ /contracts/clauses                             2.52 kB         646 kB
+├ ○ /contracts/clauses                             2.51 kB         829 kB
 ├ ○ /contracts/new                                 2.51 kB         829 kB
-├ ○ /contracts/templates                           2.22 kB         646 kB
-├ ○ /crew                                          2.72 kB         829 kB
+├ ○ /contracts/templates                           2.21 kB         829 kB
+├ ○ /crew                                          2.72 kB         830 kB
 ├ ○ /crm                                           1.91 kB         829 kB
 ├ ○ /crm/calendar                                  2.3 kB          829 kB
 ├ ○ /crm/email-integration                         1.81 kB         829 kB
 ├ ○ /crm/lead-scoring                              2.15 kB         829 kB
-├ ○ /crm/relationships                             1.91 kB         829 kB
+├ ○ /crm/relationships                             1.9 kB          829 kB
 ├ ○ /crm/tasks                                     2.58 kB         829 kB
 ├ ○ /dashboard                                     6.51 kB         833 kB
 ├ ○ /deals                                         2.17 kB         829 kB
@@ -680,7 +683,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /finance/commissions                           2.16 kB         829 kB
 ├ ○ /finance/credit-cards                          1.92 kB         829 kB
 ├ ○ /floor-plans                                   1.97 kB         829 kB
-├ ƒ /floor-plans/[id]                              1.91 kB         829 kB
+├ ƒ /floor-plans/[id]                              1.94 kB         829 kB
 ├ ƒ /floor-plans/[id]/edit                         2.99 kB         830 kB
 ├ ○ /floor-plans/new                               1.9 kB          829 kB
 ├ ƒ /generator                                     3.4 kB          830 kB
@@ -696,40 +699,40 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /help/releases                                 136 B           827 kB
 ├ ƒ /help/tutorials                                136 B           827 kB
 ├ ○ /holds                                         2.6 kB          829 kB
-├ ○ /holds/expiring                                1.71 kB         828 kB
+├ ○ /holds/expiring                                1.71 kB         829 kB
 ├ ○ /insurance                                     2.59 kB         829 kB
 ├ ƒ /insurance/[id]                                1.98 kB         829 kB
 ├ ○ /integrations                                  1.62 kB         828 kB
-├ ƒ /integrations/[provider]                       2.26 kB         646 kB
+├ ƒ /integrations/[provider]                       2.28 kB         829 kB
 ├ ○ /inventory                                     2.34 kB         829 kB
 ├ ○ /inventory/availability                        2.02 kB         829 kB
 ├ ○ /inventory/new                                 2.15 kB         829 kB
 ├ ○ /inventory/scan                                1.87 kB         829 kB
-├ ○ /investors                                     2.46 kB         829 kB
+├ ○ /investors                                     2.47 kB         829 kB
 ├ ƒ /investors/[id]                                2.07 kB         829 kB
 ├ ○ /investors/documents                           2.08 kB         829 kB
 ├ ○ /investors/reports                             1.82 kB         829 kB
 ├ ○ /investors/rounds                              2.33 kB         829 kB
 ├ ○ /invoices                                      2.8 kB          830 kB
 ├ ƒ /invoices/[id]                                 2.61 kB         829 kB
-├ ƒ /invoices/[id]/preview                         2.08 kB         646 kB
+├ ƒ /invoices/[id]/preview                         2.12 kB         829 kB
 ├ ○ /invoices/new                                  2.74 kB         830 kB
 ├ ○ /invoices/templates                            3.04 kB         646 kB
-├ ○ /ip-tracking                                   2.63 kB         829 kB
+├ ○ /ip-tracking                                   2.64 kB         829 kB
 ├ ○ /lead-forms                                    1.79 kB         829 kB
 ├ ƒ /lead-forms/[id]                               2.04 kB         829 kB
 ├ ƒ /lead-forms/[id]/analytics                     1.83 kB         829 kB
 ├ ƒ /lead-forms/[id]/embed                         2.27 kB         829 kB
-├ ƒ /lead-forms/[id]/submissions                   1.95 kB         829 kB
+├ ƒ /lead-forms/[id]/submissions                   1.98 kB         829 kB
 ├ ○ /lead-forms/new                                2.47 kB         829 kB
 ├ ○ /leads                                         2.64 kB         829 kB
-├ ○ /leads/nurturing                               3.64 kB         647 kB
+├ ○ /leads/nurturing                               3.68 kB         830 kB
 ├ ○ /leads/scoring                                 3.29 kB         830 kB
 ├ ƒ /legal/accessibility                           136 B           827 kB
 ├ ƒ /legal/cookies                                 136 B           827 kB
 ├ ƒ /legal/privacy                                 136 B           827 kB
 ├ ƒ /legal/terms                                   136 B           827 kB
-├ ○ /locations                                     2.1 kB          829 kB
+├ ○ /locations                                     2.09 kB         829 kB
 ├ ○ /marketing/attribution                         1.95 kB         829 kB
 ├ ○ /metrics                                       1.96 kB         829 kB
 ├ ○ /metrics/kpis                                  1.63 kB         828 kB
@@ -755,8 +758,8 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /p/[productionId]/expenses                     2.12 kB         829 kB
 ├ ƒ /p/[productionId]/insurance                    1.58 kB         828 kB
 ├ ƒ /p/[productionId]/investors                    1.41 kB         828 kB
-├ ƒ /p/[productionId]/investors/documents          722 B           827 kB
-├ ƒ /p/[productionId]/investors/reports            721 B           827 kB
+├ ƒ /p/[productionId]/investors/documents          722 B           828 kB
+├ ƒ /p/[productionId]/investors/reports            721 B           828 kB
 ├ ƒ /p/[productionId]/investors/rounds             736 B           828 kB
 ├ ƒ /p/[productionId]/invoices                     1.03 kB         828 kB
 ├ ƒ /p/[productionId]/marketing                    1.14 kB         828 kB
@@ -765,14 +768,14 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /p/[productionId]/permits                      1.6 kB          828 kB
 ├ ƒ /p/[productionId]/procurement                  996 B           828 kB
 ├ ƒ /p/[productionId]/procurement/purchase-orders  2.13 kB         829 kB
-├ ƒ /p/[productionId]/procurement/quotes           708 B           827 kB
+├ ƒ /p/[productionId]/procurement/quotes           708 B           828 kB
 ├ ƒ /p/[productionId]/procurement/rfps             764 B           828 kB
-├ ƒ /p/[productionId]/reconciliation               1.72 kB         828 kB
+├ ƒ /p/[productionId]/reconciliation               1.72 kB         829 kB
 ├ ƒ /p/[productionId]/schedule                     2.08 kB         829 kB
 ├ ƒ /p/[productionId]/schedule/contingencies       1.04 kB         828 kB
 ├ ƒ /p/[productionId]/schedule/tasks               1.3 kB          828 kB
 ├ ƒ /p/[productionId]/schedule/templates           1.01 kB         828 kB
-├ ƒ /p/[productionId]/settings                     1.7 kB          828 kB
+├ ƒ /p/[productionId]/settings                     1.7 kB          829 kB
 ├ ƒ /p/[productionId]/shows                        1.94 kB         829 kB
 ├ ƒ /p/[productionId]/shows/cues                   947 B           828 kB
 ├ ƒ /p/[productionId]/shows/run-of-show            1.04 kB         828 kB
@@ -792,16 +795,16 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /pay/[token]                                   2.34 kB         646 kB
 ├ ○ /payment-schedules                             2.38 kB         829 kB
 ├ ○ /payment-schedules/overdue                     1.69 kB         828 kB
-├ ○ /payment-schedules/upcoming                    1.72 kB         828 kB
+├ ○ /payment-schedules/upcoming                    1.72 kB         829 kB
 ├ ○ /payments                                      2.55 kB         829 kB
 ├ ƒ /payments/[id]                                 2.63 kB         646 kB
 ├ ○ /payments/plans                                3.4 kB          647 kB
-├ ○ /payments/settings                             1.82 kB         829 kB
+├ ○ /payments/settings                             1.8 kB          829 kB
 ├ ○ /payroll                                       2.78 kB         830 kB
 ├ ○ /performance                                   2.46 kB         829 kB
 ├ ○ /permits                                       2.49 kB         829 kB
 ├ ƒ /permits/[id]                                  1.92 kB         829 kB
-├ ○ /pipeline                                      2 kB            829 kB
+├ ○ /pipeline                                      2.03 kB         829 kB
 ├ ○ /pipeline/analytics                            1.83 kB         829 kB
 ├ ƒ /pipeline/deals/[id]                           2.5 kB          829 kB
 ├ ○ /pipeline/deals/new                            2.24 kB         829 kB
@@ -829,7 +832,7 @@ Route (app)                                        Size     First Load JS
 ├ ○ /procurement/logistics                         3 kB            830 kB
 ├ ○ /procurement/vendor-audits                     2.11 kB         829 kB
 ├ ○ /procurement/vendor-selection                  2.39 kB         829 kB
-├ ○ /productions                                   1.42 kB         828 kB
+├ ○ /productions                                   1.43 kB         828 kB
 ├ ○ /productions/new                               2.91 kB         830 kB
 ├ ƒ /products                                      136 B           827 kB
 ├ ƒ /products/atlvs                                136 B           827 kB
@@ -846,21 +849,21 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /proposals/[id]/analytics                      1.77 kB         829 kB
 ├ ƒ /proposals/[id]/edit                           2.44 kB         829 kB
 ├ ○ /proposals/new                                 2.68 kB         829 kB
-├ ○ /proposals/templates                           2.04 kB         645 kB
+├ ○ /proposals/templates                           2.04 kB         829 kB
 ├ ○ /purchase-orders                               2.24 kB         829 kB
 ├ ƒ /purchase-orders/[id]                          2.22 kB         829 kB
 ├ ƒ /purchase-orders/[id]/receive                  1.87 kB         829 kB
 ├ ○ /purchase-orders/new                           2.63 kB         829 kB
 ├ ○ /quick-links                                   2.61 kB         829 kB
 ├ ○ /quotes                                        2.42 kB         829 kB
-├ ○ /reports                                       1.96 kB         645 kB
+├ ○ /reports                                       1.98 kB         829 kB
 ├ ○ /reports/financial                             3.29 kB         647 kB
-├ ○ /reports/revenue                               1.82 kB         645 kB
+├ ○ /reports/revenue                               1.84 kB         829 kB
 ├ ○ /reports/scheduled                             1.87 kB         829 kB
 ├ ƒ /resources                                     136 B           827 kB
 ├ ○ /revenue-recognition                           2.77 kB         830 kB
 ├ ○ /rfp                                           2.53 kB         829 kB
-├ ƒ /rfps/[id]/compare                             1.9 kB          645 kB
+├ ƒ /rfps/[id]/compare                             1.93 kB         829 kB
 ├ ○ /rfps/new                                      2.06 kB         829 kB
 ├ ○ /risks                                         2.17 kB         829 kB
 ├ ○ /roles                                         2.17 kB         829 kB
@@ -870,19 +873,19 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /schedule/contingencies/[id]                   2.02 kB         829 kB
 ├ ○ /schedule/tasks                                2.35 kB         829 kB
 ├ ƒ /schedule/tasks/[id]                           1.82 kB         829 kB
-├ ○ /schedule/templates                            2.67 kB         829 kB
+├ ○ /schedule/templates                            2.66 kB         829 kB
 ├ ○ /schedules                                     2.65 kB         829 kB
 ├ ƒ /security                                      136 B           827 kB
 ├ ○ /settings                                      1.18 kB         645 kB
 ├ ○ /settings/api-keys                             3.24 kB         647 kB
 ├ ○ /settings/appearance                           3.45 kB         830 kB
 ├ ○ /settings/apps                                 3.17 kB         647 kB
-├ ○ /settings/billing                              2.53 kB         646 kB
+├ ○ /settings/billing                              2.52 kB         829 kB
 ├ ○ /settings/export                               2.57 kB         646 kB
 ├ ○ /settings/import                               3.46 kB         647 kB
 ├ ○ /settings/integrations                         2.16 kB         646 kB
 ├ ○ /settings/notifications                        1.85 kB         645 kB
-├ ○ /settings/organization                         2.78 kB         646 kB
+├ ○ /settings/organization                         2.79 kB         830 kB
 ├ ○ /settings/roles                                3 kB            646 kB
 ├ ○ /settings/security                             3.16 kB         647 kB
 ├ ○ /settings/tax                                  3.24 kB         647 kB
@@ -892,10 +895,10 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /solutions/[slug]                              136 B           827 kB
 ├ ○ /spaces                                        1.77 kB         829 kB
 ├ ƒ /spaces/[id]                                   1.94 kB         829 kB
-├ ƒ /spaces/[id]/capacity                          2.14 kB         829 kB
+├ ƒ /spaces/[id]/capacity                          2.13 kB         829 kB
 ├ ƒ /spaces/[id]/edit                              2.5 kB          829 kB
 ├ ƒ /spaces/[id]/pricing                           2.32 kB         829 kB
-├ ○ /spaces/combinations                           2.44 kB         829 kB
+├ ○ /spaces/combinations                           2.43 kB         829 kB
 ├ ○ /spaces/new                                    1.95 kB         829 kB
 ├ ○ /sponsors                                      2.58 kB         829 kB
 ├ ƒ /sponsors/[id]                                 2.68 kB         829 kB
@@ -903,24 +906,24 @@ Route (app)                                        Size     First Load JS
 ├ ○ /sponsors/fulfillment                          2.11 kB         829 kB
 ├ ○ /sponsors/reports                              1.85 kB         829 kB
 ├ ○ /sponsors/tiers                                2.17 kB         829 kB
-├ ○ /stakeholders                                  2.72 kB         829 kB
+├ ○ /stakeholders                                  2.72 kB         830 kB
 ├ ƒ /status                                        136 B           827 kB
 ├ ○ /subsidiaries                                  2.42 kB         829 kB
 ├ ○ /support/tickets                               3.35 kB         647 kB
 ├ ƒ /support/tickets/[id]                          3.1 kB          647 kB
 ├ ○ /tags                                          2.07 kB         829 kB
 ├ ○ /taxes                                         2.37 kB         829 kB
-├ ƒ /templates                                     135 B           827 kB
+├ ƒ /templates                                     136 B           827 kB
 ├ ○ /tickets                                       2.92 kB         830 kB
 ├ ○ /timesheets                                    2.35 kB         829 kB
 ├ ○ /training                                      2.55 kB         829 kB
 ├ ○ /vendor-invoices                               2.38 kB         829 kB
 ├ ƒ /vendor-invoices/[id]                          3.06 kB         830 kB
-├ ○ /vendor-invoices/new                           2.69 kB         829 kB
+├ ○ /vendor-invoices/new                           2.69 kB         830 kB
 ├ ○ /vendor-orders                                 2.46 kB         829 kB
 ├ ƒ /vendor-orders/[id]                            2.13 kB         829 kB
 ├ ○ /vendor-orders/approvals                       2.18 kB         646 kB
-├ ○ /vendor-orders/new                             2.7 kB          829 kB
+├ ○ /vendor-orders/new                             2.7 kB          830 kB
 ├ ○ /vendors                                       2.04 kB         829 kB
 ├ ƒ /vendors/[id]                                  2.36 kB         829 kB
 ├ ƒ /vendors/[id]/issues                           2.6 kB          829 kB
@@ -928,11 +931,11 @@ Route (app)                                        Size     First Load JS
 ├ ƒ /vendors/[id]/performance                      2.46 kB         829 kB
 ├ ƒ /vendors/[id]/reviews                          2.5 kB          829 kB
 ├ ○ /vendors/categories                            2.1 kB          646 kB
-├ ○ /vendors/contracts                             2.73 kB         829 kB
+├ ○ /vendors/contracts                             2.73 kB         830 kB
 ├ ○ /vendors/new                                   2.49 kB         829 kB
 ├ ○ /vendors/rate-cards                            2.66 kB         829 kB
 ├ ○ /venues                                        2.54 kB         829 kB
-├ ƒ /venues/[id]                                   2.06 kB         829 kB
+├ ƒ /venues/[id]                                   2.06 kB         829 kB
 ├ ○ /venues/maps                                   1.91 kB         829 kB
 ├ ○ /venues/zones                                  2.61 kB         829 kB
 ├ ƒ /venues/zones/[id]                             1.67 kB         828 kB
@@ -945,11 +948,11 @@ Route (app)                                        Size     First Load JS
 ├ ○ /workflows                                     2.25 kB         829 kB
 ├ ○ /workforce                                     2.35 kB         829 kB
 ├ ○ /workforce/background-checks                   2.25 kB         829 kB
-├ ○ /workforce/compensation                        1.69 kB         828 kB
+├ ○ /workforce/compensation                        1.69 kB         829 kB
 ├ ○ /workforce/handbook                            2.64 kB         829 kB
 ├ ○ /workforce/labor-laws                          1.92 kB         829 kB
 ├ ○ /workforce/referrals                           2.1 kB          829 kB
-├ ○ /workforce/succession                          1.7 kB          828 kB
+├ ○ /workforce/succession                          1.7 kB          829 kB
 ├ ○ /workforce/union-compliance                    1.92 kB         829 kB
 └ ○ /workforce/union-rules                         1.91 kB         829 kB
 + First Load JS shared by all                      643 kB

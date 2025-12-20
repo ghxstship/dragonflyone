@@ -2,6 +2,7 @@
 
 import { ArrowLeft, CheckCircle, Star, DollarSign, Clock, Award } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface Quote {
   id: string;
@@ -248,9 +249,9 @@ export default function RFPComparePage({ params }: { params: { id: string } }) {
                           View Full
                         </a>
                         {quote.status !== 'awarded' && (
-                          <button className="px-3 py-1.5 border-2 border-success text-success rounded-button text-body-xs font-weight-medium hover:bg-success/10 transition-colors">
+                          <Button variant="outline" size="sm" className="border-success text-success hover:bg-success/10">
                             Award
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </td>

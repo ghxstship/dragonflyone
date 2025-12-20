@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, Filter, MoreVertical, User, Mail, Phone, Building2, Tag } from 'lucide-react';
 import { useContacts } from '@/hooks/useContacts';
+import { Button } from '@ghxstship/ui';
 
 export default function ContactsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -195,9 +196,9 @@ export default function ContactsPage() {
                     {contact.updated_at ? formatDate(contact.updated_at) : 'Never'}
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}

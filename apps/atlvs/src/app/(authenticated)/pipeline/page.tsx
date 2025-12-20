@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, BarChart3, Settings, DollarSign, Users, TrendingUp, MoreVertical } from 'lucide-react';
 import { usePipelineDeals, useMoveDeals } from '@/hooks/usePipeline';
+import { Button } from '@ghxstship/ui';
 
 const STAGES = [
   { id: 'lead', name: 'Lead', color: 'bg-ink-100 border-ink-300' },
@@ -198,9 +199,9 @@ export default function PipelinePage() {
                           >
                             {deal.name}
                           </Link>
-                          <button className="p-1 hover:bg-muted rounded">
+                          <Button variant="ghost" size="icon" className="p-1">
                             <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                          </button>
+                          </Button>
                         </div>
                         {deal.client && (
                           <p className="text-body-xs text-muted-foreground mb-2">

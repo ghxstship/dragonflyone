@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, FileText, Edit2, Trash2, Search } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface Clause {
   id: string;
@@ -105,13 +106,9 @@ export default function ContractClausesPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Add Clause</span>
-        </button>
+        <Button variant="solid" size="sm" onClick={() => setShowAddModal(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
+          Add Clause
+        </Button>
       </div>
 
       <div className="flex items-center gap-4">
@@ -140,13 +137,9 @@ export default function ContractClausesPage() {
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-body-md text-muted-foreground">No clauses found</p>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
-          >
-            <Plus className="h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={() => setShowAddModal(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Add your first clause
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid gap-4">
@@ -177,12 +170,12 @@ export default function ContractClausesPage() {
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-1.5 hover:bg-muted rounded-button transition-colors">
+                  <Button variant="ghost" size="icon" className="p-1.5">
                     <Edit2 className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                  <button className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors">
+                  </Button>
+                  <Button variant="ghost" size="icon" className="p-1.5 hover:bg-destructive/10">
                     <Trash2 className="h-4 w-4 text-destructive" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               {clause.description && (
@@ -291,20 +284,12 @@ export default function ContractClausesPage() {
                 </label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
+                <Button variant="outline" size="sm" type="button" onClick={() => setShowAddModal(false)}>
                   Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={createClause.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {createClause.isPending ? 'Creating...' : 'Create Clause'}
-                </button>
+                </Button>
+                <Button variant="solid" size="sm" type="submit" disabled={createClause.isPending} isLoading={createClause.isPending} loadingText="Creating...">
+                  Create Clause
+                </Button>
               </div>
             </form>
           </div>

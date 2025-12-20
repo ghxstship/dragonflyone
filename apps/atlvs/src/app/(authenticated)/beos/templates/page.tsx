@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, FileText, Edit2, Trash2, Copy, Check } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface BEOTemplate {
   id: string;
@@ -92,26 +93,31 @@ export default function BEOTemplatesPage() {
             </p>
           </div>
         </div>
-        <button
+        <Button
+          variant="solid"
+          size="sm"
           onClick={() => setShowAddModal(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
+          icon={<Plus className="h-4 w-4" />}
+          iconPosition="left"
         >
-          <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Template</span>
-        </button>
+          New Template
+        </Button>
       </div>
 
       {templates.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-body-md text-muted-foreground">No templates yet</p>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setShowAddModal(true)}
-            className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
+            icon={<Plus className="h-4 w-4" />}
+            iconPosition="left"
+            className="mt-4"
           >
-            <Plus className="h-4 w-4" />
             Create your first template
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -139,22 +145,24 @@ export default function BEOTemplatesPage() {
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button className="p-1.5 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-1.5">
                       <Copy className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button className="p-1.5 hover:bg-muted rounded-button transition-colors">
+                    </Button>
+                    <Button variant="ghost" size="icon" className="p-1.5">
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="p-1.5 hover:bg-destructive/10"
                       onClick={() => {
                         if (confirm('Delete this template?')) {
                           deleteTemplate.mutate(template.id);
                         }
                       }}
-                      className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 {template.description && (
@@ -247,20 +255,24 @@ export default function BEOTemplatesPage() {
                 </label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
+                  variant="outline"
+                  size="sm"
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
+                  variant="solid"
+                  size="sm"
                   type="submit"
                   disabled={createTemplate.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  isLoading={createTemplate.isPending}
+                  loadingText="Creating..."
                 >
-                  {createTemplate.isPending ? 'Creating...' : 'Create Template'}
-                </button>
+                  Create Template
+                </Button>
               </div>
             </form>
           </div>

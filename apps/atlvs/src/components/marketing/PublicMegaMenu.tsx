@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Command, Users, Ticket, ArrowRight } from 'lucide-react';
 import clsx from 'clsx';
+import { Button } from '@ghxstship/ui';
 import {
   productsNavigation,
   solutionsNavigation,
@@ -34,10 +35,10 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         onMouseEnter={() => handleMouseEnter('products')}
         onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center gap-1 px-4 py-2 text-body-sm font-weight-medium text-foreground/80 hover:text-foreground transition-colors">
+        <Button variant="ghost" size="sm" className="text-foreground/80 hover:text-foreground">
           {productsNavigation.label}
           <ChevronDown className={clsx('h-4 w-4 transition-transform', activeMenu === 'products' && 'rotate-180')} />
-        </button>
+        </Button>
 
         {activeMenu === 'products' && (
           <div className="absolute left-0 top-full pt-2 z-50">
@@ -102,10 +103,10 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         onMouseEnter={() => handleMouseEnter('solutions')}
         onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center gap-1 px-4 py-2 text-body-sm font-weight-medium text-foreground/80 hover:text-foreground transition-colors">
+        <Button variant="ghost" size="sm" className="text-foreground/80 hover:text-foreground">
           {solutionsNavigation.label}
           <ChevronDown className={clsx('h-4 w-4 transition-transform', activeMenu === 'solutions' && 'rotate-180')} />
-        </button>
+        </Button>
 
         {activeMenu === 'solutions' && (
           <div className="absolute left-0 top-full pt-2 z-50">
@@ -156,10 +157,10 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
         onMouseEnter={() => handleMouseEnter('resources')}
         onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center gap-1 px-4 py-2 text-body-sm font-weight-medium text-foreground/80 hover:text-foreground transition-colors">
+        <Button variant="ghost" size="sm" className="text-foreground/80 hover:text-foreground">
           {resourcesNavigation.label}
           <ChevronDown className={clsx('h-4 w-4 transition-transform', activeMenu === 'resources' && 'rotate-180')} />
-        </button>
+        </Button>
 
         {activeMenu === 'resources' && (
           <div className="absolute left-0 top-full pt-2 z-50">

@@ -99,8 +99,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       case "outlineWhite":
         return clsx(
           "border-white text-white bg-transparent",
-          "shadow-none",
-          "hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+          "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
+          "hover:shadow-[5px_5px_0_hsl(var(--primary))]",
           "active:shadow-[2px_2px_0_hsl(var(--primary))]",
           "focus-visible:ring-primary focus-visible:ring-offset-ink-950"
         );
@@ -108,60 +108,60 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         return clsx(
           "border-ink-700 text-ink-400 bg-transparent",
           "shadow-[3px_3px_0_rgba(255,255,255,0.1)]",
-          "hover:border-white hover:text-white hover:shadow-[5px_5px_0_rgba(255,255,255,0.2)]",
-          "active:shadow-[1px_1px_0_rgba(255,255,255,0.1)]",
+          "hover:border-white hover:text-white hover:shadow-[5px_5px_0_hsl(var(--primary)/0.5)]",
+          "active:shadow-[2px_2px_0_hsl(var(--primary)/0.3)]",
           "focus-visible:ring-white focus-visible:ring-offset-ink-950"
         );
       case "outlineFill":
         // Fill on hover - for light backgrounds
         return clsx(
           "border-black text-black bg-transparent",
-          "shadow-none",
-          "hover:bg-black hover:text-white hover:shadow-none",
-          "active:bg-grey-900",
+          "shadow-[3px_3px_0_rgba(0,0,0,0.1)]",
+          "hover:bg-black hover:text-white hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+          "active:bg-grey-900 active:shadow-[2px_2px_0_hsl(var(--primary))]",
           "focus-visible:ring-black focus-visible:ring-offset-white"
         );
       case "outlineFillWhite":
         // Fill on hover - for dark backgrounds
         return clsx(
           "border-white text-white bg-transparent",
-          "shadow-none",
-          "hover:bg-white hover:text-ink-950 hover:shadow-none",
-          "active:bg-grey-200",
+          "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
+          "hover:bg-white hover:text-ink-950 hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+          "active:bg-grey-200 active:shadow-[2px_2px_0_hsl(var(--primary))]",
           "focus-visible:ring-white focus-visible:ring-offset-ink-950"
         );
       case "pop":
         return clsx(
           "border-2 border-current",
           inverted 
-            ? "bg-ink-950 text-white shadow-[4px_4px_0_hsl(var(--primary))]" 
-            : "bg-white text-black shadow-[4px_4px_0_hsl(var(--primary))]",
-          "hover:shadow-[6px_6px_0_hsl(var(--primary))]",
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_hsl(var(--primary))]" 
+            : "bg-white text-black shadow-[5px_5px_0_hsl(var(--primary))]",
+          "hover:shadow-[7px_7px_0_hsl(var(--primary))]",
           "active:shadow-[2px_2px_0_hsl(var(--primary))]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "destructive":
         return clsx(
           "bg-error-500 text-white border-error-500",
-          "shadow-[3px_3px_0_rgba(239,68,68,0.3)]",
-          "hover:bg-error-600 hover:border-error-600 hover:shadow-[5px_5px_0_rgba(239,68,68,0.4)]",
-          "active:shadow-[1px_1px_0_rgba(239,68,68,0.3)]",
+          "shadow-[4px_4px_0_rgba(239,68,68,0.4)]",
+          "hover:bg-error-600 hover:border-error-600 hover:shadow-[6px_6px_0_rgba(239,68,68,0.5)]",
+          "active:shadow-[2px_2px_0_rgba(239,68,68,0.4)]",
           "focus-visible:ring-error-500"
         );
       case "secondary":
         return clsx(
           "bg-violet-500 text-white border-violet-500",
-          "shadow-[3px_3px_0_rgba(139,92,246,0.3)]",
-          "hover:bg-violet-600 hover:border-violet-600 hover:shadow-[5px_5px_0_rgba(139,92,246,0.4)]",
-          "active:shadow-[1px_1px_0_rgba(139,92,246,0.3)]",
+          "shadow-[4px_4px_0_rgba(139,92,246,0.4)]",
+          "hover:bg-violet-600 hover:border-violet-600 hover:shadow-[6px_6px_0_rgba(139,92,246,0.5)]",
+          "active:shadow-[2px_2px_0_rgba(139,92,246,0.4)]",
           "focus-visible:ring-violet-500"
         );
       case "accent":
         return clsx(
           "bg-accent text-black border-accent",
-          "shadow-[3px_3px_0_rgba(245,158,11,0.4)]",
-          "hover:bg-accent/90 hover:shadow-[5px_5px_0_rgba(245,158,11,0.5)]",
-          "active:shadow-[1px_1px_0_rgba(245,158,11,0.4)]",
+          "shadow-[4px_4px_0_rgba(245,158,11,0.5)]",
+          "hover:bg-accent/90 hover:shadow-[6px_6px_0_rgba(245,158,11,0.6)]",
+          "active:shadow-[2px_2px_0_rgba(245,158,11,0.5)]",
           "focus-visible:ring-accent"
         );
     }
@@ -172,17 +172,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         case "solid":
           return clsx(
             "bg-white text-black border-white",
-            "shadow-[3px_3px_0_rgba(255,255,255,0.2)]",
-            "hover:bg-grey-200 hover:shadow-[5px_5px_0_rgba(255,255,255,0.3)]",
-            "active:shadow-[1px_1px_0_rgba(255,255,255,0.2)]",
+            "shadow-[4px_4px_0_hsl(var(--primary)/0.4)]",
+            "hover:bg-grey-200 hover:shadow-[6px_6px_0_hsl(var(--primary)/0.5)]",
+            "active:shadow-[2px_2px_0_hsl(var(--primary)/0.4)]",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         case "outline":
           return clsx(
             "border-white text-white bg-transparent",
-            "shadow-none",
-            "hover:bg-white hover:text-black hover:shadow-none",
-            "active:bg-grey-200",
+            "shadow-[3px_3px_0_rgba(255,255,255,0.15)]",
+            "hover:bg-white hover:text-black hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+            "active:bg-grey-200 active:shadow-[2px_2px_0_hsl(var(--primary))]",
             "focus-visible:ring-white focus-visible:ring-offset-ink-950"
           );
         case "ghost":
@@ -200,17 +200,17 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
         case "solid":
           return clsx(
             "bg-black text-white border-black",
-            "shadow-[3px_3px_0_rgba(0,0,0,0.2)]",
-            "hover:bg-grey-900 hover:shadow-[5px_5px_0_rgba(0,0,0,0.25)]",
-            "active:shadow-[1px_1px_0_rgba(0,0,0,0.2)]",
+            "shadow-[4px_4px_0_rgba(0,0,0,0.25)]",
+            "hover:bg-grey-900 hover:shadow-[6px_6px_0_hsl(var(--primary)/0.4)]",
+            "active:shadow-[2px_2px_0_rgba(0,0,0,0.25)]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "outline":
           return clsx(
             "border-black text-black bg-transparent",
-            "shadow-none",
-            "hover:bg-black hover:text-white hover:shadow-none",
-            "active:bg-grey-900",
+            "shadow-[3px_3px_0_rgba(0,0,0,0.1)]",
+            "hover:bg-black hover:text-white hover:shadow-[4px_4px_0_hsl(var(--primary))]",
+            "active:bg-grey-900 active:shadow-[2px_2px_0_hsl(var(--primary))]",
             "focus-visible:ring-black focus-visible:ring-offset-white"
           );
         case "ghost":

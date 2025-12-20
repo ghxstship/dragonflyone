@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Mail, Users, BarChart3, Play, Pause, Edit2, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface NurtureCampaign {
   id: string;
@@ -339,9 +340,9 @@ export default function LeadNurturingPage() {
                         <Play className="h-4 w-4 text-success" />
                       </button>
                     ) : null}
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                     <button
                       onClick={() => {
                         if (confirm('Delete this campaign?')) {

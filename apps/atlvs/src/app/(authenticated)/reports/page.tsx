@@ -14,6 +14,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface ReportSummary {
   total_revenue: number;
@@ -126,10 +127,9 @@ export default function ReportsPage() {
             <option value="365d">Last Year</option>
             <option value="custom">Custom Range</option>
           </select>
-          <button className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors">
-            <Download className="h-4 w-4" />
-            <span className="text-body-sm">Export All</span>
-          </button>
+          <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
+            Export All
+          </Button>
         </div>
       </div>
 
@@ -234,22 +234,18 @@ export default function ReportsPage() {
           <h2 className="text-h4-md font-weight-semibold text-foreground">Quick Actions</h2>
         </div>
         <div className="grid grid-cols-4 gap-4">
-          <button className="flex flex-col items-center gap-2 p-4 border-2 border-border rounded-card hover:bg-muted/30 transition-colors">
-            <BarChart3 className="h-6 w-6 text-primary" />
-            <span className="text-body-sm text-foreground">Custom Report</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 border-2 border-border rounded-card hover:bg-muted/30 transition-colors">
-            <Download className="h-6 w-6 text-primary" />
-            <span className="text-body-sm text-foreground">Export Data</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 border-2 border-border rounded-card hover:bg-muted/30 transition-colors">
-            <Filter className="h-6 w-6 text-primary" />
-            <span className="text-body-sm text-foreground">Saved Filters</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 border-2 border-border rounded-card hover:bg-muted/30 transition-colors">
-            <Calendar className="h-6 w-6 text-primary" />
-            <span className="text-body-sm text-foreground">Schedule Report</span>
-          </button>
+          <Button variant="outline" size="md" icon={<BarChart3 className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
+            Custom Report
+          </Button>
+          <Button variant="outline" size="md" icon={<Download className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
+            Export Data
+          </Button>
+          <Button variant="outline" size="md" icon={<Filter className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
+            Saved Filters
+          </Button>
+          <Button variant="outline" size="md" icon={<Calendar className="h-5 w-5" />} iconPosition="left" className="flex-col h-auto py-4">
+            Schedule Report
+          </Button>
         </div>
       </div>
     </div>

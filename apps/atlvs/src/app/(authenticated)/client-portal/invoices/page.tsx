@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, DollarSign, FileText, CreditCard, CheckCircle, Clock, AlertTriangle, Download } from 'lucide-react';
 import { useClientPortalInvoices } from '@/hooks/useClientPortal';
+import { Button } from '@ghxstship/ui';
 
 export default function ClientPortalInvoicesPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -184,14 +185,13 @@ export default function ClientPortalInvoicesPage() {
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                      <Button variant="ghost" size="icon" className="p-2">
                         <Download className="h-4 w-4 text-muted-foreground" />
-                      </button>
+                      </Button>
                       {isPending && (
-                        <button className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-button text-body-xs font-weight-medium hover:bg-primary/90 transition-colors">
-                          <CreditCard className="h-3 w-3" />
+                        <Button variant="solid" size="sm" icon={<CreditCard className="h-3 w-3" />} iconPosition="left">
                           Pay Now
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </div>

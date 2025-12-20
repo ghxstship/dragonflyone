@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft, Search, Download, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useLeadForm } from '@/hooks/useLeadForms';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface Submission {
   id: string;
@@ -111,10 +112,9 @@ export default function LeadFormSubmissionsPage() {
             </p>
           </div>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors">
-          <Download className="h-4 w-4" />
-          <span className="text-body-sm">Export CSV</span>
-        </button>
+        <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
+          Export CSV
+        </Button>
       </div>
 
       <div className="flex items-center gap-4">
@@ -199,9 +199,9 @@ export default function LeadFormSubmissionsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-right">
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <Eye className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                   </td>
                 </tr>
               ))}

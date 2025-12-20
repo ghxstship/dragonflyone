@@ -9,6 +9,28 @@
 
    Creating an optimized production build ...
 <w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ⚠ Compiled with warnings
+
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+A Node.js API is used (process.versions at line: 39) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js
+../../node_modules/.pnpm/@supabase+realtime-js@2.84.0/node_modules/@supabase/realtime-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+A Node.js API is used (process.version at line: 32) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+../../node_modules/.pnpm/@supabase+supabase-js@2.84.0/node_modules/@supabase/supabase-js/dist/module/index.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/createBrowserClient.js
+../../node_modules/.pnpm/@supabase+ssr@0.5.2_@supabase+supabase-js@2.84.0/node_modules/@supabase/ssr/dist/module/index.js
+
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -59,7 +81,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /account/my-refunds                       3.21 kB         642 kB
 ├ ○ /account/my-transfers                     3.2 kB          642 kB
 ├ ○ /account/orders                           2.9 kB          642 kB
-├ ○ /account/profile                          3.85 kB         643 kB
+├ ○ /account/profile                          3.86 kB         643 kB
 ├ ○ /account/tickets                          3.26 kB         642 kB
 ├ ○ /activity                                 3.27 kB         648 kB
 ├ ○ /admin/anti-scalping                      4.61 kB         661 kB
@@ -448,7 +470,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /e/[eventId]/photos                       2.32 kB         630 kB
 ├ ƒ /e/[eventId]/program                      2.54 kB         630 kB
 ├ ƒ /e/[eventId]/refunds                      4.05 kB         643 kB
-├ ƒ /e/[eventId]/reviews                      2.79 kB         630 kB
+├ ƒ /e/[eventId]/reviews                      2.79 kB         631 kB
 ├ ƒ /e/[eventId]/scan                         4.32 kB         643 kB
 ├ ƒ /e/[eventId]/seating                      2.45 kB         630 kB
 ├ ƒ /e/[eventId]/services                     2.48 kB         630 kB
@@ -472,11 +494,11 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/landing-builder              3.63 kB         660 kB
 ├ ƒ /events/[id]/languages                    2.73 kB         659 kB
 ├ ƒ /events/[id]/map                          2.76 kB         648 kB
-├ ƒ /events/[id]/orders                       4.29 kB         102 kB
+├ ƒ /events/[id]/orders                       4.34 kB         396 kB
 ├ ƒ /events/[id]/parking                      2.87 kB         659 kB
 ├ ƒ /events/[id]/photo-booth                  2.61 kB         659 kB
 ├ ƒ /events/[id]/program                      2.28 kB         647 kB
-├ ƒ /events/[id]/rfid                         2.16 kB         637 kB
+├ ƒ /events/[id]/rfid                         2.16 kB         638 kB
 ├ ƒ /events/[id]/seating                      3.48 kB         642 kB
 ├ ƒ /events/[id]/services                     4.02 kB         643 kB
 ├ ƒ /events/[id]/social-wall                  3.33 kB         659 kB
@@ -525,22 +547,22 @@ Route (app)                                   Size     First Load JS
 ├ ○ /orders                                   2.97 kB         642 kB
 ├ ○ /orders/history                           3.77 kB         643 kB
 ├ ○ /packages                                 4.14 kB         643 kB
-├ ○ /photos                                   3.45 kB         648 kB
+├ ○ /photos                                   3.45 kB         649 kB
 ├ ○ /price-alerts                             3.47 kB         642 kB
 ├ ○ /profile                                  3.72 kB         643 kB
 ├ ○ /profile/badges                           3.93 kB         643 kB
 ├ ○ /profile/reputation                       4.71 kB         644 kB
-├ ○ /qa-sessions                              3.45 kB         648 kB
+├ ○ /qa-sessions                              3.45 kB         649 kB
 ├ ○ /referrals                                3.16 kB         642 kB
 ├ ○ /resale                                   4.14 kB         643 kB
 ├ ○ /reviews                                  2.44 kB         641 kB
-├ ○ /reviews/new                              2.45 kB         647 kB
+├ ○ /reviews/new                              2.45 kB         648 kB
 ├ ○ /rewards                                  3.83 kB         643 kB
 ├ ○ /saved-searches                           4.07 kB         643 kB
 ├ ○ /search                                   2.43 kB         641 kB
 ├ ○ /search/universal                         2.67 kB         648 kB
 ├ ○ /settings                                 3.2 kB          642 kB
-├ ○ /settings/api-access                      4.67 kB         643 kB
+├ ○ /settings/api-access                      4.66 kB         643 kB
 ├ ○ /settings/api-keys                        5.45 kB         644 kB
 ├ ○ /settings/connected-apps                  3.62 kB         642 kB
 ├ ○ /settings/language                        2.22 kB         658 kB
@@ -565,7 +587,7 @@ Route (app)                                   Size     First Load JS
 ├ ○ /tickets/print-at-home                    2.83 kB         659 kB
 ├ ○ /tickets/tracking                         3.38 kB         642 kB
 ├ ○ /tickets/transfer                         2.86 kB         395 kB
-├ ○ /tickets/urgency                          3.5 kB          660 kB
+├ ○ /tickets/urgency                          3.49 kB         660 kB
 ├ ○ /tours                                    2.22 kB         647 kB
 ├ ○ /ugc                                      5.18 kB         650 kB
 ├ ○ /venues                                   2.97 kB         642 kB

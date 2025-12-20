@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ArrowLeft, CreditCard, Shield, CheckCircle, XCircle, Settings, Zap, AlertTriangle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
+import { Button } from '@ghxstship/ui';
 
 interface PaymentGateway {
   id: string;
@@ -168,10 +169,9 @@ export default function PaymentSettingsPage() {
           </div>
 
           <div className="mt-6 pt-4 border-t border-border">
-            <button className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors">
-              <Zap className="h-4 w-4" />
+            <Button variant="solid" size="sm" icon={<Zap className="h-4 w-4" />} iconPosition="left">
               Add Gateway
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -259,12 +259,12 @@ export default function PaymentSettingsPage() {
             </div>
 
             <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
-              <button className="px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors">
+              <Button variant="destructive" size="sm">
                 Disconnect
-              </button>
-              <button className="px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors">
+              </Button>
+              <Button variant="solid" size="sm">
                 Save Changes
-              </button>
+              </Button>
             </div>
           </div>
         )}

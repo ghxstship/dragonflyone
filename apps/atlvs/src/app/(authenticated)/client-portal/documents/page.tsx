@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, FileText, Download, Eye, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useClientPortalDocuments } from '@/hooks/useClientPortal';
+import { Button } from '@ghxstship/ui';
 
 export default function ClientPortalDocumentsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -166,12 +167,12 @@ export default function ClientPortalDocumentsPage() {
                         {statusConfig.label}
                       </span>
                     </div>
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-2">
                       <Eye className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                    </Button>
+                    <Button variant="ghost" size="icon" className="p-2">
                       <Download className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );

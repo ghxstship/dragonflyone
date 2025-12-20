@@ -1,0 +1,212 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Eye, Download, Pencil, Trash2 } from 'lucide-react';
+import { AtlvsAppLayout } from '../../../components/app-layout';
+import {
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  Grid,
+  Body,
+  useNotifications,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
+  } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
+import { useDocuments, useDeleteDocument, type Document as APIDocument } from '@/hooks/useDocuments';
+
+interface Document {
+  id: string;
+  name: string;
+  type: string;
+  folder: string;
+  version: string;
+  size: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  status: string;
+}
+
+function normalizeDocument(d: APIDocument): Document {
+  return {
+    id: d.id,
+    name: d.name,
+    type: d.type || 'Other',
+    folder: d.folder_id || 'Root',
+    version: '1.0',
+    size: d.size ? `${Math.round(d.size / 1024)} KB` : '0 KB',
+    uploadedBy: d.uploaded_by || 'Unknown',
+    uploadedAt: d.created_at || new Date().toISOString(),
+    status: d.status || 'active',
+  };
+}
+
+
+const columns: ListPageColumn<Document>[] = [
+  { key: 'name', label: 'Document', accessor: 'name', sortable: true },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'folder', label: 'Folder', accessor: 'folder' },
+  { key: 'version', label: 'Version', accessor: (r) => `v${r.version}` },
+  { key: 'size', label: 'Size', accessor: 'size' },
+  { key: 'uploadedAt', label: 'Uploaded', accessor: (r) => new Date(r.uploadedAt).toLocaleDateString(), sortable: true },
+  { key: 'status', label: 'Status', accessor: 'status', render: (v) => <Badge variant={v === 'active' ? 'solid' : 'ghost'}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'type', label: 'Type', options: [{ value: 'Contract', label: 'Contract' }, { value: 'Insurance', label: 'Insurance' }, { value: 'Financial', label: 'Financial' }, { value: 'Legal', label: 'Legal' }] },
+  { key: 'folder', label: 'Folder', options: [{ value: 'Contracts', label: 'Contracts' }, { value: 'Compliance', label: 'Compliance' }, { value: 'Finance', label: 'Finance' }, { value: 'HR', label: 'HR' }, { value: 'Legal', label: 'Legal' }] },
+  { key: 'status', label: 'Status', options: [{ value: 'active', label: 'Active' }, { value: 'archived', label: 'Archived' }, { value: 'draft', label: 'Draft' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'name', label: 'Document Name', type: 'text', required: true },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [{ value: 'Contract', label: 'Contract' }, { value: 'Insurance', label: 'Insurance' }, { value: 'Financial', label: 'Financial' }, { value: 'Legal', label: 'Legal' }] },
+  { name: 'folder', label: 'Folder', type: 'select', required: true, options: [{ value: 'Contracts', label: 'Contracts' }, { value: 'Compliance', label: 'Compliance' }, { value: 'Finance', label: 'Finance' }, { value: 'HR', label: 'HR' }] },
+  { name: 'file', label: 'File', type: 'file', required: true },
+];
+
+export default function DocumentsPage() {
+  const router = useRouter();
+  const { addNotification } = useNotifications();
+  const { data: apiDocuments, isLoading, error, refetch } = useDocuments();
+  const deleteMutation = useDeleteDocument();
+  
+  const documents: Document[] = (apiDocuments || []).map(normalizeDocument);
+  
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [docToDelete, setDocToDelete] = useState<Document | null>(null);
+
+  const rowActions: ListPageAction<Document>[] = [
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedDoc(r); setDrawerOpen(true); } },
+    { id: 'download', label: 'Download', icon: <Download className="size-4" />, onClick: (r) => window.open(`/api/documents/${r.id}/download`, '_blank') },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/documents/${r.id}/edit`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setDocToDelete(r); setDeleteConfirmOpen(true); } },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    try {
+      await fetch('/api/documents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: String(data.name || ''),
+          document_type: String(data.type || 'contract'),
+          folder_path: String(data.folder || 'Contracts'),
+        }),
+      });
+      refetch();
+      setCreateModalOpen(false);
+      addNotification({ type: 'success', title: 'Document Created', message: `Document "${data.name}" has been uploaded.` });
+    } catch (err) {
+      addNotification({ type: 'error', title: 'Failed to Upload Document', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
+    }
+  };
+
+  const handleDelete = async () => {
+    if (docToDelete) {
+      try {
+        await deleteMutation.mutateAsync(docToDelete.id);
+        setDeleteConfirmOpen(false);
+        addNotification({ type: 'success', title: 'Document Deleted', message: `Document "${docToDelete.name}" has been deleted.` });
+        setDocToDelete(null);
+      } catch (err) {
+        addNotification({ type: 'error', title: 'Failed to Delete Document', message: err instanceof Error ? err.message : 'An unexpected error occurred' });
+      }
+    }
+  };
+
+  const stats = [
+    { label: 'Total Documents', value: documents.length },
+    { label: 'Storage Used', value: '4.3 GB' },
+    { label: 'Active Versions', value: 89 },
+    { label: 'Pending Approval', value: 12 },
+  ];
+
+  const detailSections: DetailSection[] = selectedDoc ? [
+    { id: 'overview', title: 'Document Details', content: (
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+        <Body size="sm"><strong>Name:</strong> {selectedDoc.name}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedDoc.type}</Body>
+        <Body size="sm"><strong>Folder:</strong> {selectedDoc.folder}</Body>
+        <Body size="sm"><strong>Version:</strong> v{selectedDoc.version}</Body>
+        <Body size="sm"><strong>Size:</strong> {selectedDoc.size}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedDoc.status}</Body>
+        <Body size="sm"><strong>Uploaded By:</strong> {selectedDoc.uploadedBy}</Body>
+        <Body size="sm"><strong>Uploaded:</strong> {new Date(selectedDoc.uploadedAt).toLocaleDateString()}</Body>
+      </Grid>
+    )},
+  ] : [];
+
+  return (
+    <AtlvsAppLayout>
+      <ListPage<Document>
+        title="Document Management"
+        subtitle="Centralized document storage with version control"
+        data={documents}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search documents..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedDoc(r); setDrawerOpen(true); }}
+        createLabel="Upload Document"
+        onCreate={() => setCreateModalOpen(true)}
+        entityType="documents"
+
+        onExport={createExportHandler({
+          filename: "documents",
+          getData: () => documents.map(d => ({
+            id: d.id,
+            name: d.name,
+            type: d.type,
+            folder: d.folder,
+            size: d.size,
+            uploadedBy: d.uploadedBy,
+            uploadedAt: d.uploadedAt,
+          })),
+        })}
+        exportFormats={["csv", "json"]}
+        stats={stats}
+        emptyMessage="No documents found"
+        emptyAction={{ label: 'Upload Document', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            await fetch('/api/documents/bulk', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          } else if (action === 'archive') {
+            await fetch('/api/documents/bulk-archive', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ ids }),
+            });
+          }
+        }}
+        bulkActions={[
+          { id: 'archive', label: 'Archive Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
+        showFavorite
+        showSettings
+      />
+      <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
+      <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: <Download className="size-4" /> }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
+      <ConfirmDialog open={deleteConfirmOpen} title="Delete Document" message={`Delete "${docToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDocToDelete(null); }} />
+    </AtlvsAppLayout>
+  );
+}

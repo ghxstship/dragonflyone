@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer, Download, Building2, Clock, Users, MapPin } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface BEO {
   id: string;
@@ -125,10 +126,9 @@ export default function BEOPreviewPage() {
             <Printer className="h-4 w-4" />
             <span className="text-body-sm font-weight-medium">Print</span>
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors">
-            <Download className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">PDF</span>
-          </button>
+          <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
+            PDF
+          </Button>
         </div>
       </div>
 

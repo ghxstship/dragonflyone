@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Download, DollarSign, TrendingUp, Calendar } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface RevenueData {
   period: string;
@@ -104,10 +105,9 @@ export default function RevenueReportPage() {
             <option value="90d">Last 90 Days</option>
             <option value="365d">Last Year</option>
           </select>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors">
-            <Download className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Export</span>
-          </button>
+          <Button variant="solid" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
+            Export
+          </Button>
         </div>
       </div>
 

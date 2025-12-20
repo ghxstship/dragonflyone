@@ -1,0 +1,262 @@
+"use client";
+
+import { useState } from "react";
+
+import { Eye, Check, Pencil, Trash2, RefreshCw, Phone, Mail, Users } from "lucide-react";
+import { AtlvsAppLayout } from "../../../../components/app-layout";
+import {
+  ListPage,
+  Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
+  Grid,
+  Body,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type FormFieldConfig,
+  type DetailSection,
+  } from "@ghxstship/ui";
+import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+
+import {
+  DEMO_CRM_TASKS,
+  type DemoCrmTask as Task,
+} from '../../../../lib/demo-data';
+
+const TypeIcon = ({ type }: { type: string }) => {
+  switch (type) {
+    case "Follow-up": return <RefreshCw className="size-4 inline mr-1" />;
+    case "Call": return <Phone className="size-4 inline mr-1" />;
+    case "Email": return <Mail className="size-4 inline mr-1" />;
+    case "Meeting": return <Users className="size-4 inline mr-1" />;
+    default: return <Check className="size-4 inline mr-1" />;
+  }
+};
+
+const columns: ListPageColumn<Task>[] = [
+  { key: 'title', label: 'Task', accessor: 'title', sortable: true, render: (v, r) => <><TypeIcon type={r.type} />{String(v)}</> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Badge variant="outline">{String(v)}</Badge> },
+  { key: 'priority', label: 'Priority', accessor: 'priority', sortable: true, render: (v) => <Badge variant={v === 'High' ? 'solid' : v === 'Medium' ? 'outline' : 'ghost'}>{String(v)}</Badge> },
+  { key: 'dueDate', label: 'Due', accessor: (r) => `${r.dueDate}${r.dueTime ? ` ${r.dueTime}` : ''}`, sortable: true },
+  { key: 'assignedTo', label: 'Assigned To', accessor: 'assignedTo' },
+  { key: 'linkedContact', label: 'Contact', accessor: (r) => r.linkedContact || '—' },
+  { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={v === 'Completed' ? 'solid' : v === 'Overdue' ? 'solid' : 'outline'}>{String(v)}</Badge> },
+];
+
+const filters: ListPageFilter[] = [
+  { key: 'status', label: 'Status', options: [{ value: 'Pending', label: 'Pending' }, { value: 'Completed', label: 'Completed' }, { value: 'Overdue', label: 'Overdue' }] },
+  { key: 'priority', label: 'Priority', options: [{ value: 'High', label: 'High' }, { value: 'Medium', label: 'Medium' }, { value: 'Low', label: 'Low' }] },
+  { key: 'type', label: 'Type', options: [{ value: 'Follow-up', label: 'Follow-up' }, { value: 'Call', label: 'Call' }, { value: 'Email', label: 'Email' }, { value: 'Meeting', label: 'Meeting' }, { value: 'Task', label: 'Task' }] },
+];
+
+const formFields: FormFieldConfig[] = [
+  { name: 'title', label: 'Task Title', type: 'text', required: true, colSpan: 2 },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: [{ value: 'Follow-up', label: 'Follow-up' }, { value: 'Call', label: 'Call' }, { value: 'Email', label: 'Email' }, { value: 'Meeting', label: 'Meeting' }, { value: 'Task', label: 'Task' }] },
+  { name: 'priority', label: 'Priority', type: 'select', required: true, options: [{ value: 'High', label: 'High' }, { value: 'Medium', label: 'Medium' }, { value: 'Low', label: 'Low' }] },
+  { name: 'dueDate', label: 'Due Date', type: 'date', required: true },
+  { name: 'dueTime', label: 'Due Time', type: 'text' },
+  { name: 'assignedTo', label: 'Assigned To', type: 'text', required: true },
+  { name: 'linkedContact', label: 'Linked Contact', type: 'text' },
+  { name: 'reminder', label: 'Reminder', type: 'select', options: [{ value: '15min', label: '15 minutes before' }, { value: '1hour', label: '1 hour before' }, { value: '1day', label: '1 day before' }] },
+];
+
+export default function TasksPage() {
+  const [tasks, setTasks] = useState<Task[]>(DEMO_CRM_TASKS);
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+
+  const pendingCount = tasks.filter(t => t.status === "Pending").length;
+  const overdueCount = tasks.filter(t => t.status === "Overdue").length;
+  const completedCount = tasks.filter(t => t.status === "Completed").length;
+
+  const rowActions: ListPageAction<Task>[] = [
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTask(r); setDrawerOpen(true); } },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => setTasks(tasks.map(t => t.id === r.id ? { ...t, status: 'Completed' } : t)) },
+    { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedTask(r); setEditModalOpen(true); } },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setTaskToDelete(r); setDeleteConfirmOpen(true); } },
+  ];
+
+  const handleCreate = async (data: Record<string, unknown>) => {
+    const newTask: Task = {
+      id: `TSK-${String(tasks.length + 1).padStart(3, '0')}`,
+      title: String(data.title || ''),
+      type: data.type as Task['type'],
+      priority: data.priority as Task['priority'],
+      dueDate: String(data.dueDate || ''),
+      dueTime: data.dueTime ? String(data.dueTime) : undefined,
+      assignedTo: String(data.assignedTo || ''),
+      linkedContact: data.linkedContact ? String(data.linkedContact) : undefined,
+      status: 'Pending',
+      reminder: data.reminder ? String(data.reminder) : undefined,
+    };
+    setTasks([...tasks, newTask]);
+    setCreateModalOpen(false);
+  };
+
+  const handleEdit = async (data: Record<string, unknown>) => {
+    if (!selectedTask) return;
+    setTasks(tasks.map(t => t.id === selectedTask.id ? { ...t, ...data } as Task : t));
+    setEditModalOpen(false);
+    setSelectedTask(null);
+  };
+
+  const handleDelete = () => {
+    if (taskToDelete) {
+      setTasks(tasks.filter(t => t.id !== taskToDelete.id));
+      setDeleteConfirmOpen(false);
+      setTaskToDelete(null);
+    }
+  };
+
+  // Import handler for CSV/JSON files
+  const handleImport = createImportHandler<Record<string, unknown>>({
+    entityType: 'tasks',
+    requiredFields: ['title', 'type', 'priority'],
+    onImport: async (records) => {
+      for (const record of records) {
+        const newTask: Task = {
+          id: `TSK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          title: String(record.title || ''),
+          type: record.type as Task['type'],
+          priority: record.priority as Task['priority'],
+          dueDate: String(record.dueDate || ''),
+          assignedTo: String(record.assignedTo || ''),
+          status: 'Pending',
+        };
+        setTasks(prev => [...prev, newTask]);
+      }
+    },
+  });
+
+  const importTemplates = getImportTemplates('tasks').length > 0 
+    ? getImportTemplates('tasks') 
+    : [{ id: 'default', name: 'Task Import', mapping: { title: 'title', type: 'type', priority: 'priority', dueDate: 'dueDate', assignedTo: 'assignedTo' } }];
+
+  const stats = [
+    { label: 'Total Tasks', value: tasks.length },
+    { label: 'Pending', value: pendingCount },
+    { label: 'Overdue', value: overdueCount },
+    { label: 'Completed', value: completedCount },
+  ];
+
+  const detailSections: DetailSection[] = selectedTask ? [
+    { id: 'overview', title: 'Task Details', content: (
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+        <Body size="sm"><strong>Title:</strong> {selectedTask.title}</Body>
+        <Body size="sm"><strong>Type:</strong> {selectedTask.type}</Body>
+        <Body size="sm"><strong>Priority:</strong> {selectedTask.priority}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedTask.status}</Body>
+        <Body size="sm"><strong>Due:</strong> {selectedTask.dueDate} {selectedTask.dueTime || ''}</Body>
+        <Body size="sm"><strong>Assigned To:</strong> {selectedTask.assignedTo}</Body>
+        <Body size="sm"><strong>Contact:</strong> {selectedTask.linkedContact || '—'}</Body>
+        <Body size="sm"><strong>Deal:</strong> {selectedTask.linkedDeal || '—'}</Body>
+        <Body size="sm"><strong>Reminder:</strong> {selectedTask.reminder || 'None'}</Body>
+      </Grid>
+    )},
+  ] : [];
+
+  return (
+    <AtlvsAppLayout>
+      <ListPage<Task>
+        title="Tasks & Follow-ups"
+        subtitle="Manage tasks and automated reminders"
+        data={tasks}
+        columns={columns}
+        rowKey="id"
+        loading={false}
+        searchPlaceholder="Search tasks..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedTask(r); setDrawerOpen(true); }}
+        createLabel="Create Task"
+        onCreate={() => setCreateModalOpen(true)}
+        entityType="tasks"
+        onImport={handleImport}
+        importTemplates={importTemplates}
+        importSampleFields={['title', 'type', 'priority', 'dueDate', 'assignedTo']}
+        onExport={createExportHandler({
+          filename: "tasks",
+          getData: () => tasks.map(t => ({
+            id: t.id,
+            title: t.title,
+            type: t.type,
+            priority: t.priority,
+            dueDate: t.dueDate,
+            status: t.status,
+            assignee: t.assignee || '',
+            linkedContact: t.linkedContact || '',
+          })),
+        })}
+        exportFormats={["csv", "json"]}
+        stats={stats}
+        emptyMessage="No tasks found"
+        emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
+        onBulkAction={async (action, ids) => {
+          if (action === 'delete') {
+            setTasks(prev => prev.filter(t => !ids.includes(t.id)));
+          } else if (action === 'complete') {
+            setTasks(prev => prev.map(t => ids.includes(t.id) ? { ...t, status: 'Completed' } : t));
+          }
+        }}
+        bulkActions={[
+          { id: 'complete', label: 'Complete Selected', variant: 'default' },
+          { id: 'delete', label: 'Delete Selected', variant: 'danger' },
+        ]}
+        showFavorite
+        showSettings
+      />
+
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="Create Task"
+        fields={formFields}
+        onSubmit={handleCreate}
+      />
+
+      {selectedTask && (
+        <RecordFormModal
+          open={editModalOpen}
+          onClose={() => { setEditModalOpen(false); setSelectedTask(null); }}
+          mode="edit"
+          title="Edit Task"
+          fields={formFields}
+          record={selectedTask}
+          onSubmit={handleEdit}
+        />
+      )}
+
+      {selectedTask && (
+        <DetailDrawer
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          record={selectedTask}
+          title={(t) => t.title}
+          subtitle={(t) => `${t.type} - ${t.priority} Priority`}
+          sections={detailSections}
+          onEdit={(t) => { setSelectedTask(t); setEditModalOpen(true); setDrawerOpen(false); }}
+          onDelete={(t) => { setTaskToDelete(t); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
+          actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }]}
+          onAction={(id, t) => { if (id === 'complete') setTasks(tasks.map(task => task.id === t.id ? { ...task, status: 'Completed' } : task)); }}
+        />
+      )}
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Task"
+        message={`Are you sure you want to delete "${taskToDelete?.title}"?`}
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setTaskToDelete(null); }}
+      />
+    </AtlvsAppLayout>
+  );
+}

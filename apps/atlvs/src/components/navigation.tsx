@@ -68,10 +68,10 @@ export function CreatorNavigationPublic() {
               onMouseEnter={() => handleMouseEnter("products")}
               onMouseLeave={handleMouseLeave}
             >
-              <button className="flex items-center gap-1 px-4 py-2 font-mono text-mono-sm uppercase tracking-kicker text-ink-300 transition-colors hover:text-white">
+              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Products
                 <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "products" && "rotate-180")} />
-              </button>
+              </Button>
 
               {activeMenu === "products" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
@@ -136,10 +136,10 @@ export function CreatorNavigationPublic() {
               onMouseEnter={() => handleMouseEnter("solutions")}
               onMouseLeave={handleMouseLeave}
             >
-              <button className="flex items-center gap-1 px-4 py-2 font-mono text-mono-sm uppercase tracking-kicker text-ink-300 transition-colors hover:text-white">
+              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Solutions
                 <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "solutions" && "rotate-180")} />
-              </button>
+              </Button>
 
               {activeMenu === "solutions" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
@@ -190,10 +190,10 @@ export function CreatorNavigationPublic() {
               onMouseEnter={() => handleMouseEnter("resources")}
               onMouseLeave={handleMouseLeave}
             >
-              <button className="flex items-center gap-1 px-4 py-2 font-mono text-mono-sm uppercase tracking-kicker text-ink-300 transition-colors hover:text-white">
+              <Button variant="ghost" size="sm" inverted className="font-mono text-mono-sm uppercase tracking-kicker text-ink-300 hover:text-white">
                 Resources
                 <ChevronDown className={clsx("h-4 w-4 transition-transform", activeMenu === "resources" && "rotate-180")} />
-              </button>
+              </Button>
 
               {activeMenu === "resources" && (
                 <div className="absolute left-0 top-full pt-2 z-50">
@@ -324,13 +324,16 @@ export function CreatorNavigationPublic() {
             <Stack gap={4}>
               {/* Products */}
               <div className="border-b border-ink-800 pb-4">
-                <button
+                <Button
+                  variant="ghost"
+                  inverted
+                  fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "products" ? null : "products")}
-                  className="flex items-center justify-between w-full text-h4-md uppercase tracking-kicker text-white"
+                  className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Products
                   <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "products" && "rotate-90")} />
-                </button>
+                </Button>
                 {mobileSubmenu === "products" && (
                   <Stack gap={2} className="mt-4 pl-4">
                     {productsNavigation.products.map((product) => (
@@ -350,13 +353,16 @@ export function CreatorNavigationPublic() {
 
               {/* Solutions */}
               <div className="border-b border-ink-800 pb-4">
-                <button
+                <Button
+                  variant="ghost"
+                  inverted
+                  fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "solutions" ? null : "solutions")}
-                  className="flex items-center justify-between w-full text-h4-md uppercase tracking-kicker text-white"
+                  className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Solutions
                   <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "solutions" && "rotate-90")} />
-                </button>
+                </Button>
                 {mobileSubmenu === "solutions" && (
                   <Stack gap={4} className="mt-4 pl-4">
                     {solutionsNavigation.groups.map((group) => (
@@ -382,13 +388,16 @@ export function CreatorNavigationPublic() {
 
               {/* Resources */}
               <div className="border-b border-ink-800 pb-4">
-                <button
+                <Button
+                  variant="ghost"
+                  inverted
+                  fullWidth
                   onClick={() => setMobileSubmenu(mobileSubmenu === "resources" ? null : "resources")}
-                  className="flex items-center justify-between w-full text-h4-md uppercase tracking-kicker text-white"
+                  className="justify-between text-h4-md uppercase tracking-kicker"
                 >
                   Resources
                   <ChevronRight className={clsx("h-5 w-5 transition-transform", mobileSubmenu === "resources" && "rotate-90")} />
-                </button>
+                </Button>
                 {mobileSubmenu === "resources" && (
                   <Stack gap={4} className="mt-4 pl-4">
                     {resourcesNavigation.groups.map((group) => (

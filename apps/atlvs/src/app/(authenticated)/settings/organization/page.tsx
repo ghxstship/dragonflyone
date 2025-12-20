@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Building2, Upload, Globe, MapPin, Phone, Mail, Save, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface OrganizationSettings {
   id: string;
@@ -440,9 +441,9 @@ export default function OrganizationSettingsPage() {
               <p className="text-body-xs text-muted-foreground mb-2">
                 PNG, JPG up to 2MB
               </p>
-              <button className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors text-body-sm">
+              <Button variant="outline" size="sm">
                 Upload Logo
-              </button>
+              </Button>
             </div>
           </div>
         </div>

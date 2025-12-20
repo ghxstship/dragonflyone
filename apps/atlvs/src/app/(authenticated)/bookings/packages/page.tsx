@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Package, DollarSign, Check, Star } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface BookingPackage {
   id: string;
@@ -161,19 +162,21 @@ export default function BookingPackagesPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-1">
-                    <button className="p-1.5 hover:bg-muted rounded-button transition-colors">
+                    <Button variant="ghost" size="icon" className="p-1.5">
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       onClick={() => {
                         if (confirm('Delete this package?')) {
                           deletePackage.mutate(pkg.id);
                         }
                       }}
-                      className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
+                      className="p-1.5 hover:bg-destructive/10"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <div className="space-y-2 mb-4">

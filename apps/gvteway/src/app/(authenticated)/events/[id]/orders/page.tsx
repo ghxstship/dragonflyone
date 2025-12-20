@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Search, Ticket, DollarSign, User, Mail, MoreVertical, XCircle, RefreshCw } from 'lucide-react';
 import { useTicketOrders, useCancelOrder, useRefundOrder } from '@/hooks/useTicketing';
+import { Button } from '@ghxstship/ui';
 
 export default function EventOrdersPage() {
   const params = useParams();
@@ -212,26 +213,34 @@ export default function EventOrdersPage() {
                     </div>
                     {order.status === 'completed' && (
                       <div className="relative group">
-                        <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                        <Button variant="ghost" size="icon" className="p-2">
                           <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                        </button>
+                        </Button>
                         <div className="absolute right-0 top-full mt-1 bg-background border-2 border-border rounded-card shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            fullWidth
                             onClick={() => handleCancel(order.id)}
                             disabled={cancelMutation.isPending}
-                            className="w-full px-4 py-2 text-left text-body-sm hover:bg-muted transition-colors flex items-center gap-2"
+                            icon={<XCircle className="h-4 w-4" />}
+                            iconPosition="left"
+                            className="justify-start"
                           >
-                            <XCircle className="h-4 w-4" />
                             Cancel
-                          </button>
-                          <button
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            fullWidth
                             onClick={() => handleRefund(order.id)}
                             disabled={refundMutation.isPending}
-                            className="w-full px-4 py-2 text-left text-body-sm text-destructive hover:bg-destructive/10 transition-colors flex items-center gap-2"
+                            icon={<DollarSign className="h-4 w-4" />}
+                            iconPosition="left"
+                            className="justify-start text-destructive hover:text-destructive"
                           >
-                            <DollarSign className="h-4 w-4" />
                             Refund
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     )}

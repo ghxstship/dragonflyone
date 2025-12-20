@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArrowLeft, Layout, Edit, Trash2, Copy, Download, Maximize2 } from 'lucide-react';
 import { useFloorPlan, useDeleteFloorPlan } from '@/hooks/useFloorPlans';
 import { useRouter } from 'next/navigation';
+import { Button } from '@ghxstship/ui';
 
 export default function FloorPlanDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -107,9 +108,9 @@ export default function FloorPlanDetailPage({ params }: { params: { id: string }
           <div className="bg-background border-2 border-border rounded-card overflow-hidden">
             <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
               <span className="text-body-sm font-weight-medium">Floor Plan View</span>
-              <button className="p-2 hover:bg-muted rounded-button transition-colors" title="Fullscreen">
+              <Button variant="ghost" size="icon" className="p-2" title="Fullscreen">
                 <Maximize2 className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
             <div 
               className="relative bg-muted/20 flex items-center justify-center"

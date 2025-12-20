@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Layers, Users, Check } from 'lucide-react';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface SpaceCombination {
   id: string;
@@ -92,26 +93,18 @@ export default function SpaceCombinationsPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Combination</span>
-        </button>
+        <Button variant="solid" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
+          New Combination
+        </Button>
       </div>
 
       {combinations.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Layers className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-body-md text-muted-foreground">No space combinations configured</p>
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
-          >
-            <Plus className="h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Create your first combination
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -134,12 +127,12 @@ export default function SpaceCombinationsPage() {
                   )}
                 </div>
                 <div className="flex items-center gap-1">
-                  <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                  <Button variant="ghost" size="icon" className="p-2">
                     <Edit2 className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                  <button className="p-2 hover:bg-destructive/10 rounded-button transition-colors">
+                  </Button>
+                  <Button variant="ghost" size="icon" className="p-2 hover:bg-destructive/10">
                     <Trash2 className="h-4 w-4 text-destructive" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="flex flex-wrap gap-2 mb-3">
@@ -275,23 +268,12 @@ export default function SpaceCombinationsPage() {
                 </select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowAddForm(false);
-                    setSelectedSpaces([]);
-                  }}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
+                <Button variant="outline" size="sm" type="button" onClick={() => { setShowAddForm(false); setSelectedSpaces([]); }}>
                   Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={createCombination.isPending || selectedSpaces.length < 2}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {createCombination.isPending ? 'Creating...' : 'Create Combination'}
-                </button>
+                </Button>
+                <Button variant="solid" size="sm" type="submit" disabled={createCombination.isPending || selectedSpaces.length < 2} isLoading={createCombination.isPending} loadingText="Creating...">
+                  Create Combination
+                </Button>
               </div>
             </form>
           </div>

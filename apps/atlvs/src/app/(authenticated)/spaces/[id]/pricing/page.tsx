@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useSpace, useSpacePricingRules } from '@/hooks/useSpaces';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@ghxstship/ui';
 
 interface PricingRule {
   id: string;
@@ -104,26 +105,18 @@ export default function SpacePricingPage() {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Add Rule</span>
-        </button>
+        <Button variant="solid" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
+          Add Rule
+        </Button>
       </div>
 
       {rules.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
           <p className="text-body-md text-muted-foreground">No pricing rules configured</p>
-          <button
-            onClick={() => setShowAddForm(true)}
-            className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
-          >
-            <Plus className="h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Add your first pricing rule
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
@@ -174,12 +167,12 @@ export default function SpacePricingPage() {
                   )}
                 </div>
                 <div className="flex items-center gap-2">
-                  <button className="p-2 hover:bg-muted rounded-button transition-colors">
+                  <Button variant="ghost" size="icon" className="p-2">
                     <Edit2 className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                  <button className="p-2 hover:bg-destructive/10 rounded-button transition-colors">
+                  </Button>
+                  <Button variant="ghost" size="icon" className="p-2 hover:bg-destructive/10">
                     <Trash2 className="h-4 w-4 text-destructive" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -261,20 +254,12 @@ export default function SpacePricingPage() {
                 />
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddForm(false)}
-                  className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
-                >
+                <Button variant="outline" size="sm" type="button" onClick={() => setShowAddForm(false)}>
                   Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={createRule.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {createRule.isPending ? 'Adding...' : 'Add Rule'}
-                </button>
+                </Button>
+                <Button variant="solid" size="sm" type="submit" disabled={createRule.isPending} isLoading={createRule.isPending} loadingText="Adding...">
+                  Add Rule
+                </Button>
               </div>
             </form>
           </div>

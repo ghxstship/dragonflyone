@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { ArrowLeft, CheckCircle, XCircle, RefreshCw, Settings, Zap, Clock, AlertTriangle } from 'lucide-react';
+import { Button } from '@ghxstship/ui';
 
 interface IntegrationConfig {
   provider: string;
@@ -168,14 +169,18 @@ export default function IntegrationProviderPage() {
                   Trigger a full data sync now
                 </p>
               </div>
-              <button
+              <Button
+                variant="solid"
+                size="sm"
                 onClick={handleSync}
                 disabled={isSyncing}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
+                isLoading={isSyncing}
+                loadingText="Syncing..."
+                icon={<RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />}
+                iconPosition="left"
               >
-                <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-                {isSyncing ? 'Syncing...' : 'Sync Now'}
-              </button>
+                Sync Now
+              </Button>
             </div>
           </div>
 
@@ -259,9 +264,9 @@ export default function IntegrationProviderPage() {
                 This will stop all syncing and remove stored credentials
               </p>
             </div>
-            <button className="px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors">
+            <Button variant="destructive" size="sm">
               Disconnect
-            </button>
+            </Button>
           </div>
         </>
       )}
@@ -275,10 +280,9 @@ export default function IntegrationProviderPage() {
           <p className="text-body-sm text-muted-foreground mb-4 max-w-md mx-auto">
             {integration.description}
           </p>
-          <button className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors">
-            <Zap className="h-4 w-4" />
+          <Button variant="solid" size="sm" icon={<Zap className="h-4 w-4" />} iconPosition="left">
             Connect Now
-          </button>
+          </Button>
         </div>
       )}
     </div>
