@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState, useCallback, useEffect, ReactNode } from "react";
+import { forwardRef, useState, useCallback, useEffect, useRef, ReactNode } from "react";
 import clsx from "clsx";
 import type { HTMLAttributes } from "react";
 import {
@@ -126,28 +126,59 @@ import {
 // TYPES - ClickUp-style navigation structure
 // =============================================================================
 
+export type NavBadgeVariant = 'count' | 'dot' | 'new' | 'alert';
+
+export interface NavBadge {
+  value?: string | number;
+  variant: NavBadgeVariant;
+  tooltip?: string;
+}
+
 export type SidebarNavItem = {
+  /** Unique identifier */
+  id?: string;
   label: string;
   href: string;
   icon?: string;
-  badge?: string | number;
+  /** Badge can be a simple string/number or structured NavBadge */
+  badge?: string | number | NavBadge;
   primary?: boolean;
   /** Roles allowed to see this item (empty = all roles) */
   allowedRoles?: string[];
+  /** Can this item be pinned to favorites */
+  pinnable?: boolean;
+  /** Is this item currently pinned */
+  pinned?: boolean;
+  /** Keyboard shortcut hint */
+  shortcut?: string;
+  /** Is this item disabled */
+  disabled?: boolean;
+  /** Tooltip when disabled */
+  disabledReason?: string;
 };
 
 export type SidebarNavSubsection = {
+  id?: string;
   label: string;
   items: SidebarNavItem[];
+  /** Roles allowed to see this subsection */
+  allowedRoles?: string[];
+  /** Default collapsed state */
+  defaultCollapsed?: boolean;
 };
 
 export type SidebarNavSection = {
+  id?: string;
   section: string;
   icon?: string;
   items: SidebarNavItem[];
   subsections?: SidebarNavSubsection[];
   /** Roles allowed to see this section (empty = all roles) */
   allowedRoles?: string[];
+  /** Default collapsed state */
+  defaultCollapsed?: boolean;
+  /** Section-level badge */
+  badge?: string | number | NavBadge;
 };
 
 export type AppSidebarProps = HTMLAttributes<HTMLElement> & {
@@ -185,6 +216,14 @@ export type AppSidebarProps = HTMLAttributes<HTMLElement> & {
   storageKey?: string;
   /** Context indicator for collapsed state (shows current project/workspace) */
   contextIndicator?: { name: string; color?: string };
+  /** Enable inline navigation search */
+  enableSearch?: boolean;
+  /** Callback when pinning/unpinning an item */
+  onPinItem?: (itemId: string, pinned: boolean) => void;
+  /** Enable keyboard navigation (arrow keys) */
+  enableKeyboardNav?: boolean;
+  /** Show expand/collapse all button */
+  showExpandCollapseAll?: boolean;
 };
 
 // =============================================================================
@@ -336,6 +375,79 @@ function SidebarIcon({
   );
 }
 
+// Badge rendering helper
+function SidebarBadge({
+  badge,
+  inverted = true,
+}: {
+  badge: string | number | NavBadge;
+  inverted?: boolean;
+}) {
+  // Handle structured NavBadge
+  if (typeof badge === 'object' && badge !== null) {
+    const { value, variant, tooltip } = badge;
+    
+    // Dot variant - just a colored dot
+    if (variant === 'dot') {
+      return (
+        <span
+          className="w-2 h-2 rounded-full bg-primary-500 flex-shrink-0"
+          title={tooltip}
+        />
+      );
+    }
+    
+    // Alert variant - red background
+    if (variant === 'alert') {
+      return (
+        <span
+          className="px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-error-500 text-white flex-shrink-0"
+          title={tooltip}
+        >
+          {value}
+        </span>
+      );
+    }
+    
+    // New variant - accent color
+    if (variant === 'new') {
+      return (
+        <span
+          className="px-1.5 py-0.5 text-[10px] font-bold rounded bg-accent-500 text-ink-900 flex-shrink-0"
+          title={tooltip}
+        >
+          NEW
+        </span>
+      );
+    }
+    
+    // Count variant (default)
+    return (
+      <span
+        className={clsx(
+          "px-1.5 py-0.5 text-[10px] font-mono rounded flex-shrink-0",
+          inverted ? "bg-ink-700 text-ink-300" : "bg-ink-200 text-ink-600"
+        )}
+        title={tooltip}
+      >
+        {value}
+      </span>
+    );
+  }
+  
+  // Simple string/number badge
+  return (
+    <span
+      className={clsx(
+        "px-1.5 py-0.5 text-[10px] font-mono rounded flex-shrink-0",
+        inverted ? "bg-ink-700 text-ink-300" : "bg-ink-200 text-ink-600"
+      )}
+    >
+      {badge}
+    </span>
+  );
+}
+
 // =============================================================================
 // APP SIDEBAR COMPONENT - ClickUp-style
 // =============================================================================
@@ -360,6 +472,10 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
       userRoles = [],
       storageKey = "ghxstship-sidebar",
       contextIndicator,
+      enableSearch = false,
+      onPinItem,
+      enableKeyboardNav = true,
+      showExpandCollapseAll = false,
       className,
       ...props
     },
@@ -368,6 +484,9 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
     const [internalCollapsed, setInternalCollapsed] = useState(false);
     const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
     const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [focusedIndex, setFocusedIndex] = useState(-1);
+    const sidebarRef = useRef<HTMLElement>(null);
 
     // Support both controlled and uncontrolled collapse
     const collapsed = controlledCollapsed ?? internalCollapsed;
@@ -468,6 +587,94 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
       });
     }, []);
 
+    // Expand all sections
+    const expandAll = useCallback(() => {
+      const allSectionNames = filteredSections.map(s => s.section);
+      setExpandedSections(new Set(allSectionNames));
+    }, [filteredSections]);
+
+    // Collapse all sections
+    const collapseAll = useCallback(() => {
+      setExpandedSections(new Set());
+    }, []);
+
+    // Get all navigable items flattened for keyboard navigation
+    const allNavigableItems = useCallback(() => {
+      const items: SidebarNavItem[] = [];
+      for (const section of filteredSections) {
+        if (expandedSections.has(section.section)) {
+          items.push(...section.items);
+          if (section.subsections) {
+            for (const sub of section.subsections) {
+              items.push(...sub.items);
+            }
+          }
+        }
+      }
+      return items.filter(item => !item.disabled);
+    }, [filteredSections, expandedSections]);
+
+    // Filter items by search query
+    const searchFilteredSections = useCallback(() => {
+      if (!searchQuery.trim()) return filteredSections;
+      
+      const query = searchQuery.toLowerCase();
+      return filteredSections
+        .map(section => ({
+          ...section,
+          items: section.items.filter(item => 
+            item.label.toLowerCase().includes(query)
+          ),
+          subsections: section.subsections?.map(sub => ({
+            ...sub,
+            items: sub.items.filter(item =>
+              item.label.toLowerCase().includes(query)
+            ),
+          })).filter(sub => sub.items.length > 0),
+        }))
+        .filter(section => section.items.length > 0 || (section.subsections && section.subsections.length > 0));
+    }, [filteredSections, searchQuery]);
+
+    // Keyboard navigation handler
+    const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+      if (!enableKeyboardNav) return;
+      
+      const items = allNavigableItems();
+      if (items.length === 0) return;
+      
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setFocusedIndex(prev => (prev >= items.length - 1 ? 0 : prev + 1));
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setFocusedIndex(prev => (prev <= 0 ? items.length - 1 : prev - 1));
+          break;
+        case 'Enter':
+          if (focusedIndex >= 0 && focusedIndex < items.length) {
+            e.preventDefault();
+            const item = items[focusedIndex];
+            if (item && onNavigate) {
+              onNavigate(item.href);
+            }
+          }
+          break;
+        case 'Escape':
+          e.preventDefault();
+          setSearchQuery("");
+          setFocusedIndex(-1);
+          break;
+      }
+    }, [enableKeyboardNav, allNavigableItems, focusedIndex, onNavigate]);
+
+    // Handle pin/unpin
+    const handlePinItem = useCallback((itemId: string, currentlyPinned: boolean) => {
+      if (onPinItem) {
+        onPinItem(itemId, !currentlyPinned);
+      }
+    }, [onPinItem]);
+
     const handleNavigate = useCallback(
       (href: string, e: React.MouseEvent) => {
         if (onNavigate) {
@@ -480,55 +687,91 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
 
     const isItemActive = (href: string) =>
       currentPath === href || currentPath.startsWith(href + "/");
+    
+    // Get sections to render (search filtered or all)
+    const sectionsToRender = enableSearch ? searchFilteredSections() : filteredSections;
 
     // Render a single nav item
     const renderNavItem = (item: SidebarNavItem, indent = false) => {
       const active = isItemActive(item.href);
+      const itemId = item.id || item.href;
+      
       return (
-        <a
+        <div
           key={item.href}
-          href={item.href}
-          onClick={(e) => handleNavigate(item.href, e)}
-          className={clsx(
-            "group flex items-center gap-3 py-1.5 text-sm rounded transition-all duration-100",
-            indent ? "pl-9 pr-3" : "px-3",
-            collapsed && "justify-center px-2",
-            active
-              ? inverted
-                ? "bg-primary-500 text-white font-medium"
-                : "bg-primary-500 text-white font-medium"
-              : inverted
-                ? "text-ink-300 hover:bg-ink-800 hover:text-white"
-                : "text-ink-600 hover:bg-ink-100 hover:text-ink-900",
-            item.primary && !active && "font-medium"
-          )}
-          title={collapsed ? item.label : undefined}
+          className="group relative"
         >
-          {item.icon && (
-            <SidebarIcon 
-              name={item.icon} 
+          <a
+            href={item.href}
+            onClick={(e) => handleNavigate(item.href, e)}
+            className={clsx(
+              "flex items-center gap-3 py-1.5 text-sm rounded transition-all duration-100",
+              indent ? "pl-9 pr-3" : "px-3",
+              collapsed && "justify-center px-2",
+              active
+                ? inverted
+                  ? "bg-primary-500 text-white font-medium"
+                  : "bg-primary-500 text-white font-medium"
+                : inverted
+                  ? "text-ink-300 hover:bg-ink-800 hover:text-white"
+                  : "text-ink-600 hover:bg-ink-100 hover:text-ink-900",
+              item.primary && !active && "font-medium",
+              item.disabled && "opacity-50 pointer-events-none"
+            )}
+            title={collapsed ? item.label : (item.disabled ? item.disabledReason : undefined)}
+            aria-disabled={item.disabled}
+          >
+            {item.icon && (
+              <SidebarIcon 
+                name={item.icon} 
+                className={clsx(
+                  "flex-shrink-0",
+                  active ? "text-white" : inverted ? "text-ink-400" : "text-ink-500"
+                )} 
+              />
+            )}
+            {!collapsed && (
+              <>
+                <span className="flex-1 truncate">{item.label}</span>
+                {item.shortcut && (
+                  <kbd className={clsx(
+                    "hidden lg:inline-flex text-[10px] font-mono px-1 rounded",
+                    inverted ? "bg-ink-800 text-ink-500" : "bg-ink-100 text-ink-400"
+                  )}>
+                    {item.shortcut}
+                  </kbd>
+                )}
+                {item.badge && (
+                  <SidebarBadge badge={item.badge} inverted={inverted} />
+                )}
+              </>
+            )}
+          </a>
+          {/* Pin button - shows on hover when item is pinnable */}
+          {item.pinnable && !collapsed && onPinItem && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePinItem(itemId, !!item.pinned);
+              }}
               className={clsx(
-                "flex-shrink-0",
-                active ? "text-white" : inverted ? "text-ink-400" : "text-ink-500"
-              )} 
-            />
-          )}
-          {!collapsed && (
-            <>
-              <span className="flex-1 truncate">{item.label}</span>
-              {item.badge && (
-                <span
-                  className={clsx(
-                    "px-1.5 py-0.5 text-[10px] font-mono rounded flex-shrink-0",
-                    inverted ? "bg-ink-700 text-ink-300" : "bg-ink-200 text-ink-600"
-                  )}
-                >
-                  {item.badge}
-                </span>
+                "absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity",
+                item.pinned
+                  ? inverted
+                    ? "text-accent-500 hover:bg-ink-700"
+                    : "text-accent-500 hover:bg-ink-100"
+                  : inverted
+                    ? "text-ink-500 hover:text-accent-500 hover:bg-ink-700"
+                    : "text-ink-400 hover:text-accent-500 hover:bg-ink-100"
               )}
-            </>
+              title={item.pinned ? "Unpin from favorites" : "Pin to favorites"}
+              aria-label={item.pinned ? "Unpin from favorites" : "Pin to favorites"}
+            >
+              <SidebarIcon name="Star" size={14} />
+            </button>
           )}
-        </a>
+        </div>
       );
     };
 
@@ -611,9 +854,24 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
       );
     };
 
+    // Combine refs for sidebar
+    const combinedRef = useCallback(
+      (node: HTMLElement | null) => {
+        // Update internal ref
+        (sidebarRef as React.MutableRefObject<HTMLElement | null>).current = node;
+        // Forward ref
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          (ref as React.MutableRefObject<HTMLElement | null>).current = node;
+        }
+      },
+      [ref]
+    );
+
     return (
       <aside
-        ref={ref}
+        ref={combinedRef}
         className={clsx(
           "flex flex-col h-screen border-r-2 transition-all duration-200",
           collapsed ? "w-16" : "w-64",
@@ -622,6 +880,8 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
             : "bg-white border-ink-200 text-ink-900",
           className
         )}
+        onKeyDown={handleKeyDown}
+        tabIndex={enableKeyboardNav ? 0 : undefined}
         {...props}
       >
         {/* Header: Logo + Workspace Selector */}
@@ -657,10 +917,56 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           </div>
         )}
 
-        {/* Search */}
+        {/* Search - custom or inline */}
         {search && !collapsed && (
           <div className={clsx("px-3 py-2 border-b-2 flex-shrink-0", inverted ? "border-ink-800" : "border-ink-200")}>
             {search}
+          </div>
+        )}
+        
+        {/* Inline Navigation Search */}
+        {enableSearch && !search && !collapsed && (
+          <div className={clsx("px-3 py-2 border-b-2 flex-shrink-0", inverted ? "border-ink-800" : "border-ink-200")}>
+            <div className={clsx(
+              "flex items-center gap-2 px-2 py-1.5 rounded border-2 transition-colors",
+              inverted 
+                ? "bg-ink-900 border-ink-700 focus-within:border-ink-500" 
+                : "bg-white border-ink-200 focus-within:border-ink-400"
+            )}>
+              <SidebarIcon name="Search" size={14} className={inverted ? "text-ink-500" : "text-ink-400"} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Filter navigation..."
+                className={clsx(
+                  "flex-1 bg-transparent text-sm outline-none placeholder:text-ink-500",
+                  inverted ? "text-white" : "text-ink-900"
+                )}
+                aria-label="Filter navigation"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery("")}
+                  className={clsx(
+                    "p-0.5 rounded transition-colors",
+                    inverted ? "text-ink-500 hover:text-white" : "text-ink-400 hover:text-ink-600"
+                  )}
+                  aria-label="Clear search"
+                >
+                  <SidebarIcon name="X" size={12} />
+                </button>
+              )}
+            </div>
+            {searchQuery && sectionsToRender.length === 0 && (
+              <div className={clsx(
+                "mt-2 text-xs text-center py-2",
+                inverted ? "text-ink-500" : "text-ink-400"
+              )}>
+                No results for &quot;{searchQuery}&quot;
+              </div>
+            )}
           </div>
         )}
 
@@ -758,9 +1064,45 @@ export const AppSidebar = forwardRef<HTMLElement, AppSidebarProps>(
           </div>
         )}
 
+        {/* Expand/Collapse All */}
+        {showExpandCollapseAll && !collapsed && (
+          <div className={clsx("px-3 py-1 flex justify-end gap-1 border-b-2 flex-shrink-0", inverted ? "border-ink-800" : "border-ink-200")}>
+            <button
+              type="button"
+              onClick={expandAll}
+              className={clsx(
+                "px-2 py-0.5 text-[10px] font-medium rounded transition-colors",
+                inverted
+                  ? "text-ink-400 hover:text-white hover:bg-ink-800"
+                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+              )}
+              title="Expand all sections"
+            >
+              Expand
+            </button>
+            <button
+              type="button"
+              onClick={collapseAll}
+              className={clsx(
+                "px-2 py-0.5 text-[10px] font-medium rounded transition-colors",
+                inverted
+                  ? "text-ink-400 hover:text-white hover:bg-ink-800"
+                  : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"
+              )}
+              title="Collapse all sections"
+            >
+              Collapse
+            </button>
+          </div>
+        )}
+
         {/* Main Navigation */}
-        <nav className="flex-1 overflow-y-auto py-2 px-2 scrollbar-thin">
-          {filteredSections.map(renderSection)}
+        <nav 
+          className="flex-1 overflow-y-auto py-2 px-2 scrollbar-thin"
+          role="navigation"
+          aria-label="Main navigation"
+        >
+          {sectionsToRender.map(renderSection)}
         </nav>
 
         {/* Collapse Toggle */}

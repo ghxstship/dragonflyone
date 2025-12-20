@@ -370,16 +370,16 @@ export default function Home() {
             </Card>
 
             {/* Enterprise */}
-            <Card className="border-2 border-ink-950 bg-ink-950 p-6 text-center">
+            <Card inverted className="border-2 border-white p-6 text-center">
               <Stack gap={4} className="items-center">
-                <Label size="xs" className="text-grey-500">FULL STACK</Label>
+                <Label size="xs" className="text-grey-400">FULL STACK</Label>
                 <H3 className="text-white">REPLACE EVERYTHING</H3>
                 <Display size="md" className="text-white">$1,499</Display>
-                <Body size="sm" className="text-grey-400">All three products. Lowest fees. One platform.</Body>
+                <Body size="sm" className="text-grey-300">All three products. Lowest fees. One platform.</Body>
                 <Stack gap={2} className="w-full text-left">
-                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">ATLVS + COMPVSS + GVTEWAY</Text></Stack>
-                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">2.0% transaction fees</Text></Stack>
-                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-300">Dedicated CSM + SLA</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-200">ATLVS + COMPVSS + GVTEWAY</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-200">2.0% transaction fees</Text></Stack>
+                  <Stack direction="horizontal" gap={2} className="items-center"><Check className="h-4 w-4 text-brand-pink" /><Text size="sm" className="text-grey-200">Dedicated CSM + SLA</Text></Stack>
                 </Stack>
                 <NextLink href="/contact?plan=enterprise" className="w-full"><Button variant="outlineWhite" size="md" fullWidth>Go Enterprise</Button></NextLink>
               </Stack>

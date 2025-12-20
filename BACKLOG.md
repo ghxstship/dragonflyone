@@ -82,15 +82,23 @@ Comprehensive navigation UX optimization across all 5 navigation types (Sidebar,
 - GVTEWAY: 7 sections, ~64 links
 - Total: ~207 sidebar navigation items
 
-**Implementation Gaps:**
+**Implementation Gaps (Updated December 19, 2025):**
 
-| Gap | Files Affected | Priority |
-|-----|----------------|----------|
-| No role-based navigation filtering | 3 app-layout.tsx files | P1 |
-| Favorites section not implemented | 3 app-layout.tsx files | P2 |
-| No "Recent" section | 3 app-layout.tsx files | P2 |
-| Sidebar collapse state not persisted | packages/ui/src/organisms/app-sidebar.tsx | P2 |
-| Section expansion state not persisted | packages/ui/src/organisms/app-sidebar.tsx | P2 |
+| Gap | Files Affected | Priority | Status |
+|-----|----------------|----------|--------|
+| No role-based navigation filtering | 3 app-layout.tsx files | P1 | ✅ Complete |
+| Favorites section not implemented | 3 app-layout.tsx files | P2 | ✅ Complete |
+| No "Recent" section | 3 app-layout.tsx files | P2 | ✅ Complete |
+| Sidebar collapse state not persisted | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Section expansion state not persisted | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Badge support (count, dot, new, alert) | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Inline navigation search | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Keyboard navigation (arrow keys) | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Pin/unpin items to favorites | packages/ui/src/organisms/app-sidebar.tsx | P2 | ✅ Complete |
+| Expand/collapse all sections | packages/ui/src/organisms/app-sidebar.tsx | P3 | ✅ Complete |
+| Frecency-based ordering | packages/config/hooks/useEnhancedNavigation.ts | P2 | ✅ Complete |
+| Drag-to-reorder sections | packages/ui/src/organisms/app-sidebar.tsx | P3 | ⏳ Deferred |
+| Real-time activity badges from API | packages/config/hooks/useEnhancedNavigation.ts | P3 | ⏳ Deferred |
 
 **File-by-File Checklist:**
 

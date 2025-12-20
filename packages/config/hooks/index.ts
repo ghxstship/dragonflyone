@@ -146,3 +146,14 @@ export type {
   OptimisticUpdateOptions,
   OptimisticUpdateReturn,
 } from './useOptimisticUpdate';
+
+// Enhanced navigation hook
+export {
+  useEnhancedNavigation,
+  useNavigationBadges,
+} from './useEnhancedNavigation';
+export type {
+  UseEnhancedNavigationOptions,
+  UseEnhancedNavigationResult,
+  UseBadgeOptions,
+} from './useEnhancedNavigation';

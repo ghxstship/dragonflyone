@@ -212,3 +212,9 @@ export * from './catalog-categories';
 
 // Catalog categories hooks
 export * from './hooks/useCatalogCategories';
+
+// Navigation types and utilities
+export * from './navigation-types';
+
+// Enhanced navigation hook
+export * from './hooks/useEnhancedNavigation';

@@ -8,6 +8,7 @@
     · missingSuspenseWithCSRBailout
 
    Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (128kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
  ✓ Compiled successfully
    Skipping validation of types
    Skipping linting
@@ -28,7 +29,7 @@
  ⚠ Entire page "/advancing" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/advancing/page.js:1:4830)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
@@ -39,8 +40,19 @@
  ⚠ Entire page "/bid-portal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/bid-portal/page.js:1:3061)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/communications/channels" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at j (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/communications/channels/page.js:1:2884)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -51,30 +63,8 @@
  ⚠ Entire page "/crew-social" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/crew-social/page.js:1:2723)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/communications/channels" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at j (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/communications/channels/page.js:1:2884)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/mentorship" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at y (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/mentorship/page.js:1:3524)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -84,30 +74,8 @@
  ⚠ Entire page "/emergency" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/emergency/page.js:1:3168)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/knowledge/offline" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/offline/page.js:1:3435)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/opportunities" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/page.js:1:2508)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -117,7 +85,7 @@
  ⚠ Entire page "/knowledge/brand-guidelines" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at y (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/brand-guidelines/page.js:1:3481)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
@@ -125,34 +93,56 @@
     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/knowledge/offline" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/offline/page.js:1:3435)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/knowledge/multilingual" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/multilingual/page.js:1:3404)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/mentorship" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at y (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/mentorship/page.js:1:3524)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/opportunities" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/page.js:1:2508)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
    Generating static pages (62/126) 
- ⚠ Entire page "/qa-checkpoints" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/opportunities/bid-decision" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/qa-checkpoints/page.js:1:3184)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/opportunities/mobile" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/mobile/page.js:1:3117)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/opportunities/win-loss" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/win-loss/page.js:1:3164)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/bid-decision/page.js:1:3137)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -162,7 +152,7 @@
  ⚠ Entire page "/punch-list" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/punch-list/page.js:1:3259)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
@@ -173,7 +163,7 @@
  ⚠ Entire page "/opportunities/proposals" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/proposals/page.js:1:3132)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
@@ -181,88 +171,33 @@
     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/knowledge/multilingual" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/opportunities/mobile" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/knowledge/multilingual/page.js:1:3404)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/mobile/page.js:1:3117)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/photo-documentation" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/opportunities/win-loss" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/photo-documentation/page.js:1:3229)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/win-loss/page.js:1:3164)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/risk-register" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/qa-checkpoints" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/risk-register/page.js:1:3253)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/soundcheck" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/soundcheck/page.js:1:3223)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/opportunities/bid-decision" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/opportunities/bid-decision/page.js:1:3137)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/social-amplification" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at v (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/social-amplification/page.js:1:3662)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/show-call" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/show-call/page.js:1:2633)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/site-access" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/site-access/page.js:1:3517)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/qa-checkpoints/page.js:1:3184)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -272,7 +207,7 @@
  ⚠ Entire page "/set-times" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/set-times/page.js:1:3178)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
@@ -280,45 +215,11 @@
     at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
-   Generating static pages (94/126) 
- ⚠ Entire page "/stakeholder-portal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+ ⚠ Entire page "/risk-register" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/stakeholder-portal/page.js:1:3460)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/weather-contingency" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/weather-contingency/page.js:1:3217)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/tech-rehearsal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/tech-rehearsal/page.js:1:2687)
-    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
-    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
-    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
-    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
- ⚠ Entire page "/vip-management" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
-    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
-    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
-    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/vip-management/page.js:1:3415)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/risk-register/page.js:1:3253)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -328,8 +229,97 @@
  ⚠ Entire page "/settlement" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
     at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
     at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
-    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
     at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/settlement/page.js:1:3539)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/photo-documentation" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/photo-documentation/page.js:1:3229)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/show-call" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/show-call/page.js:1:2633)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+   Generating static pages (94/126) 
+ ⚠ Entire page "/site-access" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/site-access/page.js:1:3517)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/stakeholder-portal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at m (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/stakeholder-portal/page.js:1:3460)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/tech-rehearsal" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at d (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/tech-rehearsal/page.js:1:2687)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/social-amplification" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at v (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/social-amplification/page.js:1:3662)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/soundcheck" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/soundcheck/page.js:1:3223)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
+ ⚠ Entire page "/weather-contingency" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at u (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/weather-contingency/page.js:1:3217)
     at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
@@ -358,6 +348,17 @@
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
     at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
     at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+ ⚠ Entire page "/vip-management" deopted into client-side rendering due to "useSearchParams()". Read more: https://nextjs.org/docs/messages/deopted-into-client-rendering
+    at n (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:677842)
+    at h (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/9158.js:41:688827)
+    at E (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/chunks/8072.js:10:4905)
+    at p (/Users/julianclarkson/Documents/Dragonflyone/apps/compvss/.next/server/app/vip-management/page.js:1:3415)
+    at nj (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:46252)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47572)
+    at nL (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64547)
+    at nI (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47011)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:47718)
+    at nM (/Users/julianclarkson/Documents/Dragonflyone/node_modules/.pnpm/next@14.2.34_@babel+core@7.28.5_@opentelemetry+api@1.9.0_@playwright+test@1.56.1_react-dom@18_7hgdyk63qyoywe26j4c7wzx2ra/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61547)
  ✓ Generating static pages (126/126)
    Finalizing page optimization ...
    Collecting build traces ...
@@ -365,10 +366,10 @@
 Route (app)                                             Size     First Load JS
 ┌ ƒ /                                                   148 B          87.9 kB
 ├ ○ /_not-found                                         148 B          87.9 kB
-├ ○ /advancing                                          1.98 kB         644 kB
-├ ƒ /advancing/[id]                                     2.41 kB         644 kB
-├ ○ /advancing/catalog                                  2.88 kB         458 kB
-├ ○ /advancing/new                                      2.55 kB         644 kB
+├ ○ /advancing                                          1.99 kB         645 kB
+├ ƒ /advancing/[id]                                     2.42 kB         645 kB
+├ ○ /advancing/catalog                                  2.63 kB         460 kB
+├ ○ /advancing/new                                      2.55 kB         646 kB
 ├ ƒ /api/advancing                                      0 B                0 B
 ├ ƒ /api/advancing/[id]                                 0 B                0 B
 ├ ƒ /api/advancing/[id]/fulfill                         0 B                0 B
@@ -604,173 +605,173 @@ Route (app)                                             Size     First Load JS
 ├ ƒ /api/weather                                        0 B                0 B
 ├ ƒ /api/weather-contingency                            0 B                0 B
 ├ ƒ /api/win-loss-tracking                              0 B                0 B
-├ ○ /artist-portal                                      2.48 kB         651 kB
-├ ○ /artists                                            3.59 kB         645 kB
-├ ○ /auth/forgot-password                               3.8 kB          391 kB
-├ ○ /auth/magic-link                                    3.86 kB         391 kB
-├ ○ /auth/reset-password                                3.91 kB         391 kB
-├ ○ /auth/signin                                        716 B           639 kB
-├ ○ /auth/signup                                        3.78 kB         391 kB
-├ ○ /auth/verify-email                                  3.58 kB         391 kB
-├ ○ /availability                                       3.19 kB         645 kB
-├ ○ /background-checks                                  3.36 kB         645 kB
-├ ○ /backup-plans                                       3.56 kB         645 kB
+├ ○ /artist-portal                                      2.48 kB         652 kB
+├ ○ /artists                                            3.59 kB         647 kB
+├ ○ /auth/forgot-password                               3.8 kB          392 kB
+├ ○ /auth/magic-link                                    3.86 kB         392 kB
+├ ○ /auth/reset-password                                3.91 kB         392 kB
+├ ○ /auth/signin                                        720 B           640 kB
+├ ○ /auth/signup                                        3.78 kB         392 kB
+├ ○ /auth/verify-email                                  3.58 kB         392 kB
+├ ○ /availability                                       3.19 kB         646 kB
+├ ○ /background-checks                                  3.36 kB         646 kB
+├ ○ /backup-plans                                       3.56 kB         647 kB
 ├ ○ /beos                                               6.03 kB         102 kB
 ├ ƒ /beos/[id]                                          6.73 kB         103 kB
 ├ ○ /beos/new                                           6.5 kB          102 kB
-├ ○ /best-practices                                     2.26 kB         644 kB
-├ ○ /bid-portal                                         2.08 kB         644 kB
-├ ○ /build-strike                                       1.73 kB         644 kB
-├ ○ /case-studies                                       2.05 kB         644 kB
-├ ○ /catering                                           3.33 kB         459 kB
-├ ○ /certifications                                     3.65 kB         645 kB
-├ ○ /channels                                           3.06 kB         645 kB
-├ ○ /clock-in                                           3.07 kB         645 kB
-├ ○ /communications                                     2.38 kB         644 kB
-├ ○ /communications/channels                            3.21 kB         645 kB
-├ ○ /credentials                                        4.5 kB          646 kB
-├ ○ /credentials/issue                                  3.89 kB         646 kB
-├ ○ /credentials/reports                                3.39 kB         645 kB
-├ ○ /credentials/scan                                   4.11 kB         646 kB
-├ ○ /credentials/types                                  3.95 kB         646 kB
-├ ○ /credentials/zones                                  4.36 kB         646 kB
-├ ○ /crew                                               3.53 kB         645 kB
-├ ○ /crew-social                                        3.61 kB         645 kB
-├ ○ /crew/assign                                        1.76 kB         644 kB
-├ ○ /crew/background-checks                             2.6 kB          644 kB
-├ ○ /crew/social                                        3.8 kB          646 kB
-├ ○ /dashboard                                          2.59 kB         644 kB
-├ ○ /deliveries                                         3.91 kB         646 kB
-├ ○ /directory                                          3.01 kB         645 kB
-├ ○ /directory/availability                             2.12 kB         644 kB
-├ ○ /directory/filters                                  1.93 kB         644 kB
-├ ○ /drawings                                           3.56 kB         645 kB
-├ ○ /emergency                                          2.85 kB         645 kB
-├ ○ /equipment                                          3.34 kB         645 kB
-├ ○ /expenses                                           3.41 kB         645 kB
-├ ○ /files                                              3.3 kB          645 kB
-├ ○ /glossary                                           2.11 kB         644 kB
-├ ○ /incidents                                          2.87 kB         645 kB
-├ ○ /integrations                                       1.73 kB         644 kB
-├ ○ /issues                                             3.19 kB         645 kB
-├ ○ /knowledge                                          2.15 kB         644 kB
-├ ○ /knowledge/brand-guidelines                         2.89 kB         645 kB
-├ ○ /knowledge/multilingual                             2.27 kB         644 kB
-├ ○ /knowledge/offline                                  2.42 kB         644 kB
-├ ○ /knowledge/regulations                              2.96 kB         645 kB
-├ ○ /logistics                                          2.65 kB         644 kB
-├ ○ /maintenance                                        2.82 kB         645 kB
-├ ○ /mentorship                                         3.95 kB         646 kB
-├ ○ /messages                                           2.09 kB         644 kB
-├ ○ /my-assignments                                     2.13 kB         644 kB
-├ ○ /my-contracts                                       2.21 kB         644 kB
-├ ○ /my-credentials                                     2.21 kB         644 kB
-├ ○ /my-deliveries                                      2.42 kB         644 kB
-├ ○ /my-hospitality                                     2.61 kB         644 kB
-├ ○ /my-invoices                                        2.34 kB         644 kB
-├ ○ /my-rider                                           2.77 kB         458 kB
-├ ○ /my-schedule                                        2.21 kB         644 kB
-├ ○ /my-timesheets                                      2.23 kB         644 kB
-├ ○ /my-training                                        2.15 kB         644 kB
-├ ○ /notifications                                      2.22 kB         644 kB
-├ ○ /offline                                            1.05 kB         382 kB
-├ ○ /onboarding                                         5.01 kB         643 kB
-├ ○ /opportunities                                      2.99 kB         459 kB
-├ ○ /opportunities/bid-decision                         1.94 kB         644 kB
-├ ○ /opportunities/mobile                               2.56 kB         644 kB
-├ ○ /opportunities/proposals                            2.35 kB         644 kB
-├ ○ /opportunities/win-loss                             2.18 kB         644 kB
-├ ƒ /p/[productionId]/advancing                         3 kB            634 kB
-├ ƒ /p/[productionId]/advancing/templates               2.43 kB         633 kB
-├ ƒ /p/[productionId]/catering                          3.17 kB         459 kB
-├ ƒ /p/[productionId]/communication                     2.36 kB         633 kB
-├ ƒ /p/[productionId]/communication/channels            2.44 kB         633 kB
-├ ƒ /p/[productionId]/communication/messages            2.1 kB          633 kB
-├ ƒ /p/[productionId]/communication/stakeholder-portal  2.16 kB         633 kB
-├ ƒ /p/[productionId]/credentials                       3.59 kB         635 kB
-├ ƒ /p/[productionId]/crew                              2.73 kB         634 kB
-├ ƒ /p/[productionId]/crew/timekeeping                  2.45 kB         633 kB
-├ ƒ /p/[productionId]/documents                         2.95 kB         634 kB
-├ ƒ /p/[productionId]/documents/backup-plans            2.67 kB         634 kB
-├ ƒ /p/[productionId]/documents/files                   2.15 kB         633 kB
-├ ƒ /p/[productionId]/documents/sops                    3.37 kB         634 kB
-├ ƒ /p/[productionId]/documents/spec-sheets             2.68 kB         634 kB
-├ ƒ /p/[productionId]/documents/templates               2.2 kB          633 kB
-├ ƒ /p/[productionId]/expenses                          2.22 kB         644 kB
-├ ƒ /p/[productionId]/incidents                         2.36 kB         644 kB
-├ ƒ /p/[productionId]/load-in                           2.37 kB         644 kB
-├ ƒ /p/[productionId]/load-out                          2.2 kB          644 kB
-├ ƒ /p/[productionId]/logistics                         2.88 kB         634 kB
-├ ƒ /p/[productionId]/lost-found                        2.26 kB         644 kB
-├ ƒ /p/[productionId]/operations                        2.54 kB         634 kB
-├ ƒ /p/[productionId]/overview                          4.29 kB         635 kB
-├ ƒ /p/[productionId]/quality                           2.52 kB         633 kB
-├ ƒ /p/[productionId]/quality/issues                    2.04 kB         633 kB
-├ ƒ /p/[productionId]/quality/punch-list                2.05 kB         633 kB
-├ ƒ /p/[productionId]/quality/qa-checkpoints            2.05 kB         633 kB
-├ ƒ /p/[productionId]/quality/troubleshooting           2.09 kB         633 kB
-├ ƒ /p/[productionId]/reports                           2.46 kB         633 kB
-├ ƒ /p/[productionId]/safety                            3.37 kB         634 kB
-├ ƒ /p/[productionId]/schedule                          3.1 kB          634 kB
-├ ƒ /p/[productionId]/schedule/build-strike             2.56 kB         634 kB
-├ ƒ /p/[productionId]/schedule/run-of-show              2.4 kB          633 kB
-├ ƒ /p/[productionId]/schedule/set-times                2.01 kB         633 kB
-├ ƒ /p/[productionId]/schedule/show-call                2.37 kB         633 kB
-├ ƒ /p/[productionId]/schedule/soundcheck               2.1 kB          633 kB
-├ ƒ /p/[productionId]/schedule/tech-rehearsal           2.09 kB         633 kB
-├ ƒ /p/[productionId]/settings                          2.85 kB         634 kB
-├ ƒ /p/[productionId]/settlement                        1.9 kB          644 kB
-├ ƒ /p/[productionId]/strike                            2.31 kB         644 kB
-├ ƒ /p/[productionId]/vendors                           2.09 kB         644 kB
-├ ƒ /p/[productionId]/weather                           2.29 kB         644 kB
-├ ƒ /p/[productionId]/wrap                              1.9 kB          644 kB
-├ ○ /permits                                            2.46 kB         458 kB
-├ ○ /photo-documentation                                2.69 kB         644 kB
-├ ○ /profile                                            2.41 kB         644 kB
-├ ○ /projects                                           1.59 kB         643 kB
-├ ○ /projects/new                                       1.75 kB         457 kB
-├ ○ /punch-list                                         2.63 kB         644 kB
-├ ○ /qa-checkpoints                                     2.18 kB         644 kB
-├ ○ /reports/daily                                      3.57 kB         645 kB
-├ ƒ /reports/daily/[id]                                 3.22 kB         645 kB
-├ ○ /reports/wrap                                       3.66 kB         645 kB
-├ ƒ /reports/wrap/[id]                                  3.66 kB         645 kB
-├ ○ /risk-register                                      2.92 kB         645 kB
-├ ○ /run-of-show                                        1.72 kB         644 kB
-├ ○ /safety                                             2.29 kB         644 kB
-├ ○ /schedule                                           1.64 kB         643 kB
-├ ○ /set-times                                          2.56 kB         644 kB
-├ ○ /settings                                           1.61 kB         457 kB
-├ ○ /settlement                                         2.65 kB         644 kB
-├ ○ /show-call                                          1.94 kB         644 kB
-├ ○ /site-access                                        2.63 kB         644 kB
-├ ○ /site-surveys                                       2.42 kB         458 kB
-├ ○ /skills                                             2.13 kB         644 kB
-├ ○ /social-amplification                               3.72 kB         646 kB
-├ ○ /sops                                               4.04 kB         646 kB
-├ ƒ /sops/[id]                                          4 kB            646 kB
-├ ○ /sops/acknowledgments                               2.73 kB         645 kB
-├ ○ /sops/categories                                    3.46 kB         645 kB
-├ ○ /sops/training                                      3.62 kB         645 kB
-├ ○ /soundcheck                                         2.56 kB         644 kB
-├ ○ /spec-sheets                                        1.8 kB          644 kB
-├ ○ /stage-management                                   2.41 kB         644 kB
-├ ○ /stakeholder-portal                                 3.24 kB         645 kB
-├ ○ /subcontractors                                     2.29 kB         458 kB
-├ ○ /tech-rehearsal                                     3.21 kB         645 kB
-├ ○ /templates                                          2.59 kB         644 kB
-├ ○ /timekeeping                                        2 kB            644 kB
-├ ○ /travel                                             2.68 kB         644 kB
-├ ○ /troubleshooting                                    1.86 kB         644 kB
+├ ○ /best-practices                                     2.26 kB         645 kB
+├ ○ /bid-portal                                         2.09 kB         645 kB
+├ ○ /build-strike                                       1.74 kB         645 kB
+├ ○ /case-studies                                       2.05 kB         645 kB
+├ ○ /catering                                           3.08 kB         460 kB
+├ ○ /certifications                                     3.65 kB         647 kB
+├ ○ /channels                                           3.07 kB         646 kB
+├ ○ /clock-in                                           3.07 kB         646 kB
+├ ○ /communications                                     2.38 kB         645 kB
+├ ○ /communications/channels                            3.21 kB         646 kB
+├ ○ /credentials                                        4.5 kB          648 kB
+├ ○ /credentials/issue                                  3.9 kB          647 kB
+├ ○ /credentials/reports                                3.4 kB          646 kB
+├ ○ /credentials/scan                                   4.12 kB         647 kB
+├ ○ /credentials/types                                  3.96 kB         647 kB
+├ ○ /credentials/zones                                  4.36 kB         647 kB
+├ ○ /crew                                               3.53 kB         647 kB
+├ ○ /crew-social                                        3.61 kB         647 kB
+├ ○ /crew/assign                                        1.77 kB         645 kB
+├ ○ /crew/background-checks                             2.6 kB          646 kB
+├ ○ /crew/social                                        3.81 kB         647 kB
+├ ○ /dashboard                                          2.6 kB          646 kB
+├ ○ /deliveries                                         3.92 kB         647 kB
+├ ○ /directory                                          3.02 kB         646 kB
+├ ○ /directory/availability                             2.12 kB         645 kB
+├ ○ /directory/filters                                  1.93 kB         645 kB
+├ ○ /drawings                                           3.57 kB         647 kB
+├ ○ /emergency                                          2.85 kB         646 kB
+├ ○ /equipment                                          3.35 kB         646 kB
+├ ○ /expenses                                           3.41 kB         646 kB
+├ ○ /files                                              3.3 kB          646 kB
+├ ○ /glossary                                           2.12 kB         645 kB
+├ ○ /incidents                                          2.88 kB         646 kB
+├ ○ /integrations                                       1.73 kB         645 kB
+├ ○ /issues                                             3.2 kB          646 kB
+├ ○ /knowledge                                          2.15 kB         645 kB
+├ ○ /knowledge/brand-guidelines                         2.9 kB          646 kB
+├ ○ /knowledge/multilingual                             2.28 kB         645 kB
+├ ○ /knowledge/offline                                  2.43 kB         645 kB
+├ ○ /knowledge/regulations                              2.96 kB         646 kB
+├ ○ /logistics                                          2.65 kB         646 kB
+├ ○ /maintenance                                        2.83 kB         646 kB
+├ ○ /mentorship                                         3.96 kB         647 kB
+├ ○ /messages                                           2.09 kB         645 kB
+├ ○ /my-assignments                                     2.13 kB         645 kB
+├ ○ /my-contracts                                       2.22 kB         645 kB
+├ ○ /my-credentials                                     2.22 kB         645 kB
+├ ○ /my-deliveries                                      2.42 kB         645 kB
+├ ○ /my-hospitality                                     2.62 kB         646 kB
+├ ○ /my-invoices                                        2.34 kB         645 kB
+├ ○ /my-rider                                           2.52 kB         460 kB
+├ ○ /my-schedule                                        2.21 kB         645 kB
+├ ○ /my-timesheets                                      2.23 kB         645 kB
+├ ○ /my-training                                        2.16 kB         645 kB
+├ ○ /notifications                                      2.22 kB         645 kB
+├ ○ /offline                                            1.05 kB         383 kB
+├ ○ /onboarding                                         5.01 kB         644 kB
+├ ○ /opportunities                                      2.74 kB         460 kB
+├ ○ /opportunities/bid-decision                         1.94 kB         645 kB
+├ ○ /opportunities/mobile                               2.56 kB         646 kB
+├ ○ /opportunities/proposals                            2.36 kB         645 kB
+├ ○ /opportunities/win-loss                             2.18 kB         645 kB
+├ ƒ /p/[productionId]/advancing                         3 kB            635 kB
+├ ƒ /p/[productionId]/advancing/templates               2.43 kB         635 kB
+├ ƒ /p/[productionId]/catering                          2.92 kB         460 kB
+├ ƒ /p/[productionId]/communication                     2.37 kB         635 kB
+├ ƒ /p/[productionId]/communication/channels            2.45 kB         635 kB
+├ ƒ /p/[productionId]/communication/messages            2.11 kB         634 kB
+├ ƒ /p/[productionId]/communication/stakeholder-portal  2.17 kB         634 kB
+├ ƒ /p/[productionId]/credentials                       3.59 kB         636 kB
+├ ƒ /p/[productionId]/crew                              2.74 kB         635 kB
+├ ƒ /p/[productionId]/crew/timekeeping                  2.45 kB         635 kB
+├ ƒ /p/[productionId]/documents                         2.95 kB         635 kB
+├ ƒ /p/[productionId]/documents/backup-plans            2.67 kB         635 kB
+├ ƒ /p/[productionId]/documents/files                   2.16 kB         634 kB
+├ ƒ /p/[productionId]/documents/sops                    3.38 kB         636 kB
+├ ƒ /p/[productionId]/documents/spec-sheets             2.69 kB         635 kB
+├ ƒ /p/[productionId]/documents/templates               2.2 kB          634 kB
+├ ƒ /p/[productionId]/expenses                          2.22 kB         645 kB
+├ ƒ /p/[productionId]/incidents                         2.36 kB         645 kB
+├ ƒ /p/[productionId]/load-in                           2.38 kB         645 kB
+├ ƒ /p/[productionId]/load-out                          2.21 kB         645 kB
+├ ƒ /p/[productionId]/logistics                         2.88 kB         635 kB
+├ ƒ /p/[productionId]/lost-found                        2.27 kB         645 kB
+├ ƒ /p/[productionId]/operations                        2.54 kB         635 kB
+├ ƒ /p/[productionId]/overview                          4.3 kB          637 kB
+├ ƒ /p/[productionId]/quality                           2.52 kB         635 kB
+├ ƒ /p/[productionId]/quality/issues                    2.05 kB         634 kB
+├ ƒ /p/[productionId]/quality/punch-list                2.06 kB         634 kB
+├ ƒ /p/[productionId]/quality/qa-checkpoints            2.06 kB         634 kB
+├ ƒ /p/[productionId]/quality/troubleshooting           2.1 kB          634 kB
+├ ƒ /p/[productionId]/reports                           2.47 kB         635 kB
+├ ƒ /p/[productionId]/safety                            3.37 kB         636 kB
+├ ƒ /p/[productionId]/schedule                          3.1 kB          635 kB
+├ ƒ /p/[productionId]/schedule/build-strike             2.56 kB         635 kB
+├ ƒ /p/[productionId]/schedule/run-of-show              2.4 kB          635 kB
+├ ƒ /p/[productionId]/schedule/set-times                2.02 kB         634 kB
+├ ƒ /p/[productionId]/schedule/show-call                2.37 kB         635 kB
+├ ƒ /p/[productionId]/schedule/soundcheck               2.1 kB          634 kB
+├ ƒ /p/[productionId]/schedule/tech-rehearsal           2.09 kB         634 kB
+├ ƒ /p/[productionId]/settings                          2.85 kB         635 kB
+├ ƒ /p/[productionId]/settlement                        1.9 kB          645 kB
+├ ƒ /p/[productionId]/strike                            2.31 kB         645 kB
+├ ƒ /p/[productionId]/vendors                           2.09 kB         645 kB
+├ ƒ /p/[productionId]/weather                           2.29 kB         645 kB
+├ ƒ /p/[productionId]/wrap                              1.9 kB          645 kB
+├ ○ /permits                                            2.2 kB          459 kB
+├ ○ /photo-documentation                                2.7 kB          646 kB
+├ ○ /profile                                            2.41 kB         645 kB
+├ ○ /projects                                           1.59 kB         645 kB
+├ ○ /projects/new                                       1.5 kB          459 kB
+├ ○ /punch-list                                         2.63 kB         646 kB
+├ ○ /qa-checkpoints                                     2.19 kB         645 kB
+├ ○ /reports/daily                                      3.57 kB         647 kB
+├ ƒ /reports/daily/[id]                                 3.22 kB         646 kB
+├ ○ /reports/wrap                                       3.66 kB         647 kB
+├ ƒ /reports/wrap/[id]                                  3.66 kB         647 kB
+├ ○ /risk-register                                      2.92 kB         646 kB
+├ ○ /run-of-show                                        1.72 kB         645 kB
+├ ○ /safety                                             2.29 kB         645 kB
+├ ○ /schedule                                           1.65 kB         645 kB
+├ ○ /set-times                                          2.56 kB         646 kB
+├ ○ /settings                                           1.35 kB         458 kB
+├ ○ /settlement                                         2.66 kB         646 kB
+├ ○ /show-call                                          1.94 kB         645 kB
+├ ○ /site-access                                        2.63 kB         646 kB
+├ ○ /site-surveys                                       2.16 kB         459 kB
+├ ○ /skills                                             2.13 kB         645 kB
+├ ○ /social-amplification                               3.73 kB         647 kB
+├ ○ /sops                                               4.05 kB         647 kB
+├ ƒ /sops/[id]                                          4.01 kB         647 kB
+├ ○ /sops/acknowledgments                               2.73 kB         646 kB
+├ ○ /sops/categories                                    3.47 kB         647 kB
+├ ○ /sops/training                                      3.62 kB         647 kB
+├ ○ /soundcheck                                         2.56 kB         646 kB
+├ ○ /spec-sheets                                        1.8 kB          645 kB
+├ ○ /stage-management                                   2.41 kB         645 kB
+├ ○ /stakeholder-portal                                 3.24 kB         646 kB
+├ ○ /subcontractors                                     2.03 kB         459 kB
+├ ○ /tech-rehearsal                                     3.21 kB         646 kB
+├ ○ /templates                                          2.59 kB         646 kB
+├ ○ /timekeeping                                        2 kB            645 kB
+├ ○ /travel                                             2.68 kB         646 kB
+├ ○ /troubleshooting                                    1.86 kB         645 kB
 ├ ○ /vendor-communications                              5.96 kB         102 kB
-├ ○ /vendor-portal                                      2.45 kB         651 kB
+├ ○ /vendor-portal                                      2.45 kB         652 kB
 ├ ○ /vendor-schedules                                   6.05 kB         102 kB
 ├ ○ /vendor-schedules/new                               5.66 kB         102 kB
-├ ○ /vendors/compare                                    1.96 kB         644 kB
-├ ○ /venues                                             1.43 kB         643 kB
-├ ○ /vip-management                                     2.34 kB         644 kB
-├ ○ /weather                                            1.84 kB         457 kB
-└ ○ /weather-contingency                                2.64 kB         644 kB
+├ ○ /vendors/compare                                    1.96 kB         645 kB
+├ ○ /venues                                             1.43 kB         644 kB
+├ ○ /vip-management                                     2.35 kB         645 kB
+├ ○ /weather                                            1.58 kB         459 kB
+└ ○ /weather-contingency                                2.64 kB         646 kB
 + First Load JS shared by all                           87.7 kB
   ├ chunks/26fe0b10-d33d795dc99cbfe7.js                 53.6 kB
   ├ chunks/4142-3f71e49f9aa5f383.js                     31.9 kB
