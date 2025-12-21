@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowLeft, Layout, Edit, Trash2, Copy, Download, Maximize2 } from 'lucide-react';
 import { useFloorPlan, useDeleteFloorPlan } from '@/hooks/useFloorPlans';
 import { useRouter } from 'next/navigation';
@@ -47,12 +48,12 @@ export default function FloorPlanDetailPage({ params }: { params: { id: string }
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/floor-plans"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-card">
               <Layout className="h-6 w-6 text-primary" />
@@ -74,13 +75,13 @@ export default function FloorPlanDetailPage({ params }: { params: { id: string }
         </div>
 
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href={`/floor-plans/${id}/edit`}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
           >
             <Edit className="h-4 w-4" />
             Edit
-          </a>
+          </Link>
           <button
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             title="Duplicate"

@@ -214,7 +214,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
       <>
         {/* Backdrop */}
         <div
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-modal-backdrop bg-black/60 backdrop-blur-sm"
           onClick={onClose}
           aria-hidden="true"
         />
@@ -223,7 +223,7 @@ export const CommandPalette = forwardRef<HTMLDivElement, CommandPaletteProps>(
         <div
           ref={ref}
           className={clsx(
-            "fixed left-1/2 top-[20%] z-50 w-full max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border-2 shadow-xl",
+            "fixed left-1/2 top-[20%] z-modal w-full max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border-2 shadow-xl",
             inverted
               ? "bg-ink-900 border-ink-700"
               : "bg-white border-ink-200",

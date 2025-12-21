@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, FileText, DollarSign, Clock, AlertTriangle } from 'lucide-react';
 import { useVendorInvoices } from '@/hooks/useVendorInvoices';
 
@@ -87,13 +88,13 @@ export default function VendorInvoicesPage() {
             Manage accounts payable and vendor payments
           </p>
         </div>
-        <a
+        <Link
           href="/vendor-invoices/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Record Invoice
-        </a>
+        </Link>
       </div>
 
       {aging && (
@@ -184,13 +185,13 @@ export default function VendorInvoicesPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             Record your first vendor invoice to start tracking accounts payable.
           </p>
-          <a
+          <Link
             href="/vendor-invoices/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Record Invoice
-          </a>
+          </Link>
         </div>
       )}
 

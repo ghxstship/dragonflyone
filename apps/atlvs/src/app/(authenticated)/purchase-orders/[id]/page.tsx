@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ArrowLeft, FileText, Send, Printer, Package } from 'lucide-react';
 import { usePurchaseOrder, useUpdatePurchaseOrder } from '@/hooks/usePurchaseOrders';
 
@@ -62,12 +63,12 @@ export default function PurchaseOrderDetailPage({ params }: { params: { id: stri
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/purchase-orders"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-card">
               <FileText className="h-6 w-6 text-primary" />

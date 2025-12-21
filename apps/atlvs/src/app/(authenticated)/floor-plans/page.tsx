@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Plus, Search, Layout, Eye, Edit, Trash2, MapPin } from 'lucide-react';
 import { useFloorPlans, useDeleteFloorPlan } from '@/hooks/useFloorPlans';
 
@@ -65,13 +66,13 @@ export default function FloorPlansPage() {
             Manage venue layouts and space configurations
           </p>
         </div>
-        <a
+        <Link
           href="/floor-plans/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Floor Plan
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-4">
@@ -110,13 +111,13 @@ export default function FloorPlansPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             Create your first floor plan to start mapping out your venues.
           </p>
-          <a
+          <Link
             href="/floor-plans/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Create Floor Plan
-          </a>
+          </Link>
         </div>
       )}
 
@@ -141,18 +142,18 @@ export default function FloorPlansPage() {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
-                  <a
+                  <Link
                     href={`/floor-plans/${plan.id}`}
                     className="p-2 bg-background rounded-button border-2 border-border hover:bg-muted"
                   >
                     <Eye className="h-4 w-4" />
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href={`/floor-plans/${plan.id}/edit`}
                     className="p-2 bg-background rounded-button border-2 border-border hover:bg-muted"
                   >
                     <Edit className="h-4 w-4" />
-                  </a>
+                  </Link>
                                     <button
                     onClick={() => handleDelete(plan.id, plan.name)}
                     disabled={deleteMutation.isPending}

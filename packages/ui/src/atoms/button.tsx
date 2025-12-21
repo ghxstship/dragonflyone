@@ -14,7 +14,7 @@ const sizeClasses = {
   icon: "p-3 min-h-[44px] min-w-[44px]",
 };
 
-export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "outlineFill" | "outlineFillWhite" | "pop" | "destructive" | "secondary" | "accent";
+export type ButtonVariant = "solid" | "outline" | "ghost" | "outlineWhite" | "outlineInk" | "outlineFill" | "outlineFillWhite" | "pop" | "popPink" | "popCyan" | "popYellow" | "destructive" | "secondary" | "accent";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -138,6 +138,36 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
             : "bg-white text-black shadow-[5px_5px_0_hsl(var(--primary))]",
           "hover:shadow-[7px_7px_0_hsl(var(--primary))]",
           "active:shadow-[2px_2px_0_hsl(var(--primary))]",
+          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
+        );
+      case "popPink":
+        return clsx(
+          "border-2 border-current",
+          inverted 
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_#FF006E]" 
+            : "bg-white text-black shadow-[5px_5px_0_#FF006E]",
+          "hover:shadow-[7px_7px_0_#FF006E]",
+          "active:shadow-[2px_2px_0_#FF006E]",
+          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
+        );
+      case "popCyan":
+        return clsx(
+          "border-2 border-current",
+          inverted 
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_#00BFFF]" 
+            : "bg-white text-black shadow-[5px_5px_0_#00BFFF]",
+          "hover:shadow-[7px_7px_0_#00BFFF]",
+          "active:shadow-[2px_2px_0_#00BFFF]",
+          inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
+        );
+      case "popYellow":
+        return clsx(
+          "border-2 border-current",
+          inverted 
+            ? "bg-ink-950 text-white shadow-[5px_5px_0_#F59E0B]" 
+            : "bg-white text-black shadow-[5px_5px_0_#F59E0B]",
+          "hover:shadow-[7px_7px_0_#F59E0B]",
+          "active:shadow-[2px_2px_0_#F59E0B]",
           inverted ? "focus-visible:ring-white" : "focus-visible:ring-black"
         );
       case "destructive":

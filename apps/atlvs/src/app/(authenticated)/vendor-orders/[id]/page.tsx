@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ArrowLeft, Package, Clock, CheckCircle, XCircle, Send, Edit, Printer } from 'lucide-react';
 import { useVendorOrder, useApproveVendorOrder, useSendVendorOrder } from '@/hooks/useVendorOrders';
 const STATUS_CONFIG = {
@@ -68,12 +69,12 @@ export default function VendorOrderDetailPage({ params }: { params: { id: string
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/vendor-orders"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-h2-md font-weight-bold text-foreground">

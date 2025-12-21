@@ -297,7 +297,7 @@ function SavedFiltersDropdown({
       </button>
 
       {isOpen && (
-        <div className={clsx("absolute top-full left-0 mt-1 min-w-[200px] z-50 rounded-lg overflow-hidden", dropdownClass)}>
+        <div className={clsx("absolute top-full left-0 mt-1 min-w-[200px] z-dropdown rounded-lg overflow-hidden", dropdownClass)}>
           {/* Preset List */}
           {presets.length > 0 ? (
             <div className="max-h-[200px] overflow-y-auto">

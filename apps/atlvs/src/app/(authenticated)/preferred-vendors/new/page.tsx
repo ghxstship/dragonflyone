@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
 import { useCreatePreferredVendor } from '@/hooks/usePreferredVendors';
 import { useVendorProfiles } from '@/hooks/useVendorProfiles';
@@ -63,13 +64,13 @@ export default function NewPreferredVendorPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6">
-        <a
+        <Link
           href="/preferred-vendors"
           className="inline-flex items-center gap-2 text-body-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Preferred Vendors
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
@@ -209,12 +210,12 @@ export default function NewPreferredVendorPage() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-            <a
+            <Link
               href="/preferred-vendors"
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </a>
+            </Link>
             <button
               type="submit"
               disabled={createMutation.isPending}

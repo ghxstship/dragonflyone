@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowLeft, Edit2, Send, FileText, Clock, User, Calendar, CheckCircle, XCircle, Download, AlertTriangle } from 'lucide-react';
 import { useContract, useSendContract } from '@/hooks/useContracts';
 
@@ -98,13 +99,13 @@ export default function ContractDetailPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             {error instanceof Error ? error.message : 'The requested contract could not be found.'}
           </p>
-          <a
+          <Link
             href="/contracts"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Contracts
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -121,12 +122,12 @@ export default function ContractDetailPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/contracts"
             className="p-2 hover:bg-muted rounded-button transition-colors"
           >
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </a>
+          </Link>
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-h2-md font-weight-bold text-foreground">{contract.name}</h1>

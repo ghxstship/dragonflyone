@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, Filter, Star, Building2, ChevronRight } from 'lucide-react';
 import {
   usePreferredVendors,
@@ -61,13 +62,13 @@ export default function PreferredVendorsPage() {
             Curated lists of preferred vendors by category
           </p>
         </div>
-        <a
+        <Link
           href="/preferred-vendors/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Preferred Vendor
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-4">
@@ -153,13 +154,13 @@ export default function PreferredVendorsPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             Add vendors to your preferred list for quick access and negotiated rates.
           </p>
-          <a
+          <Link
             href="/preferred-vendors/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Add First Vendor
-          </a>
+          </Link>
         </div>
       )}
 

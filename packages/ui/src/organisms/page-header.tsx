@@ -175,7 +175,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
         ref={ref}
         className={clsx(
           "border-b-2",
-          sticky && "sticky top-0 z-10",
+          sticky && "sticky top-0 z-sticky-header",
           inverted 
             ? "bg-ink-950 border-ink-800" 
             : "bg-white border-ink-200",
@@ -447,11 +447,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                 {showActionsMenu && (
                   <>
                     <div 
-                      className="fixed inset-0 z-10" 
+                      className="fixed inset-0 z-content-overlay" 
                       onClick={() => setShowActionsMenu(false)} 
                     />
                     <div className={clsx(
-                      "absolute right-0 top-full mt-1 min-w-[160px] rounded border-2 shadow-lg z-20",
+                      "absolute right-0 top-full mt-1 min-w-[160px] rounded border-2 shadow-lg z-dropdown",
                       inverted 
                         ? "bg-ink-900 border-ink-700" 
                         : "bg-white border-ink-200"

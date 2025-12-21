@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, FileText, Clock, CheckCircle, Filter, DollarSign } from 'lucide-react';
 import { usePurchaseOrders, PurchaseOrder } from '@/hooks/usePurchaseOrders';
 
@@ -81,13 +82,13 @@ export default function PurchaseOrdersPage() {
             Manage vendor purchase orders and procurement
           </p>
         </div>
-        <a
+        <Link
           href="/purchase-orders/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New PO
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-5 gap-4">
@@ -163,13 +164,13 @@ export default function PurchaseOrdersPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first purchase order'}
           </p>
-          <a
+          <Link
             href="/purchase-orders/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             New PO
-          </a>
+          </Link>
         </div>
       )}
 

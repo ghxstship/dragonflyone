@@ -115,7 +115,7 @@ function PresenceAvatar({
         type="button"
         onClick={onClick}
         className={clsx(
-          "relative flex items-center justify-center rounded-full border-2 font-semibold transition-transform hover:scale-110 hover:z-10",
+          "relative flex items-center justify-center rounded-full border-2 font-semibold transition-transform hover:scale-110 hover:z-content-overlay",
           sizeClasses[size],
           inverted ? "border-ink-900" : "border-white",
           onClick ? "cursor-pointer" : "cursor-default"
@@ -154,7 +154,7 @@ function PresenceAvatar({
       {showTooltip && showTooltipState && (
         <div
           className={clsx(
-            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-xs whitespace-nowrap z-50 pointer-events-none",
+            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded text-xs whitespace-nowrap z-tooltip pointer-events-none",
             inverted ? "bg-white text-ink-900" : "bg-ink-900 text-white"
           )}
         >
@@ -216,7 +216,7 @@ function OverflowIndicator({
       {showTooltip && (
         <div
           className={clsx(
-            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded text-xs z-50 pointer-events-none min-w-max",
+            "absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded text-xs z-tooltip pointer-events-none min-w-max",
             inverted ? "bg-white text-ink-900" : "bg-ink-900 text-white"
           )}
         >

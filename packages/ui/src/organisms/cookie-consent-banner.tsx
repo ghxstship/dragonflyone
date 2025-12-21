@@ -167,7 +167,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
         {/* Backdrop for modal-style banners */}
         {(position === "bottom-left" || position === "bottom-right") && (
           <div 
-            className="fixed inset-0 bg-black/30 z-[9998] animate-fade-in"
+            className="fixed inset-0 bg-black/30 z-modal-backdrop animate-fade-in"
             aria-hidden="true"
           />
         )}
@@ -179,7 +179,7 @@ export const CookieConsentBanner = forwardRef<HTMLDivElement, CookieConsentBanne
           aria-labelledby="cookie-consent-title"
           aria-describedby="cookie-consent-description"
           className={clsx(
-            "fixed z-[9999] animate-slide-up-bounce",
+            "fixed z-modal animate-slide-up-bounce",
             positionClasses[position],
             position === "bottom" || position === "top"
               ? "border-y-4 border-black bg-white shadow-[0_-8px_0_rgba(0,0,0,0.1)]"

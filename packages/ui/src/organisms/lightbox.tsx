@@ -180,7 +180,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-spacing-4 right-spacing-4 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
+          className="absolute top-spacing-4 right-spacing-4 z-content-controls w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
           aria-label="Close lightbox"
         >
           <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,7 +190,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
 
         {/* Counter */}
         {showCounter && images.length > 1 && (
-          <div className="absolute top-spacing-4 left-spacing-4 z-10 px-spacing-4 py-spacing-2 bg-surface-primary text-text-primary font-mono text-mono-sm">
+          <div className="absolute top-spacing-4 left-spacing-4 z-content-controls px-spacing-4 py-spacing-2 bg-surface-primary text-text-primary font-mono text-mono-sm">
             {activeIndex + 1} / {images.length}
           </div>
         )}
@@ -199,7 +199,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {showNavigation && images.length > 1 && (
           <button
             onClick={goToPrev}
-            className="absolute left-spacing-4 top-1/2 -translate-y-1/2 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
+            className="absolute left-spacing-4 top-1/2 -translate-y-1/2 z-content-controls w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
             aria-label="Previous image"
           >
             <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,7 +212,7 @@ export const Lightbox = forwardRef<HTMLDivElement, LightboxProps>(
         {showNavigation && images.length > 1 && (
           <button
             onClick={goToNext}
-            className="absolute right-spacing-4 top-1/2 -translate-y-1/2 z-10 w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
+            className="absolute right-spacing-4 top-1/2 -translate-y-1/2 z-content-controls w-spacing-12 h-spacing-12 flex items-center justify-center bg-surface-primary text-text-primary hover:bg-surface-secondary transition-colors"
             aria-label="Next image"
           >
             <svg className="w-spacing-6 h-spacing-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

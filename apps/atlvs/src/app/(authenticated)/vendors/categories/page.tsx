@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, Folder, FolderOpen, Edit2, Trash2, ChevronRight, ChevronDown, Users } from 'lucide-react';
 
 interface VendorCategory {
@@ -188,12 +189,12 @@ export default function VendorCategoriesPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href="/vendors"
             className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             View Vendors
-          </a>
+          </Link>
           <button
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
           >

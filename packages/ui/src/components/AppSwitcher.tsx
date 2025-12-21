@@ -153,7 +153,7 @@ export function AppSwitcher({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-72 bg-surface-primary border-2 border-ink-muted rounded-card shadow-lg z-50 overflow-hidden animate-pop-in">
+        <div className="absolute top-full left-0 mt-2 w-72 bg-surface-primary border-2 border-ink-muted rounded-card shadow-lg z-dropdown overflow-hidden animate-pop-in">
           <div className="p-2">
             <div className="text-body-sm text-ink-secondary px-3 py-2 font-weight-medium">
               Switch Application

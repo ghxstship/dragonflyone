@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Search, Clock, CheckCircle, XCircle, Filter, User, DollarSign } from 'lucide-react';
 
 interface PendingApproval {
@@ -86,12 +87,12 @@ export default function ApprovalsPage() {
             Review and approve vendor orders
           </p>
         </div>
-        <a
+        <Link
           href="/vendor-orders"
           className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
         >
           View All Orders
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-3 gap-4">

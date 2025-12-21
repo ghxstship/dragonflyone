@@ -347,7 +347,7 @@ export function GanttChart<T>({
           {/* Header */}
           <div
             className={clsx(
-              "flex border-b-2 sticky top-0 z-10",
+              "flex border-b-2 sticky top-0 z-sticky-row",
               inverted ? "bg-ink-900 border-ink-800" : "bg-white border-ink-200"
             )}
             style={{ transform: `translateX(-${scrollOffset}px)` }}
@@ -355,7 +355,7 @@ export function GanttChart<T>({
             {/* Task name column */}
             <div
               className={clsx(
-                "flex-shrink-0 w-48 px-3 py-2 border-r-2 font-semibold text-sm sticky left-0 z-20",
+                "flex-shrink-0 w-48 px-3 py-2 border-r-2 font-semibold text-sm sticky left-0 z-sticky-header",
                 inverted ? "bg-ink-900 border-ink-800 text-white" : "bg-white border-ink-200 text-ink-900"
               )}
             >
@@ -397,7 +397,7 @@ export function GanttChart<T>({
                   {/* Task name */}
                   <div
                     className={clsx(
-                      "flex-shrink-0 w-48 px-3 flex items-center border-r-2 sticky left-0 z-10",
+                      "flex-shrink-0 w-48 px-3 flex items-center border-r-2 sticky left-0 z-sticky-column",
                       inverted ? "bg-ink-900 border-ink-800" : "bg-white border-ink-200"
                     )}
                   >
@@ -467,7 +467,7 @@ export function GanttChart<T>({
           {/* Today marker */}
           {showToday && todayPosition > 0 && todayPosition < totalWidth && (
             <div
-              className="absolute top-0 bottom-0 w-0.5 bg-error-500 z-30 pointer-events-none"
+              className="absolute top-0 bottom-0 w-0.5 bg-error-500 z-sticky-header pointer-events-none"
               style={{ left: 192 + todayPosition - scrollOffset }}
             />
           )}
@@ -481,7 +481,7 @@ export function GanttChart<T>({
             return (
               <div
                 key={milestone.id}
-                className="absolute top-12 z-20"
+                className="absolute top-12 z-sticky-row"
                 style={{ left }}
               >
                 <div

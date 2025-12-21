@@ -4,6 +4,7 @@ import { ArrowLeft, Star, Trash2, Phone, Mail, ExternalLink } from 'lucide-react
 import { useRemovePreferredVendor, useUpdatePreferredVendor } from '@/hooks/usePreferredVendors';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const STATUS_CONFIG = {
@@ -79,12 +80,12 @@ export default function PreferredVendorDetailPage({ params }: { params: { id: st
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/preferred-vendors"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-card">
               <Star className="h-6 w-6 text-primary fill-primary" />

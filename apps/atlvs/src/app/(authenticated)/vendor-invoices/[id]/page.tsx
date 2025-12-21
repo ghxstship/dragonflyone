@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowLeft, FileText, CheckCircle, AlertTriangle, CreditCard, Trash2 } from 'lucide-react';
 import { useVendorInvoice, useApproveVendorInvoice, useRecordPayment, useDeleteVendorInvoice } from '@/hooks/useVendorInvoices';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const STATUS_CONFIG = {
   draft: { label: 'Draft', color: 'bg-muted text-muted-foreground' },
@@ -108,12 +109,12 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/vendor-invoices"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-card">
               <FileText className="h-6 w-6 text-primary" />

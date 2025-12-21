@@ -1168,19 +1168,19 @@ export const MobileAppSidebar = forwardRef<HTMLElement, MobileAppSidebarProps>(
       <>
         {/* Backdrop */}
         <div
-          className="fixed inset-0 z-40 bg-black/60 animate-fade-in"
+          className="fixed inset-0 z-sidebar-backdrop bg-black/60 animate-fade-in"
           onClick={onClose}
           aria-hidden="true"
         />
         {/* Sidebar */}
-        <div className="fixed inset-y-0 left-0 z-50 animate-slide-in-left">
+        <div className="fixed inset-y-0 left-0 z-sidebar animate-slide-in-left">
           <div className="relative h-full">
             {/* Close button */}
             <button
               type="button"
               onClick={onClose}
               className={clsx(
-                "absolute top-3 right-3 z-10 p-1.5 rounded transition-colors",
+                "absolute top-3 right-3 z-content-controls p-1.5 rounded transition-colors",
                 inverted
                   ? "text-ink-400 hover:text-white hover:bg-ink-800"
                   : "text-ink-500 hover:text-ink-900 hover:bg-ink-100"

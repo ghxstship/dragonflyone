@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Plus, Search, Filter, Package, Clock, CheckCircle, XCircle, Send, Eye } from 'lucide-react';
 import { useVendorOrders } from '@/hooks/useVendorOrders';
 
@@ -81,13 +82,13 @@ export default function VendorOrdersPage() {
             Create and manage orders to vendors with approval workflows
           </p>
         </div>
-        <a
+        <Link
           href="/vendor-orders/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Order
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -157,13 +158,13 @@ export default function VendorOrdersPage() {
               ? `No orders with status "${STATUS_CONFIG[statusFilter as keyof typeof STATUS_CONFIG]?.label}"`
               : 'Create your first vendor order to get started.'}
           </p>
-          <a
+          <Link
             href="/vendor-orders/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Create Order
-          </a>
+          </Link>
         </div>
       )}
 

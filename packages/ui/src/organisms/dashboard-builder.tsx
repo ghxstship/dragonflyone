@@ -186,7 +186,7 @@ function SortableWidget({
       className={clsx(
         "relative rounded-lg border-2 overflow-hidden transition-all",
         SIZE_CLASSES[widget.size],
-        isDragging && "opacity-50 z-50",
+        isDragging && "opacity-50 z-popover",
         inverted
           ? "bg-ink-800 border-ink-700"
           : "bg-white border-ink-200",
@@ -292,7 +292,7 @@ function WidgetPalette({ onAddWidget, inverted, isOpen, onClose }: WidgetPalette
   return (
     <div
       className={clsx(
-        "fixed inset-y-0 right-0 w-80 z-40 border-l-2 shadow-xl overflow-y-auto",
+        "fixed inset-y-0 right-0 w-80 z-sidebar-backdrop border-l-2 shadow-xl overflow-y-auto",
         inverted ? "bg-ink-900 border-ink-700" : "bg-white border-ink-200"
       )}
     >
@@ -408,7 +408,7 @@ function WidgetSettings({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-modal flex items-center justify-center">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"

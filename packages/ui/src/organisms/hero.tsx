@@ -76,7 +76,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(
           />
         )}
 
-        <div className="container mx-auto px-4 md:px-8 h-full flex items-center justify-center relative z-10">
+        <div className="container mx-auto px-4 md:px-8 h-full flex items-center justify-center relative z-content-overlay">
           <div className="text-center max-w-5xl animate-fade-in">
             {typeof title === "string" ? (
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl uppercase leading-none tracking-tight mb-6 animate-slide-up-bounce">

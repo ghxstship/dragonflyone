@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowLeft, CheckCircle, XCircle, RefreshCw, Settings, Zap, Clock, AlertTriangle } from 'lucide-react';
 import { Button } from '@ghxstship/ui';
 
@@ -85,13 +86,13 @@ export default function IntegrationProviderPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             The integration &ldquo;{provider}&rdquo; could not be found.
           </p>
-          <a
+          <Link
             href="/integrations"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Integrations
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -115,12 +116,12 @@ export default function IntegrationProviderPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center gap-4">
-        <a
+        <Link
           href="/integrations"
           className="p-2 hover:bg-muted rounded-button transition-colors"
         >
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-        </a>
+        </Link>
         <div className="flex-1">
           <h1 className="text-h2-md font-weight-bold text-foreground">{integration.name}</h1>
           <p className="text-body-sm text-muted-foreground mt-1">

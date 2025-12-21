@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { ArrowLeft, CreditCard, Shield, CheckCircle, XCircle, Settings, Zap, AlertTriangle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
 import { Button } from '@ghxstship/ui';
@@ -60,12 +61,12 @@ export default function PaymentSettingsPage() {
     <AtlvsAppLayout>
       <div className="p-6 space-y-6">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/payments"
             className="p-2 hover:bg-muted rounded-button transition-colors"
           >
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </a>
+          </Link>
           <div>
             <h1 className="text-h2-md font-weight-bold text-foreground">Payment Settings</h1>
             <p className="text-body-sm text-muted-foreground mt-1">

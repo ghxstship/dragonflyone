@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, FileText, Eye, Send, Clock, CheckCircle, XCircle, Filter } from 'lucide-react';
 import { useProposals } from '@/hooks/useProposals';
 
@@ -82,13 +83,13 @@ export default function ProposalsPage() {
             Create and manage client proposals
           </p>
         </div>
-        <a
+        <Link
           href="/proposals/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Proposal
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-5 gap-4">
@@ -138,12 +139,12 @@ export default function ProposalsPage() {
             ))}
           </select>
         </div>
-        <a
+        <Link
           href="/proposals/templates"
           className="px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
         >
           Templates
-        </a>
+        </Link>
       </div>
 
       {filteredProposals.length === 0 && (
@@ -155,13 +156,13 @@ export default function ProposalsPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first proposal'}
           </p>
-          <a
+          <Link
             href="/proposals/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             New Proposal
-          </a>
+          </Link>
         </div>
       )}
 

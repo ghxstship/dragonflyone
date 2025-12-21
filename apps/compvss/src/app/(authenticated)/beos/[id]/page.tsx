@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowLeft, Edit2, CheckCircle, Send, FileText, Clock, Users, MapPin, Calendar, Utensils, AlertTriangle } from 'lucide-react';
 import { useBEO, useApproveBEO, useDistributeBEO } from '@/hooks/useBEOs';
 
@@ -96,13 +97,13 @@ export default function BEODetailPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             {error instanceof Error ? error.message : 'The requested BEO could not be found.'}
           </p>
-          <a
+          <Link
             href="/beos"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to BEOs
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -114,12 +115,12 @@ export default function BEODetailPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/beos"
             className="p-2 hover:bg-muted rounded-button transition-colors"
           >
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </a>
+          </Link>
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-h2-md font-weight-bold text-foreground">{beo.beo_number}</h1>

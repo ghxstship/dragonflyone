@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { ArrowLeft, Save, FileText, Plus, Trash2 } from 'lucide-react';
 import { useCreatePurchaseOrder } from '@/hooks/usePurchaseOrders';
 import { useVendorProfiles } from '@/hooks/useVendorProfiles';
@@ -120,13 +121,13 @@ function NewPurchaseOrderContent() {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <a
+        <Link
           href="/purchase-orders"
           className="inline-flex items-center gap-2 text-body-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Purchase Orders
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
@@ -326,12 +327,12 @@ function NewPurchaseOrderContent() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-            <a
+            <Link
               href="/purchase-orders"
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </a>
+            </Link>
             <button
               type="submit"
               disabled={createMutation.isPending}

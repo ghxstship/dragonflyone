@@ -220,7 +220,7 @@ export const Toolbar = forwardRef<HTMLDivElement, ToolbarProps>(
         className={clsx(
           "flex items-center gap-2 px-4 py-2 border-2",
           position === "top" ? "border-b-2 border-t-0 border-x-0" : "border-t-2 border-b-0 border-x-0",
-          sticky && (position === "top" ? "sticky top-0 z-10" : "sticky bottom-0 z-10"),
+          sticky && (position === "top" ? "sticky top-0 z-sticky-header" : "sticky bottom-0 z-sticky-header"),
           inverted ? "bg-ink-900 border-ink-800" : "bg-white border-ink-200",
           className
         )}

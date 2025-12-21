@@ -371,7 +371,7 @@ export const FullBleedSection = forwardRef<HTMLElement, FullBleedSectionProps>(
             aria-hidden="true"
           />
         )}
-        <div className="relative z-10">{children}</div>
+        <div className="relative z-content-overlay">{children}</div>
       </section>
     );
   }

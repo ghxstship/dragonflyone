@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Plus, Search, Filter, Building2, Phone, Mail, MapPin, ExternalLink } from 'lucide-react';
 import { useVendorProfiles, useVendorCategories } from '@/hooks/useVendorProfiles';
 
@@ -59,13 +60,13 @@ export default function VendorsPage() {
             Centralized database of vendors with categories and certifications
           </p>
         </div>
-        <a
+        <Link
           href="/vendors/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Vendor
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-4 flex-wrap">
@@ -119,13 +120,13 @@ export default function VendorsPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             Add vendors to your directory to start managing relationships.
           </p>
-          <a
+          <Link
             href="/vendors/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Add First Vendor
-          </a>
+          </Link>
         </div>
       )}
 
@@ -134,7 +135,7 @@ export default function VendorsPage() {
           {data.vendors.map((vendor) => {
             const statusConfig = STATUS_CONFIG[vendor.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.active;
             return (
-              <a
+              <Link
                 key={vendor.id}
                 href={`/vendors/${vendor.id}`}
                 className="bg-background border-2 border-border rounded-card p-4 hover:border-primary/50 transition-colors"
@@ -203,7 +204,7 @@ export default function VendorsPage() {
                   )}
                 </div>
 
-                              </a>
+              </Link>
             );
           })}
         </div>

@@ -280,8 +280,8 @@ function FilterDropdown({ selectedTypes, onSelect }: FilterDropdownProps) {
       
       {open && (
         <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute top-full right-0 mt-spacing-1 min-w-container-xs bg-surface-elevated border-2 border-border-primary rounded-card shadow-lg z-20">
+          <div className="fixed inset-0 z-content-overlay" onClick={() => setOpen(false)} />
+          <div className="absolute top-full right-0 mt-spacing-1 min-w-container-xs bg-surface-elevated border-2 border-border-primary rounded-card shadow-lg z-dropdown">
             {allTypes.map((type) => (
               <button
                 key={type}

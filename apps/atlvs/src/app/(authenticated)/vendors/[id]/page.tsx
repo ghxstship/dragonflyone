@@ -5,6 +5,7 @@ import { ArrowLeft, Building2, Mail, Phone, MapPin, Globe, Star, Edit, Trash2 } 
 import { useVendorProfile, useDeleteVendor } from '@/hooks/useVendorProfiles';
 import { useVendorReviews, useVendorMetrics } from '@/hooks/useVendorPerformance';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function VendorDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -56,12 +57,12 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="/vendors"
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div className="flex items-center gap-4">
             {vendor.logo_url ? (
               <Image
@@ -91,13 +92,13 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
         </div>
 
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href={`/vendors/${id}/edit`}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             <Edit className="h-4 w-4" />
             Edit
-          </a>
+          </Link>
           <button
             onClick={handleDelete}
             disabled={deleteMutation.isPending}

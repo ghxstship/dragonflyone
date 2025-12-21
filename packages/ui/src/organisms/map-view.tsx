@@ -174,8 +174,8 @@ function PlaceholderMap({
             type="button"
             onClick={() => onLocationClick?.(location)}
             className={clsx(
-              "absolute transform -translate-x-1/2 -translate-y-full transition-all z-10",
-              isSelected && "z-20 scale-125"
+              "absolute transform -translate-x-1/2 -translate-y-full transition-all z-content-overlay",
+              isSelected && "z-content-controls scale-125"
             )}
             style={{ left: `${pos.x}%`, top: `${pos.y}%` }}
           >
@@ -417,7 +417,7 @@ export function MapView<T>({
       {/* Map area */}
       <div className="flex-1 relative">
         {/* Map controls */}
-        <div className="absolute top-3 right-3 z-20 flex flex-col gap-1">
+        <div className="absolute top-3 right-3 z-content-controls flex flex-col gap-1">
           <button
             type="button"
             onClick={() => setCurrentZoom((z) => Math.min(z + 1, 20))}

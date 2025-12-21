@@ -59,7 +59,7 @@ function PresenceIndicator({ user, type }: PresenceIndicatorProps) {
   return (
     <div 
       className={clsx(
-        "absolute -top-spacing-2 -right-spacing-2 flex items-center gap-gap-xs px-spacing-2 py-spacing-1 rounded-badge text-body-xs font-code animate-pop-in z-10",
+        "absolute -top-spacing-2 -right-spacing-2 flex items-center gap-gap-xs px-spacing-2 py-spacing-1 rounded-badge text-body-xs font-code animate-pop-in z-content-overlay",
         "border-2 shadow-xs"
       )}
       style={{ 
@@ -92,7 +92,7 @@ interface LockIndicatorProps {
 function LockIndicator({ user }: LockIndicatorProps) {
   return (
     <div 
-      className="absolute inset-0 flex items-center justify-center bg-surface-primary/80 rounded-card z-20"
+      className="absolute inset-0 flex items-center justify-center bg-surface-primary/80 rounded-card z-content-controls"
     >
       <div className="flex flex-col items-center gap-gap-xs text-center p-spacing-4">
         <Lock className="size-6 text-warning-500" />
@@ -116,7 +116,7 @@ export interface CollaborativeCursorProps {
 export function CollaborativeCursor({ user, position }: CollaborativeCursorProps) {
   return (
     <div 
-      className="absolute pointer-events-none z-50 animate-pop-in"
+      className="absolute pointer-events-none z-tooltip animate-pop-in"
       style={{ 
         left: position.x, 
         top: position.y,

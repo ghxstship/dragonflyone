@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Plus, Search, FileText, Clock, CheckCircle, AlertTriangle, Filter } from 'lucide-react';
 import { useContracts } from '@/hooks/useContracts';
 
@@ -96,19 +97,19 @@ export default function ContractsPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href="/contracts/clauses"
             className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             Clause Library
-          </a>
-          <a
+          </Link>
+          <Link
             href="/contracts/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
           >
             <Plus className="h-4 w-4" />
             New Contract
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -195,13 +196,13 @@ export default function ContractsPage() {
           <p className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first contract'}
           </p>
-          <a
+          <Link
             href="/contracts/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             New Contract
-          </a>
+          </Link>
         </div>
       )}
 

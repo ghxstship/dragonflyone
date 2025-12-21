@@ -327,7 +327,7 @@ export function TimelineView<T>({
           {group.label && (
             <div
               className={clsx(
-                "sticky top-0 z-10 py-2 mb-4",
+                "sticky top-0 z-sticky-header py-2 mb-4",
                 inverted ? "bg-ink-900" : "bg-white"
               )}
             >

@@ -214,6 +214,7 @@ const accentPalette = {
     DEFAULT: '#FF006E',
     pink: '#FF006E',
     cyan: '#00BFFF',
+    yellow: '#F59E0B',
   },
 };
 
@@ -805,13 +806,23 @@ const baseTailwindConfig = {
       fontWeight: fontWeightTokens,
       zIndex: {
         base: '0',
+        'content-overlay': '1',
+        'content-controls': '2',
+        'content-badge': '3',
+        'sticky-column': '5',
+        'sticky-row': '6',
+        'sticky-header': '10',
+        'sidebar-backdrop': '40',
+        sidebar: '50',
         dropdown: '1000',
         sticky: '1100',
+        header: '1150',
         fixed: '1200',
         'modal-backdrop': '1300',
         modal: '1400',
         popover: '1500',
-        tooltip: '1600'
+        tooltip: '1600',
+        'skip-link': '9999'
       },
       transitionDuration: {
         fast: '100ms',
