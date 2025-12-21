@@ -32,6 +32,6 @@
   },
   "devDependencies": {
     "@types/google.maps": "^3.58.1",
-    "next": "^15.5.8"
+    "next": "^16.1.0"
   }
 }
