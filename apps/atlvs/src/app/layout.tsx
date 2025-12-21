@@ -10,6 +10,7 @@ import {
 import "./globals.css";
 import { ErrorBoundary, NotificationProvider } from "@ghxstship/ui";
 import { Providers } from "./providers";
+import { CookieConsentWrapper } from "../components/cookie-consent-wrapper";
 
 const anton = Anton({ subsets: ["latin"], weight: "400", variable: "--font-anton" });
 const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas-neue" });
@@ -39,6 +40,7 @@ export default function RootLayout({
           <Providers>
             <NotificationProvider>
               {children}
+              <CookieConsentWrapper />
             </NotificationProvider>
           </Providers>
         </ErrorBoundary>

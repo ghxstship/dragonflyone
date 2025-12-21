@@ -48,6 +48,22 @@ export const compvssSidebarNavigation = [
       { label: "Schedule", href: "/schedule", icon: "Calendar" },
       { label: "Projects", href: "/projects", icon: "FolderKanban" },
     ],
+    subsections: [
+      {
+        label: "My Workspace",
+        items: [
+          { label: "My Schedule", href: "/my-schedule", icon: "Calendar" },
+          { label: "My Assignments", href: "/my-assignments", icon: "ClipboardList" },
+          { label: "My Timesheets", href: "/my-timesheets", icon: "Clock" },
+          { label: "My Training", href: "/my-training", icon: "GraduationCap" },
+          { label: "My Credentials", href: "/my-credentials", icon: "IdCard" },
+          { label: "My Contracts", href: "/my-contracts", icon: "FileText" },
+          { label: "My Invoices", href: "/my-invoices", icon: "Receipt" },
+          { label: "My Deliveries", href: "/my-deliveries", icon: "Package" },
+          { label: "My Hospitality", href: "/my-hospitality", icon: "Crown" },
+        ],
+      },
+    ],
   },
   {
     section: "Crew",
@@ -66,11 +82,11 @@ export const compvssSidebarNavigation = [
         label: "Crew Admin",
         allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER],
         items: [
-          { label: "Background Checks", href: "/background-checks", icon: "ShieldCheck" },
+          { label: "Background Checks", href: "/crew/background-checks", icon: "ShieldCheck" },
+          { label: "Crew Social", href: "/crew/social", icon: "Heart" },
           { label: "Travel", href: "/travel", icon: "Plane" },
           { label: "Expenses", href: "/expenses", icon: "Receipt" },
           { label: "Mentorship", href: "/mentorship", icon: "GraduationCap" },
-          { label: "Crew Social", href: "/crew-social", icon: "Heart" },
         ],
       },
     ],
@@ -103,6 +119,13 @@ export const compvssSidebarNavigation = [
           { label: "QA Checkpoints", href: "/qa-checkpoints", icon: "CheckSquare" },
           { label: "Punch List", href: "/punch-list", icon: "ClipboardList" },
           { label: "Photo Documentation", href: "/photo-documentation", icon: "Camera" },
+        ],
+      },
+      {
+        label: "BEOs",
+        items: [
+          { label: "All BEOs", href: "/beos", icon: "FileText" },
+          { label: "New BEO", href: "/beos/new", icon: "Plus" },
         ],
       },
     ],
@@ -168,9 +191,19 @@ export const compvssSidebarNavigation = [
     // Communications visible to all roles
     items: [
       { label: "Comms Hub", href: "/communications", icon: "MessageSquare", primary: true },
-      { label: "Channels", href: "/channels", icon: "Radio" },
+      { label: "Channels", href: "/communications/channels", icon: "Radio" },
       { label: "Messages", href: "/messages", icon: "Mail" },
       { label: "Stakeholder Portal", href: "/stakeholder-portal", icon: "Users", allowedRoles: [COMPVSS_ROLES.ADMIN, COMPVSS_ROLES.OWNER, COMPVSS_ROLES.MANAGER, COMPVSS_ROLES.CLIENT] },
+    ],
+    subsections: [
+      {
+        label: "Vendor Communications",
+        items: [
+          { label: "Vendor Comms", href: "/vendor-communications", icon: "MessageSquare" },
+          { label: "Vendor Schedules", href: "/vendor-schedules", icon: "Calendar" },
+          { label: "New Schedule", href: "/vendor-schedules/new", icon: "Plus" },
+        ],
+      },
     ],
   },
   {

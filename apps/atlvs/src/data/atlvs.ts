@@ -46,8 +46,28 @@ export const atlvsSidebarNavigation = [
     items: [
       { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
       { label: "Portfolio", href: "/portfolio", icon: "Briefcase", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
+      { label: "Productions", href: "/productions", icon: "FolderKanban" },
+      { label: "Events", href: "/events", icon: "Calendar" },
+      { label: "Calendar", href: "/calendar", icon: "CalendarDays" },
+      { label: "Notifications", href: "/notifications", icon: "Bell" },
       { label: "OKRs & Goals", href: "/okrs", icon: "Target", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.EXECUTIVE] },
       { label: "Strategic Alignment", href: "/alignment", icon: "Crosshair", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.EXECUTIVE] },
+    ],
+    subsections: [
+      {
+        label: "Productions",
+        items: [
+          { label: "New Production", href: "/productions/new", icon: "Plus" },
+          { label: "Event Types", href: "/event-types", icon: "Tag" },
+        ],
+      },
+      {
+        label: "Calendar Views",
+        items: [
+          { label: "Timeline", href: "/calendar/timeline", icon: "GanttChart" },
+          { label: "Spaces Calendar", href: "/calendar/spaces", icon: "LayoutGrid" },
+        ],
+      },
     ],
   },
   {
@@ -58,8 +78,9 @@ export const atlvsSidebarNavigation = [
       { label: "Pipeline", href: "/pipeline", icon: "GitBranch", primary: true },
       { label: "Deals", href: "/deals", icon: "Handshake" },
       { label: "Contacts", href: "/contacts", icon: "Contact" },
+      { label: "Clients", href: "/clients", icon: "Building" },
       { label: "Leads", href: "/leads/scoring", icon: "Star" },
-      { label: "Quotes & Proposals", href: "/quotes", icon: "FileQuestion" },
+      { label: "Proposals", href: "/proposals", icon: "FileText" },
       { label: "RFPs", href: "/rfp", icon: "FileSearch" },
       { label: "Partnerships", href: "/partnerships", icon: "Link", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER] },
       { label: "Stakeholders", href: "/stakeholders", icon: "Users" },
@@ -73,7 +94,38 @@ export const atlvsSidebarNavigation = [
           { label: "Calendar", href: "/crm/calendar", icon: "Calendar" },
           { label: "Email Integration", href: "/crm/email-integration", icon: "Mail" },
           { label: "Relationships", href: "/crm/relationships", icon: "Link2" },
-          { label: "Contact Relationships", href: "/contacts/relationships", icon: "Network" },
+          { label: "Lead Scoring", href: "/crm/lead-scoring", icon: "Star" },
+        ],
+      },
+      {
+        label: "Pipeline",
+        items: [
+          { label: "Analytics", href: "/pipeline/analytics", icon: "BarChart" },
+          { label: "New Deal", href: "/pipeline/deals/new", icon: "Plus" },
+          { label: "Settings", href: "/pipeline/settings", icon: "Settings" },
+        ],
+      },
+      {
+        label: "Contacts",
+        items: [
+          { label: "New Contact", href: "/contacts/new", icon: "Plus" },
+          { label: "Duplicates", href: "/contacts/duplicates", icon: "Copy" },
+        ],
+      },
+      {
+        label: "Lead Generation",
+        items: [
+          { label: "Lead Forms", href: "/lead-forms", icon: "FormInput" },
+          { label: "New Form", href: "/lead-forms/new", icon: "Plus" },
+          { label: "Lead Nurturing", href: "/leads/nurturing", icon: "Sprout" },
+        ],
+      },
+      {
+        label: "Proposals",
+        items: [
+          { label: "New Proposal", href: "/proposals/new", icon: "Plus" },
+          { label: "Templates", href: "/proposals/templates", icon: "Copy" },
+          { label: "New RFP", href: "/rfps/new", icon: "Plus" },
         ],
       },
     ],
@@ -88,6 +140,52 @@ export const atlvsSidebarNavigation = [
       { label: "Scenarios", href: "/scenarios", icon: "GitCompare" },
       { label: "Advances", href: "/advances", icon: "ArrowUpRight", allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.FINANCE] },
       { label: "Advancing", href: "/advancing", icon: "FastForward" },
+      { label: "Project Costs", href: "/project-costs", icon: "DollarSign" },
+      { label: "Crew", href: "/crew", icon: "Users" },
+      { label: "Departments", href: "/departments", icon: "Building" },
+    ],
+    subsections: [
+      {
+        label: "Contracts",
+        items: [
+          { label: "New Contract", href: "/contracts/new", icon: "Plus" },
+          { label: "Templates", href: "/contracts/templates", icon: "Copy" },
+          { label: "Clauses", href: "/contracts/clauses", icon: "FileText" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Bookings",
+    icon: "CalendarCheck",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES],
+    items: [
+      { label: "All Bookings", href: "/bookings", icon: "CalendarCheck", primary: true },
+      { label: "New Booking", href: "/bookings/new", icon: "Plus" },
+      { label: "Packages", href: "/bookings/packages", icon: "Package" },
+      { label: "Templates", href: "/bookings/templates", icon: "Copy" },
+      { label: "Holds", href: "/holds", icon: "Clock" },
+      { label: "Availability", href: "/availability", icon: "CalendarDays" },
+    ],
+    subsections: [
+      {
+        label: "Holds",
+        items: [
+          { label: "Expiring", href: "/holds/expiring", icon: "AlertTriangle" },
+        ],
+      },
+      {
+        label: "Availability",
+        items: [
+          { label: "Widget", href: "/availability/widget", icon: "LayoutGrid" },
+        ],
+      },
+      {
+        label: "BEOs",
+        items: [
+          { label: "Templates", href: "/beos/templates", icon: "FileText" },
+        ],
+      },
     ],
   },
   {
@@ -112,6 +210,35 @@ export const atlvsSidebarNavigation = [
           { label: "Accounts Receivable", href: "/finance/accounts-receivable", icon: "ArrowDownRight" },
           { label: "Credit Cards", href: "/finance/credit-cards", icon: "CreditCard" },
           { label: "Commissions", href: "/finance/commissions", icon: "Percent" },
+          { label: "Reports", href: "/reports/revenue", icon: "BarChart" },
+        ],
+      },
+      {
+        label: "Expenses",
+        items: [
+          { label: "All Expenses", href: "/expenses", icon: "Receipt" },
+          { label: "Categories", href: "/expenses/categories", icon: "Grid" },
+          { label: "Reports", href: "/expenses/reports", icon: "FileText" },
+        ],
+      },
+      {
+        label: "Payment Schedules",
+        items: [
+          { label: "All Schedules", href: "/payment-schedules", icon: "Calendar" },
+          { label: "Overdue", href: "/payment-schedules/overdue", icon: "AlertTriangle" },
+          { label: "Upcoming", href: "/payment-schedules/upcoming", icon: "Clock" },
+        ],
+      },
+      {
+        label: "Vendor Payments",
+        items: [
+          { label: "Vendor Invoices", href: "/vendor-invoices", icon: "FileText" },
+          { label: "New Invoice", href: "/vendor-invoices/new", icon: "Plus" },
+          { label: "Vendor Orders", href: "/vendor-orders", icon: "ShoppingCart" },
+          { label: "New Order", href: "/vendor-orders/new", icon: "Plus" },
+          { label: "Approvals", href: "/vendor-orders/approvals", icon: "CheckCircle" },
+          { label: "Purchase Orders", href: "/purchase-orders", icon: "ClipboardList" },
+          { label: "New PO", href: "/purchase-orders/new", icon: "Plus" },
         ],
       },
     ],
@@ -154,6 +281,34 @@ export const atlvsSidebarNavigation = [
         items: [
           { label: "Vendor Contracts", href: "/vendors/contracts", icon: "FileText" },
           { label: "Rate Cards", href: "/vendors/rate-cards", icon: "DollarSign" },
+          { label: "New Vendor", href: "/vendors/new", icon: "Plus" },
+          { label: "Categories", href: "/vendors/categories", icon: "Grid" },
+          { label: "Preferred Vendors", href: "/preferred-vendors", icon: "Star" },
+          { label: "New Preferred", href: "/preferred-vendors/new", icon: "Plus" },
+        ],
+      },
+      {
+        label: "Inventory",
+        items: [
+          { label: "All Inventory", href: "/inventory", icon: "Package" },
+          { label: "New Item", href: "/inventory/new", icon: "Plus" },
+          { label: "Availability", href: "/inventory/availability", icon: "CalendarCheck" },
+          { label: "Scan", href: "/inventory/scan", icon: "QrCode" },
+          { label: "Catalog", href: "/catalog", icon: "Grid" },
+          { label: "Categories", href: "/catalog/categories", icon: "FolderTree" },
+          { label: "New Catalog Item", href: "/catalog/new", icon: "Plus" },
+        ],
+      },
+      {
+        label: "Venues & Spaces",
+        items: [
+          { label: "Venues", href: "/venues", icon: "Building" },
+          { label: "Locations", href: "/locations", icon: "MapPin" },
+          { label: "Spaces", href: "/spaces", icon: "LayoutGrid" },
+          { label: "New Space", href: "/spaces/new", icon: "Plus" },
+          { label: "Combinations", href: "/spaces/combinations", icon: "Layers" },
+          { label: "Floor Plans", href: "/floor-plans", icon: "Map" },
+          { label: "New Floor Plan", href: "/floor-plans/new", icon: "Plus" },
         ],
       },
       {
@@ -214,6 +369,11 @@ export const atlvsSidebarNavigation = [
           { label: "Client Retention", href: "/analytics/client-retention", icon: "UserCheck" },
           { label: "Scheduled Reports", href: "/reports/scheduled", icon: "Clock" },
           { label: "Marketing Attribution", href: "/marketing/attribution", icon: "BarChart" },
+          { label: "Pipeline Analytics", href: "/analytics/pipeline", icon: "GitBranch" },
+          { label: "Revenue Analytics", href: "/analytics/revenue", icon: "DollarSign" },
+          { label: "Metrics", href: "/metrics", icon: "BarChart" },
+          { label: "KPIs", href: "/metrics/kpis", icon: "Target" },
+          { label: "Metrics Reports", href: "/metrics/reports", icon: "FileText" },
         ],
       },
       {
@@ -237,13 +397,62 @@ export const atlvsSidebarNavigation = [
     ],
   },
   {
+    section: "Client Portal",
+    icon: "Globe",
+    allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER, ATLVS_ROLES.MANAGER, ATLVS_ROLES.SALES],
+    items: [
+      { label: "Portal", href: "/client-portal", icon: "Globe", primary: true },
+      { label: "Documents", href: "/client-portal/documents", icon: "FileText" },
+      { label: "Events", href: "/client-portal/events", icon: "Calendar" },
+      { label: "Invoices", href: "/client-portal/invoices", icon: "Receipt" },
+    ],
+  },
+  {
     section: "Settings",
     icon: "Settings",
     allowedRoles: [ATLVS_ROLES.ADMIN, ATLVS_ROLES.OWNER],
     items: [
       { label: "Settings", href: "/settings", icon: "Settings", primary: true },
-      { label: "Appearance", href: "/settings/appearance", icon: "Palette" },
-      { label: "Integrations", href: "/integrations", icon: "Plug", allowedRoles: [ATLVS_ROLES.ADMIN] },
+      { label: "Organization", href: "/settings/organization", icon: "Building" },
+      { label: "Team", href: "/settings/team", icon: "Users" },
+      { label: "Roles", href: "/settings/roles", icon: "Shield" },
+      { label: "Integrations", href: "/settings/integrations", icon: "Plug" },
+      { label: "Notifications", href: "/settings/notifications", icon: "Bell" },
+    ],
+    subsections: [
+      {
+        label: "Security & Privacy",
+        items: [
+          { label: "Security", href: "/settings/security", icon: "Shield" },
+          { label: "Privacy", href: "/settings/privacy", icon: "Lock" },
+          { label: "Consent History", href: "/settings/consent-history", icon: "FileText" },
+        ],
+      },
+      {
+        label: "Data",
+        items: [
+          { label: "Import", href: "/settings/import", icon: "Download" },
+          { label: "Export", href: "/settings/export", icon: "Upload" },
+          { label: "Pricing Rules", href: "/pricing-rules", icon: "DollarSign" },
+        ],
+      },
+      {
+        label: "Billing & Webhooks",
+        items: [
+          { label: "Billing", href: "/settings/billing", icon: "CreditCard" },
+          { label: "Webhooks", href: "/webhooks", icon: "Webhook" },
+          { label: "New Webhook", href: "/webhooks/new", icon: "Plus" },
+        ],
+      },
+      {
+        label: "Admin",
+        allowedRoles: [ATLVS_ROLES.ADMIN],
+        items: [
+          { label: "Users", href: "/admin/users", icon: "Users" },
+          { label: "Batch Operations", href: "/admin/batch-operations", icon: "Layers" },
+          { label: "Support Tickets", href: "/support/tickets", icon: "Headphones" },
+        ],
+      },
     ],
   },
 ];

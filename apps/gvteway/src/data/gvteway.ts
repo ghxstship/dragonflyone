@@ -55,6 +55,13 @@ export const gvtewayMembershipNavigation = [
 // Role-based filtering: items with allowedRoles are only shown to users with matching roles
 export const gvtewaySidebarNavigation = [
   {
+    section: "Home",
+    icon: "LayoutDashboard",
+    items: [
+      { label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", primary: true },
+    ],
+  },
+  {
     section: "Discover",
     icon: "Compass",
     items: [
@@ -107,6 +114,31 @@ export const gvtewaySidebarNavigation = [
         items: [
           { label: "Order History", href: "/orders/history", icon: "History" },
           { label: "Urgency Alerts", href: "/tickets/urgency", icon: "Clock" },
+        ],
+      },
+      {
+        label: "Protection",
+        items: [
+          { label: "Anti-Scalping", href: "/tickets/anti-scalping", icon: "ShieldCheck" },
+        ],
+      },
+    ],
+  },
+  {
+    section: "Account",
+    icon: "User",
+    items: [
+      { label: "My Account", href: "/account", icon: "User", primary: true },
+      { label: "Profile", href: "/account/profile", icon: "UserCircle" },
+      { label: "My Tickets", href: "/account/tickets", icon: "Ticket" },
+      { label: "Orders", href: "/account/orders", icon: "ShoppingBag" },
+    ],
+    subsections: [
+      {
+        label: "Financials",
+        items: [
+          { label: "My Refunds", href: "/account/my-refunds", icon: "RefreshCw" },
+          { label: "My Transfers", href: "/account/my-transfers", icon: "ArrowRightLeft" },
         ],
       },
     ],
@@ -228,6 +260,17 @@ export const gvtewaySidebarNavigation = [
           { label: "Privacy", href: "/settings/privacy", icon: "Lock" },
           { label: "Language", href: "/settings/language", icon: "Globe" },
           { label: "Notification Preferences", href: "/settings/notifications", icon: "Bell" },
+          { label: "Sessions", href: "/settings/sessions", icon: "Monitor" },
+          { label: "Connected Apps", href: "/settings/connected-apps", icon: "Plug" },
+        ],
+      },
+      {
+        label: "Developer",
+        allowedRoles: [GVTEWAY_ROLES.ADMIN, GVTEWAY_ROLES.ORGANIZER],
+        items: [
+          { label: "API Keys", href: "/settings/api-keys", icon: "Key" },
+          { label: "API Access", href: "/settings/api-access", icon: "Code" },
+          { label: "Webhooks", href: "/settings/webhooks", icon: "Webhook" },
         ],
       },
     ],

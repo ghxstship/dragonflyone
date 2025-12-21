@@ -6208,6 +6208,113 @@ The following V3 Expansion features overlap with existing application functional
 
 ---
 
+## P1 - International Compliance
+
+### BACK-100: International Compliance Implementation
+
+| Field | Value |
+|-------|-------|
+| **Status** | Planned |
+| **Priority** | P1 |
+| **Effort** | XXL (12 weeks) |
+| **App** | All |
+| **Source** | International Compliance Plan - December 20, 2025 |
+
+**Description:**  
+Comprehensive international compliance implementation to achieve 100% compliance with GDPR, CCPA/CPRA, LGPD, PCI-DSS, WCAG 2.1 AA, and other applicable regulations. Full plan documented in `docs/INTERNATIONAL_COMPLIANCE_PLAN.md`.
+
+**Phase 1: Critical Compliance (Weeks 1-4)**
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| G001 | Cookie consent banner UI component | P0 | Pending |
+| G002 | Enhanced privacy policy (international sections) | P0 | Pending |
+| G003 | Consent withdrawal mechanism in settings UI | P0 | Pending |
+| G004 | Data export functionality (GDPR Art. 20) | P0 | Pending |
+| G005 | Automated data deletion workflow (GDPR Art. 17) | P0 | Pending |
+| G006 | DPIA documentation templates | P0 | Pending |
+
+**Phase 2: High Priority Compliance (Weeks 5-8)**
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| G007 | Age verification for events (COPPA) | P1 | Pending |
+| G008 | Data Processing Agreement templates | P1 | Pending |
+| G009 | Sub-processor list publication | P1 | Pending |
+| G010 | International data transfer documentation | P1 | Pending |
+| G011 | Breach notification automation | P1 | Pending |
+| G012 | Marketing consent granularity | P1 | Pending |
+| G013 | PCI-DSS documentation (SAQ-A) | P1 | Pending |
+| G014 | Accessibility audit across all pages | P1 | Pending |
+
+**Phase 3: Medium Priority Compliance (Weeks 9-12)**
+
+| Task | Description | Priority | Status |
+|------|-------------|----------|--------|
+| G015 | Privacy preference center UI | P2 | Pending |
+| G016 | Consent history viewer | P2 | Pending |
+| G017 | Data retention automation | P2 | Pending |
+| G018 | Cookie audit and classification | P2 | Pending |
+| G019 | Regional terms variations | P2 | Pending |
+| G020 | Multi-language legal documents | P2 | Pending |
+
+**Files to Create:**
+- `packages/ui/src/organisms/cookie-consent-banner.tsx`
+- `packages/config/hooks/useCookieConsent.ts`
+- `packages/config/hooks/useConsentManagement.ts`
+- `packages/ui/src/organisms/age-gate.tsx`
+- `packages/ui/src/organisms/privacy-preference-center.tsx`
+- `supabase/functions/data-export/index.ts`
+- `supabase/functions/data-deletion/index.ts`
+- `supabase/functions/breach-notification/index.ts`
+- `supabase/functions/data-retention/index.ts`
+- `e2e/accessibility/wcag-audit.spec.ts`
+- `docs/compliance/DPIA_TEMPLATE.md`
+- `docs/compliance/DPA_TEMPLATE.md`
+- `docs/compliance/SUB_PROCESSORS.md`
+- `docs/compliance/PCI_DSS_COMPLIANCE.md`
+
+**Applicable Regulations:**
+- GDPR (EU) - Data protection, consent, DSR rights
+- UK GDPR - Same as GDPR
+- CCPA/CPRA (California) - Consumer privacy rights
+- LGPD (Brazil) - Data protection
+- PIPEDA (Canada) - Privacy
+- PCI-DSS - Payment card security
+- WCAG 2.1 AA - Web accessibility
+- ADA (USA) - Disability access
+- ePrivacy Directive - Cookie consent
+- CAN-SPAM/CASL - Email marketing
+
+**Current Implementation Status:**
+- Database schema: ✅ Complete (compliance_regions, consent_records, data_subject_requests, audit_logs)
+- DSR API: ✅ Complete
+- Cookie consent API: ✅ Complete
+- Privacy consent API: ✅ Complete
+- Cookie consent banner UI: ❌ Missing
+- DPIA documentation: ❌ Missing
+- DPA templates: ❌ Missing
+
+**Acceptance Criteria:**
+- [ ] Cookie consent banner displayed before non-essential cookies set
+- [ ] Users can withdraw consent from settings
+- [ ] Data export generates machine-readable JSON within 30 days
+- [ ] Account deletion completed within 30 days (GDPR) / 45 days (CCPA)
+- [ ] DPIA completed for all high-risk processing activities
+- [ ] Sub-processor list published and maintained
+- [ ] 72-hour breach notification process automated
+- [ ] All pages pass WCAG 2.1 AA audit
+- [ ] Age verification implemented for restricted events
+- [ ] Marketing consent separated by channel (email, SMS, push)
+
+**Reference Documentation:**
+- `docs/INTERNATIONAL_COMPLIANCE_PLAN.md` - Full compliance plan
+- `docs/security/SECURITY_AUDIT_REPORT.md` - Security controls
+- `supabase/migrations/0085_audit_logging_compliance_system.sql` - Audit schema
+- `supabase/migrations/0110_enterprise_compliance_features.sql` - Compliance schema
+
+---
+
 ## P3 - Third-Party Integration Placeholders
 
 ### BACK-090: API Validation - Third-Party Integration Completion

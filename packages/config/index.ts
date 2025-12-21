@@ -218,3 +218,14 @@ export * from './navigation-types';
 
 // Enhanced navigation hook
 export * from './hooks/useEnhancedNavigation';
+
+// Cookie consent hook and provider
+export * from './hooks/useCookieConsent';
+export {
+  CookieConsentProvider,
+  useCookieConsentContext,
+  useAnalyticsConsent,
+  useAdvertisingConsent,
+  useFunctionalConsent,
+  withConsentRequired,
+} from './providers/CookieConsentProvider';

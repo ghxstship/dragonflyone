@@ -257,6 +257,12 @@ export { OnboardingWizard, WelcomeStep, ProfileStep, PreferencesStep, Completion
 export type { OnboardingStep, OnboardingStepProps, OnboardingWizardProps } from "./organisms/onboarding-wizard.js";
 export { AppSwitcher, PLATFORM_APPS } from "./components/AppSwitcher.js";
 export type { AppSwitcherProps, AppConfig } from "./components/AppSwitcher.js";
+export { CookieConsentBanner } from "./organisms/cookie-consent-banner.js";
+export type { CookieConsentBannerProps, CookiePreferences } from "./organisms/cookie-consent-banner.js";
+export { AgeVerificationModal, useAgeVerification } from "./molecules/age-verification-modal.js";
+export type { AgeVerificationModalProps } from "./molecules/age-verification-modal.js";
+export { PrivacyPreferenceCenter, defaultConsentCategories } from "./organisms/privacy-preference-center.js";
+export type { PrivacyPreferenceCenterProps, ConsentCategory } from "./organisms/privacy-preference-center.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts

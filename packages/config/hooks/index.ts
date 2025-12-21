@@ -157,3 +157,12 @@ export type {
   UseEnhancedNavigationResult,
   UseBadgeOptions,
 } from './useEnhancedNavigation';
+
+// Cookie consent hook
+export { useCookieConsent } from './useCookieConsent';
+export type {
+  CookiePreferences,
+  CookieConsentState,
+  UseCookieConsentOptions,
+  UseCookieConsentReturn,
+} from './useCookieConsent';

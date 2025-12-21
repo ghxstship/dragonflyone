@@ -4,6 +4,7 @@ import React from 'react';
 import { QueryClientProvider } from './query-client';
 import { AuthProvider } from './auth-context';
 import { AppContextProvider } from './app-context';
+import { CookieConsentProvider } from './providers/CookieConsentProvider';
 
 /**
  * Root Providers Component
@@ -18,11 +19,13 @@ export function AppProviders({
 }) {
   return (
     <QueryClientProvider>
-      <AuthProvider>
-        <AppContextProvider platform={platform}>
-          {children}
-        </AppContextProvider>
-      </AuthProvider>
+      <CookieConsentProvider complianceMode="gdpr">
+        <AuthProvider>
+          <AppContextProvider platform={platform}>
+            {children}
+          </AppContextProvider>
+        </AuthProvider>
+      </CookieConsentProvider>
     </QueryClientProvider>
   );
 }

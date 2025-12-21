@@ -66,7 +66,9 @@
     "saved-filters.ts",
     "pdf-generator.ts",
     "catalog-categories.ts",
-    "navigation-types.ts"
+    "navigation-types.ts",
+    "providers/**/*.ts",
+    "providers/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
