@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { HardHat, Flame, Zap, Construction, Accessibility, Leaf, Volume2, ClipboardList } from "lucide-react";
 import {
   Container,
@@ -72,7 +72,7 @@ export default function RegulationsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Industry Regulations"
         subtitle="Compliance documentation and regulatory references"
@@ -191,6 +191,6 @@ export default function RegulationsPage() {
           <Button variant="solid">View Full Document</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

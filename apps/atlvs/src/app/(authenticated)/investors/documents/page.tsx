@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, Download, FileText, Send, CheckCircle, Clock } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useInvestorDocuments, useInvestors, useInvestmentRounds } from '../../../../hooks/useInvestors';
 import {
   ListPage,
@@ -204,7 +204,7 @@ function InvestorDocumentsPageContent() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<InvestorDocument>
         title="Investor Documents"
         subtitle="Manage subscription agreements and legal documents"
@@ -279,7 +279,7 @@ function InvestorDocumentsPageContent() {
         subtitle={(d) => documentTypeLabels[d.document_type] || d.document_type}
         sections={detailSections}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }
 

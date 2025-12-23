@@ -29,7 +29,7 @@ import {
   Plus,
   Eye,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface Incident {
@@ -103,7 +103,7 @@ export default function ProductionIncidentsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Incident Reports" description="Track and manage production incidents" colorScheme="on-dark" />
@@ -173,6 +173,6 @@ export default function ProductionIncidentsPage() {
           <Button variant="solid" onClick={handleCreateIncident}>Submit Report</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

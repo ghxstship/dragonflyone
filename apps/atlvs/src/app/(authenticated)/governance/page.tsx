@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, FileText, Pencil } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -116,7 +116,7 @@ export default function GovernancePage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<BoardMeeting>
         title="Corporate Governance"
         subtitle="Board meetings, corporate policies, and governance documentation"
@@ -190,6 +190,6 @@ export default function GovernancePage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

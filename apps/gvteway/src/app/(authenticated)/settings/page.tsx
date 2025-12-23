@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -57,7 +57,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
@@ -188,6 +188,6 @@ export default function SettingsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

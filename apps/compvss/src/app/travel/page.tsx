@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -109,7 +109,7 @@ export default function TravelPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Travel Coordination"
         subtitle="Manage crew flights, accommodations, and travel logistics"
@@ -192,6 +192,6 @@ primaryAction={{ label: 'Book Travel', onClick: () => router.push('/travel/new')
           onAction={(id, b) => { if (id === 'edit') router.push(`/travel/${b.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </CompvssAppLayout>
+    </>
   );
 }

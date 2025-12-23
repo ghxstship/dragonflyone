@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -93,17 +93,17 @@ export default function EventTicketPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Alert variant="error" className="mt-8">
           {error}
         </Alert>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (!tickets || tickets.length === 0) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <Ticket className="w-16 h-16 mx-auto mb-4 text-ink-400" />
           <H2 className="mb-4 text-white">NO TICKETS FOUND</H2>
@@ -114,7 +114,7 @@ export default function EventTicketPage() {
             Get Tickets
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -123,7 +123,7 @@ export default function EventTicketPage() {
     : tickets[0];
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">My Tickets</Kicker>
@@ -258,6 +258,6 @@ export default function EventTicketPage() {
           </Stack>
         </Grid>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

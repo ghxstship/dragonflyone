@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, ExternalLink, Pencil } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
@@ -105,7 +105,7 @@ export default function LaborLawsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<StateLaborLaw>
         title="Multi-State Labor Law Management"
         subtitle="Track and comply with labor laws across all operating states"
@@ -170,6 +170,6 @@ export default function LaborLawsPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -26,7 +26,7 @@ import {
   Phone,
   Mail,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface ProductionVendor {
@@ -78,7 +78,7 @@ export default function ProductionVendorsPage() {
   );
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Vendors" description="Manage production vendors and contracts" colorScheme="on-dark" />
@@ -140,6 +140,6 @@ export default function ProductionVendorsPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

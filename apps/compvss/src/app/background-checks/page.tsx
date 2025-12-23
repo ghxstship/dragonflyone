@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, RefreshCw, Download } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -170,7 +170,7 @@ export default function BackgroundChecksPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<BackgroundCheck>
         title="Background Checks"
         subtitle="Crew background check status and renewal management"
@@ -254,6 +254,6 @@ export default function BackgroundChecksPage() {
           }}
         />
       )}
-    </CompvssAppLayout>
+    </>
   );
 }

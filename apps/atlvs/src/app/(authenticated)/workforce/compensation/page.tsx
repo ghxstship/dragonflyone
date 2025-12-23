@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Check, Pencil } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -84,7 +84,7 @@ export default function CompensationPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<CompensationPlan>
         title="Compensation Planning & Equity"
         subtitle="Manage compensation plans and equity grants"
@@ -130,6 +130,6 @@ export default function CompensationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -142,7 +142,7 @@ const faqs = [
 export default function MembershipPage() {
 
   return (
-    <GvtewayAppLayout>
+    <>
       {/* Hero Section */}
       <Stack className="relative overflow-hidden py-24">
         <Box
@@ -306,6 +306,6 @@ export default function MembershipPage() {
             </Stack>
           </ScrollReveal>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

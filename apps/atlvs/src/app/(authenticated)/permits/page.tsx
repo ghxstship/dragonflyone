@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, FileText, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { usePermits, usePermitStats, type Permit } from '../../../hooks/useCompliance';
 import {
   ListPage,
@@ -252,7 +252,7 @@ export default function PermitsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Permit>
         title="Permits"
         subtitle="Manage event permits and licenses"
@@ -333,6 +333,6 @@ export default function PermitsPage() {
         sections={detailSections}
         onEdit={(p) => router.push(`/permits/${p.id}`)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

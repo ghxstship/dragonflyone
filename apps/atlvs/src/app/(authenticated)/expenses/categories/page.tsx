@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, FolderOpen, DollarSign } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useExpenseCategories, useCreateExpenseCategory, useUpdateExpenseCategory, type ExpenseCategory } from '../../../../hooks/useExpenses';
 import {
   ListPage,
@@ -191,7 +191,7 @@ export default function ExpenseCategoriesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<ExpenseCategory>
         title="Expense Categories"
         subtitle="Manage expense categories and budgets"
@@ -271,6 +271,6 @@ export default function ExpenseCategoriesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setCategoryToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

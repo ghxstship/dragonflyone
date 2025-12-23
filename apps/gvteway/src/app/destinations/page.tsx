@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Guitar, Dice1 } from "lucide-react";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -55,7 +55,7 @@ export default function DestinationsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Explore</Kicker>
@@ -209,6 +209,6 @@ export default function DestinationsPage() {
             </Grid>
           )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

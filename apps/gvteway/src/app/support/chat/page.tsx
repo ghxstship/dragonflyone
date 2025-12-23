@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -106,7 +106,7 @@ function SupportChatContent() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -299,7 +299,7 @@ function SupportChatContent() {
           </Form>
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

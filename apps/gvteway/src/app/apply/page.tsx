@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   Display,
   H2,
@@ -249,7 +249,7 @@ export default function ApplyPage() {
   };
 
   return (
-    <GvtewayAppLayout variant="membership">
+    <>
           <Stack gap={12} className="mx-auto max-w-2xl">
             {/* Header */}
             <ScrollReveal animation="fade">
@@ -649,6 +649,6 @@ export default function ApplyPage() {
               </Stack>
             </Card>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

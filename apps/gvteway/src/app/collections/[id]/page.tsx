@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   Body,
@@ -32,7 +32,7 @@ export default function CollectionPage() {
 
   if (error || !collection) {
     return (
-      <GvtewayAppLayout>
+      <>
             <Card inverted className="p-12 text-center">
               <H2 className="mb-4 text-white">Collection Not Found</H2>
               <Body className="text-on-dark-muted mb-6">
@@ -42,12 +42,12 @@ export default function CollectionPage() {
                 Browse Collections
               </Button>
             </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -86,6 +86,6 @@ export default function CollectionPage() {
               Back to Discover
             </Button>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

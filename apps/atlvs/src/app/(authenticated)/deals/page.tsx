@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download, Archive } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -162,7 +162,7 @@ export default function DealsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Deal>
         title="Deals"
         subtitle="Manage your sales pipeline and opportunities"
@@ -205,6 +205,6 @@ showFavorite
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="New Deal" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDeal} title={(d) => d.title} subtitle={(d) => d.client || 'No client'} sections={detailSections} onEdit={(d) => router.push(`/deals/${d.id}/edit`)} onDelete={(d) => { setDealToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Deal" message={`Delete deal "${dealToDelete?.title}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDealToDelete(null); }} />
-    </AtlvsAppLayout>
+    </>
   );
 }

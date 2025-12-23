@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, ArrowUp, Check } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -163,7 +163,7 @@ export default function IssuesPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Live Issue Tracking"
         subtitle="Real-time issue management and escalation"
@@ -257,6 +257,6 @@ primaryAction={{ label: 'Report Issue', onClick: () => setCreateModalOpen(true) 
           }}
         />
       )}
-    </CompvssAppLayout>
+    </>
   );
 }

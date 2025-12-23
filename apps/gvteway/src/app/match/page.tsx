@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { Ticket, User, MapPin } from 'lucide-react';
 import {
   H2,
@@ -91,7 +91,7 @@ export default function MatchPage() {
   const highMatches = matches.filter(m => m.match_score >= 70);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -371,6 +371,6 @@ export default function MatchPage() {
           )}
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

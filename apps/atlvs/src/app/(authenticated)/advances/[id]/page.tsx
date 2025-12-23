@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useAdvanceForReview, useApproveAdvance, useRejectAdvance } from '@/hooks/useAdvanceReview';
 import { useRouter } from 'next/navigation';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Skeleton,
   SkeletonCard,
@@ -106,7 +106,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Stack gap={4}>
@@ -115,7 +115,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
             </Stack>
           </Container>
         </MainContent>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
@@ -125,7 +125,7 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
   const cost = advance.estimated_cost || 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <MainContent padding="lg">
         <Container>
           <Stack gap={6}>
@@ -335,6 +335,6 @@ export default function AdvanceReviewDetailPage({ params }: { params: { id: stri
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

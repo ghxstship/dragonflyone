@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, DollarSign, Mail } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -128,7 +128,7 @@ export default function AccountsReceivablePage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Invoice>
         title="Accounts Receivable"
         subtitle="Invoice tracking, collections, and payment management"
@@ -197,6 +197,6 @@ export default function AccountsReceivablePage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

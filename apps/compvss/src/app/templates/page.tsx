@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { FileText } from "lucide-react";
 import {
   Container,
@@ -44,7 +44,7 @@ export default function TemplatesPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -53,13 +53,13 @@ export default function TemplatesPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -71,7 +71,7 @@ export default function TemplatesPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -86,7 +86,7 @@ export default function TemplatesPage() {
   const totalDownloads = templates.reduce((sum, t) => sum + t.downloads, 0);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Template Library"
         subtitle="Contracts, checklists, forms, riders, and standard operating procedures"
@@ -236,6 +236,6 @@ export default function TemplatesPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Body,
@@ -215,18 +215,18 @@ export default function DirectoryPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading directory..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Directory"
         subtitle="Search and filter crew, vendors, and venues by language, specialty, and more"
@@ -412,6 +412,6 @@ export default function DirectoryPage() {
         </Stack>
       </Container>
     </MainContent>
-  </CompvssAppLayout>
+  </>
 );
 }

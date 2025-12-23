@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, Send, CheckCircle, Printer, TrendingUp, TrendingDown, Users, DollarSign, AlertTriangle } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../../components/app-layout';
+// Layout provided by route group
 import { useWrapReport } from '../../../../../hooks/useReports';
 import {
   Container,
@@ -35,25 +35,25 @@ export default function WrapReportDetailPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (!report) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Report not found</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -61,7 +61,7 @@ export default function WrapReportDetailPage() {
   const profitMargin = report.total_revenue ? ((netProfit / report.total_revenue) * 100).toFixed(1) : 0;
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -315,6 +315,6 @@ export default function WrapReportDetailPage() {
           </Stack>
         </Container>
       </Section>
-    </CompvssAppLayout>
+    </>
   );
 }

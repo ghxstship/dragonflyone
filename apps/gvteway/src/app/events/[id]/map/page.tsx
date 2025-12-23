@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -93,17 +93,17 @@ export default function EventMapPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Alert variant="error" className="mt-8">
           {error}
         </Alert>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (!venueMap) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <Map className="w-16 h-16 mx-auto mb-4 text-ink-400" />
           <H2 className="mb-4 text-white">VENUE MAP NOT AVAILABLE</H2>
@@ -114,7 +114,7 @@ export default function EventMapPage() {
             Go Back
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -123,7 +123,7 @@ export default function EventMapPage() {
     : null;
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">Venue Map</Kicker>
@@ -269,6 +269,6 @@ export default function EventMapPage() {
           </Stack>
         </Grid>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

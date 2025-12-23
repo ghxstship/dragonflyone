@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import { Sprout, Leaf, TreeDeciduous, Star, Sparkles, Crown } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -72,7 +72,7 @@ function ReputationPageContent() {
     : 100;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -296,7 +296,7 @@ function ReputationPageContent() {
           </Grid>
         )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

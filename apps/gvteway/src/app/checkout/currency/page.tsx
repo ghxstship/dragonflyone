@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -35,7 +35,7 @@ function CurrencyPageContent() {
   const enabledCount = mockCurrencies.filter(c => c.enabled).length;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -249,7 +249,7 @@ function CurrencyPageContent() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Currency</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

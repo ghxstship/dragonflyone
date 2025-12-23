@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, FileText, Calendar, DollarSign, Shield, Phone, Mail, AlertTriangle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useInsurancePolicy } from '../../../../hooks/useCompliance';
 import {
   Container,
@@ -51,30 +51,30 @@ export default function InsurancePolicyDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!policy) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Policy not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -312,6 +312,6 @@ export default function InsurancePolicyDetailPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

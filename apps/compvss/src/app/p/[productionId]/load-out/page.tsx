@@ -23,7 +23,7 @@ import {
   Clock,
   AlertTriangle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface LoadOutTask {
@@ -85,7 +85,7 @@ export default function ProductionLoadOutPage() {
   const departments = Array.from(new Set(tasks.map(t => t.department)));
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Production"
@@ -150,6 +150,6 @@ export default function ProductionLoadOutPage() {
           <Button variant="solid"><CheckCircle size={16} className="mr-2" />Complete Load-Out</Button>
         </Stack>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sunrise, Sun, Moon, Popcorn, UtensilsCrossed } from "lucide-react";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   H2,
   Body,
@@ -92,7 +92,7 @@ export default function CateringPage() {
 
   if (loading) {
     return (
-      <CompvssAppLayout>
+      <>
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
@@ -106,13 +106,13 @@ export default function CateringPage() {
             <Spinner variant="grey" size="lg" text="Loading catering data..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <EnterprisePageHeader
           title="Catering & Hospitality"
           subtitle="Manage crew meals, dietary requirements, and hospitality services"
@@ -130,12 +130,12 @@ export default function CateringPage() {
             />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Catering & Hospitality"
         subtitle="Manage crew meals, dietary requirements, and hospitality services"
@@ -334,6 +334,6 @@ export default function CateringPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

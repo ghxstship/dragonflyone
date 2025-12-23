@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { TrendingUp, DollarSign, Users, CheckSquare, Shield, Building2, Calendar, Target } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useProductionMetrics, useKPIs } from '../../../hooks/useMetrics';
 import { useProductionContextSafe } from '@ghxstship/config';
 import {
@@ -41,7 +41,7 @@ export default function MetricsPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -292,6 +292,6 @@ export default function MetricsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

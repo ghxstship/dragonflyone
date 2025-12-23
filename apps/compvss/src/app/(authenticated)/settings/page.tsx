@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   useNotifications,
   EnterprisePageHeader,
@@ -33,7 +33,7 @@ export default function SettingsPage() {
   });
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Settings"
         subtitle="Configure your COMPVSS preferences"
@@ -152,6 +152,6 @@ export default function SettingsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

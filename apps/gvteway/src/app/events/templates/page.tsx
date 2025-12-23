@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Badge,
@@ -39,7 +39,7 @@ export default function EventTemplatesPage() {
   const [showCloneModal, setShowCloneModal] = useState(false);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -133,6 +133,6 @@ export default function EventTemplatesPage() {
           <Button variant="solid" onClick={() => router.push("/events/create")}>Create Event</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }

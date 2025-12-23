@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -90,7 +90,7 @@ function MessagesContent() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -292,7 +292,7 @@ function MessagesContent() {
               </Card>
             </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

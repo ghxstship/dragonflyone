@@ -33,7 +33,7 @@ import {
   Plus,
   Download,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface Expense {
@@ -101,7 +101,7 @@ export default function ProductionExpensesPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Expenses" description="Track and manage production expenses" colorScheme="on-dark" />
@@ -176,6 +176,6 @@ export default function ProductionExpensesPage() {
           <Button variant="solid" onClick={handleAddExpense}>Submit</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

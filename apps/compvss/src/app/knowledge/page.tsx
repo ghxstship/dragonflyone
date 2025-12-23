@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -61,7 +61,7 @@ export default function KnowledgePage() {
   const categories = ['All', ...getTopLevelCategories().map(c => c.name)];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Knowledge Base"
         subtitle="SOPs, guides, and training materials"
@@ -167,6 +167,6 @@ export default function KnowledgePage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

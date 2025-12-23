@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, Check, RefreshCw } from 'lucide-react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -141,7 +141,7 @@ export default function InventorySyncPage() {
 
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<InventoryItem>
         title="Inventory Synchronization"
         subtitle="Real-time inventory sync between online and physical locations"
@@ -218,6 +218,6 @@ export default function InventorySyncPage() {
           }}
         />
       )}
-    </GvtewayAppLayout>
+    </>
   );
 }

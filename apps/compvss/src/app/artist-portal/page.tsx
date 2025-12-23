@@ -22,7 +22,7 @@ import {
   Clock,
 } from 'lucide-react';
 import Link from 'next/link';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 
 import {
   useArtistData,
@@ -37,20 +37,20 @@ export default function ArtistPortalPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
           <Stack gap={4} className="items-center">
             <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
             <Body>Loading artist data...</Body>
           </Stack>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="p-6">
           <Card className="p-6 border-destructive bg-destructive/10">
             <Stack gap={4} className="items-center text-center">
@@ -60,14 +60,14 @@ export default function ArtistPortalPage() {
             </Stack>
           </Card>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   const displayArtistData = artistData || { artistName: 'Artist', upcomingShows: 0, confirmedBookings: 0, pendingRiders: 0 };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Artist Portal"
@@ -225,6 +225,6 @@ export default function ArtistPortalPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

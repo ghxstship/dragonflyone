@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -125,11 +125,11 @@ function AntiScalpingPageContent() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <div className="flex min-h-[50vh] items-center justify-center">
           <Body className="text-on-dark-muted">Loading anti-scalping data...</Body>
         </div>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -175,7 +175,7 @@ function AntiScalpingPageContent() {
   const ticketsProtected = alerts.filter((a: ScalpingAlert) => a.status === 'blocked').reduce((sum: number, a: ScalpingAlert) => sum + a.ticket_count, 0);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -521,7 +521,7 @@ function AntiScalpingPageContent() {
           <Button variant="solid" onClick={handleAddBlock}>Block</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

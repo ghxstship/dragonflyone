@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalTabState } from '@ghxstship/config/hooks';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -98,7 +98,7 @@ export default function CategoryManagementPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Category Management"
         subtitle="Manage spend categories and sourcing strategies"
@@ -334,6 +334,6 @@ export default function CategoryManagementPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

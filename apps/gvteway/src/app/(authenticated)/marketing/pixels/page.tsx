@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Facebook, Search, Music, Briefcase, Twitter, Ghost, BarChart3 } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert,
@@ -61,7 +61,7 @@ function PixelsPageContent() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -258,7 +258,7 @@ function PixelsPageContent() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Pixel</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

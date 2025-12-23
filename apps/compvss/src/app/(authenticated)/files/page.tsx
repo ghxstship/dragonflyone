@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { FileText, Ruler, Image, FileEdit, Sheet, Folder } from "lucide-react";
 import {
   Container,
@@ -45,7 +45,7 @@ export default function FileSharingPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -54,13 +54,13 @@ export default function FileSharingPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -72,7 +72,7 @@ export default function FileSharingPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -92,7 +92,7 @@ export default function FileSharingPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="File Sharing"
         subtitle="Project files with version control and cloud storage"
@@ -261,6 +261,6 @@ export default function FileSharingPage() {
           <Button variant="solid" onClick={() => setShowUploadModal(false)}>Upload</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

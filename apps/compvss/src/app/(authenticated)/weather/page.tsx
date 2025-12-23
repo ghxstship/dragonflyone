@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   H3,
   Body,
@@ -44,7 +44,7 @@ export default function WeatherPage() {
 
   if (loading) {
     return (
-      <CompvssAppLayout>
+      <>
         <EnterprisePageHeader
           title="Weather Monitoring"
           subtitle="Track weather alerts and forecasts for event planning"
@@ -58,12 +58,12 @@ export default function WeatherPage() {
             <Spinner variant="grey" size="lg" text="Loading weather data..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Weather Monitoring"
         subtitle="Track weather alerts and forecasts for event planning"
@@ -174,6 +174,6 @@ export default function WeatherPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

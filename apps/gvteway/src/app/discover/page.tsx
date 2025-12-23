@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   EnterprisePageHeader,
   MainContent,
@@ -72,7 +72,7 @@ export default function DiscoverPage() {
 
   if (discoverError) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack gap={6} className="items-center justify-center py-20">
           <Card inverted className="max-w-md p-8 text-center">
             <Stack gap={4}>
@@ -86,12 +86,12 @@ export default function DiscoverPage() {
             </Stack>
           </Card>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader
         title="Discover"
         subtitle="Find your next unforgettable experience"
@@ -292,6 +292,6 @@ export default function DiscoverPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, Badge, ProgressBar,
@@ -51,7 +51,7 @@ function TikTokChallengesPageContent() {
   const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -171,7 +171,7 @@ function TikTokChallengesPageContent() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

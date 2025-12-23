@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -118,7 +118,7 @@ function LandingBuilderPageContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Event Tools</Kicker>
@@ -560,7 +560,7 @@ function LandingBuilderPageContent() {
           </Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

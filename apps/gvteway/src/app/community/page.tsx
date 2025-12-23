@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { 
   H2,
   H3, 
@@ -62,19 +62,19 @@ function CommunityPageContent() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EmptyState
           title="Error Loading Community"
           description={error instanceof Error ? error.message : String(error)}
           action={{ label: "Retry", onClick: () => refetch() }}
           inverted
         />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         {/* Page Header */}
         <Stack gap={4}>
@@ -273,7 +273,7 @@ function CommunityPageContent() {
           </Stack>
         )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

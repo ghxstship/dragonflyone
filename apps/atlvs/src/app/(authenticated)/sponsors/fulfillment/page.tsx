@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, AlertTriangle, Eye } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useSponsors, useCompleteDeliverable } from '../../../../hooks/useSponsors';
 import {
   ListPage,
@@ -223,7 +223,7 @@ function SponsorFulfillmentPageContent() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Stack gap={4}>
         <Select
           value={selectedSponsorId}
@@ -297,7 +297,7 @@ function SponsorFulfillmentPageContent() {
         onConfirm={handleComplete}
         onCancel={() => { setCompleteDialogOpen(false); setDeliverableToComplete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }
 

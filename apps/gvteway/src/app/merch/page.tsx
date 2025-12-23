@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useNotifications } from "@ghxstship/ui";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import { useMerch } from "../../hooks/useMerch";
 import {
   H2,
@@ -80,7 +80,7 @@ export default function MerchPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -145,6 +145,6 @@ export default function MerchPage() {
               </Grid>
             )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

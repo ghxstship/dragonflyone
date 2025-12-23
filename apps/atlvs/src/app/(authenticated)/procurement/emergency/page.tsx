@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -66,7 +66,7 @@ export default function EmergencyProcurementPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Emergency Procurement"
         subtitle="Fast-track procurement for urgent operational needs"
@@ -249,6 +249,6 @@ export default function EmergencyProcurementPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, MapPin, Trash2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useVenues, useVenueStats, useDeleteVenue, useCreateVenue } from '../../../hooks/useVenues';
 import {
   ListPage,
@@ -292,7 +292,7 @@ export default function VenuesPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Venue>
         title="Venues"
         subtitle="Manage production venues and locations"
@@ -382,6 +382,6 @@ export default function VenuesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setVenueToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

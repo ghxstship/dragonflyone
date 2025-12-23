@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Calendar, Trash2, Download, RefreshCw } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -208,7 +208,7 @@ export default function WorkforcePage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Employee>
         title="Workforce Management"
         subtitle="Manage employees, schedules, and team assignments"
@@ -288,6 +288,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setEmployeeToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

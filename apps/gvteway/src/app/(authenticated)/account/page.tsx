@@ -22,7 +22,7 @@ import {
   Settings,
   ChevronRight,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import Link from 'next/link';
 import { useOrders } from '@/hooks/useOrders';
 
@@ -44,7 +44,7 @@ export default function AccountPage() {
     .slice(0, 3);
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader
         title="Dashboard"
         subtitle="Manage your tickets, orders, and preferences"
@@ -154,6 +154,6 @@ export default function AccountPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

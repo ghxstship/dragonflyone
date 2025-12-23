@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   Body,
@@ -32,7 +32,7 @@ export default function ModeratePage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -96,6 +96,6 @@ export default function ModeratePage() {
           ))}
         </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -83,7 +83,7 @@ export default function PunchListPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Punch List"
         subtitle="Track and resolve outstanding items before show"
@@ -292,6 +292,6 @@ export default function PunchListPage() {
           <Button variant="solid">Update Status</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

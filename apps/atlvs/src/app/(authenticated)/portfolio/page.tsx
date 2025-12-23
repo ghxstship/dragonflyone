@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Star, FileText, Trash2 } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
   ListPage,
   Badge,
@@ -200,7 +199,7 @@ export default function PortfolioPage() {
   const importTemplates = getImportTemplates('portfolio');
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<DisplayItem>
         title="Portfolio"
         subtitle="Showcasing our past work and successful productions"
@@ -295,6 +294,6 @@ export default function PortfolioPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

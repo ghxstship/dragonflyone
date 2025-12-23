@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -178,7 +178,7 @@ export default function ClientsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Client>
         title="Client Management"
         subtitle="Manage clients and customer relationships"
@@ -239,6 +239,6 @@ export default function ClientsPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setClientToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

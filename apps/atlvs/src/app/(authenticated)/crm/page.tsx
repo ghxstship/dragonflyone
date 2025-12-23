@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Mail } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -105,7 +105,7 @@ export default function CRMPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Contact>
         title="CRM"
         subtitle="Manage contacts, deals, and customer relationships"
@@ -165,6 +165,6 @@ export default function CRMPage() {
         showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedContact} title={(c) => c.name} subtitle={(c) => c.company || c.email} sections={detailSections} onEdit={(c) => router.push(`/contacts/${c.id}/edit`)} actions={[{ id: 'email', label: 'Send Email', icon: <Mail className="size-4" /> }]} onAction={(id, c) => id === 'email' && (window.location.href = `mailto:${c.email}`)} />
-    </AtlvsAppLayout>
+    </>
   );
 }

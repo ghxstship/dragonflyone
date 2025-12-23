@@ -12,7 +12,7 @@ import {
   ArrowLeft,
   Check
 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Stack,
@@ -499,7 +499,7 @@ export default function NewProductionPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Create New Production"
         subtitle="Set up a new production from scratch or from a blueprint"
@@ -567,6 +567,6 @@ export default function NewProductionPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

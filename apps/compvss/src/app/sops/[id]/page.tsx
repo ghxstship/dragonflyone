@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, Plus, Trash2, CheckCircle, AlertTriangle } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useSOP, useCreateSOPStep, useUpdateSOPStep, useDeleteSOPStep, useAcknowledgeSOP, type SOPStep } from '../../../hooks/useSOPs';
 import { useAuth } from '@ghxstship/config';
 import {
@@ -107,30 +107,30 @@ export default function SOPDetailPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (!sop) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>SOP not found</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -364,6 +364,6 @@ export default function SOPDetailPage() {
         onConfirm={handleDeleteStep}
         onCancel={() => setDeleteStepId(null)}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

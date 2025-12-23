@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, RefreshCw, Pencil, Trash2, Bell, Download } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -237,7 +237,7 @@ export default function CertificationsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Certifications & Licenses"
         subtitle="Track crew certifications, licenses, and renewal dates"
@@ -319,6 +319,6 @@ primaryAction={{ label: 'Add Certification', onClick: () => setCreateModalOpen(t
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setCertToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

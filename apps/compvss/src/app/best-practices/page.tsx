@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { Star } from "lucide-react";
 import {
   Container,
@@ -44,7 +44,7 @@ export default function BestPracticesPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -53,13 +53,13 @@ export default function BestPracticesPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -71,7 +71,7 @@ export default function BestPracticesPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -83,7 +83,7 @@ export default function BestPracticesPage() {
   });
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Best Practices Library"
         subtitle="Industry best practices organized by discipline"
@@ -165,6 +165,6 @@ export default function BestPracticesPage() {
           <Button variant="solid">View Full Guide</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

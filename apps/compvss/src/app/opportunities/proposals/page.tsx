@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -70,7 +70,7 @@ export default function ProposalsPage() {
   const filteredProposals = activeTab === "all" ? proposals : proposals.filter(p => p.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Proposals"
         subtitle="Collaborative proposal creation with version control"
@@ -247,6 +247,6 @@ export default function ProposalsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, FileText, Calendar, DollarSign, CheckCircle, AlertTriangle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { usePermit } from '../../../../hooks/useCompliance';
 import {
   Container,
@@ -53,30 +53,30 @@ export default function PermitDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!permit) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Permit not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -309,6 +309,6 @@ export default function PermitDetailPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

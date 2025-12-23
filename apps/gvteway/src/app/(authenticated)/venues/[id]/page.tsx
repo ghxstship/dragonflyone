@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -52,7 +52,7 @@ export default function VenuePage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
         {venue.image && (
           <Section className="mb-8 -mx-4 md:-mx-8">
             <Figure className="relative h-64 md:h-96 bg-ink-100 overflow-hidden">
@@ -170,6 +170,6 @@ export default function VenuePage() {
             </Card>
           </Stack>
         </Grid>
-    </GvtewayAppLayout>
+    </>
   );
 }

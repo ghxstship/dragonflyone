@@ -1,6 +1,6 @@
 "use client";
 
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   H3,
   Body,
@@ -44,19 +44,19 @@ export default function SchedulePage() {
 
   if (loading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading schedule..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <EmptyState
@@ -66,12 +66,12 @@ export default function SchedulePage() {
             />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Production Schedule"
         subtitle="Manage production timeline and crew assignments"
@@ -143,6 +143,6 @@ export default function SchedulePage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

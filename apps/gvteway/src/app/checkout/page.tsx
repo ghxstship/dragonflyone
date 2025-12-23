@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { 
   H3, 
   Body, 
@@ -187,7 +187,7 @@ function CheckoutContent() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader
         title="Checkout"
         subtitle="Complete your purchase securely"
@@ -507,7 +507,7 @@ function CheckoutContent() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

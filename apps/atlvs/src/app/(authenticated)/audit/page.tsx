@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -83,7 +83,7 @@ export default function AuditPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<AuditLog>
         title="Audit Trail"
         subtitle="Track all system activity and user actions"
@@ -119,6 +119,6 @@ showFavorite
         showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedLog} title={(l) => l.action} subtitle={(l) => l.user?.email || l.user_email || 'Unknown user'} sections={detailSections} />
-    </AtlvsAppLayout>
+    </>
   );
 }

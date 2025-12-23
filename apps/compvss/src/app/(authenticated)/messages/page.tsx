@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   Body,
@@ -34,7 +34,7 @@ export default function MessagesPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -43,13 +43,13 @@ export default function MessagesPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -61,7 +61,7 @@ export default function MessagesPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -73,7 +73,7 @@ export default function MessagesPage() {
   );
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Messages"
         subtitle="Direct messaging with crew and vendors"
@@ -174,6 +174,6 @@ export default function MessagesPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

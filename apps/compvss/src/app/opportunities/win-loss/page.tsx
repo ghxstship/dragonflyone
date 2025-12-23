@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -71,7 +71,7 @@ export default function WinLossPage() {
   }, {} as Record<string, number>);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Win/Loss Analysis"
         subtitle="Track outcomes and competitive intelligence"
@@ -253,6 +253,6 @@ export default function WinLossPage() {
           <Button variant="solid">Export Report</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Check } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { useMaintenance } from "../../hooks/useMaintenance";
 import {
   ListPage,
@@ -142,7 +142,7 @@ export default function MaintenancePage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Equipment Maintenance"
         subtitle="Track and schedule equipment maintenance tasks"
@@ -239,6 +239,6 @@ primaryAction={{ label: 'Schedule Maintenance', onClick: () => setCreateModalOpe
           }}
         />
       )}
-    </CompvssAppLayout>
+    </>
   );
 }

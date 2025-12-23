@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useEvents } from "@/hooks/useEvents";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
@@ -99,7 +99,7 @@ export default function ExperiencesPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <ScrollReveal animation="fade">
@@ -386,6 +386,6 @@ export default function ExperiencesPage() {
               </Stack>
             )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

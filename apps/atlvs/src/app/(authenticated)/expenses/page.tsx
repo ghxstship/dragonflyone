@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, XCircle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useExpenses, useExpenseStats, useExpenseCategories, useApproveExpense, useRejectExpense } from '../../../hooks/useExpenses';
 import {
   ListPage,
@@ -264,7 +264,7 @@ export default function ExpensesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Expense>
         title="Expenses"
         subtitle="Manage expense submissions and approvals"
@@ -367,6 +367,6 @@ export default function ExpensesPage() {
         onConfirm={handleReject}
         onCancel={() => { setRejectDialogOpen(false); setExpenseToAction(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

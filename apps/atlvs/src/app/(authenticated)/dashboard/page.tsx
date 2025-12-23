@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AtlvsAppLayout, AtlvsLoadingLayout } from "../../../components/app-layout";
+import { AtlvsLoadingLayout } from "../../../components/app-layout";
 import { 
   Badge, 
   ProgressBar, 
@@ -158,26 +158,24 @@ export default function DashboardPage() {
 
   if (projectsError) {
     return (
-      <AtlvsAppLayout>
-        <Stack gap={6} className="items-center justify-center py-20">
-          <Card inverted className="max-w-md p-8 text-center">
-            <Stack gap={4}>
-              <H3 className="text-white">Error Loading Dashboard</H3>
-              <Body className="text-grey-300">
-                {projectsError instanceof Error ? projectsError.message : 'Failed to load dashboard data'}
-              </Body>
-              <Button variant="solid" onClick={() => refetchProjects()}>
-                Retry
-              </Button>
-            </Stack>
-          </Card>
-        </Stack>
-      </AtlvsAppLayout>
+      <Stack gap={6} className="items-center justify-center py-20">
+        <Card inverted className="max-w-md p-8 text-center">
+          <Stack gap={4}>
+            <H3 className="text-white">Error Loading Dashboard</H3>
+            <Body className="text-grey-300">
+              {projectsError instanceof Error ? projectsError.message : 'Failed to load dashboard data'}
+            </Body>
+            <Button variant="solid" onClick={() => refetchProjects()}>
+              Retry
+            </Button>
+          </Stack>
+        </Card>
+      </Stack>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Stack gap={8}>
         <EnterprisePageHeader
           title="Executive Dashboard"
@@ -481,6 +479,6 @@ export default function DashboardPage() {
           onClose={closeForm}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

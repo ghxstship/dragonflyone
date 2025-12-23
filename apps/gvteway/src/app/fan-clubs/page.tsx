@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Ticket, Star, Gift, Smartphone } from "lucide-react";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -51,19 +51,19 @@ export default function FanClubsPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EmptyState
           title="Error Loading Fan Clubs"
           description={error instanceof Error ? error.message : String(error)}
           action={{ label: "Retry", onClick: () => refetch() }}
           inverted
         />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Exclusive Access</Kicker>
@@ -236,6 +236,6 @@ export default function FanClubsPage() {
             </Grid>
           )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

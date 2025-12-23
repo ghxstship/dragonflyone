@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState } from 'react';
 import { useRouter, useSearchParams, useParams } from 'next/navigation';
 import { Eye, Pencil, MapPin } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useZones, useCredentialTypes, useCredentialZoneAccess, useUpdateZoneAccess, useCreateZone } from '../../../hooks/useCredentials';
 import {
   ListPage,
@@ -235,7 +235,7 @@ export default function ZonesPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       {selectedTypeId ? (
         // Zone Access Matrix View
         <Box className="min-h-screen bg-grey-50 p-8">
@@ -352,6 +352,6 @@ export default function ZonesPage() {
         subtitle={(z) => `Code: ${z.code}`}
         sections={detailSections}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

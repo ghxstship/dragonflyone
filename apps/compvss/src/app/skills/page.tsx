@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { useCrewSkills } from "../../hooks/useSkills";
 import { useCrew } from "../../hooks/useCrew";
 import {
@@ -65,7 +65,7 @@ export default function SkillsPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <EnterprisePageHeader
           title="Skills Matrix"
           subtitle="Crew skills, certifications, and proficiency levels"
@@ -79,7 +79,7 @@ export default function SkillsPage() {
             <Spinner variant="grey" size="lg" text="Loading skills matrix..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -128,7 +128,7 @@ export default function SkillsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Skills Matrix"
         subtitle="Crew skills, certifications, and proficiency levels"
@@ -252,6 +252,6 @@ export default function SkillsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

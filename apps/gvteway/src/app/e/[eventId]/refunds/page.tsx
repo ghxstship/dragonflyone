@@ -28,7 +28,7 @@ import {
   Search,
   XCircle,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventRefundsData, type RefundRequest } from '@/hooks/useEventOperations';
 
 export default function EventRefundsPage() {
@@ -71,7 +71,7 @@ export default function EventRefundsPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Refunds" description="Manage ticket refund requests" colorScheme="on-dark" />
 
@@ -135,6 +135,6 @@ export default function EventRefundsPage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

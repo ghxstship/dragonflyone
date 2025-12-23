@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useEvents, useEventStats, useCreateEvent, useDeleteEvent } from '../../../hooks/useEvents';
 import {
   ListPage,
@@ -249,7 +249,7 @@ export default function EventsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Event>
         title="Events"
         subtitle="Manage all events and shows"
@@ -298,6 +298,6 @@ export default function EventsPage() {
         onConfirm={handleDelete}
         variant="danger"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

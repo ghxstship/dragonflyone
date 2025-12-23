@@ -22,7 +22,7 @@ import {
   Upload,
   CheckCircle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 
 interface RiderSection {
   id: string;
@@ -127,7 +127,7 @@ PREFERENCES:
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Artist Portal"
@@ -232,6 +232,6 @@ PREFERENCES:
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

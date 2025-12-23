@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, BarChart3 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -113,7 +113,7 @@ export default function AssetUtilizationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<AssetUtilization>
         title="Asset Utilization & ROI"
         subtitle="Performance analytics, utilization rates, and return on investment"
@@ -172,6 +172,6 @@ export default function AssetUtilizationPage() {
           onAction={(id, r) => { if (id === 'history') router.push(`/assets/${r.id}/history`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

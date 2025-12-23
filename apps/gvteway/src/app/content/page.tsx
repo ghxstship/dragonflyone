@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
 import { Video, Music, Camera, FileText, Theater, Folder, Heart, Play } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -96,7 +96,7 @@ function ExclusiveContentPageContent() {
   const newContent = content.filter(c => c.is_new).length;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -325,7 +325,7 @@ function ExclusiveContentPageContent() {
           )}
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

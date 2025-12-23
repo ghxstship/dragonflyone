@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -41,7 +41,7 @@ export default function TroubleshootingPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -50,13 +50,13 @@ export default function TroubleshootingPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -68,7 +68,7 @@ export default function TroubleshootingPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -80,7 +80,7 @@ export default function TroubleshootingPage() {
   });
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Troubleshooting Guides"
         subtitle="Decision trees and step-by-step problem resolution"
@@ -164,6 +164,6 @@ export default function TroubleshootingPage() {
           <Button variant="solid">Helpful</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

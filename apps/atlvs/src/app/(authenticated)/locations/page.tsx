@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, MapPin } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useLocations, useCreateLocation, useDeleteLocation, type Location } from '../../../hooks/useLocations';
 import {
   ListPage,
@@ -205,7 +205,7 @@ export default function LocationsPage() {
     : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage
         title="Locations"
         description="Manage warehouses, venues, and storage locations"
@@ -248,6 +248,6 @@ export default function LocationsPage() {
         loading={deleteMutation.isPending}
         variant="danger"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNotifications } from "@ghxstship/ui";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import { useReferrals, Referral } from "@/hooks/useReferrals";
 import {
   H2,
@@ -54,7 +54,7 @@ export default function ReferralsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -173,6 +173,6 @@ export default function ReferralsPage() {
               )}
             </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

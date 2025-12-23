@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { TrendingUp, TrendingDown, Minus, Target, ArrowLeft } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useKPIs } from '../../../../hooks/useMetrics';
 import { useProductionContextSafe } from '@ghxstship/config';
 import {
@@ -63,7 +63,7 @@ export default function KPIsPage() {
   const overallHealth = totalKPIs > 0 ? Math.round((onTrackCount / totalKPIs) * 100) : 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -179,6 +179,6 @@ export default function KPIsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

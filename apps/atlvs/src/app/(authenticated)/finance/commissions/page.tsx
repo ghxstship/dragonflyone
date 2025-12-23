@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Eye, Check, DollarSign } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -151,7 +151,7 @@ export default function CommissionsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Commission>
         title="Commission Management"
         subtitle="Calculate, track, and manage sales commissions"
@@ -235,6 +235,6 @@ export default function CommissionsPage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

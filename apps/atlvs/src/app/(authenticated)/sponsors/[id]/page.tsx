@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Pencil, DollarSign, CheckCircle, Plus, ExternalLink, Mail, Phone } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useSponsor, useRecordPayment, useCreateDeliverable, useCompleteDeliverable } from '../../../../hooks/useSponsors';
 import {
   Container,
@@ -103,25 +103,25 @@ export default function SponsorDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!sponsor) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Sponsor not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
@@ -131,7 +131,7 @@ export default function SponsorDetailPage() {
   const totalDeliverables = sponsor.deliverables?.length || 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -404,6 +404,6 @@ export default function SponsorDetailPage() {
         onConfirm={handleCompleteDeliverable}
         onCancel={() => { setCompleteDialogOpen(false); setDeliverableToComplete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState} from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -60,7 +60,7 @@ export default function ChannelsPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -69,13 +69,13 @@ export default function ChannelsPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (fetchError) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -87,7 +87,7 @@ export default function ChannelsPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -150,7 +150,7 @@ export default function ChannelsPage() {
   const onlineMembers = allMembers.filter(m => m.is_online).length;
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Department Channels"
         subtitle="Team communication and messaging"
@@ -371,6 +371,6 @@ export default function ChannelsPage() {
           <Button variant="solid">Add Members</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

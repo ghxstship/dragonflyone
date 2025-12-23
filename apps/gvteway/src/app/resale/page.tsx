@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, ShoppingCart, X } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -134,7 +134,7 @@ export default function ResalePage() {
   ] : [];
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<ResaleListing>
         title="Ticket Resale"
         subtitle="Buy and sell tickets safely through our verified marketplace"
@@ -215,6 +215,6 @@ export default function ResalePage() {
         onConfirm={handleDelete}
         variant="danger"
       />
-    </GvtewayAppLayout>
+    </>
   );
 }

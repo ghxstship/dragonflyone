@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import { H2, H3, Body, Button, Card, Grid, Stack, useNotifications, Kicker, Label } from '@ghxstship/ui';
 import { Share2, ThumbsUp, MessageCircle, Users, TrendingUp, Image as ImageIcon } from 'lucide-react';
 
@@ -59,7 +59,7 @@ export default function SocialPage() {
   ];
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -172,6 +172,6 @@ export default function SocialPage() {
               </Stack>
             </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNotifications } from "@ghxstship/ui";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -38,7 +38,7 @@ export default function ArtistsPage() {
   });
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={4}>
@@ -173,6 +173,6 @@ export default function ArtistsPage() {
               </Grid>
             )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

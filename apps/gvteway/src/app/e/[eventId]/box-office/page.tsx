@@ -22,7 +22,7 @@ import {
   RefreshCw,
   Clock,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventBoxOfficeData, type TicketTier } from '@/hooks/useEventOperations';
 
 export default function EventBoxOfficePage() {
@@ -51,16 +51,16 @@ export default function EventBoxOfficePage() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack className="items-center py-12">
           <RefreshCw size={24} className="animate-spin" />
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader
@@ -167,6 +167,6 @@ export default function EventBoxOfficePage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

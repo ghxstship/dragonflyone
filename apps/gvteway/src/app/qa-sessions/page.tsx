@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Mic } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -92,7 +92,7 @@ export default function QASessionsPage() {
   const upcomingSessions = sessions.filter(s => s.status === 'upcoming');
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -374,6 +374,6 @@ export default function QASessionsPage() {
           </Form>
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

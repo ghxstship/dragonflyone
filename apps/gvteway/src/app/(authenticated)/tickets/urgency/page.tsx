@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import { Clock, Flame, TrendingUp, Zap, BarChart3 } from "lucide-react";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
@@ -71,7 +71,7 @@ function UrgencyTacticsPageContent() {
     mockTactics.filter(t => t.status.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -263,7 +263,7 @@ function UrgencyTacticsPageContent() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

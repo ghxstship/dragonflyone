@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -76,7 +76,7 @@ export default function SetTimesPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Set Time Tracking"
         subtitle="Track actual start/end times and monitor schedule variance"
@@ -313,6 +313,6 @@ export default function SetTimesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

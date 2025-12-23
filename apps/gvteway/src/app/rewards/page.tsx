@@ -1,6 +1,6 @@
 'use client';
 
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from '@/components/app-layout';
 import { 
   H2, 
   H3, 
@@ -63,7 +63,7 @@ export default function RewardsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -180,6 +180,6 @@ export default function RewardsPage() {
               </Stack>
             </Card>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

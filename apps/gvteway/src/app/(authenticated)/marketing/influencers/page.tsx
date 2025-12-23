@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, Badge,
@@ -50,7 +50,7 @@ function InfluencersPageContent() {
   const filteredInfluencers = activeTab === "all" ? mockInfluencers : mockInfluencers.filter(i => i.status.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -168,7 +168,7 @@ function InfluencersPageContent() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

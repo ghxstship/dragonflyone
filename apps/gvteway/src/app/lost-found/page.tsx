@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -116,7 +116,7 @@ export default function LostFoundPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -298,6 +298,6 @@ export default function LostFoundPage() {
           </Form>
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

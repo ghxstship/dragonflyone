@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -87,16 +87,16 @@ export default function SerializedComponentsPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <div className="p-6 flex items-center justify-center min-h-[400px]">
           <div className="animate-pulse text-muted-foreground">Loading serialized components...</div>
         </div>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Serialized Component Tracking"
         subtitle="Track individual components within assets by serial number"
@@ -393,6 +393,6 @@ export default function SerializedComponentsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

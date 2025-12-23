@@ -29,7 +29,7 @@ import {
   Plus,
   Phone,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface LostFoundItem {
@@ -96,7 +96,7 @@ export default function ProductionLostFoundPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Lost & Found" description="Track and manage lost items" colorScheme="on-dark" />
@@ -171,6 +171,6 @@ export default function ProductionLostFoundPage() {
           <Button variant="solid" onClick={handleAddItem}>Log Item</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

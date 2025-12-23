@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, Check, Pencil } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -157,7 +157,7 @@ export default function AssetMaintenancePage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<MaintenanceRecord>
         title="Asset Maintenance"
         subtitle="Maintenance scheduling, service records, and preventive maintenance tracking"
@@ -239,6 +239,6 @@ export default function AssetMaintenancePage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

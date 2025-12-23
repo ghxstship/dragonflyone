@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -55,7 +55,7 @@ export default function SiteAccessPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -64,13 +64,13 @@ export default function SiteAccessPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -82,7 +82,7 @@ export default function SiteAccessPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -100,7 +100,7 @@ export default function SiteAccessPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Site Access Management"
         subtitle="Gates, parking, loading docks, and vehicle passes"
@@ -299,6 +299,6 @@ export default function SiteAccessPage() {
           <Button variant="solid">Print Pass</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

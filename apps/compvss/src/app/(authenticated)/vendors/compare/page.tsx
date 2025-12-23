@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   Body,
@@ -66,7 +66,7 @@ export default function VendorComparePage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Vendor Comparison"
         subtitle="Compare vendors side-by-side to make informed decisions"
@@ -196,6 +196,6 @@ export default function VendorComparePage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

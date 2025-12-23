@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -65,7 +65,7 @@ export default function NotificationSettingsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -343,6 +343,6 @@ export default function NotificationSettingsPage() {
               </Button>
             </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

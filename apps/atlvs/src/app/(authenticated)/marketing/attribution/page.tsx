@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalTabState } from "@ghxstship/config/hooks";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -84,7 +84,7 @@ export default function MarketingAttributionPage() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Marketing Attribution"
         subtitle="Track marketing sources and campaign performance"
@@ -240,6 +240,6 @@ export default function MarketingAttributionPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

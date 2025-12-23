@@ -1,9 +1,9 @@
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import { Stack, Grid, Container, Skeleton } from "@ghxstship/ui";
 
 export default function CartLoading() {
   return (
-    <GvtewayAppLayout>
+    <>
       <Container className="py-8">
         <Stack gap={8}>
           <Stack gap={4}>
@@ -22,6 +22,6 @@ export default function CartLoading() {
           </Grid>
         </Stack>
       </Container>
-    </GvtewayAppLayout>
+    </>
   );
 }

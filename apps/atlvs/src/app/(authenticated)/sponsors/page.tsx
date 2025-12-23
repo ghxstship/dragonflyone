@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, FileText, CheckCircle, Building2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useSponsors, useSponsorStats, useSponsorTiers } from '../../../hooks/useSponsors';
 import {
   ListPage,
@@ -312,7 +312,7 @@ export default function SponsorsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Sponsor>
         title="Sponsors"
         subtitle="Manage sponsors, contracts, and deliverables"
@@ -397,6 +397,6 @@ export default function SponsorsPage() {
         sections={detailSections}
         onEdit={(s) => router.push(`/sponsors/${s.id}`)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

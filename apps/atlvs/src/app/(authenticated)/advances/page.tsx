@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
 import { useAdvanceReviewQueue } from '@/hooks/useAdvanceReview';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -114,7 +114,7 @@ export default function AdvanceReviewQueuePage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Advance>
         title="Production Advance Review Queue"
         subtitle="Review and approve production advance requests from COMPVSS"
@@ -170,6 +170,6 @@ export default function AdvanceReviewQueuePage() {
         showSettings
       />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedAdvance} title={(a) => a.activation_name || 'Advance'} subtitle={(a) => a.organization?.name || ''} sections={detailSections} actions={[{ id: 'review', label: 'Review', icon: <Check className="size-4" /> }]} onAction={(id, a) => id === 'review' && router.push(`/advances/${a.id}`)} />
-    </AtlvsAppLayout>
+    </>
   );
 }

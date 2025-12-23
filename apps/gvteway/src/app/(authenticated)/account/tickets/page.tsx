@@ -24,7 +24,7 @@ import {
   QrCode,
   Ticket,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useTickets } from '@/hooks/useTickets';
 import { useRouter } from 'next/navigation';
 
@@ -56,20 +56,20 @@ export default function AccountTicketsPage() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading tickets..." />
           </Stack>
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -79,13 +79,13 @@ export default function AccountTicketsPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (tickets.length === 0) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -96,12 +96,12 @@ export default function AccountTicketsPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader title="My Tickets" subtitle="View and manage your event tickets" showFavorite showSettings />
       <MainContent padding="lg"><Container>
         <Stack gap={8}>
@@ -172,6 +172,6 @@ export default function AccountTicketsPage() {
           </Grid>
         </Stack>
       </Container></MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

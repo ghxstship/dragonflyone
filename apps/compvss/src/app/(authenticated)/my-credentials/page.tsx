@@ -19,7 +19,7 @@ import {
   Download,
   RefreshCw,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 
 import {
   useMyCredentials,
@@ -31,20 +31,20 @@ export default function MyCredentialsPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
           <Stack gap={4} className="items-center">
             <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
             <Body>Loading credentials...</Body>
           </Stack>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="p-6">
           <Card className="p-6 border-destructive bg-destructive/10">
             <Stack gap={4} className="items-center text-center">
@@ -54,7 +54,7 @@ export default function MyCredentialsPage() {
             </Stack>
           </Card>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -90,7 +90,7 @@ export default function MyCredentialsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Crew Portal"
@@ -181,6 +181,6 @@ export default function MyCredentialsPage() {
           ))}
         </Stack>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

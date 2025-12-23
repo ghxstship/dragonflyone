@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -44,7 +44,7 @@ export default function VenuesPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={4}>
@@ -175,6 +175,6 @@ export default function VenuesPage() {
               />
             )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

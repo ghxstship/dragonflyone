@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, Check, X } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -131,7 +131,7 @@ export default function AssetOptimizationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<OptimizationRecommendation>
         title="Inventory Optimization"
         subtitle="Usage patterns and optimization recommendations"
@@ -202,6 +202,6 @@ export default function AssetOptimizationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

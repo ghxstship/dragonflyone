@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { Gift, PartyPopper, Sparkles } from 'lucide-react';
 import {
   H2,
@@ -90,7 +90,7 @@ function GiftTicketsContent() {
 
   if (success) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack className="items-center justify-center min-h-[40vh]" gap={6}>
           <Stack className="size-24 rounded-avatar bg-primary items-center justify-center">
             <Body className="text-white text-h3-md">GIFT</Body>
@@ -111,12 +111,12 @@ function GiftTicketsContent() {
             </Button>
           </Stack>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -335,7 +335,7 @@ function GiftTicketsContent() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

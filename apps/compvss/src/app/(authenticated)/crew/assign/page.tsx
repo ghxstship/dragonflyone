@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -75,7 +75,7 @@ export default function AssignCrewPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Assign Crew"
         subtitle="Assign crew members to projects"
@@ -193,6 +193,6 @@ export default function AssignCrewPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

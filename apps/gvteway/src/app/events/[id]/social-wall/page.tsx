@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Twitter, Camera, Music, Smartphone, Video, ImageIcon, Heart, RefreshCw } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -64,7 +64,7 @@ function SocialWallPageContent() {
   const filteredPosts = activeTab === "all" ? posts : posts.filter(p => p.platform.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Live Feed</Kicker>
@@ -182,7 +182,7 @@ function SocialWallPageContent() {
           <Button variant="solid">Share</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Calendar, Trash2, Download, Check, Pause } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -252,7 +252,7 @@ export default function EmployeesPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Employee>
         title="Workforce"
         subtitle="Manage employees, roles, and organizational structure"
@@ -331,6 +331,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setEmployeeToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

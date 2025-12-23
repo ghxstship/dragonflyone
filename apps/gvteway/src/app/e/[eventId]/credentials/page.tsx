@@ -24,7 +24,7 @@ import {
   User,
   Scan,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventCredentialsData, type Credential } from '@/hooks/useEventOperations';
 
 export default function EventCredentialsPage() {
@@ -50,7 +50,7 @@ export default function EventCredentialsPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Credentials" description="Manage event credentials and access" colorScheme="on-dark" />
 
@@ -120,6 +120,6 @@ export default function EventCredentialsPage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

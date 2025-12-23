@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -48,7 +48,7 @@ export default function CaseStudiesPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -57,13 +57,13 @@ export default function CaseStudiesPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -75,12 +75,12 @@ export default function CaseStudiesPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Case Studies"
         subtitle="Project post-mortems and lessons learned"
@@ -192,6 +192,6 @@ export default function CaseStudiesPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

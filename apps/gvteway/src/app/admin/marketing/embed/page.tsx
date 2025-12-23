@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, Input, Button, Select,
   Card, Badge, Tabs, TabsList, Tab, TabPanel,
@@ -111,7 +111,7 @@ function EmbedCodePageContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">Marketing</Kicker>
@@ -394,7 +394,7 @@ function EmbedCodePageContent() {
           Back to Marketing
         </Button>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

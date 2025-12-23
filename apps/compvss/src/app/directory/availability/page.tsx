@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -46,7 +46,7 @@ export default function AvailabilityPage() {
   const availableCount = crewAvailability.filter(c => c.status === "Available").length;
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Availability Calendar"
         subtitle="Crew availability integration with calendars"
@@ -214,6 +214,6 @@ export default function AvailabilityPage() {
           <Button variant="solid">Book Crew</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

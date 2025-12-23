@@ -21,7 +21,7 @@ import {
   CheckCircle,
 } from 'lucide-react';
 import Link from 'next/link';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 
 import {
   useVendorData,
@@ -36,20 +36,20 @@ export default function VendorPortalPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
           <Stack gap={4} className="items-center">
             <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
             <Body>Loading vendor data...</Body>
           </Stack>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={8} className="p-6">
           <Card className="p-6 border-destructive bg-destructive/10">
             <Stack gap={4} className="items-center text-center">
@@ -59,14 +59,14 @@ export default function VendorPortalPage() {
             </Stack>
           </Card>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   const displayVendorData = vendorData || { companyName: 'Vendor', activeContracts: 0, pendingDeliveries: 0, pendingInvoices: 0, totalRevenue: 0 };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Vendor Portal"
@@ -229,6 +229,6 @@ export default function VendorPortalPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

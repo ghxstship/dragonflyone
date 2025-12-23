@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, Download } from 'lucide-react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -143,7 +143,7 @@ export default function SalesReportingPage() {
 
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<SalesData>
         title="Sales Reporting"
         subtitle="Sales analytics by location and time period"
@@ -218,6 +218,6 @@ export default function SalesReportingPage() {
           }}
         />
       )}
-    </GvtewayAppLayout>
+    </>
   );
 }

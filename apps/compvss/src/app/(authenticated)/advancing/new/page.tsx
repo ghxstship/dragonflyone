@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Button,
@@ -15,7 +15,7 @@ export default function NewAdvanceRequestPage() {
   const router = useRouter();
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Create Advance Request"
         subtitle="Request production items and services for your event"
@@ -40,6 +40,6 @@ export default function NewAdvanceRequestPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

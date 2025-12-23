@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2, Check, Circle } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { useArtists, useArtistStats, useCreateArtist, useDeleteArtist } from "../../hooks/useArtists";
 import {
   ListPage,
@@ -188,7 +188,7 @@ export default function ArtistsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Artist Management"
         subtitle="Manage artists, riders, and performance requirements"
@@ -286,6 +286,6 @@ primaryAction={{ label: 'Add Artist', onClick: () => setCreateModalOpen(true) }}
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setArtistToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Section,
@@ -70,13 +70,13 @@ export default function StrategicAlignmentPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading alignment data..." />
           </Container>
         </MainContent>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
@@ -89,7 +89,7 @@ export default function StrategicAlignmentPage() {
   const goalsOnTrack = goals.filter(g => g.status === 'on_track' || g.status === 'completed').length;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Strategic Alignment"
         subtitle="Measure how projects align with strategic goals"
@@ -356,6 +356,6 @@ export default function StrategicAlignmentPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

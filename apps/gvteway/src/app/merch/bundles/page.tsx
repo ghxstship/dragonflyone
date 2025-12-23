@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -82,7 +82,7 @@ function BundlesPageContent() {
   const activeBundles = bundles.filter(b => b.is_active).length;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-start justify-between">
@@ -415,7 +415,7 @@ function BundlesPageContent() {
           </Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

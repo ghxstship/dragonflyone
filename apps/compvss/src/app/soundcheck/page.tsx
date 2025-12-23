@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -66,7 +66,7 @@ export default function SoundcheckPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Soundcheck Coordination"
         subtitle="Schedule and manage soundcheck and focus time for all artists"
@@ -296,6 +296,6 @@ export default function SoundcheckPage() {
           <Button variant="solid" onClick={() => setShowAddModal(false)}>Add Soundcheck</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Target, Mail } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -104,7 +104,7 @@ export default function LeadScoringPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Lead>
         title="Lead Scoring & Qualification"
         subtitle="Automated lead scoring, grading, and qualification workflows"
@@ -169,6 +169,6 @@ export default function LeadScoringPage() {
           onAction={(id, r) => { if (id === 'convert') router.push(`/deals/new?lead=${r.id}`); if (id === 'email') window.location.href = `mailto:${r.email}`; setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

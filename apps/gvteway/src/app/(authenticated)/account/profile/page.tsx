@@ -24,7 +24,7 @@ import {
   Save,
   CheckCircle,
 } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '../../../../components/app-layout';
+import { GvtewayLoadingLayout } from '../../../../components/app-layout';
 import { useProfileData } from '@/hooks/useProfile';
 
 export default function AccountProfilePage() {
@@ -71,7 +71,7 @@ export default function AccountProfilePage() {
 
   if (error && !userProfile) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack gap={6} className="items-center justify-center py-20">
           <Card inverted className="max-w-md p-8 text-center">
             <Stack gap={4}>
@@ -85,12 +85,12 @@ export default function AccountProfilePage() {
             </Stack>
           </Card>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="My Account" title="Profile Settings" description="Manage your account information and preferences" colorScheme="on-dark" />
 
@@ -215,6 +215,6 @@ export default function AccountProfilePage() {
           </Stack>
         </Grid>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

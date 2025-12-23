@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Mic, ShoppingBag, Star, Package, FolderOpen } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import Image from 'next/image';
 import {
   H2,
@@ -90,19 +90,19 @@ export default function ArtistMerchPage() {
 
   if (!artist) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-8 text-center">
           <H3 className="text-white">Artist not found</H3>
           <Button variant="solid" inverted className="mt-4" onClick={() => router.push('/merch')}>
             Back to Store
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           {/* Page Header */}
           <Stack gap={6} className="mb-8 border-b-2 border-ink-800 pb-8">
             <Kicker colorScheme="on-dark">Merch</Kicker>
@@ -358,6 +358,6 @@ export default function ArtistMerchPage() {
             </Stack>
           )}
         </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }

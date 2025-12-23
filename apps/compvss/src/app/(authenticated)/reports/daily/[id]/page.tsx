@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, Send, CheckCircle, Printer} from 'lucide-react';
-import { CompvssAppLayout } from '../../../../../components/app-layout';
+// Layout provided by route group
 import { useDailyReport, useSubmitDailyReport, useApproveDailyReport } from '../../../../../hooks/useReports';
 import {
   Container,
@@ -50,30 +50,30 @@ export default function DailyReportDetailPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (!report) {
     return (
-      <CompvssAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Report not found</Body>
           </Container>
         </Section>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -282,6 +282,6 @@ export default function DailyReportDetailPage() {
           </Stack>
         </Container>
       </Section>
-    </CompvssAppLayout>
+    </>
   );
 }

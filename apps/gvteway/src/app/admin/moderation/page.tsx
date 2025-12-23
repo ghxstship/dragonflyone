@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, Check, Trash2, ArrowUp, MessageCircle, Star, FileText, Camera, File } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -102,7 +102,7 @@ export default function ModerationPage() {
   ] : [];
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<FlaggedContent>
         title="Content Moderation"
         subtitle="Review flagged content and manage community guidelines"
@@ -156,6 +156,6 @@ export default function ModerationPage() {
           }}
         />
       )}
-    </GvtewayAppLayout>
+    </>
   );
 }

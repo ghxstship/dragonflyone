@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Handshake, Sparkles, Shield, Target, Scale } from 'lucide-react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -114,7 +114,7 @@ export default function CommunityGuidelinesPage() {
   const [expandedSection, setExpandedSection] = useState<string | null>('respect');
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -292,6 +292,6 @@ export default function CommunityGuidelinesPage() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

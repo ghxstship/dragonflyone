@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useSOPAcknowledgments, useSOPs } from '../../../hooks/useSOPs';
 import {
   ListPage,
@@ -125,7 +125,7 @@ export default function SOPAcknowledgmentsPage() {
 
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<SOPAcknowledgment>
         title="SOP Acknowledgments"
         subtitle="Track who has acknowledged each SOP"
@@ -189,6 +189,6 @@ export default function SOPAcknowledgmentsPage() {
           </Select>
         }
       />
-    </CompvssAppLayout>
+    </>
   );
 }

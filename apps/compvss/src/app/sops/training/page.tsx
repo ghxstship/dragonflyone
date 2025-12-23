@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { BookOpen, CheckCircle, XCircle, Clock, Play, RotateCcw } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useSOPTrainingRecords, useSOPs, useStartSOPTraining } from '../../../hooks/useSOPs';
 import {
   ListPage,
@@ -215,7 +215,7 @@ export default function SOPTrainingPage() {
 
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<SOPTrainingRecord>
         title="SOP Training Records"
         subtitle="Track training progress and completion for SOPs"
@@ -292,6 +292,6 @@ export default function SOPTrainingPage() {
           </Select>
         }
       />
-    </CompvssAppLayout>
+    </>
   );
 }

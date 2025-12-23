@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   EnterprisePageHeader,
   MainContent,
@@ -57,7 +57,7 @@ export default function DashboardPage() {
 
   if (hasDataError) {
     return (
-      <GvtewayAppLayout variant="consumer-auth">
+      <>
         <Stack gap={6} className="items-center justify-center py-20">
           <Card inverted className="max-w-md p-8 text-center">
             <Stack gap={4}>
@@ -73,7 +73,7 @@ export default function DashboardPage() {
             </Stack>
           </Card>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -91,7 +91,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <GvtewayAppLayout variant="consumer-auth">
+    <>
       <EnterprisePageHeader
         title={`Welcome back, ${user.name}`}
         subtitle={user.email}
@@ -393,6 +393,6 @@ export default function DashboardPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

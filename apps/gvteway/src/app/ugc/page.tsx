@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react';
 import { useTabState } from '@ghxstship/config/hooks';
 import Image from 'next/image';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { Camera, Twitter, Music, User, Play, Smartphone, Heart, Flame, Megaphone, Star, MessageCircle, RefreshCw } from 'lucide-react';
 import {
   H2,
@@ -94,7 +94,7 @@ function UGCPageContent() {
   const activeCampaigns = campaigns.filter(c => c.status === 'active');
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -494,7 +494,7 @@ function UGCPageContent() {
           )}
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Download, Pencil, Trash2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -148,7 +148,7 @@ export default function DocumentsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Document>
         title="Document Management"
         subtitle="Centralized document storage with version control"
@@ -207,6 +207,6 @@ export default function DocumentsPage() {
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Upload Document" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedDoc} title={(d) => d.name} subtitle={(d) => `${d.type} • ${d.folder}`} sections={detailSections} onEdit={(d) => router.push(`/documents/${d.id}/edit`)} onDelete={(d) => { setDocToDelete(d); setDeleteConfirmOpen(true); setDrawerOpen(false); }} actions={[{ id: 'download', label: 'Download', icon: <Download className="size-4" /> }]} onAction={(id, d) => id === 'download' && window.open(`/api/documents/${d.id}/download`, '_blank')} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Document" message={`Delete "${docToDelete?.name}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setDocToDelete(null); }} />
-    </AtlvsAppLayout>
+    </>
   );
 }

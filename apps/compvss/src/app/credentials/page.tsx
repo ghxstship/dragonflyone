@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Ban, CheckCircle, QrCode, Download, UserPlus } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import { useCredentials, useCredentialStats, useRevokeCredential, useSuspendCredential, useReactivateCredential } from '../../hooks/useCredentials';
 import { useAuthContext } from '@ghxstship/config';
 import {
@@ -277,7 +277,7 @@ export default function CredentialsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<Credential>
         title="Credentials"
         subtitle="Manage access credentials and badges for production staff and guests"
@@ -341,6 +341,6 @@ quickActions={[
         onConfirm={handleRevoke}
         onCancel={() => { setRevokeDialogOpen(false); setCredentialToRevoke(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -136,7 +136,7 @@ export default function RelationshipsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Stakeholder>
         title="Relationship Mapping"
         subtitle="Visualize and manage stakeholder relationships"
@@ -204,6 +204,6 @@ export default function RelationshipsPage() {
         onSubmit={handleCreate}
         mode="create"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

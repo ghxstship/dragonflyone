@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -64,7 +64,7 @@ export default function FavoritesPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="flex-col items-start justify-between gap-4 md:flex-row md:items-center">
@@ -196,6 +196,6 @@ export default function FavoritesPage() {
               </Stack>
             </Card>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

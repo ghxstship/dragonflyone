@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
@@ -117,7 +117,7 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
           <Card className="relative h-96 overflow-hidden border-2 border-ink-800">
             <Image 
@@ -224,6 +224,6 @@ export default function EventDetailPage({ params }: { params: { id: string } }) 
             </Stack>
           </Grid>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

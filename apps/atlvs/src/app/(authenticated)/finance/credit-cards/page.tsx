@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Paperclip, AlertTriangle } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from "@ghxstship/ui";
@@ -106,7 +106,7 @@ export default function CreditCardsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<CreditCardTxn>
         title="Credit Card Management"
         subtitle="Corporate credit card integration and reconciliation"
@@ -177,6 +177,6 @@ export default function CreditCardsPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

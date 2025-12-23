@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Check, Trash2, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -217,7 +217,7 @@ export default function ProcurementPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<PurchaseOrder>
         title="Procurement"
         subtitle="Purchase orders and vendor management"
@@ -294,6 +294,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setPOToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

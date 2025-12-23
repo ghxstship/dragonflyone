@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Download, TrendingUp, DollarSign, Receipt, PieChart, BarChart3 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useExpenseStats, useExpenses, useExpenseCategories } from '../../../../hooks/useExpenses';
 import {
   Container,
@@ -49,7 +49,7 @@ export default function ExpenseReportsPage() {
   const approvalRate = stats?.total ? Math.round(((stats.approved + stats.paid) / stats.total) * 100) : 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -244,6 +244,6 @@ export default function ExpenseReportsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

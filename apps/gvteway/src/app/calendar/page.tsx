@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -120,7 +120,7 @@ export default function CalendarPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
@@ -304,6 +304,6 @@ export default function CalendarPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Users } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useSponsorTiers, useCreateSponsorTier, useUpdateSponsorTier, useDeleteSponsorTier, useSponsors } from '../../../../hooks/useSponsors';
 import {
   ListPage,
@@ -217,7 +217,7 @@ export default function SponsorTiersPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<SponsorTier>
         title="Sponsor Tiers"
         subtitle="Configure sponsorship tiers and pricing"
@@ -291,6 +291,6 @@ export default function SponsorTiersPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setTierToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

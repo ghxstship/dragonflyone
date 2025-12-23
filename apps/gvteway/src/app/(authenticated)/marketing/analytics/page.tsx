@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge, ProgressBar,
@@ -36,7 +36,7 @@ function MarketingAnalyticsPageContent() {
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-start justify-between">
@@ -233,7 +233,7 @@ function MarketingAnalyticsPageContent() {
 
           <Button variant="outlineInk" onClick={() => router.push("/marketing")}>Back to Marketing</Button>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

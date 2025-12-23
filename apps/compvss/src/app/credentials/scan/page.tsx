@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, QrCode, Camera, CheckCircle, XCircle, AlertTriangle, Search } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useVerifyCredential, useLogCredentialScan, useZones } from '../../../hooks/useCredentials';
 import {
   Container,
@@ -99,7 +99,7 @@ export default function ScanCredentialPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-ink-950 py-8">
         <Container>
           <Stack gap={6}>
@@ -288,6 +288,6 @@ export default function ScanCredentialPage() {
           </Stack>
         </Container>
       </Section>
-    </CompvssAppLayout>
+    </>
   );
 }

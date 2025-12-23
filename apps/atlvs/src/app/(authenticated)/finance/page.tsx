@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -121,7 +121,7 @@ export default function FinancePage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Transaction>
         title="Finance Management"
         subtitle="Track revenue, expenses, and financial transactions"
@@ -184,6 +184,6 @@ export default function FinancePage() {
           sections={detailSections}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

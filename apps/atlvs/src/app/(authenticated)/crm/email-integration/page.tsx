@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Reply, Link } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
@@ -103,7 +103,7 @@ export default function EmailIntegrationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<EmailThread>
         title="Email Integration"
         subtitle="Connect email accounts and auto-log communications to CRM"
@@ -175,6 +175,6 @@ export default function EmailIntegrationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -39,7 +39,7 @@ export default function EventProgramPage() {
 
   if (!program) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <H2 className="mb-4 text-white">PROGRAM NOT AVAILABLE</H2>
           <Body className="text-on-dark-muted mb-6">
@@ -49,12 +49,12 @@ export default function EventProgramPage() {
             Go Back
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -228,6 +228,6 @@ export default function EventProgramPage() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Check } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -111,7 +111,7 @@ export default function DamageReportsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<DamageReport>
         title="Damage Reports & Repairs"
         subtitle="Track equipment damage, repairs, and insurance claims"
@@ -179,6 +179,6 @@ export default function DamageReportsPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H3,
   Body,
@@ -28,7 +28,7 @@ export default function TicketsPage() {
   }
 
   return (
-    <GvtewayAppLayout variant="consumer-auth">
+    <>
       <EnterprisePageHeader
         title="My Tickets"
         subtitle="View and manage your event tickets"
@@ -125,6 +125,6 @@ export default function TicketsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

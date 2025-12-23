@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, Check } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -149,7 +149,7 @@ export default function WillCallPage() {
 
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<WillCallTicket>
         title="Will Call Management"
         subtitle="Manage ticket pickups with ID verification"
@@ -211,6 +211,6 @@ export default function WillCallPage() {
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Will Call Entry" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedTicket} title={(t) => t.customerName} subtitle={(t) => t.orderNumber} sections={detailSections} actions={[{ id: 'release', label: 'Release Tickets', icon: <Check className="size-4" /> }]} onAction={(id, t) => { if (id === 'release') { setTicketToRelease(t); setReleaseConfirmOpen(true); setDrawerOpen(false); } }} />
       <ConfirmDialog open={releaseConfirmOpen} title="Release Tickets" message={`Release ${ticketToRelease?.quantity} ticket(s) to ${ticketToRelease?.customerName}? Verify government-issued photo ID before releasing.`} confirmLabel="Confirm Release" onConfirm={handleRelease} onCancel={() => { setReleaseConfirmOpen(false); setTicketToRelease(null); }} />
-    </GvtewayAppLayout>
+    </>
   );
 }

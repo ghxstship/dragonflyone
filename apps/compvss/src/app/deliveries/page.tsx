@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Package, Truck, Trash2, Printer, Download } from "lucide-react";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -227,7 +227,7 @@ export default function DeliveriesPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Delivery Tracking"
         subtitle="Track incoming deliveries, receiving, and signature capture"
@@ -313,6 +313,6 @@ primaryAction={{ label: 'Add Delivery', onClick: () => setCreateModalOpen(true) 
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setDeliveryToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

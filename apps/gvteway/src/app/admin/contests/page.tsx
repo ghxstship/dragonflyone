@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, ClipboardList, Flag, Trophy } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -169,7 +169,7 @@ export default function ContestsPage() {
 
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<Contest>
         title="Contests & Giveaways"
         subtitle="Create and manage social media contests and promotional giveaways"
@@ -259,6 +259,6 @@ export default function ContestsPage() {
           }}
         />
       )}
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Stack,
   Body,
@@ -105,7 +105,7 @@ export default function ConsentHistoryPage() {
   };
 
   return (
-    <AtlvsAppLayout variant="authenticated">
+    <>
       <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8 py-8">
         <Stack gap={8}>
           {/* Header */}
@@ -305,6 +305,6 @@ export default function ConsentHistoryPage() {
           </Card>
         </Stack>
       </Container>
-    </AtlvsAppLayout>
+    </>
   );
 }

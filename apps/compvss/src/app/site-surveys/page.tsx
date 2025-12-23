@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   H2,
   Body,
@@ -91,19 +91,19 @@ export default function SiteSurveysPage() {
 
   if (loading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading site surveys..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <EmptyState
@@ -113,12 +113,12 @@ export default function SiteSurveysPage() {
             />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Site Surveys"
         subtitle="Venue assessments, technical specifications, and site documentation"
@@ -282,6 +282,6 @@ export default function SiteSurveysPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -62,7 +62,7 @@ export default function NewProjectPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="New Production"
         subtitle="Create a new production project"
@@ -211,6 +211,6 @@ export default function NewProjectPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

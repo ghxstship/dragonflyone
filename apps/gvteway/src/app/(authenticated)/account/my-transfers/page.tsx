@@ -18,7 +18,7 @@ import {
   EmptyState,
 } from '@ghxstship/ui';
 import { ArrowRightLeft, Clock, Send, Inbox } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useTransfers } from '@/hooks/useTransfers';
 import { useRouter } from 'next/navigation';
 
@@ -56,20 +56,20 @@ export default function MyTransfersPage() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading transfers..." />
           </Stack>
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -79,13 +79,13 @@ export default function MyTransfersPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (transfers.length === 0) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -96,12 +96,12 @@ export default function MyTransfersPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader title="Transfer History" subtitle="View your ticket transfer history" showFavorite showSettings />
       <MainContent padding="lg"><Container>
         <Stack gap={8}>
@@ -188,6 +188,6 @@ export default function MyTransfersPage() {
         </Card>
         </Stack>
       </Container></MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

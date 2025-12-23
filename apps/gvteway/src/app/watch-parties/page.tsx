@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import { Radio, Video, Clapperboard, RefreshCw, Calendar, PartyPopper, Users, MessageCircle, Tv, Play, Lock } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -160,7 +160,7 @@ export default function WatchPartiesPage() {
   const upcomingParties = parties.filter(p => p.status === 'upcoming');
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -527,6 +527,6 @@ export default function WatchPartiesPage() {
           )}
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

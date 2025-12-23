@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Trash2, Archive, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { 
   ListPage, 
   Badge, 
@@ -244,7 +244,7 @@ export default function ProjectsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Project>
         title="Projects"
         subtitle="Manage production projects and track progress"
@@ -314,6 +314,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setProjectToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

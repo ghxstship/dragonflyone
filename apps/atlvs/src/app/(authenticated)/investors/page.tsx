@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, DollarSign, FileText, Building2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useInvestors, useInvestorStats, useInvestmentRounds } from '../../../hooks/useInvestors';
 import {
   ListPage,
@@ -296,7 +296,7 @@ export default function InvestorsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Investor>
         title="Investors"
         subtitle="Manage investors and investment commitments"
@@ -374,6 +374,6 @@ export default function InvestorsPage() {
         sections={detailSections}
         onEdit={(i) => router.push(`/investors/${i.id}`)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

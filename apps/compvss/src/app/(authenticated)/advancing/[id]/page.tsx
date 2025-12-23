@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Button,
@@ -32,7 +32,7 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
   const canFulfill = request && ['approved', 'in_progress'].includes(request.status);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Advance Request"
         subtitle={`Request ID: ${params.id}`}
@@ -71,6 +71,6 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

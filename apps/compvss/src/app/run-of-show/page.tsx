@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Body,
@@ -31,13 +31,13 @@ export default function RunOfShowPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading run of show..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -49,7 +49,7 @@ export default function RunOfShowPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Run of Show"
         subtitle={`Current Time: ${currentTime}`}
@@ -113,6 +113,6 @@ export default function RunOfShowPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

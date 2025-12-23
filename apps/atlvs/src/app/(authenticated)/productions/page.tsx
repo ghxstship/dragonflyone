@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { EnterprisePageHeader, MainContent, Container, Card, CardBody, Stack, StatCard, Body, Badge, H3, Grid, Box, EmptyState, Spinner } from "@ghxstship/ui";
 import { FolderKanban, Calendar, Users, Plus, ArrowRight, AlertCircle } from "lucide-react";
 import { useProductions, type Production } from "../../../hooks/useProductions";
@@ -64,7 +64,7 @@ export default function ProductionsPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Productions"
         subtitle="Manage all your productions across the platform"
@@ -139,6 +139,6 @@ export default function ProductionsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

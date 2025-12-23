@@ -26,7 +26,7 @@ import {
   Eye,
   ShoppingBag,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useOrders } from '@/hooks/useOrders';
 import { useRouter } from 'next/navigation';
 
@@ -48,7 +48,7 @@ export default function AccountOrdersPage() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
         <MainContent padding="lg">
           <Container>
@@ -57,13 +57,13 @@ export default function AccountOrdersPage() {
             </Stack>
           </Container>
         </MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
         <MainContent padding="lg">
           <Container>
@@ -75,13 +75,13 @@ export default function AccountOrdersPage() {
             />
           </Container>
         </MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (orders.length === 0) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
         <MainContent padding="lg">
           <Container>
@@ -94,12 +94,12 @@ export default function AccountOrdersPage() {
             />
           </Container>
         </MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader title="Order History" subtitle="View your past orders and receipts" showFavorite showSettings />
       <MainContent padding="lg">
         <Container>
@@ -176,6 +176,6 @@ export default function AccountOrdersPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

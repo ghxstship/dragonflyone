@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -141,7 +141,7 @@ export default function CompliancePage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<ComplianceItem>
         title="Compliance Tracking"
         subtitle="Manage insurance, licenses, certifications, and permits"
@@ -191,6 +191,6 @@ export default function CompliancePage() {
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Add Compliance Item" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedItem} title={(i) => i.title} subtitle={(i) => i.compliance_type} sections={detailSections} onEdit={(i) => router.push(`/compliance/${i.id}/edit`)} onDelete={(i) => { setItemToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Compliance Item" message={`Delete "${itemToDelete?.title}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setItemToDelete(null); }} />
-    </AtlvsAppLayout>
+    </>
   );
 }

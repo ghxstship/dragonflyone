@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -60,7 +60,7 @@ export default function SettlementPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Post-Production Settlement"
         subtitle="Financial closeout and settlement for completed projects"
@@ -306,6 +306,6 @@ export default function SettlementPage() {
           <Button variant="solid" onClick={() => setShowAdjustmentModal(false)}>Add Adjustment</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

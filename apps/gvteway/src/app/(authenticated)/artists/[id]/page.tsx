@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   Body,
@@ -48,7 +48,7 @@ export default function ArtistPage() {
 
   if (!artist) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack className="items-center justify-center min-h-[40vh]" gap={4}>
           <H2 className="text-white">Artist Not Found</H2>
           <Body className="text-on-dark-muted">The artist you are looking for does not exist.</Body>
@@ -56,12 +56,12 @@ export default function ArtistPage() {
             Browse Artists
           </Button>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -174,6 +174,6 @@ export default function ArtistPage() {
           )}
         </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

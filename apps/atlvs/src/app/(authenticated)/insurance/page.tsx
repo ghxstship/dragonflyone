@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, FileText, Shield, Clock, AlertTriangle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useInsurancePolicies, useInsuranceStats, type InsurancePolicy } from '../../../hooks/useCompliance';
 import {
   ListPage,
@@ -252,7 +252,7 @@ export default function InsurancePage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<InsurancePolicy>
         title="Insurance Policies"
         subtitle="Manage insurance coverage and policies"
@@ -326,6 +326,6 @@ export default function InsurancePage() {
         sections={detailSections}
         onEdit={(p) => router.push(`/insurance/${p.id}`)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

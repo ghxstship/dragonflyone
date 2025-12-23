@@ -1,4 +1,4 @@
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Stack,
   Grid,
@@ -114,7 +114,7 @@ const templatesData = {
 
 export default function TemplatesPage() {
   return (
-    <AtlvsAppLayout variant="public" background="white" rawContent>
+    <>
       {/* Hero */}
       <FullBleedSection background="ink" pattern="grid" patternOpacity={0.03} className="py-12 sm:py-16 lg:py-24">
         <Container className="mx-auto max-w-container-5xl px-4 sm:px-6 lg:px-8">
@@ -263,6 +263,6 @@ export default function TemplatesPage() {
           </Stack>
         </Container>
       </FullBleedSection>
-    </AtlvsAppLayout>
+    </>
   );
 }

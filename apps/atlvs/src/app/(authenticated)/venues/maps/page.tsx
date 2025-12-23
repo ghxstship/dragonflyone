@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { MapPin, Building2, Layers, ZoomIn, ZoomOut, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useVenues, useVenueZones } from '../../../../hooks/useVenues';
 import {
   Container,
@@ -52,7 +52,7 @@ export default function VenueMapsPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -261,6 +261,6 @@ export default function VenueMapsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

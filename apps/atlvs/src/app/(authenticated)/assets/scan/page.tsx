@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Smartphone, ArrowUpFromLine, ArrowDownToLine, ClipboardList, ArrowRightLeft, Loader2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -131,7 +131,7 @@ export default function AssetScanPage() {
   }).length;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Barcode Scanner"
         subtitle="Scan assets for check-in, check-out, and inventory"
@@ -381,6 +381,6 @@ export default function AssetScanPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

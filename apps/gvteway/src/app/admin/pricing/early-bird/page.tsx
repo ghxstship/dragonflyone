@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, Badge,
@@ -47,7 +47,7 @@ function EarlyBirdPageContent() {
   const filteredCampaigns = activeTab === "all" ? mockCampaigns : mockCampaigns.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -233,7 +233,7 @@ function EarlyBirdPageContent() {
           <Button variant="solid">Edit Campaign</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

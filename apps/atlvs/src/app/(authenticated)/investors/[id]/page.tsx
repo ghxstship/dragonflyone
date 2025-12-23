@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, DollarSign, FileText, CheckCircle, Mail, Phone } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useInvestor, useRecordFunding } from '../../../../hooks/useInvestors';
 import {
   Container,
@@ -55,30 +55,30 @@ export default function InvestorDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!investor) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Investor not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -305,6 +305,6 @@ export default function InvestorDetailPage() {
         onConfirm={handleRecordFunding}
         onCancel={() => setFundingDialogOpen(false)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

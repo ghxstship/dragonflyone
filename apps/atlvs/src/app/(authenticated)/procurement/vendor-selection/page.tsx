@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalTabState } from "@ghxstship/config/hooks";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -117,7 +117,7 @@ export default function VendorSelectionPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Vendor Selection"
         subtitle="Evaluate bids, score vendors, and route for approval"
@@ -312,6 +312,6 @@ export default function VendorSelectionPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

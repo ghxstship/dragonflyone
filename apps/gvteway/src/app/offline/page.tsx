@@ -10,7 +10,7 @@ import {
 } from '@ghxstship/ui';
 import { WifiOff, RefreshCw, Home } from 'lucide-react';
 import Link from 'next/link';
-import { GvtewayAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 
 export default function OfflinePage() {
   const handleRetry = () => {
@@ -18,7 +18,7 @@ export default function OfflinePage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8} className="min-h-[60vh] items-center justify-center">
         <Card variant="elevated" inverted className="max-w-md text-center">
           <CardBody>
@@ -54,6 +54,6 @@ export default function OfflinePage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

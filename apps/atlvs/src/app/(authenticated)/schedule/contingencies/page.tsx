@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, Zap } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useContingencies, useContingencyStats, useTriggerContingency, useResolveContingency } from '../../../../hooks/useTasks';
 import {
   ListPage,
@@ -275,7 +275,7 @@ export default function ContingenciesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Contingency>
         title="Contingency Plans"
         subtitle="Manage emergency and backup plans"
@@ -360,6 +360,6 @@ export default function ContingenciesPage() {
         onConfirm={handleResolve}
         onCancel={() => { setResolveDialogOpen(false); setContingencyToAction(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

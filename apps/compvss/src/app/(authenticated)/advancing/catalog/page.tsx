@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useAdvancingCatalog } from '@/hooks/useAdvancingCatalog';
 import { 
   Container, 
@@ -77,7 +77,7 @@ export default function CatalogPage() {
   const effectiveData = data;
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Production Advancing Catalog"
         subtitle={`Browse ${effectiveData?.total || 329} standardized production items across all categories`}
@@ -276,6 +276,6 @@ export default function CatalogPage() {
           )}
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

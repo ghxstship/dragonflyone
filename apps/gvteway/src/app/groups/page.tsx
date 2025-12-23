@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -62,7 +62,7 @@ export default function GroupsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8}>
             <Stack gap={2}>
               <Kicker colorScheme="on-dark">Community</Kicker>
@@ -195,6 +195,6 @@ export default function GroupsPage() {
             </Button>
           </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

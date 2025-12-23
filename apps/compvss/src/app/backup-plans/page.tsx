@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { CloudRain, Cog, Users, Package, Building2, AlertTriangle, ClipboardList } from "lucide-react";
 import {
   Container,
@@ -53,7 +53,7 @@ export default function BackupPlansPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -62,13 +62,13 @@ export default function BackupPlansPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -80,7 +80,7 @@ export default function BackupPlansPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -116,7 +116,7 @@ export default function BackupPlansPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Backup Plans"
         subtitle="Contingency and backup plan documentation"
@@ -287,6 +287,6 @@ export default function BackupPlansPage() {
           <Button variant="solid" onClick={() => handleCreatePlan('Active')}>Create</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

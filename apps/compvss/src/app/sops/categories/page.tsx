@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, FolderOpen } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useSOPCategories, useCreateSOPCategory } from '../../../hooks/useSOPs';
 import {
   ListPage,
@@ -172,7 +172,7 @@ export default function SOPCategoriesPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<SOPCategory>
         title="SOP Categories"
         subtitle="Organize SOPs into categories for easier navigation"
@@ -234,6 +234,6 @@ export default function SOPCategoriesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setCategoryToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

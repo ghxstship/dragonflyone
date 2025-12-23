@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Flame, Heart, PartyPopper, ThumbsUp, Sparkles, Smile } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -70,7 +70,7 @@ export default function EventChatPage() {
 
   if (!chatRoom) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <H2 className="mb-4 text-white">CHAT NOT AVAILABLE</H2>
           <Body className="text-on-dark-muted mb-6">
@@ -80,13 +80,13 @@ export default function EventChatPage() {
             Go Back
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (chatRoom.status === 'archived') {
     return (
-      <GvtewayAppLayout>
+      <>
             <Stack gap={8}>
               <Stack gap={2}>
                 <Kicker colorScheme="on-dark">Events</Kicker>
@@ -117,12 +117,12 @@ export default function EventChatPage() {
             </Stack>
             </Card>
             </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="flex-col items-start justify-between border-b-2 border-ink-800 pb-8 md:flex-row md:items-center">
@@ -276,6 +276,6 @@ export default function EventChatPage() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

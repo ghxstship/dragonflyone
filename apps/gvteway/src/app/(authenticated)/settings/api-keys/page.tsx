@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -135,7 +135,7 @@ function ApiKeysPageContent() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <div className="flex items-center justify-center min-h-[400px]">
@@ -146,13 +146,13 @@ function ApiKeysPageContent() {
             </div>
           </Container>
         </MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Alert variant="error">
@@ -163,12 +163,12 @@ function ApiKeysPageContent() {
             </Alert>
           </Container>
         </MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
@@ -393,7 +393,7 @@ function ApiKeysPageContent() {
           <Button variant="solid" onClick={() => setShowKeyModal(false)}>Done</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

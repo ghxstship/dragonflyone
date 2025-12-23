@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Download, TrendingUp, DollarSign, Users, PieChart, BarChart3 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useSponsorStats, useSponsors, useSponsorTiers } from '../../../../hooks/useSponsors';
 import {
   Container,
@@ -58,7 +58,7 @@ export default function SponsorReportsPage() {
   const collectionRate = stats?.totalValue ? Math.round((stats.totalPaid / stats.totalValue) * 100) : 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -250,6 +250,6 @@ export default function SponsorReportsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

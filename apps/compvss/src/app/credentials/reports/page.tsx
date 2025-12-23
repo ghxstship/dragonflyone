@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Download, BarChart3, Users, Shield, Clock, TrendingUp } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useCredentialStats, useCredentials, useCredentialTypes } from '../../../hooks/useCredentials';
 import {
   Container,
@@ -50,7 +50,7 @@ export default function CredentialReportsPage() {
   ];
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -213,6 +213,6 @@ export default function CredentialReportsPage() {
           </Stack>
         </Container>
       </Section>
-    </CompvssAppLayout>
+    </>
   );
 }

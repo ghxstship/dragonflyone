@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Palette, Camera, Video, Newspaper, ClipboardList, User, Folder } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -56,7 +56,7 @@ function MediaKitPageContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -279,7 +279,7 @@ function MediaKitPageContent() {
           <Button variant="solid" onClick={() => setShowReleaseModal(false)}>Publish</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

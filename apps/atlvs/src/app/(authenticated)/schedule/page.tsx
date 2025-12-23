@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { CheckSquare, AlertTriangle, FileText, Clock, TrendingUp } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useTaskStats, useContingencyStats, useTasks, useContingencies } from '../../../hooks/useTasks';
 import {
   Container,
@@ -56,7 +56,7 @@ export default function SchedulePage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Schedule Management"
         subtitle="Manage tasks, contingencies, and production schedules"
@@ -288,6 +288,6 @@ export default function SchedulePage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

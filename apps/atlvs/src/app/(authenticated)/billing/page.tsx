@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Mail, Trash2 } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -221,7 +221,7 @@ export default function BillingPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Invoice>
         title="Client Billing"
         subtitle="Manage invoices and track payments"
@@ -280,6 +280,6 @@ export default function BillingPage() {
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Create Invoice" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedInvoice} title={(i) => i.invoice_number} subtitle={(i) => i.client?.name || 'No client'} sections={detailSections} onEdit={(i) => router.push(`/billing/invoices/${i.id}/edit`)} onDelete={(i) => { setInvoiceToDelete(i); setDeleteConfirmOpen(true); setDrawerOpen(false); }} />
       <ConfirmDialog open={deleteConfirmOpen} title="Delete Invoice" message={`Delete invoice "${invoiceToDelete?.invoice_number}"?`} variant="danger" confirmLabel="Delete" onConfirm={handleDelete} onCancel={() => { setDeleteConfirmOpen(false); setInvoiceToDelete(null); }} />
-    </AtlvsAppLayout>
+    </>
   );
 }

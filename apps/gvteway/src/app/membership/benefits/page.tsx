@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -39,7 +39,7 @@ function MemberBenefitsPageContent() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EmptyState
           icon={<Crown size={48} />}
           title="Unable to load membership data"
@@ -47,7 +47,7 @@ function MemberBenefitsPageContent() {
           action={{ label: "Try Again", onClick: () => window.location.reload() }}
           inverted
         />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -63,7 +63,7 @@ function MemberBenefitsPageContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -256,7 +256,7 @@ function MemberBenefitsPageContent() {
           <Button variant="solid" onClick={() => setShowAddBenefitModal(false)}>Add Benefit</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

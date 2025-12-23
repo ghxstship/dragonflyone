@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -71,7 +71,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <CompvssAppLayout variant="authenticated">
+    <>
       <Stack gap={10}>
         {/* Page Header */}
         <Stack gap={4} direction="horizontal" className="flex-col items-start justify-between md:flex-row md:items-center">
@@ -275,6 +275,6 @@ export default function ProfilePage() {
           </Stack>
         </Grid>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

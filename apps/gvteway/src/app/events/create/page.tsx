@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   Body,
@@ -51,7 +51,7 @@ export default function CreateEventPage() {
   const displayError = localError || (error instanceof Error ? error.message : null);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -198,6 +198,6 @@ export default function CreateEventPage() {
           </Stack>
         </Form>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

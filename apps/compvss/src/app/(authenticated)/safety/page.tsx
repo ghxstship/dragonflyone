@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -54,19 +54,19 @@ export default function SafetyPage() {
 
   if (loading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Spinner variant="grey" size="lg" text="Loading safety data..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <EmptyState
@@ -76,12 +76,12 @@ export default function SafetyPage() {
             />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Safety Management"
         subtitle="Incident reporting and safety compliance"
@@ -185,6 +185,6 @@ export default function SafetyPage() {
           </Card>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

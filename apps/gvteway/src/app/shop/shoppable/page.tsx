@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Camera, Music, Twitter, Smartphone, ImageIcon, Heart, ShoppingBag } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -46,7 +46,7 @@ function ShoppablePostsPageContent() {
   const filteredPosts = activeTab === "all" ? mockPosts : mockPosts.filter(p => p.platform.toLowerCase() === activeTab);
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -195,7 +195,7 @@ function ShoppablePostsPageContent() {
           </Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

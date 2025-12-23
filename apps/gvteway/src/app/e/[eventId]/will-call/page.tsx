@@ -28,7 +28,7 @@ import {
   Clock,
   User,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventWillCallData, type WillCallTicket } from '@/hooks/useEventOperations';
 
 export default function EventWillCallPage() {
@@ -57,7 +57,7 @@ export default function EventWillCallPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Will Call" description="Manage will call ticket pickups" colorScheme="on-dark" />
 
@@ -124,6 +124,6 @@ export default function EventWillCallPage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

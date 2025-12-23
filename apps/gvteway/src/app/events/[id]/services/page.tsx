@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -107,11 +107,11 @@ export default function EventServicesPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Alert variant="error" className="mt-8">
           {error}
         </Alert>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -121,7 +121,7 @@ export default function EventServicesPage() {
     : services.filter(s => s.category === selectedCategory);
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">Event Services</Kicker>
@@ -272,6 +272,6 @@ export default function EventServicesPage() {
           </Grid>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

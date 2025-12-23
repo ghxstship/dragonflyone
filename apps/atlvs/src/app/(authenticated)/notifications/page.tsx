@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AtlvsAppLayout, AtlvsLoadingLayout } from "@/components/app-layout";
+import { AtlvsLoadingLayout } from "@/components/app-layout";
 import {
   Body,
   Button,
@@ -66,18 +66,18 @@ export default function NotificationsPage() {
 
   if (error) {
     return (
-      <AtlvsAppLayout>
+      <>
             <EmptyState
               title="Error Loading Notifications"
               description={error instanceof Error ? error.message : 'An error occurred'}
               inverted
             />
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Notifications"
         subtitle="Stay updated on your projects and finances"
@@ -160,6 +160,6 @@ export default function NotificationsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

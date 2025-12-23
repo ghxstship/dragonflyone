@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -96,7 +96,7 @@ END:VCALENDAR`;
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -304,6 +304,6 @@ END:VCALENDAR`;
               </Stack>
             </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

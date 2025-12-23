@@ -1,9 +1,9 @@
-import { CompvssAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import { Stack, Container, Skeleton } from "@ghxstship/ui";
 
 export default function ScheduleLoading() {
   return (
-    <CompvssAppLayout>
+    <>
       <Container className="py-8">
         <Stack gap={8}>
           <Stack gap={4}>
@@ -21,6 +21,6 @@ export default function ScheduleLoading() {
           <Skeleton className="h-96 rounded-card" />
         </Stack>
       </Container>
-    </CompvssAppLayout>
+    </>
   );
 }

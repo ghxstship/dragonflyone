@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   Section,
   H2,
@@ -66,7 +66,7 @@ export default function NewEventsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -208,6 +208,6 @@ export default function NewEventsPage() {
           </Stack>
         </Card>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

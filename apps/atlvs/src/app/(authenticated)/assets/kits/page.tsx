@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Rocket, Pencil } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Stack, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
@@ -143,7 +143,7 @@ export default function AssetKitsPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<AssetKit>
         title="Asset Kits"
         subtitle="Pre-configured equipment bundles and packages"
@@ -216,6 +216,6 @@ export default function AssetKitsPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

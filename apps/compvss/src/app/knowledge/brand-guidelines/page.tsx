@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { Palette, Type, FileText, Star, Camera, Folder } from "lucide-react";
 import {
   Container,
@@ -65,7 +65,7 @@ export default function BrandGuidelinesPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Brand Guidelines"
         subtitle="Brand standards and asset documentation"
@@ -230,6 +230,6 @@ export default function BrandGuidelinesPage() {
           <Button variant="solid">Download</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

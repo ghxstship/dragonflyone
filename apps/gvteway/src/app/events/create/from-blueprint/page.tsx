@@ -24,7 +24,7 @@ import {
   Check,
   ChevronRight,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 
 import {
   DEMO_BLUEPRINTS,
@@ -60,7 +60,7 @@ export default function CreateFromBlueprintPage() {
   };
 
   return (
-    <GvtewayAppLayout variant="creator-auth">
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Events"
@@ -428,6 +428,6 @@ export default function CreateFromBlueprintPage() {
           </Stack>
         )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -97,32 +97,32 @@ function AffiliatesProgramPageContent() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <Spinner size="lg" className="mx-auto mb-4" />
             <Body className="text-muted">Loading affiliates...</Body>
           </div>
         </div>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Alert variant="error">
           <Body>Failed to load affiliates: {error instanceof Error ? error.message : 'Unknown error'}</Body>
           <Button variant="outline" size="sm" onClick={() => refetch()} className="mt-2">
             Retry
           </Button>
         </Alert>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">Marketing</Kicker>
@@ -433,7 +433,7 @@ function AffiliatesProgramPageContent() {
           )}
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

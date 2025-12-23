@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -70,7 +70,7 @@ export default function MobileJobSearchPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Job Search"
         subtitle="Mobile-optimized job search and quick apply"
@@ -293,6 +293,6 @@ export default function MobileJobSearchPage() {
           <Button variant="solid" onClick={() => { setShowApplyModal(false); setSelectedJob(null); }}>Submit Application</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

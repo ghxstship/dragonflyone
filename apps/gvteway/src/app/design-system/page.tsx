@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   Badge, Button, Checkbox, Input, Radio, Select, Spinner, Switch, Textarea,
   Display, H1, H2, H3, H4, Body, Label, Kicker, ProgressBar,
@@ -61,7 +61,7 @@ function DesignSystemPageContent() {
   const totalComponents = Object.values(COMPONENT_COUNTS).reduce((a, b) => a + b, 0);
 
   return (
-    <GvtewayAppLayout>
+    <>
       <MainContent padding="none">
         <div className="relative overflow-hidden border-b-2 border-ink-700 bg-ink-950">
           <GridPattern className="absolute inset-0 opacity-30" />
@@ -313,7 +313,7 @@ function DesignSystemPageContent() {
           </Container>
         </div>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

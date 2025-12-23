@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Smartphone, Ticket, Mail } from "lucide-react";
-import { GvtewayAppLayout, GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
 import {
   H2,
   H3,
@@ -66,7 +66,7 @@ function ConfirmationContent() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={8} className="mx-auto max-w-3xl">
             <Stack gap={4} className="text-center">
               <Body className="text-h3-md">✓</Body>
@@ -189,7 +189,7 @@ function ConfirmationContent() {
             </Button>
           </Stack>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

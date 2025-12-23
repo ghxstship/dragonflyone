@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CompvssAppLayout, CompvssLoadingLayout } from "@/components/app-layout";
+import { CompvssLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -52,7 +52,7 @@ export default function NotificationsPage() {
 
 
   return (
-    <CompvssAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -131,6 +131,6 @@ export default function NotificationsPage() {
               </Stack>
             )}
           </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { RefreshCw, Trash2, Pause, Play } from 'lucide-react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -224,7 +224,7 @@ export default function PromoCodesPage() {
 
 
   return (
-    <GvtewayAppLayout>
+    <>
       <ListPage<PromoCode>
         title="Promo Codes"
         subtitle="Manage discount codes and promotional offers"
@@ -286,6 +286,6 @@ export default function PromoCodesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setPromoToDelete(null); }}
       />
-    </GvtewayAppLayout>
+    </>
   );
 }

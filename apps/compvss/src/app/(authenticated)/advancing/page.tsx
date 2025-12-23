@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   Button,
@@ -50,7 +50,7 @@ export default function AdvancingPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Production Advancing"
         subtitle="Submit and manage production advance requests"
@@ -132,6 +132,6 @@ export default function AdvancingPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

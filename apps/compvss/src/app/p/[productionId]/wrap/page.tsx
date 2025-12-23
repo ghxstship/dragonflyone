@@ -22,7 +22,7 @@ import {
   Download,
   CheckCircle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface WrapMetrics {
@@ -82,7 +82,7 @@ export default function ProductionWrapReportPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="Production" title="Wrap Report" description="Generate the production wrap report" colorScheme="on-dark" />
 
@@ -169,6 +169,6 @@ export default function ProductionWrapReportPage() {
           </Button>
         </Stack>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

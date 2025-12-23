@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, X, Link } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
@@ -124,7 +124,7 @@ export default function CalendarIntegrationPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<CalendarEvent>
         title="Calendar Integration"
         subtitle="Sync calendars and schedule meetings with contacts"
@@ -190,6 +190,6 @@ export default function CalendarIntegrationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

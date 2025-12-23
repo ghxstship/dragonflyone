@@ -2,7 +2,7 @@
 
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, MapPin, Phone, Mail, Calendar, DollarSign, Users } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useVenue, useVenueZones, useZoneStats } from '../../../../hooks/useVenues';
 import {
   Container,
@@ -56,30 +56,30 @@ export default function VenueDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!venue) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Venue not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -339,6 +339,6 @@ export default function VenueDetailPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -35,7 +35,7 @@ export default function EntryInfoPage() {
 
   if (!info) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center">
           <H2 className="mb-4 text-white">INFORMATION NOT AVAILABLE</H2>
           <Body className="text-on-dark-muted mb-6">
@@ -45,12 +45,12 @@ export default function EntryInfoPage() {
             Go Back
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -258,6 +258,6 @@ export default function EntryInfoPage() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

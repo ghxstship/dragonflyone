@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -39,19 +39,19 @@ export default function WishlistPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
             <EmptyState
               title="Error Loading Wishlist"
               description={error instanceof Error ? error.message : String(error)}
               action={{ label: "Retry", onClick: () => refetch() }}
               inverted
             />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -171,6 +171,6 @@ export default function WishlistPage() {
               </Card>
             )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

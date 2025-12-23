@@ -17,7 +17,7 @@ import {
   ProgressBar,
 } from '@ghxstship/ui';
 import { Users, Clock, Utensils, Calendar, Plus, Edit2 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useCateringData } from '../../../../hooks/useCatering';
 
 interface MealService {
@@ -100,7 +100,7 @@ export default function CateringPage() {
     .reduce((sum, m) => sum + m.actualHeadcount, 0);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Catering Management"
         subtitle="Track meal services and crew headcounts"
@@ -247,6 +247,6 @@ export default function CateringPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

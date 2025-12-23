@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { Ticket, Mic, Building2, Music, Search } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -111,7 +111,7 @@ function UniversalSearchContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -263,7 +263,7 @@ function UniversalSearchContent() {
           </Stack>
         )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

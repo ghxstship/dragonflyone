@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Trash2 } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -177,7 +177,7 @@ export default function OKRsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<OKR>
         title="OKRs & Strategic Goals"
         subtitle="Track objectives and key results across the organization"
@@ -263,6 +263,6 @@ export default function OKRsPage() {
           onEdit={(o) => router.push(`/okrs/${o.id}/edit`)}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

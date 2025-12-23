@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Download, Eye, FileText, Presentation, Edit, Share2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useSponsorTiers, useSponsorStats } from '../../../../hooks/useSponsors';
 import { logger } from '@ghxstship/config';
 import {
@@ -47,7 +47,7 @@ export default function SponsorshipDeckPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -239,6 +239,6 @@ export default function SponsorshipDeckPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -65,19 +65,19 @@ export default function ForumsPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EmptyState
           title="Error Loading Forums"
           description={error instanceof Error ? error.message : String(error)}
           action={{ label: "Retry", onClick: () => window.location.reload() }}
           inverted
         />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <MainContent padding="lg">
         <Container>
           <Stack gap={8}>
@@ -226,6 +226,6 @@ export default function ForumsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

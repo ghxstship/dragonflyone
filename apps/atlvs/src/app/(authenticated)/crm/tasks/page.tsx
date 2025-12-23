@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { Eye, Check, Pencil, Trash2, RefreshCw, Phone, Mail, Users } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -162,7 +162,7 @@ export default function TasksPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Task>
         title="Tasks & Follow-ups"
         subtitle="Manage tasks and automated reminders"
@@ -257,6 +257,6 @@ export default function TasksPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setTaskToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

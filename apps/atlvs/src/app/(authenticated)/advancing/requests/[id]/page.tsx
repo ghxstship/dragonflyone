@@ -2,14 +2,14 @@
 
 import { useRouter } from 'next/navigation';
 import { Container, Button, Stack, EnterprisePageHeader, MainContent } from '@ghxstship/ui';
-import { AtlvsAppLayout } from '../../../../../components/app-layout';
+// Layout provided by route group
 import { AdvanceRequestDetail } from '@/components/advancing/advance-request-detail';
 
 export default function AdvanceRequestPage({ params }: { params: { id: string } }) {
   const router = useRouter();
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Advance Request"
         subtitle={`Request ID: ${params.id}`}
@@ -30,6 +30,6 @@ export default function AdvanceRequestPage({ params }: { params: { id: string } 
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

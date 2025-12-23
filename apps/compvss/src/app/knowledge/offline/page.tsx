@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -69,7 +69,7 @@ export default function OfflineAccessPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Offline Access"
         subtitle="Download content for mobile-optimized offline access"
@@ -269,6 +269,6 @@ export default function OfflineAccessPage() {
           )}
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

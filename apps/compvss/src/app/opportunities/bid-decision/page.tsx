@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -71,7 +71,7 @@ export default function BidDecisionPage() {
     opportunities.filter(o => o.status.toLowerCase().replace(" ", "") === activeTab);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Bid/No-Bid Decisions"
         subtitle="Opportunity evaluation and decision workflow"
@@ -196,6 +196,6 @@ export default function BidDecisionPage() {
           <Button variant="solid">Bid</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

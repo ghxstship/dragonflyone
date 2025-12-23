@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft, Pencil, CheckCircle, XCircle, DollarSign, Calendar, User, FileText } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useExpense, useApproveExpense, useRejectExpense, useMarkExpensePaid } from '../../../../hooks/useExpenses';
 import {
   Container,
@@ -64,30 +64,30 @@ export default function ExpenseDetailPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Loading...</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (!expense) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Section className="min-h-screen bg-grey-100 py-8">
           <Container>
             <Body>Expense not found</Body>
           </Container>
         </Section>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -359,6 +359,6 @@ export default function ExpenseDetailPage() {
         onConfirm={handleMarkPaid}
         onCancel={() => setPaidDialogOpen(false)}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

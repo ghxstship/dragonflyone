@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, ClipboardList, Pencil, Trash2, Download } from "lucide-react";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { useCrew } from "../../../hooks/useCrew";
 import {
   ListPage,
@@ -278,7 +278,7 @@ export default function CrewPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<CrewMember>
         title="Crew Directory"
         subtitle="Vetted production professionals and technical specialists"
@@ -356,6 +356,6 @@ showFavorite
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setMemberToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

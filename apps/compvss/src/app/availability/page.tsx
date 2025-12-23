@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, Pencil, Calendar } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -139,7 +139,7 @@ export default function AvailabilityPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Availability"
         subtitle="Crew availability and calendar integration"
@@ -226,6 +226,6 @@ primaryAction={{ label: 'Set Availability', onClick: () => setCreateModalOpen(tr
           }}
         />
       )}
-    </CompvssAppLayout>
+    </>
   );
 }

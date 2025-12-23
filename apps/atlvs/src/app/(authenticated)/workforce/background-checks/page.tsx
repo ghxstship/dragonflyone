@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import { Eye, RefreshCw } from 'lucide-react';
 import {
   ListPage,
@@ -175,7 +175,7 @@ export default function BackgroundChecksPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<BackgroundCheck>
         title="Background Checks"
         subtitle="Employee background check tracking and compliance"
@@ -248,6 +248,6 @@ export default function BackgroundChecksPage() {
           sections={detailSections}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Pencil, Calendar, Tag, Cog, CircleDot, Lock, FileText } from "lucide-react";
-import { AtlvsAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -116,7 +116,7 @@ export default function IPTrackingPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<IntellectualProperty>
         title="Intellectual Property"
         subtitle="Track trademarks, patents, copyrights, and trade secrets"
@@ -187,6 +187,6 @@ export default function IPTrackingPage() {
           onAction={(id, a) => { if (id === 'edit') router.push(`/ip-tracking/${a.id}/edit`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

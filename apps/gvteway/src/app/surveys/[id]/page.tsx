@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -168,7 +168,7 @@ export default function SurveyPage() {
 
   if (!survey) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <H2 className="mb-4 text-white">SURVEY NOT FOUND</H2>
           <Body className="text-on-dark-muted mb-6">
@@ -178,13 +178,13 @@ export default function SurveyPage() {
             View My Events
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (success) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Card inverted className="p-12 text-center mt-12">
           <H2 className="mb-4 text-white">THANK YOU!</H2>
           <Body className="text-on-dark-muted mb-6">
@@ -194,7 +194,7 @@ export default function SurveyPage() {
             Back to My Events
           </Button>
         </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -206,7 +206,7 @@ export default function SurveyPage() {
   );
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -308,6 +308,6 @@ export default function SurveyPage() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

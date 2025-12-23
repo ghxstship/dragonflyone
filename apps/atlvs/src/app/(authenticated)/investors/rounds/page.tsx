@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Users} from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useInvestmentRounds, useCreateInvestmentRound, useUpdateInvestmentRound, useInvestors } from '../../../../hooks/useInvestors';
 import {
   ListPage,
@@ -286,7 +286,7 @@ export default function InvestmentRoundsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<InvestmentRound>
         title="Investment Rounds"
         subtitle="Manage fundraising rounds and targets"
@@ -351,6 +351,6 @@ export default function InvestmentRoundsPage() {
         sections={detailSections}
         onEdit={(r) => { setSelectedRound(r); setEditModalOpen(true); setDrawerOpen(false); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

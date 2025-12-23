@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Camera, Video, FileText, Star, Heart, MessageCircle } from "lucide-react";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, Badge,
@@ -47,7 +47,7 @@ function FanContentPageContent() {
   // Loading state
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack gap={10}>
           <Stack gap={2}>
             <Kicker colorScheme="on-dark">Community</Kicker>
@@ -57,14 +57,14 @@ function FanContentPageContent() {
             <Body className="text-on-dark-muted">Loading fan content...</Body>
           </Card>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Stack gap={10}>
           <Stack gap={2}>
             <Kicker colorScheme="on-dark">Community</Kicker>
@@ -75,12 +75,12 @@ function FanContentPageContent() {
             <Button variant="outline" onClick={() => window.location.reload()} className="mt-4">Retry</Button>
           </Card>
         </Stack>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -200,7 +200,7 @@ function FanContentPageContent() {
           <Button variant="solid" onClick={() => setShowSubmitModal(false)} disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

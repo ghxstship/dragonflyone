@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, BookOpen, FolderOpen } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import { useSOPs, useSOPStats, useSOPCategories } from '../../hooks/useSOPs';
 import {
   ListPage,
@@ -273,7 +273,7 @@ export default function SOPsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<SOP>
         title="Standard Operating Procedures"
         subtitle="Manage SOPs, acknowledgments, and training requirements"
@@ -357,6 +357,6 @@ export default function SOPsPage() {
         sections={detailSections}
         onEdit={(s) => router.push(`/sops/${s.id}`)}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

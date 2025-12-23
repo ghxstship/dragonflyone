@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, Button,
   Card, Input, Badge, Alert,
@@ -29,7 +29,7 @@ export default function FriendFinderPage() {
   const attendingFriends = mockFriends.filter(f => f.status === "attending");
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -150,6 +150,6 @@ export default function FriendFinderPage() {
           <Button variant="solid" onClick={() => setShowMeetupModal(false)}>Send Invite</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 import { User } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -116,7 +116,7 @@ export default function FriendsPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -438,6 +438,6 @@ export default function FriendsPage() {
               )}
             </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

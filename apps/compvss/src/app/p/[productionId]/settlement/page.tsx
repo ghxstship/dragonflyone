@@ -28,7 +28,7 @@ import {
   Clock,
   Download,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface SettlementItem {
@@ -82,7 +82,7 @@ export default function ProductionSettlementPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Settlement" description="Crew and vendor settlement management" colorScheme="on-dark" />
@@ -160,6 +160,6 @@ export default function ProductionSettlementPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

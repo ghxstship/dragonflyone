@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, Send, Calendar } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useDailyReports, useReportStats, useSubmitDailyReport, useApproveDailyReport } from '../../../../hooks/useReports';
 import { useAuth } from '@ghxstship/config';
 import {
@@ -227,7 +227,7 @@ export default function DailyReportsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<DailyReport>
         title="Daily Reports"
         subtitle="Track daily operations, attendance, and revenue"
@@ -302,6 +302,6 @@ export default function DailyReportsPage() {
         onConfirm={handleApprove}
         onCancel={() => { setApproveDialogOpen(false); setReportToApprove(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

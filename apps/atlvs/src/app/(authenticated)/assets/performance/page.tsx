@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Wrench } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -111,7 +111,7 @@ export default function AssetPerformancePage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<AssetPerformance>
         title="Asset Performance Analytics"
         subtitle="Performance metrics and failure prediction for all assets"
@@ -170,6 +170,6 @@ export default function AssetPerformancePage() {
           onAction={(id, r) => { if (id === 'maintenance') router.push(`/assets/maintenance?asset=${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

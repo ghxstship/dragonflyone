@@ -1,9 +1,9 @@
-import { CompvssAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import { Stack, Grid, Container, Skeleton } from "@ghxstship/ui";
 
 export default function WeatherLoading() {
   return (
-    <CompvssAppLayout>
+    <>
       <Container className="py-8">
         <Stack gap={8}>
           <Stack gap={4}>
@@ -24,6 +24,6 @@ export default function WeatherLoading() {
           </Grid>
         </Stack>
       </Container>
-    </CompvssAppLayout>
+    </>
   );
 }

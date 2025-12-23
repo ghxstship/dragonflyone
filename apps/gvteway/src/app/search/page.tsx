@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -44,7 +44,7 @@ export default function SearchPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={10}>
         <Stack gap={2}>
           <Kicker colorScheme="on-dark">Find</Kicker>
@@ -113,6 +113,6 @@ export default function SearchPage() {
           </Stack>
         )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

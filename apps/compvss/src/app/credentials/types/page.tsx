@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { Eye, Pencil, Shield } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useCredentialTypes, useCreateCredentialType, useUpdateCredentialType, type CredentialType } from '../../../hooks/useCredentials';
 import {
   ListPage,
@@ -246,7 +246,7 @@ export default function CredentialTypesPage() {
 
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<CredentialType>
         title="Credential Types"
         subtitle="Configure credential types and access levels for your production"
@@ -331,6 +331,6 @@ export default function CredentialTypesPage() {
         sections={detailSections}
         onEdit={(t) => { setSelectedType(t); setEditModalOpen(true); setDrawerOpen(false); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

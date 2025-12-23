@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useVenueZones, useVenues, useCreateVenueZone, useDeleteVenueZone, type VenueZone } from '../../../../hooks/useVenues';
 import {
   ListPage,
@@ -253,7 +253,7 @@ function VenueZonesPageContent() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<VenueZone>
         title="Venue Zones"
         subtitle="Manage zones and areas within venues"
@@ -339,7 +339,7 @@ function VenueZonesPageContent() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setZoneToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }
 

@@ -22,7 +22,7 @@ import {
   Coffee,
   CheckCircle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import { useAuthContext } from '@ghxstship/config';
 import {
   useClockEntries,
@@ -103,16 +103,16 @@ export default function ClockInPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack className="min-h-[60vh] items-center justify-center">
           <Spinner variant="grey" size="lg" text="Loading time clock..." />
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Crew Portal"
@@ -251,6 +251,6 @@ export default function ClockInPage() {
           />
         </Grid>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

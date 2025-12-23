@@ -23,7 +23,7 @@ import {
   AlertTriangle,
   RefreshCw,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface WeatherForecast {
@@ -81,7 +81,7 @@ export default function ProductionWeatherPage() {
   }, [fetchWeather]);
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Production" title="Weather Monitor" description="Weather forecast and contingency planning" colorScheme="on-dark" />
@@ -155,6 +155,6 @@ export default function ProductionWeatherPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

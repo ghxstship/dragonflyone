@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, Send, FileText } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useWrapReports, useReportStats } from '../../../../hooks/useReports';
 import {
   ListPage,
@@ -232,7 +232,7 @@ export default function WrapReportsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <ListPage<WrapReport>
         title="Wrap Reports"
         subtitle="Post-production summary reports with financial and operational metrics"
@@ -297,6 +297,6 @@ export default function WrapReportsPage() {
         sections={detailSections}
         onEdit={(r) => router.push(`/reports/wrap/${r.id}`)}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalTabState } from "@ghxstship/config/hooks";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -65,7 +65,7 @@ export default function UnionCompliancePage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Union Compliance"
         subtitle="Union rules, agreements, and compliance tracking"
@@ -235,6 +235,6 @@ export default function UnionCompliancePage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

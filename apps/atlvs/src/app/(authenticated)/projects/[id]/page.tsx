@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, notFound } from "next/navigation";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ProgressBar,
   Button,
@@ -63,7 +63,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
 
   if (loading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <EnterprisePageHeader
           title="Loading..."
           subtitle="Fetching project details"
@@ -75,13 +75,13 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             <Spinner variant="grey" size="lg" text="Loading project..." />
           </Container>
         </MainContent>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   if (error || !project) {
     return (
-      <AtlvsAppLayout>
+      <>
         <EnterprisePageHeader
           title="Error"
           subtitle={error || "Project not found"}
@@ -96,7 +96,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
             </Button>
           </Container>
         </MainContent>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
@@ -123,7 +123,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
   ];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title={project.name}
         subtitle={project.client?.name || project.client_name || "No client"}
@@ -260,6 +260,6 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

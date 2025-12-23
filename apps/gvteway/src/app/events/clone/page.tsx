@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
 import { Music, Tent, Briefcase, Theater, Trophy, Sparkles, Calendar } from "lucide-react";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge,
@@ -52,7 +52,7 @@ function EventCloneContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -271,7 +271,7 @@ function EventCloneContent() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create Template</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

@@ -2,7 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -126,7 +126,7 @@ function NewReviewContent() {
 
   if (!event) {
     return (
-      <GvtewayAppLayout>
+      <>
             <Card inverted className="p-12 text-center mt-12">
               <H2 className="mb-4 text-white">Event Not Found</H2>
               <Body className="text-on-dark-muted mb-6">
@@ -136,25 +136,25 @@ function NewReviewContent() {
                 View My Events
               </Button>
             </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (success) {
     return (
-      <GvtewayAppLayout>
+      <>
             <Card inverted className="p-12 text-center mt-12">
               <H2 className="mb-4 text-white">Thank You!</H2>
               <Body className="text-on-dark-muted mb-6">
                 Your review has been submitted successfully.
               </Body>
             </Card>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -287,7 +287,7 @@ function NewReviewContent() {
           </Stack>
         </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

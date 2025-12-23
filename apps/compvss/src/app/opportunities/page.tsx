@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -136,7 +136,7 @@ export default function OpportunitiesPage() {
   ];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Opportunities"
         subtitle="RFPs, careers, and gig board"
@@ -356,6 +356,6 @@ export default function OpportunitiesPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

@@ -25,7 +25,7 @@ import {
   Clock,
   AlertTriangle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface StrikeTask {
@@ -86,7 +86,7 @@ export default function ProductionStrikePage() {
   const areas = Array.from(new Set(tasks.map(t => t.area)));
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader title="Strike Checklist" subtitle="Track strike progress and completion" showFavorite showSettings />
       <MainContent padding="lg"><Container><Stack gap={8}>
         <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
@@ -145,6 +145,6 @@ export default function ProductionStrikePage() {
           <Button variant="solid" disabled={progress < 100}><CheckCircle size={16} className="mr-2" />Complete Strike</Button>
         </Stack>
       </Stack></Container></MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

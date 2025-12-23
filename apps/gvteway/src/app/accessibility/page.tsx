@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, PhoneInput, Select, Button,
   Card, Tabs, TabsList, Tab, TabPanel, Badge, Alert, EmptyState,
@@ -43,14 +43,14 @@ function AccessibilityPageContent() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EmptyState
           title="Error Loading Services"
           description="Unable to load accessibility services. Please try again."
           action={{ label: "Retry", onClick: () => refetch() }}
           inverted
         />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
@@ -64,7 +64,7 @@ function AccessibilityPageContent() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -254,7 +254,7 @@ function AccessibilityPageContent() {
           <Button variant="outline">Modify Request</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

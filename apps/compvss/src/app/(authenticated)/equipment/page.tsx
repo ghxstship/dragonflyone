@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, ClipboardList, Wrench, Trash2, Download } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -237,7 +237,7 @@ export default function EquipmentPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Equipment Inventory"
         subtitle="Track and manage production equipment"
@@ -320,6 +320,6 @@ primaryAction={{ label: 'Add Equipment', onClick: () => setCreateModalOpen(true)
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setEquipmentToDelete(null); }}
       />
-    </CompvssAppLayout>
+    </>
   );
 }

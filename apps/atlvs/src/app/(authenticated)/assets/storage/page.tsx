@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Package } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -108,7 +108,7 @@ export default function StorageOptimizationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<StorageLocation>
         title="Storage Optimization"
         subtitle="Storage location management and optimization recommendations"
@@ -167,6 +167,6 @@ export default function StorageOptimizationPage() {
           onAction={(id, r) => { if (id === 'assets') router.push(`/assets?location=${r.id}`); setDrawerOpen(false); }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

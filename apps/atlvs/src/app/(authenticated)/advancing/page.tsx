@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Check } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -125,7 +125,7 @@ export default function AdvancingPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<ProductionAdvance>
         title="Production Advancing"
         subtitle="Manage production advance requests and catalog items"
@@ -191,6 +191,6 @@ export default function AdvancingPage() {
         actions={[{ id: 'review', label: 'Review Request', icon: <Check className="size-4" /> }]}
         onAction={(id, r) => { if (id === 'review') router.push(`/advancing/requests/${r.id}`); setDrawerOpen(false); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

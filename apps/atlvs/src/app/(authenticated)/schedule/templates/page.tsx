@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Copy, Clock, CheckSquare } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { 
   useTaskTemplates, 
   useCreateTaskTemplate, 
@@ -299,7 +299,7 @@ export default function TaskTemplatesPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<TaskTemplate>
         title="Task Templates"
         subtitle="Reusable templates for common production tasks"
@@ -394,6 +394,6 @@ export default function TaskTemplatesPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteDialogOpen(false); setTemplateToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

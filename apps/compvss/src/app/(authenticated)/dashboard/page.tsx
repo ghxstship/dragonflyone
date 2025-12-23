@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useCrew } from '../../../hooks/useCrew';
 import { useEquipment } from '../../../hooks/useEquipment';
 import { useActivityFeed } from '@ghxstship/config/hooks';
@@ -72,7 +72,7 @@ export default function CompvssDashboardPage() {
 
   if (hasError) {
     return (
-      <CompvssAppLayout>
+      <>
         <Stack gap={6} className="items-center justify-center py-20">
           <Card className="max-w-md p-8 text-center">
             <Stack gap={4}>
@@ -88,12 +88,12 @@ export default function CompvssDashboardPage() {
             </Stack>
           </Card>
         </Stack>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Production Operations"
         subtitle={`Welcome back, ${user.name}`}
@@ -306,6 +306,6 @@ export default function CompvssDashboardPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

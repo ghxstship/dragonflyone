@@ -1,6 +1,6 @@
 "use client";
 
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   Display,
   H2,
@@ -17,7 +17,7 @@ import NextLink from "next/link";
 
 export default function ApplicationConfirmationPage() {
   return (
-    <GvtewayAppLayout variant="membership">
+    <>
           <Stack gap={12} className="mx-auto max-w-xl text-center">
             <ScrollReveal animation="scale">
               {/* Success Icon */}
@@ -102,6 +102,6 @@ export default function ApplicationConfirmationPage() {
               </Stack>
             </ScrollReveal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalTabState } from '@ghxstship/config/hooks';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -77,7 +77,7 @@ export default function HandbookPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Employee Handbook & Policies"
         subtitle="Manage handbook sections and track policy acknowledgments"
@@ -382,6 +382,6 @@ export default function HandbookPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

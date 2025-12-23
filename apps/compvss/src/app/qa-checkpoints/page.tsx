@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -64,7 +64,7 @@ export default function QACheckpointsPage() {
   const filteredCheckpoints = activeTab === "all" ? qaCheckpoints : qaCheckpoints.filter(c => c.phase.toLowerCase().replace(" ", "-") === activeTab);
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="QA Checkpoints"
         subtitle="Quality assurance and sign-off tracking for production phases"
@@ -210,6 +210,6 @@ export default function QACheckpointsPage() {
           <Button variant="solid" onClick={() => { setShowSignOffModal(false); setSelectedCheckpoint(null); }}>Sign Off</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

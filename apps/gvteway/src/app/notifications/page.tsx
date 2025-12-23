@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GvtewayAppLayout, GvtewayLoadingLayout } from "@/components/app-layout";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
 import {
   H2,
   Body,
@@ -58,19 +58,19 @@ export default function NotificationsPage() {
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
             <EmptyState
               title="Error Loading Notifications"
               description={error instanceof Error ? error.message : "An error occurred"}
               action={{ label: "Retry", onClick: () => refetch() }}
               inverted
             />
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -153,6 +153,6 @@ export default function NotificationsPage() {
               </Stack>
             )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

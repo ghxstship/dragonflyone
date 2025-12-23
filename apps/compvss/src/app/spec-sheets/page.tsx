@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -51,7 +51,7 @@ export default function SpecSheetsPage() {
   });
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Technical Specifications"
         subtitle="Equipment specification sheets and cut sheets library"
@@ -168,6 +168,6 @@ export default function SpecSheetsPage() {
           <Button variant="solid">Download PDF</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

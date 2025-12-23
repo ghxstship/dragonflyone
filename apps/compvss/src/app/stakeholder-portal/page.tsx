@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { BarChart3, Target, AlertTriangle, FileText, ClipboardList } from "lucide-react";
 import {
   Container,
@@ -51,7 +51,7 @@ export default function StakeholderPortalPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -60,13 +60,13 @@ export default function StakeholderPortalPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -78,7 +78,7 @@ export default function StakeholderPortalPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -105,7 +105,7 @@ export default function StakeholderPortalPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Stakeholder Portal"
         subtitle="Role-based communication portal for project stakeholders"
@@ -287,6 +287,6 @@ export default function StakeholderPortalPage() {
           <Button variant="solid" onClick={() => setShowInviteModal(false)}>Send Invite</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

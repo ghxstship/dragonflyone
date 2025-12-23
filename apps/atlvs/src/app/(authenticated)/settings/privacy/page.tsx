@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Stack,
   Body,
@@ -220,7 +220,7 @@ export default function PrivacySettingsPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Container className="py-8 max-w-container-3xl">
         <Stack gap={8}>
           {/* Header */}
@@ -548,6 +548,6 @@ export default function PrivacySettingsPage() {
           </div>
         </Stack>
       </Container>
-    </AtlvsAppLayout>
+    </>
   );
 }

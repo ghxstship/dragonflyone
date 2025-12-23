@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Zap, DollarSign, ClipboardList, Package } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -110,7 +110,7 @@ export default function IdleAnalysisPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<IdleAsset>
         title="Idle Asset Analysis"
         subtitle="Asset utilization rates and idle time analysis"
@@ -174,6 +174,6 @@ export default function IdleAnalysisPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

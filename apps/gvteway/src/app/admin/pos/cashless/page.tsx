@@ -4,7 +4,7 @@ import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { CreditCard, Smartphone, Watch, QrCode, Wifi, RotateCcw, Power } from 'lucide-react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -122,7 +122,7 @@ function CashlessPaymentPageContent() {
   const locations = [...new Set(terminals.map(t => t.location))];
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -490,7 +490,7 @@ function CashlessPaymentPageContent() {
           <Button variant="solid">View Transactions</Button>
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 

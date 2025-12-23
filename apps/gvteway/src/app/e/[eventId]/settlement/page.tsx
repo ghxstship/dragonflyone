@@ -24,7 +24,7 @@ import {
   CheckCircle,
   Download,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventSettlementData, type SettlementData } from '@/hooks/useEventOperations';
 
 const defaultSettlement: SettlementData = {
@@ -51,7 +51,7 @@ export default function EventSettlementPage() {
   const settlement = fetchedSettlement || defaultSettlement;
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <Stack direction="horizontal" className="items-start justify-between">
           <SectionHeader kicker="Event" title="Settlement" description="Final event financial settlement" colorScheme="on-dark" />
@@ -129,6 +129,6 @@ export default function EventSettlementPage() {
           </>
         )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

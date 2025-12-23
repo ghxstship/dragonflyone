@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useDepartments, useCreateDepartment, useDeleteDepartment } from '../../../hooks/useDepartments';
 import {
   ListPage,
@@ -128,7 +128,7 @@ export default function DepartmentsPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Department>
         title="Departments"
         subtitle="Manage organizational departments"
@@ -176,6 +176,6 @@ export default function DepartmentsPage() {
         onConfirm={handleDelete}
         variant="danger"
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

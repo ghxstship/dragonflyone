@@ -1,6 +1,6 @@
 "use client";
 
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { useVenues } from "../../hooks/useVenues";
 import {
   H3,
@@ -22,7 +22,7 @@ export default function VenuesPage() {
   const { data: venues, isLoading, error, refetch } = useVenues();
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Venue Directory"
         subtitle="Browse and manage venue information for productions"
@@ -89,6 +89,6 @@ export default function VenuesPage() {
           )}
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

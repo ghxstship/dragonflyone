@@ -24,7 +24,7 @@ import {
   CheckCircle,
   AlertTriangle,
 } from 'lucide-react';
-import { CompvssAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { log } from '@ghxstship/config';
 
 interface LoadInTask {
@@ -99,7 +99,7 @@ export default function ProductionLoadInPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Production"
@@ -211,6 +211,6 @@ export default function ProductionLoadInPage() {
           </CardBody>
         </Card>
       </Stack>
-    </CompvssAppLayout>
+    </>
   );
 }

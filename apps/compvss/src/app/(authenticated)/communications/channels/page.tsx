@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import { Radio, Headphones, MessageSquare, Satellite, Smartphone } from "lucide-react";
 import {
   Container,
@@ -64,7 +64,7 @@ export default function ChannelsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Communication Channels"
         subtitle="Department-specific channels and groups"
@@ -214,6 +214,6 @@ export default function ChannelsPage() {
           <Button variant="solid" onClick={() => setShowCreateModal(false)}>Create</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

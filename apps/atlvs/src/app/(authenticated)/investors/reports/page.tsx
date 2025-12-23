@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Download, TrendingUp, DollarSign, Users, PieChart, BarChart3 } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useInvestorStats, useInvestors, useInvestmentRounds } from '../../../../hooks/useInvestors';
 import {
   Container,
@@ -54,7 +54,7 @@ export default function InvestorReportsPage() {
   const fundingRate = stats?.totalCommitted ? Math.round((stats.totalFunded / stats.totalCommitted) * 100) : 0;
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -244,6 +244,6 @@ export default function InvestorReportsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

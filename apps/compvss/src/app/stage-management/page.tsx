@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   EnterprisePageHeader,
@@ -35,7 +35,7 @@ export default function StageManagementPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Stage Management"
         subtitle="Manage stage configurations, layouts, and technical requirements for productions."
@@ -130,6 +130,6 @@ export default function StageManagementPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

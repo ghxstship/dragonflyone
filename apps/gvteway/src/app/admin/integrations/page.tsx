@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2, Body, Button, Card, Field, Label, Input, Badge, Alert, Grid, Stack, StatCard,
   Kicker,
@@ -47,7 +47,7 @@ export default function GvtewayIntegrationsPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -202,6 +202,6 @@ export default function GvtewayIntegrationsPage() {
               </Stack>
             </Card>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

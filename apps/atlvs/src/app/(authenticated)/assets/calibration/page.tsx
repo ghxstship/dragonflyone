@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Calendar, Pencil } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -105,7 +105,7 @@ export default function CalibrationCertificationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<CalibrationRecord>
         title="Calibration & Certification Schedules"
         subtitle="Track calibration and certification requirements for all assets"
@@ -170,6 +170,6 @@ export default function CalibrationCertificationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

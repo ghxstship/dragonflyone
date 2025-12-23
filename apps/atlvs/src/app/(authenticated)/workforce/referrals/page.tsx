@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import { Eye } from 'lucide-react';
 import {
   ListPage,
@@ -154,7 +154,7 @@ export default function ReferralProgramPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<Referral>
         title="Referral Program"
         subtitle="Employee referral tracking and bonus management"
@@ -225,6 +225,6 @@ export default function ReferralProgramPage() {
           sections={detailSections}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

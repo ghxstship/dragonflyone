@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, History } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
@@ -112,7 +112,7 @@ export default function AssetTrackingPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<AssetLocation>
         title="Asset Location Tracking"
         subtitle="Real-time GPS and RFID tracking for production equipment"
@@ -174,6 +174,6 @@ export default function AssetTrackingPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLocalTabState } from '@ghxstship/config/hooks';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -102,24 +102,24 @@ export default function LogisticsPage() {
   
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <Stack className="flex min-h-[400px] items-center justify-center">
           <Spinner size="lg" />
           <Body className="text-on-dark-muted">Loading shipments...</Body>
         </Stack>
-      </AtlvsAppLayout>
+      </>
     );
   }
   
   if (error) {
     return (
-      <AtlvsAppLayout>
+      <>
         <EmptyState
           title="Failed to load shipments"
           description={error instanceof Error ? error.message : 'An error occurred'}
           action={{ label: 'Retry', onClick: () => refetch() }}
         />
-      </AtlvsAppLayout>
+      </>
     );
   }
 
@@ -138,7 +138,7 @@ export default function LogisticsPage() {
   };
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Freight & Logistics"
         subtitle="Coordinate shipments and track deliveries"
@@ -348,6 +348,6 @@ export default function LogisticsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

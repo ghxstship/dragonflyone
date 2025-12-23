@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Download } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -193,7 +193,7 @@ export default function CrewPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<CrewMember>
         title="Crew Management"
         subtitle="Manage production crew members"
@@ -255,6 +255,6 @@ export default function CrewPage() {
         onConfirm={handleDelete}
         onCancel={() => { setDeleteConfirmOpen(false); setMemberToDelete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

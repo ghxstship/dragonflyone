@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout } from '@/components/app-layout';
+// Layout provided by route group
 import {
   H2,
   H3,
@@ -115,7 +115,7 @@ export default function NearbyEventsPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -254,6 +254,6 @@ export default function NearbyEventsPage() {
           </Card>
         )}
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

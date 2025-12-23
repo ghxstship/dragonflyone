@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocalTabState } from "@ghxstship/config/hooks";
 import { useAssetSpecifications, type AssetSpec } from "@ghxstship/config";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -68,16 +68,16 @@ export default function AssetSpecificationsPage() {
 
   if (isLoading) {
     return (
-      <AtlvsAppLayout>
+      <>
         <div className="p-6 flex items-center justify-center min-h-[400px]">
           <div className="animate-pulse text-muted-foreground">Loading specifications...</div>
         </div>
-      </AtlvsAppLayout>
+      </>
     );
   }
 
   return (
-    <AtlvsAppLayout>
+    <>
       <EnterprisePageHeader
         title="Asset Specifications Library"
         subtitle="Technical documentation, specifications, and manuals for all equipment"
@@ -291,6 +291,6 @@ export default function AssetSpecificationsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </AtlvsAppLayout>
+    </>
   );
 }

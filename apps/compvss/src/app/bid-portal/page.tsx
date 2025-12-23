@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -47,7 +47,7 @@ export default function BidPortalPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -56,13 +56,13 @@ export default function BidPortalPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -74,7 +74,7 @@ export default function BidPortalPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -84,7 +84,7 @@ export default function BidPortalPage() {
   const filteredBids = activeTab === "all" ? bidOpportunities : activeTab === "open" ? bidOpportunities.filter(b => b.status === "Open") : bidOpportunities.filter(b => b.status !== "Open");
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Bid Submission Portal"
         subtitle="Submit proposals and track bid opportunities"
@@ -222,6 +222,6 @@ export default function BidPortalPage() {
           <Button variant="outline" onClick={() => setSelectedBid(null)}>Close</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

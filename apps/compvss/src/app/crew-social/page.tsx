@@ -4,7 +4,7 @@ import { useState} from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
 import { logger } from '@ghxstship/config';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import { Camera, Heart } from 'lucide-react';
 import {
   Container,
@@ -58,7 +58,7 @@ export default function CrewSocialPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container className="flex min-h-[60vh] items-center justify-center">
             <Stack gap={4} className="items-center">
@@ -67,13 +67,13 @@ export default function CrewSocialPage() {
             </Stack>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   if (fetchError) {
     return (
-      <CompvssAppLayout>
+      <>
         <MainContent padding="lg">
           <Container>
             <Card className="p-6 border-destructive bg-destructive/10">
@@ -85,7 +85,7 @@ export default function CrewSocialPage() {
             </Card>
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
@@ -112,7 +112,7 @@ export default function CrewSocialPage() {
   const totalConnections = crewMembers.reduce((sum, m) => sum + m.connections.length, 0) / 2;
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Crew Social"
         subtitle="Connect with your crew, share photos, build your network"
@@ -405,6 +405,6 @@ export default function CrewSocialPage() {
           </Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

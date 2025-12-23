@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, CheckCircle, Clock, AlertTriangle } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useTasks, useTaskStats, useCompleteTask } from '../../../../hooks/useTasks';
 import {
   ListPage,
@@ -285,7 +285,7 @@ export default function ScheduleTasksPage() {
   ] : [];
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<ScheduleTask>
         title="Schedule Tasks"
         subtitle="Manage production tasks and assignments"
@@ -361,6 +361,6 @@ export default function ScheduleTasksPage() {
         onConfirm={handleComplete}
         onCancel={() => { setCompleteDialogOpen(false); setTaskToComplete(null); }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

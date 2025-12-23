@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Eye, Check } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import {
   ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig,
@@ -126,7 +126,7 @@ export default function RentalEquipmentPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<RentalEquipment>
         title="Rental Equipment Tracking"
         subtitle="Track third-party rental equipment across all projects"
@@ -214,6 +214,6 @@ export default function RentalEquipmentPage() {
           }
         }}
       />
-    </AtlvsAppLayout>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { CompvssAppLayout } from '../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H2,
@@ -42,7 +42,7 @@ export default function CompvssIntegrationsPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Platform Integrations"
         subtitle="Monitor cross-platform data synchronization and manage production workflows."
@@ -166,6 +166,6 @@ export default function CompvssIntegrationsPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

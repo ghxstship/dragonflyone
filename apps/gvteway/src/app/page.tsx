@@ -1,6 +1,6 @@
 "use client";
 
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   Stack,
   Grid,
@@ -85,7 +85,7 @@ const testimonials = gvtewayTestimonials;
 
 export default function MembershipLandingPage() {
   return (
-    <GvtewayAppLayout>
+    <>
       {/* ═══════════════════════════════════════════════════════════════════════════
           SECTION 1: HERO - Full Viewport Immersive
           ═══════════════════════════════════════════════════════════════════════════ */}
@@ -571,6 +571,6 @@ export default function MembershipLandingPage() {
           </Stack>
         </ScrollReveal>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

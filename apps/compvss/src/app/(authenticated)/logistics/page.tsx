@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, MapPin, Pencil } from "lucide-react";
-import { CompvssAppLayout } from "../../../components/app-layout";
+// Layout provided by route group
 import { useShipments } from "@/hooks/useLogistics";
 import {
   ListPage,
@@ -128,7 +128,7 @@ export default function LogisticsPage() {
   ] : [];
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Logistics & Transportation"
         subtitle="Track shipments, manage fleet, and coordinate deliveries"
@@ -196,6 +196,6 @@ primaryAction={{ label: 'Schedule Shipment', onClick: () => setCreateModalOpen(t
       </MainContent>
       <RecordFormModal open={createModalOpen} onClose={() => setCreateModalOpen(false)} mode="create" title="Schedule Shipment" fields={formFields} onSubmit={handleCreate} size="lg" />
       <DetailDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} record={selectedShipment} title={(s) => s.id} subtitle={(s) => s.equipment} sections={detailSections} onEdit={(s) => router.push(`/logistics/${s.id}/edit`)} actions={[{ id: 'track', label: 'Track', icon: <MapPin className="size-4" /> }]} onAction={(id, s) => id === 'track' && router.push(`/logistics/${s.id}`)} />
-    </CompvssAppLayout>
+    </>
   );
 }

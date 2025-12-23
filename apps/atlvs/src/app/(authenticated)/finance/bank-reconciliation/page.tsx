@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Link } from "lucide-react";
-import { AtlvsAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   ListPage,
   Badge,
@@ -113,7 +113,7 @@ export default function BankReconciliationPage() {
 
 
   return (
-    <AtlvsAppLayout>
+    <>
       <ListPage<BankTxn>
         title="Bank Reconciliation"
         subtitle="Automated bank statement matching and reconciliation"
@@ -181,6 +181,6 @@ export default function BankReconciliationPage() {
           }}
         />
       )}
-    </AtlvsAppLayout>
+    </>
   );
 }

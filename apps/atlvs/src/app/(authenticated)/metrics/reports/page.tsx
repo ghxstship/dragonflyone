@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Download, FileText, Calendar, TrendingUp, DollarSign, Users, ArrowLeft } from 'lucide-react';
-import { AtlvsAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useProductionMetrics } from '../../../../hooks/useMetrics';
 import { useProductionContextSafe } from '@ghxstship/config';
 import {
@@ -116,7 +116,7 @@ export default function MetricsReportsPage() {
   }, {} as Record<string, ReportTemplate[]>);
 
   return (
-    <AtlvsAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-100 py-8">
         <Container>
           <Stack gap={6}>
@@ -284,6 +284,6 @@ export default function MetricsReportsPage() {
           </Stack>
         </Container>
       </Section>
-    </AtlvsAppLayout>
+    </>
   );
 }

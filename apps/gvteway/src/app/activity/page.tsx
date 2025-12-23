@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useNotifications } from '@ghxstship/ui';
 import { useRouter } from 'next/navigation';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -83,7 +83,7 @@ export default function ActivityFeedPage() {
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -251,6 +251,6 @@ export default function ActivityFeedPage() {
               </Stack>
             </Grid>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

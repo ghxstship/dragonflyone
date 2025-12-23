@@ -22,7 +22,7 @@ import {
   Camera,
   Keyboard,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventScanData } from '@/hooks/useEventOperations';
 
 interface ScanResult {
@@ -65,7 +65,7 @@ export default function EventScanPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader kicker="Event" title="Ticket Scanner" description="Scan and validate tickets" colorScheme="on-dark" />
 
@@ -143,6 +143,6 @@ export default function EventScanPage() {
           </Card>
         )}
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

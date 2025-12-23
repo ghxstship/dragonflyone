@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CompvssAppLayout } from "../../components/app-layout";
+// Layout provided by route group
 import { useTimekeeping, useApproveTimeEntry } from "../../hooks/useTimekeeping";
 import { log } from '@ghxstship/config';
 import {
@@ -54,7 +54,7 @@ export default function TimekeepingPage() {
 
   if (isLoading) {
     return (
-      <CompvssAppLayout>
+      <>
         <EnterprisePageHeader
           title="Timekeeping"
           subtitle="Track crew hours, overtime, and timesheet approvals"
@@ -68,12 +68,12 @@ export default function TimekeepingPage() {
             <Spinner variant="grey" size="lg" text="Loading timekeeping data..." />
           </Container>
         </MainContent>
-      </CompvssAppLayout>
+      </>
     );
   }
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Timekeeping"
         subtitle="Track crew hours, overtime, and timesheet approvals"
@@ -176,6 +176,6 @@ export default function TimekeepingPage() {
           </Stack>
         </Container>
       </MainContent>
-    </CompvssAppLayout>
+    </>
   );
 }

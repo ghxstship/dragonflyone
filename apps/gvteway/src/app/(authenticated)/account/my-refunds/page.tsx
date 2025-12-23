@@ -18,7 +18,7 @@ import {
   EmptyState,
 } from '@ghxstship/ui';
 import { DollarSign, Clock, CheckCircle, RotateCcw } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useRefunds } from '@/hooks/useRefunds';
 import { useRouter } from 'next/navigation';
 
@@ -69,20 +69,20 @@ export default function MyRefundsPage() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <Stack className="flex items-center justify-center py-20">
             <Spinner variant="grey" size="lg" text="Loading refunds..." />
           </Stack>
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -92,13 +92,13 @@ export default function MyRefundsPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (refunds.length === 0) {
     return (
-      <GvtewayAppLayout>
+      <>
         <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
         <MainContent padding="lg"><Container>
           <EmptyState
@@ -109,12 +109,12 @@ export default function MyRefundsPage() {
             inverted
           />
         </Container></MainContent>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
       <EnterprisePageHeader title="Refund Requests" subtitle="Track the status of your refund requests" showFavorite showSettings />
       <MainContent padding="lg"><Container>
         <Stack gap={8}>
@@ -201,6 +201,6 @@ export default function MyRefundsPage() {
         </Card>
         </Stack>
       </Container></MainContent>
-    </GvtewayAppLayout>
+    </>
   );
 }

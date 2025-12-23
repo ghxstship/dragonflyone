@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTabState } from '@ghxstship/config/hooks';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -67,7 +67,7 @@ export default function MultilingualPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Multilingual Support"
         subtitle="Content translations for international crews"
@@ -268,6 +268,6 @@ export default function MultilingualPage() {
           <Button variant="solid">Request Translation</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

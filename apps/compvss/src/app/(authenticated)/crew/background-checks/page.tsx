@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { CompvssAppLayout } from "../../../../components/app-layout";
+// Layout provided by route group
 import {
   Container,
   H3,
@@ -60,7 +60,7 @@ export default function BackgroundChecksPage() {
     backgroundChecks.filter(c => c.status === "In Progress" || c.status === "Pending");
 
   return (
-    <CompvssAppLayout>
+    <>
       <EnterprisePageHeader
         title="Background Checks"
         subtitle="Background check status and renewal alerts"
@@ -244,6 +244,6 @@ export default function BackgroundChecksPage() {
           <Button variant="solid" onClick={() => setShowInitiateModal(false)}>Submit Request</Button>
         </ModalFooter>
       </Modal>
-    </CompvssAppLayout>
+    </>
   );
 }

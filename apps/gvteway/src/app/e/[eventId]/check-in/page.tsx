@@ -24,7 +24,7 @@ import {
   Clock,
   RefreshCw,
 } from 'lucide-react';
-import { GvtewayAppLayout } from '../../../../components/app-layout';
+// Layout provided by route group
 import { useEventCheckInData } from '@/hooks/useEventOperations';
 
 import {
@@ -78,7 +78,7 @@ export default function EventCheckInPage() {
   };
 
   return (
-    <GvtewayAppLayout>
+    <>
       <Stack gap={8}>
         <SectionHeader
           kicker="Event"
@@ -209,6 +209,6 @@ export default function EventCheckInPage() {
           </CardBody>
         </Card>
       </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

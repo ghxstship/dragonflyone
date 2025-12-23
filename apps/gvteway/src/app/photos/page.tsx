@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Camera, Heart } from 'lucide-react';
-import { GvtewayAppLayout, GvtewayLoadingLayout } from '@/components/app-layout';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
   H2,
   H3,
@@ -80,7 +80,7 @@ export default function PhotoGalleriesPage() {
   const featuredPhotos = photos.filter(p => p.is_featured).length;
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack direction="horizontal" className="items-center justify-between">
@@ -375,6 +375,6 @@ export default function PhotoGalleriesPage() {
           )}
         </Modal>
           </Stack>
-    </GvtewayAppLayout>
+    </>
   );
 }

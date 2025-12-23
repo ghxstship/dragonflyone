@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, UserPlus, Camera, Search } from 'lucide-react';
-import { CompvssAppLayout } from '../../../components/app-layout';
+// Layout provided by route group
 import { useCredentialTypes, useIssueCredential } from '../../../hooks/useCredentials';
 import { useContacts } from '../../../hooks/useContacts';
 import { log } from '@ghxstship/config';
@@ -73,7 +73,7 @@ export default function IssueCredentialPage() {
   };
 
   return (
-    <CompvssAppLayout>
+    <>
       <Section className="min-h-screen bg-grey-50 py-8">
         <Container>
           <Stack gap={6}>
@@ -273,6 +273,6 @@ export default function IssueCredentialPage() {
           </Stack>
         </Container>
       </Section>
-    </CompvssAppLayout>
+    </>
   );
 }

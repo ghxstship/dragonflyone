@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 import { useTabState } from "@ghxstship/config/hooks";
-import { GvtewayAppLayout } from "@/components/app-layout";
+// Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select,
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
@@ -107,32 +107,32 @@ function SMSMarketingPageContent() {
 
   if (isLoading) {
     return (
-      <GvtewayAppLayout>
+      <>
         <div className="flex items-center justify-center min-h-[400px]">
           <div className="text-center">
             <MessageSquare className="w-12 h-12 mx-auto mb-4 text-on-dark-muted animate-pulse" />
             <Body className="text-on-dark-muted">Loading SMS campaigns...</Body>
           </div>
         </div>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   if (error) {
     return (
-      <GvtewayAppLayout>
+      <>
         <Alert variant="error">
           <Body>Failed to load campaigns: {error instanceof Error ? error.message : 'Unknown error'}</Body>
           <Button variant="outline" size="sm" onClick={() => refetch()} className="mt-2">
             Retry
           </Button>
         </Alert>
-      </GvtewayAppLayout>
+      </>
     );
   }
 
   return (
-    <GvtewayAppLayout>
+    <>
           <Stack gap={10}>
             {/* Page Header */}
             <Stack gap={2}>
@@ -351,7 +351,7 @@ function SMSMarketingPageContent() {
           )}
         </ModalFooter>
       </Modal>
-    </GvtewayAppLayout>
+    </>
   );
 }
 
