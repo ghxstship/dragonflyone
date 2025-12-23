@@ -10,7 +10,7 @@ import { useVendorProfiles } from '@/hooks/useVendorProfiles';
 function NewVendorInvoiceContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const vendorIdParam = searchParams.get('vendor');
+  const vendorIdParam = searchParams?.get('vendor') ?? null;
 
   const createMutation = useCreateVendorInvoice();
   const { data: vendorsData } = useVendorProfiles({});

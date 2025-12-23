@@ -91,19 +91,31 @@ export interface Proposal {
 }
 
 export interface CreateProposalInput {
-  organization_id: string;
+  organization_id?: string;
   booking_id?: string;
   lead_id?: string;
-  contact_id: string;
-  name: string;
+  contact_id?: string;
+  name?: string;
+  title?: string;
+  client_name?: string;
+  client_email?: string;
+  event_date?: string;
+  event_type?: string;
+  venue_name?: string;
+  introduction?: string;
+  terms_conditions?: string;
+  notes?: string;
   content?: ProposalContent;
   branding?: Partial<ProposalBranding>;
   pricing_items?: ProposalPricingItem[];
+  line_items?: { description: string; quantity: number; unit_price: number; total: number }[];
   subtotal?: number;
   tax_amount?: number;
   total?: number;
+  total_amount?: number;
   terms?: string;
   valid_until?: string;
+  status?: 'draft' | 'sent';
 }
 
 export interface UpdateProposalInput {

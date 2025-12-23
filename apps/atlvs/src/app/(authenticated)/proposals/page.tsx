@@ -197,16 +197,16 @@ export default function ProposalsPage() {
                       )}
                     </div>
                     <h3 className="text-body-lg font-weight-semibold text-foreground mb-1">
-                      {proposal.title || 'Untitled Proposal'}
+                      {proposal.name || 'Untitled Proposal'}
                     </h3>
                     <p className="text-body-sm text-muted-foreground">
-                      {proposal.client_name || 'No client'} 
-                      {proposal.client_email && <span className="ml-2 text-body-xs">({proposal.client_email})</span>}
+                      {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'No client'} 
+                      {proposal.contact?.email && <span className="ml-2 text-body-xs">({proposal.contact.email})</span>}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-h4-md font-weight-bold text-foreground">
-                      {formatCurrency(proposal.total_amount || 0)}
+                      {formatCurrency(proposal.total || 0)}
                     </p>
                     <p className="text-body-xs text-muted-foreground mt-1">
                       {proposal.viewed_at ? (

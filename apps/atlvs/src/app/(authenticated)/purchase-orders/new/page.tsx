@@ -17,8 +17,8 @@ interface LineItem {
 function NewPurchaseOrderContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const vendorIdParam = searchParams.get('vendor');
-  const orderIdParam = searchParams.get('from_order');
+  const vendorIdParam = searchParams?.get('vendor') ?? null;
+  const orderIdParam = searchParams?.get('from_order') ?? null;
 
   const createMutation = useCreatePurchaseOrder();
   const { data: vendorsData } = useVendorProfiles({});

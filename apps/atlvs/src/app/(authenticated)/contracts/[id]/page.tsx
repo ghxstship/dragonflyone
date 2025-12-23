@@ -18,7 +18,7 @@ interface Signer {
 export default function ContractDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const contractId = params.id as string;
+  const contractId = params?.id as string;
 
   const { data: contract, isLoading, error } = useContract(contractId);
   const sendMutation = useSendContract();
@@ -113,8 +113,8 @@ export default function ContractDetailPage() {
 
   const statusConfig = getStatusConfig(contract.status);
 
-  // Mock signers for display
-  const signers: Signer[] = contract.signers || [
+  // Mock signers for display (signers not yet implemented in Contract type)
+  const signers: Signer[] = [
     { id: '1', name: 'John Smith', email: 'john@example.com', role: 'Client', status: 'pending' },
   ];
 
@@ -130,7 +130,7 @@ export default function ContractDetailPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-h2-md font-weight-bold text-foreground">{contract.name}</h1>
+              <h1 className="text-h2-md font-weight-bold text-foreground">{contract.title}</h1>
               <span className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
                 {statusConfig.label}
               </span>
@@ -175,7 +175,7 @@ export default function ContractDetailPage() {
             <span className="text-body-sm text-muted-foreground">Client</span>
           </div>
           <p className="text-body-lg font-weight-medium text-foreground">
-            {contract.client_name || 'Not specified'}
+            {contract.vendor?.name || 'Not specified'}
           </p>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
@@ -193,7 +193,7 @@ export default function ContractDetailPage() {
             <span className="text-body-sm text-muted-foreground">Expires</span>
           </div>
           <p className="text-body-lg font-weight-medium text-foreground">
-            {contract.expires_at ? formatDate(contract.expires_at) : 'No expiration'}
+            {contract.end_date ? formatDate(contract.end_date) : 'No expiration'}
           </p>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
@@ -202,7 +202,7 @@ export default function ContractDetailPage() {
             <span className="text-body-sm text-muted-foreground">Value</span>
           </div>
           <p className="text-body-lg font-weight-medium text-foreground">
-            {contract.total_value ? formatCurrency(contract.total_value) : 'N/A'}
+            {contract.value ? formatCurrency(contract.value) : 'N/A'}
           </p>
         </div>
       </div>
