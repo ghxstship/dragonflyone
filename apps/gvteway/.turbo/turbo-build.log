@@ -487,7 +487,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/orders                       6.25 kB         411 kB
 ├ ƒ /events/[id]/parking                      4.21 kB         488 kB
 ├ ƒ /events/[id]/photo-booth                  4.65 kB         488 kB
-├ ƒ /events/[id]/program                      2.29 kB         666 kB
+├ ƒ /events/[id]/program                      2.29 kB         667 kB
 ├ ƒ /events/[id]/rfid                         2.86 kB         665 kB
 ├ ƒ /events/[id]/seating                      3.38 kB         661 kB
 ├ ƒ /events/[id]/services                     3.96 kB         662 kB
@@ -601,4 +601,10 @@ Route (app)                                   Size     First Load JS
   ├ chunks/26fe0b10-d33d795dc99cbfe7.js       53.6 kB
   ├ chunks/4142-3f71e49f9aa5f383.js           31.9 kB
   └ other shared chunks (total)               2.14 kB
+
+
+ƒ Middleware                                  73.8 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
 
