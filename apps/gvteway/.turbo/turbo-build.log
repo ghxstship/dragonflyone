@@ -487,7 +487,7 @@ Route (app)                                   Size     First Load JS
 ├ ƒ /events/[id]/orders                       6.25 kB         411 kB
 ├ ƒ /events/[id]/parking                      4.21 kB         488 kB
 ├ ƒ /events/[id]/photo-booth                  4.65 kB         488 kB
-├ ƒ /events/[id]/program                      2.29 kB         667 kB
+├ ƒ /events/[id]/program                      2.29 kB         666 kB
 ├ ƒ /events/[id]/rfid                         2.86 kB         665 kB
 ├ ƒ /events/[id]/seating                      3.38 kB         661 kB
 ├ ƒ /events/[id]/services                     3.96 kB         662 kB
