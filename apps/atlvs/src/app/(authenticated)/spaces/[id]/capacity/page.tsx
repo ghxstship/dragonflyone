@@ -6,7 +6,18 @@ import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { useSpace, useSpaceCapacityConfigs } from '@/hooks/useSpaces';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 
 interface CapacityConfig {
   id: string;
@@ -69,10 +80,10 @@ export default function SpaceCapacityPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Capacity Configurations</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Capacity Configurations</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {space?.name || 'Space'}
-            </p>
+            </Body>
           </div>
         </div>
         <Button variant="solid" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
@@ -83,7 +94,7 @@ export default function SpaceCapacityPage() {
       {configs.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No capacity configurations</p>
+          <Body className="text-body-md text-muted-foreground">No capacity configurations</Body>
           <Button variant="ghost" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Add your first layout
           </Button>
@@ -103,27 +114,27 @@ export default function SpaceCapacityPage() {
                     {getLayoutIcon()}
                   </div>
                   <div>
-                    <h3 className="text-body-md font-weight-semibold text-foreground">
+                    <H3 className="text-body-md font-weight-semibold text-foreground">
                       {config.layout_name}
-                    </h3>
-                    <p className="text-body-xs text-muted-foreground capitalize">
+                    </H3>
+                    <Body className="text-body-xs text-muted-foreground capitalize">
                       {config.layout_type.replace('_', ' ')}
-                    </p>
+                    </Body>
                   </div>
                 </div>
                 {config.is_default && (
-                  <span className="px-2 py-0.5 text-body-xs bg-primary/10 text-primary rounded">
+                  <Text className="px-2 py-0.5 text-body-xs bg-primary/10 text-primary rounded">
                     Default
-                  </span>
+                  </Text>
                 )}
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-body-md font-weight-bold text-foreground">
+                  <Text className="text-body-md font-weight-bold text-foreground">
                     {config.capacity}
-                  </span>
-                  <span className="text-body-sm text-muted-foreground">guests</span>
+                  </Text>
+                  <Text className="text-body-sm text-muted-foreground">guests</Text>
                 </div>
                 <div className="flex items-center gap-1">
                   <Button variant="ghost" size="icon" className="p-2">
@@ -135,7 +146,7 @@ export default function SpaceCapacityPage() {
                 </div>
               </div>
               {config.notes && (
-                <p className="mt-2 text-body-xs text-muted-foreground">{config.notes}</p>
+                <Body className="mt-2 text-body-xs text-muted-foreground">{config.notes}</Body>
               )}
             </div>
           ))}
@@ -145,8 +156,8 @@ export default function SpaceCapacityPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Layout</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Layout</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -161,10 +172,10 @@ export default function SpaceCapacityPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Layout Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="layout_name"
                   required
@@ -174,10 +185,10 @@ export default function SpaceCapacityPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Layout Type
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="layout_type"
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   >
@@ -188,13 +199,13 @@ export default function SpaceCapacityPage() {
                     <option value="conference">Conference</option>
                     <option value="u_shape">U-Shape</option>
                     <option value="hollow_square">Hollow Square</option>
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Capacity
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="capacity"
                     required
@@ -204,25 +215,25 @@ export default function SpaceCapacityPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Notes (optional)
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="notes"
                   rows={2}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
                 />
               </div>
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="checkbox"
                   name="is_default"
                   id="is_default"
                   className="w-4 h-4"
                 />
-                <label htmlFor="is_default" className="text-body-sm text-foreground">
+                <Label htmlFor="is_default" className="text-body-sm text-foreground">
                   Set as default layout
-                </label>
+                </Label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
                 <Button variant="outline" size="sm" type="button" onClick={() => setShowAddForm(false)}>
@@ -232,7 +243,7 @@ export default function SpaceCapacityPage() {
                   Add Layout
                 </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

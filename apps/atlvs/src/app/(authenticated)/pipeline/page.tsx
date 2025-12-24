@@ -4,7 +4,15 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, BarChart3, Settings, DollarSign, Users, TrendingUp, MoreVertical } from 'lucide-react';
 import { usePipelineDeals, useMoveDeals } from '@/hooks/usePipeline';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Checkbox,
+  H1,
+  H3,
+  Label,
+  Text,
+} from '@ghxstship/ui';
 
 const STAGES = [
   { id: 'lead', name: 'Lead', color: 'bg-ink-100 border-ink-300' },
@@ -71,7 +79,7 @@ export default function PipelinePage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load pipeline data</p>
+          <Body className="text-destructive">Failed to load pipeline data</Body>
         </div>
       </div>
     );
@@ -82,10 +90,10 @@ export default function PipelinePage() {
       <div className="p-6 border-b border-border">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Sales Pipeline</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Sales Pipeline</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage and track your deals through the sales process
-            </p>
+            </Body>
           </div>
           <div className="flex items-center gap-3">
             <Link
@@ -93,21 +101,21 @@ export default function PipelinePage() {
               className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               <BarChart3 className="h-4 w-4" />
-              <span className="text-body-sm">Analytics</span>
+              <Text className="text-body-sm">Analytics</Text>
             </Link>
             <Link
               href="/pipeline/settings"
               className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               <Settings className="h-4 w-4" />
-              <span className="text-body-sm">Settings</span>
+              <Text className="text-body-sm">Settings</Text>
             </Link>
             <Link
               href="/pipeline/deals/new"
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               <Plus className="h-4 w-4" />
-              <span className="text-body-sm font-weight-medium">New Deal</span>
+              <Text className="text-body-sm font-weight-medium">New Deal</Text>
             </Link>
           </div>
         </div>
@@ -116,38 +124,37 @@ export default function PipelinePage() {
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <Users className="h-5 w-5 text-primary" />
-              <span className="text-body-sm text-muted-foreground">Total Deals</span>
+              <Text className="text-body-sm text-muted-foreground">Total Deals</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-foreground">{summary.total_deals}</p>
+            <Body className="text-h3-md font-weight-bold text-foreground">{summary.total_deals}</Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="h-5 w-5 text-success" />
-              <span className="text-body-sm text-muted-foreground">Pipeline Value</span>
+              <Text className="text-body-sm text-muted-foreground">Pipeline Value</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-foreground">
+            <Body className="text-h3-md font-weight-bold text-foreground">
               {formatCurrency(summary.total_value)}
-            </p>
+            </Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-5 w-5 text-warning" />
-              <span className="text-body-sm text-muted-foreground">Weighted Value</span>
+              <Text className="text-body-sm text-muted-foreground">Weighted Value</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-foreground">
+            <Body className="text-h3-md font-weight-bold text-foreground">
               {formatCurrency(summary.weighted_value)}
-            </p>
+            </Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4 flex items-center justify-between">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
+            <Label className="flex items-center gap-2 cursor-pointer">
+              <Checkbox
                 checked={showClosedStages}
                 onChange={(e) => setShowClosedStages(e.target.checked)}
                 className="rounded border-border"
               />
-              <span className="text-body-sm text-muted-foreground">Show closed stages</span>
-            </label>
+              <Text className="text-body-sm text-muted-foreground">Show closed stages</Text>
+            </Label>
           </div>
         </div>
       </div>
@@ -167,16 +174,16 @@ export default function PipelinePage() {
               >
                 <div className="p-4 border-b border-border/50">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-body-md font-weight-semibold text-foreground">
+                    <H3 className="text-body-md font-weight-semibold text-foreground">
                       {stage.name}
-                    </h3>
-                    <span className="text-body-xs bg-background px-2 py-1 rounded-avatar">
+                    </H3>
+                    <Text className="text-body-xs bg-background px-2 py-1 rounded-avatar">
                       {stageDeals.length}
-                    </span>
+                    </Text>
                   </div>
-                  <p className="text-body-sm text-muted-foreground">
+                  <Body className="text-body-sm text-muted-foreground">
                     {formatCurrency(stageValue)}
-                  </p>
+                  </Body>
                 </div>
 
                 <div className="flex-1 overflow-y-auto p-3 space-y-3">
@@ -204,17 +211,17 @@ export default function PipelinePage() {
                           </Button>
                         </div>
                         {deal.client && (
-                          <p className="text-body-xs text-muted-foreground mb-2">
+                          <Body className="text-body-xs text-muted-foreground mb-2">
                             {(deal.client as { name?: string }).name}
-                          </p>
+                          </Body>
                         )}
                         <div className="flex items-center justify-between">
-                          <span className="text-body-sm font-weight-semibold text-foreground">
+                          <Text className="text-body-sm font-weight-semibold text-foreground">
                             {formatCurrency(deal.value || 0)}
-                          </span>
-                          <span className="text-body-xs text-muted-foreground">
+                          </Text>
+                          <Text className="text-body-xs text-muted-foreground">
                             {deal.probability}%
-                          </span>
+                          </Text>
                         </div>
                       </div>
                     ))

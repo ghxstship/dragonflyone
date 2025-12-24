@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Download, FileText, Database, Calendar, Check, Clock, AlertCircle, RefreshCw } from 'lucide-react';
@@ -121,7 +132,7 @@ export default function DataExportPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load export settings</span>
+          <Text className="text-destructive">Failed to load export settings</Text>
         </div>
       </div>
     );
@@ -138,29 +149,29 @@ export default function DataExportPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Download className="h-6 w-6" />
               Data Export
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Export your data for backup or migration
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => refetch()}
           className="p-2 hover:bg-muted rounded-button transition-colors"
         >
           <RefreshCw className="h-5 w-5 text-muted-foreground" />
-        </button>
+        </Button>
       </div>
 
       {/* Export Types */}
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data to Export</h2>
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data to Export</H2>
         <div className="grid grid-cols-2 gap-4">
           {EXPORT_TYPES.map((type) => (
-            <button
+            <Button
               key={type.id}
               onClick={() => setSelectedType(type.id)}
               className={`text-left p-4 rounded-card border-2 transition-colors ${
@@ -172,11 +183,11 @@ export default function DataExportPage() {
               <div className="flex items-start gap-3">
                 <type.icon className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-body-md font-weight-medium text-foreground">{type.label}</p>
-                  <p className="text-body-sm text-muted-foreground">{type.description}</p>
+                  <Body className="text-body-md font-weight-medium text-foreground">{type.label}</Body>
+                  <Body className="text-body-sm text-muted-foreground">{type.description}</Body>
                 </div>
               </div>
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -184,14 +195,14 @@ export default function DataExportPage() {
       {/* Export Options */}
       {selectedType && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export Options</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export Options</H2>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Format
-                </label>
-                <select
+                </Label>
+                <Select
                   value={exportFormat}
                   onChange={(e) => setExportFormat(e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -199,20 +210,20 @@ export default function DataExportPage() {
                   <option value="csv">CSV</option>
                   <option value="xlsx">Excel (XLSX)</option>
                   <option value="json">JSON</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Date Range (Optional)
-                </label>
+                </Label>
                 <div className="flex gap-2">
-                  <input
+                  <Input
                     type="date"
                     value={dateRange.start}
                     onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
                     className="flex-1 px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   />
-                  <input
+                  <Input
                     type="date"
                     value={dateRange.end}
                     onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
@@ -222,13 +233,13 @@ export default function DataExportPage() {
               </div>
             </div>
             <div className="flex items-center justify-end gap-3 pt-4">
-              <button
+              <Button
                 onClick={() => setSelectedType(null)}
                 className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() =>
                   createExport.mutate({
                     type: selectedType,
@@ -241,7 +252,7 @@ export default function DataExportPage() {
               >
                 <Download className="h-4 w-4" />
                 {createExport.isPending ? 'Starting Export...' : 'Start Export'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -249,11 +260,11 @@ export default function DataExportPage() {
 
       {/* Export History */}
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export History</h2>
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Export History</H2>
         {jobs.length === 0 ? (
           <div className="text-center py-8">
             <Download className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-body-sm text-muted-foreground">No exports yet</p>
+            <Body className="text-body-sm text-muted-foreground">No exports yet</Body>
           </div>
         ) : (
           <div className="space-y-3">
@@ -265,28 +276,28 @@ export default function DataExportPage() {
                 <div className="flex items-center gap-4">
                   {getStatusIcon(job.status)}
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground capitalize">
+                    <Body className="text-body-sm font-weight-medium text-foreground capitalize">
                       {job.type} Export
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">
                       {formatDate(job.created_at)}
                       {job.records_count && ` • ${job.records_count} records`}
                       {job.file_size && ` • ${job.file_size}`}
-                    </p>
+                    </Body>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
+                  <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
                     {job.status}
-                  </span>
+                  </Text>
                   {job.status === 'completed' && job.download_url && (
-                    <a
+                    <Link
                       href={job.download_url}
                       download
                       className="p-2 text-primary hover:bg-primary/10 rounded-button transition-colors"
                     >
                       <Download className="h-4 w-4" />
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>

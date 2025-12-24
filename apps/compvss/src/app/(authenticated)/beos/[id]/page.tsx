@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Icon,
+  List,
+  ListItem,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -93,10 +105,10 @@ export default function BEODetailPage() {
       <div className="p-6">
         <div className="text-center py-12">
           <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <h2 className="text-h3-md font-weight-bold text-foreground mb-2">BEO Not Found</h2>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          <H2 className="text-h3-md font-weight-bold text-foreground mb-2">BEO Not Found</H2>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {error instanceof Error ? error.message : 'The requested BEO could not be found.'}
-          </p>
+          </Body>
           <Link
             href="/beos"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
@@ -123,44 +135,44 @@ export default function BEODetailPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-h2-md font-weight-bold text-foreground">{beo.beo_number}</h1>
-              <span className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
+              <H1 className="text-h2-md font-weight-bold text-foreground">{beo.beo_number}</H1>
+              <Text className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
                 {statusConfig.label}
-              </span>
+              </Text>
             </div>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {beo.name}
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {beo.status === 'draft' && (
-            <button
+            <Button
               onClick={() => router.push(`/beos/${beoId}/edit`)}
               className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               <Edit2 className="h-4 w-4" />
               Edit
-            </button>
+            </Button>
           )}
           {beo.status === 'pending_review' && (
-            <button
+            <Button
               onClick={handleApprove}
               disabled={approveMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success text-body-sm font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
             >
               <CheckCircle className="h-4 w-4" />
               {approveMutation.isPending ? 'Approving...' : 'Approve'}
-            </button>
+            </Button>
           )}
           {beo.status === 'approved' && (
-            <button
+            <Button
               onClick={() => setShowDistributeModal(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors"
             >
               <Send className="h-4 w-4" />
               Distribute
-            </button>
+            </Button>
           )}
         </div>
       </div>
@@ -169,60 +181,60 @@ export default function BEODetailPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Event Date</span>
+            <Text className="text-body-sm text-muted-foreground">Event Date</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {formatDate(beo.event_date)}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Event Time</span>
+            <Text className="text-body-sm text-muted-foreground">Event Time</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {beo.event_start_time ? formatTime(beo.event_start_time) : 'TBD'}
             {beo.event_end_time && ` - ${formatTime(beo.event_end_time)}`}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Guest Count</span>
+            <Text className="text-body-sm text-muted-foreground">Guest Count</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {beo.guest_count || 0} guests
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <MapPin className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Room Setup</span>
+            <Text className="text-body-sm text-muted-foreground">Room Setup</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground capitalize">
+          <Body className="text-body-lg font-weight-medium text-foreground capitalize">
             {beo.sections?.room_setup?.layout || 'Standard'}
-          </p>
+          </Body>
         </div>
       </div>
 
       {beo.sections && Object.keys(beo.sections).length > 0 && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Event Details</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Event Details</H2>
           <div className="space-y-6">
             {Object.entries(beo.sections).map(([sectionKey, sectionData]) => (
               <div key={sectionKey} className="border-b border-border pb-4 last:border-0 last:pb-0">
-                <h3 className="text-body-lg font-weight-medium text-foreground capitalize mb-2">
+                <H3 className="text-body-lg font-weight-medium text-foreground capitalize mb-2">
                   {sectionKey.replace(/_/g, ' ')}
-                </h3>
+                </H3>
                 <div className="text-body-sm text-muted-foreground">
                   {typeof sectionData === 'string' ? (
-                    <p>{sectionData}</p>
+                    <Body>{sectionData}</Body>
                   ) : Array.isArray(sectionData) ? (
-                    <ul className="list-disc list-inside space-y-1">
+                    <List className="list-disc list-inside space-y-1">
                       {sectionData.map((item, idx) => (
-                        <li key={idx}>{typeof item === 'string' ? item : JSON.stringify(item)}</li>
+                        <ListItem key={idx}>{typeof item === 'string' ? item : JSON.stringify(item)}</ListItem>
                       ))}
-                    </ul>
+                    </List>
                   ) : (
                     <pre className="text-body-xs bg-muted p-2 rounded overflow-auto">
                       {JSON.stringify(sectionData, null, 2)}
@@ -237,7 +249,7 @@ export default function BEODetailPage() {
 
       {beo.sections?.timeline && beo.sections.timeline.length > 0 && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Timeline</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Timeline</H2>
           <div className="space-y-3">
             {beo.sections.timeline.map((item: { time: string; activity: string; notes?: string }, idx: number) => (
               <div key={idx} className="flex items-start gap-4 p-3 bg-muted/30 rounded-card">
@@ -245,9 +257,9 @@ export default function BEODetailPage() {
                   {item.time}
                 </div>
                 <div className="flex-1">
-                  <p className="text-body-sm font-weight-medium text-foreground">{item.activity}</p>
+                  <Body className="text-body-sm font-weight-medium text-foreground">{item.activity}</Body>
                   {item.notes && (
-                    <p className="text-body-xs text-muted-foreground mt-1">{item.notes}</p>
+                    <Body className="text-body-xs text-muted-foreground mt-1">{item.notes}</Body>
                   )}
                 </div>
               </div>
@@ -258,26 +270,26 @@ export default function BEODetailPage() {
 
       {beo.notes && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</h2>
-          <p className="text-body-sm text-muted-foreground whitespace-pre-wrap">{beo.notes}</p>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
+          <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">{beo.notes}</Body>
         </div>
       )}
 
       {showDistributeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Distribute BEO
-            </h2>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            </H2>
+            <Body className="text-body-sm text-muted-foreground mb-4">
               Select departments to receive this BEO:
-            </p>
+            </Body>
             <div className="space-y-2 mb-6">
               {DEPARTMENTS.map((dept) => {
                 const Icon = dept.icon;
                 const isSelected = selectedDepartments.includes(dept.id);
                 return (
-                  <button
+                  <Button
                     key={dept.id}
                     type="button"
                     onClick={() => {
@@ -294,29 +306,29 @@ export default function BEODetailPage() {
                     }`}
                   >
                     <Icon className={`h-5 w-5 ${isSelected ? 'text-primary' : 'text-muted-foreground'}`} />
-                    <span className={`text-body-sm font-weight-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
+                    <Text className={`text-body-sm font-weight-medium ${isSelected ? 'text-primary' : 'text-foreground'}`}>
                       {dept.label}
-                    </span>
+                    </Text>
                     {isSelected && <CheckCircle className="h-4 w-4 text-primary ml-auto" />}
-                  </button>
+                  </Button>
                 );
               })}
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowDistributeModal(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleDistribute}
                 disabled={selectedDepartments.length === 0 || distributeMutation.isPending}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
                 {distributeMutation.isPending ? 'Sending...' : 'Send'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

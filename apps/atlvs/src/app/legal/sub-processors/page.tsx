@@ -1,17 +1,22 @@
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Stack,
+  Badge,
   Body,
-  H2,
-  H3,
-  Label,
+  Card,
+  CardBody,
   Container,
   Display,
   FullBleedSection,
-  Card,
-  CardBody,
-  Badge,
-} from "@ghxstship/ui";
+  H2,
+  H3,
+  Icon,
+  Label,
+  Link,
+  List,
+  ListItem,
+  Stack,
+  Text,
+} from '@ghxstship/ui';
 import { Server, CreditCard, Mail, BarChart3, Shield, Globe } from "lucide-react";
 
 export const runtime = "edge";
@@ -170,9 +175,9 @@ export default function SubProcessorsPage() {
                           <Label size="xs" className="text-grey-500 mb-2 block">DATA PROCESSED</Label>
                           <div className="flex flex-wrap gap-1">
                             {processor.dataProcessed.map((data) => (
-                              <span key={data} className="px-2 py-0.5 bg-grey-100 text-grey-700 rounded-badge text-xs">
+                              <Text key={data} className="px-2 py-0.5 bg-grey-100 text-grey-700 rounded-badge text-body-xs">
                                 {data}
-                              </span>
+                              </Text>
                             ))}
                           </div>
                         </div>
@@ -184,30 +189,30 @@ export default function SubProcessorsPage() {
                           </div>
                           <div className="flex gap-1">
                             {processor.certifications.slice(0, 2).map((cert) => (
-                              <span key={cert} className="px-2 py-0.5 bg-primary-100 text-primary-700 rounded-badge text-xs">
+                              <Text key={cert} className="px-2 py-0.5 bg-primary-100 text-primary-700 rounded-badge text-body-xs">
                                 {cert}
-                              </span>
+                              </Text>
                             ))}
                           </div>
                         </div>
 
-                        <div className="flex gap-4 text-xs">
-                          <a 
+                        <div className="flex gap-4 text-body-xs">
+                          <Link 
                             href={processor.website} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-primary-600 hover:text-primary-800 underline"
                           >
                             Website
-                          </a>
-                          <a 
+                          </Link>
+                          <Link 
                             href={processor.privacyPolicy} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-primary-600 hover:text-primary-800 underline"
                           >
                             Privacy Policy
-                          </a>
+                          </Link>
                         </div>
                       </Stack>
                     </CardBody>
@@ -247,11 +252,11 @@ export default function SubProcessorsPage() {
               Customers may object to the use of a new sub-processor within 14 days of receiving notification. 
               To object:
             </Body>
-            <ol className="list-decimal list-inside text-grey-700 space-y-2 ml-4">
-              <li>Email <a href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</a> with subject &quot;Sub-Processor Objection&quot;</li>
-              <li>Include your account details and specific concerns</li>
-              <li>We will work with you to address concerns or provide alternatives</li>
-            </ol>
+            <List className="list-decimal list-inside text-grey-700 space-y-2 ml-4">
+              <ListItem>Email <Link href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</Link> with subject &quot;Sub-Processor Objection&quot;</ListItem>
+              <ListItem>Include your account details and specific concerns</ListItem>
+              <ListItem>We will work with you to address concerns or provide alternatives</ListItem>
+            </List>
             <Body className="text-grey-700">
               If we cannot resolve the objection, you may terminate the affected services without penalty.
             </Body>
@@ -271,13 +276,13 @@ export default function SubProcessorsPage() {
               <div>
                 <Label size="xs" className="text-on-dark-muted">PRIVACY TEAM</Label>
                 <Body className="text-white">
-                  <a href="mailto:privacy@ghxstship.com" className="underline">privacy@ghxstship.com</a>
+                  <Link href="mailto:privacy@ghxstship.com" className="underline">privacy@ghxstship.com</Link>
                 </Body>
               </div>
               <div>
                 <Label size="xs" className="text-on-dark-muted">DATA PROTECTION OFFICER</Label>
                 <Body className="text-white">
-                  <a href="mailto:dpo@ghxstship.com" className="underline">dpo@ghxstship.com</a>
+                  <Link href="mailto:dpo@ghxstship.com" className="underline">dpo@ghxstship.com</Link>
                 </Body>
               </div>
             </div>

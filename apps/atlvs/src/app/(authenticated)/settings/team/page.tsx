@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Users, Mail, Shield, Trash2 } from 'lucide-react';
@@ -122,22 +135,22 @@ export default function TeamSettingsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Users className="h-6 w-6" />
               Team Members
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage your team and their permissions
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowInviteModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Invite Member</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">Invite Member</Text>
+        </Button>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card overflow-hidden">
@@ -153,7 +166,7 @@ export default function TeamSettingsPage() {
         {members.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             <Users className="h-8 w-8 mx-auto mb-2 opacity-50" />
-            <p className="text-body-sm">No team members yet</p>
+            <Body className="text-body-sm">No team members yet</Body>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -164,28 +177,28 @@ export default function TeamSettingsPage() {
                     {member.full_name?.charAt(0) || member.email.charAt(0).toUpperCase()}
                   </div>
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground">
+                    <Body className="text-body-sm font-weight-medium text-foreground">
                       {member.full_name || member.email}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">{member.email}</p>
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">{member.email}</Body>
                   </div>
                 </div>
                 <div className="col-span-2">
-                  <span className="text-body-sm text-foreground capitalize">{member.role}</span>
+                  <Text className="text-body-sm text-foreground capitalize">{member.role}</Text>
                 </div>
                 <div className="col-span-2">
-                  <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusBadge(member.status)}`}>
+                  <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusBadge(member.status)}`}>
                     {member.status}
-                  </span>
+                  </Text>
                 </div>
                 <div className="col-span-3">
-                  <span className="text-body-sm text-muted-foreground">
+                  <Text className="text-body-sm text-muted-foreground">
                     {member.last_login_at ? formatDate(member.last_login_at) : 'Never'}
-                  </span>
+                  </Text>
                 </div>
                 <div className="col-span-1 flex justify-end">
                   {member.role !== 'owner' && (
-                    <button
+                    <Button
                       onClick={() => {
                         if (confirm('Remove this team member?')) {
                           removeMember.mutate(member.id);
@@ -194,7 +207,7 @@ export default function TeamSettingsPage() {
                       className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -204,15 +217,15 @@ export default function TeamSettingsPage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
           <Shield className="h-5 w-5" />
           Role Permissions
-        </h2>
+        </H2>
         <div className="grid grid-cols-2 gap-4">
           {ROLES.map((role) => (
             <div key={role.id} className="p-3 bg-muted/30 rounded-card">
-              <p className="text-body-sm font-weight-medium text-foreground">{role.label}</p>
-              <p className="text-body-xs text-muted-foreground">{role.description}</p>
+              <Body className="text-body-sm font-weight-medium text-foreground">{role.label}</Body>
+              <Body className="text-body-xs text-muted-foreground">{role.description}</Body>
             </div>
           ))}
         </div>
@@ -221,11 +234,11 @@ export default function TeamSettingsPage() {
       {showInviteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Mail className="h-5 w-5" />
               Invite Team Member
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 inviteMember.mutate({ email: inviteEmail, role: inviteRole });
@@ -233,10 +246,10 @@ export default function TeamSettingsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Email Address *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="email"
                   value={inviteEmail}
                   onChange={(e) => setInviteEmail(e.target.value)}
@@ -246,10 +259,10 @@ export default function TeamSettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Role
-                </label>
-                <select
+                </Label>
+                <Select
                   value={inviteRole}
                   onChange={(e) => setInviteRole(e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -257,25 +270,25 @@ export default function TeamSettingsPage() {
                   {ROLES.filter((r) => r.id !== 'owner').map((role) => (
                     <option key={role.id} value={role.id}>{role.label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowInviteModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={inviteMember.isPending || !inviteEmail}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {inviteMember.isPending ? 'Sending...' : 'Send Invite'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

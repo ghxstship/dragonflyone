@@ -4,16 +4,17 @@ import { useState } from 'react';
 import { Eye, Download } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage,
   Badge,
+  Body,
   DetailDrawer,
   Grid,
-  Body,
+  ListPage,
   Stack,
+  Text,
+  type DetailSection,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
-  type DetailSection,
 } from '@ghxstship/ui';
 import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
 
@@ -37,7 +38,7 @@ const columns: ListPageColumn<SalesData>[] = [
   { key: 'period', label: 'Period', accessor: 'period' },
   { key: 'transactions', label: 'Transactions', accessor: 'transactions', sortable: true },
   { key: 'gross_sales', label: 'Gross Sales', accessor: 'gross_sales', sortable: true, render: (v) => formatCurrency(Number(v)) },
-  { key: 'refunds', label: 'Refunds', accessor: 'refunds', render: (v) => Number(v) > 0 ? <span className="text-error-600">{formatCurrency(Number(v))}</span> : '—' },
+  { key: 'refunds', label: 'Refunds', accessor: 'refunds', render: (v) => Number(v) > 0 ? <Text className="text-error-600">{formatCurrency(Number(v))}</Text> : '—' },
   { key: 'net_sales', label: 'Net Sales', accessor: 'net_sales', sortable: true, render: (v) => <strong className="text-success-600">{formatCurrency(Number(v))}</strong> },
   { key: 'avg_transaction', label: 'Avg Transaction', accessor: 'avg_transaction', render: (v) => formatCurrency(Number(v)) },
 ];

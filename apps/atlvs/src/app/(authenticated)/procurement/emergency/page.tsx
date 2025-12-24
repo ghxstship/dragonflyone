@@ -30,21 +30,23 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-import {
-  DEMO_EMERGENCY_PROCUREMENTS,
-  type DemoEmergencyProcurement as EmergencyProcurement,
-} from '../../../../lib/demo-data';
+import { useEmergencyProcurement, type EmergencyProcurement } from '@ghxstship/config';
+import { DEMO_EMERGENCY_PROCUREMENTS } from '../../../../lib/demo-data';
 
 export default function EmergencyProcurementPage() {
   const router = useRouter();
+  const { requests: apiRequests, summary, isLoading } = useEmergencyProcurement();
   const [selectedRequest, setSelectedRequest] = useState<EmergencyProcurement | null>(null);
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
   const [statusFilter, setStatusFilter] = useState('All');
 
-  const filteredRequests = statusFilter === 'All' ? DEMO_EMERGENCY_PROCUREMENTS : DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.status === statusFilter);
-  const pendingCount = DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.status === 'Pending').length;
-  const totalAmount = DEMO_EMERGENCY_PROCUREMENTS.reduce((sum, e) => sum + e.amount, 0);
-  const criticalCount = DEMO_EMERGENCY_PROCUREMENTS.filter(e => e.urgency === 'Critical' && e.status === 'Pending').length;
+  // Use API data or fall back to demo data
+  const requests: EmergencyProcurement[] = apiRequests.length > 0 ? apiRequests : (DEMO_EMERGENCY_PROCUREMENTS as unknown as EmergencyProcurement[]);
+
+  const filteredRequests = statusFilter === 'All' ? requests : requests.filter(e => e.status === statusFilter);
+  const pendingCount = summary?.pendingCount || requests.filter(e => e.status === 'Pending').length;
+  const totalAmount = summary?.totalAmount || requests.reduce((sum, e) => sum + e.amount, 0);
+  const criticalCount = summary?.criticalCount || requests.filter(e => e.urgency === 'Critical' && e.status === 'Pending').length;
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
@@ -78,6 +80,12 @@ export default function EmergencyProcurementPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading emergency requests...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Pending Requests" value={pendingCount} trend={pendingCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />

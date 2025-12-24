@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  Button,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
@@ -25,9 +30,9 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-primary rounded-card flex items-center justify-center">
-              <span className="text-primary-foreground font-weight-bold text-body-sm">A</span>
+              <Text className="text-primary-foreground font-weight-bold text-body-sm">A</Text>
             </div>
-            <span className="font-weight-bold text-h4-md tracking-label">ATLVS</span>
+            <Text className="font-weight-bold text-h4-md tracking-label">ATLVS</Text>
           </Link>
 
           {/* Desktop Navigation */}
@@ -50,13 +55,13 @@ export function PublicHeader({ className }: PublicHeaderProps) {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button
+          <Button
             className="lg:hidden p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          </Button>
         </div>
       </div>
 

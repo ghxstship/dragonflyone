@@ -2,146 +2,254 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-// Layout provided by route group
+import { Eye, Edit, Users, Trash2, Download } from 'lucide-react';
 import {
-  H3,
-  Body,
-  Button,
-  Card,
+  ListPage,
   Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
   Grid,
-  Stack,
-  Container,
-  Spinner,
-  StatCard,
-  EnterprisePageHeader,
-  MainContent,
+  Body,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type ListPageBulkAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from '@ghxstship/ui';
-import { useProjects } from '../../../hooks/useProjects';
+import { createExportHandler } from '@ghxstship/config';
+import { useProjects, type Project } from '../../../hooks/useProjects';
+// Layout provided by route group
 
 export default function ProjectsPage() {
   const router = useRouter();
-  const [filterPhase, setFilterPhase] = useState('all');
-  const [userRole] = useState('COMPVSS_ADMIN');
-  
-  const { data: projects, isLoading } = useProjects({
-    status: filterPhase !== 'all' ? filterPhase : undefined
-  });
+  const { data: projects = [], isLoading, error, refetch } = useProjects({});
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  const filteredProjects = projects || [];
-  const canCreateProject = userRole === 'COMPVSS_ADMIN';
-  const totalBudget = (projects || []).reduce((sum: number, p: { budget?: number }) => sum + (p.budget || 0), 0);
+  const columns: ListPageColumn<Project>[] = [
+    { key: 'name', label: 'Name', accessor: 'name', sortable: true },
+    { 
+      key: 'code', 
+      label: 'Code', 
+      accessor: 'code',
+      render: (value) => <Badge variant="outline">{String(value)}</Badge>
+    },
+    { 
+      key: 'phase', 
+      label: 'Phase', 
+      accessor: 'phase', 
+      sortable: true,
+      render: (value) => <Badge variant="solid">{String(value)}</Badge>
+    },
+    { 
+      key: 'status', 
+      label: 'Status', 
+      accessor: 'status', 
+      sortable: true,
+      render: (value) => {
+        const variant = value === 'active' ? 'success' : value === 'planning' ? 'info' : value === 'completed' ? 'outline' : 'warning';
+        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
+      }
+    },
+    { 
+      key: 'budget', 
+      label: 'Budget', 
+      accessor: 'budget', 
+      sortable: true,
+      render: (value) => `$${Number(value || 0).toLocaleString()}`
+    },
+    { 
+      key: 'crew_count', 
+      label: 'Crew', 
+      accessor: 'crew_count',
+      render: (value) => value ? `${value} assigned` : '-'
+    },
+    { 
+      key: 'start_date', 
+      label: 'Start Date', 
+      accessor: 'start_date', 
+      sortable: true,
+      render: (value) => value ? new Date(String(value)).toLocaleDateString() : '-'
+    },
+    { 
+      key: 'event_date', 
+      label: 'Event Date', 
+      accessor: 'event_date', 
+      sortable: true,
+      render: (value) => value ? new Date(String(value)).toLocaleDateString() : '-'
+    },
+  ];
 
-  if (isLoading) {
-    return (
-      <>
-        <MainContent padding="lg">
-          <Container className="flex min-h-[60vh] items-center justify-center">
-            <Spinner variant="grey" size="lg" text="Loading projects..." />
-          </Container>
-        </MainContent>
-      </>
-    );
-  }
+  const filters: ListPageFilter[] = [
+    { 
+      key: 'status', 
+      label: 'Status', 
+      options: [
+        { value: 'planning', label: 'Planning' },
+        { value: 'active', label: 'Active' },
+        { value: 'completed', label: 'Completed' },
+      ]
+    },
+    { 
+      key: 'phase', 
+      label: 'Phase', 
+      options: [
+        { value: 'pre-production', label: 'Pre-Production' },
+        { value: 'production', label: 'Production' },
+        { value: 'post-production', label: 'Post-Production' },
+      ]
+    },
+  ];
+
+  const formFields: FormFieldConfig[] = [
+    { name: 'name', label: 'Project Name', type: 'text', required: true },
+    { name: 'code', label: 'Project Code', type: 'text', required: true },
+    { name: 'phase', label: 'Phase', type: 'select', required: true, options: [
+      { value: 'pre-production', label: 'Pre-Production' },
+      { value: 'production', label: 'Production' },
+      { value: 'post-production', label: 'Post-Production' },
+    ]},
+    { name: 'budget', label: 'Budget ($)', type: 'number' },
+    { name: 'start_date', label: 'Start Date', type: 'date' },
+    { name: 'event_date', label: 'Event Date', type: 'date' },
+    { name: 'description', label: 'Description', type: 'textarea' },
+  ];
+
+  const rowActions: ListPageAction<Project>[] = [
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedProject(row); setDrawerOpen(true); } },
+    { id: 'edit', label: 'Edit', icon: <Edit className="size-4" />, onClick: (row) => router.push(`/projects/${row.id}`) },
+    { id: 'assign', label: 'Assign Crew', icon: <Users className="size-4" />, onClick: (row) => router.push(`/crew/assign?projectId=${row.id}`) },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setSelectedProject(row); setDeleteConfirmOpen(true); } },
+  ];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+  ];
+
+  const handleCreate = async () => {
+    setCreateModalOpen(false);
+    refetch();
+  };
+
+  const handleDelete = async () => {
+    setDeleteConfirmOpen(false);
+    setSelectedProject(null);
+    refetch();
+  };
+
+  const totalBudget = projects.reduce((sum, p) => sum + (p.budget || 0), 0);
+
+  const stats = [
+    { label: 'Total Projects', value: projects.length },
+    { label: 'Total Budget', value: `$${(totalBudget / 1000000).toFixed(1)}M` },
+    { label: 'Active Projects', value: projects.filter(p => p.status === 'active').length },
+  ];
+
+  const detailSections: DetailSection[] = selectedProject ? [
+    {
+      id: 'overview',
+      title: 'Project Details',
+      content: (
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+          <Body size="sm"><strong>Name:</strong> {selectedProject.name}</Body>
+          <Body size="sm"><strong>Code:</strong> {selectedProject.code}</Body>
+          <Body size="sm"><strong>Phase:</strong> {selectedProject.phase}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedProject.status}</Body>
+          <Body size="sm"><strong>Budget:</strong> ${(selectedProject.budget || 0).toLocaleString()}</Body>
+          <Body size="sm"><strong>Crew:</strong> {selectedProject.crew_count || 0} assigned</Body>
+          <Body size="sm"><strong>Start Date:</strong> {selectedProject.start_date ? new Date(selectedProject.start_date).toLocaleDateString() : '-'}</Body>
+          <Body size="sm"><strong>Event Date:</strong> {selectedProject.event_date ? new Date(selectedProject.event_date).toLocaleDateString() : '-'}</Body>
+        </Grid>
+      ),
+    },
+  ] : [];
 
   return (
     <>
-      <EnterprisePageHeader
+      <ListPage<Project>
         title="Projects"
         subtitle="Manage production projects and events"
-
-
-        primaryAction={canCreateProject ? { label: 'New Project', onClick: () => router.push('/projects/new') } : undefined}
-        showFavorite
-        showSettings
+        data={projects}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search projects..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={async (actionId, selectedIds) => {
+          if (actionId === 'export') {
+            const selected = projects.filter(p => selectedIds.includes(p.id));
+            const csv = [
+              ['Name', 'Code', 'Phase', 'Status', 'Budget', 'Crew', 'Start Date', 'Event Date'].join(','),
+              ...selected.map(p => [p.name, p.code, p.phase, p.status, p.budget, p.crew_count, p.start_date, p.event_date].join(','))
+            ].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'projects-export.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        }}
+        onRowClick={(row) => { setSelectedProject(row); setDrawerOpen(true); }}
+        createLabel="New Project"
+        onCreate={() => setCreateModalOpen(true)}
+        entityType="projects"
+        onExport={createExportHandler({
+          filename: "projects",
+          getData: () => projects.map(p => ({
+            name: p.name,
+            code: p.code,
+            phase: p.phase,
+            status: p.status,
+            budget: p.budget,
+            crew_count: p.crew_count,
+            start_date: p.start_date,
+            event_date: p.event_date,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No projects found"
+        emptyAction={{ label: 'Create Project', onClick: () => setCreateModalOpen(true) }}
       />
-      <MainContent padding="lg">
-        <Container>
-          <Stack gap={10}>
-            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-              <StatCard value={filteredProjects.length.toString()} label="Total Projects" />
-              <StatCard value={`$${(totalBudget / 1000000).toFixed(1)}M`} label="Total Budget" />
-              <StatCard value={filteredProjects.filter((p: { status?: string }) => p.status === 'active').length.toString()} label="Active Projects" />
-            </Grid>
 
-            <Stack gap={4} direction="horizontal">
-              <Button 
-                variant={filterPhase === 'all' ? 'solid' : 'outline'}
-                onClick={() => setFilterPhase('all')}
-              >
-                All
-              </Button>
-              <Button 
-                variant={filterPhase === 'planning' ? 'solid' : 'outline'}
-                onClick={() => setFilterPhase('planning')}
-              >
-                Planning
-              </Button>
-              <Button 
-                variant={filterPhase === 'active' ? 'solid' : 'outline'}
-                onClick={() => setFilterPhase('active')}
-              >
-                Active
-              </Button>
-              <Button 
-                variant={filterPhase === 'completed' ? 'solid' : 'outline'}
-                onClick={() => setFilterPhase('completed')}
-              >
-                Completed
-              </Button>
-            </Stack>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="New Project"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="lg"
+      />
 
-            <Stack gap={4}>
-              {filteredProjects.map(project => (
-                <Card key={project.id} className="p-6">
-                  <Stack gap={4} direction="horizontal" className="items-start justify-between">
-                    <Stack gap={2} className="flex-1">
-                      <Stack gap={4} direction="horizontal" className="items-center">
-                        <H3 className="font-display uppercase">{project.name}</H3>
-                        <Badge>{project.code}</Badge>
-                        <Badge>{project.phase}</Badge>
-                      </Stack>
-                      <Body>Budget: ${project.budget?.toLocaleString()}</Body>
-                      {project.crew_count !== undefined && (
-                        <Body>Crew: {project.crew_count} assigned</Body>
-                      )}
-                      {project.start_date && (
-                        <Body size="sm" className="">
-                          Start: {new Date(project.start_date).toLocaleDateString()}
-                        </Body>
-                      )}
-                      {project.event_date && (
-                        <Body size="sm" className="">
-                          Event: {new Date(project.event_date).toLocaleDateString()}
-                        </Body>
-                      )}
-                    </Stack>
-                    <Stack gap={2} direction="horizontal">
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        onClick={() => router.push(`/projects/${project.id}`)}
-                      >
-                        View Details
-                      </Button>
-                      {canCreateProject && (
-                        <Button 
-                          variant="solid" 
-                          size="sm"
-                          onClick={() => router.push(`/crew/assign?projectId=${project.id}`)}
-                        >
-                          Assign Crew
-                        </Button>
-                      )}
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-              {filteredProjects.length === 0 && <Body>No projects found</Body>}
-            </Stack>
-          </Stack>
-        </Container>
-      </MainContent>
+      <DetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        record={selectedProject}
+        title={(p) => p.name}
+        subtitle={(p) => `${p.code} • ${p.phase}`}
+        sections={detailSections}
+      />
+
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Project"
+        message="Are you sure you want to delete this project? This action cannot be undone."
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setSelectedProject(null); }}
+      />
     </>
   );
 }

@@ -7,28 +7,29 @@ import { logger } from '@ghxstship/config';
 // Layout provided by route group
 import { Camera, Heart } from 'lucide-react';
 import {
-  Container,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
-  Input,
-  Textarea,
-  Select,
+  Container,
+  EnterprisePageHeader,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H3,
+  Input,
+  MainContent,
   Modal,
-  ModalHeader,
   ModalBody,
   ModalFooter,
+  ModalHeader,
+  Select,
+  Stack,
   StatCard,
+  Tab,
   Tabs,
   TabsList,
-  Tab,
-  EnterprisePageHeader,
-  MainContent,
+  Text,
+  Textarea,
 } from '@ghxstship/ui';
 
 import {
@@ -389,7 +390,7 @@ export default function CrewSocialPage() {
           {selectedMember && (
             <Stack gap={4}>
               <Body>
-                Send a connection request to <span className="font-display">{selectedMember.name}</span>?
+                Send a connection request to <Text className="font-display">{selectedMember.name}</Text>?
               </Body>
               <Textarea
                 placeholder="Add a personal message (optional)..."

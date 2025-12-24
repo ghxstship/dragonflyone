@@ -4,16 +4,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check } from "lucide-react";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
-  Field,
   Card,
-  AuthPage,
-} from "@ghxstship/ui";
+  Field,
+  Form,
+  H2,
+  Input,
+  Stack,
+} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function ResetPasswordPage() {
@@ -82,7 +83,7 @@ export default function ResetPasswordPage() {
 
                 {error && <Alert variant="error">{error}</Alert>}
 
-                <form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <Stack gap={6}>
                     <Field label="New Password" hint="Minimum 8 characters">
                       <Input
@@ -116,7 +117,7 @@ export default function ResetPasswordPage() {
                       </NextLink>
                     </Stack>
                   </Stack>
-                </form>
+                </Form>
               </Stack>
             )}
           </Card>

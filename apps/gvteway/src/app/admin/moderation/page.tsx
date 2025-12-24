@@ -4,17 +4,18 @@ import { useState } from "react";
 import { Eye, Check, Trash2, ArrowUp, MessageCircle, Star, FileText, Camera, File } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage,
   Badge,
-  DetailDrawer,
-  Grid,
   Body,
   Card,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  Text,
+  type DetailSection,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
-  type DetailSection,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 
 import { useModerationData, type FlaggedContent } from '@/hooks/useModeration';
 
@@ -38,7 +39,7 @@ const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
 };
 
 const columns: ListPageColumn<FlaggedContent>[] = [
-  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <span>{getTypeIcon(String(v))} {String(v)}</span> },
+  { key: 'type', label: 'Type', accessor: 'type', render: (v) => <Text>{getTypeIcon(String(v))} {String(v)}</Text> },
   { key: 'content', label: 'Content', accessor: 'content' },
   { key: 'author', label: 'Author', accessor: 'author' },
   { key: 'reason', label: 'Reason', accessor: 'reason', render: (v) => <Badge variant="outline">{String(v)}</Badge> },

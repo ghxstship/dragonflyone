@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import Image from 'next/image';
 import { ArrowLeft, Building2, Mail, Phone, MapPin, Globe, Star, Edit, Trash2 } from 'lucide-react';
 import { useVendorProfile, useDeleteVendor } from '@/hooks/useVendorProfiles';
@@ -79,13 +87,13 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
             )}
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-h2-md font-weight-bold text-foreground">{vendor.name}</h1>
-                <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusColors[vendor.status as keyof typeof statusColors] || statusColors.active}`}>
+                <H1 className="text-h2-md font-weight-bold text-foreground">{vendor.name}</H1>
+                <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusColors[vendor.status as keyof typeof statusColors] || statusColors.active}`}>
                   {vendor.status}
-                </span>
+                </Text>
               </div>
               {vendor.category && (
-                <p className="text-body-sm text-muted-foreground">{vendor.category.name}</p>
+                <Body className="text-body-sm text-muted-foreground">{vendor.category.name}</Body>
               )}
             </div>
           </div>
@@ -99,30 +107,30 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
             <Edit className="h-4 w-4" />
             Edit
           </Link>
-          <button
+          <Button
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
           >
             <Trash2 className="h-4 w-4" />
             Delete
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">About</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">About</H2>
             {vendor.description ? (
-              <p className="text-body-sm text-foreground">{vendor.description}</p>
+              <Body className="text-body-sm text-foreground">{vendor.description}</Body>
             ) : (
-              <p className="text-body-sm text-muted-foreground italic">No description provided</p>
+              <Body className="text-body-sm text-muted-foreground italic">No description provided</Body>
             )}
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Contact Information</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Contact Information</H2>
             <div className="grid grid-cols-2 gap-4">
               {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
                 <div className="flex items-center gap-3">
@@ -130,10 +138,10 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                     <Mail className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Email</p>
-                    <a href={`mailto:${vendor.contact_info.email}`} className="text-body-sm text-primary hover:underline">
+                    <Body className="text-body-xs text-muted-foreground">Email</Body>
+                    <Link href={`mailto:${vendor.contact_info.email}`} className="text-body-sm text-primary hover:underline">
                       {vendor.contact_info.email}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -143,10 +151,10 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                     <Phone className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Phone</p>
-                    <a href={`tel:${vendor.contact_info.phone}`} className="text-body-sm text-foreground">
+                    <Body className="text-body-xs text-muted-foreground">Phone</Body>
+                    <Link href={`tel:${vendor.contact_info.phone}`} className="text-body-sm text-foreground">
                       {vendor.contact_info.phone}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -156,10 +164,10 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                     <Globe className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Website</p>
-                    <a href={vendor.website} target="_blank" rel="noopener noreferrer" className="text-body-sm text-primary hover:underline">
+                    <Body className="text-body-xs text-muted-foreground">Website</Body>
+                    <Link href={vendor.website} target="_blank" rel="noopener noreferrer" className="text-body-sm text-primary hover:underline">
                       {vendor.website}
-                    </a>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -169,8 +177,8 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                     <MapPin className="h-4 w-4 text-muted-foreground" />
                   </div>
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Service Areas</p>
-                    <p className="text-body-sm text-foreground">{vendor.service_areas.join(', ')}</p>
+                    <Body className="text-body-xs text-muted-foreground">Service Areas</Body>
+                    <Body className="text-body-sm text-foreground">{vendor.service_areas.join(', ')}</Body>
                   </div>
                 </div>
               )}
@@ -180,10 +188,10 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
           {reviewsData?.reviews && reviewsData.reviews.length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-h4-md font-weight-semibold text-foreground">Reviews</h2>
-                <a href={`/vendors/${id}/reviews`} className="text-body-sm text-primary hover:underline">
+                <H2 className="text-h4-md font-weight-semibold text-foreground">Reviews</H2>
+                <Link href={`/vendors/${id}/reviews`} className="text-body-sm text-primary hover:underline">
                   View all
-                </a>
+                </Link>
               </div>
               <div className="space-y-4">
                 {reviewsData.reviews.slice(0, 3).map((review) => (
@@ -197,12 +205,12 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
                           />
                         ))}
                       </div>
-                      <span className="text-body-xs text-muted-foreground">
+                      <Text className="text-body-xs text-muted-foreground">
                         {new Date(review.created_at).toLocaleDateString()}
-                      </span>
+                      </Text>
                     </div>
                     {review.review_text && (
-                      <p className="text-body-sm text-foreground">{review.review_text}</p>
+                      <Body className="text-body-sm text-foreground">{review.review_text}</Body>
                     )}
                   </div>
                 ))}
@@ -214,73 +222,73 @@ export default function VendorDetailPage({ params }: { params: { id: string } })
         <div className="space-y-6">
           {metricsData?.metrics && metricsData.metrics.length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Performance</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Performance</H2>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">Quality Score</span>
-                  <span className="font-weight-medium">{metricsData.metrics[0]?.quality_score?.toFixed(1) || 'N/A'}</span>
+                  <Text className="text-body-sm text-muted-foreground">Quality Score</Text>
+                  <Text className="font-weight-medium">{metricsData.metrics[0]?.quality_score?.toFixed(1) || 'N/A'}</Text>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">On-Time Rate</span>
-                  <span className="font-weight-medium">{metricsData.metrics[0]?.on_time_rate ? `${(metricsData.metrics[0].on_time_rate * 100).toFixed(0)}%` : 'N/A'}</span>
+                  <Text className="text-body-sm text-muted-foreground">On-Time Rate</Text>
+                  <Text className="font-weight-medium">{metricsData.metrics[0]?.on_time_rate ? `${(metricsData.metrics[0].on_time_rate * 100).toFixed(0)}%` : 'N/A'}</Text>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">Total Bookings</span>
-                  <span className="font-weight-medium">{metricsData.metrics[0]?.total_bookings || 0}</span>
+                  <Text className="text-body-sm text-muted-foreground">Total Bookings</Text>
+                  <Text className="font-weight-medium">{metricsData.metrics[0]?.total_bookings || 0}</Text>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">Issues</span>
-                  <span className="font-weight-medium">{metricsData.metrics[0]?.issue_count || 0}</span>
+                  <Text className="text-body-sm text-muted-foreground">Issues</Text>
+                  <Text className="font-weight-medium">{metricsData.metrics[0]?.issue_count || 0}</Text>
                 </div>
               </div>
             </div>
           )}
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
             <div className="space-y-3">
               {vendor.payment_terms && (
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">Payment Terms</span>
-                  <span className="text-body-sm font-weight-medium">{vendor.payment_terms}</span>
+                  <Text className="text-body-sm text-muted-foreground">Payment Terms</Text>
+                  <Text className="text-body-sm font-weight-medium">{vendor.payment_terms}</Text>
                 </div>
               )}
               {vendor.tax_id && (
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-muted-foreground">Tax ID</span>
-                  <span className="text-body-sm font-weight-medium">{vendor.tax_id}</span>
+                  <Text className="text-body-sm text-muted-foreground">Tax ID</Text>
+                  <Text className="text-body-sm font-weight-medium">{vendor.tax_id}</Text>
                 </div>
               )}
               <div className="flex items-center justify-between">
-                <span className="text-body-sm text-muted-foreground">Added</span>
-                <span className="text-body-sm font-weight-medium">
+                <Text className="text-body-sm text-muted-foreground">Added</Text>
+                <Text className="text-body-sm font-weight-medium">
                   {new Date(vendor.created_at).toLocaleDateString()}
-                </span>
+                </Text>
               </div>
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</H2>
             <div className="space-y-2">
-              <a
+              <Link
                 href={`/vendor-orders/new?vendor=${id}`}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
               >
                 Create Order
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/preferred-vendors/new?vendor=${id}`}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
               >
                 Add to Preferred
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/vendors/${id}/reviews/new`}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
               >
                 Write Review
-              </a>
+              </Link>
             </div>
           </div>
         </div>

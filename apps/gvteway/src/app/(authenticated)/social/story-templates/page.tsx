@@ -10,22 +10,32 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_STORY_TEMPLATES,
-  DEMO_STORY_CATEGORIES,
-  type DemoStoryTemplate as StoryTemplate,
-} from "@/lib/demo-data";
+import { useStoryTemplates } from "@ghxstship/config";
+import { DEMO_STORY_TEMPLATES, DEMO_STORY_CATEGORIES } from "@/lib/demo-data";
 
-const mockTemplates = DEMO_STORY_TEMPLATES;
-const categories = DEMO_STORY_CATEGORIES;
+interface StoryTemplate {
+  id: string;
+  name: string;
+  category: string;
+  platform: string;
+  dimensions: string;
+  uses: number;
+  preview: string;
+  elements: string[];
+}
 
 export default function StoryTemplatesPage() {
   const router = useRouter();
+  const { templates: apiTemplates, isLoading } = useStoryTemplates();
   const [selectedTemplate, setSelectedTemplate] = useState<StoryTemplate | null>(null);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [platformFilter, setPlatformFilter] = useState("All");
 
-  const filteredTemplates = mockTemplates.filter(t => {
+  // Use API data or fall back to demo data
+  const templates: StoryTemplate[] = apiTemplates.length > 0 ? (apiTemplates as unknown as StoryTemplate[]) : (DEMO_STORY_TEMPLATES as unknown as StoryTemplate[]);
+  const categories = DEMO_STORY_CATEGORIES;
+
+  const filteredTemplates = templates.filter(t => {
     const matchesCategory = categoryFilter === "All" || t.category === categoryFilter;
     const matchesPlatform = platformFilter === "All" || t.platform === platformFilter || t.platform === "Both";
     return matchesCategory && matchesPlatform;
@@ -41,11 +51,17 @@ export default function StoryTemplatesPage() {
               <Body className="text-on-dark-muted">Branded Instagram and TikTok story templates</Body>
             </Stack>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading templates...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
-            <StatCard label="Total Uses" value={mockTemplates.reduce((s, t) => s + t.uses, 0)} className="border-2 border-black" />
-            <StatCard label="Instagram" value={mockTemplates.filter(t => t.platform !== "TikTok").length} className="border-2 border-black" />
-            <StatCard label="TikTok" value={mockTemplates.filter(t => t.platform !== "Instagram").length} className="border-2 border-black" />
+            <StatCard label="Templates" value={templates.length} className="border-2 border-black" />
+            <StatCard label="Total Uses" value={templates.reduce((s, t) => s + t.uses, 0)} className="border-2 border-black" />
+            <StatCard label="Instagram" value={templates.filter(t => t.platform !== "TikTok").length} className="border-2 border-black" />
+            <StatCard label="TikTok" value={templates.filter(t => t.platform !== "Instagram").length} className="border-2 border-black" />
           </Grid>
 
           <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">

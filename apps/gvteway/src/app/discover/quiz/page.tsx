@@ -4,16 +4,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H2,
+  H3,
   Kicker,
+  Label,
+  Stack,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { useDiscoverQuizData } from '@/hooks/useDiscoverQuiz';
@@ -365,6 +366,3 @@ export default function DiscoveryQuizPage() {
   );
 }
 
-function Label({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <Body size="sm" className={`font-weight-medium ${className || ''}`}>{children}</Body>;
-}

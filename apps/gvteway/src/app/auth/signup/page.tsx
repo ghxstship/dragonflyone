@@ -1,27 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  PasswordInput,
-  Alert,
-  Stack,
   Card,
-  Field,
   Checkbox,
   Divider,
+  Field,
+  Form,
   Grid,
-  Label,
-  Link,
-  ScrollReveal,
-  AuthPage,
+  H2,
   IconBox,
-} from "@ghxstship/ui";
+  Input,
+  Label,
+  PasswordInput,
+  ScrollReveal,
+  Stack,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
 import { useAuthData } from "@/hooks/useAuth";
@@ -130,7 +131,7 @@ export default function SignUpPage() {
                 {error && <Alert variant="error">{error}</Alert>}
 
                 {/* Form */}
-                <form onSubmit={handleSignUp}>
+                <Form onSubmit={handleSignUp}>
                   <Stack gap={4} className="sm:gap-6">
                     {/* Name Fields - Stack on mobile, Grid on desktop */}
                     <Grid cols={1} gap={4} className="sm:grid-cols-2">
@@ -200,13 +201,13 @@ export default function SignUpPage() {
                       />
                       <Label size="xs" className="text-on-dark-muted">
                         I agree to the{" "}
-                        <Link href="/legal/terms" className="text-white underline">
+                        <NextLink href="/legal/terms" className="text-white underline">
                           Terms of Service
-                        </Link>{" "}
+                        </NextLink>{" "}
                         and{" "}
-                        <Link href="/legal/privacy" className="text-white underline">
+                        <NextLink href="/legal/privacy" className="text-white underline">
                           Privacy Policy
-                        </Link>
+                        </NextLink>
                       </Label>
                     </Stack>
 
@@ -223,7 +224,7 @@ export default function SignUpPage() {
                       {loading ? "Creating Account..." : "Create Account"}
                     </Button>
                   </Stack>
-                </form>
+                </Form>
 
                 {/* Divider */}
                 <Stack direction="horizontal" className="items-center gap-4">

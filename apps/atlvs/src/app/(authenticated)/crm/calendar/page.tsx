@@ -5,14 +5,23 @@ import { useRouter } from 'next/navigation';
 import { Eye, Pencil, X, Link } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, RecordFormModal, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, type FormFieldConfig, } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  Badge,
+  Body,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  RecordFormModal,
+  type DetailSection,
+  type FormFieldConfig,
+  type ListPageAction,
+  type ListPageColumn,
+  type ListPageFilter,
+} from '@ghxstship/ui';
+import { createExportHandler, createImportHandler, getImportTemplates, useCrmCalendar, type CrmCalendarEvent } from '@ghxstship/config';
 
-import {
-  DEMO_CRM_CALENDAR_EVENTS,
-  type DemoCrmCalendarEvent as CalendarEvent,
-} from '../../../../lib/demo-data';
+import { DEMO_CRM_CALENDAR_EVENTS } from '../../../../lib/demo-data';
+
+type CalendarEvent = CrmCalendarEvent & { [key: string]: unknown };
 
 const getTypeVariant = (type: string): 'solid' | 'outline' | 'ghost' => {
   switch (type) { case 'Meeting': return 'solid'; case 'Call': return 'outline'; case 'Task': return 'outline'; case 'Reminder': return 'ghost'; default: return 'ghost'; }
@@ -44,18 +53,30 @@ const formFields: FormFieldConfig[] = [
 
 export default function CalendarIntegrationPage() {
   const router = useRouter();
-  const [data, setData] = useState<CalendarEvent[]>(DEMO_CRM_CALENDAR_EVENTS);
+  const { events: apiEvents, summary, isLoading, error, createEventAsync, updateEventAsync, deleteEventsAsync, refetch } = useCrmCalendar();
   const [selected, setSelected] = useState<CalendarEvent | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const todayEvents = data.filter(e => e.date === '2024-11-25').length;
-  const meetings = data.filter(e => e.type === 'Meeting').length;
+  // Use API data or fall back to demo data
+  const data: CalendarEvent[] = apiEvents.length > 0 ? (apiEvents as CalendarEvent[]) : (DEMO_CRM_CALENDAR_EVENTS as CalendarEvent[]);
+
+  const todayEvents = summary?.today || data.filter(e => e.date === new Date().toISOString().split('T')[0]).length;
+  const meetings = summary?.meetings || data.filter(e => e.type === 'Meeting').length;
+
+  const handleCancelEvent = async (r: CalendarEvent) => {
+    try {
+      await updateEventAsync({ id: r.id, data: { status: 'Cancelled' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to cancel event:', err);
+    }
+  };
 
   const rowActions: ListPageAction<CalendarEvent>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
     { id: 'edit', label: 'Edit Event', icon: <Pencil className="size-4" />, onClick: (r) => router.push(`/crm/calendar/${r.id}/edit`) },
-    { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: (r) => setData(prev => prev.map(e => e.id === r.id ? { ...e, status: 'Cancelled' as const } : e)) },
+    { id: 'cancel', label: 'Cancel Event', icon: <X className="size-4" />, onClick: handleCancelEvent },
   ];
 
   // Import handler for CSV/JSON files
@@ -64,8 +85,7 @@ export default function CalendarIntegrationPage() {
     requiredFields: ['title', 'type', 'date'],
     onImport: async (records) => {
       for (const record of records) {
-        const newEvent: CalendarEvent = {
-          id: `EVT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        await createEventAsync({
           title: String(record.title || ''),
           type: (record.type as CalendarEvent['type']) || 'Meeting',
           date: String(record.date || ''),
@@ -73,9 +93,9 @@ export default function CalendarIntegrationPage() {
           duration: String(record.duration || '30 min'),
           attendees: [],
           status: 'Scheduled',
-        };
-        setData(prev => [...prev, newEvent]);
+        });
       }
+      refetch();
     },
   });
 
@@ -91,19 +111,22 @@ export default function CalendarIntegrationPage() {
   ];
 
   const handleCreate = async (formData: Record<string, unknown>) => {
-    const newEvent: CalendarEvent = {
-      id: `EVT-${String(data.length + 1).padStart(3, '0')}`,
-      title: String(formData.title || ''),
-      type: (formData.type as CalendarEvent['type']) || 'Meeting',
-      date: String(formData.date || new Date().toISOString().split('T')[0]),
-      time: String(formData.time || '9:00 AM'),
-      duration: String(formData.duration || '30 min'),
-      attendees: [],
-      location: formData.location ? String(formData.location) : undefined,
-      status: 'Scheduled',
-    };
-    setData(prev => [...prev, newEvent]);
-    setCreateModalOpen(false);
+    try {
+      await createEventAsync({
+        title: String(formData.title || ''),
+        type: (formData.type as CalendarEvent['type']) || 'Meeting',
+        date: String(formData.date || new Date().toISOString().split('T')[0]),
+        time: String(formData.time || '9:00 AM'),
+        duration: String(formData.duration || '30 min'),
+        attendees: [],
+        location: formData.location ? String(formData.location) : undefined,
+        status: 'Scheduled',
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create event:', err);
+    }
   };
 
   const detailSections: DetailSection[] = selected ? [
@@ -131,7 +154,9 @@ export default function CalendarIntegrationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search events..."
         filters={filters}
         rowActions={rowActions}
@@ -161,9 +186,13 @@ export default function CalendarIntegrationPage() {
         emptyAction={{ label: 'Schedule Meeting', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setData(prev => prev.filter(e => !ids.includes(e.id)));
+            await deleteEventsAsync(ids);
+            refetch();
           } else if (action === 'cancel') {
-            setData(prev => prev.map(e => ids.includes(e.id) ? { ...e, status: 'Cancelled' as const } : e));
+            for (const id of ids) {
+              await updateEventAsync({ id, data: { status: 'Cancelled' } });
+            }
+            refetch();
           }
         }}
         bulkActions={[

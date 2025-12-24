@@ -142,7 +142,7 @@ function FAQItem({ item, isOpen, onToggle }: {
     <Card 
       className={`border-2 transition-all ${isOpen ? "border-primary" : "border-grey-200"}`}
     >
-      <button
+      <Button
         onClick={onToggle}
         className="flex w-full items-center justify-between p-4 text-left"
       >
@@ -152,7 +152,7 @@ function FAQItem({ item, isOpen, onToggle }: {
         ) : (
           <ChevronDown className="size-5 shrink-0 text-grey-400" />
         )}
-      </button>
+      </Button>
       {isOpen && (
         <Stack className="border-t border-grey-200 p-4">
           <Body className="text-grey-600">{item.answer}</Body>
@@ -229,7 +229,7 @@ export default function FaqPage() {
               <H3 className="text-ink-950">CATEGORIES</H3>
               <Stack gap={2}>
                 {faqCategories.map((category) => (
-                  <button
+                  <Button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
                     className={`flex items-center gap-3 rounded-card border-2 p-3 text-left transition-all ${
@@ -246,7 +246,7 @@ export default function FaqPage() {
                     }>
                       {category.label}
                     </Body>
-                  </button>
+                  </Button>
                 ))}
               </Stack>
 

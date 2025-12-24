@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 // Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, Input, Button,
@@ -53,27 +54,69 @@ const DEMO_PAGES: SEOPage[] = [
   { path: '/about', title: 'About Us', description: 'About GVTEWAY', score: 95, issues: [], lastCrawled: '2024-11-20' },
 ];
 
+async function fetchSeoSettings(): Promise<SEOSettings> {
+  const response = await fetch('/api/admin/marketing/seo');
+  if (!response.ok) throw new Error('Failed to fetch SEO settings');
+  return response.json();
+}
+
+async function fetchSeoPages(): Promise<SEOPage[]> {
+  const response = await fetch('/api/admin/marketing/seo/pages');
+  if (!response.ok) throw new Error('Failed to fetch SEO pages');
+  return response.json();
+}
+
 function SEOSettingsPageContent() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState('general');
+
+  const { data: apiSettings, isLoading: settingsLoading } = useQuery({
+    queryKey: ['seo-settings'],
+    queryFn: fetchSeoSettings,
+  });
+
+  const { data: apiPages, isLoading: pagesLoading } = useQuery({
+    queryKey: ['seo-pages'],
+    queryFn: fetchSeoPages,
+  });
+
   const [settings, setSettings] = useState<SEOSettings>(DEFAULT_SEO);
-  const [isSaving, setIsSaving] = useState(false);
-  const [pages] = useState<SEOPage[]>(DEMO_PAGES);
+
+  // Update local state when API data arrives
+  if (apiSettings && settings === DEFAULT_SEO) {
+    setSettings(apiSettings);
+  }
+
+  const saveMutation = useMutation({
+    mutationFn: async (newSettings: SEOSettings) => {
+      const response = await fetch('/api/admin/marketing/seo', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newSettings),
+      });
+      if (!response.ok) throw new Error('Failed to save settings');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['seo-settings'] });
+      addNotification({ type: 'success', title: 'Settings Saved', message: 'SEO settings have been updated' });
+    },
+    onError: () => {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to save settings' });
+    },
+  });
+
+  // Use API data or fall back to demo data
+  const pages = apiPages || DEMO_PAGES;
+  const isLoading = settingsLoading || pagesLoading;
 
   const avgScore = pages.reduce((sum, p) => sum + p.score, 0) / pages.length;
   const pagesWithIssues = pages.filter(p => p.issues.length > 0).length;
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      addNotification({ type: 'success', title: 'Settings Saved', message: 'SEO settings have been updated' });
-    } catch (err) {
-      addNotification({ type: 'error', title: 'Error', message: 'Failed to save settings' });
-    } finally {
-      setIsSaving(false);
-    }
+  const handleSave = () => {
+    saveMutation.mutate(settings);
   };
 
   const getScoreBadge = (score: number) => {
@@ -184,8 +227,8 @@ function SEOSettingsPageContent() {
                     />
                   </Stack>
                 </Stack>
-                <Button variant="solid" inverted onClick={handleSave} disabled={isSaving}>
-                  {isSaving ? 'Saving...' : 'Save Settings'}
+                <Button variant="solid" inverted onClick={handleSave} disabled={saveMutation.isPending}>
+                  {saveMutation.isPending ? 'Saving...' : 'Save Settings'}
                 </Button>
               </Stack>
             </Card>
@@ -257,8 +300,8 @@ function SEOSettingsPageContent() {
                     </Card>
                   </Stack>
                 </Grid>
-                <Button variant="solid" inverted onClick={handleSave} disabled={isSaving}>
-                  {isSaving ? 'Saving...' : 'Save Settings'}
+                <Button variant="solid" inverted onClick={handleSave} disabled={saveMutation.isPending}>
+                  {saveMutation.isPending ? 'Saving...' : 'Save Settings'}
                 </Button>
               </Stack>
             </Card>
@@ -329,8 +372,8 @@ function SEOSettingsPageContent() {
                     <Body size="sm">For robots.txt and sitemap.xml configuration, please contact your development team.</Body>
                   </Alert>
                 </Stack>
-                <Button variant="solid" inverted onClick={handleSave} disabled={isSaving}>
-                  {isSaving ? 'Saving...' : 'Save Settings'}
+                <Button variant="solid" inverted onClick={handleSave} disabled={saveMutation.isPending}>
+                  {saveMutation.isPending ? 'Saving...' : 'Save Settings'}
                 </Button>
               </Stack>
             </Card>

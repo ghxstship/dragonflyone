@@ -263,6 +263,14 @@ export { AgeVerificationModal, useAgeVerification } from "./molecules/age-verifi
 export type { AgeVerificationModalProps } from "./molecules/age-verification-modal.js";
 export { PrivacyPreferenceCenter, defaultConsentCategories } from "./organisms/privacy-preference-center.js";
 export type { PrivacyPreferenceCenterProps, ConsentCategory } from "./organisms/privacy-preference-center.js";
+export { AuditTimeline } from "./organisms/audit-timeline.js";
+export type { AuditTimelineProps, AuditEvent, AuditEventType, AuditFieldChange } from "./organisms/audit-timeline.js";
+export { CustomFieldRenderer, CustomFieldGroup } from "./organisms/custom-field-renderer.js";
+export type { CustomFieldRendererProps, CustomFieldGroupProps, CustomFieldDefinition, CustomFieldType, CustomFieldOption, FieldPermission } from "./organisms/custom-field-renderer.js";
+export { BulkEditModal } from "./organisms/bulk-edit-modal.js";
+export type { BulkEditModalProps, BulkEditField } from "./organisms/bulk-edit-modal.js";
+export { SavedFilterBuilder } from "./organisms/saved-filter-builder.js";
+export type { SavedFilterBuilderProps, FilterField as SavedFilterField, FilterCondition, FilterGroup as SavedFilterGroup, FilterOperator, FilterLogic, SavedFilter } from "./organisms/saved-filter-builder.js";
 
 // =============================================================================
 // TEMPLATES - Page-level layouts

@@ -5,18 +5,19 @@ import { Tag as TagIcon, Pencil, Trash2, Eye } from 'lucide-react';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import { useTags, useCreateTag, useDeleteTag } from '../../hooks/useTags';
 import {
-  ListPage,
   Badge,
-  RecordFormModal,
-  DetailDrawer,
-  ConfirmDialog,
-  Grid,
   Body,
+  ConfirmDialog,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  RecordFormModal,
+  Text,
+  type DetailSection,
+  type FormFieldConfig,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
 } from '@ghxstship/ui';
 
 interface Tag {
@@ -64,7 +65,7 @@ const columns: ListPageColumn<Tag>[] = [
           className="size-4 rounded border-2 border-ink-700" 
           style={{ backgroundColor: String(value) }}
         />
-        <span className="text-ink-400">{String(value)}</span>
+        <Text className="text-ink-400">{String(value)}</Text>
       </div>
     ) : '—',
   },

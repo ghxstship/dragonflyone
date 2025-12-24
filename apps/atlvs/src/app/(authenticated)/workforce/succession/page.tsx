@@ -23,21 +23,24 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
+import { useSuccessionPlans, type SuccessionPlan as APISuccessionPlan } from '@ghxstship/config';
+import { DEMO_SUCCESSION_PLANS } from '../../../../lib/demo-data';
 
-import {
-  DEMO_SUCCESSION_PLANS,
-  type DemoSuccessionPlan as SuccessionPlan,
-} from '../../../../lib/demo-data';
+type SuccessionPlan = APISuccessionPlan;
 
 export default function SuccessionPlanningPage() {
   const router = useRouter();
+  const { plans: apiPlans, summary, isLoading } = useSuccessionPlans();
   const [selectedPlan, setSelectedPlan] = useState<SuccessionPlan | null>(null);
   const [riskFilter, setRiskFilter] = useState('All');
 
-  const filteredPlans = riskFilter === 'All' ? DEMO_SUCCESSION_PLANS : DEMO_SUCCESSION_PLANS.filter(p => p.riskLevel === riskFilter);
-  const highRiskCount = DEMO_SUCCESSION_PLANS.filter(p => p.riskLevel === 'High' || p.riskLevel === 'Critical').length;
-  const readyNowCount = DEMO_SUCCESSION_PLANS.flatMap(p => p.successors).filter(s => s.readiness === 'Ready Now').length;
-  const totalSuccessors = DEMO_SUCCESSION_PLANS.flatMap(p => p.successors).length;
+  // Use API data or fall back to demo data
+  const plans: SuccessionPlan[] = apiPlans.length > 0 ? apiPlans : (DEMO_SUCCESSION_PLANS as unknown as SuccessionPlan[]);
+
+  const filteredPlans = riskFilter === 'All' ? plans : plans.filter(p => p.riskLevel === riskFilter);
+  const highRiskCount = summary?.highRisk || plans.filter(p => p.riskLevel === 'High' || p.riskLevel === 'Critical').length;
+  const readyNowCount = summary?.readyNow || plans.flatMap(p => p.successors).filter(s => s.readiness === 'Ready Now').length;
+  const totalSuccessors = summary?.totalSuccessors || plans.flatMap(p => p.successors).length;
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
@@ -72,8 +75,14 @@ export default function SuccessionPlanningPage() {
         <Container>
           <Stack gap={10}>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading succession plans...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Key Positions" value={DEMO_SUCCESSION_PLANS.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Key Positions" value={plans.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="High Risk" value={highRiskCount} trend={highRiskCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Ready Now" value={readyNowCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Successors" value={totalSuccessors} className="bg-transparent border-2 border-ink-800" />

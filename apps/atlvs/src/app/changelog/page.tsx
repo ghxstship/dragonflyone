@@ -1,16 +1,17 @@
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
-  Stack,
-  Card,
+  Badge,
   Body,
-  H3,
-  Label,
+  Button,
+  Card,
   Container,
   Display,
-  Button,
   FullBleedSection,
-  Badge,
-} from "@ghxstship/ui";
+  H3,
+  Icon,
+  Label,
+  Stack,
+} from '@ghxstship/ui';
 import { Sparkles, Bug, Zap, ArrowRight, Bell } from "lucide-react";
 import NextLink from "next/link";
 

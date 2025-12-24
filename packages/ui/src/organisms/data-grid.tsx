@@ -1,28 +1,26 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { Search, ChevronUp, ChevronDown, MoreVertical, Check, X } from "lucide-react";
 
-// Types
 export interface DataGridColumn<T> {
   key: string;
   label: string;
   accessor: keyof T | ((row: T) => React.ReactNode);
+  /** Optional computed value that overrides accessor for rendering and sorting */
+  formula?: (row: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
   minWidth?: string;
   align?: "left" | "center" | "right";
   render?: (value: unknown, row: T) => React.ReactNode;
   hidden?: boolean;
-  /** Enable inline editing for this column */
   editable?: boolean;
-  /** Editor type for inline editing */
-  editorType?: "text" | "number" | "select" | "date" | "checkbox";
-  /** Options for select editor */
+  editorType?: "text" | "number" | "select" | "date" | "checkbox" | "linked-record";
   editorOptions?: { value: string; label: string }[];
-  /** Validation function - return error message or null */
   validate?: (value: unknown, row: T) => string | null;
+  linkedOptions?: { value: string; label: string; subtitle?: string }[];
 }
 
 export interface FilterGroup {
@@ -53,6 +51,16 @@ export interface DataGridProps<T> {
   data: T[];
   columns: DataGridColumn<T>[];
   rowKey: keyof T | ((row: T) => string);
+  // Grouping
+  groupBy?: (row: T) => string | null;
+  groupLabel?: (groupKey: string | null) => React.ReactNode;
+  defaultCollapsedGroups?: string[];
+  // Conditional formatting
+  conditionalFormatting?: Array<{
+    columnKey?: string;
+    predicate: (row: T) => boolean;
+    className?: string;
+  }>;
   // Search
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -78,12 +86,10 @@ export interface DataGridProps<T> {
   rowActions?: RowAction<T>[];
   onRowAction?: (actionId: string, row: T) => void;
   onRowClick?: (row: T) => void;
-  // Pagination
+  // Pagination (controlled)
   pagination?: { page: number; pageSize: number; total: number };
   onPageChange?: (page: number) => void;
-  onPageSizeChange?: (size: number) => void;
-  pageSizeOptions?: number[];
-  // Column Management
+  // Column visibility toggle UI
   columnVisibility?: boolean;
   // States
   loading?: boolean;
@@ -93,10 +99,13 @@ export interface DataGridProps<T> {
   compact?: boolean;
   className?: string;
   // Inline Editing
-  /** Enable inline editing (requires editable columns) */
   inlineEditing?: boolean;
-  /** Called when a cell is edited - return promise to show loading state */
+  onMapLocationClick?: (item: T) => void;
+  galleryImageField?: keyof T;
+  galleryThumbnailField?: keyof T;
+  onGalleryItemClick?: (item: T) => void;
   onCellEdit?: (row: T, columnKey: string, newValue: unknown) => Promise<void>;
+  onEditSnapshot?: (payload: { row: T; columnKey: string; previous: unknown; next: unknown }) => void;
 }
 
 type SortDirection = "asc" | "desc" | null;
@@ -126,8 +135,6 @@ export function DataGrid<T>({
   onRowClick,
   pagination,
   onPageChange,
-  onPageSizeChange,
-  pageSizeOptions = [10, 25, 50, 100],
   columnVisibility = false,
   loading = false,
   emptyMessage = "No data available",
@@ -136,38 +143,94 @@ export function DataGrid<T>({
   className = "",
   inlineEditing = false,
   onCellEdit,
+  groupBy,
+  groupLabel,
+  defaultCollapsedGroups = [],
+  conditionalFormatting = [],
+  onEditSnapshot,
 }: DataGridProps<T>) {
   const [localSearch, setLocalSearch] = useState(searchValue);
+  const [columnMenuOpen, setColumnMenuOpen] = useState(false);
+  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(
+    () => new Set(columns.filter((c) => c.hidden).map((c) => c.key))
+  );
   const [sortColumn, setSortColumn] = useState<string | null>(defaultSort?.column ?? null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(defaultSort?.direction ?? null);
-  const [hiddenColumns, setHiddenColumns] = useState<Set<string>>(new Set());
   const [expandedFilter, setExpandedFilter] = useState<string | null>(null);
   const [editingCell, setEditingCell] = useState<{ rowKey: string; columnKey: string } | null>(null);
   const [editValue, setEditValue] = useState<unknown>(null);
   const [editError, setEditError] = useState<string | null>(null);
   const [editLoading, setEditLoading] = useState(false);
+  const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set(defaultCollapsedGroups));
+  const editSnapshotRef = useRef<typeof onEditSnapshot>(onEditSnapshot);
 
-  const getRowKey = useCallback((row: T): string => {
-    if (typeof rowKey === "function") return rowKey(row);
-    return String(row[rowKey]);
-  }, [rowKey]);
+  // Sync external searchValue changes
+  useEffect(() => {
+    setLocalSearch(searchValue);
+  }, [searchValue]);
 
-  const getCellValue = useCallback((row: T, column: DataGridColumn<T>): unknown => {
-    if (typeof column.accessor === "function") return column.accessor(row);
-    return row[column.accessor];
-  }, []);
+  // Sync snapshot ref
+  useEffect(() => {
+    editSnapshotRef.current = onEditSnapshot;
+  }, [onEditSnapshot]);
 
-  const visibleColumns = useMemo(() => 
-    columns.filter(col => !col.hidden && !hiddenColumns.has(col.key)),
+  const getRowKey = useCallback(
+    (row: T): string => (typeof rowKey === "function" ? rowKey(row) : String(row[rowKey])),
+    [rowKey]
+  );
+
+  const getCellValue = useCallback(
+    (row: T, column: DataGridColumn<T>): unknown => {
+      if (column.formula) return column.formula(row);
+      if (typeof column.accessor === "function") return column.accessor(row);
+      return row[column.accessor];
+    },
+    []
+  );
+
+  const visibleColumns = useMemo(
+    () => columns.filter((col) => !col.hidden && !hiddenColumns.has(col.key)),
     [columns, hiddenColumns]
   );
 
-  const sortedData = useMemo(() => {
-    if (!sortColumn || !sortDirection) return data;
-    const column = columns.find(c => c.key === sortColumn);
-    if (!column) return data;
+  // Apply search + filter before sort
+  const filteredData = useMemo(() => {
+    let rows = [...data];
 
-    return [...data].sort((a, b) => {
+    // search (simple string match across stringified cells)
+    if (localSearch.trim()) {
+      const term = localSearch.toLowerCase();
+      rows = rows.filter((row) =>
+        visibleColumns.some((col) => {
+          const val = getCellValue(row, col);
+          return String(val ?? "").toLowerCase().includes(term);
+        })
+      );
+    }
+
+    // filters
+    Object.entries(activeFilters).forEach(([key, value]) => {
+      if (!value) return;
+      rows = rows.filter((row) => {
+        const column = columns.find((c) => c.key === key);
+        if (!column) return true;
+        const cell = getCellValue(row, column);
+        if (Array.isArray(value)) {
+          return value.some((v) => String(cell) === String(v));
+        }
+        return String(cell) === String(value);
+      });
+    });
+
+    return rows;
+  }, [data, localSearch, activeFilters, visibleColumns, getCellValue, columns]);
+
+  const sortedData = useMemo(() => {
+    if (!sortColumn || !sortDirection) return filteredData;
+    const column = columns.find((c) => c.key === sortColumn);
+    if (!column) return filteredData;
+
+    return [...filteredData].sort((a, b) => {
       const aVal = getCellValue(a, column);
       const bVal = getCellValue(b, column);
       if (aVal === bVal) return 0;
@@ -176,10 +239,48 @@ export function DataGrid<T>({
       const comparison = aVal < bVal ? -1 : 1;
       return sortDirection === "asc" ? comparison : -comparison;
     });
-  }, [data, sortColumn, sortDirection, columns, getCellValue]);
+  }, [filteredData, sortColumn, sortDirection, columns, getCellValue]);
+
+  const groupedData = useMemo(() => {
+    if (!groupBy) return [{ group: null as string | null, rows: sortedData }];
+    const groups = new Map<string | null, T[]>();
+    sortedData.forEach((row) => {
+      const key = groupBy(row);
+      const bucket = groups.get(key) || [];
+      bucket.push(row);
+      groups.set(key, bucket);
+    });
+    return Array.from(groups.entries()).map(([group, rows]) => ({ group, rows }));
+  }, [sortedData, groupBy]);
+
+  const activeFilterCount = useMemo(
+    () =>
+      Object.values(activeFilters).reduce((count, value) => {
+        if (Array.isArray(value)) return count + value.length;
+        return count + (value ? 1 : 0);
+      }, 0),
+    [activeFilters]
+  );
+
+  const toggleGroup = (groupKey: string | null) => {
+    if (groupKey === null) return;
+    setCollapsedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(groupKey)) next.delete(groupKey);
+      else next.add(groupKey);
+      return next;
+    });
+  };
+
+  const rowFormattingClass = (row: T, columnKey?: string) => {
+    const rule = conditionalFormatting.find(
+      (r) => (!r.columnKey || r.columnKey === columnKey) && r.predicate(row)
+    );
+    return rule?.className || "";
+  };
 
   const handleSort = (columnKey: string) => {
-    const column = columns.find(c => c.key === columnKey);
+    const column = columns.find((c) => c.key === columnKey);
     if (!column?.sortable) return;
 
     let newDirection: SortDirection = "asc";
@@ -195,20 +296,14 @@ export function DataGrid<T>({
 
   const handleSelectAll = () => {
     if (!onSelectionChange) return;
-    if (selectedKeys.length === data.length) {
-      onSelectionChange([]);
-    } else {
-      onSelectionChange(data.map(getRowKey));
-    }
+    if (selectedKeys.length === filteredData.length) onSelectionChange([]);
+    else onSelectionChange(filteredData.map(getRowKey));
   };
 
   const handleSelectRow = (key: string) => {
     if (!onSelectionChange) return;
-    if (selectedKeys.includes(key)) {
-      onSelectionChange(selectedKeys.filter(k => k !== key));
-    } else {
-      onSelectionChange([...selectedKeys, key]);
-    }
+    if (selectedKeys.includes(key)) onSelectionChange(selectedKeys.filter((k) => k !== key));
+    else onSelectionChange([...selectedKeys, key]);
   };
 
   const handleSearchChange = (value: string) => {
@@ -216,45 +311,46 @@ export function DataGrid<T>({
     onSearchChange?.(value);
   };
 
-  const activeFilterCount = Object.values(activeFilters).reduce((count, value) => {
-    if (Array.isArray(value)) return count + value.length;
-    return count + (value ? 1 : 0);
-  }, 0);
-
-  // Inline editing handlers
-  const handleCellDoubleClick = useCallback((row: T, column: DataGridColumn<T>) => {
-    if (!inlineEditing || !column.editable || !onCellEdit) return;
-    const key = getRowKey(row);
-    const value = getCellValue(row, column);
-    setEditingCell({ rowKey: key, columnKey: column.key });
-    setEditValue(value);
-    setEditError(null);
-  }, [inlineEditing, onCellEdit, getRowKey, getCellValue]);
-
-  const handleEditSave = useCallback(async (row: T, column: DataGridColumn<T>) => {
-    if (!editingCell || !onCellEdit) return;
-    
-    // Validate if validator exists
-    if (column.validate) {
-      const error = column.validate(editValue, row);
-      if (error) {
-        setEditError(error);
-        return;
-      }
-    }
-    
-    setEditLoading(true);
-    try {
-      await onCellEdit(row, column.key, editValue);
-      setEditingCell(null);
-      setEditValue(null);
+  const handleCellDoubleClick = useCallback(
+    (row: T, column: DataGridColumn<T>) => {
+      if (!inlineEditing || !column.editable || !onCellEdit) return;
+      const key = getRowKey(row);
+      const value = getCellValue(row, column);
+      setEditingCell({ rowKey: key, columnKey: column.key });
+      setEditValue(value);
       setEditError(null);
-    } catch (err) {
-      setEditError(err instanceof Error ? err.message : 'Failed to save');
-    } finally {
-      setEditLoading(false);
-    }
-  }, [editingCell, editValue, onCellEdit]);
+    },
+    [inlineEditing, onCellEdit, getRowKey, getCellValue]
+  );
+
+  const handleEditSave = useCallback(
+    async (row: T, column: DataGridColumn<T>) => {
+      if (!editingCell || !onCellEdit) return;
+
+      if (column.validate) {
+        const error = column.validate(editValue, row);
+        if (error) {
+          setEditError(error);
+          return;
+        }
+      }
+
+      setEditLoading(true);
+      try {
+        const previous = getCellValue(row, column);
+        await onCellEdit(row, column.key, editValue);
+        editSnapshotRef.current?.({ row, columnKey: column.key, previous, next: editValue });
+        setEditingCell(null);
+        setEditValue(null);
+        setEditError(null);
+      } catch (err) {
+        setEditError(err instanceof Error ? err.message : "Failed to save");
+      } finally {
+        setEditLoading(false);
+      }
+    },
+    [editingCell, editValue, onCellEdit, getCellValue]
+  );
 
   const handleEditCancel = useCallback(() => {
     setEditingCell(null);
@@ -262,90 +358,113 @@ export function DataGrid<T>({
     setEditError(null);
   }, []);
 
-  const handleEditKeyDown = useCallback((e: React.KeyboardEvent, row: T, column: DataGridColumn<T>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleEditSave(row, column);
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      handleEditCancel();
-    }
-  }, [handleEditSave, handleEditCancel]);
+  const handleEditKeyDown = useCallback(
+    (e: React.KeyboardEvent, row: T, column: DataGridColumn<T>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleEditSave(row, column);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        handleEditCancel();
+      }
+    },
+    [handleEditSave, handleEditCancel]
+  );
 
-  // Render inline editor
-  const renderEditor = useCallback((row: T, column: DataGridColumn<T>, value: unknown) => {
-    const editorType = column.editorType || 'text';
-    const baseInputClass = clsx(
-      "w-full bg-surface-primary border-2 border-primary-500 rounded-button outline-none",
-      compact ? "px-spacing-2 py-spacing-1 text-body-sm" : "px-spacing-3 py-spacing-2 text-body-md"
-    );
+  const renderEditor = useCallback(
+    (row: T, column: DataGridColumn<T>) => {
+      const editorType = column.editorType || "text";
+      const baseInputClass = clsx(
+        "w-full bg-surface-primary border-2 border-primary-500 rounded-button outline-none",
+        compact ? "px-spacing-2 py-spacing-1 text-body-sm" : "px-spacing-3 py-spacing-2 text-body-md"
+      );
 
-    switch (editorType) {
-      case 'select':
-        return (
-          <select
-            value={String(editValue || '')}
-            onChange={(e) => setEditValue(e.target.value)}
-            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
-            className={baseInputClass}
-            autoFocus
-          >
-            {column.editorOptions?.map(opt => (
-              <option key={opt.value} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        );
-      case 'number':
-        return (
-          <input
-            type="number"
-            value={String(editValue || '')}
-            onChange={(e) => setEditValue(e.target.valueAsNumber || 0)}
-            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
-            className={baseInputClass}
-            autoFocus
-          />
-        );
-      case 'date':
-        return (
-          <input
-            type="date"
-            value={String(editValue || '')}
-            onChange={(e) => setEditValue(e.target.value)}
-            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
-            className={baseInputClass}
-            autoFocus
-          />
-        );
-      case 'checkbox':
-        return (
-          <input
-            type="checkbox"
-            checked={Boolean(editValue)}
-            onChange={(e) => setEditValue(e.target.checked)}
-            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
-            className="cursor-pointer"
-            autoFocus
-          />
-        );
-      default:
-        return (
-          <input
-            type="text"
-            value={String(editValue || '')}
-            onChange={(e) => setEditValue(e.target.value)}
-            onKeyDown={(e) => handleEditKeyDown(e, row, column)}
-            className={baseInputClass}
-            autoFocus
-          />
-        );
-    }
-  }, [editValue, compact, handleEditKeyDown]);
+      switch (editorType) {
+        case "select":
+          return (
+            <select
+              value={String(editValue ?? "")}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className={baseInputClass}
+              autoFocus
+            >
+              {column.editorOptions?.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          );
+        case "linked-record":
+          return (
+            <select
+              value={String(editValue ?? "")}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className={baseInputClass}
+              autoFocus
+            >
+              {(column.linkedOptions || []).map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                  {opt.subtitle ? ` — ${opt.subtitle}` : ""}
+                </option>
+              ))}
+            </select>
+          );
+        case "number":
+          return (
+            <input
+              type="number"
+              value={String(editValue ?? "")}
+              onChange={(e) => setEditValue(e.target.valueAsNumber || 0)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className={baseInputClass}
+              autoFocus
+            />
+          );
+        case "date":
+          return (
+            <input
+              type="date"
+              value={String(editValue ?? "")}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className={baseInputClass}
+              autoFocus
+            />
+          );
+        case "checkbox":
+          return (
+            <input
+              type="checkbox"
+              checked={Boolean(editValue)}
+              onChange={(e) => setEditValue(e.target.checked)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className="cursor-pointer"
+              autoFocus
+            />
+          );
+        default:
+          return (
+            <input
+              type="text"
+              value={String(editValue ?? "")}
+              onChange={(e) => setEditValue(e.target.value)}
+              onKeyDown={(e) => handleEditKeyDown(e, row, column)}
+              className={baseInputClass}
+              autoFocus
+            />
+          );
+      }
+    },
+    [editValue, compact, handleEditKeyDown]
+  );
 
   return (
     <div className={clsx("flex flex-col gap-gap-md", className)}>
-      {/* Toolbar */}
-      {(searchable || filters.length > 0 || columnVisibility) && (
+      {(searchable || filters.length > 0) && (
         <div className="flex gap-gap-sm flex-wrap items-center">
           {searchable && (
             <div className="flex-1 min-w-card-sm relative">
@@ -359,7 +478,9 @@ export function DataGrid<T>({
                   compact ? "py-spacing-2 px-spacing-3 text-body-sm" : "py-spacing-3 px-spacing-4 text-body-md"
                 )}
               />
-              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500"><Search className="size-4" /></span>
+              <span className="absolute left-spacing-3 top-1/2 -translate-y-1/2 text-grey-500">
+                <Search className="size-4" />
+              </span>
             </div>
           )}
 
@@ -373,7 +494,8 @@ export function DataGrid<T>({
                   activeFilters[group.key] ? "bg-surface-inverse text-text-inverse" : "bg-surface-primary text-text-primary"
                 )}
               >
-                {group.label} {expandedFilter === group.key ? <ChevronUp className="size-3 inline" /> : <ChevronDown className="size-3 inline" />}
+                {group.label}{" "}
+                {expandedFilter === group.key ? <ChevronUp className="size-3 inline" /> : <ChevronDown className="size-3 inline" />}
               </button>
               {expandedFilter === group.key && (
                 <div className="absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto bg-surface-elevated border-2 border-border-primary z-dropdown">
@@ -399,15 +521,54 @@ export function DataGrid<T>({
               CLEAR ALL ({activeFilterCount})
             </button>
           )}
+
+          {columnVisibility && (
+            <div className="relative">
+              <button
+                onClick={() => setColumnMenuOpen((o) => !o)}
+                className={clsx(
+                  "font-code text-mono-sm tracking-wide uppercase border-2 border-black cursor-pointer",
+                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3"
+                )}
+              >
+                Columns {columnMenuOpen ? <ChevronUp className="size-3 inline" /> : <ChevronDown className="size-3 inline" />}
+              </button>
+              {columnMenuOpen && (
+                <div className="absolute top-full left-0 mt-spacing-1 min-w-container-sm max-h-container-lg overflow-y-auto bg-surface-elevated border-2 border-border-primary z-dropdown">
+                  {columns.map((col) => (
+                    <label
+                      key={col.key}
+                      className="flex items-center gap-gap-xs px-spacing-4 py-spacing-2 cursor-pointer hover:bg-surface-secondary"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={!hiddenColumns.has(col.key) && !col.hidden}
+                        onChange={(e) => {
+                          setHiddenColumns((prev) => {
+                            const next = new Set(prev);
+                            if (!e.target.checked) next.add(col.key);
+                            else next.delete(col.key);
+                            return next;
+                          });
+                        }}
+                      />
+                      <span className="font-body text-body-sm">{col.label}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
 
-      {/* Bulk Action Bar */}
       {selectable && selectedKeys.length > 0 && bulkActions.length > 0 && (
         <div className="flex items-center justify-between px-spacing-4 py-spacing-3 bg-black text-white">
           <span className="font-code text-mono-md">
             <strong>{selectedKeys.length}</strong> selected
-            <button onClick={() => onSelectionChange?.([])} className="ml-spacing-4 px-spacing-2 py-spacing-1 bg-transparent text-grey-400 border-none cursor-pointer underline">Clear</button>
+            <button onClick={() => onSelectionChange?.([])} className="ml-spacing-4 px-spacing-2 py-spacing-1 bg-transparent text-grey-400 border-none cursor-pointer underline">
+              Clear
+            </button>
           </span>
           <div className="flex gap-gap-xs">
             {bulkActions.map((action) => (
@@ -428,14 +589,13 @@ export function DataGrid<T>({
         </div>
       )}
 
-      {/* Table */}
       <div className="border-2 border-border-primary bg-surface-primary overflow-auto">
         <table className={clsx("w-full border-collapse font-body", compact ? "text-body-sm" : "text-body-md")}>
           <thead>
             <tr className="bg-black text-white">
               {selectable && (
                 <th className={clsx("w-12 text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")}>
-                  <input type="checkbox" checked={selectedKeys.length === data.length && data.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
+                  <input type="checkbox" checked={selectedKeys.length === filteredData.length && filteredData.length > 0} onChange={handleSelectAll} className="cursor-pointer" />
                 </th>
               )}
               {visibleColumns.map((column) => (
@@ -473,102 +633,118 @@ export function DataGrid<T>({
                   <div className="inline-block w-spacing-6 h-spacing-6 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
                 </td>
               </tr>
-            ) : sortedData.length === 0 ? (
+            ) : groupedData.length === 0 ? (
               <tr>
                 <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="p-spacing-12 text-center font-code text-grey-500">
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              sortedData.map((row, index) => {
-                const key = getRowKey(row);
-                const isSelected = selectedKeys.includes(key);
-                return (
-                  <tr
-                    key={key}
-                    onClick={() => onRowClick?.(row)}
-                    className={clsx(
-                      "border-b border-grey-200 transition-colors duration-fast",
-                      isSelected ? "bg-surface-secondary" : striped && index % 2 === 1 ? "bg-surface-secondary" : "bg-surface-primary",
-                      onRowClick && "cursor-pointer hover:bg-grey-100"
-                    )}
-                  >
-                    {selectable && (
-                      <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
-                        <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
+              groupedData.map(({ group, rows }) => (
+                <React.Fragment key={group ?? "default"}>
+                  {groupBy && (
+                    <tr className="bg-grey-900 text-white">
+                      <td colSpan={visibleColumns.length + (selectable ? 1 : 0) + (rowActions.length > 0 ? 1 : 0)} className="px-spacing-4 py-spacing-3">
+                        <button
+                          onClick={() => toggleGroup(group)}
+                          className="flex items-center gap-gap-xs font-code text-mono-sm text-left bg-transparent border-none cursor-pointer text-white"
+                        >
+                          {collapsedGroups.has(group ?? "") ? <ChevronDown className="size-4" /> : <ChevronUp className="size-4" />}
+                          {groupLabel ? groupLabel(group) : group ?? "Ungrouped"}
+                        </button>
                       </td>
-                    )}
-                    {visibleColumns.map((column) => {
-                      const value = getCellValue(row, column);
-                      const isEditing = editingCell?.rowKey === key && editingCell?.columnKey === column.key;
-                      const rendered = column.render ? column.render(value, row) : value;
-                      
+                    </tr>
+                  )}
+                  {!collapsedGroups.has(group ?? "") &&
+                    rows.map((row, index) => {
+                      const key = getRowKey(row);
+                      const isSelected = selectedKeys.includes(key);
                       return (
-                        <td
-                          key={column.key}
-                          onDoubleClick={() => handleCellDoubleClick(row, column)}
+                        <tr
+                          key={key}
+                          onClick={() => onRowClick?.(row)}
                           className={clsx(
-                            "text-text-secondary",
-                            compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
-                            column.align === "center" && "text-center",
-                            column.align === "right" && "text-right",
-                            !column.align && "text-left",
-                            column.editable && inlineEditing && "cursor-text hover:bg-surface-secondary"
+                            "border-b border-grey-200 transition-colors duration-fast",
+                            isSelected ? "bg-surface-secondary" : striped && index % 2 === 1 ? "bg-surface-secondary" : "bg-surface-primary",
+                            onRowClick && "cursor-pointer hover:bg-grey-100"
                           )}
                         >
-                          {isEditing ? (
-                            <div className="flex items-center gap-gap-xs" onClick={(e) => e.stopPropagation()}>
-                              <div className="flex-1">
-                                {renderEditor(row, column, value)}
-                                {editError && (
-                                  <p className="text-error-500 text-body-xs mt-spacing-1">{editError}</p>
-                                )}
-                              </div>
-                              <button
-                                onClick={() => handleEditSave(row, column)}
-                                disabled={editLoading}
-                                className="p-spacing-1 text-success-500 hover:bg-success-500/10 rounded-button border-none bg-transparent cursor-pointer"
-                                title="Save (Enter)"
-                              >
-                                {editLoading ? (
-                                  <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
-                                ) : (
-                                  <Check className="size-4" />
-                                )}
-                              </button>
-                              <button
-                                onClick={handleEditCancel}
-                                disabled={editLoading}
-                                className="p-spacing-1 text-error-500 hover:bg-error-500/10 rounded-button border-none bg-transparent cursor-pointer"
-                                title="Cancel (Escape)"
-                              >
-                                <X className="size-4" />
-                              </button>
-                            </div>
-                          ) : (
-                            rendered as React.ReactNode
+                          {selectable && (
+                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
+                              <input type="checkbox" checked={isSelected} onChange={() => handleSelectRow(key)} className="cursor-pointer" />
+                            </td>
                           )}
-                        </td>
+                          {visibleColumns.map((column) => {
+                            const cellValue = getCellValue(row, column);
+                            const isEditing = editingCell?.rowKey === key && editingCell?.columnKey === column.key;
+                            const rendered = column.render ? column.render(cellValue, row) : cellValue;
+
+                            return (
+                              <td
+                                key={column.key}
+                                onDoubleClick={() => handleCellDoubleClick(row, column)}
+                                className={clsx(
+                                  "text-text-secondary",
+                                  compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3",
+                                  column.align === "center" && "text-center",
+                                  column.align === "right" && "text-right",
+                                  !column.align && "text-left",
+                                  column.editable && inlineEditing && "cursor-text hover:bg-surface-secondary",
+                                  rowFormattingClass(row, column.key)
+                                )}
+                              >
+                                {isEditing ? (
+                                  <div className="flex items-center gap-gap-xs" onClick={(e) => e.stopPropagation()}>
+                                    <div className="flex-1">
+                                      {renderEditor(row, column)}
+                                      {editError && <p className="text-error-500 text-body-xs mt-spacing-1">{editError}</p>}
+                                    </div>
+                                    <button
+                                      onClick={() => handleEditSave(row, column)}
+                                      disabled={editLoading}
+                                      className="p-spacing-1 text-success-500 hover:bg-success-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                      title="Save (Enter)"
+                                    >
+                                      {editLoading ? (
+                                        <span className="inline-block w-4 h-4 border-2 border-grey-300 border-t-success-500 rounded-avatar animate-spin" />
+                                      ) : (
+                                        <Check className="size-4" />
+                                      )}
+                                    </button>
+                                    <button
+                                      onClick={handleEditCancel}
+                                      disabled={editLoading}
+                                      className="p-spacing-1 text-error-500 hover:bg-error-500/10 rounded-button border-none bg-transparent cursor-pointer"
+                                      title="Cancel (Escape)"
+                                    >
+                                      <X className="size-4" />
+                                    </button>
+                                  </div>
+                                ) : (
+                                  rendered as React.ReactNode
+                                )}
+                              </td>
+                            );
+                          })}
+                          {rowActions.length > 0 && (
+                            <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
+                              <RowActionsDropdown row={row} actions={rowActions} onAction={onRowAction} />
+                            </td>
+                          )}
+                        </tr>
                       );
                     })}
-                    {rowActions.length > 0 && (
-                      <td className={clsx("text-center", compact ? "px-spacing-3 py-spacing-2" : "px-spacing-4 py-spacing-3")} onClick={(e) => e.stopPropagation()}>
-                        <RowActionsDropdown row={row} actions={rowActions} onAction={onRowAction} />
-                      </td>
-                    )}
-                  </tr>
-                );
-              })
+                </React.Fragment>
+              ))
             )}
           </tbody>
         </table>
       </div>
 
-      {/* Pagination */}
       {pagination && (
         <div className="flex items-center justify-between flex-wrap gap-gap-md">
           <span className="font-code text-mono-sm text-grey-600">
-            Showing {((pagination.page - 1) * pagination.pageSize) + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
+            Showing {(pagination.page - 1) * pagination.pageSize + 1} - {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
           </span>
           <div className="flex gap-gap-xs">
             <button
@@ -598,15 +774,24 @@ export function DataGrid<T>({
   );
 }
 
-// Inline row actions dropdown
-function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: RowAction<T>[]; onAction?: (id: string, row: T) => void }) {
+function RowActionsDropdown<T>({
+  row,
+  actions,
+  onAction,
+}: {
+  row: T;
+  actions: RowAction<T>[];
+  onAction?: (id: string, row: T) => void;
+}) {
   const [open, setOpen] = useState(false);
-  const visibleActions = actions.filter(a => typeof a.hidden === "function" ? !a.hidden(row) : !a.hidden);
+  const visibleActions = actions.filter((a) => (typeof a.hidden === "function" ? !a.hidden(row) : !a.hidden));
   if (visibleActions.length === 0) return null;
 
   return (
     <div className="relative inline-block">
-      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600"><MoreVertical className="size-4" /></button>
+      <button onClick={() => setOpen(!open)} className="p-spacing-1 bg-transparent border-none cursor-pointer text-body-md hover:text-grey-600">
+        <MoreVertical className="size-4" />
+      </button>
       {open && (
         <div className="absolute top-full right-0 min-w-container-xs bg-surface-elevated border-2 border-border-primary z-dropdown">
           {visibleActions.map((action) => {
@@ -614,7 +799,10 @@ function RowActionsDropdown<T>({ row, actions, onAction }: { row: T; actions: Ro
             return (
               <button
                 key={action.id}
-                onClick={() => { setOpen(false); onAction?.(action.id, row); }}
+                onClick={() => {
+                  setOpen(false);
+                  onAction?.(action.id, row);
+                }}
                 disabled={disabled}
                 className={clsx(
                   "block w-full px-spacing-3 py-spacing-2 text-left bg-surface-primary text-text-primary border-none border-b border-border-secondary hover:bg-surface-secondary",

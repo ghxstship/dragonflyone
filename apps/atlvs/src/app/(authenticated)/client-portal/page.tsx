@@ -3,7 +3,15 @@
 import { useState } from 'react';
 import { Search, Users, Calendar, Clock, Mail, ExternalLink } from 'lucide-react';
 import { useClientPortalAccess, useSendPortalInvite } from '@/hooks/useClientPortal';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
 
 interface PortalAccess {
   id: string;
@@ -77,7 +85,7 @@ export default function ClientPortalPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load client portal access</p>
+          <Body className="text-destructive">Failed to load client portal access</Body>
         </div>
       </div>
     );
@@ -87,50 +95,50 @@ export default function ClientPortalPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Client Portal</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Client Portal</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage client access to their self-service portal
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={() => setShowInviteModal(true)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Mail className="h-4 w-4" />
           Send Invite
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Clients</span>
+            <Text className="text-body-sm text-muted-foreground">Total Clients</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{accesses.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{accesses.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Active</span>
+            <Text className="text-body-sm text-muted-foreground">Active</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{activeCount}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{activeCount}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pending</span>
+            <Text className="text-body-sm text-muted-foreground">Pending</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{pendingCount}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{pendingCount}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Events</span>
+            <Text className="text-body-sm text-muted-foreground">Total Events</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {accesses.reduce((sum, a) => sum + a.events_count, 0)}
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -138,7 +146,7 @@ export default function ClientPortalPage() {
         <div className="p-4 border-b border-border">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -163,23 +171,23 @@ export default function ClientPortalPage() {
                       <Users className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-body-sm font-weight-medium text-foreground">{access.client_name}</p>
-                      <p className="text-body-xs text-muted-foreground">{access.client_email}</p>
+                      <Body className="text-body-sm font-weight-medium text-foreground">{access.client_name}</Body>
+                      <Body className="text-body-xs text-muted-foreground">{access.client_email}</Body>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-center">
-                      <p className="text-body-lg font-weight-bold text-foreground">{access.events_count}</p>
-                      <p className="text-body-xs text-muted-foreground">Events</p>
+                      <Body className="text-body-lg font-weight-bold text-foreground">{access.events_count}</Body>
+                      <Body className="text-body-xs text-muted-foreground">Events</Body>
                     </div>
                     <div className="text-right">
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                       {access.last_login && (
-                        <p className="text-body-xs text-muted-foreground mt-1">
+                        <Body className="text-body-xs text-muted-foreground mt-1">
                           Last login: {formatDate(access.last_login)}
-                        </p>
+                        </Body>
                       )}
                     </div>
                     <Button variant="ghost" size="icon" className="p-2">
@@ -196,17 +204,17 @@ export default function ClientPortalPage() {
       {showInviteModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Send Portal Invite
-            </h2>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            </H2>
+            <Body className="text-body-sm text-muted-foreground mb-4">
               Send an invitation to a client to access their self-service portal.
-            </p>
+            </Body>
             <div className="mb-6">
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Client Email
-              </label>
-              <input
+              </Label>
+              <Input
                 type="email"
                 value={inviteEmail}
                 onChange={(e) => setInviteEmail(e.target.value)}
@@ -215,20 +223,20 @@ export default function ClientPortalPage() {
               />
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowInviteModal(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleSendInvite}
                 disabled={!inviteEmail || sendInvite.isPending}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 <Mail className="h-4 w-4" />
                 {sendInvite.isPending ? 'Sending...' : 'Send Invite'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

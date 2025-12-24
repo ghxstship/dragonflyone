@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -80,10 +92,10 @@ export default function NewFloorPlanPage() {
             <Layout className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Floor Plan</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Floor Plan</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Create a new floor plan for your venue
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -93,12 +105,12 @@ export default function NewFloorPlanPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Floor Plan Name *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               placeholder="e.g. Main Ballroom - Theater Setup"
               value={formData.name}
@@ -106,15 +118,15 @@ export default function NewFloorPlanPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.name && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.name}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.name}</Body>
             )}
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Description
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={3}
               placeholder="Describe this floor plan configuration..."
               value={formData.description}
@@ -124,16 +136,16 @@ export default function NewFloorPlanPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Dimensions
-            </h2>
+            </H2>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Width *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   step="0.1"
                   min="0"
@@ -143,15 +155,15 @@ export default function NewFloorPlanPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.width && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.width}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.width}</Body>
                 )}
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Height *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   step="0.1"
                   min="0"
@@ -161,15 +173,15 @@ export default function NewFloorPlanPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.height && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.height}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.height}</Body>
                 )}
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Unit
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.unit}
                   onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -179,15 +191,15 @@ export default function NewFloorPlanPage() {
                       {unit}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Scale (pixels per unit)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 step="0.1"
                 min="0.1"
@@ -196,23 +208,23 @@ export default function NewFloorPlanPage() {
                 onChange={(e) => setFormData({ ...formData, scale: e.target.value })}
                 className="w-full max-w-xs px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
-              <p className="mt-1 text-body-xs text-muted-foreground">
+              <Body className="mt-1 text-body-xs text-muted-foreground">
                 Default is 1 pixel per unit. Increase for more detail.
-              </p>
+              </Body>
             </div>
           </div>
 
           <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-card">
-            <input
+            <Input
               type="checkbox"
               id="is_template"
               checked={formData.is_template}
               onChange={(e) => setFormData({ ...formData, is_template: e.target.checked })}
               className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
             />
-            <label htmlFor="is_template" className="text-body-sm text-foreground">
+            <Label htmlFor="is_template" className="text-body-sm text-foreground">
               Save as template (can be reused for other venues)
-            </label>
+            </Label>
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
@@ -222,16 +234,16 @@ export default function NewFloorPlanPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Floor Plan'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

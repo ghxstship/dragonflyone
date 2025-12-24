@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -127,10 +140,10 @@ export default function NewBEOPage() {
             <FileText className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Banquet Event Order</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Banquet Event Order</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Create a BEO for your production team
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -140,16 +153,16 @@ export default function NewBEOPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <Form onSubmit={handleSubmit} className="space-y-8">
           <section className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Basic Information
-            </h2>
+            </H2>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 BEO Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="e.g., Smith Wedding Reception"
                 value={formData.name}
@@ -157,30 +170,30 @@ export default function NewBEOPage() {
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.name && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.name}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.name}</Body>
               )}
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Event Date *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   value={formData.event_date}
                   onChange={(e) => setFormData({ ...formData, event_date: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.event_date && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.event_date}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.event_date}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Start Time
-                </label>
-                <input
+                </Label>
+                <Input
                   type="time"
                   value={formData.event_start_time}
                   onChange={(e) => setFormData({ ...formData, event_start_time: e.target.value })}
@@ -188,10 +201,10 @@ export default function NewBEOPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   End Time
-                </label>
-                <input
+                </Label>
+                <Input
                   type="time"
                   value={formData.event_end_time}
                   onChange={(e) => setFormData({ ...formData, event_end_time: e.target.value })}
@@ -202,12 +215,12 @@ export default function NewBEOPage() {
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Venue *
-                </label>
+                </Label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <input
+                  <Input
                     type="text"
                     placeholder="Venue name"
                     value={formData.venue_name}
@@ -216,14 +229,14 @@ export default function NewBEOPage() {
                   />
                 </div>
                 {errors.venue_name && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.venue_name}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.venue_name}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Room/Space
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Room name"
                   value={formData.room_name}
@@ -232,12 +245,12 @@ export default function NewBEOPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Guest Count
-                </label>
+                </Label>
                 <div className="relative">
                   <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <input
+                  <Input
                     type="number"
                     min="0"
                     placeholder="0"
@@ -252,45 +265,45 @@ export default function NewBEOPage() {
 
           <section className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
+              <H2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
                 <Clock className="h-5 w-5 text-primary" />
                 Event Timeline
-              </h2>
-              <button
+              </H2>
+              <Button
                 type="button"
                 onClick={handleAddTimelineItem}
                 className="inline-flex items-center gap-2 px-3 py-1.5 text-body-sm font-weight-medium text-primary hover:bg-primary/10 rounded-button transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 Add Item
-              </button>
+              </Button>
             </div>
 
             <div className="space-y-3">
               {timeline.map((item, index) => (
                 <div key={index} className="flex items-center gap-3 p-4 border-2 border-border rounded-card">
                   <div className="flex-1 grid grid-cols-4 gap-3">
-                    <input
+                    <Input
                       type="time"
                       value={item.time}
                       onChange={(e) => handleTimelineChange(index, 'time', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
-                    <input
+                    <Input
                       type="text"
                       placeholder="Activity"
                       value={item.activity}
                       onChange={(e) => handleTimelineChange(index, 'activity', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
-                    <input
+                    <Input
                       type="text"
                       placeholder="Location"
                       value={item.location}
                       onChange={(e) => handleTimelineChange(index, 'location', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
-                    <input
+                    <Input
                       type="text"
                       placeholder="Notes"
                       value={item.notes}
@@ -298,29 +311,29 @@ export default function NewBEOPage() {
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
                   </div>
-                  <button
+                  <Button
                     type="button"
                     onClick={() => handleRemoveTimelineItem(index)}
                     disabled={timeline.length === 1}
                     className="p-2 text-muted-foreground hover:text-destructive disabled:opacity-30 transition-colors"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Room Setup
-            </h2>
+            </H2>
             <div className="grid grid-cols-4 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Layout
-                </label>
-                <select
+                </Label>
+                <Select
                   value={roomSetup.layout}
                   onChange={(e) => setRoomSetup({ ...roomSetup, layout: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -332,13 +345,13 @@ export default function NewBEOPage() {
                   <option value="u-shape">U-Shape</option>
                   <option value="hollow-square">Hollow Square</option>
                   <option value="boardroom">Boardroom</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Tables
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="0"
                   value={roomSetup.tables || ''}
@@ -347,10 +360,10 @@ export default function NewBEOPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Chairs
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="0"
                   value={roomSetup.chairs || ''}
@@ -359,33 +372,33 @@ export default function NewBEOPage() {
                 />
               </div>
               <div className="flex items-end gap-4">
-                <label className="flex items-center gap-2">
-                  <input
+                <Label className="flex items-center gap-2">
+                  <Input
                     type="checkbox"
                     checked={roomSetup.stage}
                     onChange={(e) => setRoomSetup({ ...roomSetup, stage: e.target.checked })}
                     className="w-4 h-4 border-2 border-border rounded"
                   />
-                  <span className="text-body-sm">Stage</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
+                  <Text className="text-body-sm">Stage</Text>
+                </Label>
+                <Label className="flex items-center gap-2">
+                  <Input
                     type="checkbox"
                     checked={roomSetup.dance_floor}
                     onChange={(e) => setRoomSetup({ ...roomSetup, dance_floor: e.target.checked })}
                     className="w-4 h-4 border-2 border-border rounded"
                   />
-                  <span className="text-body-sm">Dance Floor</span>
-                </label>
+                  <Text className="text-body-sm">Dance Floor</Text>
+                </Label>
               </div>
             </div>
           </section>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Notes
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={4}
               placeholder="Additional notes for the production team..."
               value={formData.notes}
@@ -401,24 +414,24 @@ export default function NewBEOPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               Save as Draft
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={handleSubmit}
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {createMutation.isPending ? 'Creating...' : 'Submit for Review'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

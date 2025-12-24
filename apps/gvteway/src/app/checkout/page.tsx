@@ -3,19 +3,20 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
-import { 
-  H3, 
-  Body, 
-  Button, 
-  Input, 
-  Card, 
-  Grid, 
-  Badge, 
-  Stack, 
-  Label,
-  EnterprisePageHeader,
-  MainContent,
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
   Container,
+  EnterprisePageHeader,
+  Grid,
+  H3,
+  Input,
+  Label,
+  MainContent,
+  Stack,
+  Text,
   useNotifications,
 } from '@ghxstship/ui';
 import { CreditCard, Lock, Check, ShoppingCart, MapPin, ChevronRight } from 'lucide-react';
@@ -295,7 +296,7 @@ function CheckoutContent() {
                   </Stack>
                   <Stack gap={4} role="form" aria-label="Payment form">
                     <Stack gap={1}>
-                      <label htmlFor="cardName" className="text-body-sm text-on-dark-muted">Cardholder Name <span className="text-error">*</span></label>
+                      <Label htmlFor="cardName" className="text-body-sm text-on-dark-muted">Cardholder Name <Text className="text-error">*</Text></Label>
                       <Input 
                         id="cardName"
                         placeholder="John Smith" 
@@ -308,11 +309,11 @@ function CheckoutContent() {
                         aria-describedby={errors.cardName ? 'cardName-error' : undefined}
                       />
                       {touched.cardName && errors.cardName && (
-                        <span id="cardName-error" className="text-body-xs text-error">{errors.cardName}</span>
+                        <Text id="cardName-error" className="text-body-xs text-error">{errors.cardName}</Text>
                       )}
                     </Stack>
                     <Stack gap={1}>
-                      <label htmlFor="cardNumber" className="text-body-sm text-on-dark-muted">Card Number <span className="text-error">*</span></label>
+                      <Label htmlFor="cardNumber" className="text-body-sm text-on-dark-muted">Card Number <Text className="text-error">*</Text></Label>
                       <Input 
                         id="cardNumber"
                         placeholder="4242 4242 4242 4242" 
@@ -325,12 +326,12 @@ function CheckoutContent() {
                         aria-describedby={errors.cardNumber ? 'cardNumber-error' : undefined}
                       />
                       {touched.cardNumber && errors.cardNumber && (
-                        <span id="cardNumber-error" className="text-body-xs text-error">{errors.cardNumber}</span>
+                        <Text id="cardNumber-error" className="text-body-xs text-error">{errors.cardNumber}</Text>
                       )}
                     </Stack>
                     <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Stack gap={1}>
-                        <label htmlFor="expiry" className="text-body-sm text-on-dark-muted">Expiry Date <span className="text-error">*</span></label>
+                        <Label htmlFor="expiry" className="text-body-sm text-on-dark-muted">Expiry Date <Text className="text-error">*</Text></Label>
                         <Input 
                           id="expiry"
                           placeholder="MM/YY" 
@@ -343,11 +344,11 @@ function CheckoutContent() {
                           aria-describedby={errors.expiry ? 'expiry-error' : undefined}
                         />
                         {touched.expiry && errors.expiry && (
-                          <span id="expiry-error" className="text-body-xs text-error">{errors.expiry}</span>
+                          <Text id="expiry-error" className="text-body-xs text-error">{errors.expiry}</Text>
                         )}
                       </Stack>
                       <Stack gap={1}>
-                        <label htmlFor="cvv" className="text-body-sm text-on-dark-muted">CVV <span className="text-error">*</span></label>
+                        <Label htmlFor="cvv" className="text-body-sm text-on-dark-muted">CVV <Text className="text-error">*</Text></Label>
                         <Input 
                           id="cvv"
                           placeholder="123" 
@@ -361,7 +362,7 @@ function CheckoutContent() {
                           aria-describedby={errors.cvv ? 'cvv-error' : undefined}
                         />
                         {touched.cvv && errors.cvv && (
-                          <span id="cvv-error" className="text-body-xs text-error">{errors.cvv}</span>
+                          <Text id="cvv-error" className="text-body-xs text-error">{errors.cvv}</Text>
                         )}
                       </Stack>
                     </Grid>
@@ -372,7 +373,7 @@ function CheckoutContent() {
                         <H3 className="text-white">Billing Address</H3>
                       </Stack>
                       <Stack gap={1}>
-                        <label htmlFor="street" className="text-body-sm text-on-dark-muted">Street Address <span className="text-error">*</span></label>
+                        <Label htmlFor="street" className="text-body-sm text-on-dark-muted">Street Address <Text className="text-error">*</Text></Label>
                         <Input 
                           id="street"
                           placeholder="123 Main St" 
@@ -385,12 +386,12 @@ function CheckoutContent() {
                           aria-describedby={errors.street ? 'street-error' : undefined}
                         />
                         {touched.street && errors.street && (
-                          <span id="street-error" className="text-body-xs text-error">{errors.street}</span>
+                          <Text id="street-error" className="text-body-xs text-error">{errors.street}</Text>
                         )}
                       </Stack>
                       <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                         <Stack gap={1}>
-                          <label htmlFor="city" className="text-body-sm text-on-dark-muted">City <span className="text-error">*</span></label>
+                          <Label htmlFor="city" className="text-body-sm text-on-dark-muted">City <Text className="text-error">*</Text></Label>
                           <Input 
                             id="city"
                             placeholder="New York" 
@@ -403,11 +404,11 @@ function CheckoutContent() {
                             aria-describedby={errors.city ? 'city-error' : undefined}
                           />
                           {touched.city && errors.city && (
-                            <span id="city-error" className="text-body-xs text-error">{errors.city}</span>
+                            <Text id="city-error" className="text-body-xs text-error">{errors.city}</Text>
                           )}
                         </Stack>
                         <Stack gap={1}>
-                          <label htmlFor="state" className="text-body-sm text-on-dark-muted">State <span className="text-error">*</span></label>
+                          <Label htmlFor="state" className="text-body-sm text-on-dark-muted">State <Text className="text-error">*</Text></Label>
                           <Input 
                             id="state"
                             placeholder="NY" 
@@ -420,12 +421,12 @@ function CheckoutContent() {
                             aria-describedby={errors.state ? 'state-error' : undefined}
                           />
                           {touched.state && errors.state && (
-                            <span id="state-error" className="text-body-xs text-error">{errors.state}</span>
+                            <Text id="state-error" className="text-body-xs text-error">{errors.state}</Text>
                           )}
                         </Stack>
                       </Grid>
                       <Stack gap={1}>
-                        <label htmlFor="zip" className="text-body-sm text-on-dark-muted">ZIP Code <span className="text-error">*</span></label>
+                        <Label htmlFor="zip" className="text-body-sm text-on-dark-muted">ZIP Code <Text className="text-error">*</Text></Label>
                         <Input 
                           id="zip"
                           placeholder="10001" 
@@ -438,7 +439,7 @@ function CheckoutContent() {
                           aria-describedby={errors.zip ? 'zip-error' : undefined}
                         />
                         {touched.zip && errors.zip && (
-                          <span id="zip-error" className="text-body-xs text-error">{errors.zip}</span>
+                          <Text id="zip-error" className="text-body-xs text-error">{errors.zip}</Text>
                         )}
                       </Stack>
                     </Stack>

@@ -1,5 +1,19 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Plus, Search, DollarSign, Calendar, Percent, Tag, Edit2, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -161,12 +175,12 @@ export default function PricingPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Pricing Rules</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Pricing Rules</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Configure pricing rules, discounts, and surcharges
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={() => {
             setEditingRule(null);
             setShowModal(true);
@@ -175,50 +189,50 @@ export default function PricingPage() {
         >
           <Plus className="h-4 w-4" />
           Add Rule
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Rules</span>
+            <Text className="text-body-sm text-muted-foreground">Total Rules</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{rules.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{rules.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <ToggleRight className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Active</span>
+            <Text className="text-body-sm text-muted-foreground">Active</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             {rules.filter((r) => r.is_active).length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Percent className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Discounts</span>
+            <Text className="text-body-sm text-muted-foreground">Discounts</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-secondary">
+          <Body className="text-h3-md font-weight-bold text-secondary">
             {rules.filter((r) => r.rule_type === 'discount').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Seasonal</span>
+            <Text className="text-body-sm text-muted-foreground">Seasonal</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-h3-md font-weight-bold text-warning">
             {rules.filter((r) => r.rule_type === 'seasonal').length}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search rules..."
             value={searchQuery}
@@ -226,7 +240,7 @@ export default function PricingPage() {
             className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
         </div>
-        <select
+        <Select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -237,25 +251,25 @@ export default function PricingPage() {
               {config.label}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {filteredRules.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No pricing rules found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create pricing rules to configure your venue pricing.
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Add First Rule
-          </button>
+          </Button>
         </div>
       )}
 
@@ -279,40 +293,40 @@ export default function PricingPage() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-body-md font-weight-semibold text-foreground">
+                        <H3 className="text-body-md font-weight-semibold text-foreground">
                           {rule.name}
-                        </h3>
-                        <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${
+                        </H3>
+                        <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${
                           rule.is_active ? 'bg-success/20 text-success' : 'bg-muted text-muted-foreground'
                         }`}>
                           {rule.is_active ? 'Active' : 'Inactive'}
-                        </span>
-                        <span className="px-2 py-0.5 rounded-badge text-body-xs bg-muted text-muted-foreground">
+                        </Text>
+                        <Text className="px-2 py-0.5 rounded-badge text-body-xs bg-muted text-muted-foreground">
                           {typeConfig.label}
-                        </span>
+                        </Text>
                       </div>
                       {rule.description && (
-                        <p className="text-body-sm text-muted-foreground mb-2">{rule.description}</p>
+                        <Body className="text-body-sm text-muted-foreground mb-2">{rule.description}</Body>
                       )}
                       <div className="flex items-center gap-4 text-body-xs text-muted-foreground">
                         {rule.price !== undefined && (
-                          <span>${rule.price} {rule.price_unit && `/ ${rule.price_unit}`}</span>
+                          <Text>${rule.price} {rule.price_unit && `/ ${rule.price_unit}`}</Text>
                         )}
                         {rule.percentage !== undefined && (
-                          <span>{rule.percentage}%</span>
+                          <Text>{rule.percentage}%</Text>
                         )}
-                        <span>Priority: {rule.priority}</span>
+                        <Text>Priority: {rule.priority}</Text>
                         {rule.valid_from && (
-                          <span>
+                          <Text>
                             Valid: {new Date(rule.valid_from).toLocaleDateString()}
                             {rule.valid_to && ` - ${new Date(rule.valid_to).toLocaleDateString()}`}
-                          </span>
+                          </Text>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button
+                    <Button
                       onClick={() => handleToggle(rule)}
                       className="p-2 hover:bg-muted rounded-button transition-colors"
                       title={rule.is_active ? 'Deactivate' : 'Activate'}
@@ -322,8 +336,8 @@ export default function PricingPage() {
                       ) : (
                         <ToggleLeft className="h-4 w-4 text-muted-foreground" />
                       )}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => {
                         setEditingRule(rule);
                         setShowModal(true);
@@ -331,13 +345,13 @@ export default function PricingPage() {
                       className="p-2 hover:bg-muted rounded-button transition-colors"
                     >
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => handleDelete(rule)}
                       className="p-2 hover:bg-destructive/10 rounded-button transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -409,16 +423,16 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-background border-2 border-border rounded-modal w-full max-w-lg max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-border">
-          <h2 className="text-h3-md font-weight-bold text-foreground">
+          <H2 className="text-h3-md font-weight-bold text-foreground">
             {rule ? 'Edit Pricing Rule' : 'New Pricing Rule'}
-          </h2>
+          </H2>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <Form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
               Rule Name *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -429,10 +443,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
               Description
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={2}
@@ -441,10 +455,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
               Rule Type *
-            </label>
-            <select
+            </Label>
+            <Select
               value={formData.rule_type}
               onChange={(e) => setFormData({ ...formData, rule_type: e.target.value as PricingRule['rule_type'] })}
               className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -454,15 +468,15 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
                   {config.label}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Price ($)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
@@ -472,10 +486,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Percentage (%)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 value={formData.percentage}
                 onChange={(e) => setFormData({ ...formData, percentage: e.target.value })}
@@ -487,10 +501,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Price Unit
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.price_unit}
                 onChange={(e) => setFormData({ ...formData, price_unit: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -499,13 +513,13 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
                 <option value="hour">Per Hour</option>
                 <option value="day">Per Day</option>
                 <option value="guest">Per Guest</option>
-              </select>
+              </Select>
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Priority
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 value={formData.priority}
                 onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
@@ -517,10 +531,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Valid From
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.valid_from}
                 onChange={(e) => setFormData({ ...formData, valid_from: e.target.value })}
@@ -528,10 +542,10 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Valid To
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.valid_to}
                 onChange={(e) => setFormData({ ...formData, valid_to: e.target.value })}
@@ -541,35 +555,35 @@ function PricingRuleModal({ rule, onClose, onSave, isLoading }: PricingRuleModal
           </div>
 
           <div className="flex items-center gap-2">
-            <input
+            <Input
               type="checkbox"
               id="is_active"
               checked={formData.is_active}
               onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
               className="h-4 w-4"
             />
-            <label htmlFor="is_active" className="text-body-sm text-foreground">
+            <Label htmlFor="is_active" className="text-body-sm text-foreground">
               Active
-            </label>
+            </Label>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t border-border">
-            <button
+            <Button
               type="button"
               onClick={onClose}
               className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={isLoading || !formData.name}
               className="px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {isLoading ? 'Saving...' : rule ? 'Update' : 'Create'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

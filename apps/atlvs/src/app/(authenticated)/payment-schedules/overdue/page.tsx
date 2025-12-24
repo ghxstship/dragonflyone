@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Link,
+  Text,
+} from '@ghxstship/ui';
+
 import { ArrowLeft, AlertTriangle, DollarSign, Send } from 'lucide-react';
 import { useUpcomingPayments, useSendPaymentReminder } from '@/hooks/usePaymentSchedules';
 
@@ -60,20 +69,20 @@ export default function OverduePaymentsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center gap-4">
-        <a
+        <Link
           href="/payment-schedules"
           className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-        </a>
+        </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-3">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-3">
             Overdue Payments
             <AlertTriangle className="h-6 w-6 text-destructive" />
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Payments that are past due and require attention
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -81,28 +90,28 @@ export default function OverduePaymentsPage() {
         <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
-            <span className="text-body-sm text-muted-foreground">Overdue Count</span>
+            <Text className="text-body-sm text-muted-foreground">Overdue Count</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-destructive">{overdueMilestones.length}</p>
+          <Body className="text-h3-md font-weight-bold text-destructive">{overdueMilestones.length}</Body>
         </div>
         <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-destructive" />
-            <span className="text-body-sm text-muted-foreground">Total Overdue</span>
+            <Text className="text-body-sm text-muted-foreground">Total Overdue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-destructive">{formatCurrency(totalOverdue)}</p>
+          <Body className="text-h3-md font-weight-bold text-destructive">{formatCurrency(totalOverdue)}</Body>
         </div>
       </div>
 
       {overdueMilestones.length === 0 && (
         <div className="text-center py-12 bg-success/10 rounded-card border-2 border-success">
           <DollarSign className="h-12 w-12 text-success mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No overdue payments
-          </h3>
-          <p className="text-body-sm text-muted-foreground">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground">
             All payments are current
-          </p>
+          </Body>
         </div>
       )}
 
@@ -124,49 +133,49 @@ export default function OverduePaymentsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-body-lg font-weight-semibold text-foreground">
+                        <H3 className="text-body-lg font-weight-semibold text-foreground">
                           {milestone.milestone_name}
-                        </h3>
-                        <span className="px-2 py-1 bg-destructive text-destructive-foreground rounded-badge text-body-xs font-weight-medium">
+                        </H3>
+                        <Text className="px-2 py-1 bg-destructive text-destructive-foreground rounded-badge text-body-xs font-weight-medium">
                           {daysOverdue} days overdue
-                        </span>
+                        </Text>
                       </div>
-                      <p className="text-body-sm text-muted-foreground">
+                      <Body className="text-body-sm text-muted-foreground">
                         {schedule?.booking?.event_name || schedule?.name || 'Untitled'} •{' '}
                         Was due {new Date(milestone.due_date).toLocaleDateString()}
-                      </p>
+                      </Body>
                       {contactEmail && (
-                        <p className="text-body-xs text-muted-foreground mt-1">
+                        <Body className="text-body-xs text-muted-foreground mt-1">
                           Contact: {contactEmail}
-                        </p>
+                        </Body>
                       )}
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className="text-h4-md font-weight-bold text-destructive">
+                        <Body className="text-h4-md font-weight-bold text-destructive">
                           {formatCurrency(amountDue)}
-                        </p>
-                        <p className="text-body-xs text-muted-foreground">
+                        </Body>
+                        <Body className="text-body-xs text-muted-foreground">
                           of {formatCurrency(milestone.amount)} total
-                        </p>
+                        </Body>
                       </div>
                       <div className="flex flex-col gap-2">
                         {contactEmail && (
-                          <button
+                          <Button
                             onClick={() => handleSendReminder(schedule.id, contactEmail)}
                             disabled={sendReminderMutation.isPending}
                             className="inline-flex items-center gap-2 px-3 py-2 bg-destructive text-destructive-foreground rounded-button text-body-sm font-weight-medium hover:bg-destructive/90 transition-colors disabled:opacity-50"
                           >
                             <Send className="h-4 w-4" />
                             Send Reminder
-                          </button>
+                          </Button>
                         )}
-                        <a
+                        <Link
                           href={`/payment-schedules/${schedule.id}`}
                           className="inline-flex items-center gap-2 px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors text-center justify-center"
                         >
                           View Details
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

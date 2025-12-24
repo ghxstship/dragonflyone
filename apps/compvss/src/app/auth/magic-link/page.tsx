@@ -3,16 +3,17 @@
 import { useState } from "react";
 import { Mail } from "lucide-react";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
-  Field,
   Card,
-  AuthPage,
-} from "@ghxstship/ui";
+  Field,
+  Form,
+  H2,
+  Input,
+  Stack,
+} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function MagicLinkPage() {
@@ -70,7 +71,7 @@ export default function MagicLinkPage() {
 
                 {error && <Alert variant="error">{error}</Alert>}
 
-                <form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <Stack gap={6}>
                     <Field label="Email Address">
                       <Input
@@ -100,7 +101,7 @@ export default function MagicLinkPage() {
                       </Body>
                     </Stack>
                   </Stack>
-                </form>
+                </Form>
               </Stack>
             )}
           </Card>

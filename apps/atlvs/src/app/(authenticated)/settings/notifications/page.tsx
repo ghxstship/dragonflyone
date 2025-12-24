@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Icon,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Bell, Mail, MessageSquare, Calendar, DollarSign, Users, Save } from 'lucide-react';
@@ -106,32 +117,32 @@ export default function NotificationSettingsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Bell className="h-6 w-6" />
               Notifications
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Configure how you receive updates
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={handleSave}
           disabled={updateSettings.isPending}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           <Save className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">
+          <Text className="text-body-sm font-weight-medium">
             {updateSettings.isPending ? 'Saving...' : 'Save Changes'}
-          </span>
-        </button>
+          </Text>
+        </Button>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
           <Mail className="h-5 w-5" />
           Email Notifications
-        </h2>
+        </H2>
         <div className="space-y-4">
           {[
             { key: 'email_bookings' as const, label: 'Booking Updates', description: 'New bookings, confirmations, and cancellations', icon: Calendar },
@@ -144,49 +155,49 @@ export default function NotificationSettingsPage() {
               <div className="flex items-center gap-3">
                 <Icon className="h-5 w-5 text-muted-foreground" />
                 <div>
-                  <p className="text-body-sm font-weight-medium text-foreground">{label}</p>
-                  <p className="text-body-xs text-muted-foreground">{description}</p>
+                  <Body className="text-body-sm font-weight-medium text-foreground">{label}</Body>
+                  <Body className="text-body-xs text-muted-foreground">{description}</Body>
                 </div>
               </div>
-              <button
+              <Button
                 onClick={() => handleToggle(key)}
                 className={`relative w-11 h-6 rounded-avatar transition-colors ${
                   currentSettings?.[key] ? 'bg-primary' : 'bg-muted'
                 }`}
               >
-                <span
+                <Text
                   className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-avatar transition-transform ${
                     currentSettings?.[key] ? 'translate-x-5' : 'translate-x-0'
                   }`}
                 />
-              </button>
+              </Button>
             </div>
           ))}
         </div>
         <div className="mt-6 pt-4 border-t border-border">
-          <p className="text-body-sm font-weight-medium text-foreground mb-2">Email Digest</p>
+          <Body className="text-body-sm font-weight-medium text-foreground mb-2">Email Digest</Body>
           <div className="flex items-center gap-4">
             {(['none', 'daily', 'weekly'] as const).map((value) => (
-              <label key={value} className="flex items-center gap-2 cursor-pointer">
-                <input
+              <Label key={value} className="flex items-center gap-2 cursor-pointer">
+                <Input
                   type="radio"
                   name="digest"
                   checked={currentSettings?.email_digest === value}
                   onChange={() => handleDigestChange(value)}
                   className="w-4 h-4"
                 />
-                <span className="text-body-sm text-foreground capitalize">{value}</span>
-              </label>
+                <Text className="text-body-sm text-foreground capitalize">{value}</Text>
+              </Label>
             ))}
           </div>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
           <MessageSquare className="h-5 w-5" />
           Push Notifications
-        </h2>
+        </H2>
         <div className="space-y-4">
           {[
             { key: 'push_bookings' as const, label: 'Booking Updates', icon: Calendar },
@@ -198,20 +209,20 @@ export default function NotificationSettingsPage() {
             <div key={key} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
               <div className="flex items-center gap-3">
                 <Icon className="h-5 w-5 text-muted-foreground" />
-                <p className="text-body-sm font-weight-medium text-foreground">{label}</p>
+                <Body className="text-body-sm font-weight-medium text-foreground">{label}</Body>
               </div>
-              <button
+              <Button
                 onClick={() => handleToggle(key)}
                 className={`relative w-11 h-6 rounded-avatar transition-colors ${
                   currentSettings?.[key] ? 'bg-primary' : 'bg-muted'
                 }`}
               >
-                <span
+                <Text
                   className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-avatar transition-transform ${
                     currentSettings?.[key] ? 'translate-x-5' : 'translate-x-0'
                   }`}
                 />
-              </button>
+              </Button>
             </div>
           ))}
         </div>

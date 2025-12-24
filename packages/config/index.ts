@@ -180,6 +180,111 @@ export * from './hooks/useAssetSpecifications';
 // Accounts receivable hooks
 export * from './hooks/useAccountsReceivable';
 
+// Investors hooks
+export * from './hooks/useInvestors';
+
+// Sponsors hooks
+export * from './hooks/useSponsors';
+
+// Crew members hooks
+export * from './hooks/useCrewMembers';
+
+// Crew assignments hooks
+export * from './hooks/useCrewAssignments';
+
+// Vendor contracts hooks
+export * from './hooks/useVendorContracts';
+
+// Bookings hooks
+export * from './hooks/useBookings';
+
+// Investor updates hooks
+export * from './hooks/useInvestorUpdates';
+
+// Sponsor reports hooks
+export * from './hooks/useSponsorReports';
+
+// Sponsor activations hooks
+export * from './hooks/useSponsorActivations';
+
+// CRM Tasks hooks
+export * from './hooks/useCrmTasks';
+
+// CRM Calendar hooks
+export * from './hooks/useCrmCalendar';
+
+// CRM Leads hooks
+export * from './hooks/useCrmLeads';
+
+// CRM Emails hooks
+export * from './hooks/useCrmEmails';
+
+// CRM Stakeholders hooks
+export * from './hooks/useCrmStakeholders';
+
+// Compensation hooks
+export * from './hooks/useCompensation';
+
+// Referrals hooks
+export * from './hooks/useReferrals';
+
+// Background checks hooks
+export * from './hooks/useBackgroundChecks';
+
+// Succession plans hooks
+export * from './hooks/useSuccessionPlans';
+
+// Labor laws hooks
+export * from './hooks/useLaborLaws';
+
+// Union rules hooks
+export * from './hooks/useUnionRules';
+
+// Handbook hooks
+export * from './hooks/useHandbook';
+
+// Union compliance hooks
+export * from './hooks/useUnionCompliance';
+
+// Marketing attribution hooks
+export * from './hooks/useMarketingAttribution';
+
+// Procurement categories hooks
+export * from './hooks/useProcurementCategories';
+
+// Emergency procurement hooks
+export * from './hooks/useEmergencyProcurement';
+
+// Vendor audits hooks
+export * from './hooks/useVendorAudits';
+
+// Vendor selection hooks
+export * from './hooks/useVendorSelection';
+
+// A/B Testing hooks
+export * from './hooks/useABTesting';
+
+// Campaign Metrics hooks
+export * from './hooks/useCampaignMetrics';
+
+// Social Inbox hooks
+export * from './hooks/useSocialInbox';
+
+// Group Orders hooks
+export * from './hooks/useGroupOrders';
+
+// GVTEWAY Marketing hooks
+export * from './hooks/useGvtewayMarketing';
+
+// GVTEWAY Social hooks
+export * from './hooks/useGvtewaySocial';
+
+// GVTEWAY Tickets hooks
+export * from './hooks/useGvtewayTickets';
+
+// GVTEWAY Settings hooks
+export * from './hooks/useGvtewaySettings';
+
 // Bank reconciliation hooks
 export * from './hooks/useBankReconciliation';
 
@@ -203,6 +308,21 @@ export * from './hooks/useDataWarehouse';
 
 // Dashboard builder hooks
 export * from './hooks/useDashboardBuilder';
+
+// Training hooks
+export * from './hooks/useTraining';
+
+// Shows hooks (run-of-show, cues, set-times)
+export * from './hooks/useShows';
+
+// Sponsor deliverables hooks
+export * from './hooks/useSponsorDeliverables';
+
+// Team assignments hooks
+export * from './hooks/useTeamAssignments';
+
+// Marketing hooks
+export * from './hooks/useMarketing';
 
 // Catalog types
 export type * from './types/catalog';
@@ -229,3 +349,12 @@ export {
   useFunctionalConsent,
   withConsentRequired,
 } from './providers/CookieConsentProvider';
+
+// ATLVS Settings hooks (tax, api-keys, apps, organization, security, roles, export, import)
+export * from './hooks/useAtlvsSettings';
+
+// ATLVS Support hooks (support tickets, lead nurturing, feedback, budget forecasting, financial reports, payment plans, invoice templates, community)
+export * from './hooks/useAtlvsSupport';
+
+// GVTEWAY Admin hooks (forums, embed, seo, widgets, moderation, merch, templates, friends, blueprints, check-in)
+export * from './hooks/useGvtewayAdmin';

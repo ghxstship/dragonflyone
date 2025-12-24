@@ -269,12 +269,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {isLoading ? (
         <>
           <LoadingSpinner />
-          <span>{loadingText || children}</span>
+          <span className="inline-flex items-center gap-2">{loadingText || children}</span>
         </>
       ) : (
         <>
           {icon && iconPosition === "left" ? <span className="text-lg">{icon}</span> : null}
-          <span>{children}</span>
+          <span className="inline-flex items-center gap-2">{children}</span>
           {icon && iconPosition === "right" ? <span className="text-lg">{icon}</span> : null}
         </>
       )}

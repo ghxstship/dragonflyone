@@ -4,17 +4,17 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 // Layout provided by route group
 import {
-  Stack,
+  Badge,
   Body,
+  Button,
+  Card,
+  CardBody,
+  Container,
   H2,
   H3,
   Label,
-  Container,
-  Card,
-  CardBody,
-  Badge,
-  Button,
-} from "@ghxstship/ui";
+  Stack,
+} from '@ghxstship/ui';
 import { History, ChevronLeft, ChevronRight, Clock, Check, X, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
@@ -295,9 +295,9 @@ export default function ConsentHistoryPage() {
                 <Body size="sm" className="text-grey-700">
                   If you have questions about your consent history or need to request a detailed report, 
                   please contact our Data Protection Officer at{" "}
-                  <a href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">
+                  <Link href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">
                     dpo@ghxstship.com
-                  </a>
+                  </Link>
                   .
                 </Body>
               </Stack>

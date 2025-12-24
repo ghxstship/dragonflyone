@@ -6,19 +6,20 @@ import { ArrowLeft, Pencil, CheckCircle, XCircle, DollarSign, Calendar, User, Fi
 // Layout provided by route group
 import { useExpense, useApproveExpense, useRejectExpense, useMarkExpensePaid } from '../../../../hooks/useExpenses';
 import {
-  Container,
-  Section,
-  Stack,
-  Grid,
+  Badge,
+  Body,
+  Box,
+  Button,
   Card,
+  ConfirmDialog,
+  Container,
+  Grid,
   H2,
   H3,
-  Body,
-  Button,
-  Badge,
-  Box,
+  Link,
+  Section,
+  Stack,
   StatCard,
-  ConfirmDialog,
 } from '@ghxstship/ui';
 
 export default function ExpenseDetailPage() {
@@ -226,9 +227,9 @@ export default function ExpenseDetailPage() {
                       <H3>Receipt</H3>
                       {expense.receipt_url ? (
                         <Box className="rounded-card border-2 border-grey-200 p-4">
-                          <a href={expense.receipt_url} target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                          <Link href={expense.receipt_url} target="_blank" rel="noopener noreferrer" className="text-primary underline">
                             View Receipt
-                          </a>
+                          </Link>
                         </Box>
                       ) : (
                         <Box className="rounded-card border-2 border-dashed border-grey-300 p-8 text-center">

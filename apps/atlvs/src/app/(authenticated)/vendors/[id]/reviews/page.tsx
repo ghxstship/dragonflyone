@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Label,
+  Link,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { ArrowLeft, Star, Plus, MessageSquare, ThumbsUp, ThumbsDown, Filter } from 'lucide-react';
 import { useVendorReviews, useCreateVendorReview } from '@/hooks/useVendorPerformance';
@@ -99,56 +112,56 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href={`/vendors/${id}`}
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">
+            <H1 className="text-h2-md font-weight-bold text-foreground">
               Reviews for {vendor?.name || 'Vendor'}
-            </h1>
+            </H1>
             <div className="flex items-center gap-3 mt-1">
               {renderStars(Math.round(averageRating), 'md')}
-              <span className="text-body-sm text-muted-foreground">
+              <Text className="text-body-sm text-muted-foreground">
                 {averageRating.toFixed(1)} average ({reviews.length} reviews)
-              </span>
+              </Text>
             </div>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowForm(!showForm)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Write Review
-        </button>
+        </Button>
       </div>
 
       {showForm && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Write a Review</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Write a Review</H2>
+          <Form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div>
-                  <label className="block text-body-xs font-weight-medium text-muted-foreground mb-1">Overall</label>
+                  <Label className="block text-body-xs font-weight-medium text-muted-foreground mb-1">Overall</Label>
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <button key={star} type="button" onClick={() => setFormData({ ...formData, overall_rating: star })} className="p-0.5">
+                      <Button key={star} type="button" onClick={() => setFormData({ ...formData, overall_rating: star })} className="p-0.5">
                         <Star className={`h-5 w-5 ${star <= formData.overall_rating ? 'fill-warning text-warning' : 'text-muted-foreground'}`} />
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
                 {['quality', 'timeliness', 'communication', 'value'].map((key) => (
                   <div key={key}>
-                    <label className="block text-body-xs font-weight-medium text-muted-foreground mb-1 capitalize">{key}</label>
+                    <Label className="block text-body-xs font-weight-medium text-muted-foreground mb-1 capitalize">{key}</Label>
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <button key={star} type="button" onClick={() => setFormData({ ...formData, category_ratings: { ...formData.category_ratings, [key]: star } })} className="p-0.5">
+                        <Button key={star} type="button" onClick={() => setFormData({ ...formData, category_ratings: { ...formData.category_ratings, [key]: star } })} className="p-0.5">
                           <Star className={`h-5 w-5 ${star <= (formData.category_ratings[key] || 0) ? 'fill-warning text-warning' : 'text-muted-foreground'}`} />
-                        </button>
+                        </Button>
                       ))}
                     </div>
                   </div>
@@ -156,10 +169,10 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Your Review
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 rows={4}
                 placeholder="Share your experience working with this vendor..."
                 value={formData.review_text}
@@ -169,9 +182,9 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
             </div>
 
             <div className="flex items-center gap-4">
-              <span className="text-body-sm font-weight-medium text-foreground">Would you recommend this vendor?</span>
+              <Text className="text-body-sm font-weight-medium text-foreground">Would you recommend this vendor?</Text>
               <div className="flex items-center gap-2">
-                <button
+                <Button
                   type="button"
                   onClick={() => setFormData({ ...formData, would_recommend: true })}
                   className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-button border-2 text-body-sm ${
@@ -182,8 +195,8 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
                 >
                   <ThumbsUp className="h-4 w-4" />
                   Yes
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => setFormData({ ...formData, would_recommend: false })}
                   className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-button border-2 text-body-sm ${
@@ -194,37 +207,37 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
                 >
                   <ThumbsDown className="h-4 w-4" />
                   No
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-              <button
+              <Button
                 type="button"
                 onClick={() => setShowForm(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
                 disabled={createMutation.isPending}
                 className="px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {createMutation.isPending ? 'Submitting...' : 'Submit Review'}
-              </button>
+              </Button>
             </div>
-          </form>
+          </Form>
         </div>
       )}
 
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <span className="text-body-sm text-muted-foreground">Filter by rating:</span>
+          <Text className="text-body-sm text-muted-foreground">Filter by rating:</Text>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={() => setRatingFilter(null)}
             className={`px-3 py-1 rounded-button text-body-sm ${
               ratingFilter === null
@@ -233,9 +246,9 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
             }`}
           >
             All
-          </button>
+          </Button>
           {[5, 4, 3, 2, 1].map((rating) => (
-            <button
+            <Button
               key={rating}
               onClick={() => setRatingFilter(rating)}
               className={`inline-flex items-center gap-1 px-3 py-1 rounded-button text-body-sm ${
@@ -245,7 +258,7 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
               }`}
             >
               {rating} <Star className="h-3 w-3 fill-current" />
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -253,19 +266,19 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
       {filteredReviews.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No reviews yet
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Be the first to review this vendor.
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowForm(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Write Review
-          </button>
+          </Button>
         </div>
       )}
 
@@ -277,35 +290,35 @@ export default function VendorReviewsPage({ params }: { params: { id: string } }
                 <div>
                   <div className="flex items-center gap-2">
                     {renderStars(review.overall_rating)}
-                    <span className="text-body-sm font-weight-medium">
+                    <Text className="text-body-sm font-weight-medium">
                       {RATING_LABELS[review.overall_rating - 1]}
-                    </span>
+                    </Text>
                   </div>
-                  <p className="text-body-xs text-muted-foreground mt-1">
+                  <Body className="text-body-xs text-muted-foreground mt-1">
                     {new Date(review.created_at).toLocaleDateString()}
-                  </p>
+                  </Body>
                 </div>
                 {review.would_recommend !== undefined && (
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-badge text-body-xs ${
+                  <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded-badge text-body-xs ${
                     review.would_recommend
                       ? 'bg-success/10 text-success'
                       : 'bg-destructive/10 text-destructive'
                   }`}>
                     {review.would_recommend ? <ThumbsUp className="h-3 w-3" /> : <ThumbsDown className="h-3 w-3" />}
                     {review.would_recommend ? 'Recommends' : 'Does not recommend'}
-                  </span>
+                  </Text>
                 )}
               </div>
               {review.review_text && (
-                <p className="text-body-sm text-foreground mb-4">{review.review_text}</p>
+                <Body className="text-body-sm text-foreground mb-4">{review.review_text}</Body>
               )}
               <div className="grid grid-cols-4 gap-4 pt-4 border-t border-border">
                 {review.category_ratings && Object.entries(review.category_ratings).map(([label, value]) => (
                   <div key={label} className="text-center">
-                    <p className="text-body-xs text-muted-foreground capitalize">{label}</p>
+                    <Body className="text-body-xs text-muted-foreground capitalize">{label}</Body>
                     <div className="flex items-center justify-center gap-1 mt-1">
                       <Star className="h-3 w-3 fill-warning text-warning" />
-                      <span className="text-body-sm font-weight-medium">{value}</span>
+                      <Text className="text-body-sm font-weight-medium">{value}</Text>
                     </div>
                   </div>
                 ))}

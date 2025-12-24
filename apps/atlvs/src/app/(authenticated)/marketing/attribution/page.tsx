@@ -33,41 +33,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { useMarketingAttribution, type MarketingSource as APIMarketingSource, type AttributionCampaign } from "@ghxstship/config";
+import { DEMO_MARKETING_SOURCES, DEMO_MARKETING_CAMPAIGNS } from '../../../../lib/demo-data';
 
-interface MarketingSource {
-  id: string;
-  name: string;
-  channel: string;
-  leads: number;
-  conversions: number;
-  revenue: number;
-  cost: number;
-  roi: number;
-}
-
-interface Campaign {
-  id: string;
-  name: string;
-  source: string;
-  startDate: string;
-  endDate: string;
-  budget: number;
-  spent: number;
-  leads: number;
-  conversions: number;
-  status: "Active" | "Completed" | "Paused";
-}
-
-import {
-  DEMO_MARKETING_SOURCES,
-  DEMO_MARKETING_CAMPAIGNS,
-} from '../../../../lib/demo-data';
-
-const mockSources = DEMO_MARKETING_SOURCES as MarketingSource[];
-const mockCampaigns = DEMO_MARKETING_CAMPAIGNS as Campaign[];
+type MarketingSource = APIMarketingSource;
+type Campaign = AttributionCampaign;
 
 export default function MarketingAttributionPage() {
   const router = useRouter();
+  const { sources: apiSources, campaigns: apiCampaigns, summary, isLoading } = useMarketingAttribution();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useLocalTabState({
@@ -76,10 +50,14 @@ export default function MarketingAttributionPage() {
   });
   const [selectedSource, setSelectedSource] = useState<MarketingSource | null>(null);
 
-  const totalLeads = mockSources.reduce((s, src) => s + src.leads, 0);
-  const totalRevenue = mockSources.reduce((s, src) => s + src.revenue, 0);
-  const totalCost = mockSources.reduce((s, src) => s + src.cost, 0);
-  const avgROI = Math.round(((totalRevenue - totalCost) / totalCost) * 100);
+  // Use API data or fall back to demo data
+  const sources: MarketingSource[] = apiSources.length > 0 ? apiSources : (DEMO_MARKETING_SOURCES as unknown as MarketingSource[]);
+  const campaigns: Campaign[] = apiCampaigns.length > 0 ? apiCampaigns : (DEMO_MARKETING_CAMPAIGNS as unknown as Campaign[]);
+
+  const totalLeads = summary?.totalLeads || sources.reduce((s, src) => s + src.leads, 0);
+  const totalRevenue = summary?.totalRevenue || sources.reduce((s, src) => s + src.revenue, 0);
+  const totalCost = summary?.totalCost || sources.reduce((s, src) => s + src.cost, 0);
+  const avgROI = summary?.avgROI || Math.round(((totalRevenue - totalCost) / totalCost) * 100);
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -96,6 +74,12 @@ export default function MarketingAttributionPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading marketing data...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Leads" value={totalLeads} className="bg-transparent border-2 border-ink-800" />
@@ -126,7 +110,7 @@ export default function MarketingAttributionPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockSources.map((source) => (
+                  {sources.map((source) => (
                     <TableRow key={source.id} className="border-ink-800">
                       <TableCell><Label className="text-white">{source.name}</Label></TableCell>
                       <TableCell><Badge variant="outline">{source.channel}</Badge></TableCell>
@@ -144,7 +128,7 @@ export default function MarketingAttributionPage() {
 
             <TabPanel active={isActive('campaigns')}>
               <Stack gap={4}>
-                {mockCampaigns.map((campaign) => (
+                {campaigns.map((campaign) => (
                   <Card key={campaign.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>

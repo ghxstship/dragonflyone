@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { Upload, Download, Search, List, LayoutGrid, Columns3, Calendar as CalendarIcon, GanttChart as GanttIcon, Table, Clock, MapPin, Image, Filter, Save, Trash2, ChevronDown } from "lucide-react";
 import { DataGrid } from "../organisms/data-grid.js";
 import { ImportExportDialog, type ExportFormat, type ColumnConfig, type ImportTemplate } from "../organisms/import-export-dialog.js";
+import { BulkEditModal } from "../organisms/bulk-edit-modal.js";
 import { BulkActionBar, type BulkAction } from "../molecules/bulk-action-bar.js";
 import { KanbanBoard, type KanbanColumn as KanbanBoardColumn } from "../organisms/kanban-board.js";
 import { Calendar } from "../organisms/calendar.js";
@@ -169,6 +170,8 @@ export interface ListPageColumn<T> {
   key: string;
   label: string;
   accessor: keyof T | ((row: T) => React.ReactNode);
+  /** Optional computed value for display/sort */
+  formula?: (row: T) => React.ReactNode;
   sortable?: boolean;
   width?: string;
   minWidth?: string;
@@ -178,9 +181,11 @@ export interface ListPageColumn<T> {
   /** Enable inline editing for this column */
   editable?: boolean;
   /** Editor type for inline editing */
-  editorType?: "text" | "number" | "select" | "date" | "checkbox";
+  editorType?: "text" | "number" | "select" | "date" | "checkbox" | "linked-record";
   /** Options for select editor */
   editorOptions?: { value: string; label: string }[];
+  /** Options for linked-record selector */
+  linkedOptions?: { value: string; label: string; subtitle?: string }[];
   /** Validation function - return error message or null */
   validate?: (value: unknown, row: T) => string | null;
 }
@@ -511,6 +516,16 @@ export interface ListPageProps<T> {
   inlineEditing?: boolean;
   /** Called when a cell is edited inline */
   onCellEdit?: (row: T, columnKey: string, newValue: unknown) => Promise<void>;
+  /** Bulk edit fields configuration */
+  bulkEditFields?: Array<{
+    key: string;
+    label: string;
+    type: "text" | "number" | "select" | "date" | "checkbox";
+    options?: { value: string; label: string }[];
+    placeholder?: string;
+  }>;
+  /** Bulk edit submit handler */
+  onBulkEdit?: (updates: Record<string, unknown>, selectedIds: string[]) => Promise<void>;
 }
 
 export function ListPage<T>({
@@ -555,6 +570,9 @@ export function ListPage<T>({
   // Inline editing props
   inlineEditing = false,
   onCellEdit,
+  // Bulk edit props
+  bulkEditFields,
+  onBulkEdit,
   // View toggle props
   views = [],
   activeView = "list",
@@ -652,6 +670,9 @@ export function ListPage<T>({
   // Import/Export dialog state
   const [importExportMode, setImportExportMode] = useState<"import" | "export" | null>(null);
   const [importExportLoading, setImportExportLoading] = useState(false);
+  
+  // Bulk edit modal state
+  const [bulkEditOpen, setBulkEditOpen] = useState(false);
 
   // Convert columns to ColumnConfig for export dialog
   const exportColumns: ColumnConfig[] = useMemo(() => 
@@ -696,6 +717,7 @@ export function ListPage<T>({
     key: col.key,
     label: col.label,
     accessor: col.accessor,
+    formula: col.formula,
     sortable: col.sortable,
     width: col.width,
     minWidth: col.minWidth,
@@ -705,6 +727,7 @@ export function ListPage<T>({
     editable: col.editable,
     editorType: col.editorType,
     editorOptions: col.editorOptions,
+    linkedOptions: col.linkedOptions,
     validate: col.validate,
   })), [columns]);
 
@@ -999,14 +1022,29 @@ export function ListPage<T>({
         {/* Bulk Action Bar - Floating component for better UX */}
         <BulkActionBar
           selectedCount={selectedKeys.length}
-          actions={bulkActions.map((action): BulkAction => ({
-            id: action.id,
-            label: action.label,
-            icon: action.icon,
-            variant: action.variant,
-            disabled: action.disabled,
-          }))}
-          onAction={(actionId) => onBulkAction?.(actionId, selectedKeys)}
+          actions={[
+            ...(bulkEditFields && onBulkEdit ? [{
+              id: "__bulk_edit__",
+              label: "Bulk Edit",
+              icon: undefined,
+              variant: "default" as const,
+              disabled: false,
+            }] : []),
+            ...bulkActions.map((action): BulkAction => ({
+              id: action.id,
+              label: action.label,
+              icon: action.icon,
+              variant: action.variant,
+              disabled: action.disabled,
+            })),
+          ]}
+          onAction={(actionId) => {
+            if (actionId === "__bulk_edit__") {
+              setBulkEditOpen(true);
+            } else {
+              onBulkAction?.(actionId, selectedKeys);
+            }
+          }}
           onClearSelection={() => setSelectedKeys([])}
           entityName="items"
           position="floating"
@@ -1217,6 +1255,32 @@ export function ListPage<T>({
           onExport={handleExport}
           totalRecords={data.length}
           loading={importExportLoading}
+        />
+      )}
+
+      {/* Bulk Edit Modal */}
+      {bulkEditOpen && bulkEditFields && onBulkEdit && (
+        <BulkEditModal
+          open={bulkEditOpen}
+          onClose={() => {
+            setBulkEditOpen(false);
+            setSelectedKeys([]);
+          }}
+          selectedItems={filteredData.filter((row) => {
+            const key = typeof rowKey === "function" ? rowKey(row) : String(row[rowKey]);
+            return selectedKeys.includes(key);
+          })}
+          fields={bulkEditFields}
+          onSubmit={onBulkEdit}
+          getItemId={(item: T) => typeof rowKey === "function" ? rowKey(item) : String(item[rowKey])}
+          getItemLabel={(item: T) => {
+            const firstCol = columns[0];
+            if (!firstCol) return "Item";
+            const val = typeof firstCol.accessor === "function" ? firstCol.accessor(item) : item[firstCol.accessor];
+            return String(val ?? "Item");
+          }}
+          title={`Bulk Edit ${title}`}
+          description={`Update multiple ${title.toLowerCase()} at once. Select the fields you want to change.`}
         />
       )}
     </div>

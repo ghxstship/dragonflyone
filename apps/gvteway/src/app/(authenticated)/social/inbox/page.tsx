@@ -12,15 +12,12 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_SOCIAL_MESSAGES,
-  type DemoSocialMessage as SocialMessage,
-} from "@/lib/demo-data";
-
-const mockMessages = DEMO_SOCIAL_MESSAGES;
+import { useSocialInbox, type SocialMessage } from "@ghxstship/config";
+import { DEMO_SOCIAL_MESSAGES } from "@/lib/demo-data";
 
 function SocialInboxPageContent() {
   const router = useRouter();
+  const { messages: apiMessages, summary, isLoading } = useSocialInbox();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -30,9 +27,12 @@ function SocialInboxPageContent() {
   const [selectedMessage, setSelectedMessage] = useState<SocialMessage | null>(null);
   const [platformFilter, setPlatformFilter] = useState("All");
 
-  const newCount = mockMessages.filter(m => m.status === "New").length;
-  const escalatedCount = mockMessages.filter(m => m.status === "Escalated").length;
-  const negativeCount = mockMessages.filter(m => m.sentiment === "Negative").length;
+  // Use API data or fall back to demo data
+  const messages: SocialMessage[] = apiMessages.length > 0 ? apiMessages : (DEMO_SOCIAL_MESSAGES as unknown as SocialMessage[]);
+
+  const newCount = summary?.newCount || messages.filter(m => m.status === "New").length;
+  const escalatedCount = summary?.escalatedCount || messages.filter(m => m.status === "Escalated").length;
+  const negativeCount = summary?.negativeCount || messages.filter(m => m.sentiment === "Negative").length;
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -63,7 +63,7 @@ function SocialInboxPageContent() {
     }
   };
 
-  const filteredMessages = mockMessages.filter(m => {
+  const filteredMessages = messages.filter(m => {
     const matchesPlatform = platformFilter === "All" || m.platform === platformFilter;
     const matchesTab = activeTab === "all" || m.status.toLowerCase().replace(" ", "") === activeTab;
     return matchesPlatform && matchesTab;
@@ -78,6 +78,12 @@ function SocialInboxPageContent() {
               <H2 size="lg" className="text-white">Social Inbox</H2>
               <Body className="text-on-dark-muted">Unified social customer service inbox</Body>
             </Stack>
+
+            {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading messages...</div>
+            </div>
+          )}
 
             <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="New Messages" value={newCount.toString()} inverted />

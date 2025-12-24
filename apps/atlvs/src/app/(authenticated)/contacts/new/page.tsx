@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -77,25 +87,25 @@ export default function NewContactPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">New Contact</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">New Contact</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Add a new contact to your CRM
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <User className="h-5 w-5" />
             Personal Information
-          </h2>
+          </H2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 First Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="first_name"
                 value={formData.first_name}
@@ -105,14 +115,14 @@ export default function NewContactPage() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.first_name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.first_name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.first_name}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Last Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="last_name"
                 value={formData.last_name}
@@ -122,23 +132,23 @@ export default function NewContactPage() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.last_name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.last_name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.last_name}</Body>
               )}
             </div>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Mail className="h-5 w-5" />
             Contact Information
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Email *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="email"
                 name="email"
                 value={formData.email}
@@ -148,14 +158,14 @@ export default function NewContactPage() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.email && (
-                <p className="text-body-xs text-destructive mt-1">{errors.email}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.email}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Phone
-              </label>
-              <input
+              </Label>
+              <Input
                 type="tel"
                 name="phone"
                 value={formData.phone}
@@ -167,16 +177,16 @@ export default function NewContactPage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Building2 className="h-5 w-5" />
             Company Information
-          </h2>
+          </H2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Company
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="company"
                 value={formData.company}
@@ -185,10 +195,10 @@ export default function NewContactPage() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Job Title
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="title"
                 value={formData.title}
@@ -201,7 +211,7 @@ export default function NewContactPage() {
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
@@ -212,16 +222,16 @@ export default function NewContactPage() {
           >
             Cancel
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={createContact.isPending}
             className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {createContact.isPending ? 'Creating...' : 'Create Contact'}
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

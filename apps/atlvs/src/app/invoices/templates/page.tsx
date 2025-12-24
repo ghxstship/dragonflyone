@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, FileText, Copy, Edit2, Trash2, Check, AlertCircle } from 'lucide-react';
@@ -169,13 +182,13 @@ export default function InvoiceTemplatesPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load invoice templates</p>
-          <button
+          <Body className="text-destructive">Failed to load invoice templates</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['invoice-templates'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -192,48 +205,48 @@ export default function InvoiceTemplatesPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Invoice Templates</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Invoice Templates</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage reusable invoice templates for faster invoicing
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Template</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">New Template</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
-          <p className="text-body-sm text-muted-foreground">Total Templates</p>
-          <p className="text-h3-md font-weight-bold text-foreground">{templates.length}</p>
+          <Body className="text-body-sm text-muted-foreground">Total Templates</Body>
+          <Body className="text-h3-md font-weight-bold text-foreground">{templates.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <p className="text-body-sm text-muted-foreground">Active</p>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-body-sm text-muted-foreground">Active</Body>
+          <Body className="text-h3-md font-weight-bold text-success">
             {templates.filter((t) => t.is_active).length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <p className="text-body-sm text-muted-foreground">Default</p>
-          <p className="text-h3-md font-weight-bold text-primary">
+          <Body className="text-body-sm text-muted-foreground">Default</Body>
+          <Body className="text-h3-md font-weight-bold text-primary">
             {templates.filter((t) => t.is_default).length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-          <p className="text-body-sm text-muted-foreground">Categories</p>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-body-sm text-muted-foreground">Categories</Body>
+          <Body className="text-h3-md font-weight-bold text-warning">
             {new Set(templates.map((t) => t.category)).size}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <select
+        <Select
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
@@ -243,25 +256,25 @@ export default function InvoiceTemplatesPage() {
           <option value="deposit">Deposit</option>
           <option value="final">Final</option>
           <option value="custom">Custom</option>
-        </select>
+        </Select>
       </div>
 
       {filteredTemplates.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No invoice templates
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create templates to speed up your invoicing workflow
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
           >
             <Plus className="h-4 w-4" />
             Create First Template
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -274,17 +287,17 @@ export default function InvoiceTemplatesPage() {
                 <div className="flex items-center gap-2">
                   <FileText className="h-5 w-5 text-primary" />
                   <div>
-                    <h3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
+                    <H3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
                       {template.name}
                       {template.is_default && (
-                        <span className="px-2 py-0.5 bg-primary/20 text-primary text-body-xs rounded-badge">
+                        <Text className="px-2 py-0.5 bg-primary/20 text-primary text-body-xs rounded-badge">
                           Default
-                        </span>
+                        </Text>
                       )}
-                    </h3>
-                    <span className={`inline-block px-2 py-0.5 rounded-badge text-body-xs font-weight-medium mt-1 ${getCategoryColor(template.category)}`}>
+                    </H3>
+                    <Text className={`inline-block px-2 py-0.5 rounded-badge text-body-xs font-weight-medium mt-1 ${getCategoryColor(template.category)}`}>
                       {template.category.charAt(0).toUpperCase() + template.category.slice(1)}
-                    </span>
+                    </Text>
                   </div>
                 </div>
                 {template.is_active && (
@@ -292,19 +305,19 @@ export default function InvoiceTemplatesPage() {
                 )}
               </div>
               {template.description && (
-                <p className="text-body-sm text-muted-foreground mb-3">{template.description}</p>
+                <Body className="text-body-sm text-muted-foreground mb-3">{template.description}</Body>
               )}
               <div className="text-body-xs text-muted-foreground mb-4">
                 {template.line_items.length} line items
               </div>
               <div className="flex items-center gap-2 pt-3 border-t border-border">
-                <button
+                <Button
                   onClick={() => duplicateTemplate(template)}
                   className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 text-body-xs hover:bg-muted rounded-button transition-colors"
                 >
                   <Copy className="h-3 w-3" />
                   Copy
-                </button>
+                </Button>
                 <Link
                   href={`/invoices/templates/${template.id}/edit`}
                   className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 text-body-xs hover:bg-muted rounded-button transition-colors"
@@ -312,7 +325,7 @@ export default function InvoiceTemplatesPage() {
                   <Edit2 className="h-3 w-3" />
                   Edit
                 </Link>
-                <button
+                <Button
                   onClick={() => {
                     if (confirm('Delete this template?')) {
                       deleteTemplate.mutate(template.id);
@@ -322,7 +335,7 @@ export default function InvoiceTemplatesPage() {
                 >
                   <Trash2 className="h-3 w-3" />
                   Delete
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -332,10 +345,10 @@ export default function InvoiceTemplatesPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Create Invoice Template
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -352,10 +365,10 @@ export default function InvoiceTemplatesPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Template Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -364,10 +377,10 @@ export default function InvoiceTemplatesPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   placeholder="Template description..."
@@ -375,10 +388,10 @@ export default function InvoiceTemplatesPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Category *
-                </label>
-                <select
+                </Label>
+                <Select
                   name="category"
                   required
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -387,13 +400,13 @@ export default function InvoiceTemplatesPage() {
                   <option value="deposit">Deposit</option>
                   <option value="final">Final</option>
                   <option value="custom">Custom</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Payment Terms
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="terms"
                   rows={2}
                   placeholder="Payment terms..."
@@ -401,22 +414,22 @@ export default function InvoiceTemplatesPage() {
                 />
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createTemplate.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createTemplate.isPending ? 'Creating...' : 'Create Template'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

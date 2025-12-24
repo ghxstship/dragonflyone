@@ -18,6 +18,7 @@ import {
   Body,
   Button,
   Input,
+  Textarea,
   Badge,
   Box,
 } from '@ghxstship/ui';
@@ -112,7 +113,7 @@ export default function IssueCredentialPage() {
                             onClick={() => setSelectedTypeId(type.id)}
                           >
                             <Stack gap={2}>
-                              <Badge style={{ backgroundColor: type.color, color: '#fff' }}>
+                              <Badge variant="solid">
                                 {type.code}
                               </Badge>
                               <Body className="font-weight-semibold">{type.name}</Body>
@@ -195,7 +196,7 @@ export default function IssueCredentialPage() {
                     {/* Notes */}
                     <Stack gap={2}>
                       <H3>Notes (Optional)</H3>
-                      <textarea
+                      <Textarea
                         placeholder="Add any notes about this credential..."
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
@@ -216,7 +217,7 @@ export default function IssueCredentialPage() {
                       <Stack gap={2}>
                         <Body size="sm" className=" text-grey-500">Credential Type</Body>
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <Badge style={{ backgroundColor: selectedType.color, color: '#fff' }}>
+                          <Badge variant="solid">
                             {selectedType.code}
                           </Badge>
                           <Body className="font-weight-semibold">{selectedType.name}</Body>

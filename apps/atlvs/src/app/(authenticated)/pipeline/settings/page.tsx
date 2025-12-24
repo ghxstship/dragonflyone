@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, GripVertical, Settings } from 'lucide-react';
@@ -73,7 +84,7 @@ export default function PipelineSettingsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load pipeline settings</p>
+          <Body className="text-destructive">Failed to load pipeline settings</Body>
         </div>
       </div>
     );
@@ -90,22 +101,22 @@ export default function PipelineSettingsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Settings className="h-6 w-6" />
               Pipeline Settings
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Configure deal stages and probabilities
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowAddForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Add Stage</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">Add Stage</Text>
+        </Button>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card overflow-hidden">
@@ -121,13 +132,13 @@ export default function PipelineSettingsPage() {
         </div>
         {stages.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
-            <p className="text-body-md">No stages configured</p>
-            <button
+            <Body className="text-body-md">No stages configured</Body>
+            <Button
               onClick={() => setShowAddForm(true)}
               className="mt-2 text-primary hover:underline"
             >
               Add your first stage
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -143,7 +154,7 @@ export default function PipelineSettingsPage() {
                 </div>
                 <div className="col-span-4">
                   {editingStage?.id === stage.id ? (
-                    <input
+                    <Input
                       type="text"
                       defaultValue={stage.name}
                       onBlur={(e) => handleUpdateStage(stage, { name: e.target.value })}
@@ -151,9 +162,9 @@ export default function PipelineSettingsPage() {
                       autoFocus
                     />
                   ) : (
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {stage.name}
-                    </span>
+                    </Text>
                   )}
                 </div>
                 <div className="col-span-2">
@@ -163,12 +174,12 @@ export default function PipelineSettingsPage() {
                   />
                 </div>
                 <div className="col-span-2">
-                  <span className="text-body-sm text-muted-foreground">
+                  <Text className="text-body-sm text-muted-foreground">
                     {stage.probability}%
-                  </span>
+                  </Text>
                 </div>
                 <div className="col-span-2">
-                  <button
+                  <Button
                     onClick={() => handleUpdateStage(stage, { is_active: !stage.is_active })}
                     className={`px-2 py-0.5 text-body-xs rounded ${
                       stage.is_active
@@ -177,21 +188,21 @@ export default function PipelineSettingsPage() {
                     }`}
                   >
                     {stage.is_active ? 'Active' : 'Inactive'}
-                  </button>
+                  </Button>
                 </div>
                 <div className="col-span-1 flex items-center gap-1 justify-end">
-                  <button
+                  <Button
                     onClick={() => setEditingStage(stage)}
                     className="p-1 hover:bg-muted rounded transition-colors"
                   >
                     <Edit2 className="h-4 w-4 text-muted-foreground" />
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => handleDeleteStage(stage.id)}
                     className="p-1 hover:bg-destructive/10 rounded transition-colors"
                   >
                     <Trash2 className="h-4 w-4 text-destructive" />
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -202,8 +213,8 @@ export default function PipelineSettingsPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Stage</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Stage</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleCreateStage(new FormData(e.currentTarget));
@@ -211,10 +222,10 @@ export default function PipelineSettingsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Stage Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -223,13 +234,13 @@ export default function PipelineSettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Color
-                </label>
+                </Label>
                 <div className="grid grid-cols-8 gap-2">
                   {STAGE_COLORS.map((c) => (
-                    <label key={c.id} className="cursor-pointer">
-                      <input
+                    <Label key={c.id} className="cursor-pointer">
+                      <Input
                         type="radio"
                         name="color"
                         value={c.color}
@@ -240,15 +251,15 @@ export default function PipelineSettingsPage() {
                         className="w-8 h-8 rounded-avatar border-2 border-border hover:ring-2 hover:ring-primary/50"
                         style={{ backgroundColor: c.color }}
                       />
-                    </label>
+                    </Label>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Win Probability (%)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   name="probability"
                   min="0"
@@ -258,22 +269,22 @@ export default function PipelineSettingsPage() {
                 />
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowAddForm(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createStage.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createStage.isPending ? 'Adding...' : 'Add Stage'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

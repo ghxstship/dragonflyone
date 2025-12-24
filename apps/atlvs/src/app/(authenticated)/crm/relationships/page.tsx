@@ -17,11 +17,10 @@ import {
   type DetailSection,
   type FormFieldConfig,
 } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
-import {
-  DEMO_STAKEHOLDERS,
-  type DemoStakeholder as Stakeholder,
-} from '../../../../lib/demo-data';
+import { createExportHandler, createImportHandler, getImportTemplates, useCrmStakeholders, type CrmStakeholder } from '@ghxstship/config';
+import { DEMO_STAKEHOLDERS } from '../../../../lib/demo-data';
+
+type Stakeholder = CrmStakeholder & { [key: string]: unknown };
 
 const getSentimentVariant = (sentiment: string): "solid" | "outline" | "ghost" => {
   switch (sentiment) {
@@ -55,23 +54,29 @@ const formFields: FormFieldConfig[] = [
 
 export default function RelationshipsPage() {
   const router = useRouter();
-  const [stakeholders, setStakeholders] = useState<Stakeholder[]>(DEMO_STAKEHOLDERS);
+  const { stakeholders: apiStakeholders, summary, isLoading, error, createStakeholderAsync, deleteStakeholdersAsync, refetch } = useCrmStakeholders();
   const [selectedStakeholder, setSelectedStakeholder] = useState<Stakeholder | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
+  // Use API data or fall back to demo data
+  const stakeholders: Stakeholder[] = apiStakeholders.length > 0 ? (apiStakeholders as Stakeholder[]) : (DEMO_STAKEHOLDERS as Stakeholder[]);
+
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newStakeholder: Stakeholder = {
-      id: `STK-${Date.now()}`,
-      name: String(data.name),
-      company: String(data.company),
-      role: String(data.role),
-      influence: (data.influence as Stakeholder['influence']) || 'Medium',
-      sentiment: (data.sentiment as Stakeholder['sentiment']) || 'Neutral',
-      decisionMaker: false,
-    };
-    setStakeholders([...stakeholders, newStakeholder]);
-    setCreateModalOpen(false);
+    try {
+      await createStakeholderAsync({
+        name: String(data.name),
+        company: String(data.company),
+        role: String(data.role),
+        influence: (data.influence as Stakeholder['influence']) || 'Medium',
+        sentiment: (data.sentiment as Stakeholder['sentiment']) || 'Neutral',
+        decisionMaker: false,
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create stakeholder:', err);
+    }
   };
 
   const rowActions: ListPageAction<Stakeholder>[] = [
@@ -80,10 +85,10 @@ export default function RelationshipsPage() {
   ];
 
   const stats = [
-    { label: 'Total Stakeholders', value: stakeholders.length },
-    { label: 'Decision Makers', value: stakeholders.filter(s => s.decisionMaker).length },
-    { label: 'Champions', value: stakeholders.filter(s => s.sentiment === 'Champion').length },
-    { label: 'High Influence', value: stakeholders.filter(s => s.influence === 'High').length },
+    { label: 'Total Stakeholders', value: summary?.total || stakeholders.length },
+    { label: 'Decision Makers', value: summary?.decisionMakers || stakeholders.filter(s => s.decisionMaker).length },
+    { label: 'Champions', value: summary?.champions || stakeholders.filter(s => s.sentiment === 'Champion').length },
+    { label: 'High Influence', value: summary?.highInfluence || stakeholders.filter(s => s.influence === 'High').length },
   ];
 
   const detailSections: DetailSection[] = selectedStakeholder ? [
@@ -143,7 +148,9 @@ export default function RelationshipsPage() {
         data={stakeholders}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search stakeholders..."
         filters={filters}
         rowActions={rowActions}
@@ -175,7 +182,8 @@ export default function RelationshipsPage() {
         emptyAction={{ label: 'Add Stakeholder', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setStakeholders(prev => prev.filter(s => !ids.includes(s.id)));
+            await deleteStakeholdersAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

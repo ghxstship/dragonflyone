@@ -1,22 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
-import { GvtewayLoadingLayout } from "@/components/app-layout";
-import { useMerch } from "../../hooks/useMerch";
 import {
-  H2,
+  Badge,
   Body,
   Button,
-  Badge,
-  Select,
+  Card,
   EmptyState,
   Grid,
-  Stack,
-  Card,
+  H2,
   Kicker,
-} from "@ghxstship/ui";
+  Select,
+  Stack,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { GvtewayLoadingLayout } from "@/components/app-layout";
+import { useMerch } from "../../hooks/useMerch";
 import type { MerchItem } from "../../hooks/useMerch";
 
 // Demo data for unauthenticated users
@@ -62,7 +63,7 @@ export default function MerchPage() {
   const [filterCategory, setFilterCategory] = useState("all");
   const [sortBy, setSortBy] = useState("featured");
 
-  const { data: merchItems, isLoading, error, refetch: _refetch } = useMerch(
+  const { data: merchItems, isLoading, error } = useMerch(
     filterCategory !== "all" ? { category: filterCategory } : undefined
   );
 

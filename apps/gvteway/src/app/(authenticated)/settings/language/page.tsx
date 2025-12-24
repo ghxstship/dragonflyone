@@ -4,26 +4,48 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  H2, H3, Body, Label, Grid, Stack, Button,
-  Card, Badge, Alert, ProgressBar,
-  Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
-} from "@ghxstship/ui";
+  Alert,
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  H2,
+  H3,
+  Kicker,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  ProgressBar,
+  Stack,
+  Text,
+} from '@ghxstship/ui';
 import { Globe, Check } from "lucide-react";
 
-import {
-  DEMO_LANGUAGES,
-  type DemoLanguage as Language,
-} from "@/lib/demo-data";
+import { useLanguageSettings } from "@ghxstship/config";
+import { DEMO_LANGUAGES } from "@/lib/demo-data";
 
-const mockLanguages = DEMO_LANGUAGES;
+interface Language {
+  code: string;
+  name: string;
+  nativeName: string;
+  coverage: number;
+  isDefault?: boolean;
+}
 
 export default function LanguageSettingsPage() {
   const router = useRouter();
+  const { languages: apiLanguages, isLoading } = useLanguageSettings();
   const [selectedLanguage, setSelectedLanguage] = useState("en");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [pendingLanguage, setPendingLanguage] = useState<Language | null>(null);
 
-  const currentLanguage = mockLanguages.find(l => l.code === selectedLanguage);
+  // Use API data or fall back to demo data
+  const languages: Language[] = apiLanguages.length > 0 ? (apiLanguages as unknown as Language[]) : (DEMO_LANGUAGES as unknown as Language[]);
+
+  const currentLanguage = languages.find(l => l.code === selectedLanguage);
 
   const handleLanguageSelect = (lang: Language) => {
     if (lang.code !== selectedLanguage) {
@@ -78,8 +100,13 @@ export default function LanguageSettingsPage() {
                 <Globe className="size-5 text-on-dark-muted" />
                 <H3 className="text-white">Available Languages</H3>
               </Stack>
+              {isLoading && (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-pulse text-muted-foreground">Loading languages...</div>
+                </div>
+              )}
               <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-                {mockLanguages.map((lang) => (
+                {languages.map((lang) => (
                   <Card 
                     key={lang.code} 
                     inverted 
@@ -134,7 +161,7 @@ export default function LanguageSettingsPage() {
                     <Stack gap={1}>
                       {["Event names and descriptions", "Artist names", "Venue information", "User reviews", "Chat messages"].map((item) => (
                         <Stack key={item} direction="horizontal" gap={2}>
-                          <span className="text-on-dark-disabled">•</span>
+                          <Text className="text-on-dark-disabled">•</Text>
                           <Label size="sm" className="text-white">{item}</Label>
                         </Stack>
                       ))}

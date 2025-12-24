@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -12,11 +11,14 @@ import {
   H3,
   StatCard,
   ProgressBar,
+  Skeleton,
+  Button,
 } from '@ghxstship/ui';
-import { DollarSign, TrendingUp, PieChart, Calendar } from 'lucide-react';
+import { DollarSign, TrendingUp, PieChart, Calendar, AlertCircle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { useInvestors, type Investor } from '@ghxstship/config';
 
-interface Investment {
+interface DisplayInvestment {
   id: string;
   name: string;
   type: 'equity' | 'convertible' | 'revenue_share';
@@ -28,7 +30,7 @@ interface Investment {
   nextDistribution: string | null;
 }
 
-const DEMO_INVESTMENTS: Investment[] = [
+const DEMO_INVESTMENTS: DisplayInvestment[] = [
   {
     id: '1',
     name: 'Series A - Live Events Platform',
@@ -51,28 +53,6 @@ const DEMO_INVESTMENTS: Investment[] = [
     returnRate: 8,
     nextDistribution: null,
   },
-  {
-    id: '3',
-    name: 'Revenue Share - Venue Network',
-    type: 'revenue_share',
-    amount: 75000,
-    date: '2023-09-01',
-    status: 'active',
-    currentValue: 82500,
-    returnRate: 10,
-    nextDistribution: '2025-03-01',
-  },
-  {
-    id: '4',
-    name: 'Seed Round - Ticketing Startup',
-    type: 'equity',
-    amount: 50000,
-    date: '2022-03-20',
-    status: 'exited',
-    currentValue: 125000,
-    returnRate: 150,
-    nextDistribution: null,
-  },
 ];
 
 const typeLabels: Record<string, string> = {
@@ -88,12 +68,65 @@ const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> =
 };
 
 export default function MyInvestmentsPage() {
-  const [investments] = useState<Investment[]>(DEMO_INVESTMENTS);
+  const { investors: apiInvestors, isLoading, error, refetch } = useInvestors();
+
+  // Map API investors to display format or fall back to demo data
+  const investments: DisplayInvestment[] = apiInvestors.length > 0
+    ? apiInvestors.map((i: Investor) => ({
+        id: i.id,
+        name: i.name || i.contact_name || 'Investment',
+        type: (i.investor_type === 'individual' ? 'equity' : i.investor_type === 'entity' ? 'convertible' : 'revenue_share') as DisplayInvestment['type'],
+        amount: i.investment_amount || 0,
+        date: i.created_at,
+        status: (i.status === 'funded' ? 'active' : i.status === 'exited' ? 'exited' : 'pending') as DisplayInvestment['status'],
+        currentValue: (i.investment_amount || 0) * 1.1, // Placeholder calculation
+        returnRate: 10, // Placeholder
+        nextDistribution: null,
+      }))
+    : DEMO_INVESTMENTS;
 
   const totalInvested = investments.reduce((sum, i) => sum + i.amount, 0);
   const totalValue = investments.reduce((sum, i) => sum + i.currentValue, 0);
-  const totalReturn = ((totalValue - totalInvested) / totalInvested) * 100;
+  const totalReturn = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
   const activeCount = investments.filter((i) => i.status === 'active').length;
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Investor Portal" title="My Investments" description="Track your investment portfolio and returns" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Investor Portal" title="My Investments" description="Track your investment portfolio and returns" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Investments</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

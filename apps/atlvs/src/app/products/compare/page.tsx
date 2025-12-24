@@ -1,19 +1,25 @@
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
+  Box,
+  Button,
+  Card,
+  Container,
+  Display,
+  FullBleedSection,
+  Grid,
   H1,
   H3,
   Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
-  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Text,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import { Check, Minus, ArrowRight, Ticket, Users, Briefcase, X } from "lucide-react";
 import NextLink from "next/link";
 
@@ -81,34 +87,34 @@ export default function ComparePage() {
           <Stack gap={8}>
             <H1 className="text-ink-950 text-center">ALL TIERS AT A GLANCE</H1>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[800px]">
-                <thead>
-                  <tr className="border-b-2 border-ink-950">
-                    <th className="pb-4 text-left font-display text-h6-md uppercase text-ink-950">Tier</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Price</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-yellow">GVTE</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">COMP</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">ATLVS</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Fee</th>
-                    <th className="pb-4 text-left font-display text-h6-md uppercase text-grey-500">BYO</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950"></th>
-                  </tr>
-                </thead>
-                <tbody>
+              <Table className="w-full min-w-[800px]">
+                <TableHeader>
+                  <TableRow className="border-b-2 border-ink-950">
+                    <TableHead className="pb-4 text-left font-display text-h6-md uppercase text-ink-950">Tier</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Price</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-yellow">GVTE</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">COMP</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">ATLVS</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">Fee</TableHead>
+                    <TableHead className="pb-4 text-left font-display text-h6-md uppercase text-grey-500">BYO</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-ink-950"></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {tiers.map((tier) => (
-                    <tr key={tier.id} className={`border-t border-grey-100 ${tier.popular ? 'bg-brand-pink/5' : ''}`}>
-                      <td className="py-4">
+                    <TableRow key={tier.id} className={`border-t border-grey-100 ${tier.popular ? 'bg-brand-pink/5' : ''}`}>
+                      <TableCell className="py-4">
                         <Stack gap={1}>
                           <Text size="sm" className="font-weight-semibold text-ink-950">{tier.name}</Text>
                           {tier.popular && <Label size="xs" className="text-brand-pink">MOST POPULAR</Label>}
                         </Stack>
-                      </td>
-                      <td className="py-4 text-center"><Text size="sm" className="text-ink-950 font-weight-semibold">{tier.price}</Text></td>
-                      <td className="py-4 text-center">{tier.products[0] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
-                      <td className="py-4 text-center">{tier.products[1] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
-                      <td className="py-4 text-center">{tier.products[2] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</td>
-                      <td className="py-4 text-center"><Text size="sm" className={tier.fee === '2.0%' ? 'text-success font-weight-semibold' : 'text-grey-600'}>{tier.fee}</Text></td>
-                      <td className="py-4">
+                      </TableCell>
+                      <TableCell className="py-4 text-center"><Text size="sm" className="text-ink-950 font-weight-semibold">{tier.price}</Text></TableCell>
+                      <TableCell className="py-4 text-center">{tier.products[0] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</TableCell>
+                      <TableCell className="py-4 text-center">{tier.products[1] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</TableCell>
+                      <TableCell className="py-4 text-center">{tier.products[2] ? <Check className="h-5 w-5 text-success mx-auto" /> : <Minus className="h-5 w-5 text-grey-300 mx-auto" />}</TableCell>
+                      <TableCell className="py-4 text-center"><Text size="sm" className={tier.fee === '2.0%' ? 'text-success font-weight-semibold' : 'text-grey-600'}>{tier.fee}</Text></TableCell>
+                      <TableCell className="py-4">
                         {tier.byo.length > 0 ? (
                           <Stack direction="horizontal" gap={2} className="flex-wrap">
                             {tier.byo.map((item) => (
@@ -121,18 +127,18 @@ export default function ComparePage() {
                         ) : (
                           <Text size="xs" className="text-success">Nothing—full stack</Text>
                         )}
-                      </td>
-                      <td className="py-4 text-center">
+                      </TableCell>
+                      <TableCell className="py-4 text-center">
                         <NextLink href={tier.id === 'enterprise' ? '/contact?plan=enterprise' : `/auth/signup?plan=${tier.id}`}>
                           <Button variant={tier.popular ? "pop" : "outline"} size="sm">
                             {tier.id === 'enterprise' ? 'Contact' : 'Start'}
                           </Button>
                         </NextLink>
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
           </Stack>
         </Container>

@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Calendar, DollarSign, Edit2, Trash2, AlertCircle, CheckCircle, Clock, XCircle } from 'lucide-react';
@@ -186,13 +199,13 @@ export default function PaymentPlansPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load payment plans</p>
-          <button
+          <Body className="text-destructive">Failed to load payment plans</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['payment-plans'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -209,62 +222,62 @@ export default function PaymentPlansPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Payment Plans</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Payment Plans</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage installment payment plans for bookings
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Plan</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">New Plan</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Active Plans</span>
+            <Text className="text-body-sm text-muted-foreground">Active Plans</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {plans.filter((p) => p.status === 'active').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Total Receivable</span>
+            <Text className="text-body-sm text-muted-foreground">Total Receivable</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             ${totalReceivable.toLocaleString()}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <XCircle className="h-5 w-5 text-destructive" />
-            <span className="text-body-sm text-muted-foreground">Overdue</span>
+            <Text className="text-body-sm text-muted-foreground">Overdue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-destructive">
+          <Body className="text-h3-md font-weight-bold text-destructive">
             ${overdueAmount.toLocaleString()}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Completed</span>
+            <Text className="text-body-sm text-muted-foreground">Completed</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-secondary">
+          <Body className="text-h3-md font-weight-bold text-secondary">
             {plans.filter((p) => p.status === 'completed').length}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
@@ -274,25 +287,25 @@ export default function PaymentPlansPage() {
           <option value="completed">Completed</option>
           <option value="draft">Draft</option>
           <option value="cancelled">Cancelled</option>
-        </select>
+        </Select>
       </div>
 
       {filteredPlans.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No payment plans
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create payment plans to offer flexible payment options
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
           >
             <Plus className="h-4 w-4" />
             Create First Plan
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
@@ -305,20 +318,20 @@ export default function PaymentPlansPage() {
                 <div className="flex items-start justify-between">
                   <div>
                     <div className="flex items-center gap-3 mb-1">
-                      <h3 className="text-body-lg font-weight-semibold text-foreground">
+                      <H3 className="text-body-lg font-weight-semibold text-foreground">
                         {plan.name}
-                      </h3>
-                      <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${getStatusColor(plan.status)}`}>
+                      </H3>
+                      <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${getStatusColor(plan.status)}`}>
                         {plan.status.charAt(0).toUpperCase() + plan.status.slice(1)}
-                      </span>
+                      </Text>
                     </div>
                     {plan.booking_name && (
-                      <p className="text-body-sm text-muted-foreground">
+                      <Body className="text-body-sm text-muted-foreground">
                         Booking: {plan.booking_name}
-                      </p>
+                      </Body>
                     )}
                     {plan.description && (
-                      <p className="text-body-xs text-muted-foreground mt-1">{plan.description}</p>
+                      <Body className="text-body-xs text-muted-foreground mt-1">{plan.description}</Body>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
@@ -328,7 +341,7 @@ export default function PaymentPlansPage() {
                     >
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
                     </Link>
-                    <button
+                    <Button
                       onClick={() => {
                         if (confirm('Delete this payment plan?')) {
                           deletePlan.mutate(plan.id);
@@ -337,18 +350,18 @@ export default function PaymentPlansPage() {
                       className="p-2 hover:bg-destructive/10 rounded-button transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-body-sm text-muted-foreground">
-                    Total: <span className="font-weight-semibold text-foreground">${plan.total_amount.toLocaleString()}</span>
-                  </span>
-                  <span className="text-body-sm text-muted-foreground">
+                  <Text className="text-body-sm text-muted-foreground">
+                    Total: <Text className="font-weight-semibold text-foreground">${plan.total_amount.toLocaleString()}</Text>
+                  </Text>
+                  <Text className="text-body-sm text-muted-foreground">
                     {plan.installments.filter((i) => i.status === 'paid').length} of {plan.installments.length} paid
-                  </span>
+                  </Text>
                 </div>
                 <div className="space-y-2">
                   {plan.installments.map((installment, index) => (
@@ -363,21 +376,21 @@ export default function PaymentPlansPage() {
                       <div className="flex items-center gap-3">
                         {getStatusIcon(installment.status)}
                         <div>
-                          <p className="text-body-sm font-weight-medium text-foreground">
+                          <Body className="text-body-sm font-weight-medium text-foreground">
                             Installment {index + 1}
-                          </p>
-                          <p className="text-body-xs text-muted-foreground">
+                          </Body>
+                          <Body className="text-body-xs text-muted-foreground">
                             Due: {new Date(installment.due_date).toLocaleDateString()}
-                          </p>
+                          </Body>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-body-sm font-weight-semibold text-foreground">
+                        <Body className="text-body-sm font-weight-semibold text-foreground">
                           ${installment.amount.toLocaleString()}
-                        </p>
-                        <p className="text-body-xs text-muted-foreground capitalize">
+                        </Body>
+                        <Body className="text-body-xs text-muted-foreground capitalize">
                           {installment.status}
-                        </p>
+                        </Body>
                       </div>
                     </div>
                   ))}
@@ -391,10 +404,10 @@ export default function PaymentPlansPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Create Payment Plan
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -419,10 +432,10 @@ export default function PaymentPlansPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Plan Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -431,10 +444,10 @@ export default function PaymentPlansPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   placeholder="Plan description..."
@@ -443,10 +456,10 @@ export default function PaymentPlansPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Total Amount *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="total_amount"
                     required
@@ -457,10 +470,10 @@ export default function PaymentPlansPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Installments *
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="num_installments"
                     required
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -470,26 +483,26 @@ export default function PaymentPlansPage() {
                     <option value="4">4 Installments</option>
                     <option value="6">6 Installments</option>
                     <option value="12">12 Installments</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createPlan.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createPlan.isPending ? 'Creating...' : 'Create Plan'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

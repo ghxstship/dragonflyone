@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -74,9 +85,9 @@ export default function NewPreferredVendorPage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h1 className="text-h3-md font-weight-bold text-foreground mb-6">
+        <H1 className="text-h3-md font-weight-bold text-foreground mb-6">
           Add Preferred Vendor
-        </h1>
+        </H1>
 
         {errors.submit && (
           <div className="mb-6 p-4 bg-destructive/10 border-2 border-destructive rounded-card text-destructive text-body-sm">
@@ -84,12 +95,12 @@ export default function NewPreferredVendorPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Vendor *
-            </label>
-            <select
+            </Label>
+            <Select
               value={formData.vendor_id}
               onChange={(e) => setFormData({ ...formData, vendor_id: e.target.value })}
               disabled={vendorsLoading}
@@ -101,17 +112,17 @@ export default function NewPreferredVendorPage() {
                   {vendor.name}
                 </option>
               ))}
-            </select>
+            </Select>
             {errors.vendor_id && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.vendor_id}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.vendor_id}</Body>
             )}
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Category *
-            </label>
-            <select
+            </Label>
+            <Select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -126,18 +137,18 @@ export default function NewPreferredVendorPage() {
                   ))}
                 </optgroup>
               ))}
-            </select>
+            </Select>
             {errors.category && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.category}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.category}</Body>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Priority
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 min="1"
                 value={formData.priority}
@@ -146,16 +157,16 @@ export default function NewPreferredVendorPage() {
                 }
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
-              <p className="mt-1 text-body-xs text-muted-foreground">
+              <Body className="mt-1 text-body-xs text-muted-foreground">
                 1 = highest priority
-              </p>
+              </Body>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Negotiated Discount (%)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 min="0"
                 max="100"
@@ -172,10 +183,10 @@ export default function NewPreferredVendorPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Valid From
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.valid_from}
                 onChange={(e) => setFormData({ ...formData, valid_from: e.target.value })}
@@ -184,10 +195,10 @@ export default function NewPreferredVendorPage() {
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Valid Until
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.valid_to}
                 onChange={(e) => setFormData({ ...formData, valid_to: e.target.value })}
@@ -197,10 +208,10 @@ export default function NewPreferredVendorPage() {
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Notes
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={3}
               placeholder="Any special terms, conditions, or notes..."
               value={formData.notes}
@@ -216,16 +227,16 @@ export default function NewPreferredVendorPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Adding...' : 'Add Preferred Vendor'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

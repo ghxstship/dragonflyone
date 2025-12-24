@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Key, Copy, Trash2, Eye, EyeOff, AlertCircle, Clock, CheckCircle } from 'lucide-react';
@@ -135,13 +146,13 @@ export default function ApiKeysPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load API keys</p>
-          <button
+          <Body className="text-destructive">Failed to load API keys</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['api-keys'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -158,30 +169,30 @@ export default function ApiKeysPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">API Keys</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">API Keys</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage API keys for third-party integrations
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => { setSelectedScopes([]); setShowCreateModal(true); }}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Generate Key</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">Generate Key</Text>
+        </Button>
       </div>
 
       <div className="bg-warning/10 border-2 border-warning rounded-card p-4">
         <div className="flex items-start gap-3">
           <AlertCircle className="h-5 w-5 text-warning mt-0.5" />
           <div>
-            <p className="text-body-sm font-weight-medium text-foreground">Security Notice</p>
-            <p className="text-body-xs text-muted-foreground mt-1">
+            <Body className="text-body-sm font-weight-medium text-foreground">Security Notice</Body>
+            <Body className="text-body-xs text-muted-foreground mt-1">
               API keys provide access to your account. Keep them secure and never share them publicly.
               Revoke any keys that may have been compromised.
-            </p>
+            </Body>
           </div>
         </div>
       </div>
@@ -189,19 +200,19 @@ export default function ApiKeysPage() {
       {apiKeys.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Key className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No API keys
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Generate an API key to integrate with external services
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
           >
             <Plus className="h-4 w-4" />
             Generate First Key
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
@@ -220,12 +231,12 @@ export default function ApiKeysPage() {
                     <Key className={`h-5 w-5 ${key.is_active ? 'text-primary' : 'text-destructive'}`} />
                   </div>
                   <div>
-                    <p className="text-body-md font-weight-semibold text-foreground">{key.name}</p>
+                    <Body className="text-body-md font-weight-semibold text-foreground">{key.name}</Body>
                     <div className="flex items-center gap-2 mt-1">
                       <code className="text-body-xs bg-muted px-2 py-0.5 rounded font-mono">
                         {showKey[key.id] ? `atlvs_****_${key.id.slice(-8)}` : key.key_prefix}
                       </code>
-                      <button
+                      <Button
                         onClick={() => setShowKey((prev) => ({ ...prev, [key.id]: !prev[key.id] }))}
                         className="p-1 hover:bg-muted rounded transition-colors"
                       >
@@ -234,58 +245,58 @@ export default function ApiKeysPage() {
                         ) : (
                           <Eye className="h-3 w-3 text-muted-foreground" />
                         )}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => copyToClipboard(key.key_prefix)}
                         className="p-1 hover:bg-muted rounded transition-colors"
                       >
                         <Copy className="h-3 w-3 text-muted-foreground" />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {key.is_active ? (
-                    <span className="flex items-center gap-1 px-2 py-1 bg-success/20 text-success text-body-xs rounded-badge">
+                    <Text className="flex items-center gap-1 px-2 py-1 bg-success/20 text-success text-body-xs rounded-badge">
                       <CheckCircle className="h-3 w-3" />
                       Active
-                    </span>
+                    </Text>
                   ) : (
-                    <span className="px-2 py-1 bg-destructive/20 text-destructive text-body-xs rounded-badge">
+                    <Text className="px-2 py-1 bg-destructive/20 text-destructive text-body-xs rounded-badge">
                       Revoked
-                    </span>
+                    </Text>
                   )}
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-1 mb-3">
                 {key.scopes.map((scope) => (
-                  <span
+                  <Text
                     key={scope}
                     className="px-2 py-0.5 bg-muted text-muted-foreground text-body-xs rounded-badge"
                   >
                     {scope}
-                  </span>
+                  </Text>
                 ))}
               </div>
 
               <div className="flex items-center justify-between pt-3 border-t border-border">
                 <div className="flex items-center gap-4 text-body-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
+                  <Text className="flex items-center gap-1">
                     <Clock className="h-3 w-3" />
                     Created: {new Date(key.created_at).toLocaleDateString()}
-                  </span>
+                  </Text>
                   {key.last_used_at && (
-                    <span>Last used: {new Date(key.last_used_at).toLocaleDateString()}</span>
+                    <Text>Last used: {new Date(key.last_used_at).toLocaleDateString()}</Text>
                   )}
                   {key.expires_at && (
-                    <span className="text-warning">
+                    <Text className="text-warning">
                       Expires: {new Date(key.expires_at).toLocaleDateString()}
-                    </span>
+                    </Text>
                   )}
                 </div>
                 {key.is_active && (
-                  <button
+                  <Button
                     onClick={() => {
                       if (confirm('Revoke this API key? This action cannot be undone.')) {
                         revokeKey.mutate(key.id);
@@ -295,7 +306,7 @@ export default function ApiKeysPage() {
                   >
                     <Trash2 className="h-3 w-3" />
                     Revoke
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>
@@ -308,38 +319,38 @@ export default function ApiKeysPage() {
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
             {newKeyValue ? (
               <>
-                <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+                <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
                   API Key Generated
-                </h3>
+                </H3>
                 <div className="bg-success/10 border-2 border-success rounded-card p-4 mb-4">
-                  <p className="text-body-sm text-success mb-2">
+                  <Body className="text-body-sm text-success mb-2">
                     Copy your API key now. You will not be able to see it again.
-                  </p>
+                  </Body>
                   <div className="flex items-center gap-2">
                     <code className="flex-1 text-body-sm bg-background p-2 rounded font-mono break-all">
                       {newKeyValue}
                     </code>
-                    <button
+                    <Button
                       onClick={() => copyToClipboard(newKeyValue)}
                       className="p-2 bg-success text-success-foreground rounded-button"
                     >
                       <Copy className="h-4 w-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
-                <button
+                <Button
                   onClick={() => { setShowCreateModal(false); setNewKeyValue(null); }}
                   className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-button"
                 >
                   Done
-                </button>
+                </Button>
               </>
             ) : (
               <>
-                <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+                <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
                   Generate API Key
-                </h3>
-                <form
+                </H3>
+                <Form
                   onSubmit={(e) => {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
@@ -352,10 +363,10 @@ export default function ApiKeysPage() {
                   className="space-y-4"
                 >
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                       Key Name *
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       name="name"
                       required
@@ -364,56 +375,56 @@ export default function ApiKeysPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                    <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                       Scopes *
-                    </label>
+                    </Label>
                     <div className="space-y-2 max-h-48 overflow-y-auto">
                       {AVAILABLE_SCOPES.map((scope) => (
-                        <label
+                        <Label
                           key={scope.id}
                           className="flex items-start gap-3 p-2 border-2 border-border rounded-button cursor-pointer hover:bg-muted/50"
                         >
-                          <input
+                          <Input
                             type="checkbox"
                             checked={selectedScopes.includes(scope.id)}
                             onChange={() => toggleScope(scope.id)}
                             className="mt-0.5 w-4 h-4 border-2 border-border rounded"
                           />
                           <div>
-                            <p className="text-body-sm font-weight-medium text-foreground">{scope.name}</p>
-                            <p className="text-body-xs text-muted-foreground">{scope.description}</p>
+                            <Body className="text-body-sm font-weight-medium text-foreground">{scope.name}</Body>
+                            <Body className="text-body-xs text-muted-foreground">{scope.description}</Body>
                           </div>
-                        </label>
+                        </Label>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                       Expiration Date (Optional)
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="date"
                       name="expires_at"
                       className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                     />
                   </div>
                   <div className="flex items-center justify-end gap-3 pt-4">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setShowCreateModal(false)}
                       className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                     >
                       Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="submit"
                       disabled={createKey.isPending || selectedScopes.length === 0}
                       className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                     >
                       {createKey.isPending ? 'Generating...' : 'Generate Key'}
-                    </button>
+                    </Button>
                   </div>
-                </form>
+                </Form>
               </>
             )}
           </div>

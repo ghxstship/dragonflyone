@@ -3,18 +3,19 @@
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
-  SectionHeader,
+  Badge,
+  Body,
+  Button,
   Card,
   CardBody,
+  Checkbox,
+  Grid,
+  H3,
+  Icon,
+  ProgressBar,
+  SectionHeader,
   Stack,
   StatCard,
-  Button,
-  Badge,
-  Grid,
-  Body,
-  H3,
-  Checkbox,
-  ProgressBar,
 } from '@ghxstship/ui';
 import {
   CheckCircle,

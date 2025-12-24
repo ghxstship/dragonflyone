@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase, fromDynamic } from '@/lib/supabase';
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   description?: string;

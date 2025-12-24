@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -175,9 +187,9 @@ export default function NewVendorOrderPage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h1 className="text-h3-md font-weight-bold text-foreground mb-6">
+        <H1 className="text-h3-md font-weight-bold text-foreground mb-6">
           Create Vendor Order
-        </h1>
+        </H1>
 
         {errors.submit && (
           <div className="mb-6 p-4 bg-destructive/10 border-2 border-destructive rounded-card text-destructive text-body-sm">
@@ -185,13 +197,13 @@ export default function NewVendorOrderPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Vendor *
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.vendor_profile_id}
                 onChange={(e) => setFormData({ ...formData, vendor_profile_id: e.target.value })}
                 disabled={vendorsLoading}
@@ -203,17 +215,17 @@ export default function NewVendorOrderPage() {
                     {vendor.name}
                   </option>
                 ))}
-              </select>
+              </Select>
               {errors.vendor && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.vendor}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.vendor}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Payment Terms
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.payment_terms}
                 onChange={(e) => setFormData({ ...formData, payment_terms: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -224,16 +236,16 @@ export default function NewVendorOrderPage() {
                 <option value="Net 45">Net 45</option>
                 <option value="Net 60">Net 60</option>
                 <option value="50% Deposit">50% Deposit</option>
-              </select>
+              </Select>
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Delivery Date
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.delivery_date}
                 onChange={(e) => setFormData({ ...formData, delivery_date: e.target.value })}
@@ -242,10 +254,10 @@ export default function NewVendorOrderPage() {
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Delivery Time
-              </label>
-              <input
+              </Label>
+              <Input
                 type="time"
                 value={formData.delivery_time}
                 onChange={(e) => setFormData({ ...formData, delivery_time: e.target.value })}
@@ -254,10 +266,10 @@ export default function NewVendorOrderPage() {
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Delivery Location
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="e.g. Main Stage, Loading Dock A"
                 value={formData.delivery_location}
@@ -269,21 +281,21 @@ export default function NewVendorOrderPage() {
 
           <div>
             <div className="flex items-center justify-between mb-4">
-              <label className="text-body-sm font-weight-medium text-foreground">
+              <Label className="text-body-sm font-weight-medium text-foreground">
                 Order Items *
-              </label>
-              <button
+              </Label>
+              <Button
                 type="button"
                 onClick={addItem}
                 className="inline-flex items-center gap-1 text-body-sm text-primary hover:text-primary/80"
               >
                 <Plus className="h-4 w-4" />
                 Add Item
-              </button>
+              </Button>
             </div>
 
             {errors.items && (
-              <p className="mb-2 text-body-xs text-destructive">{errors.items}</p>
+              <Body className="mb-2 text-body-xs text-destructive">{errors.items}</Body>
             )}
 
             <div className="space-y-3">
@@ -294,7 +306,7 @@ export default function NewVendorOrderPage() {
                 >
                   <div className="col-span-4">
                     {catalogData?.items && catalogData.items.length > 0 ? (
-                      <select
+                      <Select
                         value={item.catalog_item_id || ''}
                         onChange={(e) => selectCatalogItem(item.id, e.target.value)}
                         className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm"
@@ -305,9 +317,9 @@ export default function NewVendorOrderPage() {
                             {ci.name} - {formatCurrency(ci.base_price || 0)}
                           </option>
                         ))}
-                      </select>
+                      </Select>
                     ) : (
-                      <input
+                      <Input
                         type="text"
                         placeholder="Item name"
                         value={item.name}
@@ -317,7 +329,7 @@ export default function NewVendorOrderPage() {
                     )}
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       min="0.01"
                       step="0.01"
@@ -328,7 +340,7 @@ export default function NewVendorOrderPage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       min="0"
                       step="0.01"
@@ -339,7 +351,7 @@ export default function NewVendorOrderPage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       min="0"
                       max="100"
@@ -353,14 +365,14 @@ export default function NewVendorOrderPage() {
                     {formatCurrency(calculateItemTotal(item))}
                   </div>
                   <div className="col-span-1 flex items-center justify-end">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => removeItem(item.id)}
                       disabled={items.length === 1}
                       className="p-2 text-destructive hover:bg-destructive/10 rounded-button transition-colors disabled:opacity-30"
                     >
                       <Trash2 className="h-4 w-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -370,25 +382,25 @@ export default function NewVendorOrderPage() {
           <div className="flex justify-end">
             <div className="w-64 space-y-2 p-4 bg-muted/50 rounded-card">
               <div className="flex justify-between text-body-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-weight-medium">{formatCurrency(subtotal)}</span>
+                <Text className="text-muted-foreground">Subtotal</Text>
+                <Text className="font-weight-medium">{formatCurrency(subtotal)}</Text>
               </div>
               <div className="flex justify-between text-body-sm">
-                <span className="text-muted-foreground">Tax</span>
-                <span className="font-weight-medium">{formatCurrency(taxAmount)}</span>
+                <Text className="text-muted-foreground">Tax</Text>
+                <Text className="font-weight-medium">{formatCurrency(taxAmount)}</Text>
               </div>
               <div className="flex justify-between text-h4-md font-weight-bold border-t border-border pt-2">
-                <span>Total</span>
-                <span>{formatCurrency(total)}</span>
+                <Text>Total</Text>
+                <Text>{formatCurrency(total)}</Text>
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Special Instructions
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={3}
               placeholder="Any special delivery or handling instructions..."
               value={formData.special_instructions}
@@ -404,16 +416,16 @@ export default function NewVendorOrderPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Order'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

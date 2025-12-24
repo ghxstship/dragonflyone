@@ -45,6 +45,130 @@ module.exports = {
     // custom classes that the plugin cannot validate. The design system itself
     // enforces consistency through component APIs and TypeScript types.
     
+    // ────────────────────────────────────────────────────────────────────
+    // RAW HTML ELEMENT PROHIBITION
+    // All UI must use design system components from packages/ui
+    // ────────────────────────────────────────────────────────────────────
+    "react/forbid-elements": ["error", {
+      "forbid": [
+        {
+          "element": "button",
+          "message": "Use <Button> from @ghxstship/ui instead of raw <button>. Import: import { Button } from '@ghxstship/ui';"
+        },
+        {
+          "element": "select",
+          "message": "Use <Select> from @ghxstship/ui instead of raw <select>. Import: import { Select } from '@ghxstship/ui';"
+        },
+        {
+          "element": "table",
+          "message": "Use <Table> or <DataTable> from @ghxstship/ui instead of raw <table>. Import: import { Table, DataTable } from '@ghxstship/ui';"
+        },
+        {
+          "element": "thead",
+          "message": "Use <TableHeader> from @ghxstship/ui instead of raw <thead>. Import: import { TableHeader } from '@ghxstship/ui';"
+        },
+        {
+          "element": "tbody",
+          "message": "Use <TableBody> from @ghxstship/ui instead of raw <tbody>. Import: import { TableBody } from '@ghxstship/ui';"
+        },
+        {
+          "element": "tr",
+          "message": "Use <TableRow> from @ghxstship/ui instead of raw <tr>. Import: import { TableRow } from '@ghxstship/ui';"
+        },
+        {
+          "element": "th",
+          "message": "Use <TableHead> from @ghxstship/ui instead of raw <th>. Import: import { TableHead } from '@ghxstship/ui';"
+        },
+        {
+          "element": "td",
+          "message": "Use <TableCell> from @ghxstship/ui instead of raw <td>. Import: import { TableCell } from '@ghxstship/ui';"
+        },
+        {
+          "element": "input",
+          "message": "Use <Input>, <Checkbox>, <Radio>, or <Switch> from @ghxstship/ui instead of raw <input>. Import: import { Input, Checkbox, Radio, Switch } from '@ghxstship/ui';"
+        },
+        {
+          "element": "textarea",
+          "message": "Use <Textarea> from @ghxstship/ui instead of raw <textarea>. Import: import { Textarea } from '@ghxstship/ui';"
+        },
+        {
+          "element": "label",
+          "message": "Use <Label> from @ghxstship/ui instead of raw <label>. Import: import { Label } from '@ghxstship/ui';"
+        },
+        {
+          "element": "a",
+          "message": "Use <Link> from @ghxstship/ui or next/link instead of raw <a>. Import: import { Link } from '@ghxstship/ui'; or import Link from 'next/link';"
+        },
+        {
+          "element": "ul",
+          "message": "Use <List> from @ghxstship/ui instead of raw <ul>. Import: import { List, ListItem } from '@ghxstship/ui';"
+        },
+        {
+          "element": "ol",
+          "message": "Use <List> from @ghxstship/ui instead of raw <ol>. Import: import { List, ListItem } from '@ghxstship/ui';"
+        },
+        {
+          "element": "li",
+          "message": "Use <ListItem> from @ghxstship/ui instead of raw <li>. Import: import { ListItem } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h1",
+          "message": "Use <H1> from @ghxstship/ui instead of raw <h1>. Import: import { H1 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h2",
+          "message": "Use <H2> from @ghxstship/ui instead of raw <h2>. Import: import { H2 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h3",
+          "message": "Use <H3> from @ghxstship/ui instead of raw <h3>. Import: import { H3 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h4",
+          "message": "Use <H4> from @ghxstship/ui instead of raw <h4>. Import: import { H4 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h5",
+          "message": "Use <H5> from @ghxstship/ui instead of raw <h5>. Import: import { H5 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "h6",
+          "message": "Use <H6> from @ghxstship/ui instead of raw <h6>. Import: import { H6 } from '@ghxstship/ui';"
+        },
+        {
+          "element": "p",
+          "message": "Use <Body> or <Text> from @ghxstship/ui instead of raw <p>. Import: import { Body, Text } from '@ghxstship/ui';"
+        },
+        {
+          "element": "span",
+          "message": "Use <Text> or <Badge> from @ghxstship/ui instead of raw <span>. Import: import { Text, Badge } from '@ghxstship/ui';"
+        },
+        {
+          "element": "form",
+          "message": "Use <Form> from @ghxstship/ui instead of raw <form>. Import: import { Form } from '@ghxstship/ui';"
+        },
+        {
+          "element": "img",
+          "message": "Use next/image <Image> component instead of raw <img>. Import: import Image from 'next/image';"
+        },
+        {
+          "element": "hr",
+          "message": "Use <Divider> from @ghxstship/ui instead of raw <hr>. Import: import { Divider } from '@ghxstship/ui';"
+        }
+      ]
+    }],
+    
+    // Inline styles warning - prefer design system tokens but allow for dynamic values
+    // Dynamic values like progress bar widths, chart colors, etc. legitimately need inline styles
+    "react/forbid-component-props": ["warn", {
+      "forbid": [
+        {
+          "propName": "style",
+          "message": "Prefer design system className tokens. Inline styles acceptable only for dynamic values (width %, colors from data)."
+        }
+      ]
+    }],
+    
     // TypeScript rules
     "@typescript-eslint/no-unused-vars": ["warn", {
       "argsIgnorePattern": "^_",
@@ -196,11 +320,13 @@ module.exports = {
   ],
   overrides: [
     {
-      // Design system UI components can use raw Tailwind internally
+      // Design system UI components can use raw HTML elements internally
       // These are the source of truth for the design system
       files: ["packages/ui/src/**/*.{ts,tsx}"],
       rules: {
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        "react/forbid-elements": "off",
+        "react/forbid-component-props": "off"
       }
     },
     {

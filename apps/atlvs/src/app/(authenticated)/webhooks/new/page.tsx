@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Link,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Webhook } from 'lucide-react';
@@ -92,13 +105,13 @@ export default function NewWebhookPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6">
-        <a
+        <Link
           href="/webhooks"
           className="inline-flex items-center gap-2 text-body-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Webhooks
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
@@ -107,10 +120,10 @@ export default function NewWebhookPage() {
             <Webhook className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Webhook</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Webhook</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Send event notifications to external systems
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -120,12 +133,12 @@ export default function NewWebhookPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Webhook Name *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               placeholder="e.g. Slack Notifications"
               value={formData.name}
@@ -133,15 +146,15 @@ export default function NewWebhookPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.name && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.name}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.name}</Body>
             )}
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Endpoint URL *
-            </label>
-            <input
+            </Label>
+            <Input
               type="url"
               placeholder="https://example.com/webhook"
               value={formData.url}
@@ -149,34 +162,34 @@ export default function NewWebhookPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.url && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.url}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.url}</Body>
             )}
-            <p className="mt-1 text-body-xs text-muted-foreground">
+            <Body className="mt-1 text-body-xs text-muted-foreground">
               Must be a valid HTTPS URL
-            </p>
+            </Body>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Secret (Optional)
-            </label>
-            <input
+            </Label>
+            <Input
               type="password"
               placeholder="Webhook signing secret"
               value={formData.secret}
               onChange={(e) => setFormData({ ...formData, secret: e.target.value })}
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
-            <p className="mt-1 text-body-xs text-muted-foreground">
+            <Body className="mt-1 text-body-xs text-muted-foreground">
               Used to sign webhook payloads for verification
-            </p>
+            </Body>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Events *</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Events *</H2>
               {errors.events && (
-                <span className="text-body-xs text-destructive">{errors.events}</span>
+                <Text className="text-body-xs text-destructive">{errors.events}</Text>
               )}
             </div>
 
@@ -187,18 +200,18 @@ export default function NewWebhookPage() {
                 return (
                   <div key={category} className="border-2 border-border rounded-card p-4">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-body-sm font-weight-semibold text-foreground">{category}</h3>
-                      <button
+                      <H3 className="text-body-sm font-weight-semibold text-foreground">{category}</H3>
+                      <Button
                         type="button"
                         onClick={() => handleSelectAll(category)}
                         className="text-body-xs text-primary hover:underline"
                       >
                         {allSelected ? 'Deselect All' : 'Select All'}
-                      </button>
+                      </Button>
                     </div>
                     <div className="grid grid-cols-2 gap-2">
                       {events.map((event) => (
-                        <label
+                        <Label
                           key={event.id}
                           className={`flex items-center gap-3 p-2 rounded-button cursor-pointer transition-colors ${
                             selectedEvents.includes(event.id)
@@ -206,14 +219,14 @@ export default function NewWebhookPage() {
                               : 'hover:bg-muted/50'
                           }`}
                         >
-                          <input
+                          <Input
                             type="checkbox"
                             checked={selectedEvents.includes(event.id)}
                             onChange={() => handleEventToggle(event.id)}
                             className="h-4 w-4 rounded border-border text-primary focus:ring-primary"
                           />
-                          <span className="text-body-sm">{event.label}</span>
-                        </label>
+                          <Text className="text-body-sm">{event.label}</Text>
+                        </Label>
                       ))}
                     </div>
                   </div>
@@ -223,22 +236,22 @@ export default function NewWebhookPage() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-            <a
+            <Link
               href="/webhooks"
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </a>
-            <button
+            </Link>
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Webhook'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Link,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Save, Calendar } from 'lucide-react';
@@ -94,13 +106,13 @@ export default function NewVendorSchedulePage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <div className="mb-6">
-        <a
+        <Link
           href="/vendor-schedules"
           className="inline-flex items-center gap-2 text-body-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Schedules
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
@@ -109,10 +121,10 @@ export default function NewVendorSchedulePage() {
             <Calendar className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Vendor Schedule</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Vendor Schedule</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Schedule vendor load-in, setup, or service times
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -122,14 +134,14 @@ export default function NewVendorSchedulePage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Schedule Type
-            </h2>
+            </H2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {SCHEDULE_TYPES.map((type) => (
-                <button
+                <Button
                   key={type.value}
                   type="button"
                   onClick={() => setFormData({ ...formData, schedule_type: type.value as typeof formData.schedule_type })}
@@ -139,23 +151,23 @@ export default function NewVendorSchedulePage() {
                       : 'border-border hover:bg-muted/50'
                   }`}
                 >
-                  <p className="text-body-sm font-weight-semibold text-foreground">{type.label}</p>
-                  <p className="text-body-xs text-muted-foreground mt-1">{type.description}</p>
-                </button>
+                  <Body className="text-body-sm font-weight-semibold text-foreground">{type.label}</Body>
+                  <Body className="text-body-xs text-muted-foreground mt-1">{type.description}</Body>
+                </Button>
               ))}
             </div>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Vendor & Event
-            </h2>
+            </H2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Vendor *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Enter vendor ID"
                   value={formData.vendor_profile_id}
@@ -163,14 +175,14 @@ export default function NewVendorSchedulePage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.vendor_profile_id && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.vendor_profile_id}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.vendor_profile_id}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Booking (Optional)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Link to booking"
                   value={formData.booking_id}
@@ -182,79 +194,79 @@ export default function NewVendorSchedulePage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Date & Time
-            </h2>
+            </H2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Start Date *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   value={formData.start_date}
                   onChange={(e) => setFormData({ ...formData, start_date: e.target.value, end_date: e.target.value || formData.end_date })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.start_date && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.start_date}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.start_date}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Start Time *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="time"
                   value={formData.start_time}
                   onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.start_time && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.start_time}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.start_time}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   End Date *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   value={formData.end_date}
                   onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.end_date && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.end_date}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.end_date}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   End Time *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="time"
                   value={formData.end_time}
                   onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.end_time && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.end_time}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.end_time}</Body>
                 )}
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Location & Access
-            </h2>
+            </H2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Location
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="e.g. Main Ballroom"
                   value={formData.location}
@@ -263,10 +275,10 @@ export default function NewVendorSchedulePage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Access Point
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="e.g. Loading Dock B"
                   value={formData.access_point}
@@ -275,10 +287,10 @@ export default function NewVendorSchedulePage() {
                 />
               </div>
               <div className="col-span-2">
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Access Instructions
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   rows={2}
                   placeholder="Parking, check-in procedures, security requirements..."
                   value={formData.access_instructions}
@@ -290,15 +302,15 @@ export default function NewVendorSchedulePage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Contact & Crew
-            </h2>
+            </H2>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Contact Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="On-site contact"
                   value={formData.contact_name}
@@ -307,10 +319,10 @@ export default function NewVendorSchedulePage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Contact Phone
-                </label>
-                <input
+                </Label>
+                <Input
                   type="tel"
                   placeholder="Phone number"
                   value={formData.contact_phone}
@@ -319,10 +331,10 @@ export default function NewVendorSchedulePage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Crew Count
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="1"
                   value={formData.crew_count}
@@ -334,10 +346,10 @@ export default function NewVendorSchedulePage() {
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Special Requirements
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={2}
               placeholder="Power needs, equipment lists, special considerations..."
               value={formData.special_requirements}
@@ -347,22 +359,22 @@ export default function NewVendorSchedulePage() {
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-            <a
+            <Link
               href="/vendor-schedules"
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </a>
-            <button
+            </Link>
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Schedule'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

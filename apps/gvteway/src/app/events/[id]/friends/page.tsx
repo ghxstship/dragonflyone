@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 // Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, Button,
-  Card, Input, Badge, Alert,
+  Card, Input, Badge, Alert, Skeleton, EmptyState,
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
@@ -15,8 +16,24 @@ import {
   type DemoEventFriend as Friend,
 } from "@/lib/demo-data";
 
-const mockFriends = DEMO_EVENT_FRIENDS;
-const meetupSpots = DEMO_MEETUP_SPOTS;
+interface MeetupSpot {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+}
+
+async function fetchEventFriends(eventId: string): Promise<Friend[]> {
+  const response = await fetch(`/api/events/${eventId}/friends`);
+  if (!response.ok) throw new Error('Failed to fetch friends');
+  return response.json();
+}
+
+async function fetchMeetupSpots(eventId: string): Promise<MeetupSpot[]> {
+  const response = await fetch(`/api/events/${eventId}/meetup-spots`);
+  if (!response.ok) throw new Error('Failed to fetch meetup spots');
+  return response.json();
+}
 
 export default function FriendFinderPage() {
   const router = useRouter();
@@ -26,7 +43,57 @@ export default function FriendFinderPage() {
   const [showMeetupModal, setShowMeetupModal] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
-  const attendingFriends = mockFriends.filter(f => f.status === "attending");
+  const { data: apiFriends, isLoading: friendsLoading, error: friendsError } = useQuery({
+    queryKey: ['event-friends', eventId],
+    queryFn: () => fetchEventFriends(eventId),
+    enabled: !!eventId,
+  });
+
+  const { data: apiSpots, isLoading: spotsLoading } = useQuery({
+    queryKey: ['meetup-spots', eventId],
+    queryFn: () => fetchMeetupSpots(eventId),
+    enabled: !!eventId,
+  });
+
+  // Use API data or fall back to demo data
+  const friends = apiFriends || DEMO_EVENT_FRIENDS;
+  const meetupSpots = apiSpots || DEMO_MEETUP_SPOTS;
+  const isLoading = friendsLoading || spotsLoading;
+
+  const attendingFriends = friends.filter(f => f.status === "attending");
+
+  if (isLoading) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Events</Kicker>
+          <H2 size="lg" className="text-white">Friend Finder</H2>
+          <Body className="text-on-dark-muted">Loading friends...</Body>
+        </Stack>
+        <Grid cols={2} gap={4}>
+          <Skeleton className="h-32" />
+          <Skeleton className="h-32" />
+        </Grid>
+      </Stack>
+    );
+  }
+
+  if (friendsError && !apiFriends) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Events</Kicker>
+          <H2 size="lg" className="text-white">Friend Finder</H2>
+        </Stack>
+        <EmptyState
+          title="Error Loading Friends"
+          description={friendsError instanceof Error ? friendsError.message : 'Failed to load friends'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+          inverted
+        />
+      </Stack>
+    );
+  }
 
   return (
     <>
@@ -106,7 +173,7 @@ export default function FriendFinderPage() {
               <Stack gap={4}>
                 <Input placeholder="Search contacts..." className="border-ink-300" />
                 <Grid cols={2} gap={2} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {mockFriends.filter(f => f.status !== "attending").map((friend) => (
+                  {friends.filter(f => f.status !== "attending").map((friend) => (
                     <Card key={friend.id} className="p-3 border-2 border-ink-200">
                       <Stack direction="horizontal" className="justify-between items-center">
                         <Label>{friend.name}</Label>

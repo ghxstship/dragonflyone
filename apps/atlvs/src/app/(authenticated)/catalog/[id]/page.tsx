@@ -1,5 +1,19 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Package, Tag, Edit, Trash2, DollarSign, Clock, Layers } from 'lucide-react';
@@ -83,56 +97,56 @@ export default function CatalogItemDetailPage({ params }: { params: { id: string
             )}
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-h2-md font-weight-bold text-foreground">{item.name}</h1>
-                <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status as keyof typeof statusColors] || statusColors.draft}`}>
+                <H1 className="text-h2-md font-weight-bold text-foreground">{item.name}</H1>
+                <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status as keyof typeof statusColors] || statusColors.draft}`}>
                   {item.status}
-                </span>
+                </Text>
               </div>
               {item.sku && (
-                <p className="text-body-sm text-muted-foreground">SKU: {item.sku}</p>
+                <Body className="text-body-sm text-muted-foreground">SKU: {item.sku}</Body>
               )}
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href={`/catalog/${id}/edit`}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             <Edit className="h-4 w-4" />
             Edit
-          </a>
-          <button
+          </Link>
+          <Button
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
           >
             <Trash2 className="h-4 w-4" />
             Delete
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Description</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Description</H2>
             {item.description ? (
-              <p className="text-body-sm text-foreground">{item.description}</p>
+              <Body className="text-body-sm text-foreground">{item.description}</Body>
             ) : (
-              <p className="text-body-sm text-muted-foreground italic">No description provided</p>
+              <Body className="text-body-sm text-muted-foreground italic">No description provided</Body>
             )}
           </div>
 
           {item.specifications && Object.keys(item.specifications).length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Specifications</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Specifications</H2>
               <div className="grid grid-cols-2 gap-4">
                 {Object.entries(item.specifications).map(([key, value]) => (
                   <div key={key} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                    <span className="text-body-sm text-muted-foreground capitalize">{key.replace(/_/g, ' ')}</span>
-                    <span className="text-body-sm font-weight-medium">{String(value)}</span>
+                    <Text className="text-body-sm text-muted-foreground capitalize">{key.replace(/_/g, ' ')}</Text>
+                    <Text className="text-body-sm font-weight-medium">{String(value)}</Text>
                   </div>
                 ))}
               </div>
@@ -141,32 +155,32 @@ export default function CatalogItemDetailPage({ params }: { params: { id: string
 
           {item.pricing_tiers && item.pricing_tiers.length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Volume Pricing</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Volume Pricing</H2>
               <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-muted/50">
-                    <tr>
-                      <th className="text-left px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Quantity</th>
-                      <th className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Price</th>
-                      <th className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Discount</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
+                <Table className="w-full">
+                  <TableHeader className="bg-muted/50">
+                    <TableRow>
+                      <TableHead className="text-left px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Quantity</TableHead>
+                      <TableHead className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Price</TableHead>
+                      <TableHead className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Discount</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y divide-border">
                     {item.pricing_tiers.map((tier, index) => (
-                      <tr key={index}>
-                        <td className="px-4 py-2 text-body-sm">
+                      <TableRow key={index}>
+                        <TableCell className="px-4 py-2 text-body-sm">
                           {tier.quantity_min}+ {item.unit_type || 'units'}
-                        </td>
-                        <td className="px-4 py-2 text-body-sm text-right font-weight-medium">
+                        </TableCell>
+                        <TableCell className="px-4 py-2 text-body-sm text-right font-weight-medium">
                           {formatCurrency(tier.price)}
-                        </td>
-                        <td className="px-4 py-2 text-body-sm text-right text-success">
+                        </TableCell>
+                        <TableCell className="px-4 py-2 text-body-sm text-right text-success">
                           {tier.discount_percent ? `${tier.discount_percent}% off` : '-'}
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </div>
             </div>
           )}
@@ -174,52 +188,52 @@ export default function CatalogItemDetailPage({ params }: { params: { id: string
 
         <div className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Pricing</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Pricing</H2>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-primary/10 rounded-card">
                   <DollarSign className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Base Price</p>
-                  <p className="text-h4-md font-weight-bold text-foreground">
+                  <Body className="text-body-xs text-muted-foreground">Base Price</Body>
+                  <Body className="text-h4-md font-weight-bold text-foreground">
                     {formatCurrency(item.base_price)}
-                    <span className="text-body-sm font-weight-normal text-muted-foreground ml-1">
+                    <Text className="text-body-sm font-weight-normal text-muted-foreground ml-1">
                       /{item.unit_type || 'unit'}
-                    </span>
-                  </p>
+                    </Text>
+                  </Body>
                 </div>
               </div>
                           </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
             <div className="space-y-3">
               {item.category && (
                 <div className="flex items-center gap-3">
                   <Tag className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Category</p>
-                    <p className="text-body-sm font-weight-medium">{item.category.name}</p>
+                    <Body className="text-body-xs text-muted-foreground">Category</Body>
+                    <Body className="text-body-sm font-weight-medium">{item.category.name}</Body>
                   </div>
                 </div>
               )}
               <div className="flex items-center gap-3">
                 <Layers className="h-4 w-4 text-muted-foreground" />
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Quantity Range</p>
-                  <p className="text-body-sm font-weight-medium">
+                  <Body className="text-body-xs text-muted-foreground">Quantity Range</Body>
+                  <Body className="text-body-sm font-weight-medium">
                     {item.min_quantity || 1} - {item.max_quantity || 'No limit'}
-                  </p>
+                  </Body>
                 </div>
               </div>
               {item.lead_time_days && (
                 <div className="flex items-center gap-3">
                   <Clock className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Lead Time</p>
-                    <p className="text-body-sm font-weight-medium">{item.lead_time_days} days</p>
+                    <Body className="text-body-xs text-muted-foreground">Lead Time</Body>
+                    <Body className="text-body-sm font-weight-medium">{item.lead_time_days} days</Body>
                   </div>
                 </div>
               )}
@@ -227,20 +241,20 @@ export default function CatalogItemDetailPage({ params }: { params: { id: string
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</H2>
             <div className="space-y-2">
-              <a
+              <Link
                 href={`/vendor-orders/new?item=${id}`}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
               >
                 Create Order
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/catalog/${id}/pricing`}
                 className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
               >
                 Manage Pricing Tiers
-              </a>
+              </Link>
             </div>
           </div>
         </div>

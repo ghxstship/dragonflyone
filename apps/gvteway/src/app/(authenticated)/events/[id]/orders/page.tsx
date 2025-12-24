@@ -4,7 +4,14 @@ import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Search, Ticket, DollarSign, User, Mail, MoreVertical, XCircle, RefreshCw } from 'lucide-react';
 import { useTicketOrders, useCancelOrder, useRefundOrder } from '@/hooks/useTicketing';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
 
 export default function EventOrdersPage() {
   const params = useParams();
@@ -99,7 +106,7 @@ export default function EventOrdersPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load orders</p>
+          <Body className="text-destructive">Failed to load orders</Body>
         </div>
       </div>
     );
@@ -109,41 +116,41 @@ export default function EventOrdersPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Ticket Orders</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Ticket Orders</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             View and manage ticket purchases
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={() => refetch()}
           className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
           Refresh
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Total Revenue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-primary">{formatCurrency(totalRevenue)}</p>
+          <Body className="text-h3-md font-weight-bold text-primary">{formatCurrency(totalRevenue)}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Ticket className="h-5 w-5 text-foreground" />
-            <span className="text-body-sm text-muted-foreground">Total Orders</span>
+            <Text className="text-body-sm text-muted-foreground">Total Orders</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalOrders}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalOrders}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <User className="h-5 w-5 text-foreground" />
-            <span className="text-body-sm text-muted-foreground">Tickets Sold</span>
+            <Text className="text-body-sm text-muted-foreground">Tickets Sold</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalTickets}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalTickets}</Body>
         </div>
       </div>
 
@@ -151,7 +158,7 @@ export default function EventOrdersPage() {
         <div className="p-4 border-b border-border flex items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -159,7 +166,7 @@ export default function EventOrdersPage() {
               className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -169,7 +176,7 @@ export default function EventOrdersPage() {
             <option value="pending">Pending</option>
             <option value="cancelled">Cancelled</option>
             <option value="refunded">Refunded</option>
-          </select>
+          </Select>
         </div>
 
         <div className="divide-y divide-border">
@@ -187,29 +194,29 @@ export default function EventOrdersPage() {
                       <Ticket className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <p className="text-body-sm font-weight-medium text-foreground">
+                      <Body className="text-body-sm font-weight-medium text-foreground">
                         {order.order_number}
-                      </p>
+                      </Body>
                       <div className="flex items-center gap-2 text-body-xs text-muted-foreground">
                         <User className="h-3 w-3" />
-                        <span>{order.purchaser_name}</span>
+                        <Text>{order.purchaser_name}</Text>
                         <Mail className="h-3 w-3 ml-2" />
-                        <span>{order.purchaser_email}</span>
+                        <Text>{order.purchaser_email}</Text>
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
                     <div className="text-right">
-                      <p className="text-body-lg font-weight-bold text-foreground">{formatCurrency(order.total)}</p>
-                      <p className="text-body-xs text-muted-foreground">{order.tickets.reduce((sum, t) => sum + t.quantity, 0)} tickets</p>
+                      <Body className="text-body-lg font-weight-bold text-foreground">{formatCurrency(order.total)}</Body>
+                      <Body className="text-body-xs text-muted-foreground">{order.tickets.reduce((sum, t) => sum + t.quantity, 0)} tickets</Body>
                     </div>
                     <div className="text-right">
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
-                      <p className="text-body-xs text-muted-foreground mt-1">
+                      </Text>
+                      <Body className="text-body-xs text-muted-foreground mt-1">
                         {formatDate(order.created_at)}
-                      </p>
+                      </Body>
                     </div>
                     {order.status === 'completed' && (
                       <div className="relative group">

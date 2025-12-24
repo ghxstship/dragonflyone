@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -116,8 +128,8 @@ export default function PublicPaymentPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
           <AlertCircle className="h-12 w-12 text-error-500 mx-auto mb-4" />
-          <h1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Invoice Not Found</h1>
-          <p className="text-ink-500">{error || 'This payment link may have expired.'}</p>
+          <H1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Invoice Not Found</H1>
+          <Body className="text-ink-500">{error || 'This payment link may have expired.'}</Body>
         </div>
       </div>
     );
@@ -128,11 +140,11 @@ export default function PublicPaymentPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
           <Check className="h-16 w-16 text-success-600 mx-auto mb-4" />
-          <h1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Payment Complete</h1>
-          <p className="text-ink-500 mb-4">
+          <H1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Payment Complete</H1>
+          <Body className="text-ink-500 mb-4">
             Thank you! Invoice #{invoice.invoice_number} has been paid in full.
-          </p>
-          <p className="text-body-sm text-ink-400">A receipt has been sent to your email.</p>
+          </Body>
+          <Body className="text-body-sm text-ink-400">A receipt has been sent to your email.</Body>
         </div>
       </div>
     );
@@ -151,39 +163,39 @@ export default function PublicPaymentPage() {
               ) : (
                 <Building2 className="h-8 w-8 text-violet-600" />
               )}
-              <span className="text-h6-md font-weight-semibold text-ink-900">{invoice.organization.name}</span>
+              <Text className="text-h6-md font-weight-semibold text-ink-900">{invoice.organization.name}</Text>
             </div>
 
             <div className="mb-6">
-              <h1 className="text-h4-md font-weight-bold text-ink-900">Invoice #{invoice.invoice_number}</h1>
-              <p className="text-body-sm text-ink-500 mt-1">
+              <H1 className="text-h4-md font-weight-bold text-ink-900">Invoice #{invoice.invoice_number}</H1>
+              <Body className="text-body-sm text-ink-500 mt-1">
                 For {invoice.contact.first_name} {invoice.contact.last_name}
-              </p>
+              </Body>
             </div>
 
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-body-sm">
-                <span className="text-ink-500">Issue Date</span>
-                <span className="text-ink-900">{formatDate(invoice.issue_date)}</span>
+                <Text className="text-ink-500">Issue Date</Text>
+                <Text className="text-ink-900">{formatDate(invoice.issue_date)}</Text>
               </div>
               <div className="flex justify-between text-body-sm">
-                <span className="text-ink-500">Due Date</span>
-                <span className={isOverdue ? 'text-error-600 font-weight-medium' : 'text-ink-900'}>
+                <Text className="text-ink-500">Due Date</Text>
+                <Text className={isOverdue ? 'text-error-600 font-weight-medium' : 'text-ink-900'}>
                   {formatDate(invoice.due_date)}
                   {isOverdue && ' (Overdue)'}
-                </span>
+                </Text>
               </div>
             </div>
 
             <div className="border-t border-ink-200 pt-4 mb-4">
-              <h3 className="text-body-sm font-weight-medium text-ink-500 mb-3">Items</h3>
+              <H3 className="text-body-sm font-weight-medium text-ink-500 mb-3">Items</H3>
               <div className="space-y-2">
                 {invoice.line_items.map((item) => (
                   <div key={item.id} className="flex justify-between text-body-sm">
-                    <span className="text-ink-900">
+                    <Text className="text-ink-900">
                       {item.description} x {item.quantity}
-                    </span>
-                    <span className="text-ink-900">{formatCurrency(item.total)}</span>
+                    </Text>
+                    <Text className="text-ink-900">{formatCurrency(item.total)}</Text>
                   </div>
                 ))}
               </div>
@@ -191,35 +203,35 @@ export default function PublicPaymentPage() {
 
             <div className="border-t border-ink-200 pt-4">
               <div className="flex justify-between text-body-sm mb-2">
-                <span className="text-ink-500">Total Amount</span>
-                <span className="text-ink-900">{formatCurrency(invoice.total_amount)}</span>
+                <Text className="text-ink-500">Total Amount</Text>
+                <Text className="text-ink-900">{formatCurrency(invoice.total_amount)}</Text>
               </div>
               {invoice.amount_paid > 0 && (
                 <div className="flex justify-between text-body-sm mb-2 text-success-600">
-                  <span>Amount Paid</span>
-                  <span>-{formatCurrency(invoice.amount_paid)}</span>
+                  <Text>Amount Paid</Text>
+                  <Text>-{formatCurrency(invoice.amount_paid)}</Text>
                 </div>
               )}
               <div className="flex justify-between text-h6-md font-weight-bold pt-2 border-t border-ink-200">
-                <span className="text-ink-500">Amount Due</span>
-                <span className="text-ink-900">{formatCurrency(invoice.balance_due)}</span>
+                <Text className="text-ink-500">Amount Due</Text>
+                <Text className="text-ink-900">{formatCurrency(invoice.balance_due)}</Text>
               </div>
             </div>
           </div>
 
           <div className="bg-white rounded-card shadow-sm border-2 border-ink-200 p-6">
-            <h2 className="text-h6-md font-weight-semibold text-ink-900 mb-6 flex items-center gap-2">
+            <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-6 flex items-center gap-2">
               <CreditCard className="h-5 w-5" />
               Payment Details
-            </h2>
+            </H2>
 
-            <form onSubmit={handlePayment} className="space-y-6">
+            <Form onSubmit={handlePayment} className="space-y-6">
               <div>
-                <label className="block text-body-sm font-weight-medium text-ink-700 mb-2">
+                <Label className="block text-body-sm font-weight-medium text-ink-700 mb-2">
                   Payment Method
-                </label>
+                </Label>
                 <div className="grid grid-cols-2 gap-3">
-                  <button
+                  <Button
                     type="button"
                     onClick={() => setPaymentMethod('card')}
                     className={`p-4 border-2 rounded-lg text-center transition-colors ${
@@ -231,11 +243,11 @@ export default function PublicPaymentPage() {
                     <CreditCard className={`h-6 w-6 mx-auto mb-1 ${
                       paymentMethod === 'card' ? 'text-violet-600' : 'text-ink-400'
                     }`} />
-                    <span className={`text-sm font-medium ${
+                    <Text className={`text-sm font-medium ${
                       paymentMethod === 'card' ? 'text-violet-600' : 'text-ink-600'
-                    }`}>Card</span>
-                  </button>
-                  <button
+                    }`}>Card</Text>
+                  </Button>
+                  <Button
                     type="button"
                     onClick={() => setPaymentMethod('ach')}
                     className={`p-4 border-2 rounded-lg text-center transition-colors ${
@@ -247,20 +259,20 @@ export default function PublicPaymentPage() {
                     <Building2 className={`h-6 w-6 mx-auto mb-1 ${
                       paymentMethod === 'ach' ? 'text-violet-600' : 'text-ink-400'
                     }`} />
-                    <span className={`text-sm font-medium ${
+                    <Text className={`text-sm font-medium ${
                       paymentMethod === 'ach' ? 'text-violet-600' : 'text-ink-600'
-                    }`}>Bank (ACH)</span>
-                  </button>
+                    }`}>Bank (ACH)</Text>
+                  </Button>
                 </div>
               </div>
 
               {paymentMethod === 'card' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                       Card Number
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       placeholder="4242 4242 4242 4242"
                       className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
@@ -268,20 +280,20 @@ export default function PublicPaymentPage() {
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                      <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                         Expiry
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         type="text"
                         placeholder="MM/YY"
                         className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                       />
                     </div>
                     <div>
-                      <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                      <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                         CVC
-                      </label>
-                      <input
+                      </Label>
+                      <Input
                         type="text"
                         placeholder="123"
                         className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
@@ -294,30 +306,30 @@ export default function PublicPaymentPage() {
               {paymentMethod === 'ach' && (
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                       Account Holder Name
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       placeholder="John Doe"
                       className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                       Routing Number
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       placeholder="110000000"
                       className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
                     />
                   </div>
                   <div>
-                    <label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
+                    <Label className="block text-body-sm font-weight-medium text-ink-700 mb-1">
                       Account Number
-                    </label>
-                    <input
+                    </Label>
+                    <Input
                       type="text"
                       placeholder="000123456789"
                       className="w-full px-4 py-2 border-2 border-ink-300 rounded-input focus:ring-2 focus:ring-violet-500 focus:border-violet-500"
@@ -326,19 +338,19 @@ export default function PublicPaymentPage() {
                 </div>
               )}
 
-              <button
+              <Button
                 type="submit"
                 disabled={processing}
                 className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-button hover:bg-violet-700 transition-colors disabled:opacity-50 font-weight-medium"
               >
                 {processing ? 'Processing...' : `Pay ${formatCurrency(invoice.balance_due)}`}
-              </button>
+              </Button>
 
               <div className="flex items-center justify-center gap-2 text-mono-xs text-ink-400">
                 <Lock className="h-3 w-3" />
                 Secured by Stripe
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       </div>

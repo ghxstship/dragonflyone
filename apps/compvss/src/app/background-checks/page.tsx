@@ -4,19 +4,20 @@ import { useState } from "react";
 import { Eye, RefreshCw, Download } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage,
   Badge,
-  RecordFormModal,
+  Body,
   DetailDrawer,
   Grid,
+  ListPage,
+  RecordFormModal,
   Stack,
-  Body,
+  Text,
+  type DetailSection,
+  type FormFieldConfig,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
-  type FormFieldConfig,
-  type DetailSection,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
 
 import {
@@ -44,7 +45,7 @@ const columns: ListPageColumn<BackgroundCheck>[] = [
   { key: 'daysUntilExpiry', label: 'Days Left', accessor: (r) => getExpiryLabel(r.daysUntilExpiry), render: (v, r) => {
     const days = r.daysUntilExpiry;
     const colorClass = days === undefined ? '' : days < 0 ? 'text-error-500' : days <= 30 ? 'text-warning-500' : 'text-success-500';
-    return <span className={colorClass}>{String(v)}</span>;
+    return <Text className={colorClass}>{String(v)}</Text>;
   }},
   { key: 'provider', label: 'Provider', accessor: 'provider' },
 ];

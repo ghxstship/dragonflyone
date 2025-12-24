@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Users, Merge, Eye, AlertTriangle } from 'lucide-react';
@@ -96,7 +104,7 @@ export default function ContactDuplicatesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load duplicates</p>
+          <Body className="text-destructive">Failed to load duplicates</Body>
         </div>
       </div>
     );
@@ -113,10 +121,10 @@ export default function ContactDuplicatesPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Duplicate Contacts</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Duplicate Contacts</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {data?.total || 0} potential duplicate groups found
-            </p>
+            </Body>
           </div>
         </div>
       </div>
@@ -124,17 +132,17 @@ export default function ContactDuplicatesPage() {
       {groups.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Users className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No duplicate contacts found</p>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <Body className="text-body-md text-muted-foreground">No duplicate contacts found</Body>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Your contact list is clean!
-          </p>
+          </Body>
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-6">
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Duplicate Groups</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Duplicate Groups</H2>
             {groups.map((group) => (
-              <button
+              <Button
                 key={group.id}
                 onClick={() => {
                   setSelectedGroup(group);
@@ -149,54 +157,54 @@ export default function ContactDuplicatesPage() {
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <AlertTriangle className="h-4 w-4 text-warning-800" />
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {group.contacts.length} potential duplicates
-                    </span>
+                    </Text>
                   </div>
-                  <span className={`px-2 py-0.5 text-body-xs rounded ${getScoreColor(group.match_score)}`}>
+                  <Text className={`px-2 py-0.5 text-body-xs rounded ${getScoreColor(group.match_score)}`}>
                     {group.match_score}% match
-                  </span>
+                  </Text>
                 </div>
                 <div className="space-y-1">
                   {group.contacts.slice(0, 3).map((contact) => (
-                    <p key={contact.id} className="text-body-xs text-muted-foreground truncate">
+                    <Body key={contact.id} className="text-body-xs text-muted-foreground truncate">
                       {contact.first_name} {contact.last_name} - {contact.email}
-                    </p>
+                    </Body>
                   ))}
                   {group.contacts.length > 3 && (
-                    <p className="text-body-xs text-muted-foreground">
+                    <Body className="text-body-xs text-muted-foreground">
                       +{group.contacts.length - 3} more
-                    </p>
+                    </Body>
                   )}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1">
                   {group.match_reasons.slice(0, 3).map((reason, i) => (
-                    <span
+                    <Text
                       key={i}
                       className="px-2 py-0.5 text-body-xs bg-muted text-muted-foreground rounded"
                     >
                       {reason}
-                    </span>
+                    </Text>
                   ))}
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Merge Preview</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Merge Preview</H2>
             {!selectedGroup ? (
               <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
                 <Merge className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-body-sm text-muted-foreground">
+                <Body className="text-body-sm text-muted-foreground">
                   Select a duplicate group to merge
-                </p>
+                </Body>
               </div>
             ) : (
               <div className="bg-background border-2 border-border rounded-card p-4">
-                <p className="text-body-sm text-muted-foreground mb-4">
+                <Body className="text-body-sm text-muted-foreground mb-4">
                   Select the primary contact to keep. Other contacts will be merged into it.
-                </p>
+                </Body>
                 <div className="space-y-3">
                   {selectedGroup.contacts.map((contact) => (
                     <div
@@ -210,25 +218,25 @@ export default function ContactDuplicatesPage() {
                     >
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-body-sm font-weight-medium text-foreground">
+                          <Body className="text-body-sm font-weight-medium text-foreground">
                             {contact.first_name} {contact.last_name}
-                          </p>
-                          <p className="text-body-xs text-muted-foreground">{contact.email}</p>
+                          </Body>
+                          <Body className="text-body-xs text-muted-foreground">{contact.email}</Body>
                           {contact.phone && (
-                            <p className="text-body-xs text-muted-foreground">{contact.phone}</p>
+                            <Body className="text-body-xs text-muted-foreground">{contact.phone}</Body>
                           )}
                           {contact.company && (
-                            <p className="text-body-xs text-muted-foreground">{contact.company}</p>
+                            <Body className="text-body-xs text-muted-foreground">{contact.company}</Body>
                           )}
                         </div>
                         <div className="text-right">
-                          <p className="text-body-xs text-muted-foreground">
+                          <Body className="text-body-xs text-muted-foreground">
                             Created {formatDate(contact.created_at)}
-                          </p>
+                          </Body>
                           {contact.booking_count !== undefined && contact.booking_count > 0 && (
-                            <p className="text-body-xs text-primary">
+                            <Body className="text-body-xs text-primary">
                               {contact.booking_count} bookings
-                            </p>
+                            </Body>
                           )}
                         </div>
                       </div>
@@ -242,15 +250,15 @@ export default function ContactDuplicatesPage() {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <button
+                  <Button
                     onClick={handleMerge}
                     disabled={!primaryContactId || mergeContacts.isPending}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
                     <Merge className="h-4 w-4" />
                     {mergeContacts.isPending ? 'Merging...' : 'Merge Contacts'}
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => {
                       setSelectedGroup(null);
                       setPrimaryContactId('');
@@ -258,7 +266,7 @@ export default function ContactDuplicatesPage() {
                     className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                   >
                     Cancel
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}

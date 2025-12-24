@@ -10,16 +10,12 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_CAMPAIGN_METRICS,
-  DEMO_ATTRIBUTION_SOURCES,
-} from "@/lib/demo-data";
-
-const mockCampaigns = DEMO_CAMPAIGN_METRICS;
-const mockAttribution = DEMO_ATTRIBUTION_SOURCES;
+import { useCampaignMetrics, type CampaignMetric, type AttributionSource } from "@ghxstship/config";
+import { DEMO_CAMPAIGN_METRICS, DEMO_ATTRIBUTION_SOURCES } from "@/lib/demo-data";
 
 function MarketingAnalyticsPageContent() {
   const router = useRouter();
+  const { campaigns: apiCampaigns, attribution: apiAttribution, summary, isLoading } = useCampaignMetrics();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -28,10 +24,14 @@ function MarketingAnalyticsPageContent() {
   });
   const [dateRange, setDateRange] = useState("30d");
 
-  const totalSpend = mockCampaigns.reduce((s, c) => s + c.spend, 0);
-  const totalRevenue = mockCampaigns.reduce((s, c) => s + c.revenue, 0);
-  const totalConversions = mockCampaigns.reduce((s, c) => s + c.conversions, 0);
-  const overallROAS = totalRevenue / totalSpend;
+  // Use API data or fall back to demo data
+  const campaigns: CampaignMetric[] = apiCampaigns.length > 0 ? apiCampaigns : (DEMO_CAMPAIGN_METRICS as unknown as CampaignMetric[]);
+  const attribution: AttributionSource[] = apiAttribution.length > 0 ? apiAttribution : (DEMO_ATTRIBUTION_SOURCES as unknown as AttributionSource[]);
+
+  const totalSpend = summary?.totalSpend || campaigns.reduce((s, c) => s + c.spend, 0);
+  const totalRevenue = summary?.totalRevenue || campaigns.reduce((s, c) => s + c.revenue, 0);
+  const totalConversions = summary?.totalConversions || campaigns.reduce((s, c) => s + c.conversions, 0);
+  const overallROAS = summary?.overallROAS || (totalSpend > 0 ? totalRevenue / totalSpend : 0);
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
@@ -52,6 +52,12 @@ function MarketingAnalyticsPageContent() {
               <option value="ytd">Year to Date</option>
             </Select>
           </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading analytics...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Spend" value={formatCurrency(totalSpend)} className="border-2 border-black" />
@@ -75,7 +81,7 @@ function MarketingAnalyticsPageContent() {
                     <H3>Channel Performance</H3>
                     <Stack gap={3}>
                       {["Facebook", "Google Ads", "Email", "TikTok"].map((channel) => {
-                        const channelData = mockCampaigns.filter(c => c.channel === channel);
+                        const channelData = campaigns.filter(c => c.channel === channel);
                         const channelRevenue = channelData.reduce((s, c) => s + c.revenue, 0);
                         const pct = (channelRevenue / totalRevenue) * 100;
                         return (
@@ -96,7 +102,7 @@ function MarketingAnalyticsPageContent() {
                     <H3>Key Metrics</H3>
                     <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                       <Card className="p-4 border-2 border-ink-200 text-center">
-                        <Label className="font-mono text-h5-md">{(mockCampaigns.reduce((s, c) => s + c.ctr, 0) / mockCampaigns.length).toFixed(2)}%</Label>
+                        <Label className="font-mono text-h5-md">{(campaigns.reduce((s, c) => s + c.ctr, 0) / campaigns.length).toFixed(2)}%</Label>
                         <Label className="text-ink-500">Avg CTR</Label>
                       </Card>
                       <Card className="p-4 border-2 border-ink-200 text-center">
@@ -108,7 +114,7 @@ function MarketingAnalyticsPageContent() {
                         <Label className="text-ink-500">Avg Order Value</Label>
                       </Card>
                       <Card className="p-4 border-2 border-ink-200 text-center">
-                        <Label className="font-mono text-h5-md">{((totalConversions / mockCampaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
+                        <Label className="font-mono text-h5-md">{((totalConversions / campaigns.reduce((s, c) => s + c.clicks, 0)) * 100).toFixed(1)}%</Label>
                         <Label className="text-ink-500">Conversion Rate</Label>
                       </Card>
                     </Grid>
@@ -133,7 +139,7 @@ function MarketingAnalyticsPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockCampaigns.map((campaign) => (
+                  {campaigns.map((campaign) => (
                     <TableRow key={campaign.id}>
                       <TableCell><Label className="font-weight-medium">{campaign.name}</Label></TableCell>
                       <TableCell><Badge variant="outline">{campaign.channel}</Badge></TableCell>
@@ -156,7 +162,7 @@ function MarketingAnalyticsPageContent() {
                   <Stack gap={4}>
                     <H3>Attribution by Source</H3>
                     <Stack gap={3}>
-                      {mockAttribution.map((source) => (
+                      {attribution.map((source) => (
                         <Stack key={source.source} gap={2}>
                           <Stack direction="horizontal" className="justify-between">
                             <Label>{source.source}</Label>

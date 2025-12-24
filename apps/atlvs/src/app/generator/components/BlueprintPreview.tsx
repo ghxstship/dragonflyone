@@ -2,23 +2,24 @@
 
 import { useLocalTabState } from "@ghxstship/config/hooks";
 import {
-  Stack,
-  Container,
   Body,
   Box,
-  Text,
+  Card,
+  Container,
   FullBleedSection,
+  Grid,
   H1,
   H3,
-  Card,
-  Grid,
-  Tabs,
-  TabsList,
+  Icon,
+  Label,
+  Stack,
   Tab,
   TabPanel,
-  Label,
+  Tabs,
+  TabsList,
+  Text,
   Tooltip,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import {
   Eye,
   Ear,

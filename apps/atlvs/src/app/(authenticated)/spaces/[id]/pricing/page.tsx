@@ -6,7 +6,17 @@ import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, DollarSign, Calendar, Clock } from 'lucide-react';
 import { useSpace, useSpacePricingRules } from '@/hooks/useSpaces';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
 
 interface PricingRule {
   id: string;
@@ -99,10 +109,10 @@ export default function SpacePricingPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Pricing Rules</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Pricing Rules</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {space?.name || 'Space'}
-            </p>
+            </Body>
           </div>
         </div>
         <Button variant="solid" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
@@ -113,7 +123,7 @@ export default function SpacePricingPage() {
       {rules.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <DollarSign className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No pricing rules configured</p>
+          <Body className="text-body-md text-muted-foreground">No pricing rules configured</Body>
           <Button variant="ghost" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Add your first pricing rule
           </Button>
@@ -130,38 +140,38 @@ export default function SpacePricingPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-body-md font-weight-semibold text-foreground">
+                    <H3 className="text-body-md font-weight-semibold text-foreground">
                       {rule.name}
-                    </h3>
-                    <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getRuleTypeColor(rule.rule_type)}`}>
+                    </H3>
+                    <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getRuleTypeColor(rule.rule_type)}`}>
                       {rule.rule_type.replace('_', ' ')}
-                    </span>
+                    </Text>
                     {!rule.is_active && (
-                      <span className="px-2 py-0.5 text-body-xs rounded bg-ink-100 text-ink-800">
+                      <Text className="px-2 py-0.5 text-body-xs rounded bg-ink-100 text-ink-800">
                         Inactive
-                      </span>
+                      </Text>
                     )}
                   </div>
                   <div className="flex items-center gap-4 text-body-sm text-muted-foreground">
-                    <span className="flex items-center gap-1">
+                    <Text className="flex items-center gap-1">
                       <DollarSign className="h-4 w-4" />
                       {formatCurrency(rule.price)} / {rule.price_unit}
-                    </span>
-                    <span>Priority: {rule.priority}</span>
+                    </Text>
+                    <Text>Priority: {rule.priority}</Text>
                   </div>
                   {rule.conditions && (
                     <div className="mt-2 flex items-center gap-4 text-body-xs text-muted-foreground">
                       {rule.conditions.days_of_week && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {rule.conditions.days_of_week.map(d => ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d]).join(', ')}
-                        </span>
+                        </Text>
                       )}
                       {rule.conditions.start_time && rule.conditions.end_time && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
                           {rule.conditions.start_time} - {rule.conditions.end_time}
-                        </span>
+                        </Text>
                       )}
                     </div>
                   )}
@@ -183,8 +193,8 @@ export default function SpacePricingPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Pricing Rule</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Add Pricing Rule</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -200,10 +210,10 @@ export default function SpacePricingPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Rule Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -212,10 +222,10 @@ export default function SpacePricingPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Rule Type
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="rule_type"
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   >
@@ -224,13 +234,13 @@ export default function SpacePricingPage() {
                     <option value="day_of_week">Day of Week</option>
                     <option value="time_of_day">Time of Day</option>
                     <option value="minimum">Minimum</option>
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Price Unit
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="price_unit"
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   >
@@ -238,14 +248,14 @@ export default function SpacePricingPage() {
                     <option value="hourly">Hourly</option>
                     <option value="daily">Daily</option>
                     <option value="half_day">Half Day</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Price ($)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   name="price"
                   required
@@ -261,7 +271,7 @@ export default function SpacePricingPage() {
                   Add Rule
                 </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

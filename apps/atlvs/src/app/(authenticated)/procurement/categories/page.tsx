@@ -33,37 +33,15 @@ import {
   MainContent,
 } from '@ghxstship/ui';
 
-interface Category {
-  id: string;
-  name: string;
-  parentCategory?: string;
-  spend: number;
-  vendors: number;
-  strategy: 'Strategic' | 'Leverage' | 'Bottleneck' | 'Non-Critical';
-  owner: string;
-  lastReview: string;
-}
+import { useProcurementCategories, type ProcurementCategory, type SourcingStrategy as APISourcingStrategy } from '@ghxstship/config';
+import { DEMO_PROCUREMENT_CATEGORIES_FULL, DEMO_PROCUREMENT_SOURCING_STRATEGIES } from '../../../../lib/demo-data';
 
-interface SourcingStrategy {
-  id: string;
-  categoryId: string;
-  categoryName: string;
-  objective: string;
-  approach: string;
-  targetSavings: number;
-  status: 'Draft' | 'Active' | 'Under Review';
-  initiatives: string[];
-}
-
-import {
-  DEMO_PROCUREMENT_CATEGORIES_FULL,
-  DEMO_PROCUREMENT_SOURCING_STRATEGIES,
-  type DemoProcurementCategoryFull as Category,
-  type DemoProcurementSourcingStrategy as SourcingStrategy,
-} from '../../../../lib/demo-data';
+type Category = ProcurementCategory;
+type SourcingStrategy = APISourcingStrategy;
 
 export default function CategoryManagementPage() {
   const router = useRouter();
+  const { categories: apiCategories, strategies: apiStrategies, summary, isLoading } = useProcurementCategories();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useLocalTabState({
@@ -74,9 +52,13 @@ export default function CategoryManagementPage() {
   const [selectedStrategy, setSelectedStrategy] = useState<SourcingStrategy | null>(null);
   const [strategyFilter, setStrategyFilter] = useState('All');
 
-  const filteredCategories = strategyFilter === 'All' ? DEMO_PROCUREMENT_CATEGORIES_FULL : DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === strategyFilter);
-  const totalSpend = DEMO_PROCUREMENT_CATEGORIES_FULL.reduce((sum, c) => sum + c.spend, 0);
-  const strategicSpend = DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Strategic').reduce((sum, c) => sum + c.spend, 0);
+  // Use API data or fall back to demo data
+  const categories: Category[] = apiCategories.length > 0 ? apiCategories : (DEMO_PROCUREMENT_CATEGORIES_FULL as unknown as Category[]);
+  const strategies: SourcingStrategy[] = apiStrategies.length > 0 ? apiStrategies : (DEMO_PROCUREMENT_SOURCING_STRATEGIES as unknown as SourcingStrategy[]);
+
+  const filteredCategories = strategyFilter === 'All' ? categories : categories.filter(c => c.strategy === strategyFilter);
+  const totalSpend = summary?.totalSpend || categories.reduce((sum, c) => sum + c.spend, 0);
+  const strategicSpend = summary?.strategicSpend || categories.filter(c => c.strategy === 'Strategic').reduce((sum, c) => sum + c.spend, 0);
 
   const getStrategyColor = (strategy: string) => {
     switch (strategy) {
@@ -111,11 +93,17 @@ export default function CategoryManagementPage() {
         <Container>
           <Stack gap={10}>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading procurement data...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Categories" value={DEMO_PROCUREMENT_CATEGORIES_FULL.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Categories" value={categories.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Spend" value={`$${(totalSpend / 1000000).toFixed(1)}M`} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Strategic Spend" value={`${Math.round(strategicSpend / totalSpend * 100)}%`} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Strategies" value={DEMO_PROCUREMENT_SOURCING_STRATEGIES.filter(s => s.status === 'Active').length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Active Strategies" value={strategies.filter(s => s.status === 'Active').length} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
           <Tabs>
@@ -175,7 +163,7 @@ export default function CategoryManagementPage() {
 
           {isActive('strategies') && (
             <Stack gap={4}>
-              {DEMO_PROCUREMENT_SOURCING_STRATEGIES.map((strategy) => (
+              {strategies.map((strategy) => (
                 <Card key={strategy.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                   <Stack gap={4}>
                     <Stack direction="horizontal" className="justify-between">
@@ -220,7 +208,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-info-400 font-weight-bold">STRATEGIC</Label>
                       <Label className="text-ink-300">High profit impact, High supply risk</Label>
                       <Stack gap={1}>
-                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Strategic').map(c => (
+                        {categories.filter(c => c.strategy === 'Strategic').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -231,7 +219,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-warning-400 font-weight-bold">BOTTLENECK</Label>
                       <Label className="text-ink-300">Low profit impact, High supply risk</Label>
                       <Stack gap={1}>
-                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Bottleneck').map(c => (
+                        {categories.filter(c => c.strategy === 'Bottleneck').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -242,7 +230,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-success-400 font-weight-bold">LEVERAGE</Label>
                       <Label className="text-ink-300">High profit impact, Low supply risk</Label>
                       <Stack gap={1}>
-                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Leverage').map(c => (
+                        {categories.filter(c => c.strategy === 'Leverage').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>
@@ -253,7 +241,7 @@ export default function CategoryManagementPage() {
                       <Label className="text-ink-400 font-weight-bold">NON-CRITICAL</Label>
                       <Label className="text-ink-300">Low profit impact, Low supply risk</Label>
                       <Stack gap={1}>
-                        {DEMO_PROCUREMENT_CATEGORIES_FULL.filter(c => c.strategy === 'Non-Critical').map(c => (
+                        {categories.filter(c => c.strategy === 'Non-Critical').map(c => (
                           <Label key={c.id} className="text-white">• {c.name}</Label>
                         ))}
                       </Stack>

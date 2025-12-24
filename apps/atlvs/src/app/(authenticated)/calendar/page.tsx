@@ -1,5 +1,12 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Plus, Calendar as CalendarIcon, Grid3X3, Clock } from 'lucide-react';
@@ -93,7 +100,7 @@ export default function CalendarPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load calendar</p>
+          <Body className="text-destructive">Failed to load calendar</Body>
         </div>
       </div>
     );
@@ -104,35 +111,35 @@ export default function CalendarPage() {
       <div className="p-6 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-h2-md font-weight-bold text-foreground">Calendar</h1>
+            <H1 className="text-h2-md font-weight-bold text-foreground">Calendar</H1>
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 onClick={navigatePrev}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
               >
                 <ChevronLeft className="h-5 w-5 text-muted-foreground" />
-              </button>
-              <span className="text-body-md font-weight-medium text-foreground min-w-[180px] text-center">
+              </Button>
+              <Text className="text-body-md font-weight-medium text-foreground min-w-[180px] text-center">
                 {formatMonthYear()}
-              </span>
-              <button
+              </Text>
+              <Button
                 onClick={navigateNext}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
               >
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={goToToday}
                 className="ml-2 px-3 py-1 text-body-sm border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 Today
-              </button>
+              </Button>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex items-center border-2 border-border rounded-button overflow-hidden">
               {(['month', 'week', 'day', 'agenda'] as ViewMode[]).map((mode) => (
-                <button
+                <Button
                   key={mode}
                   onClick={() => setViewMode(mode)}
                   className={`px-3 py-1.5 text-body-sm capitalize ${
@@ -142,7 +149,7 @@ export default function CalendarPage() {
                   }`}
                 >
                   {mode}
-                </button>
+                </Button>
               ))}
             </div>
             <Link
@@ -150,14 +157,14 @@ export default function CalendarPage() {
               className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               <Grid3X3 className="h-4 w-4" />
-              <span className="text-body-sm">Spaces</span>
+              <Text className="text-body-sm">Spaces</Text>
             </Link>
             <Link
               href="/bookings/new"
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               <Plus className="h-4 w-4" />
-              <span className="text-body-sm font-weight-medium">New Booking</span>
+              <Text className="text-body-sm font-weight-medium">New Booking</Text>
             </Link>
           </div>
         </div>
@@ -223,7 +230,7 @@ export default function CalendarPage() {
             {events.length === 0 ? (
               <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
                 <CalendarIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-body-md text-muted-foreground">No events in this period</p>
+                <Body className="text-body-md text-muted-foreground">No events in this period</Body>
               </div>
             ) : (
               events.map((event) => (
@@ -248,17 +255,17 @@ export default function CalendarPage() {
                     </Link>
                     <div className="flex items-center gap-4 mt-1 text-body-sm text-muted-foreground">
                       {event.start_time && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <Clock className="h-4 w-4" />
                           {event.start_time} - {event.end_time}
-                        </span>
+                        </Text>
                       )}
                       {event.venue && (
-                        <span>{(event.venue as { name: string }).name}</span>
+                        <Text>{(event.venue as { name: string }).name}</Text>
                       )}
                     </div>
                   </div>
-                  <span
+                  <Text
                     className={`px-2 py-1 text-body-xs rounded capitalize ${
                       event.status === 'confirmed'
                         ? 'bg-success-100 text-success-800'
@@ -268,7 +275,7 @@ export default function CalendarPage() {
                     }`}
                   >
                     {event.status}
-                  </span>
+                  </Text>
                 </div>
               ))
             )}
@@ -278,8 +285,8 @@ export default function CalendarPage() {
         {(viewMode === 'week' || viewMode === 'day') && (
           <div className="text-center py-12 text-muted-foreground">
             <CalendarIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>{viewMode === 'week' ? 'Week' : 'Day'} view coming soon</p>
-            <p className="text-body-sm mt-1">Use Month or Agenda view for now</p>
+            <Body>{viewMode === 'week' ? 'Week' : 'Day'} view coming soon</Body>
+            <Body className="text-body-sm mt-1">Use Month or Agenda view for now</Body>
           </div>
         )}
       </div>

@@ -34,56 +34,12 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
-
-interface VendorSelection {
-  id: string;
-  rfpId: string;
-  rfpTitle: string;
-  status: "Evaluating" | "Pending Approval" | "Approved" | "Rejected" | "Awarded";
-  vendors: VendorBid[];
-  evaluationCriteria: EvaluationCriteria[];
-  approvers: Approver[];
-  dueDate: string;
-  createdAt: string;
-}
-
-interface VendorBid {
-  id?: string;
-  vendorName?: string;
-  name?: string;
-  bidAmount?: number;
-  price?: number;
-  technicalScore?: number;
-  priceScore?: number;
-  overallScore?: number;
-  score?: number;
-  rank?: number;
-  recommendation?: "Recommended" | "Acceptable" | "Not Recommended";
-  notes?: string;
-  status?: string;
-}
-
-interface EvaluationCriteria {
-  name: string;
-  weight: number;
-  description: string;
-}
-
-interface Approver {
-  id: string;
-  name: string;
-  role: string;
-  status: "Pending" | "Approved" | "Rejected";
-  approvedAt?: string;
-  comments?: string;
-}
-
+import { useVendorSelection, type VendorSelection } from '@ghxstship/config';
 import { DEMO_VENDOR_SELECTIONS } from '../../../../lib/demo-data';
-
-const mockSelections = DEMO_VENDOR_SELECTIONS as unknown as VendorSelection[];
 
 export default function VendorSelectionPage() {
   const router = useRouter();
+  const { selections: apiSelections, summary, isLoading } = useVendorSelection();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useLocalTabState({
@@ -93,8 +49,11 @@ export default function VendorSelectionPage() {
   const [selectedSelection, setSelectedSelection] = useState<VendorSelection | null>(null);
   const [showApprovalModal, setShowApprovalModal] = useState(false);
 
-  const pendingApprovals = mockSelections.filter(s => s.status === "Pending Approval").length;
-  const evaluating = mockSelections.filter(s => s.status === "Evaluating").length;
+  // Use API data or fall back to demo data
+  const selections: VendorSelection[] = apiSelections.length > 0 ? apiSelections : (DEMO_VENDOR_SELECTIONS as unknown as VendorSelection[]);
+
+  const pendingApprovals = summary?.pendingApprovals || selections.filter(s => s.status === "Pending Approval").length;
+  const evaluating = summary?.evaluating || selections.filter(s => s.status === "Evaluating").length;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -130,8 +89,14 @@ export default function VendorSelectionPage() {
         <Container>
           <Stack gap={10}>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading vendor selections...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Active Selections" value={mockSelections.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Active Selections" value={selections.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Pending Approval" value={pendingApprovals} trend={pendingApprovals > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Evaluating" value={evaluating} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Awarded This Month" value={2} trend="up" className="bg-transparent border-2 border-ink-800" />
@@ -145,7 +110,7 @@ export default function VendorSelectionPage() {
 
             <TabPanel active={isActive('active')}>
               <Stack gap={4}>
-                {mockSelections.map((selection) => (
+                {selections.map((selection) => (
                   <Card key={selection.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between items-start">

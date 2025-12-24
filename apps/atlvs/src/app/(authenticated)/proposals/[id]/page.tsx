@@ -1,5 +1,20 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Edit2, Send, Eye, BarChart3, Copy, Calendar, User, Clock } from 'lucide-react';
@@ -73,7 +88,7 @@ export default function ProposalDetailPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Proposal not found</p>
+          <Body className="text-destructive">Proposal not found</Body>
           <Link href="/proposals" className="text-primary hover:underline mt-2 inline-block">
             Back to Proposals
           </Link>
@@ -94,53 +109,53 @@ export default function ProposalDetailPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-h2-md font-weight-bold text-foreground">
+              <H1 className="text-h2-md font-weight-bold text-foreground">
                 {proposal.name || 'Untitled Proposal'}
-              </h1>
-              <span className={`px-3 py-1 rounded-avatar text-body-xs font-weight-medium border capitalize ${getStatusColor(proposal.status)}`}>
+              </H1>
+              <Text className={`px-3 py-1 rounded-avatar text-body-xs font-weight-medium border capitalize ${getStatusColor(proposal.status)}`}>
                 {proposal.status}
-              </span>
+              </Text>
             </div>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {proposal.proposal_number}
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {proposal.status === 'draft' && (
-            <button
+            <Button
               onClick={handleSend}
               disabled={sendProposal.isPending}
               className="flex items-center gap-2 px-4 py-2 bg-success text-white rounded-button hover:bg-success/90 transition-colors disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
-              <span className="text-body-sm font-weight-medium">
+              <Text className="text-body-sm font-weight-medium">
                 {sendProposal.isPending ? 'Sending...' : 'Send'}
-              </span>
-            </button>
+              </Text>
+            </Button>
           )}
           <Link
             href={`/proposals/${proposalId}/analytics`}
             className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <BarChart3 className="h-4 w-4" />
-            <span className="text-body-sm">Analytics</span>
+            <Text className="text-body-sm">Analytics</Text>
           </Link>
-          <a
+          <Link
             href={`/p/${proposal.public_token}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <Eye className="h-4 w-4" />
-            <span className="text-body-sm">Preview</span>
-          </a>
+            <Text className="text-body-sm">Preview</Text>
+          </Link>
           <Link
             href={`/proposals/${proposalId}/edit`}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
           >
             <Edit2 className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Edit</span>
+            <Text className="text-body-sm font-weight-medium">Edit</Text>
           </Link>
         </div>
       </div>
@@ -149,114 +164,114 @@ export default function ProposalDetailPage() {
         <div className="col-span-2 space-y-6">
           
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Line Items</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Line Items</H2>
             {lineItems.length === 0 ? (
-              <p className="text-body-sm text-muted-foreground">No line items added yet</p>
+              <Body className="text-body-sm text-muted-foreground">No line items added yet</Body>
             ) : (
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="py-2 text-left text-body-sm font-weight-medium text-muted-foreground">
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow className="border-b border-border">
+                    <TableHead className="py-2 text-left text-body-sm font-weight-medium text-muted-foreground">
                       Description
-                    </th>
-                    <th className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
+                    </TableHead>
+                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
                       Qty
-                    </th>
-                    <th className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
+                    </TableHead>
+                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
                       Price
-                    </th>
-                    <th className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
+                    </TableHead>
+                    <TableHead className="py-2 text-right text-body-sm font-weight-medium text-muted-foreground">
                       Total
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
                   {lineItems.map((item) => (
-                    <tr key={item.id} className="border-b border-border">
-                      <td className="py-3">
-                        <p className="text-body-sm text-foreground">{item.description}</p>
+                    <TableRow key={item.id} className="border-b border-border">
+                      <TableCell className="py-3">
+                        <Body className="text-body-sm text-foreground">{item.description}</Body>
                         {item.category && (
-                          <p className="text-body-xs text-muted-foreground">{item.category}</p>
+                          <Body className="text-body-xs text-muted-foreground">{item.category}</Body>
                         )}
-                      </td>
-                      <td className="py-3 text-body-sm text-foreground text-right">{item.quantity}</td>
-                      <td className="py-3 text-body-sm text-foreground text-right">
+                      </TableCell>
+                      <TableCell className="py-3 text-body-sm text-foreground text-right">{item.quantity}</TableCell>
+                      <TableCell className="py-3 text-body-sm text-foreground text-right">
                         {formatCurrency(item.unit_price)}
-                      </td>
-                      <td className="py-3 text-body-sm font-weight-medium text-foreground text-right">
+                      </TableCell>
+                      <TableCell className="py-3 text-body-sm font-weight-medium text-foreground text-right">
                         {formatCurrency(item.total)}
-                      </td>
-                    </tr>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             )}
           </div>
 
           {proposal.terms && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Terms & Conditions</h2>
-              <p className="text-body-sm text-muted-foreground whitespace-pre-wrap">
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Terms & Conditions</H2>
+              <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">
                 {proposal.terms}
-              </p>
+              </Body>
             </div>
           )}
         </div>
 
         <div className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Summary</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Summary</H2>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-body-sm text-muted-foreground">Subtotal</span>
-                <span className="text-body-sm text-foreground">
+                <Text className="text-body-sm text-muted-foreground">Subtotal</Text>
+                <Text className="text-body-sm text-foreground">
                   {formatCurrency(proposal.subtotal || 0)}
-                </span>
+                </Text>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-body-sm text-muted-foreground">Tax</span>
-                <span className="text-body-sm text-foreground">
+                <Text className="text-body-sm text-muted-foreground">Tax</Text>
+                <Text className="text-body-sm text-foreground">
                   {formatCurrency(proposal.tax_amount || 0)}
-                </span>
+                </Text>
               </div>
               <div className="pt-3 border-t border-border flex items-center justify-between">
-                <span className="text-body-md font-weight-semibold text-foreground">Total</span>
-                <span className="text-h4-md font-weight-bold text-foreground">
+                <Text className="text-body-md font-weight-semibold text-foreground">Total</Text>
+                <Text className="text-h4-md font-weight-bold text-foreground">
                   {formatCurrency(proposal.total || 0)}
-                </span>
+                </Text>
               </div>
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
             <div className="space-y-4">
               <div className="flex items-start gap-3">
                 <User className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Client</p>
-                  <p className="text-body-md text-foreground">
+                  <Body className="text-body-xs text-muted-foreground">Client</Body>
+                  <Body className="text-body-md text-foreground">
                     {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'Not specified'}
-                  </p>
+                  </Body>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Valid Until</p>
-                  <p className="text-body-md text-foreground">
+                  <Body className="text-body-xs text-muted-foreground">Valid Until</Body>
+                  <Body className="text-body-md text-foreground">
                     {proposal.valid_until ? formatDate(proposal.valid_until) : 'No expiry'}
-                  </p>
+                  </Body>
                 </div>
               </div>
               {proposal.sent_at && (
                 <div className="flex items-start gap-3">
                   <Clock className="h-5 w-5 text-muted-foreground mt-0.5" />
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Sent</p>
-                    <p className="text-body-md text-foreground">
+                    <Body className="text-body-xs text-muted-foreground">Sent</Body>
+                    <Body className="text-body-md text-foreground">
                       {formatDate(proposal.sent_at)}
-                    </p>
+                    </Body>
                   </div>
                 </div>
               )}
@@ -264,17 +279,17 @@ export default function ProposalDetailPage() {
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Share Link</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Share Link</H2>
             <div className="bg-muted p-3 rounded font-mono text-body-xs break-all">
               {typeof window !== 'undefined' ? `${window.location.origin}/p/${proposal.public_token}` : ''}
             </div>
-            <button
+            <Button
               onClick={() => navigator.clipboard.writeText(`${window.location.origin}/p/${proposal.public_token}`)}
               className="mt-3 flex items-center gap-2 px-4 py-2 w-full justify-center border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               <Copy className="h-4 w-4" />
-              <span className="text-body-sm">Copy Link</span>
-            </button>
+              <Text className="text-body-sm">Copy Link</Text>
+            </Button>
           </div>
         </div>
       </div>
@@ -282,24 +297,24 @@ export default function ProposalDetailPage() {
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-2">Delete Proposal</h3>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-2">Delete Proposal</H3>
+            <Body className="text-body-sm text-muted-foreground mb-4">
               Are you sure you want to delete this proposal? This action cannot be undone.
-            </p>
+            </Body>
             <div className="flex items-center justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowDeleteConfirm(false)}
                 className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleDelete}
                 disabled={deleteProposal.isPending}
                 className="px-4 py-2 bg-destructive text-white rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
               >
                 {deleteProposal.isPending ? 'Deleting...' : 'Delete'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

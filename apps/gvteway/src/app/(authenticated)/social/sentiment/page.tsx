@@ -12,17 +12,33 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_SENTIMENT_ALERTS,
-  DEMO_SENTIMENT_METRICS,
-  type DemoSentimentAlert as SentimentAlert,
-} from "@/lib/demo-data";
+import { useSentimentAnalysis } from "@ghxstship/config";
+import { DEMO_SENTIMENT_ALERTS, DEMO_SENTIMENT_METRICS } from "@/lib/demo-data";
 
-const mockAlerts = DEMO_SENTIMENT_ALERTS;
-const mockMetrics = DEMO_SENTIMENT_METRICS;
+interface SentimentAlert {
+  id: string;
+  type: string;
+  severity: string;
+  source: string;
+  keyword: string;
+  mentions: number;
+  sentiment: number;
+  status: string;
+  timestamp: string;
+}
+
+interface SentimentMetrics {
+  overall: number;
+  volume: number;
+  positive: number;
+  neutral: number;
+  negative: number;
+  trending: string[];
+}
 
 function SentimentAnalysisPageContent() {
   const router = useRouter();
+  const { data: apiData, isLoading } = useSentimentAnalysis();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -30,6 +46,10 @@ function SentimentAnalysisPageContent() {
     validTabs: ['dashboard', 'alerts', 'keywords'],
   });
   const [selectedAlert, setSelectedAlert] = useState<SentimentAlert | null>(null);
+
+  // Use API data or fall back to demo data
+  const alerts: SentimentAlert[] = DEMO_SENTIMENT_ALERTS as unknown as SentimentAlert[];
+  const metrics: SentimentMetrics = DEMO_SENTIMENT_METRICS as unknown as SentimentMetrics;
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -50,8 +70,8 @@ function SentimentAnalysisPageContent() {
     }
   };
 
-  const activeAlerts = mockAlerts.filter(a => a.status === "Active").length;
-  const criticalAlerts = mockAlerts.filter(a => a.severity === "Critical" && a.status === "Active").length;
+  const activeAlerts = alerts.filter(a => a.status === "Active").length;
+  const criticalAlerts = alerts.filter(a => a.severity === "Critical" && a.status === "Active").length;
 
   return (
     <>
@@ -70,10 +90,10 @@ function SentimentAnalysisPageContent() {
           )}
 
             <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Overall Sentiment" value={`${(mockMetrics.overall * 100).toFixed(0)}%`} inverted />
-              <StatCard label="Mentions (24h)" value={mockMetrics.volume.toLocaleString()} inverted />
+              <StatCard label="Overall Sentiment" value={`${(metrics.overall * 100).toFixed(0)}%`} inverted />
+              <StatCard label="Mentions (24h)" value={metrics.volume.toLocaleString()} inverted />
               <StatCard label="Active Alerts" value={activeAlerts.toString()} inverted />
-              <StatCard label="Positive Rate" value={`${mockMetrics.positive}%`} inverted />
+              <StatCard label="Positive Rate" value={`${metrics.positive}%`} inverted />
             </Grid>
 
           <Tabs>
@@ -92,23 +112,23 @@ function SentimentAnalysisPageContent() {
                       <Stack gap={1}>
                         <Stack direction="horizontal" className="justify-between">
                           <Label>Positive</Label>
-                          <Label className="text-success-600">{mockMetrics.positive}%</Label>
+                          <Label className="text-success-600">{metrics.positive}%</Label>
                         </Stack>
-                        <ProgressBar value={mockMetrics.positive} className="h-3 bg-success-100" />
+                        <ProgressBar value={metrics.positive} className="h-3 bg-success-100" />
                       </Stack>
                       <Stack gap={1}>
                         <Stack direction="horizontal" className="justify-between">
                           <Label>Neutral</Label>
-                          <Label className="text-ink-600">{mockMetrics.neutral}%</Label>
+                          <Label className="text-ink-600">{metrics.neutral}%</Label>
                         </Stack>
-                        <ProgressBar value={mockMetrics.neutral} className="h-3 bg-ink-100" />
+                        <ProgressBar value={metrics.neutral} className="h-3 bg-ink-100" />
                       </Stack>
                       <Stack gap={1}>
                         <Stack direction="horizontal" className="justify-between">
                           <Label>Negative</Label>
-                          <Label className="text-error-600">{mockMetrics.negative}%</Label>
+                          <Label className="text-error-600">{metrics.negative}%</Label>
                         </Stack>
-                        <ProgressBar value={mockMetrics.negative} className="h-3 bg-error-100" />
+                        <ProgressBar value={metrics.negative} className="h-3 bg-error-100" />
                       </Stack>
                     </Stack>
                   </Stack>
@@ -117,7 +137,7 @@ function SentimentAnalysisPageContent() {
                   <Stack gap={4}>
                     <H3>Trending Keywords</H3>
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
-                      {mockMetrics.trending.map((keyword, idx) => (
+                      {metrics.trending.map((keyword, idx) => (
                         <Badge key={idx} variant="outline" className="text-body-md py-2 px-4">{keyword}</Badge>
                       ))}
                     </Stack>
@@ -146,7 +166,7 @@ function SentimentAnalysisPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockAlerts.map((alert) => (
+                  {alerts.map((alert) => (
                     <TableRow key={alert.id}>
                       <TableCell><Label>{alert.type}</Label></TableCell>
                       <TableCell><Badge variant="outline" className={getSeverityColor(alert.severity)}>{alert.severity}</Badge></TableCell>

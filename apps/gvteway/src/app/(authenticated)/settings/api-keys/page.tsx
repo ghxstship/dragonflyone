@@ -4,12 +4,36 @@ import { useState, Suspense } from "react";
 import { useRouter } from "next/navigation";
 // Layout provided by route group
 import {
-  H2, H3, Body, Label, Grid, Stack, StatCard, Input,
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Button,
-  Card, Badge,
-  Modal, ModalHeader, ModalBody, ModalFooter, Alert,
-  Kicker, MainContent, Container, Checkbox,
-} from "@ghxstship/ui";
+  Alert,
+  Badge,
+  Body,
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  Grid,
+  H2,
+  H3,
+  Input,
+  Kicker,
+  Label,
+  List,
+  ListItem,
+  MainContent,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Select,
+  Stack,
+  StatCard,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@ghxstship/ui';
 
 import { Key, Plus, Trash2, Eye, EyeOff, Copy, CheckCircle, Shield } from "lucide-react";
 import {
@@ -287,21 +311,21 @@ function ApiKeysPageContent() {
                 <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
                   <Stack gap={2}>
                     <Body className="text-white font-weight-medium">Do:</Body>
-                    <ul className="list-disc list-inside text-on-dark-muted space-y-1">
-                      <li>Store API keys securely in environment variables</li>
-                      <li>Use the minimum required scopes</li>
-                      <li>Set expiration dates for keys</li>
-                      <li>Rotate keys regularly</li>
-                    </ul>
+                    <List className="list-disc list-inside text-on-dark-muted space-y-1">
+                      <ListItem>Store API keys securely in environment variables</ListItem>
+                      <ListItem>Use the minimum required scopes</ListItem>
+                      <ListItem>Set expiration dates for keys</ListItem>
+                      <ListItem>Rotate keys regularly</ListItem>
+                    </List>
                   </Stack>
                   <Stack gap={2}>
                     <Body className="text-white font-weight-medium">Do Not:</Body>
-                    <ul className="list-disc list-inside text-on-dark-muted space-y-1">
-                      <li>Commit API keys to version control</li>
-                      <li>Share keys across applications</li>
-                      <li>Use production keys in development</li>
-                      <li>Expose keys in client-side code</li>
-                    </ul>
+                    <List className="list-disc list-inside text-on-dark-muted space-y-1">
+                      <ListItem>Commit API keys to version control</ListItem>
+                      <ListItem>Share keys across applications</ListItem>
+                      <ListItem>Use production keys in development</ListItem>
+                      <ListItem>Expose keys in client-side code</ListItem>
+                    </List>
                   </Stack>
                 </Grid>
               </Stack>
@@ -327,7 +351,7 @@ function ApiKeysPageContent() {
             </Stack>
             <Stack gap={2}>
               <Label>Expiration</Label>
-              <select
+              <Select
                 value={expiresIn}
                 onChange={(e) => setExpiresIn(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-ink-200 rounded-button bg-white text-body-sm focus:outline-none focus:border-primary"
@@ -336,7 +360,7 @@ function ApiKeysPageContent() {
                 <option value="30d">30 days</option>
                 <option value="90d">90 days</option>
                 <option value="1y">1 year</option>
-              </select>
+              </Select>
             </Stack>
             <Stack gap={2}>
               <Label>Scopes</Label>

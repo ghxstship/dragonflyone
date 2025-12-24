@@ -11,17 +11,31 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Textarea, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_MEDIA_ASSETS,
-  DEMO_PRESS_RELEASES,
-  type DemoMediaAsset as MediaAsset,
-} from "@/lib/demo-data";
+import { useMediaKitAssets } from "@ghxstship/config";
+import { DEMO_MEDIA_ASSETS, DEMO_PRESS_RELEASES } from "@/lib/demo-data";
 
-const mockAssets = DEMO_MEDIA_ASSETS;
-const mockReleases = DEMO_PRESS_RELEASES;
+interface MediaAsset {
+  id: string;
+  name: string;
+  type: string;
+  format: string;
+  size: string;
+  lastUpdated: string;
+  event?: string;
+}
+
+interface PressRelease {
+  id: string;
+  title: string;
+  event: string;
+  date: string;
+  status: string;
+  downloads: number;
+}
 
 function MediaKitPageContent() {
   const router = useRouter();
+  const { assets: apiAssets, isLoading } = useMediaKitAssets();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -32,7 +46,11 @@ function MediaKitPageContent() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showReleaseModal, setShowReleaseModal] = useState(false);
 
-  const totalDownloads = mockReleases.reduce((s, r) => s + r.downloads, 0);
+  // Use API data or fall back to demo data
+  const assets: MediaAsset[] = apiAssets.length > 0 ? (apiAssets as unknown as MediaAsset[]) : (DEMO_MEDIA_ASSETS as unknown as MediaAsset[]);
+  const releases: PressRelease[] = DEMO_PRESS_RELEASES as unknown as PressRelease[];
+
+  const totalDownloads = releases.reduce((s, r) => s + r.downloads, 0);
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -65,11 +83,17 @@ function MediaKitPageContent() {
               <Body className="text-on-dark-muted">Press materials and media asset distribution</Body>
             </Stack>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading media assets...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Media Assets" value={mockAssets.length} className="border-2 border-black" />
-            <StatCard label="Press Releases" value={mockReleases.length} className="border-2 border-black" />
+            <StatCard label="Media Assets" value={assets.length} className="border-2 border-black" />
+            <StatCard label="Press Releases" value={releases.length} className="border-2 border-black" />
             <StatCard label="Total Downloads" value={totalDownloads} className="border-2 border-black" />
-            <StatCard label="Published" value={mockReleases.filter(r => r.status !== "Draft").length} className="border-2 border-black" />
+            <StatCard label="Published" value={releases.filter(r => r.status !== "Draft").length} className="border-2 border-black" />
           </Grid>
 
           <Tabs>
@@ -90,7 +114,7 @@ function MediaKitPageContent() {
                   <Button variant="solid" onClick={() => setShowUploadModal(true)}>Upload Asset</Button>
                 </Stack>
                 <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
-                  {mockAssets.map((asset) => (
+                  {assets.map((asset) => (
                     <Card key={asset.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
                         <Card className="h-24 bg-ink-100 flex items-center justify-center">
@@ -120,7 +144,7 @@ function MediaKitPageContent() {
                 <Stack direction="horizontal" className="justify-end">
                   <Button variant="solid" onClick={() => setShowReleaseModal(true)}>Create Release</Button>
                 </Stack>
-                {mockReleases.map((release) => (
+                {releases.map((release) => (
                   <Card key={release.id} className="border-2 border-black p-6">
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>

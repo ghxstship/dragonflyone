@@ -15,11 +15,10 @@ import {
   type ListPageAction,
   type DetailSection,
 } from '@ghxstship/ui';
+import { useCompensation, type CompensationPlan as APICompensationPlan } from '@ghxstship/config';
+import { DEMO_COMPENSATION_PLANS } from '../../../../lib/demo-data';
 
-import {
-  DEMO_COMPENSATION_PLANS,
-  type DemoCompensationPlan as CompensationPlan,
-} from '../../../../lib/demo-data';
+type CompensationPlan = APICompensationPlan & { [key: string]: unknown };
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -47,16 +46,28 @@ const filters: ListPageFilter[] = [
 
 export default function CompensationPage() {
   const router = useRouter();
-  const [plans, setPlans] = useState<CompensationPlan[]>(DEMO_COMPENSATION_PLANS);
+  const { plans: apiPlans, summary, isLoading, error, updatePlanAsync, deletePlansAsync, approvePlansAsync, refetch } = useCompensation();
   const [selectedPlan, setSelectedPlan] = useState<CompensationPlan | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const totalBudget = plans.reduce((sum, p) => sum + (p.proposedSalary - p.currentSalary), 0);
-  const pendingCount = plans.filter(p => p.status === 'Pending Approval').length;
+  // Use API data or fall back to demo data
+  const plans: CompensationPlan[] = apiPlans.length > 0 ? (apiPlans as CompensationPlan[]) : (DEMO_COMPENSATION_PLANS as CompensationPlan[]);
+
+  const totalBudget = summary?.totalBudget || plans.reduce((sum, p) => sum + (p.proposedSalary - p.currentSalary), 0);
+  const pendingCount = summary?.pending || plans.filter(p => p.status === 'Pending Approval').length;
+
+  const handleApprove = async (r: CompensationPlan) => {
+    try {
+      await updatePlanAsync({ id: r.id, data: { status: 'Approved' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to approve plan:', err);
+    }
+  };
 
   const rowActions: ListPageAction<CompensationPlan>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedPlan(r); setDrawerOpen(true); } },
-    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: (r) => setPlans(plans.map(p => p.id === r.id ? { ...p, status: 'Approved' as const } : p)) },
+    { id: 'approve', label: 'Approve', icon: <Check className="size-4" />, onClick: handleApprove },
   ];
 
   const stats = [
@@ -91,7 +102,9 @@ export default function CompensationPage() {
         data={plans}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search compensation plans..."
         filters={filters}
         rowActions={rowActions}
@@ -103,9 +116,11 @@ export default function CompensationPage() {
         emptyAction={{ label: 'Create Plan', onClick: () => router.push('/workforce/compensation/new') }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setPlans(prev => prev.filter(p => !ids.includes(p.id)));
+            await deletePlansAsync(ids);
+            refetch();
           } else if (action === 'approve') {
-            setPlans(prev => prev.map(p => ids.includes(p.id) ? { ...p, status: 'Approved' as const } : p));
+            await approvePlansAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[
@@ -124,8 +139,10 @@ export default function CompensationPage() {
           subtitle={(p) => `${p.department} • ${p.role}`}
           sections={detailSections}
           actions={[{ id: 'approve', label: 'Approve', icon: <Check className="size-4" /> }, { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" /> }]}
-          onAction={(id, p) => {
-            if (id === 'approve') setPlans(plans.map(plan => plan.id === p.id ? { ...plan, status: 'Approved' as const } : plan));
+          onAction={async (id, p) => {
+            if (id === 'approve') {
+              await handleApprove(p);
+            }
             setDrawerOpen(false);
           }}
         />

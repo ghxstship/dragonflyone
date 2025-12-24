@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation";
 import { Eye, Link } from "lucide-react";
 // Layout provided by route group
 import {
-  ListPage,
   Badge,
+  Body,
   DetailDrawer,
   Grid,
-  Body,
+  ListPage,
+  type DetailSection,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
-  type DetailSection,
-  } from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useBankReconciliation, type BankTransaction } from "@ghxstship/config";
 import { DEMO_BANK_TRANSACTIONS } from '../../../../lib/demo-data';
 

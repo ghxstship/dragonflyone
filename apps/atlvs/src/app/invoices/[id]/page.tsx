@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -97,10 +108,10 @@ export default function InvoiceDetailPage() {
         <div className="p-6">
           <div className="text-center py-12">
             <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
-            <h2 className="text-h3-md font-weight-bold text-foreground mb-2">Invoice Not Found</h2>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            <H2 className="text-h3-md font-weight-bold text-foreground mb-2">Invoice Not Found</H2>
+            <Body className="text-body-sm text-muted-foreground mb-4">
               {error instanceof Error ? error.message : 'The requested invoice could not be found.'}
-            </p>
+            </Body>
             <Link
               href="/invoices"
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
@@ -129,66 +140,66 @@ export default function InvoiceDetailPage() {
             </Link>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-h2-md font-weight-bold text-foreground">{invoice.invoice_number}</h1>
-                <span className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
+                <H1 className="text-h2-md font-weight-bold text-foreground">{invoice.invoice_number}</H1>
+                <Text className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
                   {statusConfig.label}
-                </span>
+                </Text>
               </div>
-              <p className="text-body-sm text-muted-foreground mt-1">
+              <Body className="text-body-sm text-muted-foreground mt-1">
                 {invoice.client_name}
-              </p>
+              </Body>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button
+            <Button
               onClick={() => window.print()}
               className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               <Printer className="h-4 w-4" />
               Print
-            </button>
-            <button
+            </Button>
+            <Button
               className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               <Download className="h-4 w-4" />
               Download
-            </button>
+            </Button>
             {invoice.status === 'draft' && (
               <>
-                <button
+                <Button
                   onClick={() => router.push(`/invoices/${invoiceId}/edit`)}
                   className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
                 >
                   <Edit2 className="h-4 w-4" />
                   Edit
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleSend}
                   disabled={sendMutation.isPending}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   <Send className="h-4 w-4" />
                   {sendMutation.isPending ? 'Sending...' : 'Send Invoice'}
-                </button>
+                </Button>
               </>
             )}
             {['sent', 'viewed', 'partial', 'overdue'].includes(invoice.status) && (
               <>
-                <button
+                <Button
                   onClick={handleSend}
                   disabled={sendMutation.isPending}
                   className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors disabled:opacity-50"
                 >
                   <Mail className="h-4 w-4" />
                   Send Reminder
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => setShowPaymentModal(true)}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success text-body-sm font-weight-medium hover:bg-success/90 transition-colors"
                 >
                   <DollarSign className="h-4 w-4" />
                   Record Payment
-                </button>
+                </Button>
               </>
             )}
           </div>
@@ -198,68 +209,68 @@ export default function InvoiceDetailPage() {
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <FileText className="h-5 w-5 text-primary" />
-              <span className="text-body-sm text-muted-foreground">Total Amount</span>
+              <Text className="text-body-sm text-muted-foreground">Total Amount</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-foreground">
+            <Body className="text-h3-md font-weight-bold text-foreground">
               {formatCurrency(invoice.total_amount)}
-            </p>
+            </Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle className="h-5 w-5 text-success" />
-              <span className="text-body-sm text-muted-foreground">Paid</span>
+              <Text className="text-body-sm text-muted-foreground">Paid</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-success">
+            <Body className="text-h3-md font-weight-bold text-success">
               {formatCurrency(invoice.amount_paid)}
-            </p>
+            </Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="h-5 w-5 text-warning" />
-              <span className="text-body-sm text-muted-foreground">Balance Due</span>
+              <Text className="text-body-sm text-muted-foreground">Balance Due</Text>
             </div>
-            <p className="text-h3-md font-weight-bold text-warning">
+            <Body className="text-h3-md font-weight-bold text-warning">
               {formatCurrency(invoice.amount_due)}
-            </p>
+            </Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <Calendar className="h-5 w-5 text-primary" />
-              <span className="text-body-sm text-muted-foreground">Due Date</span>
+              <Text className="text-body-sm text-muted-foreground">Due Date</Text>
             </div>
-            <p className="text-body-lg font-weight-medium text-foreground">
+            <Body className="text-body-lg font-weight-medium text-foreground">
               {formatDate(invoice.due_date)}
-            </p>
+            </Body>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Bill To</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Bill To</H2>
             <div className="space-y-2">
-              <p className="text-body-lg font-weight-medium text-foreground">{invoice.client_name}</p>
+              <Body className="text-body-lg font-weight-medium text-foreground">{invoice.client_name}</Body>
               {invoice.project_name && (
-                <p className="text-body-sm text-muted-foreground">Project: {invoice.project_name}</p>
+                <Body className="text-body-sm text-muted-foreground">Project: {invoice.project_name}</Body>
               )}
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Invoice Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Invoice Details</H2>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-body-sm text-muted-foreground">Issue Date</span>
-                <span className="text-body-sm font-weight-medium text-foreground">{formatDate(invoice.issue_date)}</span>
+                <Text className="text-body-sm text-muted-foreground">Issue Date</Text>
+                <Text className="text-body-sm font-weight-medium text-foreground">{formatDate(invoice.issue_date)}</Text>
               </div>
               <div className="flex justify-between">
-                <span className="text-body-sm text-muted-foreground">Due Date</span>
-                <span className="text-body-sm font-weight-medium text-foreground">{formatDate(invoice.due_date)}</span>
+                <Text className="text-body-sm text-muted-foreground">Due Date</Text>
+                <Text className="text-body-sm font-weight-medium text-foreground">{formatDate(invoice.due_date)}</Text>
               </div>
               <div className="flex justify-between">
-                <span className="text-body-sm text-muted-foreground">Status</span>
-                <span className={`text-body-sm font-weight-medium ${statusConfig.color.replace('bg-', 'text-').split(' ')[1]}`}>
+                <Text className="text-body-sm text-muted-foreground">Status</Text>
+                <Text className={`text-body-sm font-weight-medium ${statusConfig.color.replace('bg-', 'text-').split(' ')[1]}`}>
                   {statusConfig.label}
-                </span>
+                </Text>
               </div>
             </div>
           </div>
@@ -267,25 +278,25 @@ export default function InvoiceDetailPage() {
 
         {invoice.notes && (
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</h2>
-            <p className="text-body-sm text-muted-foreground whitespace-pre-wrap">{invoice.notes}</p>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
+            <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">{invoice.notes}</Body>
           </div>
         )}
 
         {showPaymentModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
                 Record Payment
-              </h2>
+              </H2>
               <div className="space-y-4 mb-6">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Amount
-                  </label>
+                  </Label>
                   <div className="relative">
                     <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <input
+                    <Input
                       type="number"
                       value={paymentAmount}
                       onChange={(e) => setPaymentAmount(e.target.value)}
@@ -297,10 +308,10 @@ export default function InvoiceDetailPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Payment Method
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -311,13 +322,13 @@ export default function InvoiceDetailPage() {
                     <option value="check">Check</option>
                     <option value="cash">Cash</option>
                     <option value="wire">Wire Transfer</option>
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Reference (Optional)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={paymentReference}
                     onChange={(e) => setPaymentReference(e.target.value)}
@@ -327,20 +338,20 @@ export default function InvoiceDetailPage() {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3">
-                <button
+                <Button
                   onClick={() => setShowPaymentModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleRecordPayment}
                   disabled={!paymentAmount || parseFloat(paymentAmount) <= 0 || paymentMutation.isPending}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success text-body-sm font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
                 >
                   <CheckCircle className="h-4 w-4" />
                   {paymentMutation.isPending ? 'Recording...' : 'Record Payment'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

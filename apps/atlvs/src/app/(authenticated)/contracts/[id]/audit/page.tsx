@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H2,
+  Icon,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Shield, FileText, Pen, Eye, Send, XCircle, Clock } from 'lucide-react';
@@ -96,7 +104,7 @@ export default function ContractAuditPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load audit trail</p>
+          <Body className="text-destructive">Failed to load audit trail</Body>
         </div>
       </div>
     );
@@ -112,30 +120,30 @@ export default function ContractAuditPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <Shield className="h-6 w-6" />
             Audit Trail
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {data?.contract_title}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">
+          <H2 className="text-h4-md font-weight-semibold text-foreground">
             Activity History
-          </h2>
-          <span className="text-body-sm text-muted-foreground">
+          </H2>
+          <Text className="text-body-sm text-muted-foreground">
             {data?.total || 0} events
-          </span>
+          </Text>
         </div>
 
         {!data?.events || data.events.length === 0 ? (
           <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
             <Shield className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-body-sm text-muted-foreground">No audit events recorded</p>
+            <Body className="text-body-sm text-muted-foreground">No audit events recorded</Body>
           </div>
         ) : (
           <div className="relative">
@@ -153,23 +161,23 @@ export default function ContractAuditPage() {
                     <div className="flex-1 pt-1">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-body-md font-weight-medium text-foreground">
+                          <Body className="text-body-md font-weight-medium text-foreground">
                             {formatAction(event.action)}
-                          </p>
+                          </Body>
                           {event.actor && (
-                            <p className="text-body-sm text-muted-foreground">
+                            <Body className="text-body-sm text-muted-foreground">
                               by {event.actor.full_name || event.actor.email}
-                            </p>
+                            </Body>
                           )}
                           {event.type === 'signature' && event.details && (
-                            <p className="text-body-sm text-muted-foreground">
+                            <Body className="text-body-sm text-muted-foreground">
                               Signer: {String(event.details.signer_name || event.details.signer_email)}
-                            </p>
+                            </Body>
                           )}
                         </div>
-                        <span className="text-body-xs text-muted-foreground">
+                        <Text className="text-body-xs text-muted-foreground">
                           {formatDate(event.timestamp)}
-                        </span>
+                        </Text>
                       </div>
                       {event.details && Object.keys(event.details).length > 0 && event.type === 'action' && (
                         <div className="mt-2 p-3 bg-muted/30 rounded-card">
@@ -179,9 +187,9 @@ export default function ContractAuditPage() {
                         </div>
                       )}
                       {event.ip_address && (
-                        <p className="text-body-xs text-muted-foreground mt-1">
+                        <Body className="text-body-xs text-muted-foreground mt-1">
                           IP: {event.ip_address}
-                        </p>
+                        </Body>
                       )}
                     </div>
                   </div>

@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Trash2, DollarSign, Calendar, User, FileText } from 'lucide-react';
@@ -125,38 +138,38 @@ export default function NewInvoicePage() {
     <AtlvsAppLayout>
       <div className="p-6 max-w-5xl mx-auto">
         <div className="flex items-center gap-4 mb-6">
-          <button
+          <Button
             onClick={() => router.back()}
             className="p-2 hover:bg-muted rounded-button transition-colors"
           >
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
-          </button>
+          </Button>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Create Invoice</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Create Invoice</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Create a new invoice for a client
-            </p>
+            </Body>
           </div>
         </div>
 
         {error && (
           <div className="mb-6 p-4 bg-destructive/10 border-2 border-destructive/20 rounded-card">
-            <p className="text-body-sm text-destructive">{error}</p>
+            <Body className="text-body-sm text-destructive">{error}</Body>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <User className="h-5 w-5 text-primary" />
               Client Information
-            </h2>
+            </H2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Client <span className="text-destructive">*</span>
-                </label>
-                <select
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  Client <Text className="text-destructive">*</Text>
+                </Label>
+                <Select
                   value={formData.client_id}
                   onChange={(e) => setFormData({ ...formData, client_id: e.target.value })}
                   required
@@ -166,13 +179,13 @@ export default function NewInvoicePage() {
                   <option value="client-1">Acme Corporation</option>
                   <option value="client-2">TechStart Inc</option>
                   <option value="client-3">Global Events Co</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Project (Optional)
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.project_id}
                   onChange={(e) => setFormData({ ...formData, project_id: e.target.value })}
                   className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -181,13 +194,13 @@ export default function NewInvoicePage() {
                   <option value="project-1">Summer Festival 2025</option>
                   <option value="project-2">Product Launch Event</option>
                   <option value="project-3">Annual Gala</option>
-                </select>
+                </Select>
               </div>
               <div className="col-span-2">
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Billing Address
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={formData.billing_address}
                   onChange={(e) => setFormData({ ...formData, billing_address: e.target.value })}
                   rows={2}
@@ -199,16 +212,16 @@ export default function NewInvoicePage() {
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
               Payment Terms
-            </h2>
+            </H2>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Payment Terms
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.payment_terms}
                   onChange={(e) => setFormData({ ...formData, payment_terms: e.target.value })}
                   className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -216,13 +229,13 @@ export default function NewInvoicePage() {
                   {PAYMENT_TERMS.map((term) => (
                     <option key={term.value} value={term.value}>{term.label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
-                  Due Date <span className="text-destructive">*</span>
-                </label>
-                <input
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  Due Date <Text className="text-destructive">*</Text>
+                </Label>
+                <Input
                   type="date"
                   value={formData.due_date}
                   onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
@@ -231,10 +244,10 @@ export default function NewInvoicePage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   PO Number
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.po_number}
                   onChange={(e) => setFormData({ ...formData, po_number: e.target.value })}
@@ -247,18 +260,18 @@ export default function NewInvoicePage() {
 
           <div className="bg-background border-2 border-border rounded-card p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
+              <H2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
                 <FileText className="h-5 w-5 text-primary" />
                 Line Items
-              </h2>
-              <button
+              </H2>
+              <Button
                 type="button"
                 onClick={addLineItem}
                 className="inline-flex items-center gap-2 px-3 py-1.5 text-body-sm font-weight-medium text-primary hover:bg-primary/10 rounded-button transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 Add Item
-              </button>
+              </Button>
             </div>
 
             <div className="space-y-3">
@@ -274,7 +287,7 @@ export default function NewInvoicePage() {
               {lineItems.map((item) => (
                 <div key={item.id} className="grid grid-cols-12 gap-2 items-center">
                   <div className="col-span-4">
-                    <input
+                    <Input
                       type="text"
                       value={item.description}
                       onChange={(e) => updateLineItem(item.id, 'description', e.target.value)}
@@ -283,7 +296,7 @@ export default function NewInvoicePage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       value={item.quantity}
                       onChange={(e) => updateLineItem(item.id, 'quantity', parseFloat(e.target.value) || 0)}
@@ -293,7 +306,7 @@ export default function NewInvoicePage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       value={item.unit_price}
                       onChange={(e) => updateLineItem(item.id, 'unit_price', parseFloat(e.target.value) || 0)}
@@ -303,7 +316,7 @@ export default function NewInvoicePage() {
                     />
                   </div>
                   <div className="col-span-1">
-                    <input
+                    <Input
                       type="number"
                       value={item.tax_rate}
                       onChange={(e) => updateLineItem(item.id, 'tax_rate', parseFloat(e.target.value) || 0)}
@@ -314,19 +327,19 @@ export default function NewInvoicePage() {
                     />
                   </div>
                   <div className="col-span-2 text-right">
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {formatCurrency(calculateLineTotal(item))}
-                    </span>
+                    </Text>
                   </div>
                   <div className="col-span-1 flex justify-center">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => removeLineItem(item.id)}
                       disabled={lineItems.length === 1}
                       className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors disabled:opacity-30"
                     >
                       <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -336,22 +349,22 @@ export default function NewInvoicePage() {
               <div className="flex justify-end">
                 <div className="w-64 space-y-2">
                   <div className="flex justify-between text-body-sm">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span className="font-weight-medium text-foreground">{formatCurrency(calculateSubtotal())}</span>
+                    <Text className="text-muted-foreground">Subtotal</Text>
+                    <Text className="font-weight-medium text-foreground">{formatCurrency(calculateSubtotal())}</Text>
                   </div>
                   <div className="flex justify-between text-body-sm">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span className="font-weight-medium text-foreground">{formatCurrency(calculateTax())}</span>
+                    <Text className="text-muted-foreground">Tax</Text>
+                    <Text className="font-weight-medium text-foreground">{formatCurrency(calculateTax())}</Text>
                   </div>
                   {calculateDiscount() > 0 && (
                     <div className="flex justify-between text-body-sm">
-                      <span className="text-muted-foreground">Discount</span>
-                      <span className="font-weight-medium text-success">-{formatCurrency(calculateDiscount())}</span>
+                      <Text className="text-muted-foreground">Discount</Text>
+                      <Text className="font-weight-medium text-success">-{formatCurrency(calculateDiscount())}</Text>
                     </div>
                   )}
                   <div className="flex justify-between text-body-lg font-weight-bold pt-2 border-t border-border">
-                    <span className="text-foreground">Total</span>
-                    <span className="text-primary">{formatCurrency(calculateTotal())}</span>
+                    <Text className="text-foreground">Total</Text>
+                    <Text className="text-primary">{formatCurrency(calculateTotal())}</Text>
                   </div>
                 </div>
               </div>
@@ -359,8 +372,8 @@ export default function NewInvoicePage() {
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</h2>
-            <textarea
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
+            <Textarea
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               rows={3}
@@ -370,23 +383,23 @@ export default function NewInvoicePage() {
           </div>
 
           <div className="flex items-center justify-end gap-3">
-            <button
+            <Button
               type="button"
               onClick={() => router.back()}
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </button>
-            <button
+            </Button>
+            <Button
               type="submit"
               disabled={isSubmitting}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <DollarSign className="h-4 w-4" />
               {isSubmitting ? 'Creating...' : 'Create Invoice'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </AtlvsAppLayout>
   );

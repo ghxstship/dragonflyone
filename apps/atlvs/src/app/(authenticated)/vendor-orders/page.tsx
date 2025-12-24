@@ -1,5 +1,21 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -77,10 +93,10 @@ export default function VendorOrdersPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Orders</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Orders</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Create and manage orders to vendors with approval workflows
-          </p>
+          </Body>
         </div>
         <Link
           href="/vendor-orders/new"
@@ -96,7 +112,7 @@ export default function VendorOrdersPage() {
           const count = data?.orders?.filter((o) => o.status === status).length || 0;
           const StatusIcon = config.icon;
           return (
-            <button
+            <Button
               key={status}
               onClick={() => setStatusFilter(statusFilter === status ? '' : status)}
               className={`p-4 rounded-card border-2 transition-all ${
@@ -114,7 +130,7 @@ export default function VendorOrdersPage() {
                   <div className="text-body-xs text-muted-foreground">{config.label}</div>
                 </div>
               </div>
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -122,7 +138,7 @@ export default function VendorOrdersPage() {
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search orders..."
             value={searchQuery}
@@ -132,7 +148,7 @@ export default function VendorOrdersPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -143,21 +159,21 @@ export default function VendorOrdersPage() {
                 {config.label}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
       {(!filteredOrders || filteredOrders.length === 0) && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No orders found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {statusFilter
               ? `No orders with status "${STATUS_CONFIG[statusFilter as keyof typeof STATUS_CONFIG]?.label}"`
               : 'Create your first vendor order to get started.'}
-          </p>
+          </Body>
           <Link
             href="/vendor-orders/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -170,50 +186,50 @@ export default function VendorOrdersPage() {
 
       {filteredOrders && filteredOrders.length > 0 && (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+          <Table className="w-full">
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Order #
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Vendor
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Event
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Status
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Delivery
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Total
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {filteredOrders.map((order) => {
                 const statusConfig = STATUS_CONFIG[order.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.draft;
                 const StatusIcon = statusConfig.icon;
                 return (
-                  <tr key={order.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3">
-                      <a
+                  <TableRow key={order.id} className="hover:bg-muted/30 transition-colors">
+                    <TableCell className="px-4 py-3">
+                      <Link
                         href={`/vendor-orders/${order.id}`}
                         className="font-weight-medium text-primary hover:underline"
                       >
                         {order.order_number}
-                      </a>
+                      </Link>
                       <div className="text-body-xs text-muted-foreground">
                         {formatDate(order.created_at)}
                       </div>
-                    </td>
-                    <td className="px-4 py-3">
+                    </TableCell>
+                    <TableCell className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         {order.vendor?.logo_url ? (
                           <Image
@@ -228,40 +244,40 @@ export default function VendorOrdersPage() {
                             <Package className="h-4 w-4 text-muted-foreground" />
                           </div>
                         )}
-                        <span className="font-weight-medium text-foreground">
+                        <Text className="font-weight-medium text-foreground">
                           {order.vendor?.name || 'Unknown Vendor'}
-                        </span>
+                        </Text>
                       </div>
-                    </td>
-                    <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                       {order.booking?.event_name || '-'}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                    </TableCell>
+                    <TableCell className="px-4 py-3">
+                      <Text className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         <StatusIcon className="h-3 w-3" />
                         {statusConfig.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                      </Text>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                       {formatDate(order.delivery_date)}
-                    </td>
-                    <td className="px-4 py-3 text-right font-weight-medium text-foreground">
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-right font-weight-medium text-foreground">
                       {formatCurrency(order.total)}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <a
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-right">
+                      <Link
                         href={`/vendor-orders/${order.id}`}
                         className="inline-flex items-center gap-1 px-3 py-1 text-body-xs border-2 border-border rounded-button hover:bg-muted transition-colors"
                       >
                         <Eye className="h-3 w-3" />
                         View
-                      </a>
-                    </td>
-                  </tr>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

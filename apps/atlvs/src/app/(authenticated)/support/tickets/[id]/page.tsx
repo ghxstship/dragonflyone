@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -168,7 +180,7 @@ export default function TicketDetailPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load ticket details</span>
+          <Text className="text-destructive">Failed to load ticket details</Text>
         </div>
       </div>
     );
@@ -185,19 +197,19 @@ export default function TicketDetailPage() {
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-body-xs text-muted-foreground font-mono">{ticket.id}</span>
-            <span className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 border ${getStatusColor(ticket.status)}`}>
+            <Text className="text-body-xs text-muted-foreground font-mono">{ticket.id}</Text>
+            <Text className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 border ${getStatusColor(ticket.status)}`}>
               {getStatusIcon(ticket.status)}
               {ticket.status.replace('_', ' ')}
-            </span>
-            <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getPriorityColor(ticket.priority)}`}>
+            </Text>
+            <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getPriorityColor(ticket.priority)}`}>
               {ticket.priority}
-            </span>
+            </Text>
           </div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <Ticket className="h-6 w-6" />
             {ticket.subject}
-          </h1>
+          </H1>
         </div>
       </div>
 
@@ -211,17 +223,17 @@ export default function TicketDetailPage() {
                 <User className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-body-sm font-weight-medium text-foreground">You</p>
-                <p className="text-body-xs text-muted-foreground">{formatDate(ticket.created_at)}</p>
+                <Body className="text-body-sm font-weight-medium text-foreground">You</Body>
+                <Body className="text-body-xs text-muted-foreground">{formatDate(ticket.created_at)}</Body>
               </div>
             </div>
-            <p className="text-body-md text-foreground whitespace-pre-wrap">{ticket.description}</p>
+            <Body className="text-body-md text-foreground whitespace-pre-wrap">{ticket.description}</Body>
           </div>
 
           {/* Replies */}
           {ticket.replies.length > 0 && (
             <div className="space-y-4">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Conversation</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Conversation</H2>
               {ticket.replies.map((reply) => (
                 <div
                   key={reply.id}
@@ -240,16 +252,16 @@ export default function TicketDetailPage() {
                       }`} />
                     </div>
                     <div>
-                      <p className="text-body-sm font-weight-medium text-foreground flex items-center gap-2">
+                      <Body className="text-body-sm font-weight-medium text-foreground flex items-center gap-2">
                         {reply.author}
                         {reply.author_type === 'support' && (
-                          <span className="text-body-xs bg-primary/10 text-primary px-2 py-0.5 rounded">Support</span>
+                          <Text className="text-body-xs bg-primary/10 text-primary px-2 py-0.5 rounded">Support</Text>
                         )}
-                      </p>
-                      <p className="text-body-xs text-muted-foreground">{formatDate(reply.created_at)}</p>
+                      </Body>
+                      <Body className="text-body-xs text-muted-foreground">{formatDate(reply.created_at)}</Body>
                     </div>
                   </div>
-                  <p className="text-body-sm text-foreground whitespace-pre-wrap">{reply.message}</p>
+                  <Body className="text-body-sm text-foreground whitespace-pre-wrap">{reply.message}</Body>
                 </div>
               ))}
             </div>
@@ -258,8 +270,8 @@ export default function TicketDetailPage() {
           {/* Reply Form */}
           {ticket.status !== 'closed' && (
             <div className="bg-background border-2 border-border rounded-card p-4">
-              <h3 className="text-body-sm font-weight-medium text-foreground mb-3">Add Reply</h3>
-              <form
+              <H3 className="text-body-sm font-weight-medium text-foreground mb-3">Add Reply</H3>
+              <Form
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (replyMessage.trim()) {
@@ -267,7 +279,7 @@ export default function TicketDetailPage() {
                   }
                 }}
               >
-                <textarea
+                <Textarea
                   value={replyMessage}
                   onChange={(e) => setReplyMessage(e.target.value)}
                   placeholder="Type your reply..."
@@ -275,23 +287,23 @@ export default function TicketDetailPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none mb-3"
                 />
                 <div className="flex items-center justify-between">
-                  <button
+                  <Button
                     type="button"
                     className="flex items-center gap-2 px-3 py-2 text-muted-foreground hover:text-foreground transition-colors"
                   >
                     <Paperclip className="h-4 w-4" />
                     Attach File
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="submit"
                     disabled={!replyMessage.trim() || addReply.isPending}
                     className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
                     <Send className="h-4 w-4" />
                     {addReply.isPending ? 'Sending...' : 'Send Reply'}
-                  </button>
+                  </Button>
                 </div>
-              </form>
+              </Form>
             </div>
           )}
         </div>
@@ -300,11 +312,11 @@ export default function TicketDetailPage() {
         <div className="space-y-4">
           {/* Ticket Info */}
           <div className="bg-background border-2 border-border rounded-card p-4">
-            <h3 className="text-body-sm font-weight-semibold text-foreground mb-4">Ticket Details</h3>
+            <H3 className="text-body-sm font-weight-semibold text-foreground mb-4">Ticket Details</H3>
             <div className="space-y-3">
               <div>
-                <p className="text-body-xs text-muted-foreground">Status</p>
-                <select
+                <Body className="text-body-xs text-muted-foreground">Status</Body>
+                <Select
                   value={ticket.status}
                   onChange={(e) => updateStatus.mutate(e.target.value)}
                   disabled={ticket.status === 'closed'}
@@ -315,29 +327,29 @@ export default function TicketDetailPage() {
                   <option value="waiting">Waiting</option>
                   <option value="resolved">Resolved</option>
                   <option value="closed">Closed</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Priority</p>
-                <p className={`text-body-sm capitalize px-2 py-1 rounded inline-block mt-1 ${getPriorityColor(ticket.priority)}`}>
+                <Body className="text-body-xs text-muted-foreground">Priority</Body>
+                <Body className={`text-body-sm capitalize px-2 py-1 rounded inline-block mt-1 ${getPriorityColor(ticket.priority)}`}>
                   {ticket.priority}
-                </p>
+                </Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Category</p>
-                <p className="text-body-sm text-foreground">{ticket.category}</p>
+                <Body className="text-body-xs text-muted-foreground">Category</Body>
+                <Body className="text-body-sm text-foreground">{ticket.category}</Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Assigned To</p>
-                <p className="text-body-sm text-foreground">{ticket.assigned_to || 'Unassigned'}</p>
+                <Body className="text-body-xs text-muted-foreground">Assigned To</Body>
+                <Body className="text-body-sm text-foreground">{ticket.assigned_to || 'Unassigned'}</Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Created</p>
-                <p className="text-body-sm text-foreground">{formatDate(ticket.created_at)}</p>
+                <Body className="text-body-xs text-muted-foreground">Created</Body>
+                <Body className="text-body-sm text-foreground">{formatDate(ticket.created_at)}</Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Last Updated</p>
-                <p className="text-body-sm text-foreground">{formatDate(ticket.updated_at)}</p>
+                <Body className="text-body-xs text-muted-foreground">Last Updated</Body>
+                <Body className="text-body-sm text-foreground">{formatDate(ticket.updated_at)}</Body>
               </div>
             </div>
           </div>
@@ -345,23 +357,23 @@ export default function TicketDetailPage() {
           {/* Quick Actions */}
           {ticket.status !== 'closed' && (
             <div className="bg-background border-2 border-border rounded-card p-4">
-              <h3 className="text-body-sm font-weight-semibold text-foreground mb-4">Quick Actions</h3>
+              <H3 className="text-body-sm font-weight-semibold text-foreground mb-4">Quick Actions</H3>
               <div className="space-y-2">
                 {ticket.status === 'resolved' && (
-                  <button
+                  <Button
                     onClick={() => updateStatus.mutate('closed')}
                     className="w-full px-3 py-2 text-body-sm border-2 border-border rounded-button hover:bg-muted transition-colors text-left"
                   >
                     Close Ticket
-                  </button>
+                  </Button>
                 )}
                 {ticket.status !== 'resolved' && (
-                  <button
+                  <Button
                     onClick={() => updateStatus.mutate('resolved')}
                     className="w-full px-3 py-2 text-body-sm border-2 border-success text-success rounded-button hover:bg-success/10 transition-colors text-left"
                   >
                     Mark as Resolved
-                  </button>
+                  </Button>
                 )}
               </div>
             </div>

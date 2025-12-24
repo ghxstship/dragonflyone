@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Link,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Plus, Search, Calendar, DollarSign, Clock, AlertTriangle, CheckCircle, Filter } from 'lucide-react';
 import { usePaymentSchedules } from '@/hooks/usePaymentSchedules';
@@ -68,24 +78,24 @@ export default function PaymentSchedulesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Payment Schedules</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Payment Schedules</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage deposit and milestone payment schedules
-          </p>
+          </Body>
         </div>
-        <a
+        <Link
           href="/payment-schedules/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Create Schedule
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search by event or client..."
             value={searchQuery}
@@ -95,7 +105,7 @@ export default function PaymentSchedulesPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -104,78 +114,78 @@ export default function PaymentSchedulesPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
-        <a
+        <Link
           href="/payment-schedules/upcoming"
           className="px-3 py-2 border-2 border-warning text-warning rounded-button text-body-sm font-weight-medium hover:bg-warning/10 transition-colors"
         >
           <Clock className="h-4 w-4 inline mr-1" />
           Upcoming
-        </a>
-        <a
+        </Link>
+        <Link
           href="/payment-schedules/overdue"
           className="px-3 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors"
         >
           <AlertTriangle className="h-4 w-4 inline mr-1" />
           Overdue
-        </a>
+        </Link>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Schedules</span>
+            <Text className="text-body-sm text-muted-foreground">Total Schedules</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{schedules.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{schedules.length}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Total Expected</span>
+            <Text className="text-body-sm text-muted-foreground">Total Expected</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             {formatCurrency(schedules.reduce((sum, s) => sum + (s.total_amount || 0), 0))}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Collected</span>
+            <Text className="text-body-sm text-muted-foreground">Total Collected</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-primary">
+          <Body className="text-h3-md font-weight-bold text-primary">
             {formatCurrency(schedules.reduce((sum, s) => sum + (s.amount_paid || 0), 0))}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Outstanding</span>
+            <Text className="text-body-sm text-muted-foreground">Outstanding</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-h3-md font-weight-bold text-warning">
             {formatCurrency(schedules.reduce((sum, s) => 
               sum + ((s.total_amount || 0) - (s.amount_paid || 0)), 0))}
-          </p>
+          </Body>
         </div>
       </div>
 
       {filteredSchedules.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No payment schedules found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first payment schedule'}
-          </p>
-          <a
+          </Body>
+          <Link
             href="/payment-schedules/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Create Schedule
-          </a>
+          </Link>
         </div>
       )}
 
@@ -188,7 +198,7 @@ export default function PaymentSchedulesPage() {
             const milestoneName = nextMilestone?.milestone_name;
 
             return (
-              <a
+              <Link
                 key={schedule.id}
                 href={`/payment-schedules/${schedule.id}`}
                 className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
@@ -196,33 +206,33 @@ export default function PaymentSchedulesPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center gap-3">
-                      <h3 className="text-body-lg font-weight-semibold text-foreground">
+                      <H3 className="text-body-lg font-weight-semibold text-foreground">
                         {schedule.booking?.event_name || 'Untitled Event'}
-                      </h3>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </H3>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                     </div>
-                    <p className="text-body-sm text-muted-foreground mt-1">
+                    <Body className="text-body-sm text-muted-foreground mt-1">
                       {schedule.booking?.contact?.first_name ? `${schedule.booking.contact.first_name} ${schedule.booking.contact.last_name}` : 'No client'} • {schedule.booking?.event_date 
                         ? new Date(schedule.booking.event_date).toLocaleDateString() 
                         : 'No date'}
-                    </p>
+                    </Body>
                   </div>
                   <div className="text-right">
-                    <p className="text-h4-md font-weight-bold text-foreground">
+                    <Body className="text-h4-md font-weight-bold text-foreground">
                       {formatCurrency(schedule.total_amount)}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">
                       {formatCurrency(schedule.amount_paid)} collected
-                    </p>
+                    </Body>
                   </div>
                 </div>
 
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-body-xs text-muted-foreground">Payment Progress</span>
-                    <span className="text-body-xs font-weight-medium">{progress}%</span>
+                    <Text className="text-body-xs text-muted-foreground">Payment Progress</Text>
+                    <Text className="text-body-xs font-weight-medium">{progress}%</Text>
                   </div>
                   <div className="h-2 bg-muted rounded-badge overflow-hidden">
                     <div
@@ -236,21 +246,21 @@ export default function PaymentSchedulesPage() {
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <div className="flex items-center gap-2">
                       <Clock className="h-4 w-4 text-warning" />
-                      <span className="text-body-sm text-muted-foreground">
+                      <Text className="text-body-sm text-muted-foreground">
                         Next: {milestoneName}
-                      </span>
+                      </Text>
                     </div>
                     <div className="text-right">
-                      <span className="text-body-sm font-weight-medium text-foreground">
+                      <Text className="text-body-sm font-weight-medium text-foreground">
                         {formatCurrency(nextMilestone.amount)}
-                      </span>
-                      <span className="text-body-xs text-muted-foreground ml-2">
+                      </Text>
+                      <Text className="text-body-xs text-muted-foreground ml-2">
                         due {new Date(nextMilestone.due_date).toLocaleDateString()}
-                      </span>
+                      </Text>
                     </div>
                   </div>
                 )}
-              </a>
+              </Link>
             );
           })}
         </div>

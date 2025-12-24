@@ -3,19 +3,20 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
   Card,
   Field,
-  ScrollReveal,
-  AuthPage,
+  Form,
+  H2,
   IconBox,
+  Input,
+  ScrollReveal,
   Spinner,
-} from "@ghxstship/ui";
+  Stack,
+} from '@ghxstship/ui';
 import { KeyRound, Check, ArrowRight, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
 import { useAuthData } from "@/hooks/useAuth";
@@ -96,7 +97,7 @@ function ResetPasswordContent() {
                   {error && <Alert variant="error">{error}</Alert>}
 
                   {/* Form */}
-                  <form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Stack gap={4} className="sm:gap-6">
                       <Field label="New Password" hint="Minimum 8 characters" inverted>
                         <Input
@@ -132,7 +133,7 @@ function ResetPasswordContent() {
                         {loading ? "Resetting..." : "Reset Password"}
                       </Button>
                     </Stack>
-                  </form>
+                  </Form>
 
                   {/* Back Link */}
                   <Stack className="border-t border-white/10 pt-6 text-center">

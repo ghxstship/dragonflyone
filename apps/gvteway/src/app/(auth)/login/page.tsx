@@ -4,17 +4,18 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@ghxstship/config/auth-context';
 import {
-  Display,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
   Card,
-  Field,
   Checkbox,
+  Display,
+  Field,
+  Form,
+  Input,
   Label,
-  AuthPage,
+  Stack,
 } from '@ghxstship/ui';
 import NextLink from 'next/link';
 
@@ -57,7 +58,7 @@ export default function LoginPage() {
             {error && <Alert variant="error">{error}</Alert>}
 
             {/* Form */}
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <Stack gap={6}>
                 {/* Email Field */}
                 <Field label="Email" inverted>
@@ -115,7 +116,7 @@ export default function LoginPage() {
                   {isLoading ? 'Signing in...' : 'Sign In'}
                 </Button>
               </Stack>
-            </form>
+            </Form>
 
             {/* Sign Up Link */}
             <Stack className="text-center">

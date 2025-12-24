@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Search, CheckCircle, Ticket, Users, Clock, QrCode, RefreshCw } from 'lucide-react';
@@ -64,7 +72,7 @@ export default function EventCheckInPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load guest list</p>
+          <Body className="text-destructive">Failed to load guest list</Body>
         </div>
       </div>
     );
@@ -74,51 +82,51 @@ export default function EventCheckInPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Check-In</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Check-In</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Scan tickets or search guests
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={() => refetch()}
           className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
           Refresh
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Guests</span>
+            <Text className="text-body-sm text-muted-foreground">Total Guests</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{guests.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{guests.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Checked In</span>
+            <Text className="text-body-sm text-muted-foreground">Checked In</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{checkedInCount}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{checkedInCount}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pending</span>
+            <Text className="text-body-sm text-muted-foreground">Pending</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{pendingCount}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{pendingCount}</Body>
         </div>
       </div>
 
       <div className="bg-background border-2 border-primary rounded-card p-4">
         <div className="flex items-center gap-2 mb-3">
           <QrCode className="h-5 w-5 text-primary" />
-          <span className="text-body-sm font-weight-medium text-foreground">Manual Entry</span>
+          <Text className="text-body-sm font-weight-medium text-foreground">Manual Entry</Text>
         </div>
         <div className="flex gap-2">
-          <input
+          <Input
             type="text"
             value={manualCode}
             onChange={(e) => setManualCode(e.target.value)}
@@ -126,13 +134,13 @@ export default function EventCheckInPage() {
             placeholder="Enter ticket code..."
             className="flex-1 px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <button
+          <Button
             onClick={handleManualCheckIn}
             disabled={!manualCode.trim() || checkInMutation.isPending}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             Check In
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -140,7 +148,7 @@ export default function EventCheckInPage() {
         <div className="p-4 border-b border-border">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -174,32 +182,32 @@ export default function EventCheckInPage() {
                     )}
                   </div>
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground">{guest.name}</p>
-                    <p className="text-body-xs text-muted-foreground">{guest.email}</p>
+                    <Body className="text-body-sm font-weight-medium text-foreground">{guest.name}</Body>
+                    <Body className="text-body-xs text-muted-foreground">{guest.email}</Body>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <p className="text-body-xs font-weight-medium text-foreground">{guest.ticket_type}</p>
-                    <p className="text-body-xs text-muted-foreground font-mono">{guest.ticket_code}</p>
+                    <Body className="text-body-xs font-weight-medium text-foreground">{guest.ticket_type}</Body>
+                    <Body className="text-body-xs text-muted-foreground font-mono">{guest.ticket_code}</Body>
                   </div>
                   {guest.checked_in ? (
                     <div className="text-right">
-                      <span className="px-2 py-1 bg-success/20 text-success rounded-badge text-body-xs font-weight-medium">
+                      <Text className="px-2 py-1 bg-success/20 text-success rounded-badge text-body-xs font-weight-medium">
                         Checked In
-                      </span>
-                      <p className="text-body-xs text-muted-foreground mt-1">
+                      </Text>
+                      <Body className="text-body-xs text-muted-foreground mt-1">
                         {formatTime(guest.checked_in_at)}
-                      </p>
+                      </Body>
                     </div>
                   ) : (
-                    <button
+                    <Button
                       onClick={() => handleCheckIn(guest.id)}
                       disabled={checkInMutation.isPending}
                       className="px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success text-body-sm font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
                     >
                       Check In
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>

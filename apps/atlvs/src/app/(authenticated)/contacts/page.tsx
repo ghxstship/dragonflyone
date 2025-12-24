@@ -4,7 +4,20 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, Filter, MoreVertical, User, Mail, Phone, Building2, Tag } from 'lucide-react';
 import { useContacts } from '@/hooks/useContacts';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 
 export default function ContactsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,7 +47,7 @@ export default function ContactsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load contacts</p>
+          <Body className="text-destructive">Failed to load contacts</Body>
         </div>
       </div>
     );
@@ -44,24 +57,24 @@ export default function ContactsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Contacts</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Contacts</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage your contacts and relationships
-          </p>
+          </Body>
         </div>
         <Link
           href="/contacts/new"
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Add Contact</span>
+          <Text className="text-body-sm font-weight-medium">Add Contact</Text>
         </Link>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search contacts..."
             value={searchQuery}
@@ -69,7 +82,7 @@ export default function ContactsPage() {
             className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
           />
         </div>
-        <select
+        <Select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -79,22 +92,22 @@ export default function ContactsPage() {
           <option value="lead">Leads</option>
           <option value="vendor">Vendors</option>
           <option value="partner">Partners</option>
-        </select>
+        </Select>
         <Link
           href="/contacts/duplicates"
           className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
         >
           <Filter className="h-4 w-4" />
-          <span className="text-body-sm">Find Duplicates</span>
+          <Text className="text-body-sm">Find Duplicates</Text>
         </Link>
       </div>
 
       {contacts.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <User className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">
+          <Body className="text-body-md text-muted-foreground">
             {searchQuery || typeFilter ? 'No contacts match your filters' : 'No contacts yet'}
-          </p>
+          </Body>
           {!searchQuery && !typeFilter && (
             <Link
               href="/contacts/new"
@@ -107,82 +120,82 @@ export default function ContactsPage() {
         </div>
       ) : (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border bg-muted/30">
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow className="border-b border-border bg-muted/30">
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Name
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Contact Info
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Company
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Type
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Last Activity
-                </th>
-                <th className="px-4 py-3 text-right text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-right text-body-sm font-weight-medium text-muted-foreground">
                   Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {contacts.map((contact) => (
-                <tr key={contact.id} className="border-b border-border hover:bg-muted/30">
-                  <td className="px-4 py-3">
+                <TableRow key={contact.id} className="border-b border-border hover:bg-muted/30">
+                  <TableCell className="px-4 py-3">
                     <Link
                       href={`/contacts/${contact.id}`}
                       className="flex items-center gap-3"
                     >
                       <div className="w-10 h-10 rounded-avatar bg-primary/10 flex items-center justify-center">
-                        <span className="text-primary font-weight-medium">
+                        <Text className="text-primary font-weight-medium">
                           {contact.first_name?.charAt(0) || '?'}{contact.last_name?.charAt(0) || ''}
-                        </span>
+                        </Text>
                       </div>
                       <div>
-                        <span className="text-body-sm font-weight-medium text-foreground hover:text-primary">
+                        <Text className="text-body-sm font-weight-medium text-foreground hover:text-primary">
                           {contact.first_name} {contact.last_name}
-                        </span>
+                        </Text>
                         {contact.title && (
-                          <p className="text-body-xs text-muted-foreground">{contact.title}</p>
+                          <Body className="text-body-xs text-muted-foreground">{contact.title}</Body>
                         )}
                       </div>
                     </Link>
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     <div className="space-y-1">
                       {contact.email && (
                         <div className="flex items-center gap-1 text-body-xs text-muted-foreground">
                           <Mail className="h-3 w-3" />
-                          <a href={`mailto:${contact.email}`} className="hover:text-primary">
+                          <Link href={`mailto:${contact.email}`} className="hover:text-primary">
                             {contact.email}
-                          </a>
+                          </Link>
                         </div>
                       )}
                       {contact.phone && (
                         <div className="flex items-center gap-1 text-body-xs text-muted-foreground">
                           <Phone className="h-3 w-3" />
-                          <a href={`tel:${contact.phone}`} className="hover:text-primary">
+                          <Link href={`tel:${contact.phone}`} className="hover:text-primary">
                             {contact.phone}
-                          </a>
+                          </Link>
                         </div>
                       )}
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {contact.company && (
                       <div className="flex items-center gap-1 text-body-sm text-foreground">
                         <Building2 className="h-4 w-4 text-muted-foreground" />
                         {contact.company}
                       </div>
                     )}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-body-xs capitalize ${
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded text-body-xs capitalize ${
                       contact.type === 'client' ? 'bg-success-100 text-success-800' :
                       contact.type === 'lead' ? 'bg-info-100 text-info-800' :
                       contact.type === 'vendor' ? 'bg-violet-100 text-violet-800' :
@@ -190,20 +203,20 @@ export default function ContactsPage() {
                     }`}>
                       <Tag className="h-3 w-3" />
                       {contact.type || 'Contact'}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {contact.updated_at ? formatDate(contact.updated_at) : 'Never'}
-                  </td>
-                  <td className="px-4 py-3 text-right">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-right">
                     <Button variant="ghost" size="icon" className="p-2">
                       <MoreVertical className="h-4 w-4 text-muted-foreground" />
                     </Button>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

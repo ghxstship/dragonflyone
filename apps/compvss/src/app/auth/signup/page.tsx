@@ -2,22 +2,23 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
+  Card,
+  Checkbox,
+  Divider,
+  Field,
+  Form,
+  Grid,
+  H2,
   Input,
   PasswordInput,
-  Alert,
   Stack,
-  Card,
-  Field,
-  Checkbox,
-  Grid,
-  Divider,
-  AuthPage,
-} from "@ghxstship/ui";
+  useNotifications,
+} from '@ghxstship/ui';
 import NextLink from "next/link";
 
 export default function SignUpPage() {
@@ -123,7 +124,7 @@ export default function SignUpPage() {
               {error && <Alert variant="error">{error}</Alert>}
 
               {/* Form */}
-              <form onSubmit={handleSignUp}>
+              <Form onSubmit={handleSignUp}>
                 <Stack gap={6}>
                   {/* Name Fields - Grid */}
                   <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
@@ -208,7 +209,7 @@ export default function SignUpPage() {
                     {loading ? "Creating Account..." : "Create Account"}
                   </Button>
                 </Stack>
-              </form>
+              </Form>
 
               {/* Sign In Link */}
               <Stack className="text-center">

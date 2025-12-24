@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ChevronLeft, ChevronRight, Check, X, Clock } from 'lucide-react';
@@ -72,7 +85,7 @@ export default function CalendarSpacesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load availability</p>
+          <Body className="text-destructive">Failed to load availability</Body>
         </div>
       </div>
     );
@@ -92,29 +105,29 @@ export default function CalendarSpacesPage() {
               <ArrowLeft className="h-5 w-5 text-muted-foreground" />
             </Link>
             <div>
-              <h1 className="text-h2-md font-weight-bold text-foreground">Space Availability</h1>
-              <p className="text-body-sm text-muted-foreground mt-1">
+              <H1 className="text-h2-md font-weight-bold text-foreground">Space Availability</H1>
+              <Body className="text-body-sm text-muted-foreground mt-1">
                 View availability across all spaces
-              </p>
+              </Body>
             </div>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 onClick={navigatePrev}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
               >
                 <ChevronLeft className="h-5 w-5 text-muted-foreground" />
-              </button>
-              <span className="text-body-md font-weight-medium text-foreground min-w-[180px] text-center">
+              </Button>
+              <Text className="text-body-md font-weight-medium text-foreground min-w-[180px] text-center">
                 {formatMonthYear()}
-              </span>
-              <button
+              </Text>
+              <Button
                 onClick={navigateNext}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
               >
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -122,15 +135,15 @@ export default function CalendarSpacesPage() {
         <div className="flex items-center gap-6 mt-4">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-success-100 border-2 border-success-300 rounded" />
-            <span className="text-body-sm text-muted-foreground">Available</span>
+            <Text className="text-body-sm text-muted-foreground">Available</Text>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-error-100 border-2 border-error-300 rounded" />
-            <span className="text-body-sm text-muted-foreground">Booked</span>
+            <Text className="text-body-sm text-muted-foreground">Booked</Text>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-violet-100 border-2 border-violet-300 rounded" />
-            <span className="text-body-sm text-muted-foreground">Hold</span>
+            <Text className="text-body-sm text-muted-foreground">Hold</Text>
           </div>
         </div>
       </div>
@@ -138,18 +151,18 @@ export default function CalendarSpacesPage() {
       <div className="flex-1 overflow-auto p-6">
         {spaces.length === 0 ? (
           <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-            <p className="text-body-md text-muted-foreground">No spaces found</p>
+            <Body className="text-body-md text-muted-foreground">No spaces found</Body>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr>
-                  <th className="sticky left-0 z-10 bg-background p-2 text-left text-body-sm font-weight-medium text-muted-foreground border-b border-r border-border min-w-[200px]">
+            <Table className="w-full border-collapse">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="sticky left-0 z-10 bg-background p-2 text-left text-body-sm font-weight-medium text-muted-foreground border-b border-r border-border min-w-[200px]">
                     Space
-                  </th>
+                  </TableHead>
                   {days.map((day) => (
-                    <th
+                    <TableHead
                       key={day.toISOString()}
                       className={`p-1 text-center text-body-xs border-b border-border min-w-[40px] ${
                         isToday(day) ? 'bg-primary/10' : ''
@@ -161,17 +174,17 @@ export default function CalendarSpacesPage() {
                       <div className={`font-weight-medium ${isToday(day) ? 'text-primary' : 'text-foreground'}`}>
                         {day.getDate()}
                       </div>
-                    </th>
+                    </TableHead>
                   ))}
-                  <th className="p-2 text-right text-body-sm font-weight-medium text-muted-foreground border-b border-l border-border min-w-[100px]">
+                  <TableHead className="p-2 text-right text-body-sm font-weight-medium text-muted-foreground border-b border-l border-border min-w-[100px]">
                     Availability
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {spaces.map((spaceData) => (
-                  <tr key={spaceData.space.id} className="hover:bg-muted/30">
-                    <td className="sticky left-0 z-10 bg-background p-2 border-b border-r border-border">
+                  <TableRow key={spaceData.space.id} className="hover:bg-muted/30">
+                    <TableCell className="sticky left-0 z-10 bg-background p-2 border-b border-r border-border">
                       <Link
                         href={`/spaces/${spaceData.space.id}`}
                         className="text-body-sm font-weight-medium text-foreground hover:text-primary"
@@ -181,13 +194,13 @@ export default function CalendarSpacesPage() {
                       <div className="text-body-xs text-muted-foreground">
                         {(spaceData.space.venue as { name: string })?.name} • {spaceData.space.capacity} guests
                       </div>
-                    </td>
+                    </TableCell>
                     {spaceData.availability.map((dayAvail) => {
                       const hasHold = dayAvail.holds > 0;
                       const isBooked = !dayAvail.available;
 
                       return (
-                        <td
+                        <TableCell
                           key={dayAvail.date}
                           className={`p-1 text-center border-b border-border ${
                             isToday(new Date(dayAvail.date)) ? 'bg-primary/5' : ''
@@ -210,11 +223,11 @@ export default function CalendarSpacesPage() {
                               <Check className="h-3 w-3 text-success-600" />
                             )}
                           </div>
-                        </td>
+                        </TableCell>
                       );
                     })}
-                    <td className="p-2 text-right border-b border-l border-border">
-                      <span className={`text-body-sm font-weight-medium ${
+                    <TableCell className="p-2 text-right border-b border-l border-border">
+                      <Text className={`text-body-sm font-weight-medium ${
                         spaceData.summary.availability_rate >= 70
                           ? 'text-success-600'
                           : spaceData.summary.availability_rate >= 40
@@ -222,15 +235,15 @@ export default function CalendarSpacesPage() {
                             : 'text-error-600'
                       }`}>
                         {spaceData.summary.availability_rate}%
-                      </span>
+                      </Text>
                       <div className="text-body-xs text-muted-foreground">
                         {spaceData.summary.available_days}/{spaceData.summary.total_days} days
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         )}
       </div>

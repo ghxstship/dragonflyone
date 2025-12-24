@@ -4,7 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ChevronDown, Command, Users, Ticket, ArrowRight } from 'lucide-react';
 import clsx from 'clsx';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  List,
+  ListItem,
+  Text,
+} from '@ghxstship/ui';
 import {
   productsNavigation,
   solutionsNavigation,
@@ -61,15 +67,15 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                           <div className="text-body-xs text-muted-foreground">{product.tagline}</div>
                         </div>
                       </div>
-                      <p className="text-body-sm text-muted-foreground mb-3">{product.description}</p>
-                      <ul className="space-y-1">
+                      <Body className="text-body-sm text-muted-foreground mb-3">{product.description}</Body>
+                      <List className="space-y-1">
                         {product.features.map((feature) => (
-                          <li key={feature} className="text-body-xs text-muted-foreground flex items-center gap-2">
-                            <span className="w-1 h-1 rounded-avatar bg-primary" />
+                          <ListItem key={feature} className="text-body-xs text-muted-foreground flex items-center gap-2">
+                            <Text className="w-1 h-1 rounded-avatar bg-primary" />
                             {feature}
-                          </li>
+                          </ListItem>
                         ))}
-                      </ul>
+                      </List>
                       <div className="mt-3 text-body-sm font-weight-medium text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         View All Features <ArrowRight className="h-3 w-3" />
                       </div>
@@ -116,18 +122,18 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                 {solutionsNavigation.groups.map((group) => (
                   <div key={group.title}>
                     <div className="font-weight-medium text-foreground mb-2">{group.title}</div>
-                    <ul className="space-y-1">
+                    <List className="space-y-1">
                       {group.items.map((item) => (
-                        <li key={item.href}>
+                        <ListItem key={item.href}>
                           <Link
                             href={item.href}
                             className="text-body-sm text-muted-foreground hover:text-foreground transition-colors"
                           >
                             {item.label}
                           </Link>
-                        </li>
+                        </ListItem>
                       ))}
-                    </ul>
+                    </List>
                   </div>
                 ))}
               </div>
@@ -169,18 +175,18 @@ export function PublicMegaMenu({ className }: MegaMenuProps) {
                 {resourcesNavigation.groups.map((group) => (
                   <div key={group.title}>
                     <div className="font-weight-medium text-foreground mb-3">{group.title}</div>
-                    <ul className="space-y-2">
+                    <List className="space-y-2">
                       {group.items.map((item) => (
-                        <li key={item.href}>
+                        <ListItem key={item.href}>
                           <Link
                             href={item.href}
                             className="text-body-sm text-muted-foreground hover:text-foreground transition-colors"
                           >
                             {item.label}
                           </Link>
-                        </li>
+                        </ListItem>
                       ))}
-                    </ul>
+                    </List>
                   </div>
                 ))}
               </div>

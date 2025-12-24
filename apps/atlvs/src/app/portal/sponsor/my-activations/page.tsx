@@ -2,22 +2,24 @@
 
 import { useState } from 'react';
 import {
-  SectionHeader,
+  Badge,
+  Body,
+  Button,
   Card,
   CardBody,
-  Stack,
   Grid,
-  Badge,
-  Button,
-  Body,
   H3,
+  SectionHeader,
+  Stack,
   StatCard,
+  Skeleton,
 } from '@ghxstship/ui';
-import { Calendar, MapPin, Users, Clock, ChevronRight } from 'lucide-react';
+import { Calendar, MapPin, Users, Clock, ChevronRight, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { useSponsorActivations, type SponsorActivation } from '@ghxstship/config';
 
-interface Activation {
+interface DisplayActivation {
   id: string;
   name: string;
   event: string;
@@ -32,7 +34,7 @@ interface Activation {
   engagements: number;
 }
 
-const DEMO_ACTIVATIONS: Activation[] = [
+const DEMO_ACTIVATIONS: DisplayActivation[] = [
   {
     id: '1',
     name: 'Main Stage Brand Activation',
@@ -61,34 +63,6 @@ const DEMO_ACTIVATIONS: Activation[] = [
     impressions: 0,
     engagements: 0,
   },
-  {
-    id: '3',
-    name: 'Product Sampling Booth',
-    event: 'Food & Wine Expo',
-    location: 'Exhibition Hall A',
-    startDate: '2025-03-10',
-    endDate: '2025-03-12',
-    status: 'completed',
-    type: 'Sampling',
-    staffAssigned: 6,
-    staffRequired: 6,
-    impressions: 45000,
-    engagements: 8500,
-  },
-  {
-    id: '4',
-    name: 'Interactive Gaming Zone',
-    event: 'Gaming Convention 2025',
-    location: 'Gaming Arena',
-    startDate: '2025-04-05',
-    endDate: '2025-04-07',
-    status: 'active',
-    type: 'Interactive',
-    staffAssigned: 12,
-    staffRequired: 12,
-    impressions: 28000,
-    engagements: 12000,
-  },
 ];
 
 const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
@@ -99,16 +73,72 @@ const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> =
 };
 
 export default function MyActivationsPage() {
-  const [activations] = useState<Activation[]>(DEMO_ACTIVATIONS);
+  const { activations: apiActivations, summary, isLoading, error, refetch } = useSponsorActivations();
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // Map API activations to display format or fall back to demo data
+  const activations: DisplayActivation[] = apiActivations.length > 0
+    ? apiActivations.map((a: SponsorActivation) => ({
+        id: a.id,
+        name: a.name,
+        event: a.event,
+        location: a.location,
+        startDate: a.start_date,
+        endDate: a.end_date,
+        status: a.status,
+        type: a.type,
+        staffAssigned: a.staff_assigned,
+        staffRequired: a.staff_required,
+        impressions: a.impressions,
+        engagements: a.engagements,
+      }))
+    : DEMO_ACTIVATIONS;
 
   const filteredActivations = activations.filter((activation) => {
     return statusFilter === 'all' || activation.status === statusFilter;
   });
 
-  const upcomingCount = activations.filter((a) => a.status === 'upcoming').length;
-  const activeCount = activations.filter((a) => a.status === 'active').length;
-  const completedCount = activations.filter((a) => a.status === 'completed').length;
+  const upcomingCount = summary?.upcoming || activations.filter((a) => a.status === 'upcoming').length;
+  const activeCount = summary?.active || activations.filter((a) => a.status === 'active').length;
+  const completedCount = summary?.completed || activations.filter((a) => a.status === 'completed').length;
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Activations" description="View and manage your sponsored activations across all events" colorScheme="on-dark" />
+          <Grid cols={3} gap={4} className="sm:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Activations" description="View and manage your sponsored activations across all events" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Activations</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

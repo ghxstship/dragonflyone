@@ -4,7 +4,14 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Search, FileText, Download, Eye, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 import { useClientPortalDocuments } from '@/hooks/useClientPortal';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
 
 export default function ClientPortalDocumentsPage() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -64,7 +71,7 @@ export default function ClientPortalDocumentsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load documents</p>
+          <Body className="text-destructive">Failed to load documents</Body>
         </div>
       </div>
     );
@@ -74,10 +81,10 @@ export default function ClientPortalDocumentsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Documents</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Documents</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             View and sign your proposals and contracts
-          </p>
+          </Body>
         </div>
         <Link
           href="/client-portal"
@@ -91,23 +98,23 @@ export default function ClientPortalDocumentsPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Documents</span>
+            <Text className="text-body-sm text-muted-foreground">Total Documents</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{allDocuments.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{allDocuments.length}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Proposals</span>
+            <Text className="text-body-sm text-muted-foreground">Proposals</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{proposals.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{proposals.length}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-accent" />
-            <span className="text-body-sm text-muted-foreground">Contracts</span>
+            <Text className="text-body-sm text-muted-foreground">Contracts</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{contracts.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{contracts.length}</Body>
         </div>
       </div>
 
@@ -115,7 +122,7 @@ export default function ClientPortalDocumentsPage() {
         <div className="p-4 border-b border-border flex items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -123,7 +130,7 @@ export default function ClientPortalDocumentsPage() {
               className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
-          <select
+          <Select
             value={docType}
             onChange={(e) => setDocType(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -131,7 +138,7 @@ export default function ClientPortalDocumentsPage() {
             <option value="all">All Types</option>
             <option value="proposal">Proposals</option>
             <option value="contract">Contracts</option>
-          </select>
+          </Select>
         </div>
 
         <div className="divide-y divide-border">
@@ -154,18 +161,18 @@ export default function ClientPortalDocumentsPage() {
                       }`} />
                     </div>
                     <div>
-                      <p className="text-body-sm font-weight-medium text-foreground">{doc.name}</p>
-                      <p className="text-body-xs text-muted-foreground">
+                      <Body className="text-body-sm font-weight-medium text-foreground">{doc.name}</Body>
+                      <Body className="text-body-xs text-muted-foreground">
                         {doc.type === 'proposal' ? doc.proposal_number : 'Contract'} • {formatDate(doc.created_at)}
-                      </p>
+                      </Body>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1">
                       <StatusIcon className={`h-4 w-4 ${statusConfig.color.split(' ')[1]}`} />
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                     </div>
                     <Button variant="ghost" size="icon" className="p-2">
                       <Eye className="h-4 w-4 text-muted-foreground" />

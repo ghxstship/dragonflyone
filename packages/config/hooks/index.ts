@@ -166,3 +166,53 @@ export type {
   UseCookieConsentOptions,
   UseCookieConsentReturn,
 } from './useCookieConsent';
+
+// Client retention hook
+export {
+  useClientRetention,
+  useClientRetentionQuery,
+  useDeleteClientRetentionRecords,
+} from './useClientRetention';
+export type { ClientRetention } from './useClientRetention';
+
+// Dashboard builder hook
+export {
+  useDashboardBuilder,
+  useDashboardsQuery,
+  useCreateDashboard,
+  useDuplicateDashboardConfig,
+  useDeleteDashboards,
+} from './useDashboardBuilder';
+export type { DashboardConfig } from './useDashboardBuilder';
+
+// Data warehouse hook
+export {
+  useDataWarehouse,
+  useDataSourcesQuery,
+  useCreateDataSource,
+  useSyncDataSource,
+  useDeleteDataSources,
+  useBulkSyncDataSources,
+} from './useDataWarehouse';
+export type { DataSource } from './useDataWarehouse';
+
+// Training hook
+export {
+  useTraining,
+  useTrainingQuery,
+  useCreateTrainingProgram,
+  useDeleteTrainingPrograms,
+} from './useTraining';
+export type { TrainingProgram, TrainingCompletion } from './useTraining';
+
+// Shows hooks (run-of-show, cues, set-times)
+export {
+  useRunOfShow,
+  useShowCues,
+  useSetTimes,
+  useRunOfShowQuery,
+  useShowCuesQuery,
+  useSetTimesQuery,
+  useUpdateCueStatus,
+} from './useShows';
+export type { RunOfShow, ShowEntry, ShowCue, SetTime } from './useShows';

@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Upload, FileText, AlertCircle, Check, X, RefreshCw, MapPin, ArrowRight } from 'lucide-react';
@@ -174,7 +185,7 @@ export default function DataImportPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load import settings</span>
+          <Text className="text-destructive">Failed to load import settings</Text>
         </div>
       </div>
     );
@@ -190,13 +201,13 @@ export default function DataImportPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <Upload className="h-6 w-6" />
             Data Import
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Import data from CSV or Excel files
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -217,7 +228,7 @@ export default function DataImportPage() {
                   i + 1
                 )}
               </div>
-              <span className="text-body-sm font-weight-medium capitalize">{s}</span>
+              <Text className="text-body-sm font-weight-medium capitalize">{s}</Text>
             </div>
             {i < 3 && <ArrowRight className="h-4 w-4 mx-4 text-muted-foreground" />}
           </div>
@@ -227,10 +238,10 @@ export default function DataImportPage() {
       {/* Step: Select Type */}
       {step === 'select' && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data Type</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Select Data Type</H2>
           <div className="grid grid-cols-2 gap-4">
             {IMPORT_TYPES.map((type) => (
-              <button
+              <Button
                 key={type.id}
                 onClick={() => {
                   setSelectedType(type.id);
@@ -238,11 +249,11 @@ export default function DataImportPage() {
                 }}
                 className="text-left p-4 rounded-card border-2 border-border hover:border-primary transition-colors"
               >
-                <p className="text-body-md font-weight-medium text-foreground">{type.label}</p>
-                <p className="text-body-xs text-muted-foreground mt-1">
+                <Body className="text-body-md font-weight-medium text-foreground">{type.label}</Body>
+                <Body className="text-body-xs text-muted-foreground mt-1">
                   Fields: {type.fields.join(', ')}
-                </p>
-              </button>
+                </Body>
+              </Button>
             ))}
           </div>
         </div>
@@ -251,9 +262,9 @@ export default function DataImportPage() {
       {/* Step: Upload */}
       {step === 'upload' && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
             Upload {IMPORT_TYPES.find((t) => t.id === selectedType)?.label} File
-          </h2>
+          </H2>
           <div
             className={`border-2 border-dashed rounded-card p-12 text-center transition-colors ${
               dragActive ? 'border-primary bg-primary/5' : 'border-border'
@@ -267,41 +278,41 @@ export default function DataImportPage() {
               <div className="flex items-center justify-center gap-4">
                 <FileText className="h-8 w-8 text-primary" />
                 <div className="text-left">
-                  <p className="text-body-md font-weight-medium text-foreground">{uploadedFile.name}</p>
-                  <p className="text-body-sm text-muted-foreground">
+                  <Body className="text-body-md font-weight-medium text-foreground">{uploadedFile.name}</Body>
+                  <Body className="text-body-sm text-muted-foreground">
                     {(uploadedFile.size / 1024).toFixed(1)} KB
-                  </p>
+                  </Body>
                 </div>
-                <button
+                <Button
                   onClick={() => setUploadedFile(null)}
                   className="p-2 hover:bg-muted rounded-button"
                 >
                   <X className="h-4 w-4 text-muted-foreground" />
-                </button>
+                </Button>
               </div>
             ) : (
               <>
                 <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-body-md text-foreground mb-2">
+                <Body className="text-body-md text-foreground mb-2">
                   Drag and drop your file here, or
-                </p>
-                <label className="px-4 py-2 bg-primary text-primary-foreground rounded-button cursor-pointer hover:bg-primary/90 transition-colors">
+                </Body>
+                <Label className="px-4 py-2 bg-primary text-primary-foreground rounded-button cursor-pointer hover:bg-primary/90 transition-colors">
                   Browse Files
-                  <input
+                  <Input
                     type="file"
                     accept=".csv,.xlsx,.xls"
                     onChange={handleFileSelect}
                     className="hidden"
                   />
-                </label>
-                <p className="text-body-xs text-muted-foreground mt-4">
+                </Label>
+                <Body className="text-body-xs text-muted-foreground mt-4">
                   Supported formats: CSV, XLSX, XLS (max 10MB)
-                </p>
+                </Body>
               </>
             )}
           </div>
           <div className="flex items-center justify-between mt-6">
-            <button
+            <Button
               onClick={() => {
                 setStep('select');
                 setSelectedType(null);
@@ -310,8 +321,8 @@ export default function DataImportPage() {
               className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               Back
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => uploadedFile && validateFile.mutate(uploadedFile)}
               disabled={!uploadedFile || validateFile.isPending}
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
@@ -327,7 +338,7 @@ export default function DataImportPage() {
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -335,27 +346,27 @@ export default function DataImportPage() {
       {/* Step: Map Fields */}
       {step === 'map' && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <MapPin className="h-5 w-5" />
             Map Fields
-          </h2>
-          <p className="text-body-sm text-muted-foreground mb-6">
+          </H2>
+          <Body className="text-body-sm text-muted-foreground mb-6">
             Match the columns in your file to the fields in the system
-          </p>
+          </Body>
           <div className="space-y-4">
             {fieldMappings.map((mapping, index) => (
               <div key={index} className="grid grid-cols-3 gap-4 items-center p-3 bg-muted/30 rounded-card">
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Source Column</p>
-                  <p className="text-body-sm font-weight-medium text-foreground">{mapping.source}</p>
-                  <p className="text-body-xs text-muted-foreground truncate">e.g., {mapping.sample}</p>
+                  <Body className="text-body-xs text-muted-foreground">Source Column</Body>
+                  <Body className="text-body-sm font-weight-medium text-foreground">{mapping.source}</Body>
+                  <Body className="text-body-xs text-muted-foreground truncate">e.g., {mapping.sample}</Body>
                 </div>
                 <div className="flex items-center justify-center">
                   <ArrowRight className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Target Field</p>
-                  <select
+                  <Body className="text-body-xs text-muted-foreground">Target Field</Body>
+                  <Select
                     value={mapping.target}
                     onChange={(e) => {
                       const newMappings = [...fieldMappings];
@@ -368,25 +379,25 @@ export default function DataImportPage() {
                     {IMPORT_TYPES.find((t) => t.id === selectedType)?.fields.map((field) => (
                       <option key={field} value={field}>{field}</option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
               </div>
             ))}
           </div>
           <div className="flex items-center justify-between mt-6">
-            <button
+            <Button
               onClick={() => setStep('upload')}
               className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               Back
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setStep('confirm')}
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               Continue
               <ArrowRight className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -394,31 +405,31 @@ export default function DataImportPage() {
       {/* Step: Confirm */}
       {step === 'confirm' && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Confirm Import</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Confirm Import</H2>
           <div className="space-y-4 mb-6">
             <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <span className="text-body-sm text-muted-foreground">File</span>
-              <span className="text-body-sm font-weight-medium text-foreground">{uploadedFile?.name}</span>
+              <Text className="text-body-sm text-muted-foreground">File</Text>
+              <Text className="text-body-sm font-weight-medium text-foreground">{uploadedFile?.name}</Text>
             </div>
             <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <span className="text-body-sm text-muted-foreground">Type</span>
-              <span className="text-body-sm font-weight-medium text-foreground capitalize">{selectedType}</span>
+              <Text className="text-body-sm text-muted-foreground">Type</Text>
+              <Text className="text-body-sm font-weight-medium text-foreground capitalize">{selectedType}</Text>
             </div>
             <div className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
-              <span className="text-body-sm text-muted-foreground">Fields Mapped</span>
-              <span className="text-body-sm font-weight-medium text-foreground">
+              <Text className="text-body-sm text-muted-foreground">Fields Mapped</Text>
+              <Text className="text-body-sm font-weight-medium text-foreground">
                 {fieldMappings.filter((m) => m.target).length} of {fieldMappings.length}
-              </span>
+              </Text>
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <button
+            <Button
               onClick={() => setStep('map')}
               className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
             >
               Back
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => runImport.mutate()}
               disabled={runImport.isPending}
               className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
@@ -434,18 +445,18 @@ export default function DataImportPage() {
                   Start Import
                 </>
               )}
-            </button>
+            </Button>
           </div>
         </div>
       )}
 
       {/* Import History */}
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Import History</h2>
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Import History</H2>
         {jobs.length === 0 ? (
           <div className="text-center py-8">
             <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-            <p className="text-body-sm text-muted-foreground">No imports yet</p>
+            <Body className="text-body-sm text-muted-foreground">No imports yet</Body>
           </div>
         ) : (
           <div className="space-y-3">
@@ -457,26 +468,26 @@ export default function DataImportPage() {
                 <div className="flex items-center gap-4">
                   <FileText className="h-5 w-5 text-muted-foreground" />
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground">
+                    <Body className="text-body-sm font-weight-medium text-foreground">
                       {job.filename}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">
                       {formatDate(job.created_at)} • {job.type}
-                    </p>
+                    </Body>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-right">
-                    <p className="text-body-sm text-foreground">
+                    <Body className="text-body-sm text-foreground">
                       {job.success_count}/{job.total_records} records
-                    </p>
+                    </Body>
                     {job.error_count > 0 && (
-                      <p className="text-body-xs text-destructive">{job.error_count} errors</p>
+                      <Body className="text-body-xs text-destructive">{job.error_count} errors</Body>
                     )}
                   </div>
-                  <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
+                  <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(job.status)}`}>
                     {job.status}
-                  </span>
+                  </Text>
                 </div>
               </div>
             ))}

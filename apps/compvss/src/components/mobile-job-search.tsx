@@ -3,18 +3,19 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Container,
-  Section,
-  H3,
+  Badge,
   Body,
   Button,
-  Input,
-  Select,
   Card,
-  Badge,
-  Stack,
+  Container,
   Field,
+  H3,
+  Input,
+  Section,
+  Select,
   Spinner,
+  Stack,
+  Text,
 } from '@ghxstship/ui';
 import { Search, MapPin, DollarSign, Clock, Briefcase, Filter, X, RefreshCw } from 'lucide-react';
 import { log } from '@ghxstship/config';
@@ -363,7 +364,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           className="flex-col gap-spacing-1"
           onClick={() => router.push('/opportunities/saved')}
         >
-          <span className="text-body-md">★</span>
+          <Text className="text-body-md">★</Text>
           <Body className="text-mono-xs">Saved ({savedJobs.length})</Body>
         </Button>
         <Button
@@ -381,7 +382,7 @@ export function MobileJobSearch({ initialJobs = [], onApply }: MobileJobSearchPr
           className="flex-col gap-spacing-1"
           onClick={() => router.push('/profile')}
         >
-          <span className="text-body-md">👤</span>
+          <Text className="text-body-md">👤</Text>
           <Body className="text-mono-xs">Profile</Body>
         </Button>
       </Stack>

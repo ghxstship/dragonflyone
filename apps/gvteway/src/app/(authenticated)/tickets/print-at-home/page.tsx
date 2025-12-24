@@ -10,20 +10,32 @@ import {
 } from "@ghxstship/ui";
 import { KeyRound, Lock, Shield, ClipboardList } from "lucide-react";
 
-import {
-  DEMO_PRINT_TICKETS,
-  type DemoPrintTicket as PrintTicket,
-} from "@/lib/demo-data";
+import { usePrintAtHomeTickets } from "@ghxstship/config";
+import { DEMO_PRINT_TICKETS } from "@/lib/demo-data";
 
-const mockTickets = DEMO_PRINT_TICKETS;
+interface PrintTicket {
+  id: string;
+  eventName: string;
+  ticketType: string;
+  orderId: string;
+  purchaserName: string;
+  purchaseDate: string;
+  printCount: number;
+  status: string;
+  lastPrinted?: string;
+}
 
 export default function PrintAtHomePage() {
   const router = useRouter();
+  const { tickets: apiTickets, isLoading } = usePrintAtHomeTickets();
   const [selectedTicket, setSelectedTicket] = useState<PrintTicket | null>(null);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
-  const printedCount = mockTickets.filter(t => t.printCount > 0).length;
-  const totalPrints = mockTickets.reduce((s, t) => s + t.printCount, 0);
+  // Use API data or fall back to demo data
+  const tickets: PrintTicket[] = apiTickets.length > 0 ? (apiTickets as unknown as PrintTicket[]) : (DEMO_PRINT_TICKETS as unknown as PrintTicket[]);
+
+  const printedCount = tickets.filter(t => t.printCount > 0).length;
+  const totalPrints = tickets.reduce((s, t) => s + t.printCount, 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -45,11 +57,17 @@ export default function PrintAtHomePage() {
               <Body className="text-on-dark-muted">Secure printable tickets with security features</Body>
             </Stack>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading tickets...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Total Tickets" value={mockTickets.length} className="border-2 border-black" />
+            <StatCard label="Total Tickets" value={tickets.length} className="border-2 border-black" />
             <StatCard label="Printed" value={printedCount} className="border-2 border-black" />
             <StatCard label="Total Prints" value={totalPrints} className="border-2 border-black" />
-            <StatCard label="Pending" value={mockTickets.filter(t => t.printCount === 0).length} className="border-2 border-black" />
+            <StatCard label="Pending" value={tickets.filter(t => t.printCount === 0).length} className="border-2 border-black" />
           </Grid>
 
           <Card className="border-2 border-black p-6">
@@ -80,7 +98,7 @@ export default function PrintAtHomePage() {
           </Stack>
 
           <Stack gap={4}>
-            {mockTickets.map((ticket) => (
+            {tickets.map((ticket) => (
               <Card key={ticket.id} className="border-2 border-black p-6">
                 <Grid cols={6} gap={4} className="items-center">
                   <Stack gap={1}>

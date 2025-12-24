@@ -1,7 +1,16 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { SectionHeader, Card, CardBody, Stack, Button, Body, Badge, Spinner } from "@ghxstship/ui";
+import {
+  Badge,
+  Body,
+  Button,
+  Card,
+  CardBody,
+  SectionHeader,
+  Spinner,
+  Stack,
+} from '@ghxstship/ui';
 import { Ticket, Clock, Grid } from "lucide-react";
 import { useEvent } from "@/hooks/useEvents";
 

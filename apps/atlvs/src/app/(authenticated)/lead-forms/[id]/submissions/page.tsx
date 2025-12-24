@@ -6,7 +6,20 @@ import Link from 'next/link';
 import { ArrowLeft, Search, Download, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
 import { useLeadForm } from '@/hooks/useLeadForms';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 
 interface Submission {
   id: string;
@@ -106,10 +119,10 @@ export default function LeadFormSubmissionsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Submissions</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Submissions</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {form?.name || 'Lead Form'} • {submissions.length} total submissions
-            </p>
+            </Body>
           </div>
         </div>
         <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
@@ -120,7 +133,7 @@ export default function LeadFormSubmissionsPage() {
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search submissions..."
             value={searchQuery}
@@ -128,7 +141,7 @@ export default function LeadFormSubmissionsPage() {
             className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
           />
         </div>
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -139,74 +152,74 @@ export default function LeadFormSubmissionsPage() {
           <option value="qualified">Qualified</option>
           <option value="converted">Converted</option>
           <option value="rejected">Rejected</option>
-        </select>
+        </Select>
       </div>
 
       {error ? (
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load submissions</p>
+          <Body className="text-destructive">Failed to load submissions</Body>
         </div>
       ) : filteredSubmissions.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-          <p className="text-body-md text-muted-foreground">
+          <Body className="text-body-md text-muted-foreground">
             {searchQuery || statusFilter ? 'No submissions match your filters' : 'No submissions yet'}
-          </p>
+          </Body>
         </div>
       ) : (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border bg-muted/30">
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow className="border-b border-border bg-muted/30">
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Date
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Data
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Status
-                </th>
-                <th className="px-4 py-3 text-right text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-right text-body-sm font-weight-medium text-muted-foreground">
                   Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {filteredSubmissions.map((submission) => (
-                <tr key={submission.id} className="border-b border-border hover:bg-muted/30">
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                <TableRow key={submission.id} className="border-b border-border hover:bg-muted/30">
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {formatDate(submission.created_at)}
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     <div className="max-w-md">
                       {Object.entries(submission.data).slice(0, 3).map(([key, value]) => (
                         <div key={key} className="text-body-sm">
-                          <span className="text-muted-foreground">{key}:</span>{' '}
-                          <span className="text-foreground">{String(value)}</span>
+                          <Text className="text-muted-foreground">{key}:</Text>{' '}
+                          <Text className="text-foreground">{String(value)}</Text>
                         </div>
                       ))}
                       {Object.keys(submission.data).length > 3 && (
-                        <span className="text-body-xs text-muted-foreground">
+                        <Text className="text-body-xs text-muted-foreground">
                           +{Object.keys(submission.data).length - 3} more fields
-                        </span>
+                        </Text>
                       )}
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-body-xs capitalize ${getStatusColor(submission.status)}`}>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded text-body-xs capitalize ${getStatusColor(submission.status)}`}>
                       {getStatusIcon(submission.status)}
                       {submission.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-right">
                     <Button variant="ghost" size="icon" className="p-2">
                       <Eye className="h-4 w-4 text-muted-foreground" />
                     </Button>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

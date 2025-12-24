@@ -4,23 +4,24 @@ import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { AtlvsAppLayout, AtlvsLoadingLayout } from "@/components/app-layout";
 import {
-  H3,
+  Badge,
   Body,
   Button,
-  Badge,
-  Select,
-  EmptyState,
-  Stack,
   Card,
-  StatCard,
-  Grid,
-  Label,
+  EmptyState,
   EnterprisePageHeader,
+  Grid,
+  H3,
+  Input,
+  Label,
   Section,
   SectionHeader,
-  Input,
+  Select,
+  Stack,
+  StatCard,
+  Text,
   useNotifications,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import {
   Star,
   Link as LinkIcon,
@@ -272,7 +273,7 @@ export default function QuickLinksPage() {
                     <Stack gap={3} direction="horizontal" className="items-start justify-between">
                       <Stack gap={2} className="flex-1">
                         <Stack direction="horizontal" gap={2} className="items-center">
-                          <span className="text-warning">{getIcon(link.icon)}</span>
+                          <Text className="text-warning">{getIcon(link.icon)}</Text>
                           <H3 className="text-white">{link.name}</H3>
                         </Stack>
                         {link.description && (
@@ -337,9 +338,9 @@ export default function QuickLinksPage() {
                       <Stack gap={3} direction="horizontal" className="items-start justify-between">
                         <Stack gap={2} className="flex-1">
                           <Stack direction="horizontal" gap={2} className="items-center">
-                            <span className={isFavorited ? "text-warning" : "text-grey-400"}>
+                            <Text className={isFavorited ? "text-warning" : "text-grey-400"}>
                               {getIcon(link.icon)}
-                            </span>
+                            </Text>
                             <H3 className="text-white">{link.name}</H3>
                           </Stack>
                           {link.description && (

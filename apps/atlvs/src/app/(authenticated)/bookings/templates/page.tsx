@@ -4,7 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Copy, FileText, DollarSign, Calendar } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 
 interface BookingTemplate {
   id: string;
@@ -88,7 +99,7 @@ export default function BookingTemplatesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load templates</p>
+          <Body className="text-destructive">Failed to load templates</Body>
         </div>
       </div>
     );
@@ -105,10 +116,10 @@ export default function BookingTemplatesPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Booking Templates</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Booking Templates</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Create reusable templates for common booking types
-            </p>
+            </Body>
           </div>
         </div>
         <Button
@@ -125,7 +136,7 @@ export default function BookingTemplatesPage() {
       {templates.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No templates yet</p>
+          <Body className="text-body-md text-muted-foreground">No templates yet</Body>
           <Button
             variant="ghost"
             size="sm"
@@ -148,13 +159,13 @@ export default function BookingTemplatesPage() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-body-md font-weight-semibold text-foreground">
+                  <H3 className="text-body-md font-weight-semibold text-foreground">
                     {template.name}
-                  </h3>
+                  </H3>
                   {template.event_type && (
-                    <span className="text-body-xs text-muted-foreground capitalize">
+                    <Text className="text-body-xs text-muted-foreground capitalize">
                       {template.event_type.replace('_', ' ')}
-                    </span>
+                    </Text>
                   )}
                 </div>
                 <div className="flex items-center gap-1">
@@ -179,29 +190,29 @@ export default function BookingTemplatesPage() {
                 </div>
               </div>
               {template.description && (
-                <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+                <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                   {template.description}
-                </p>
+                </Body>
               )}
               <div className="flex items-center gap-4 text-body-xs text-muted-foreground">
                 {template.default_duration_hours && (
-                  <span className="flex items-center gap-1">
+                  <Text className="flex items-center gap-1">
                     <Calendar className="h-3 w-3" />
                     {template.default_duration_hours}h
-                  </span>
+                  </Text>
                 )}
                 {template.total && (
-                  <span className="flex items-center gap-1">
+                  <Text className="flex items-center gap-1">
                     <DollarSign className="h-3 w-3" />
                     {formatCurrency(template.total)}
-                  </span>
+                  </Text>
                 )}
-                <span>{template.line_items?.length || 0} items</span>
+                <Text>{template.line_items?.length || 0} items</Text>
               </div>
               <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
-                <span className="text-body-xs text-muted-foreground">
+                <Text className="text-body-xs text-muted-foreground">
                   Used {template.usage_count} times
-                </span>
+                </Text>
                 <Link
                   href={`/bookings/new?template=${template.id}`}
                   className="text-body-xs text-primary hover:underline"
@@ -217,8 +228,8 @@ export default function BookingTemplatesPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Template</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Template</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -235,10 +246,10 @@ export default function BookingTemplatesPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Template Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -247,10 +258,10 @@ export default function BookingTemplatesPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
@@ -258,10 +269,10 @@ export default function BookingTemplatesPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Event Type
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="event_type"
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   >
@@ -270,13 +281,13 @@ export default function BookingTemplatesPage() {
                     <option value="corporate">Corporate</option>
                     <option value="social">Social</option>
                     <option value="conference">Conference</option>
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Default Duration (hours)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="duration"
                     min="1"
@@ -305,7 +316,7 @@ export default function BookingTemplatesPage() {
                   Create Template
                 </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -131,26 +143,26 @@ export default function NewLeadFormPage() {
               >
                 <ArrowLeft className="h-5 w-5 text-muted-foreground" />
               </Link>
-              <h1 className="text-h3-md font-weight-bold text-foreground">Create Lead Form</h1>
+              <H1 className="text-h3-md font-weight-bold text-foreground">Create Lead Form</H1>
             </div>
             <div className="flex items-center gap-3">
-              <button
+              <Button
                 type="button"
                 className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 <Eye className="h-4 w-4" />
-                <span className="text-body-sm">Preview</span>
-              </button>
-              <button
+                <Text className="text-body-sm">Preview</Text>
+              </Button>
+              <Button
                 onClick={handleSubmit}
                 disabled={createForm.isPending}
                 className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 <Save className="h-4 w-4" />
-                <span className="text-body-sm font-weight-medium">
+                <Text className="text-body-sm font-weight-medium">
                   {createForm.isPending ? 'Creating...' : 'Create Form'}
-                </span>
-              </button>
+                </Text>
+              </Button>
             </div>
           </div>
         </div>
@@ -160,13 +172,13 @@ export default function NewLeadFormPage() {
         <div className="grid grid-cols-3 gap-6">
           <div className="col-span-2 space-y-6">
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Form Details</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Form Details</H2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Form Name *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="name"
                     value={formData.name}
@@ -177,18 +189,18 @@ export default function NewLeadFormPage() {
                     }`}
                   />
                   {errors.name && (
-                    <p className="text-body-xs text-destructive mt-1">{errors.name}</p>
+                    <Body className="text-body-xs text-destructive mt-1">{errors.name}</Body>
                   )}
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     URL Slug *
-                  </label>
+                  </Label>
                   <div className="flex items-center">
-                    <span className="px-3 py-2 bg-muted border-2 border-r-0 border-border rounded-l-button text-body-sm text-muted-foreground">
+                    <Text className="px-3 py-2 bg-muted border-2 border-r-0 border-border rounded-l-button text-body-sm text-muted-foreground">
                       /f/
-                    </span>
-                    <input
+                    </Text>
+                    <Input
                       type="text"
                       name="slug"
                       value={formData.slug}
@@ -200,14 +212,14 @@ export default function NewLeadFormPage() {
                     />
                   </div>
                   {errors.slug && (
-                    <p className="text-body-xs text-destructive mt-1">{errors.slug}</p>
+                    <Body className="text-body-xs text-destructive mt-1">{errors.slug}</Body>
                   )}
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Description
-                  </label>
-                  <textarea
+                  </Label>
+                  <Textarea
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
@@ -221,18 +233,18 @@ export default function NewLeadFormPage() {
 
             <div className="bg-background border-2 border-border rounded-card p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-h4-md font-weight-semibold text-foreground">Form Fields</h2>
-                <button
+                <H2 className="text-h4-md font-weight-semibold text-foreground">Form Fields</H2>
+                <Button
                   type="button"
                   onClick={addField}
                   className="flex items-center gap-2 px-3 py-1.5 text-body-sm text-primary border-2 border-primary rounded-button hover:bg-primary/5 transition-colors"
                 >
                   <Plus className="h-4 w-4" />
                   Add Field
-                </button>
+                </Button>
               </div>
               {errors.fields && (
-                <p className="text-body-sm text-destructive mb-4">{errors.fields}</p>
+                <Body className="text-body-sm text-destructive mb-4">{errors.fields}</Body>
               )}
               <div className="space-y-3">
                 {fields.map((field) => (
@@ -244,14 +256,14 @@ export default function NewLeadFormPage() {
                       <GripVertical className="h-4 w-4" />
                     </div>
                     <div className="flex-1 grid grid-cols-3 gap-3">
-                      <input
+                      <Input
                         type="text"
                         value={field.label}
                         onChange={(e) => updateField(field.id, { label: e.target.value })}
                         placeholder="Label"
                         className="px-3 py-1.5 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary"
                       />
-                      <select
+                      <Select
                         value={field.type}
                         onChange={(e) => updateField(field.id, { type: e.target.value as LeadFormField['type'] })}
                         className="px-3 py-1.5 border-2 border-border rounded-button text-body-sm focus:outline-none focus:border-primary"
@@ -259,26 +271,26 @@ export default function NewLeadFormPage() {
                         {FIELD_TYPES.map((type) => (
                           <option key={type.id} value={type.id}>{type.label}</option>
                         ))}
-                      </select>
+                      </Select>
                       <div className="flex items-center gap-2">
-                        <label className="flex items-center gap-1.5 text-body-sm text-muted-foreground">
-                          <input
+                        <Label className="flex items-center gap-1.5 text-body-sm text-muted-foreground">
+                          <Input
                             type="checkbox"
                             checked={field.required}
                             onChange={(e) => updateField(field.id, { required: e.target.checked })}
                             className="w-4 h-4"
                           />
                           Required
-                        </label>
+                        </Label>
                       </div>
                     </div>
-                    <button
+                    <Button
                       type="button"
                       onClick={() => removeField(field.id)}
                       className="p-1 hover:bg-destructive/10 rounded transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 ))}
               </div>
@@ -287,28 +299,28 @@ export default function NewLeadFormPage() {
 
           <div className="space-y-6">
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Preview</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Preview</H2>
               <div className="border-2 border-dashed border-border rounded-card p-4 bg-muted/20">
                 <div className="space-y-4">
                   {fields.map((field) => (
                     <div key={field.id}>
-                      <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                      <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                         {field.label}
-                        {field.required && <span className="text-destructive ml-1">*</span>}
-                      </label>
+                        {field.required && <Text className="text-destructive ml-1">*</Text>}
+                      </Label>
                       {field.type === 'textarea' ? (
-                        <textarea
+                        <Textarea
                           placeholder={field.placeholder}
                           className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm"
                           rows={3}
                           disabled
                         />
                       ) : field.type === 'select' ? (
-                        <select className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm" disabled>
+                        <Select className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm" disabled>
                           <option>Select...</option>
-                        </select>
+                        </Select>
                       ) : (
-                        <input
+                        <Input
                           type={field.type}
                           placeholder={field.placeholder}
                           className="w-full px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm"
@@ -317,28 +329,28 @@ export default function NewLeadFormPage() {
                       )}
                     </div>
                   ))}
-                  <button
+                  <Button
                     disabled
                     className="w-full px-4 py-2 bg-primary text-primary-foreground rounded-button opacity-75"
                   >
                     Submit
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
 
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Settings</h2>
-              <p className="text-body-sm text-muted-foreground">
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Settings</H2>
+              <Body className="text-body-sm text-muted-foreground">
                 Configure notifications, auto-responses, and styling after creating the form.
-              </p>
+              </Body>
             </div>
           </div>
         </div>
 
         {errors.submit && (
           <div className="mt-6 p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
       </div>

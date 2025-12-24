@@ -1,19 +1,25 @@
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
+  Box,
+  Button,
+  Card,
+  Container,
+  Display,
+  FullBleedSection,
+  Grid,
   H1,
   H3,
   Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
-  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Text,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import { Check, Minus, ArrowRight, Ticket, Users, Briefcase, Layers, Zap, Rocket, Shield, Headphones, X } from "lucide-react";
 import NextLink from "next/link";
 
@@ -285,28 +291,28 @@ export default function PricingPage() {
           <Stack gap={12}>
             <Stack gap={4} className="text-center"><H1 className="text-ink-950">WHAT&apos;S INCLUDED</H1><Body size="lg" className="text-grey-600 max-w-2xl mx-auto">See exactly which products are in each tier.</Body></Stack>
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[900px]">
-                <thead>
-                  <tr className="border-b-2 border-ink-950">
-                    <th className="pb-4 text-left font-display text-h6-md uppercase text-ink-950 w-1/4">Product</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-yellow">GVTE</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">COMP</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">ATLVS</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-purple-500">OPS</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">EXP</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">PROD</th>
-                    <th className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">ENT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">GVTEWAY (Ticketing)</Text></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
-                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">COMPVSS (Crews)</Text></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
-                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">ATLVS (Business)</Text></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td><td className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></td></tr>
-                  <tr className="border-t border-grey-200"><td colSpan={8} className="py-3"><Label size="xs" className="text-grey-500 uppercase tracking-kicker">Pricing</Label></td></tr>
-                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">Monthly base</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$0</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$999</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">$1,499</Text></td></tr>
-                  <tr className="border-t border-grey-100"><td className="py-3"><Text size="sm" className="text-grey-700">Transaction fee</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">3.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></td><td className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></td><td className="py-3 text-center"><Text size="sm" className="text-success">2.0%</Text></td></tr>
-                </tbody>
-              </table>
+              <Table className="w-full min-w-[900px]">
+                <TableHeader>
+                  <TableRow className="border-b-2 border-ink-950">
+                    <TableHead className="pb-4 text-left font-display text-h6-md uppercase text-ink-950 w-1/4">Product</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-yellow">GVTE</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">COMP</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">ATLVS</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-purple-500">OPS</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-pink">EXP</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-brand-cyan">PROD</TableHead>
+                    <TableHead className="pb-4 text-center font-display text-h6-md uppercase text-ink-950">ENT</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="border-t border-grey-100"><TableCell className="py-3"><Text size="sm" className="text-grey-700">GVTEWAY (Ticketing)</Text></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell></TableRow>
+                  <TableRow className="border-t border-grey-100"><TableCell className="py-3"><Text size="sm" className="text-grey-700">COMPVSS (Crews)</Text></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell></TableRow>
+                  <TableRow className="border-t border-grey-100"><TableCell className="py-3"><Text size="sm" className="text-grey-700">ATLVS (Business)</Text></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Minus className="h-5 w-5 text-grey-300 mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell><TableCell className="py-3 text-center"><Check className="h-5 w-5 text-success mx-auto" /></TableCell></TableRow>
+                  <TableRow className="border-t border-grey-200"><TableCell colSpan={8} className="py-3"><Label size="xs" className="text-grey-500 uppercase tracking-kicker">Pricing</Label></TableCell></TableRow>
+                  <TableRow className="border-t border-grey-100"><TableCell className="py-3"><Text size="sm" className="text-grey-700">Monthly base</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$0</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$299</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$799</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$999</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">$1,499</Text></TableCell></TableRow>
+                  <TableRow className="border-t border-grey-100"><TableCell className="py-3"><Text size="sm" className="text-grey-700">Transaction fee</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">3.5%</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-600">2.5%</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-grey-400">—</Text></TableCell><TableCell className="py-3 text-center"><Text size="sm" className="text-success">2.0%</Text></TableCell></TableRow>
+                </TableBody>
+              </Table>
             </div>
           </Stack>
         </Container>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -12,6 +11,7 @@ import {
   Grid,
   Body,
   H3,
+  Skeleton,
 } from '@ghxstship/ui';
 import {
   Calendar,
@@ -21,16 +21,68 @@ import {
   CheckCircle,
   Download,
   Upload,
+  AlertCircle,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
+import { useCrewAssignments, type CrewAssignment } from '@ghxstship/config';
 import { DEMO_CREW_ASSIGNMENTS, type DemoCrewAssignment } from '../../../lib/demo-data';
 
 export default function CrewPortalPage() {
-  const [assignments] = useState<DemoCrewAssignment[]>(DEMO_CREW_ASSIGNMENTS);
+  const { assignments: apiAssignments, isLoading, error, refetch } = useCrewAssignments();
+
+  // Map API assignments to display format or fall back to demo data
+  const assignments: DemoCrewAssignment[] = apiAssignments.length > 0
+    ? apiAssignments.map((a: CrewAssignment) => ({
+        id: a.id,
+        production: a.project?.name || 'Unassigned',
+        role: a.role,
+        dates: a.end_date ? `${a.start_date} - ${a.end_date}` : a.start_date,
+        status: a.status === 'confirmed' ? 'confirmed' : a.status === 'completed' ? 'completed' : 'pending',
+        rate: 500, // Default rate - would come from crew member profile
+      }))
+    : DEMO_CREW_ASSIGNMENTS;
 
   const upcomingCount = assignments.filter(a => a.status === 'confirmed' || a.status === 'pending').length;
   const completedCount = assignments.filter(a => a.status === 'completed').length;
   const totalEarnings = assignments.filter(a => a.status === 'completed').reduce((sum, a) => sum + a.rate, 0);
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Crew Portal" title="My Dashboard" description="View your assignments, documents, and payments" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Crew Portal" title="My Dashboard" description="View your assignments, documents, and payments" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Assignments</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

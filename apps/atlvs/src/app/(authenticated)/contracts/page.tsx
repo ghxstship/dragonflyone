@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, FileText, Clock, CheckCircle, AlertTriangle, Filter } from 'lucide-react';
@@ -91,10 +100,10 @@ export default function ContractsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Contracts</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Contracts</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage contracts and electronic signatures
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-2">
           <Link
@@ -117,44 +126,44 @@ export default function ContractsPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total</span>
+            <Text className="text-body-sm text-muted-foreground">Total</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{stats.total}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Active</span>
+            <Text className="text-body-sm text-muted-foreground">Active</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{stats.active}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{stats.active}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pending</span>
+            <Text className="text-body-sm text-muted-foreground">Pending</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{stats.pending}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{stats.pending}</Body>
         </div>
         <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle className="h-5 w-5 text-destructive" />
-            <span className="text-body-sm text-muted-foreground">Expiring</span>
+            <Text className="text-body-sm text-muted-foreground">Expiring</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-destructive">{stats.expiring}</p>
+          <Body className="text-h3-md font-weight-bold text-destructive">{stats.expiring}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Value</span>
+            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search contracts..."
             value={searchQuery}
@@ -164,7 +173,7 @@ export default function ContractsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -173,8 +182,8 @@ export default function ContractsPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -183,19 +192,19 @@ export default function ContractsPage() {
             {Object.entries(TYPE_CONFIG).map(([value, label]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
       {filteredContracts.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No contracts found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first contract'}
-          </p>
+          </Body>
           <Link
             href="/contracts/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -215,7 +224,7 @@ export default function ContractsPage() {
               Math.ceil((new Date(contract.end_date).getTime() - Date.now()) / (1000 * 60 * 60 * 24)) <= 30;
 
             return (
-              <a
+              <Link
                 key={contract.id}
                 href={`/contracts/${contract.id}`}
                 className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
@@ -223,36 +232,36 @@ export default function ContractsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-body-lg font-weight-semibold text-foreground">
+                      <H3 className="text-body-lg font-weight-semibold text-foreground">
                         {contract.title}
-                      </h3>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </H3>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                       {isExpiring && (
-                        <span className="px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
+                        <Text className="px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
                           Expiring Soon
-                        </span>
+                        </Text>
                       )}
                     </div>
-                    <p className="text-body-sm text-muted-foreground">
+                    <Body className="text-body-sm text-muted-foreground">
                       {typeLabel} • {contract.vendor?.name || 'No vendor'}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground mt-1">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground mt-1">
                       {contract.start_date && `Started ${new Date(contract.start_date).toLocaleDateString()}`}
                       {contract.end_date && ` • Ends ${new Date(contract.end_date).toLocaleDateString()}`}
-                    </p>
+                    </Body>
                   </div>
                   <div className="text-right">
-                    <p className="text-h4-md font-weight-bold text-foreground">
+                    <Body className="text-h4-md font-weight-bold text-foreground">
                       {formatCurrency(contract.value || 0)}
-                    </p>
+                    </Body>
                     {contract.auto_renew && (
-                      <p className="text-body-xs text-success mt-1">Auto-renew enabled</p>
+                      <Body className="text-body-xs text-success mt-1">Auto-renew enabled</Body>
                     )}
                   </div>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

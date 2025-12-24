@@ -6,25 +6,26 @@ import Image from 'next/image';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import { Camera, Twitter, Music, User, Play, Smartphone, Heart, Flame, Megaphone, Star, MessageCircle, RefreshCw } from 'lucide-react';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
   Field,
-  Input,
-  Select,
+  Form,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H2,
+  H3,
+  Input,
+  Kicker,
   Modal,
+  Select,
+  Stack,
   StatCard,
+  Tab,
   Tabs,
   TabsList,
-  Tab,
-  Form,
-  Kicker,
+  Text,
 } from '@ghxstship/ui';
 import { useUGCData, type UGCPost } from '@/hooks/useUGC';
 
@@ -75,7 +76,7 @@ function UGCPageContent() {
       facebook: 'bg-info-600 text-white',
       youtube: 'bg-error-600 text-white',
     };
-    return <Badge className={variants[platform] || ''}><span className="mr-1">{getPlatformIcon(platform)}</span> {platform}</Badge>;
+    return <Badge className={variants[platform] || ''}><Text className="mr-1">{getPlatformIcon(platform)}</Text> {platform}</Badge>;
   };
 
   const formatNumber = (num: number) => {

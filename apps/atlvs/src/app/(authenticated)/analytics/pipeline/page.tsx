@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, TrendingUp, TrendingDown, Target, Clock, DollarSign, BarChart3 } from 'lucide-react';
@@ -110,15 +118,15 @@ export default function PipelineAnalyticsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Pipeline Analytics</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Pipeline Analytics</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Deal flow and conversion analysis
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-muted/30 rounded-button p-1">
           {(['30d', '90d', '1y'] as const).map((range) => (
-            <button
+            <Button
               key={range}
               onClick={() => setDateRange(range)}
               className={`px-3 py-1.5 rounded-button text-body-sm transition-colors ${
@@ -128,7 +136,7 @@ export default function PipelineAnalyticsPage() {
               }`}
             >
               {range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : '1 Year'}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -136,45 +144,45 @@ export default function PipelineAnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Total Pipeline Value</span>
+            <Text className="text-body-sm text-muted-foreground">Total Pipeline Value</Text>
             <DollarSign className="h-5 w-5 text-primary" />
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {formatCurrency(metrics.total_value)}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             Weighted: {formatCurrency(metrics.weighted_value)}
-          </p>
+          </Body>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Win Rate</span>
+            <Text className="text-body-sm text-muted-foreground">Win Rate</Text>
             <Target className="h-5 w-5 text-success-600" />
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {metrics.win_rate.toFixed(1)}%
-          </p>
+          </Body>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Avg Days to Close</span>
+            <Text className="text-body-sm text-muted-foreground">Avg Days to Close</Text>
             <Clock className="h-5 w-5 text-secondary" />
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {metrics.average_days_to_close.toFixed(0)}
-          </p>
+          </Body>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Deals Created</span>
+            <Text className="text-body-sm text-muted-foreground">Deals Created</Text>
             <BarChart3 className="h-5 w-5 text-accent" />
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {metrics.trends.deals_created_this_month}
-          </p>
+          </Body>
           <div className={`flex items-center gap-1 mt-1 text-body-xs ${
             dealsCreatedChange >= 0 ? 'text-success-600' : 'text-error-600'
           }`}>
@@ -183,31 +191,31 @@ export default function PipelineAnalyticsPage() {
             ) : (
               <TrendingDown className="h-3 w-3" />
             )}
-            <span>{Math.abs(dealsCreatedChange).toFixed(1)}% vs last month</span>
+            <Text>{Math.abs(dealsCreatedChange).toFixed(1)}% vs last month</Text>
           </div>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Pipeline by Stage</h3>
+        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Pipeline by Stage</H3>
         {metrics.deals_by_stage.length === 0 ? (
-          <p className="text-body-sm text-muted-foreground text-center py-8">No data available</p>
+          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
         ) : (
           <div className="space-y-4">
             {metrics.deals_by_stage.map((stage) => (
               <div key={stage.stage_id}>
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {stage.stage_name}
-                    </span>
-                    <span className="text-body-xs text-muted-foreground">
+                    </Text>
+                    <Text className="text-body-xs text-muted-foreground">
                       ({stage.count} deals)
-                    </span>
+                    </Text>
                   </div>
-                  <span className="text-body-sm font-weight-medium text-foreground">
+                  <Text className="text-body-sm font-weight-medium text-foreground">
                     {formatCurrency(stage.value)}
-                  </span>
+                  </Text>
                 </div>
                 <div className="w-full bg-muted rounded-badge h-3">
                   <div
@@ -215,9 +223,9 @@ export default function PipelineAnalyticsPage() {
                     style={{ width: `${stage.probability}%` }}
                   />
                 </div>
-                <p className="text-body-xs text-muted-foreground mt-1">
+                <Body className="text-body-xs text-muted-foreground mt-1">
                   {stage.probability}% probability
-                </p>
+                </Body>
               </div>
             ))}
           </div>
@@ -225,21 +233,21 @@ export default function PipelineAnalyticsPage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Stage Conversion Rates</h3>
+        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Stage Conversion Rates</H3>
         {metrics.conversion_rates.length === 0 ? (
-          <p className="text-body-sm text-muted-foreground text-center py-8">No data available</p>
+          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {metrics.conversion_rates.map((conv, i) => (
               <div key={i} className="p-4 bg-muted/30 rounded-card">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-body-sm text-foreground">{conv.from_stage}</span>
-                  <span className="text-muted-foreground">→</span>
-                  <span className="text-body-sm text-foreground">{conv.to_stage}</span>
+                  <Text className="text-body-sm text-foreground">{conv.from_stage}</Text>
+                  <Text className="text-muted-foreground">→</Text>
+                  <Text className="text-body-sm text-foreground">{conv.to_stage}</Text>
                 </div>
-                <p className="text-h4-md font-weight-bold text-primary">
+                <Body className="text-h4-md font-weight-bold text-primary">
                   {conv.rate.toFixed(1)}%
-                </p>
+                </Body>
               </div>
             ))}
           </div>

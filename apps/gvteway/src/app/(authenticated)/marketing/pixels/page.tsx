@@ -12,17 +12,32 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_TRACKING_PIXELS,
-  DEMO_CONVERSION_EVENTS,
-  type DemoTrackingPixel as TrackingPixel,
-} from "@/lib/demo-data";
+import { useTrackingPixels } from "@ghxstship/config";
+import { DEMO_TRACKING_PIXELS, DEMO_CONVERSION_EVENTS } from "@/lib/demo-data";
 
-const mockPixels = DEMO_TRACKING_PIXELS;
-const mockEvents = DEMO_CONVERSION_EVENTS;
+interface TrackingPixel {
+  id: string;
+  name: string;
+  platform: string;
+  pixelId: string;
+  status: string;
+  events: string[];
+  eventsTracked: number;
+  lastFired?: string;
+}
+
+interface ConversionEvent {
+  id: string;
+  name: string;
+  type: string;
+  count: number;
+  value: number;
+  lastTriggered: string;
+}
 
 function PixelsPageContent() {
   const router = useRouter();
+  const { pixels: apiPixels, isLoading } = useTrackingPixels();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -32,10 +47,14 @@ function PixelsPageContent() {
   const [selectedPixel, setSelectedPixel] = useState<TrackingPixel | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const activePixels = mockPixels.filter(p => p.status === "Active").length;
-  const totalEvents = mockPixels.reduce((s, p) => s + p.eventsTracked, 0);
-  const totalConversions = mockEvents.find(e => e.type === "Purchase")?.count || 0;
-  const totalValue = mockEvents.find(e => e.type === "Purchase")?.value || 0;
+  // Use API data or fall back to demo data
+  const pixels: TrackingPixel[] = apiPixels.length > 0 ? (apiPixels as unknown as TrackingPixel[]) : (DEMO_TRACKING_PIXELS as unknown as TrackingPixel[]);
+  const events: ConversionEvent[] = DEMO_CONVERSION_EVENTS as unknown as ConversionEvent[];
+
+  const activePixels = pixels.filter(p => p.status === "Active").length;
+  const totalEvents = pixels.reduce((s, p) => s + p.eventsTracked, 0);
+  const totalConversions = events.find(e => e.type === "Purchase")?.count || 0;
+  const totalValue = events.find(e => e.type === "Purchase")?.value || 0;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -70,6 +89,12 @@ function PixelsPageContent() {
               <Body className="text-on-dark-muted">Manage tracking pixels and conversion events</Body>
             </Stack>
 
+            {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading pixels...</div>
+            </div>
+          )}
+
             <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Active Pixels" value={activePixels} className="border-2 border-black" />
               <StatCard label="Events Tracked" value={totalEvents.toLocaleString()} className="border-2 border-black" />
@@ -90,7 +115,7 @@ function PixelsPageContent() {
                   <Button variant="solid" onClick={() => setShowAddModal(true)}>Add Pixel</Button>
                 </Stack>
                 <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {mockPixels.map((pixel) => (
+                  {pixels.map((pixel) => (
                     <Card key={pixel.id} className="border-2 border-black p-6">
                       <Stack gap={4}>
                         <Stack direction="horizontal" className="justify-between">
@@ -142,7 +167,7 @@ function PixelsPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockEvents.map((event) => (
+                  {events.map((event) => (
                     <TableRow key={event.id}>
                       <TableCell><Label className="font-weight-medium">{event.name}</Label></TableCell>
                       <TableCell><Badge variant="outline">{event.type}</Badge></TableCell>

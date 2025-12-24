@@ -6,20 +6,21 @@ import { ArrowLeft, Pencil, DollarSign, CheckCircle, Plus, ExternalLink, Mail, P
 // Layout provided by route group
 import { useSponsor, useRecordPayment, useCreateDeliverable, useCompleteDeliverable } from '../../../../hooks/useSponsors';
 import {
-  Container,
-  Section,
-  Stack,
-  Grid,
+  Badge,
+  Body,
+  Box,
+  Button,
   Card,
+  ConfirmDialog,
+  Container,
+  Grid,
   H2,
   H3,
-  Body,
-  Button,
-  Badge,
-  Box,
-  StatCard,
+  Link,
   RecordFormModal,
-  ConfirmDialog,
+  Section,
+  Stack,
+  StatCard,
   type FormFieldConfig,
 } from '@ghxstship/ui';
 
@@ -321,10 +322,10 @@ export default function SponsorDetailPage() {
                       {sponsor.website_url && (
                         <Stack gap={1}>
                           <Body size="sm" className=" text-grey-500">Website</Body>
-                          <a href={sponsor.website_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary">
+                          <Link href={sponsor.website_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary">
                             <ExternalLink className="size-4" />
                             <Body>Visit Website</Body>
-                          </a>
+                          </Link>
                         </Stack>
                       )}
                     </Stack>

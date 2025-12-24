@@ -10,15 +10,28 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS,
-  type DemoMarketingEarlyBirdCampaign as EarlyBirdCampaign,
-} from "@/lib/demo-data";
+import { useEarlyBirdOffers } from "@ghxstship/config";
+import { DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS } from "@/lib/demo-data";
 
-const mockCampaigns = DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS;
+interface EarlyBirdCampaign {
+  id: string;
+  name: string;
+  status: string;
+  eventName: string;
+  tierName: string;
+  originalPrice: number;
+  discountedPrice: number;
+  discountPercent: number;
+  ticketsSold: number;
+  ticketsAllocated: number;
+  startDate: string;
+  endDate: string;
+  daysRemaining?: number;
+}
 
 function EarlyBirdPageContent() {
   const router = useRouter();
+  const { offers: apiOffers, isLoading } = useEarlyBirdOffers();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -28,6 +41,9 @@ function EarlyBirdPageContent() {
   const [selectedCampaign, setSelectedCampaign] = useState<EarlyBirdCampaign | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  // Use API data or fall back to demo data
+  const campaigns: EarlyBirdCampaign[] = apiOffers.length > 0 ? (apiOffers as unknown as EarlyBirdCampaign[]) : (DEMO_MARKETING_EARLY_BIRD_CAMPAIGNS as unknown as EarlyBirdCampaign[]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,9 +62,9 @@ function EarlyBirdPageContent() {
     return () => clearInterval(timer);
   }, []);
 
-  const activeCampaigns = mockCampaigns.filter(c => c.status === "Active" || c.status === "Ending Soon");
-  const totalRevenue = mockCampaigns.reduce((s, c) => s + (c.ticketsSold * c.discountedPrice), 0);
-  const totalSaved = mockCampaigns.reduce((s, c) => s + (c.ticketsSold * (c.originalPrice - c.discountedPrice)), 0);
+  const activeCampaigns = campaigns.filter(c => c.status === "Active" || c.status === "Ending Soon");
+  const totalRevenue = campaigns.reduce((s, c) => s + (c.ticketsSold * c.discountedPrice), 0);
+  const totalSaved = campaigns.reduce((s, c) => s + (c.ticketsSold * (c.originalPrice - c.discountedPrice)), 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -62,9 +78,9 @@ function EarlyBirdPageContent() {
 
   const formatCurrency = (amount: number) => `$${amount.toLocaleString()}`;
 
-  const filteredCampaigns = activeTab === "all" ? mockCampaigns :
-    activeTab === "active" ? mockCampaigns.filter(c => c.status === "Active" || c.status === "Ending Soon") :
-    mockCampaigns.filter(c => c.status.toLowerCase() === activeTab);
+  const filteredCampaigns = activeTab === "all" ? campaigns :
+    activeTab === "active" ? campaigns.filter(c => c.status === "Active" || c.status === "Ending Soon") :
+    campaigns.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
     <>
@@ -96,11 +112,17 @@ function EarlyBirdPageContent() {
             </Stack>
           </Card>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading campaigns...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Campaigns" value={activeCampaigns.length} className="border-2 border-black" />
             <StatCard label="Total Revenue" value={formatCurrency(totalRevenue)} className="border-2 border-black" />
             <StatCard label="Customer Savings" value={formatCurrency(totalSaved)} className="border-2 border-black" />
-            <StatCard label="Tickets Sold" value={mockCampaigns.reduce((s, c) => s + c.ticketsSold, 0)} className="border-2 border-black" />
+            <StatCard label="Tickets Sold" value={campaigns.reduce((s, c) => s + c.ticketsSold, 0)} className="border-2 border-black" />
           </Grid>
 
           <Stack direction="horizontal" className="justify-between">

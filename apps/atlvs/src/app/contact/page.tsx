@@ -11,6 +11,8 @@ import {
   Display,
   Button,
   Input,
+  Textarea,
+  Form,
   FullBleedSection,
 } from "@ghxstship/ui";
 import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
@@ -105,7 +107,7 @@ export default function ContactPage() {
                 </Body>
               </Stack>
 
-              <form>
+              <Form>
                 <Stack gap={6}>
                   <Grid cols={2} gap={6} className="sm:grid-cols-1">
                     <Stack gap={2}>
@@ -140,7 +142,7 @@ export default function ContactPage() {
                     <Label size="xs" className="text-ink-950">
                       MESSAGE
                     </Label>
-                    <textarea
+                    <Textarea
                       placeholder="Tell us about your production needs..."
                       rows={5}
                       className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 placeholder:text-grey-400 focus:outline-none focus:ring-2 focus:ring-brand-pink"
@@ -151,7 +153,7 @@ export default function ContactPage() {
                     Send Message
                   </Button>
                 </Stack>
-              </form>
+              </Form>
             </Stack>
           </Card>
         </Container>

@@ -5,19 +5,20 @@ import { useRouter, useParams } from 'next/navigation';
 import { Flame, Heart, PartyPopper, ThumbsUp, Sparkles, Smile } from 'lucide-react';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
+  Box,
   Button,
   Card,
-  Input,
-  Grid,
-  Stack,
-  Badge,
-  Alert,
-  Box,
   Form,
+  Grid,
+  H2,
+  H3,
+  Icon,
+  Input,
   Kicker,
+  Stack,
 } from '@ghxstship/ui';
 import Image from 'next/image';
 import { useEventChatData, type ChatMessage } from '@/hooks/useEventChat';

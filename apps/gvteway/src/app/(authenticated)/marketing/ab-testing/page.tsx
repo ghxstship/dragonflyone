@@ -10,15 +10,12 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_AB_TESTS,
-  type DemoABTest as ABTest,
-} from "@/lib/demo-data";
-
-const mockTests = DEMO_AB_TESTS;
+import { useABTesting, type ABTest } from "@ghxstship/config";
+import { DEMO_AB_TESTS } from "@/lib/demo-data";
 
 function ABTestingPageContent() {
   const router = useRouter();
+  const { tests: apiTests, summary, isLoading } = useABTesting();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -28,8 +25,11 @@ function ABTestingPageContent() {
   const [selectedTest, setSelectedTest] = useState<ABTest | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const runningTests = mockTests.filter(t => t.status === "Running").length;
-  const completedTests = mockTests.filter(t => t.status === "Completed").length;
+  // Use API data or fall back to demo data
+  const tests: ABTest[] = apiTests.length > 0 ? apiTests : (DEMO_AB_TESTS as unknown as ABTest[]);
+
+  const runningTests = summary?.runningTests || tests.filter(t => t.status === "Running").length;
+  const completedTests = summary?.completedTests || tests.filter(t => t.status === "Completed").length;
   const avgLift = 25; // Mock average lift percentage
 
   const getStatusColor = (status: string) => {
@@ -49,8 +49,8 @@ function ABTestingPageContent() {
     return "text-error-600";
   };
 
-  const filteredTests = activeTab === "all" ? mockTests :
-    mockTests.filter(t => t.status.toLowerCase() === activeTab);
+  const filteredTests = activeTab === "all" ? tests :
+    tests.filter(t => t.status.toLowerCase() === activeTab);
 
   return (
     <>
@@ -61,6 +61,12 @@ function ABTestingPageContent() {
               <H2 size="lg" className="text-white">A/B Testing</H2>
               <Body className="text-on-dark-muted">Test landing pages, pricing, and marketing elements</Body>
             </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading A/B tests...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Running Tests" value={runningTests} className="border-2 border-black" />

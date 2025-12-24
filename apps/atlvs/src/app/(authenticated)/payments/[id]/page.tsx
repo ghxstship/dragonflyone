@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, CreditCard, Building2, RefreshCw, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
@@ -137,7 +150,7 @@ export default function PaymentDetailPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load payment details</p>
+          <Body className="text-destructive">Failed to load payment details</Body>
         </div>
       </div>
     );
@@ -157,14 +170,14 @@ export default function PaymentDetailPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Payment Details</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Payment Details</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {payment.reference_number || payment.id}
-            </p>
+            </Body>
           </div>
         </div>
         {canRefund && (
-          <button
+          <Button
             onClick={() => {
               setRefundAmount((payment.amount - totalRefunded).toString());
               setShowRefundModal(true);
@@ -172,8 +185,8 @@ export default function PaymentDetailPage() {
             className="flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button hover:bg-destructive/10 transition-colors"
           >
             <RefreshCw className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Issue Refund</span>
-          </button>
+            <Text className="text-body-sm font-weight-medium">Issue Refund</Text>
+          </Button>
         )}
       </div>
 
@@ -184,68 +197,68 @@ export default function PaymentDetailPage() {
               <div className="flex items-center gap-3">
                 {getStatusIcon(payment.status)}
                 <div>
-                  <h2 className="text-h3-md font-weight-bold text-foreground">
+                  <H2 className="text-h3-md font-weight-bold text-foreground">
                     {formatCurrency(payment.amount)}
-                  </h2>
-                  <p className="text-body-sm text-muted-foreground">
+                  </H2>
+                  <Body className="text-body-sm text-muted-foreground">
                     {formatDate(payment.payment_date)}
-                  </p>
+                  </Body>
                 </div>
               </div>
-              <span className={`px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${getStatusColor(payment.status)}`}>
+              <Text className={`px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${getStatusColor(payment.status)}`}>
                 {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-              </span>
+              </Text>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Payment Method</p>
+                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Payment Method</Body>
                 <div className="flex items-center gap-2">
                   {payment.payment_method === 'card' ? (
                     <CreditCard className="h-4 w-4 text-muted-foreground" />
                   ) : (
                     <Building2 className="h-4 w-4 text-muted-foreground" />
                   )}
-                  <span className="text-body-md text-foreground capitalize">{payment.payment_method}</span>
+                  <Text className="text-body-md text-foreground capitalize">{payment.payment_method}</Text>
                 </div>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Reference</p>
-                <p className="text-body-md text-foreground font-mono">{payment.reference_number || '-'}</p>
+                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Reference</Body>
+                <Body className="text-body-md text-foreground font-mono">{payment.reference_number || '-'}</Body>
               </div>
             </div>
 
             {payment.notes && (
               <div className="mt-4 pt-4 border-t border-border">
-                <p className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Notes</p>
-                <p className="text-body-md text-foreground">{payment.notes}</p>
+                <Body className="text-body-xs text-muted-foreground uppercase tracking-label mb-1">Notes</Body>
+                <Body className="text-body-md text-foreground">{payment.notes}</Body>
               </div>
             )}
           </div>
 
           {payment.refunds.length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Refunds</h3>
+              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Refunds</H3>
               <div className="space-y-3">
                 {payment.refunds.map((refund) => (
                   <div key={refund.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
                     <div>
-                      <p className="text-body-md font-weight-medium text-foreground">
+                      <Body className="text-body-md font-weight-medium text-foreground">
                         {formatCurrency(refund.amount)}
-                      </p>
-                      <p className="text-body-xs text-muted-foreground">
+                      </Body>
+                      <Body className="text-body-xs text-muted-foreground">
                         {formatDate(refund.created_at)}
-                      </p>
+                      </Body>
                     </div>
-                    <span className={`px-2 py-0.5 rounded-avatar text-body-xs font-weight-medium ${getStatusColor(refund.status)}`}>
+                    <Text className={`px-2 py-0.5 rounded-avatar text-body-xs font-weight-medium ${getStatusColor(refund.status)}`}>
                       {refund.status}
-                    </span>
+                    </Text>
                   </div>
                 ))}
               </div>
               <div className="mt-4 pt-4 border-t border-border flex justify-between">
-                <span className="text-body-sm text-muted-foreground">Total Refunded</span>
-                <span className="text-body-md font-weight-semibold text-foreground">{formatCurrency(totalRefunded)}</span>
+                <Text className="text-body-sm text-muted-foreground">Total Refunded</Text>
+                <Text className="text-body-md font-weight-semibold text-foreground">{formatCurrency(totalRefunded)}</Text>
               </div>
             </div>
           )}
@@ -254,28 +267,28 @@ export default function PaymentDetailPage() {
         <div className="space-y-6">
           {payment.invoice && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Linked Invoice</h3>
+              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Linked Invoice</H3>
               <Link
                 href={`/invoices/${payment.invoice.id}`}
                 className="block p-3 bg-muted/30 rounded-card hover:bg-muted/50 transition-colors"
               >
-                <p className="text-body-md font-weight-medium text-foreground">
+                <Body className="text-body-md font-weight-medium text-foreground">
                   #{payment.invoice.invoice_number}
-                </p>
-                <p className="text-body-sm text-muted-foreground">
+                </Body>
+                <Body className="text-body-sm text-muted-foreground">
                   {formatCurrency(payment.invoice.total_amount)}
-                </p>
+                </Body>
               </Link>
             </div>
           )}
 
           {payment.contact && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Customer</h3>
-              <p className="text-body-md font-weight-medium text-foreground">
+              <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Customer</H3>
+              <Body className="text-body-md font-weight-medium text-foreground">
                 {payment.contact.first_name} {payment.contact.last_name}
-              </p>
-              <p className="text-body-sm text-muted-foreground">{payment.contact.email}</p>
+              </Body>
+              <Body className="text-body-sm text-muted-foreground">{payment.contact.email}</Body>
             </div>
           )}
         </div>
@@ -284,8 +297,8 @@ export default function PaymentDetailPage() {
       {showRefundModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Issue Refund</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Issue Refund</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 refundMutation.mutate();
@@ -293,12 +306,12 @@ export default function PaymentDetailPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Refund Amount *
-                </label>
+                </Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <input
+                  <Text className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</Text>
+                  <Input
                     type="number"
                     step="0.01"
                     max={payment.amount - totalRefunded}
@@ -308,15 +321,15 @@ export default function PaymentDetailPage() {
                     className="w-full pl-8 pr-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                   />
                 </div>
-                <p className="text-body-xs text-muted-foreground mt-1">
+                <Body className="text-body-xs text-muted-foreground mt-1">
                   Max: {formatCurrency(payment.amount - totalRefunded)}
-                </p>
+                </Body>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Reason *
-                </label>
-                <select
+                </Label>
+                <Select
                   value={refundReason}
                   onChange={(e) => setRefundReason(e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -325,25 +338,25 @@ export default function PaymentDetailPage() {
                   <option value="duplicate">Duplicate payment</option>
                   <option value="fraudulent">Fraudulent</option>
                   <option value="other">Other</option>
-                </select>
+                </Select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowRefundModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={refundMutation.isPending}
                   className="px-4 py-2 bg-destructive text-destructive-foreground rounded-button hover:bg-destructive/90 transition-colors disabled:opacity-50"
                 >
                   {refundMutation.isPending ? 'Processing...' : 'Issue Refund'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

@@ -4,7 +4,16 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Building2, Upload, Globe, MapPin, Phone, Mail, Save, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
 
 interface OrganizationSettings {
   id: string;
@@ -144,7 +153,7 @@ export default function OrganizationSettingsPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load organization settings</span>
+          <Text className="text-destructive">Failed to load organization settings</Text>
         </div>
       </div>
     );
@@ -161,25 +170,25 @@ export default function OrganizationSettingsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Building2 className="h-6 w-6" />
               Organization Settings
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage your organization profile and preferences
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={handleSave}
           disabled={!hasChanges || saveMutation.isPending}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           <Save className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">
+          <Text className="text-body-sm font-weight-medium">
             {saveMutation.isPending ? 'Saving...' : 'Save Changes'}
-          </span>
-        </button>
+          </Text>
+        </Button>
       </div>
 
       {saveMutation.isSuccess && (
@@ -192,14 +201,14 @@ export default function OrganizationSettingsPage() {
         <div className="col-span-2 space-y-6">
           {/* Basic Information */}
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Basic Information</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Basic Information</H2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Organization Name *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleChange('name', e.target.value)}
@@ -207,10 +216,10 @@ export default function OrganizationSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Legal Name
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.legal_name || ''}
                     onChange={(e) => handleChange('legal_name', e.target.value)}
@@ -220,10 +229,10 @@ export default function OrganizationSettingsPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Industry
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.industry || ''}
                     onChange={(e) => handleChange('industry', e.target.value)}
@@ -231,10 +240,10 @@ export default function OrganizationSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Tax ID / EIN
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.tax_id || ''}
                     onChange={(e) => handleChange('tax_id', e.target.value)}
@@ -247,18 +256,18 @@ export default function OrganizationSettingsPage() {
 
           {/* Contact Information */}
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Phone className="h-5 w-5" />
               Contact Information
-            </h2>
+            </H2>
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     <Mail className="h-4 w-4 inline mr-1" />
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="email"
                     value={formData.email || ''}
                     onChange={(e) => handleChange('email', e.target.value)}
@@ -266,10 +275,10 @@ export default function OrganizationSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Phone
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="tel"
                     value={formData.phone || ''}
                     onChange={(e) => handleChange('phone', e.target.value)}
@@ -278,11 +287,11 @@ export default function OrganizationSettingsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   <Globe className="h-4 w-4 inline mr-1" />
                   Website
-                </label>
-                <input
+                </Label>
+                <Input
                   type="url"
                   value={formData.website || ''}
                   onChange={(e) => handleChange('website', e.target.value)}
@@ -294,16 +303,16 @@ export default function OrganizationSettingsPage() {
 
           {/* Address */}
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               Address
-            </h2>
+            </H2>
             <div className="space-y-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Street Address
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.address?.street || ''}
                   onChange={(e) => handleAddressChange('street', e.target.value)}
@@ -312,10 +321,10 @@ export default function OrganizationSettingsPage() {
               </div>
               <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     City
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.address?.city || ''}
                     onChange={(e) => handleAddressChange('city', e.target.value)}
@@ -323,10 +332,10 @@ export default function OrganizationSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     State / Province
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.address?.state || ''}
                     onChange={(e) => handleAddressChange('state', e.target.value)}
@@ -334,10 +343,10 @@ export default function OrganizationSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     ZIP / Postal Code
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={formData.address?.zip || ''}
                     onChange={(e) => handleAddressChange('zip', e.target.value)}
@@ -346,10 +355,10 @@ export default function OrganizationSettingsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Country
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.address?.country || ''}
                   onChange={(e) => handleAddressChange('country', e.target.value)}
@@ -363,13 +372,13 @@ export default function OrganizationSettingsPage() {
         {/* Sidebar - Regional Settings */}
         <div className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Regional Settings</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Regional Settings</H2>
             <div className="space-y-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Timezone
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.timezone}
                   onChange={(e) => handleChange('timezone', e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -377,13 +386,13 @@ export default function OrganizationSettingsPage() {
                   {TIMEZONES.map((tz) => (
                     <option key={tz.id} value={tz.id}>{tz.label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Currency
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.currency}
                   onChange={(e) => handleChange('currency', e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -391,13 +400,13 @@ export default function OrganizationSettingsPage() {
                   {CURRENCIES.map((c) => (
                     <option key={c.id} value={c.id}>{c.label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Date Format
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.date_format}
                   onChange={(e) => handleChange('date_format', e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -405,13 +414,13 @@ export default function OrganizationSettingsPage() {
                   {DATE_FORMATS.map((df) => (
                     <option key={df.id} value={df.id}>{df.label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Fiscal Year Start
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.fiscal_year_start}
                   onChange={(e) => handleChange('fiscal_year_start', e.target.value)}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -420,16 +429,16 @@ export default function OrganizationSettingsPage() {
                     'July', 'August', 'September', 'October', 'November', 'December'].map((month) => (
                     <option key={month} value={month}>{month}</option>
                   ))}
-                </select>
+                </Select>
               </div>
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Upload className="h-5 w-5" />
               Logo
-            </h2>
+            </H2>
             <div className="border-2 border-dashed border-border rounded-card p-8 text-center">
               {formData.logo_url ? (
                 <div className="max-h-24 mx-auto mb-2 flex items-center justify-center">
@@ -438,9 +447,9 @@ export default function OrganizationSettingsPage() {
               ) : (
                 <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
               )}
-              <p className="text-body-xs text-muted-foreground mb-2">
+              <Body className="text-body-xs text-muted-foreground mb-2">
                 PNG, JPG up to 2MB
-              </p>
+              </Body>
               <Button variant="outline" size="sm">
                 Upload Logo
               </Button>

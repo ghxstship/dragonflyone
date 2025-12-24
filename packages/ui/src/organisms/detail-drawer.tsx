@@ -73,6 +73,14 @@ export interface DetailDrawerProps<T = unknown> {
   className?: string;
   /** Children for custom content */
   children?: React.ReactNode;
+  /** Split-pane mode: show list on left, detail on right */
+  splitPane?: boolean;
+  /** List content for split-pane mode */
+  listContent?: React.ReactNode;
+  /** Activity/audit timeline slot */
+  activityTimeline?: React.ReactNode;
+  /** Undo banner content */
+  undoBanner?: React.ReactNode;
 }
 
 const widthClasses = {
@@ -99,6 +107,10 @@ export function DetailDrawer<T = unknown>({
   loading = false,
   className = "",
   children,
+  splitPane = false,
+  listContent,
+  activityTimeline,
+  undoBanner,
 }: DetailDrawerProps<T>) {
   const drawerRef = useRef<HTMLDivElement>(null);
 
@@ -244,28 +256,76 @@ export function DetailDrawer<T = unknown>({
           </div>
         )}
 
-        {/* Content */}
-        <div className="flex-1 overflow-auto p-spacing-6">
-          {loading ? (
-            <div className="flex items-center justify-center h-spacing-48">
-              <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
-            </div>
-          ) : record ? (
-            <>
-              {/* Sections */}
-              {sections.map((section) => (
-                <DetailSectionComponent key={section.id} section={section} />
-              ))}
+        {/* Undo Banner */}
+        {undoBanner && (
+          <div className="px-spacing-6 py-spacing-3 bg-warning-100 border-b-2 border-warning-500">
+            {undoBanner}
+          </div>
+        )}
 
-              {/* Custom children */}
-              {children}
-            </>
-          ) : (
-            <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
-              No record selected
+        {/* Content - Split Pane or Standard */}
+        {splitPane ? (
+          <div className="flex-1 flex overflow-hidden">
+            {/* List pane */}
+            <div className="w-1/3 min-w-container-xs border-r-2 border-border-primary overflow-auto bg-surface-secondary">
+              {listContent}
             </div>
-          )}
-        </div>
+            {/* Detail pane */}
+            <div className="flex-1 overflow-auto p-spacing-6">
+              {loading ? (
+                <div className="flex items-center justify-center h-spacing-48">
+                  <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+                </div>
+              ) : record ? (
+                <>
+                  {sections.map((section) => (
+                    <DetailSectionComponent key={section.id} section={section} />
+                  ))}
+                  {children}
+                  {activityTimeline && (
+                    <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
+                      <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600 mb-spacing-4">
+                        Activity
+                      </h3>
+                      {activityTimeline}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
+                  Select an item from the list
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="flex-1 overflow-auto p-spacing-6">
+            {loading ? (
+              <div className="flex items-center justify-center h-spacing-48">
+                <div className="w-spacing-8 h-spacing-8 border-2 border-grey-300 border-t-black rounded-full animate-spin" />
+              </div>
+            ) : record ? (
+              <>
+                {sections.map((section) => (
+                  <DetailSectionComponent key={section.id} section={section} />
+                ))}
+                {children}
+                {activityTimeline && (
+                  <div className="mt-spacing-6 pt-spacing-6 border-t-2 border-border-primary">
+                    <h3 className="font-code text-mono-md tracking-widest uppercase text-grey-600 mb-spacing-4">
+                      Activity
+                    </h3>
+                    {activityTimeline}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="text-center p-spacing-12 text-grey-500 font-code text-mono-md">
+                No record selected
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Scan, Package, CheckCircle, XCircle, ArrowRightLeft, Search } from 'lucide-react';
@@ -72,10 +83,10 @@ export default function InventoryScanPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Inventory Scanner</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Inventory Scanner</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Scan barcodes to look up, check out, or check in items
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -83,17 +94,17 @@ export default function InventoryScanPage() {
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Scan className="h-5 w-5 text-primary" />
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Scan Item</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Scan Item</H2>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Barcode / SKU
-              </label>
+              </Label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
+                <Input
                   type="text"
                   value={barcode}
                   onChange={(e) => setBarcode(e.target.value)}
@@ -106,11 +117,11 @@ export default function InventoryScanPage() {
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Action
-              </label>
+              </Label>
               <div className="flex gap-2">
-                <button
+                <Button
                   onClick={() => setAction('lookup')}
                   className={`flex-1 px-4 py-2 rounded-button text-body-sm font-weight-medium border-2 transition-colors ${
                     action === 'lookup'
@@ -119,8 +130,8 @@ export default function InventoryScanPage() {
                   }`}
                 >
                   Lookup
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => setAction('check_out')}
                   className={`flex-1 px-4 py-2 rounded-button text-body-sm font-weight-medium border-2 transition-colors ${
                     action === 'check_out'
@@ -129,8 +140,8 @@ export default function InventoryScanPage() {
                   }`}
                 >
                   Check Out
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => setAction('check_in')}
                   className={`flex-1 px-4 py-2 rounded-button text-body-sm font-weight-medium border-2 transition-colors ${
                     action === 'check_in'
@@ -139,16 +150,16 @@ export default function InventoryScanPage() {
                   }`}
                 >
                   Check In
-                </button>
+                </Button>
               </div>
             </div>
 
             {action === 'check_out' && (
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Checked Out To
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={checkedOutTo}
                   onChange={(e) => setCheckedOutTo(e.target.value)}
@@ -159,10 +170,10 @@ export default function InventoryScanPage() {
             )}
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Notes (optional)
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Add notes..."
@@ -171,91 +182,91 @@ export default function InventoryScanPage() {
               />
             </div>
 
-            <button
+            <Button
               onClick={handleScan}
               disabled={!barcode.trim() || scanMutation.isPending}
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Scan className="h-4 w-4" />
               {scanMutation.isPending ? 'Scanning...' : 'Scan'}
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center gap-2 mb-4">
             <Package className="h-5 w-5 text-secondary" />
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Result</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Result</H2>
           </div>
 
           {!result ? (
             <div className="py-12 text-center">
               <ArrowRightLeft className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-body-sm text-muted-foreground">
+              <Body className="text-body-sm text-muted-foreground">
                 Scan a barcode to see item details
-              </p>
+              </Body>
             </div>
           ) : result.error ? (
             <div className="py-8 text-center">
               <XCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-              <p className="text-body-sm text-destructive font-weight-medium">{result.error}</p>
-              <button
+              <Body className="text-body-sm text-destructive font-weight-medium">{result.error}</Body>
+              <Button
                 onClick={clearResult}
                 className="mt-4 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Scan Another
-              </button>
+              </Button>
             </div>
           ) : (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5 text-success" />
-                <span className="text-body-sm font-weight-medium text-success capitalize">
+                <Text className="text-body-sm font-weight-medium text-success capitalize">
                   {result.action.replace('_', ' ')} Successful
-                </span>
+                </Text>
               </div>
 
               {result.item && (
                 <div className="bg-muted/30 rounded-card p-4 space-y-3">
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Item Name</p>
-                    <p className="text-body-sm font-weight-medium text-foreground">{result.item.name}</p>
+                    <Body className="text-body-xs text-muted-foreground">Item Name</Body>
+                    <Body className="text-body-sm font-weight-medium text-foreground">{result.item.name}</Body>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-body-xs text-muted-foreground">SKU</p>
-                      <p className="text-body-sm text-foreground">{result.item.sku}</p>
+                      <Body className="text-body-xs text-muted-foreground">SKU</Body>
+                      <Body className="text-body-sm text-foreground">{result.item.sku}</Body>
                     </div>
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Category</p>
-                      <p className="text-body-sm text-foreground">{result.item.category}</p>
+                      <Body className="text-body-xs text-muted-foreground">Category</Body>
+                      <Body className="text-body-sm text-foreground">{result.item.category}</Body>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Total Quantity</p>
-                      <p className="text-body-sm font-weight-bold text-foreground">{result.item.quantity_total}</p>
+                      <Body className="text-body-xs text-muted-foreground">Total Quantity</Body>
+                      <Body className="text-body-sm font-weight-bold text-foreground">{result.item.quantity_total}</Body>
                     </div>
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Available</p>
-                      <p className="text-body-sm font-weight-bold text-success">{result.item.quantity_available}</p>
+                      <Body className="text-body-xs text-muted-foreground">Available</Body>
+                      <Body className="text-body-sm font-weight-bold text-success">{result.item.quantity_available}</Body>
                     </div>
                   </div>
                   {result.item.location && (
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Location</p>
-                      <p className="text-body-sm text-foreground">{result.item.location}</p>
+                      <Body className="text-body-xs text-muted-foreground">Location</Body>
+                      <Body className="text-body-sm text-foreground">{result.item.location}</Body>
                     </div>
                   )}
                 </div>
               )}
 
-              <button
+              <Button
                 onClick={clearResult}
                 className="w-full px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Scan Another Item
-              </button>
+              </Button>
             </div>
           )}
         </div>

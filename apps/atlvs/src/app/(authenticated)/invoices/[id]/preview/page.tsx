@@ -5,7 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer, Download, Building2, Mail, Phone } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 
 interface Invoice {
   id: string;
@@ -89,7 +102,7 @@ export default function InvoicePreviewPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load invoice</p>
+          <Body className="text-destructive">Failed to load invoice</Body>
         </div>
       </div>
     );
@@ -106,20 +119,20 @@ export default function InvoicePreviewPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Print Preview</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Print Preview</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Invoice #{invoice.invoice_number}
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={handlePrint}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
           >
             <Printer className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Print</span>
-          </button>
+            <Text className="text-body-sm font-weight-medium">Print</Text>
+          </Button>
           <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
             PDF
           </Button>
@@ -134,129 +147,129 @@ export default function InvoicePreviewPage() {
             ) : (
               <div className="flex items-center gap-2 mb-4">
                 <Building2 className="h-8 w-8 text-primary" />
-                <span className="text-h3-md font-weight-bold text-foreground">{invoice.organization.name}</span>
+                <Text className="text-h3-md font-weight-bold text-foreground">{invoice.organization.name}</Text>
               </div>
             )}
             {invoice.organization.address && (
-              <p className="text-body-sm text-muted-foreground">{invoice.organization.address}</p>
+              <Body className="text-body-sm text-muted-foreground">{invoice.organization.address}</Body>
             )}
             {invoice.organization.phone && (
-              <p className="text-body-sm text-muted-foreground">{invoice.organization.phone}</p>
+              <Body className="text-body-sm text-muted-foreground">{invoice.organization.phone}</Body>
             )}
             {invoice.organization.email && (
-              <p className="text-body-sm text-muted-foreground">{invoice.organization.email}</p>
+              <Body className="text-body-sm text-muted-foreground">{invoice.organization.email}</Body>
             )}
           </div>
           <div className="text-right">
-            <h2 className="text-h2-md font-weight-bold text-foreground">INVOICE</h2>
-            <p className="text-body-md text-muted-foreground">#{invoice.invoice_number}</p>
-            <span className={`inline-block mt-2 px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${
+            <H2 className="text-h2-md font-weight-bold text-foreground">INVOICE</H2>
+            <Body className="text-body-md text-muted-foreground">#{invoice.invoice_number}</Body>
+            <Text className={`inline-block mt-2 px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${
               invoice.status === 'paid' ? 'bg-success-100 text-success-800' :
               invoice.status === 'overdue' ? 'bg-error-100 text-error-800' :
               invoice.status === 'sent' ? 'bg-info-100 text-info-800' :
               'bg-ink-100 text-ink-800'
             }`}>
               {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
-            </span>
+            </Text>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-8 mb-8 pb-6 border-b-2 border-border">
           <div>
-            <h3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Bill To</h3>
-            <p className="text-body-md font-weight-medium text-foreground">
+            <H3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Bill To</H3>
+            <Body className="text-body-md font-weight-medium text-foreground">
               {invoice.contact.first_name} {invoice.contact.last_name}
-            </p>
+            </Body>
             {invoice.contact.company && (
-              <p className="text-body-sm text-foreground">{invoice.contact.company}</p>
+              <Body className="text-body-sm text-foreground">{invoice.contact.company}</Body>
             )}
             {invoice.contact.address && (
-              <p className="text-body-sm text-muted-foreground">{invoice.contact.address}</p>
+              <Body className="text-body-sm text-muted-foreground">{invoice.contact.address}</Body>
             )}
             <div className="mt-2">
               {invoice.contact.email && (
-                <p className="text-body-sm text-muted-foreground flex items-center gap-1">
+                <Body className="text-body-sm text-muted-foreground flex items-center gap-1">
                   <Mail className="h-3 w-3" /> {invoice.contact.email}
-                </p>
+                </Body>
               )}
               {invoice.contact.phone && (
-                <p className="text-body-sm text-muted-foreground flex items-center gap-1">
+                <Body className="text-body-sm text-muted-foreground flex items-center gap-1">
                   <Phone className="h-3 w-3" /> {invoice.contact.phone}
-                </p>
+                </Body>
               )}
             </div>
           </div>
           <div className="text-right">
             <div className="space-y-1">
-              <p className="text-body-sm text-muted-foreground">
-                <span className="font-weight-medium">Issue Date:</span> {formatDate(invoice.issue_date)}
-              </p>
-              <p className="text-body-sm text-muted-foreground">
-                <span className="font-weight-medium">Due Date:</span> {formatDate(invoice.due_date)}
-              </p>
+              <Body className="text-body-sm text-muted-foreground">
+                <Text className="font-weight-medium">Issue Date:</Text> {formatDate(invoice.issue_date)}
+              </Body>
+              <Body className="text-body-sm text-muted-foreground">
+                <Text className="font-weight-medium">Due Date:</Text> {formatDate(invoice.due_date)}
+              </Body>
               {invoice.payment_terms && (
-                <p className="text-body-sm text-muted-foreground">
-                  <span className="font-weight-medium">Terms:</span> {invoice.payment_terms}
-                </p>
+                <Body className="text-body-sm text-muted-foreground">
+                  <Text className="font-weight-medium">Terms:</Text> {invoice.payment_terms}
+                </Body>
               )}
             </div>
           </div>
         </div>
 
-        <table className="w-full mb-8">
-          <thead>
-            <tr className="border-b-2 border-border">
-              <th className="text-left py-3 text-body-sm font-weight-semibold text-muted-foreground">Description</th>
-              <th className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</th>
-              <th className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-32">Unit Price</th>
-              <th className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-32">Total</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border">
+        <Table className="w-full mb-8">
+          <TableHeader>
+            <TableRow className="border-b-2 border-border">
+              <TableHead className="text-left py-3 text-body-sm font-weight-semibold text-muted-foreground">Description</TableHead>
+              <TableHead className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</TableHead>
+              <TableHead className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-32">Unit Price</TableHead>
+              <TableHead className="text-right py-3 text-body-sm font-weight-semibold text-muted-foreground w-32">Total</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="divide-y divide-border">
             {invoice.line_items.map((item) => (
-              <tr key={item.id}>
-                <td className="py-3 text-body-md text-foreground">{item.description}</td>
-                <td className="py-3 text-body-md text-foreground text-right">{item.quantity}</td>
-                <td className="py-3 text-body-md text-foreground text-right">{formatCurrency(item.unit_price)}</td>
-                <td className="py-3 text-body-md font-weight-medium text-foreground text-right">{formatCurrency(item.total)}</td>
-              </tr>
+              <TableRow key={item.id}>
+                <TableCell className="py-3 text-body-md text-foreground">{item.description}</TableCell>
+                <TableCell className="py-3 text-body-md text-foreground text-right">{item.quantity}</TableCell>
+                <TableCell className="py-3 text-body-md text-foreground text-right">{formatCurrency(item.unit_price)}</TableCell>
+                <TableCell className="py-3 text-body-md font-weight-medium text-foreground text-right">{formatCurrency(item.total)}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
 
         <div className="flex justify-end mb-8">
           <div className="w-72 space-y-2">
             <div className="flex justify-between text-body-sm">
-              <span className="text-muted-foreground">Subtotal</span>
-              <span className="text-foreground">{formatCurrency(invoice.subtotal)}</span>
+              <Text className="text-muted-foreground">Subtotal</Text>
+              <Text className="text-foreground">{formatCurrency(invoice.subtotal)}</Text>
             </div>
             {invoice.tax_amount > 0 && (
               <div className="flex justify-between text-body-sm">
-                <span className="text-muted-foreground">Tax</span>
-                <span className="text-foreground">{formatCurrency(invoice.tax_amount)}</span>
+                <Text className="text-muted-foreground">Tax</Text>
+                <Text className="text-foreground">{formatCurrency(invoice.tax_amount)}</Text>
               </div>
             )}
             <div className="flex justify-between text-body-md font-weight-semibold pt-2 border-t border-border">
-              <span className="text-foreground">Total</span>
-              <span className="text-foreground">{formatCurrency(invoice.total_amount)}</span>
+              <Text className="text-foreground">Total</Text>
+              <Text className="text-foreground">{formatCurrency(invoice.total_amount)}</Text>
             </div>
             {invoice.amount_paid > 0 && (
               <div className="flex justify-between text-body-sm text-success-600">
-                <span>Paid</span>
-                <span>-{formatCurrency(invoice.amount_paid)}</span>
+                <Text>Paid</Text>
+                <Text>-{formatCurrency(invoice.amount_paid)}</Text>
               </div>
             )}
             <div className="flex justify-between text-h4-md font-weight-bold pt-2 border-t-2 border-border">
-              <span className="text-foreground">Balance Due</span>
-              <span className="text-foreground">{formatCurrency(invoice.balance_due)}</span>
+              <Text className="text-foreground">Balance Due</Text>
+              <Text className="text-foreground">{formatCurrency(invoice.balance_due)}</Text>
             </div>
           </div>
         </div>
 
         {invoice.notes && (
           <div className="pt-6 border-t border-border">
-            <h3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Notes</h3>
-            <p className="text-body-sm text-muted-foreground whitespace-pre-wrap">{invoice.notes}</p>
+            <H3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Notes</H3>
+            <Body className="text-body-sm text-muted-foreground whitespace-pre-wrap">{invoice.notes}</Body>
           </div>
         )}
       </div>

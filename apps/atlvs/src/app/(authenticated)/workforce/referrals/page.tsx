@@ -4,24 +4,23 @@ import { useState } from "react";
 // Layout provided by route group
 import { Eye } from 'lucide-react';
 import {
-  ListPage,
   Badge,
-  DetailDrawer,
-  RecordFormModal,
-  Grid,
   Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  RecordFormModal,
+  Text,
   type DetailSection,
   type FormFieldConfig,
-  } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  type ListPageAction,
+  type ListPageColumn,
+  type ListPageFilter,
+} from '@ghxstship/ui';
+import { createExportHandler, createImportHandler, getImportTemplates, useReferrals, type Referral as APIReferral } from '@ghxstship/config';
+import { DEMO_REFERRALS_FULL } from '../../../../lib/demo-data';
 
-import {
-  DEMO_REFERRALS_FULL,
-  type DemoReferralFull as Referral,
-} from '../../../../lib/demo-data';
+type Referral = APIReferral & { [key: string]: unknown };
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -38,7 +37,7 @@ const columns: ListPageColumn<Referral>[] = [
   { key: "referredBy", label: "Referred By", accessor: "referredBy", sortable: true },
   { key: "submittedDate", label: "Date", accessor: "submittedDate", sortable: true },
   { key: "status", label: "Status", accessor: "status", sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-  { key: "bonus", label: "Bonus", accessor: (r) => r.bonusAmount ? `$${r.bonusAmount.toLocaleString()}` : "—", render: (v, r) => r.bonusStatus ? <Badge variant={getStatusVariant(r.bonusStatus)}>{String(v)}</Badge> : <span>—</span> },
+  { key: "bonus", label: "Bonus", accessor: (r) => r.bonusAmount ? `$${r.bonusAmount.toLocaleString()}` : "—", render: (v, r) => r.bonusStatus ? <Badge variant={getStatusVariant(r.bonusStatus)}>{String(v)}</Badge> : <Text>—</Text> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -64,14 +63,17 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function ReferralProgramPage() {
-  const [referrals, setReferrals] = useState<Referral[]>(DEMO_REFERRALS_FULL);
+  const { referrals: apiReferrals, summary, isLoading, error, createReferralAsync, deleteReferralsAsync, hireReferralsAsync, refetch } = useReferrals();
   const [selectedReferral, setSelectedReferral] = useState<Referral | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const hiredCount = referrals.filter(r => r.status === "Hired").length;
-  const pendingBonuses = referrals.filter(r => r.bonusStatus === "Pending").reduce((s, r) => s + (r.bonusAmount || 0), 0);
-  const totalPaid = referrals.filter(r => r.bonusStatus === "Paid").reduce((s, r) => s + (r.bonusAmount || 0), 0);
+  // Use API data or fall back to demo data
+  const referrals: Referral[] = apiReferrals.length > 0 ? (apiReferrals as Referral[]) : (DEMO_REFERRALS_FULL as Referral[]);
+
+  const hiredCount = summary?.hired || referrals.filter(r => r.status === "Hired").length;
+  const pendingBonuses = summary?.pendingBonuses || referrals.filter(r => r.bonusStatus === "Pending").reduce((s, r) => s + (r.bonusAmount || 0), 0);
+  const totalPaid = summary?.totalPaid || referrals.filter(r => r.bonusStatus === "Paid").reduce((s, r) => s + (r.bonusAmount || 0), 0);
 
   const rowActions: ListPageAction<Referral>[] = [
     { id: "view", label: "View Details", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedReferral(r); setDrawerOpen(true); } },
@@ -85,17 +87,22 @@ export default function ReferralProgramPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newReferral: Referral = {
-      id: `REF-${String(referrals.length + 1).padStart(3, '0')}`,
-      candidateName: String(data.candidateName || ''),
-      position: String(data.position || ''),
-      referredBy: String(data.referredBy || ''),
-      referrerDept: String(data.referrerDept || ''),
-      submittedDate: new Date().toISOString().split('T')[0],
-      status: 'Pending',
-    };
-    setReferrals((prev: Referral[]) => [...prev, newReferral]);
-    setCreateModalOpen(false);
+    try {
+      await createReferralAsync({
+        candidateName: String(data.candidateName || ''),
+        candidateEmail: String(data.email || ''),
+        candidatePhone: String(data.phone || ''),
+        position: String(data.position || ''),
+        referredBy: String(data.referredBy || ''),
+        referrerDept: String(data.referrerDept || ''),
+        submittedDate: new Date().toISOString().split('T')[0],
+        status: 'Pending',
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create referral:', err);
+    }
   };
 
   const detailSections: DetailSection[] = selectedReferral ? [
@@ -141,7 +148,7 @@ export default function ReferralProgramPage() {
 
       }
 
-      setReferrals(DEMO_REFERRALS_FULL);
+      refetch();
 
     },
 
@@ -161,7 +168,9 @@ export default function ReferralProgramPage() {
         data={referrals}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search referrals..."
         filters={filters}
         rowActions={rowActions}
@@ -193,9 +202,11 @@ export default function ReferralProgramPage() {
         emptyAction={{ label: "Submit Referral", onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setReferrals(prev => prev.filter(r => !ids.includes(r.id)));
+            await deleteReferralsAsync(ids);
+            refetch();
           } else if (action === 'hire') {
-            setReferrals(prev => prev.map(r => ids.includes(r.id) ? { ...r, status: 'Hired' as const } : r));
+            await hireReferralsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

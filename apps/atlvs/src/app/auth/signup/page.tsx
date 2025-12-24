@@ -1,26 +1,28 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useNotifications } from "@ghxstship/ui";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  PasswordInput,
-  Alert,
-  Stack,
   Card,
-  Field,
   Checkbox,
   Divider,
-  Label,
-  ScrollReveal,
-  AuthPage,
-  IconBox,
+  Field,
+  Form,
   Grid,
-} from "@ghxstship/ui";
+  H2,
+  IconBox,
+  Input,
+  Label,
+  PasswordInput,
+  ScrollReveal,
+  Stack,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import NextLink from "next/link";
 import { UserPlus, ArrowRight } from "lucide-react";
 import { CreatorNavigationPublic } from "@/components/navigation";
@@ -132,7 +134,7 @@ export default function SignUpPage() {
                 {error && <Alert variant="error">{error}</Alert>}
 
                 {/* Form */}
-                <form onSubmit={handleSignUp}>
+                <Form onSubmit={handleSignUp}>
                   <Stack gap={4} className="sm:gap-6">
                     {/* Name Fields - Responsive Grid */}
                     <Grid cols={2} gap={4} className="grid-cols-1 sm:grid-cols-2">
@@ -222,7 +224,7 @@ export default function SignUpPage() {
                       {loading ? "Creating Account..." : "Create Account"}
                     </Button>
                   </Stack>
-                </form>
+                </Form>
 
                 {/* Divider */}
                 <Stack direction="horizontal" className="items-center gap-4">

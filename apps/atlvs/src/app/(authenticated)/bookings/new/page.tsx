@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -100,7 +113,7 @@ export default function NewBookingPage() {
             >
               <ArrowLeft className="h-5 w-5 text-muted-foreground" />
             </Link>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Booking</h1>
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Booking</H1>
           </div>
         </div>
       </div>
@@ -125,11 +138,11 @@ export default function NewBookingPage() {
                     index + 1
                   )}
                 </div>
-                <span className={`text-body-sm ${
+                <Text className={`text-body-sm ${
                   index <= currentStepIndex ? 'text-foreground' : 'text-muted-foreground'
                 }`}>
                   {step.label}
-                </span>
+                </Text>
               </div>
               {index < steps.length - 1 && (
                 <div className={`w-16 h-0.5 mx-4 ${
@@ -143,13 +156,13 @@ export default function NewBookingPage() {
         <div className="bg-background border-2 border-border rounded-card p-6">
           {currentStep === 'details' && (
             <div className="space-y-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Event Details</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Event Details</H2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Event Name *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="event_name"
                     value={formData.event_name}
@@ -159,10 +172,10 @@ export default function NewBookingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Event Date *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="date"
                     name="event_date"
                     value={formData.event_date}
@@ -171,10 +184,10 @@ export default function NewBookingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Guest Count
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="guest_count"
                     value={formData.guest_count}
@@ -184,10 +197,10 @@ export default function NewBookingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Start Time
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="time"
                     name="start_time"
                     value={formData.start_time}
@@ -196,10 +209,10 @@ export default function NewBookingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     End Time
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="time"
                     name="end_time"
                     value={formData.end_time}
@@ -208,10 +221,10 @@ export default function NewBookingPage() {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Event Type
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="event_type"
                     value={formData.event_type}
                     onChange={handleChange}
@@ -224,7 +237,7 @@ export default function NewBookingPage() {
                     <option value="conference">Conference</option>
                     <option value="gala">Gala</option>
                     <option value="other">Other</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -232,10 +245,10 @@ export default function NewBookingPage() {
 
           {currentStep === 'space' && (
             <div className="space-y-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Select Space</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Select Space</H2>
               <div className="grid grid-cols-2 gap-4">
                 {spaces.map((space) => (
-                  <button
+                  <Button
                     key={space.id}
                     type="button"
                     onClick={() => setFormData((prev) => ({ ...prev, space_id: space.id }))}
@@ -246,26 +259,26 @@ export default function NewBookingPage() {
                     }`}
                   >
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-body-md font-weight-semibold text-foreground">
+                      <H3 className="text-body-md font-weight-semibold text-foreground">
                         {space.name}
-                      </h3>
+                      </H3>
                       {formData.space_id === space.id && (
                         <Check className="h-5 w-5 text-primary" />
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-body-sm text-muted-foreground">
-                      <span className="flex items-center gap-1">
+                      <Text className="flex items-center gap-1">
                         <Users className="h-4 w-4" />
                         {space.capacity} guests
-                      </span>
+                      </Text>
                       {space.base_price && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <DollarSign className="h-4 w-4" />
                           ${space.base_price}
-                        </span>
+                        </Text>
                       )}
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
               {spaces.length === 0 && (
@@ -278,20 +291,20 @@ export default function NewBookingPage() {
 
           {currentStep === 'services' && (
             <div className="space-y-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Add Services</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Add Services</H2>
               <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-                <p className="text-body-md text-muted-foreground">
+                <Body className="text-body-md text-muted-foreground">
                   Service selection coming soon
-                </p>
-                <p className="text-body-sm text-muted-foreground mt-1">
+                </Body>
+                <Body className="text-body-sm text-muted-foreground mt-1">
                   You can add services after creating the booking
-                </p>
+                </Body>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Additional Notes
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="notes"
                   value={formData.notes}
                   onChange={handleChange}
@@ -305,28 +318,28 @@ export default function NewBookingPage() {
 
           {currentStep === 'review' && (
             <div className="space-y-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Review Booking</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Review Booking</H2>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <Calendar className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Event</p>
-                      <p className="text-body-md font-weight-medium text-foreground">
+                      <Body className="text-body-xs text-muted-foreground">Event</Body>
+                      <Body className="text-body-md font-weight-medium text-foreground">
                         {formData.event_name || 'Untitled'}
-                      </p>
-                      <p className="text-body-sm text-muted-foreground">
+                      </Body>
+                      <Body className="text-body-sm text-muted-foreground">
                         {formatDate(formData.event_date)}
-                      </p>
+                      </Body>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <Users className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Guests</p>
-                      <p className="text-body-md font-weight-medium text-foreground">
+                      <Body className="text-body-xs text-muted-foreground">Guests</Body>
+                      <Body className="text-body-md font-weight-medium text-foreground">
                         {formData.guest_count || 'TBD'} expected
-                      </p>
+                      </Body>
                     </div>
                   </div>
                 </div>
@@ -334,33 +347,33 @@ export default function NewBookingPage() {
                   <div className="flex items-start gap-3">
                     <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Space</p>
-                      <p className="text-body-md font-weight-medium text-foreground">
+                      <Body className="text-body-xs text-muted-foreground">Space</Body>
+                      <Body className="text-body-md font-weight-medium text-foreground">
                         {spaces.find((s) => s.id === formData.space_id)?.name || 'Not selected'}
-                      </p>
+                      </Body>
                     </div>
                   </div>
                   {formData.start_time && (
                     <div>
-                      <p className="text-body-xs text-muted-foreground">Time</p>
-                      <p className="text-body-md font-weight-medium text-foreground">
+                      <Body className="text-body-xs text-muted-foreground">Time</Body>
+                      <Body className="text-body-md font-weight-medium text-foreground">
                         {formData.start_time} - {formData.end_time || 'TBD'}
-                      </p>
+                      </Body>
                     </div>
                   )}
                 </div>
               </div>
               {formData.notes && (
                 <div className="p-4 bg-muted/30 rounded-card">
-                  <p className="text-body-xs text-muted-foreground mb-1">Notes</p>
-                  <p className="text-body-sm text-foreground">{formData.notes}</p>
+                  <Body className="text-body-xs text-muted-foreground mb-1">Notes</Body>
+                  <Body className="text-body-sm text-foreground">{formData.notes}</Body>
                 </div>
               )}
             </div>
           )}
 
           <div className="flex items-center justify-between pt-6 mt-6 border-t border-border">
-            <button
+            <Button
               type="button"
               onClick={handleBack}
               disabled={currentStepIndex === 0}
@@ -368,24 +381,24 @@ export default function NewBookingPage() {
             >
               <ArrowLeft className="h-4 w-4" />
               Back
-            </button>
+            </Button>
             {currentStep === 'review' ? (
-              <button
+              <Button
                 onClick={handleSubmit}
                 disabled={createBooking.isPending || !formData.event_name || !formData.event_date}
                 className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {createBooking.isPending ? 'Creating...' : 'Create Booking'}
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 type="button"
                 onClick={handleNext}
                 className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
               >
                 Next
                 <ArrowRight className="h-4 w-4" />
-              </button>
+              </Button>
             )}
           </div>
         </div>

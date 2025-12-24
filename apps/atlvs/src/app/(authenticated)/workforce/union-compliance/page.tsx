@@ -33,16 +33,15 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from "@ghxstship/ui";
+import { useUnionCompliance, type UnionLocal as APIUnionLocal, type UnionComplianceRule } from '@ghxstship/config';
+import { DEMO_UNION_LOCALS, DEMO_UNION_COMPLIANCE_RULES } from '../../../../lib/demo-data';
 
-import {
-  DEMO_UNION_LOCALS,
-  DEMO_UNION_COMPLIANCE_RULES,
-  type DemoUnionLocal as UnionLocal,
-  type DemoUnionComplianceRule as UnionRule,
-} from '../../../../lib/demo-data';
+type UnionLocal = APIUnionLocal;
+type UnionRule = UnionComplianceRule;
 
 export default function UnionCompliancePage() {
   const router = useRouter();
+  const { locals: apiLocals, rules: apiRules, summary, isLoading } = useUnionCompliance();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useLocalTabState({
@@ -52,8 +51,12 @@ export default function UnionCompliancePage() {
   const [selectedLocal, setSelectedLocal] = useState<UnionLocal | null>(null);
   const [selectedRule, setSelectedRule] = useState<UnionRule | null>(null);
 
-  const expiringCount = DEMO_UNION_LOCALS.filter(l => l.status === "Expiring").length;
-  const totalMembers = DEMO_UNION_LOCALS.reduce((s, l) => s + l.memberCount, 0);
+  // Use API data or fall back to demo data
+  const locals: UnionLocal[] = apiLocals.length > 0 ? apiLocals : (DEMO_UNION_LOCALS as unknown as UnionLocal[]);
+  const rules: UnionRule[] = apiRules.length > 0 ? apiRules : (DEMO_UNION_COMPLIANCE_RULES as unknown as UnionRule[]);
+
+  const expiringCount = summary?.expiring || locals.filter(l => l.status === "Expiring").length;
+  const totalMembers = summary?.totalMembers || locals.reduce((s, l) => s + l.memberCount, 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -84,10 +87,16 @@ export default function UnionCompliancePage() {
             </Alert>
           )}
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading union compliance data...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Union Locals" value={DEMO_UNION_LOCALS.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Union Locals" value={locals.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Total Members" value={totalMembers.toLocaleString()} className="bg-transparent border-2 border-ink-800" />
-            <StatCard label="Active Rules" value={DEMO_UNION_COMPLIANCE_RULES.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Active Rules" value={rules.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Expiring Agreements" value={expiringCount} trend={expiringCount > 0 ? "down" : "neutral"} className="bg-transparent border-2 border-ink-800" />
           </Grid>
 
@@ -100,7 +109,7 @@ export default function UnionCompliancePage() {
 
             <TabPanel active={isActive('locals')}>
               <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                {DEMO_UNION_LOCALS.map((local) => (
+                {locals.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-6">
                     <Stack gap={4}>
                       <Stack direction="horizontal" className="justify-between">
@@ -143,9 +152,9 @@ export default function UnionCompliancePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {DEMO_UNION_COMPLIANCE_RULES.map((rule) => (
+                  {rules.map((rule) => (
                     <TableRow key={rule.id} className="border-ink-800">
-                      <TableCell><Badge variant="outline">{DEMO_UNION_LOCALS.find(l => l.id === rule.localId)?.code}</Badge></TableCell>
+                      <TableCell><Badge variant="outline">{locals.find(l => l.id === rule.localId)?.code}</Badge></TableCell>
                       <TableCell><Label className="text-ink-300">{rule.category}</Label></TableCell>
                       <TableCell><Label className="text-white">{rule.rule}</Label></TableCell>
                       <TableCell><Label className="text-ink-300">{rule.requirement}</Label></TableCell>
@@ -159,7 +168,7 @@ export default function UnionCompliancePage() {
 
             <TabPanel active={isActive('agreements')}>
               <Stack gap={4}>
-                {DEMO_UNION_LOCALS.map((local) => (
+                {locals.map((local) => (
                   <Card key={local.id} className="border-2 border-ink-800 bg-ink-900/50 p-4">
                     <Grid cols={6} gap={4} className="items-center">
                       <Stack gap={1}>

@@ -4,18 +4,19 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Eye, Pencil, Trash2, Copy, FileText, Calendar, FileCheck } from 'lucide-react';
 import {
-  ListPage,
   Badge,
-  Stack,
   Body,
+  Button,
   Card,
   Label,
+  ListPage,
+  Stack,
+  type ListPageAction,
   type ListPageColumn,
   type ListPageFilter,
-  type ListPageAction,
 } from '@ghxstship/ui';
 import NextLink from 'next/link';
-import { useTemplates, type Template } from '../../../../hooks/useTemplates';
+import { useTemplates, useDeleteTemplate, useCreateTemplate, type Template } from '../../../../hooks/useTemplates';
 
 export const runtime = 'edge';
 
@@ -109,30 +110,68 @@ const filters: ListPageFilter[] = [
 export default function OrganizationTemplatesPage() {
   const router = useRouter();
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [actionType, setActionType] = useState<'delete' | 'duplicate' | null>(null);
   
-  const { data, isLoading, refetch } = useTemplates();
+  const { data, isLoading } = useTemplates();
   const templates = data?.templates || [];
+  
+  const deleteTemplate = useDeleteTemplate();
+  const createTemplate = useCreateTemplate();
+
+  const handleDeleteConfirm = async () => {
+    if (!selectedTemplate) return;
+    await deleteTemplate.mutateAsync(selectedTemplate.id);
+    setSelectedTemplate(null);
+    setActionType(null);
+  };
+
+  const handleDuplicateConfirm = async () => {
+    if (!selectedTemplate) return;
+    await createTemplate.mutateAsync({
+      organization_id: selectedTemplate.organization_id,
+      category_id: selectedTemplate.category_id,
+      name: `${selectedTemplate.name} (Copy)`,
+      description: selectedTemplate.description,
+      template_type: selectedTemplate.template_type,
+      content: selectedTemplate.content,
+      is_active: false,
+      is_public: false,
+      tags: selectedTemplate.tags,
+    });
+    setSelectedTemplate(null);
+    setActionType(null);
+  };
 
   const rowActions: ListPageAction<Template>[] = [
     { 
+      id: 'view',
       label: 'View', 
       icon: <Eye className="size-4" />, 
       onClick: (template) => router.push(`/organization/templates/${template.id}`) 
     },
     { 
+      id: 'edit',
       label: 'Edit', 
       icon: <Pencil className="size-4" />, 
       onClick: (template) => router.push(`/organization/templates/${template.id}/edit`) 
     },
     { 
+      id: 'duplicate',
       label: 'Duplicate', 
       icon: <Copy className="size-4" />, 
-      onClick: (template) => setSelectedTemplate(template) 
+      onClick: (template) => {
+        setSelectedTemplate(template);
+        setActionType('duplicate');
+      }
     },
     { 
+      id: 'delete',
       label: 'Delete', 
       icon: <Trash2 className="size-4" />, 
-      onClick: (template) => setSelectedTemplate(template),
+      onClick: (template) => {
+        setSelectedTemplate(template);
+        setActionType('delete');
+      },
       variant: 'danger'
     },
   ];
@@ -203,6 +242,64 @@ export default function OrganizationTemplatesPage() {
           </Card>
         </NextLink>
       </Stack>
+
+      {/* Delete Confirmation Dialog */}
+      {actionType === 'delete' && selectedTemplate && (
+        <div className="fixed inset-0 bg-ink-950/50 flex items-center justify-center z-50">
+          <Card className="max-w-md w-full mx-4 p-6">
+            <Stack gap={4}>
+              <Body size="md" className="font-weight-semibold">Delete Template</Body>
+              <Body size="sm" className="text-grey-600">
+                Are you sure you want to delete &quot;{selectedTemplate.name}&quot;? This action cannot be undone.
+              </Body>
+              <Stack direction="horizontal" gap={2} className="justify-end">
+                <Button
+                  onClick={() => { setSelectedTemplate(null); setActionType(null); }}
+                  className="px-4 py-2 text-grey-600 hover:text-grey-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleDeleteConfirm}
+                  disabled={deleteTemplate.isPending}
+                  className="px-4 py-2 bg-error-600 text-white rounded-button hover:bg-error-700 disabled:opacity-50"
+                >
+                  {deleteTemplate.isPending ? 'Deleting...' : 'Delete'}
+                </Button>
+              </Stack>
+            </Stack>
+          </Card>
+        </div>
+      )}
+
+      {/* Duplicate Confirmation Dialog */}
+      {actionType === 'duplicate' && selectedTemplate && (
+        <div className="fixed inset-0 bg-ink-950/50 flex items-center justify-center z-50">
+          <Card className="max-w-md w-full mx-4 p-6">
+            <Stack gap={4}>
+              <Body size="md" className="font-weight-semibold">Duplicate Template</Body>
+              <Body size="sm" className="text-grey-600">
+                Create a copy of &quot;{selectedTemplate.name}&quot;? The copy will be created as inactive.
+              </Body>
+              <Stack direction="horizontal" gap={2} className="justify-end">
+                <Button
+                  onClick={() => { setSelectedTemplate(null); setActionType(null); }}
+                  className="px-4 py-2 text-grey-600 hover:text-grey-800"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleDuplicateConfirm}
+                  disabled={createTemplate.isPending}
+                  className="px-4 py-2 bg-primary-600 text-white rounded-button hover:bg-primary-700 disabled:opacity-50"
+                >
+                  {createTemplate.isPending ? 'Duplicating...' : 'Duplicate'}
+                </Button>
+              </Stack>
+            </Stack>
+          </Card>
+        </div>
+      )}
     </>
   );
 }

@@ -7,12 +7,10 @@ import { Eye, ExternalLink, Pencil } from 'lucide-react';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useLaborLaws, type LaborLaw as APILaborLaw } from '@ghxstship/config';
+import { DEMO_STATE_LABOR_LAWS } from '../../../../lib/demo-data';
 
-import {
-  DEMO_STATE_LABOR_LAWS,
-  type DemoStateLaborLaw as StateLaborLaw,
-} from '../../../../lib/demo-data';
+type StateLaborLaw = APILaborLaw & { [key: string]: unknown };
 
 const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) { case 'Active': return 'solid'; case 'Updated': return 'outline'; case 'Pending': return 'ghost'; default: return 'ghost'; }
@@ -35,12 +33,15 @@ const filters: ListPageFilter[] = [
 
 export default function LaborLawsPage() {
   const router = useRouter();
-  const [data] = useState<StateLaborLaw[]>(DEMO_STATE_LABOR_LAWS);
+  const { laws: apiLaws, summary, isLoading, error, deleteLawsAsync, refetch } = useLaborLaws();
   const [selected, setSelected] = useState<StateLaborLaw | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const totalStates = new Set(data.map((l) => l.state)).size;
-  const updatedLaws = data.filter((l) => l.status === 'Updated').length;
+  // Use API data or fall back to demo data
+  const data: StateLaborLaw[] = apiLaws.length > 0 ? (apiLaws as StateLaborLaw[]) : (DEMO_STATE_LABOR_LAWS as StateLaborLaw[]);
+
+  const totalStates = summary?.totalStates || new Set(data.map((l) => l.state)).size;
+  const updatedLaws = summary?.updated || data.filter((l) => l.status === 'Updated').length;
 
   const rowActions: ListPageAction<StateLaborLaw>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -112,7 +113,9 @@ export default function LaborLawsPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search labor laws..."
         filters={filters}
         rowActions={rowActions}
@@ -141,11 +144,8 @@ export default function LaborLawsPage() {
         emptyMessage="No labor laws found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/workforce/labor-laws/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteLawsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

@@ -4,7 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Package, DollarSign, Check, Star } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 
 interface BookingPackage {
   id: string;
@@ -90,7 +100,7 @@ export default function BookingPackagesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load packages</p>
+          <Body className="text-destructive">Failed to load packages</Body>
         </div>
       </div>
     );
@@ -107,32 +117,32 @@ export default function BookingPackagesPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Booking Packages</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Booking Packages</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Create bundled offerings for your clients
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowAddForm(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Package</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">New Package</Text>
+        </Button>
       </div>
 
       {packages.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No packages yet</p>
-          <button
+          <Body className="text-body-md text-muted-foreground">No packages yet</Body>
+          <Button
             onClick={() => setShowAddForm(true)}
             className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
           >
             <Plus className="h-4 w-4" />
             Create your first package
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -152,13 +162,13 @@ export default function BookingPackagesPage() {
               <div className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-body-md font-weight-semibold text-foreground">
+                    <H3 className="text-body-md font-weight-semibold text-foreground">
                       {pkg.name}
-                    </h3>
+                    </H3>
                     {pkg.description && (
-                      <p className="text-body-sm text-muted-foreground mt-1 line-clamp-2">
+                      <Body className="text-body-sm text-muted-foreground mt-1 line-clamp-2">
                         {pkg.description}
-                      </p>
+                      </Body>
                     )}
                   </div>
                   <div className="flex items-center gap-1">
@@ -183,27 +193,27 @@ export default function BookingPackagesPage() {
                   {pkg.items?.slice(0, 4).map((item) => (
                     <div key={item.id} className="flex items-center gap-2 text-body-xs">
                       <Check className="h-3 w-3 bg-success-100 text-success-800" />
-                      <span className="text-muted-foreground">
+                      <Text className="text-muted-foreground">
                         {item.quantity}x {item.name}
-                      </span>
+                      </Text>
                     </div>
                   ))}
                   {pkg.items && pkg.items.length > 4 && (
-                    <p className="text-body-xs text-muted-foreground">
+                    <Body className="text-body-xs text-muted-foreground">
                       +{pkg.items.length - 4} more items
-                    </p>
+                    </Body>
                   )}
                 </div>
                 <div className="flex items-center justify-between pt-3 border-t border-border">
                   <div className="flex items-center gap-1">
                     <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-h4-md font-weight-bold text-foreground">
+                    <Text className="text-h4-md font-weight-bold text-foreground">
                       {formatCurrency(pkg.base_price)}
-                    </span>
+                    </Text>
                   </div>
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     Used {pkg.usage_count} times
-                  </span>
+                  </Text>
                 </div>
               </div>
             </div>
@@ -214,8 +224,8 @@ export default function BookingPackagesPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Package</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Package</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -232,10 +242,10 @@ export default function BookingPackagesPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Package Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -244,20 +254,20 @@ export default function BookingPackagesPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Base Price ($) *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   name="base_price"
                   required
@@ -268,28 +278,28 @@ export default function BookingPackagesPage() {
                 />
               </div>
               <div className="flex items-center gap-2">
-                <input type="checkbox" name="is_featured" id="is_featured" className="w-4 h-4" />
-                <label htmlFor="is_featured" className="text-body-sm text-foreground">
+                <Input type="checkbox" name="is_featured" id="is_featured" className="w-4 h-4" />
+                <Label htmlFor="is_featured" className="text-body-sm text-foreground">
                   Mark as featured package
-                </label>
+                </Label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowAddForm(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createPackage.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createPackage.isPending ? 'Creating...' : 'Create Package'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

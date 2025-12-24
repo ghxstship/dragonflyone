@@ -1,5 +1,20 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -31,7 +46,7 @@ export default function SpacesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load spaces</p>
+          <Body className="text-destructive">Failed to load spaces</Body>
         </div>
       </div>
     );
@@ -41,10 +56,10 @@ export default function SpacesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Spaces</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Spaces</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage your venue spaces and configurations
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-3">
           <Link
@@ -52,14 +67,14 @@ export default function SpacesPage() {
             className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <Grid3X3 className="h-4 w-4" />
-            <span className="text-body-sm">Combinations</span>
+            <Text className="text-body-sm">Combinations</Text>
           </Link>
           <Link
             href="/spaces/new"
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Add Space</span>
+            <Text className="text-body-sm font-weight-medium">Add Space</Text>
           </Link>
         </div>
       </div>
@@ -67,7 +82,7 @@ export default function SpacesPage() {
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search spaces..."
             value={searchQuery}
@@ -76,27 +91,27 @@ export default function SpacesPage() {
           />
         </div>
         <div className="flex items-center border-2 border-border rounded-button overflow-hidden">
-          <button
+          <Button
             onClick={() => setViewMode('grid')}
             className={`p-2 ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
           >
             <Grid3X3 className="h-4 w-4" />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setViewMode('list')}
             className={`p-2 ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
           >
             <List className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       </div>
 
       {filteredSpaces.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <MapPin className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">
+          <Body className="text-body-md text-muted-foreground">
             {searchQuery ? 'No spaces match your search' : 'No spaces yet'}
-          </p>
+          </Body>
           {!searchQuery && (
             <Link
               href="/spaces/new"
@@ -129,30 +144,30 @@ export default function SpacesPage() {
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-body-md font-weight-semibold text-foreground">
+                  <H3 className="text-body-md font-weight-semibold text-foreground">
                     {space.name}
-                  </h3>
-                  <span className={`px-2 py-0.5 text-body-xs rounded ${
+                  </H3>
+                  <Text className={`px-2 py-0.5 text-body-xs rounded ${
                     space.is_active ? 'bg-success-100 text-success-800' : 'bg-ink-100 text-ink-800'
                   }`}>
                     {space.is_active ? 'Active' : 'Inactive'}
-                  </span>
+                  </Text>
                 </div>
                 {space.description && (
-                  <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                     {space.description}
-                  </p>
+                  </Body>
                 )}
                 <div className="flex items-center gap-4 text-body-xs text-muted-foreground">
-                  <span className="flex items-center gap-1">
+                  <Text className="flex items-center gap-1">
                     <Users className="h-3 w-3" />
                     {space.capacity || 0} guests
-                  </span>
+                  </Text>
                   {space.base_price && (
-                    <span className="flex items-center gap-1">
+                    <Text className="flex items-center gap-1">
                       <DollarSign className="h-3 w-3" />
                       ${space.base_price}
-                    </span>
+                    </Text>
                   )}
                 </div>
               </div>
@@ -161,51 +176,51 @@ export default function SpacesPage() {
         </div>
       ) : (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border bg-muted/30">
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow className="border-b border-border bg-muted/30">
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Space
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Capacity
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Base Price
-                </th>
-                <th className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
+                </TableHead>
+                <TableHead className="px-4 py-3 text-left text-body-sm font-weight-medium text-muted-foreground">
                   Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {filteredSpaces.map((space) => (
-                <tr key={space.id} className="border-b border-border hover:bg-muted/30">
-                  <td className="px-4 py-3">
+                <TableRow key={space.id} className="border-b border-border hover:bg-muted/30">
+                  <TableCell className="px-4 py-3">
                     <Link
                       href={`/spaces/${space.id}`}
                       className="text-body-sm font-weight-medium text-foreground hover:text-primary"
                     >
                       {space.name}
                     </Link>
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {space.capacity || 0} guests
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {space.base_price ? `$${space.base_price}` : 'N/A'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 text-body-xs rounded ${
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`px-2 py-0.5 text-body-xs rounded ${
                       space.is_active ? 'bg-success-100 text-success-800' : 'bg-ink-100 text-ink-800'
                     }`}>
                       {space.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                </tr>
+                    </Text>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

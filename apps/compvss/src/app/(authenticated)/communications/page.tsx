@@ -3,20 +3,20 @@
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  Container,
-  H2,
-  H3,
+  Badge,
   Body,
   Button,
   Card,
+  Container,
+  EnterprisePageHeader,
   Grid,
-  Badge,
+  H2,
+  H3,
+  MainContent,
   Stack,
   StatCard,
-  EnterprisePageHeader,
-  MainContent,
 } from '@ghxstship/ui';
-import { Radio, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
+import { Radio as RadioIcon, Phone, Users, MessageSquare, Bell, AlertCircle } from 'lucide-react';
 
 import {
   useRadioChannels,
@@ -93,7 +93,7 @@ export default function CommunicationsPage() {
                     <Card key={channel.id} className="p-6">
                       <Stack gap={3} direction="horizontal" className="mb-3 items-start justify-between">
                         <Stack gap={3} direction="horizontal" className="items-center">
-                          <Radio className="size-6" />
+                          <RadioIcon className="size-6" />
                           <Stack gap={1}>
                             <H3>{channel.name}</H3>
                             <Body size="sm" className="">{channel.frequency}</Body>

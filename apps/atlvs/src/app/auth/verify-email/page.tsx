@@ -1,21 +1,22 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
-import { useNotifications } from "@ghxstship/ui";
 import {
-  H2,
+  AuthPage,
   Body,
   Button,
-  Stack,
   Card,
+  H2,
+  IconBox,
   Label,
   ScrollReveal,
   Spinner,
-  AuthPage,
-  IconBox,
-} from "@ghxstship/ui";
+  Stack,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Mail, RefreshCw, ArrowLeft } from "lucide-react";
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
 

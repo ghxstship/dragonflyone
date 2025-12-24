@@ -1,15 +1,24 @@
 import { AtlvsAppLayout } from "../../../components/app-layout";
 import {
-  Stack,
   Body,
-  H2,
-  H3,
-  Label,
+  Button,
   Container,
   Display,
   FullBleedSection,
-  Button,
-} from "@ghxstship/ui";
+  H2,
+  H3,
+  Label,
+  List,
+  ListItem,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 import { Shield, Globe, FileText, Mail, ArrowRight } from "lucide-react";
 import NextLink from "next/link";
 
@@ -48,21 +57,21 @@ export default function PrivacyPage() {
       <FullBleedSection background="grey" className="py-8">
         <Container className="mx-auto max-w-container-3xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap gap-3 justify-center">
-            <a href="#information-collected" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Information Collected</a>
-            <span className="text-grey-400">•</span>
-            <a href="#how-we-use" className="text-body-sm text-primary-600 hover:text-primary-800 underline">How We Use Data</a>
-            <span className="text-grey-400">•</span>
-            <a href="#sharing" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Data Sharing</a>
-            <span className="text-grey-400">•</span>
-            <a href="#your-rights" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Your Rights</a>
-            <span className="text-grey-400">•</span>
-            <a href="#gdpr" className="text-body-sm text-primary-600 hover:text-primary-800 underline">GDPR</a>
-            <span className="text-grey-400">•</span>
-            <a href="#ccpa" className="text-body-sm text-primary-600 hover:text-primary-800 underline">CCPA</a>
-            <span className="text-grey-400">•</span>
-            <a href="#international" className="text-body-sm text-primary-600 hover:text-primary-800 underline">International</a>
-            <span className="text-grey-400">•</span>
-            <a href="#contact" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Contact</a>
+            <NextLink href="#information-collected" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Information Collected</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#how-we-use" className="text-body-sm text-primary-600 hover:text-primary-800 underline">How We Use Data</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#sharing" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Data Sharing</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#your-rights" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Your Rights</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#gdpr" className="text-body-sm text-primary-600 hover:text-primary-800 underline">GDPR</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#ccpa" className="text-body-sm text-primary-600 hover:text-primary-800 underline">CCPA</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#international" className="text-body-sm text-primary-600 hover:text-primary-800 underline">International</NextLink>
+            <Text className="text-grey-400">•</Text>
+            <NextLink href="#contact" className="text-body-sm text-primary-600 hover:text-primary-800 underline">Contact</NextLink>
           </div>
         </Container>
       </FullBleedSection>
@@ -94,37 +103,37 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We collect information you provide directly to us, including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Account Information:</strong> Name, email address, phone number, password, profile photo</li>
-                <li><strong>Organization Information:</strong> Company name, business address, tax identification numbers</li>
-                <li><strong>Payment Information:</strong> Credit card details, billing address (processed securely via Stripe)</li>
-                <li><strong>Event Information:</strong> Event details, venue information, ticket configurations</li>
-                <li><strong>Communications:</strong> Messages, support requests, feedback you send to us</li>
-                <li><strong>User Content:</strong> Photos, documents, and other content you upload</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Account Information:</strong> Name, email address, phone number, password, profile photo</ListItem>
+                <ListItem><strong>Organization Information:</strong> Company name, business address, tax identification numbers</ListItem>
+                <ListItem><strong>Payment Information:</strong> Credit card details, billing address (processed securely via Stripe)</ListItem>
+                <ListItem><strong>Event Information:</strong> Event details, venue information, ticket configurations</ListItem>
+                <ListItem><strong>Communications:</strong> Messages, support requests, feedback you send to us</ListItem>
+                <ListItem><strong>User Content:</strong> Photos, documents, and other content you upload</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">1.2 Information Collected Automatically</H3>
               <Body className="text-grey-700">
                 When you use our Services, we automatically collect:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Device Information:</strong> Device type, operating system, browser type, unique device identifiers</li>
-                <li><strong>Log Data:</strong> IP address, access times, pages viewed, referring URL</li>
-                <li><strong>Location Data:</strong> General location based on IP address (precise location only with consent)</li>
-                <li><strong>Usage Data:</strong> Features used, actions taken, time spent on pages</li>
-                <li><strong>Cookies and Tracking:</strong> See our <a href="/legal/cookies" className="text-primary-600 underline">Cookie Policy</a> for details</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Device Information:</strong> Device type, operating system, browser type, unique device identifiers</ListItem>
+                <ListItem><strong>Log Data:</strong> IP address, access times, pages viewed, referring URL</ListItem>
+                <ListItem><strong>Location Data:</strong> General location based on IP address (precise location only with consent)</ListItem>
+                <ListItem><strong>Usage Data:</strong> Features used, actions taken, time spent on pages</ListItem>
+                <ListItem><strong>Cookies and Tracking:</strong> See our <NextLink href="/legal/cookies" className="text-primary-600 underline">Cookie Policy</NextLink> for details</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">1.3 Information from Third Parties</H3>
               <Body className="text-grey-700">
                 We may receive information from third parties including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li>Social media platforms when you connect your accounts</li>
-                <li>Payment processors for transaction verification</li>
-                <li>Identity verification services for fraud prevention</li>
-                <li>Business partners for event and ticketing integrations</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem>Social media platforms when you connect your accounts</ListItem>
+                <ListItem>Payment processors for transaction verification</ListItem>
+                <ListItem>Identity verification services for fraud prevention</ListItem>
+                <ListItem>Business partners for event and ticketing integrations</ListItem>
+              </List>
             </Stack>
 
             {/* 2. How We Use Your Information */}
@@ -135,48 +144,48 @@ export default function PrivacyPage() {
               </Body>
               
               <div className="border-2 border-grey-200 rounded-card overflow-hidden">
-                <table className="w-full text-body-sm">
-                  <thead className="bg-grey-100">
-                    <tr>
-                      <th className="text-left p-3 font-weight-semibold text-grey-900">Purpose</th>
-                      <th className="text-left p-3 font-weight-semibold text-grey-900">Legal Basis (GDPR)</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-grey-200">
-                    <tr>
-                      <td className="p-3 text-grey-700">Provide and maintain our Services</td>
-                      <td className="p-3 text-grey-700">Contract performance</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Process transactions and payments</td>
-                      <td className="p-3 text-grey-700">Contract performance</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Send service-related communications</td>
-                      <td className="p-3 text-grey-700">Contract performance / Legitimate interest</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Send marketing communications</td>
-                      <td className="p-3 text-grey-700">Consent</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Improve and personalize Services</td>
-                      <td className="p-3 text-grey-700">Legitimate interest</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Prevent fraud and ensure security</td>
-                      <td className="p-3 text-grey-700">Legitimate interest / Legal obligation</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Comply with legal obligations</td>
-                      <td className="p-3 text-grey-700">Legal obligation</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 text-grey-700">Analytics and performance monitoring</td>
-                      <td className="p-3 text-grey-700">Consent / Legitimate interest</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <Table className="w-full text-body-sm">
+                  <TableHeader className="bg-grey-100">
+                    <TableRow>
+                      <TableHead className="text-left p-3 font-weight-semibold text-grey-900">Purpose</TableHead>
+                      <TableHead className="text-left p-3 font-weight-semibold text-grey-900">Legal Basis (GDPR)</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="divide-y divide-grey-200">
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Provide and maintain our Services</TableCell>
+                      <TableCell className="p-3 text-grey-700">Contract performance</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Process transactions and payments</TableCell>
+                      <TableCell className="p-3 text-grey-700">Contract performance</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Send service-related communications</TableCell>
+                      <TableCell className="p-3 text-grey-700">Contract performance / Legitimate interest</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Send marketing communications</TableCell>
+                      <TableCell className="p-3 text-grey-700">Consent</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Improve and personalize Services</TableCell>
+                      <TableCell className="p-3 text-grey-700">Legitimate interest</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Prevent fraud and ensure security</TableCell>
+                      <TableCell className="p-3 text-grey-700">Legitimate interest / Legal obligation</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Comply with legal obligations</TableCell>
+                      <TableCell className="p-3 text-grey-700">Legal obligation</TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="p-3 text-grey-700">Analytics and performance monitoring</TableCell>
+                      <TableCell className="p-3 text-grey-700">Consent / Legitimate interest</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
             </Stack>
 
@@ -191,16 +200,16 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We share information with third-party service providers who perform services on our behalf, including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Supabase:</strong> Database hosting and authentication (US)</li>
-                <li><strong>Vercel:</strong> Website hosting and CDN (Global)</li>
-                <li><strong>Stripe:</strong> Payment processing (US, with EU data processing)</li>
-                <li><strong>Resend:</strong> Email delivery (US)</li>
-                <li><strong>Sentry:</strong> Error tracking and monitoring (US)</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Supabase:</strong> Database hosting and authentication (US)</ListItem>
+                <ListItem><strong>Vercel:</strong> Website hosting and CDN (Global)</ListItem>
+                <ListItem><strong>Stripe:</strong> Payment processing (US, with EU data processing)</ListItem>
+                <ListItem><strong>Resend:</strong> Email delivery (US)</ListItem>
+                <ListItem><strong>Sentry:</strong> Error tracking and monitoring (US)</ListItem>
+              </List>
               <Body className="text-grey-700">
                 All service providers are bound by data processing agreements and are required to protect your information.
-                See our <a href="/legal/sub-processors" className="text-primary-600 underline">Sub-processor List</a> for complete details.
+                See our <NextLink href="/legal/sub-processors" className="text-primary-600 underline">Sub-processor List</NextLink> for complete details.
               </Body>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">3.2 Legal Requirements</H3>
@@ -223,14 +232,14 @@ export default function PrivacyPage() {
                 We retain your personal information for as long as necessary to fulfill the purposes outlined in this policy, 
                 unless a longer retention period is required or permitted by law. Specific retention periods include:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Account Data:</strong> Retained while your account is active, plus 3 years after deletion</li>
-                <li><strong>Transaction Records:</strong> 7 years for tax and legal compliance</li>
-                <li><strong>Marketing Preferences:</strong> Until you withdraw consent</li>
-                <li><strong>Support Communications:</strong> 3 years after resolution</li>
-                <li><strong>Analytics Data:</strong> 26 months (anonymized thereafter)</li>
-                <li><strong>Audit Logs:</strong> 3 years for security and compliance</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Account Data:</strong> Retained while your account is active, plus 3 years after deletion</ListItem>
+                <ListItem><strong>Transaction Records:</strong> 7 years for tax and legal compliance</ListItem>
+                <ListItem><strong>Marketing Preferences:</strong> Until you withdraw consent</ListItem>
+                <ListItem><strong>Support Communications:</strong> 3 years after resolution</ListItem>
+                <ListItem><strong>Analytics Data:</strong> 26 months (anonymized thereafter)</ListItem>
+                <ListItem><strong>Audit Logs:</strong> 3 years for security and compliance</ListItem>
+              </List>
             </Stack>
 
             {/* 5. Data Security */}
@@ -239,14 +248,14 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We implement appropriate technical and organizational measures to protect your personal information, including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Encryption:</strong> All data encrypted in transit (TLS 1.3) and at rest (AES-256)</li>
-                <li><strong>Access Controls:</strong> Role-based access control (RBAC) and multi-factor authentication</li>
-                <li><strong>Data Isolation:</strong> Multi-tenant architecture with row-level security</li>
-                <li><strong>Monitoring:</strong> 24/7 security monitoring and intrusion detection</li>
-                <li><strong>Auditing:</strong> Comprehensive audit logging of all data access</li>
-                <li><strong>Incident Response:</strong> Documented breach notification procedures</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Encryption:</strong> All data encrypted in transit (TLS 1.3) and at rest (AES-256)</ListItem>
+                <ListItem><strong>Access Controls:</strong> Role-based access control (RBAC) and multi-factor authentication</ListItem>
+                <ListItem><strong>Data Isolation:</strong> Multi-tenant architecture with row-level security</ListItem>
+                <ListItem><strong>Monitoring:</strong> 24/7 security monitoring and intrusion detection</ListItem>
+                <ListItem><strong>Auditing:</strong> Comprehensive audit logging of all data access</ListItem>
+                <ListItem><strong>Incident Response:</strong> Documented breach notification procedures</ListItem>
+              </List>
               <Body className="text-grey-700">
                 While we strive to protect your information, no method of transmission over the Internet is 100% secure. 
                 We cannot guarantee absolute security.
@@ -259,19 +268,19 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 Depending on your location, you may have the following rights regarding your personal information:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Access:</strong> Request a copy of your personal data</li>
-                <li><strong>Rectification:</strong> Request correction of inaccurate data</li>
-                <li><strong>Erasure:</strong> Request deletion of your data (&quot;right to be forgotten&quot;)</li>
-                <li><strong>Portability:</strong> Receive your data in a machine-readable format</li>
-                <li><strong>Restriction:</strong> Request limitation of processing</li>
-                <li><strong>Objection:</strong> Object to processing based on legitimate interests</li>
-                <li><strong>Withdraw Consent:</strong> Withdraw consent at any time where processing is based on consent</li>
-                <li><strong>Automated Decisions:</strong> Not be subject to solely automated decision-making</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Access:</strong> Request a copy of your personal data</ListItem>
+                <ListItem><strong>Rectification:</strong> Request correction of inaccurate data</ListItem>
+                <ListItem><strong>Erasure:</strong> Request deletion of your data (&quot;right to be forgotten&quot;)</ListItem>
+                <ListItem><strong>Portability:</strong> Receive your data in a machine-readable format</ListItem>
+                <ListItem><strong>Restriction:</strong> Request limitation of processing</ListItem>
+                <ListItem><strong>Objection:</strong> Object to processing based on legitimate interests</ListItem>
+                <ListItem><strong>Withdraw Consent:</strong> Withdraw consent at any time where processing is based on consent</ListItem>
+                <ListItem><strong>Automated Decisions:</strong> Not be subject to solely automated decision-making</ListItem>
+              </List>
               <Body className="text-grey-700">
-                To exercise these rights, visit your <a href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</a> or 
-                contact us at <a href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</a>.
+                To exercise these rights, visit your <NextLink href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</NextLink> or 
+                contact us at <NextLink href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</NextLink>.
                 We will respond to requests within 30 days (GDPR) or 45 days (CCPA).
               </Body>
             </Stack>
@@ -296,27 +305,27 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We process your personal data only when we have a valid legal basis, including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-1 ml-4">
-                <li>Your consent</li>
-                <li>Performance of a contract with you</li>
-                <li>Compliance with legal obligations</li>
-                <li>Our legitimate interests (which do not override your rights)</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-1 ml-4">
+                <ListItem>Your consent</ListItem>
+                <ListItem>Performance of a contract with you</ListItem>
+                <ListItem>Compliance with legal obligations</ListItem>
+                <ListItem>Our legitimate interests (which do not override your rights)</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">International Data Transfers</H3>
               <Body className="text-grey-700">
                 Your data may be transferred to and processed in countries outside the EEA, including the United States. 
                 We ensure appropriate safeguards are in place, including:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-1 ml-4">
-                <li>Standard Contractual Clauses (SCCs) approved by the European Commission</li>
-                <li>Data Processing Agreements with all sub-processors</li>
-                <li>Supplementary measures where required</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-1 ml-4">
+                <ListItem>Standard Contractual Clauses (SCCs) approved by the European Commission</ListItem>
+                <ListItem>Data Processing Agreements with all sub-processors</ListItem>
+                <ListItem>Supplementary measures where required</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Data Protection Officer</H3>
               <Body className="text-grey-700">
-                You can contact our Data Protection Officer at: <a href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">dpo@ghxstship.com</a>
+                You can contact our Data Protection Officer at: <NextLink href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">dpo@ghxstship.com</NextLink>
               </Body>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Supervisory Authority</H3>
@@ -338,44 +347,44 @@ export default function PrivacyPage() {
               </Body>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Your California Privacy Rights</H3>
-              <ul className="list-disc list-inside text-grey-700 space-y-2 ml-4">
-                <li><strong>Right to Know:</strong> Request disclosure of personal information collected, used, and disclosed</li>
-                <li><strong>Right to Delete:</strong> Request deletion of your personal information</li>
-                <li><strong>Right to Correct:</strong> Request correction of inaccurate personal information</li>
-                <li><strong>Right to Opt-Out:</strong> Opt out of the sale or sharing of personal information</li>
-                <li><strong>Right to Limit:</strong> Limit use of sensitive personal information</li>
-                <li><strong>Right to Non-Discrimination:</strong> Not be discriminated against for exercising your rights</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-2 ml-4">
+                <ListItem><strong>Right to Know:</strong> Request disclosure of personal information collected, used, and disclosed</ListItem>
+                <ListItem><strong>Right to Delete:</strong> Request deletion of your personal information</ListItem>
+                <ListItem><strong>Right to Correct:</strong> Request correction of inaccurate personal information</ListItem>
+                <ListItem><strong>Right to Opt-Out:</strong> Opt out of the sale or sharing of personal information</ListItem>
+                <ListItem><strong>Right to Limit:</strong> Limit use of sensitive personal information</ListItem>
+                <ListItem><strong>Right to Non-Discrimination:</strong> Not be discriminated against for exercising your rights</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Categories of Personal Information</H3>
               <Body className="text-grey-700">
                 In the past 12 months, we have collected the following categories of personal information:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-1 ml-4">
-                <li>Identifiers (name, email, IP address)</li>
-                <li>Commercial information (purchase history, transaction data)</li>
-                <li>Internet activity (browsing history, interactions with our Services)</li>
-                <li>Geolocation data (general location from IP address)</li>
-                <li>Professional information (company, job title)</li>
-                <li>Inferences (preferences, characteristics)</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-1 ml-4">
+                <ListItem>Identifiers (name, email, IP address)</ListItem>
+                <ListItem>Commercial information (purchase history, transaction data)</ListItem>
+                <ListItem>Internet activity (browsing history, interactions with our Services)</ListItem>
+                <ListItem>Geolocation data (general location from IP address)</ListItem>
+                <ListItem>Professional information (company, job title)</ListItem>
+                <ListItem>Inferences (preferences, characteristics)</ListItem>
+              </List>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Do Not Sell or Share My Personal Information</H3>
               <Body className="text-grey-700">
                 <strong>We do not sell your personal information.</strong> We do not share your personal information for 
                 cross-context behavioral advertising. To opt out of any future sharing, visit your 
-                <a href="/settings/privacy" className="text-primary-600 underline ml-1">Privacy Settings</a>.
+                <NextLink href="/settings/privacy" className="text-primary-600 underline ml-1">Privacy Settings</NextLink>.
               </Body>
 
               <H3 className="text-ink-900 text-body-base font-weight-semibold">Submitting Requests</H3>
               <Body className="text-grey-700">
                 To exercise your CCPA rights, you may:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-1 ml-4">
-                <li>Email us at <a href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</a></li>
-                <li>Use our <a href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</a> page</li>
-                <li>Call us at 1-800-GHXSTSHIP</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-1 ml-4">
+                <ListItem>Email us at <NextLink href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</NextLink></ListItem>
+                <ListItem>Use our <NextLink href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</NextLink> page</ListItem>
+                <ListItem>Call us at 1-800-GHXSTSHIP</ListItem>
+              </List>
               <Body className="text-grey-700">
                 We will verify your identity before processing your request. You may designate an authorized agent to 
                 submit requests on your behalf.
@@ -412,7 +421,7 @@ export default function PrivacyPage() {
                 Our Services are not intended for children under 16 years of age (or 13 in the US under COPPA). 
                 We do not knowingly collect personal information from children. If you believe we have collected 
                 information from a child, please contact us immediately at 
-                <a href="mailto:privacy@ghxstship.com" className="text-primary-600 underline ml-1">privacy@ghxstship.com</a>.
+                <NextLink href="mailto:privacy@ghxstship.com" className="text-primary-600 underline ml-1">privacy@ghxstship.com</NextLink>.
               </Body>
             </Stack>
 
@@ -422,7 +431,7 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We use cookies and similar tracking technologies to collect and track information about your use of our Services. 
                 For detailed information about the cookies we use and how to manage them, please see our 
-                <a href="/legal/cookies" className="text-primary-600 underline ml-1">Cookie Policy</a>.
+                <NextLink href="/legal/cookies" className="text-primary-600 underline ml-1">Cookie Policy</NextLink>.
               </Body>
               <Body className="text-grey-700">
                 You can manage your cookie preferences at any time through our cookie consent banner or your browser settings.
@@ -435,11 +444,11 @@ export default function PrivacyPage() {
               <Body className="text-grey-700">
                 We may update this Privacy Policy from time to time. We will notify you of any material changes by:
               </Body>
-              <ul className="list-disc list-inside text-grey-700 space-y-1 ml-4">
-                <li>Posting the updated policy on this page with a new effective date</li>
-                <li>Sending you an email notification (for significant changes)</li>
-                <li>Displaying a prominent notice within our Services</li>
-              </ul>
+              <List className="list-disc list-inside text-grey-700 space-y-1 ml-4">
+                <ListItem>Posting the updated policy on this page with a new effective date</ListItem>
+                <ListItem>Sending you an email notification (for significant changes)</ListItem>
+                <ListItem>Displaying a prominent notice within our Services</ListItem>
+              </List>
               <Body className="text-grey-700">
                 We encourage you to review this policy periodically. Your continued use of our Services after any changes 
                 constitutes your acceptance of the updated policy.
@@ -460,13 +469,13 @@ export default function PrivacyPage() {
                 <div>
                   <Body className="font-weight-semibold text-grey-900">General Privacy Inquiries</Body>
                   <Body className="text-grey-700">
-                    Email: <a href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</a>
+                    Email: <NextLink href="mailto:privacy@ghxstship.com" className="text-primary-600 underline">privacy@ghxstship.com</NextLink>
                   </Body>
                 </div>
                 <div>
                   <Body className="font-weight-semibold text-grey-900">Data Protection Officer</Body>
                   <Body className="text-grey-700">
-                    Email: <a href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">dpo@ghxstship.com</a>
+                    Email: <NextLink href="mailto:dpo@ghxstship.com" className="text-primary-600 underline">dpo@ghxstship.com</NextLink>
                   </Body>
                 </div>
                 <div>
@@ -480,7 +489,7 @@ export default function PrivacyPage() {
                 <div>
                   <Body className="font-weight-semibold text-grey-900">Data Subject Requests</Body>
                   <Body className="text-grey-700">
-                    Submit requests via your <a href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</a>
+                    Submit requests via your <NextLink href="/settings/privacy" className="text-primary-600 underline">Privacy Settings</NextLink>
                   </Body>
                 </div>
               </div>

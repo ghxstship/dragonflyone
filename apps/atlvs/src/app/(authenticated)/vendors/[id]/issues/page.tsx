@@ -1,5 +1,20 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Link,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { ArrowLeft, Plus, AlertTriangle, CheckCircle, Clock, Filter } from 'lucide-react';
 import { useVendorIssues, useCreateVendorIssue, useUpdateVendorIssue, type VendorIssue } from '@/hooks/useVendorPerformance';
@@ -106,61 +121,61 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href={`/vendors/${id}`}
             className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </a>
+          </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">
+            <H1 className="text-h2-md font-weight-bold text-foreground">
               Issues: {vendor?.name || 'Vendor'}
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Track and resolve vendor-related issues
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowForm(!showForm)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-destructive text-destructive-foreground rounded-button border-2 border-destructive font-weight-medium text-body-sm hover:bg-destructive/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Report Issue
-        </button>
+        </Button>
       </div>
 
       {stats && (
         <div className="grid grid-cols-4 gap-4">
           <div className="bg-background border-2 border-border rounded-card p-4">
-            <p className="text-body-xs text-muted-foreground mb-1">Total Issues</p>
-            <p className="text-h3-md font-weight-bold text-foreground">{stats.total}</p>
+            <Body className="text-body-xs text-muted-foreground mb-1">Total Issues</Body>
+            <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
           </div>
           <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
-            <p className="text-body-xs text-muted-foreground mb-1">Open</p>
-            <p className="text-h3-md font-weight-bold text-destructive">{stats.open}</p>
+            <Body className="text-body-xs text-muted-foreground mb-1">Open</Body>
+            <Body className="text-h3-md font-weight-bold text-destructive">{stats.open}</Body>
           </div>
           <div className="bg-background border-2 border-warning/50 rounded-card p-4">
-            <p className="text-body-xs text-muted-foreground mb-1">In Progress</p>
-            <p className="text-h3-md font-weight-bold text-warning">{stats.in_progress}</p>
+            <Body className="text-body-xs text-muted-foreground mb-1">In Progress</Body>
+            <Body className="text-h3-md font-weight-bold text-warning">{stats.in_progress}</Body>
           </div>
           <div className="bg-background border-2 border-success/50 rounded-card p-4">
-            <p className="text-body-xs text-muted-foreground mb-1">Resolved</p>
-            <p className="text-h3-md font-weight-bold text-success">{stats.resolved}</p>
+            <Body className="text-body-xs text-muted-foreground mb-1">Resolved</Body>
+            <Body className="text-h3-md font-weight-bold text-success">{stats.resolved}</Body>
           </div>
         </div>
       )}
 
       {showForm && (
         <div className="bg-background border-2 border-destructive/50 rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Report New Issue</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Report New Issue</H2>
+          <Form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Issue Type *
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.issue_type}
                   onChange={(e) => setFormData({ ...formData, issue_type: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -170,13 +185,13 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
                   {ISSUE_TYPES.map((type) => (
                     <option key={type} value={type}>{type}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Severity *
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.severity}
                   onChange={(e) => setFormData({ ...formData, severity: e.target.value as VendorIssue['severity'] })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -184,15 +199,15 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
                   {Object.entries(SEVERITY_CONFIG).map(([value, { label }]) => (
                     <option key={value} value={value}>{label}</option>
                   ))}
-                </select>
+                </Select>
               </div>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Title *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="Brief summary of the issue"
                 value={formData.title}
@@ -203,10 +218,10 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Description *
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 rows={3}
                 placeholder="Detailed description of the issue..."
                 value={formData.description}
@@ -217,28 +232,28 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-              <button
+              <Button
                 type="button"
                 onClick={() => setShowForm(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 type="submit"
                 disabled={createMutation.isPending}
                 className="px-4 py-2 bg-destructive text-destructive-foreground rounded-button border-2 border-destructive font-weight-medium text-body-sm hover:bg-destructive/90 transition-colors disabled:opacity-50"
               >
                 {createMutation.isPending ? 'Reporting...' : 'Report Issue'}
-              </button>
+              </Button>
             </div>
-          </form>
+          </Form>
         </div>
       )}
 
       <div className="flex items-center gap-4">
         <Filter className="h-4 w-4 text-muted-foreground" />
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -247,8 +262,8 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
           {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
             <option key={value} value={value}>{label}</option>
           ))}
-        </select>
-        <select
+        </Select>
+        <Select
           value={severityFilter}
           onChange={(e) => setSeverityFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -257,18 +272,18 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
           {Object.entries(SEVERITY_CONFIG).map(([value, { label }]) => (
             <option key={value} value={value}>{label}</option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {issues.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <CheckCircle className="h-12 w-12 text-success mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No issues found
-          </h3>
-          <p className="text-body-sm text-muted-foreground">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground">
             {statusFilter || severityFilter ? 'Try adjusting your filters' : 'No issues have been reported for this vendor'}
-          </p>
+          </Body>
         </div>
       )}
 
@@ -288,28 +303,28 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
                       issue.severity === 'medium' ? 'text-warning' : 'text-muted-foreground'
                     }`} />
                     <div>
-                      <h3 className="text-body-md font-weight-semibold text-foreground">{issue.title}</h3>
-                      <p className="text-body-xs text-muted-foreground">
+                      <H3 className="text-body-md font-weight-semibold text-foreground">{issue.title}</H3>
+                      <Body className="text-body-xs text-muted-foreground">
                         {issue.issue_type} • Reported {new Date(issue.created_at).toLocaleDateString()}
-                      </p>
+                      </Body>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${severityConfig.color}`}>
+                    <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${severityConfig.color}`}>
                       {severityConfig.label}
-                    </span>
-                    <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                    </Text>
+                    <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                       {statusConfig.label}
-                    </span>
+                    </Text>
                   </div>
                 </div>
 
-                <p className="text-body-sm text-foreground mb-4">{issue.description}</p>
+                <Body className="text-body-sm text-foreground mb-4">{issue.description}</Body>
 
                 {issue.resolution && (
                   <div className="bg-success/10 border-l-4 border-success p-3 mb-4">
-                    <p className="text-body-xs text-muted-foreground mb-1">Resolution</p>
-                    <p className="text-body-sm">{issue.resolution}</p>
+                    <Body className="text-body-xs text-muted-foreground mb-1">Resolution</Body>
+                    <Body className="text-body-sm">{issue.resolution}</Body>
                   </div>
                 )}
 
@@ -319,14 +334,14 @@ export default function VendorIssuesPage({ params }: { params: { id: string } })
                     Updated {new Date(issue.updated_at).toLocaleDateString()}
                   </div>
                   {issue.status !== 'resolved' && issue.status !== 'closed' && (
-                    <button
+                    <Button
                       onClick={() => handleResolve(issue.id)}
                       disabled={updateMutation.isPending}
                       className="inline-flex items-center gap-1 px-3 py-1.5 bg-success text-success-foreground rounded-button text-body-xs font-weight-medium hover:bg-success/90 transition-colors disabled:opacity-50"
                     >
                       <CheckCircle className="h-3 w-3" />
                       Mark Resolved
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>

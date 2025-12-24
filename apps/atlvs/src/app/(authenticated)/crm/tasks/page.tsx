@@ -18,12 +18,11 @@ import {
   type FormFieldConfig,
   type DetailSection,
   } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from "@ghxstship/config";
+import { createExportHandler, createImportHandler, getImportTemplates, useCrmTasks, type CrmTask } from "@ghxstship/config";
 
-import {
-  DEMO_CRM_TASKS,
-  type DemoCrmTask as Task,
-} from '../../../../lib/demo-data';
+import { DEMO_CRM_TASKS } from '../../../../lib/demo-data';
+
+type Task = CrmTask & { [key: string]: unknown };
 
 const TypeIcon = ({ type }: { type: string }) => {
   switch (type) {
@@ -63,7 +62,7 @@ const formFields: FormFieldConfig[] = [
 ];
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<Task[]>(DEMO_CRM_TASKS);
+  const { tasks: apiTasks, summary, isLoading, error, createTaskAsync, updateTaskAsync, deleteTasksAsync, refetch } = useCrmTasks();
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -71,46 +70,71 @@ export default function TasksPage() {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
-  const pendingCount = tasks.filter(t => t.status === "Pending").length;
-  const overdueCount = tasks.filter(t => t.status === "Overdue").length;
-  const completedCount = tasks.filter(t => t.status === "Completed").length;
+  // Use API data or fall back to demo data
+  const tasks: Task[] = apiTasks.length > 0 ? (apiTasks as Task[]) : (DEMO_CRM_TASKS as Task[]);
+
+  const pendingCount = summary?.pending || tasks.filter(t => t.status === "Pending").length;
+  const overdueCount = summary?.overdue || tasks.filter(t => t.status === "Overdue").length;
+  const completedCount = summary?.completed || tasks.filter(t => t.status === "Completed").length;
+
+  const handleMarkComplete = async (r: Task) => {
+    try {
+      await updateTaskAsync({ id: r.id, data: { status: 'Completed' } });
+      refetch();
+    } catch (err) {
+      console.error('Failed to mark task complete:', err);
+    }
+  };
 
   const rowActions: ListPageAction<Task>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelectedTask(r); setDrawerOpen(true); } },
-    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: (r) => setTasks(tasks.map(t => t.id === r.id ? { ...t, status: 'Completed' } : t)) },
+    { id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" />, onClick: handleMarkComplete },
     { id: 'edit', label: 'Edit', icon: <Pencil className="size-4" />, onClick: (r) => { setSelectedTask(r); setEditModalOpen(true); } },
     { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (r) => { setTaskToDelete(r); setDeleteConfirmOpen(true); } },
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newTask: Task = {
-      id: `TSK-${String(tasks.length + 1).padStart(3, '0')}`,
-      title: String(data.title || ''),
-      type: data.type as Task['type'],
-      priority: data.priority as Task['priority'],
-      dueDate: String(data.dueDate || ''),
-      dueTime: data.dueTime ? String(data.dueTime) : undefined,
-      assignedTo: String(data.assignedTo || ''),
-      linkedContact: data.linkedContact ? String(data.linkedContact) : undefined,
-      status: 'Pending',
-      reminder: data.reminder ? String(data.reminder) : undefined,
-    };
-    setTasks([...tasks, newTask]);
-    setCreateModalOpen(false);
+    try {
+      await createTaskAsync({
+        title: String(data.title || ''),
+        type: data.type as Task['type'],
+        priority: data.priority as Task['priority'],
+        dueDate: String(data.dueDate || ''),
+        dueTime: data.dueTime ? String(data.dueTime) : undefined,
+        assignedTo: String(data.assignedTo || ''),
+        linkedContact: data.linkedContact ? String(data.linkedContact) : undefined,
+        status: 'Pending',
+        reminder: data.reminder ? String(data.reminder) : undefined,
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create task:', err);
+    }
   };
 
   const handleEdit = async (data: Record<string, unknown>) => {
     if (!selectedTask) return;
-    setTasks(tasks.map(t => t.id === selectedTask.id ? { ...t, ...data } as Task : t));
-    setEditModalOpen(false);
-    setSelectedTask(null);
+    try {
+      await updateTaskAsync({ id: selectedTask.id, data });
+      refetch();
+      setEditModalOpen(false);
+      setSelectedTask(null);
+    } catch (err) {
+      console.error('Failed to update task:', err);
+    }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (taskToDelete) {
-      setTasks(tasks.filter(t => t.id !== taskToDelete.id));
-      setDeleteConfirmOpen(false);
-      setTaskToDelete(null);
+      try {
+        await deleteTasksAsync([taskToDelete.id]);
+        refetch();
+        setDeleteConfirmOpen(false);
+        setTaskToDelete(null);
+      } catch (err) {
+        console.error('Failed to delete task:', err);
+      }
     }
   };
 
@@ -120,17 +144,16 @@ export default function TasksPage() {
     requiredFields: ['title', 'type', 'priority'],
     onImport: async (records) => {
       for (const record of records) {
-        const newTask: Task = {
-          id: `TSK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        await createTaskAsync({
           title: String(record.title || ''),
           type: record.type as Task['type'],
           priority: record.priority as Task['priority'],
           dueDate: String(record.dueDate || ''),
           assignedTo: String(record.assignedTo || ''),
           status: 'Pending',
-        };
-        setTasks(prev => [...prev, newTask]);
+        });
       }
+      refetch();
     },
   });
 
@@ -169,7 +192,9 @@ export default function TasksPage() {
         data={tasks}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search tasks..."
         filters={filters}
         rowActions={rowActions}
@@ -189,7 +214,7 @@ export default function TasksPage() {
             priority: t.priority,
             dueDate: t.dueDate,
             status: t.status,
-            assignee: t.assignee || '',
+            assignedTo: t.assignedTo || '',
             linkedContact: t.linkedContact || '',
           })),
         })}
@@ -199,9 +224,13 @@ export default function TasksPage() {
         emptyAction={{ label: 'Create Task', onClick: () => setCreateModalOpen(true) }}
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setTasks(prev => prev.filter(t => !ids.includes(t.id)));
+            await deleteTasksAsync(ids);
+            refetch();
           } else if (action === 'complete') {
-            setTasks(prev => prev.map(t => ids.includes(t.id) ? { ...t, status: 'Completed' } : t));
+            for (const id of ids) {
+              await updateTaskAsync({ id, data: { status: 'Completed' } });
+            }
+            refetch();
           }
         }}
         bulkActions={[
@@ -244,7 +273,7 @@ export default function TasksPage() {
           onEdit={(t) => { setSelectedTask(t); setEditModalOpen(true); setDrawerOpen(false); }}
           onDelete={(t) => { setTaskToDelete(t); setDeleteConfirmOpen(true); setDrawerOpen(false); }}
           actions={[{ id: 'complete', label: 'Mark Complete', icon: <Check className="size-4" /> }]}
-          onAction={(id, t) => { if (id === 'complete') setTasks(tasks.map(task => task.id === t.id ? { ...task, status: 'Completed' } : task)); }}
+          onAction={async (id, t) => { if (id === 'complete') { await updateTaskAsync({ id: t.id, data: { status: 'Completed' } }); refetch(); } }}
         />
       )}
 

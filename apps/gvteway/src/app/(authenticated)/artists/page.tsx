@@ -1,25 +1,26 @@
 "use client";
 
-import { useState } from "react";
-import { useNotifications } from "@ghxstship/ui";
-// Layout provided by route group
 import {
-  H2,
-  H3,
+  Badge,
   Body,
   Button,
-  Input,
-  Select,
-  Badge,
   Card,
-  Grid,
-  Stack,
-  Label,
-  Kicker,
-  Spinner,
   EmptyState,
   Figure,
-} from "@ghxstship/ui";
+  Grid,
+  H2,
+  H3,
+  Input,
+  Kicker,
+  Label,
+  Select,
+  Spinner,
+  Stack,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { useState } from "react";
+// Layout provided by route group
 import NextLink from "next/link";
 import { useArtists, type Artist } from "@/hooks/useArtists";
 import { Search, Music, Heart, Users, Calendar } from "lucide-react";

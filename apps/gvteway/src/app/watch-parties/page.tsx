@@ -3,27 +3,27 @@
 import { useState } from 'react';
 
 import Image from 'next/image';
-import { Radio, Video, Clapperboard, RefreshCw, Calendar, PartyPopper, Users, MessageCircle, Tv, Play, Lock } from 'lucide-react';
+import { Radio as RadioIcon, Video, Clapperboard, RefreshCw, Calendar, PartyPopper, Users, MessageCircle, Tv, Play, Lock } from 'lucide-react';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
-  Field,
-  Input,
-  Textarea,
-  Select,
-  Grid,
-  Stack,
-  Badge,
-  Alert,
-  Modal,
-  StatCard,
   Checkbox,
+  Field,
   Form,
+  Grid,
+  H2,
+  H3,
+  Input,
   Kicker,
+  Modal,
+  Select,
+  Stack,
+  StatCard,
+  Textarea,
 } from '@ghxstship/ui';
 import { useWatchPartiesData, type WatchParty } from '@/hooks/useWatchParties';
 
@@ -132,7 +132,7 @@ export default function WatchPartiesPage() {
     const variant = variants[type] || { color: '', icon: '', label: type };
     return (
       <Badge className={variant.color}>
-        {variant.icon === 'radio' && <Radio className="size-3 inline mr-1" />}
+        {variant.icon === 'radio' && <RadioIcon className="size-3 inline mr-1" />}
         {variant.icon === 'video' && <Video className="size-3 inline mr-1" />}
         {variant.icon === 'clapperboard' && <Clapperboard className="size-3 inline mr-1" />}
         {variant.icon === 'refresh' && <RefreshCw className="size-3 inline mr-1" />}
@@ -190,7 +190,7 @@ export default function WatchPartiesPage() {
           <StatCard
             label="Live Now"
             value={liveParties.length}
-            icon={<Radio className="size-5" />}
+            icon={<RadioIcon className="size-5" />}
           />
           <StatCard
             label="Upcoming"

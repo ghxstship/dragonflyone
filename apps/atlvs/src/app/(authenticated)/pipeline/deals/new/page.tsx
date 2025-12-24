@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -88,25 +100,25 @@ function NewDealForm() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">New Deal</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">New Deal</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Create a new deal in your pipeline
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Deal Information
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Deal Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="name"
                 value={formData.name}
@@ -117,16 +129,16 @@ function NewDealForm() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.name}</Body>
               )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Stage
-                </label>
-                <select
+                </Label>
+                <Select
                   name="stage"
                   value={formData.stage}
                   onChange={handleChange}
@@ -138,13 +150,13 @@ function NewDealForm() {
                   <option value="negotiation">Negotiation</option>
                   <option value="closed_won">Closed Won</option>
                   <option value="closed_lost">Closed Lost</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Source
-                </label>
-                <select
+                </Label>
+                <Select
                   name="source"
                   value={formData.source}
                   onChange={handleChange}
@@ -158,23 +170,23 @@ function NewDealForm() {
                   <option value="cold_outreach">Cold Outreach</option>
                   <option value="repeat_client">Repeat Client</option>
                   <option value="other">Other</option>
-                </select>
+                </Select>
               </div>
             </div>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <User className="h-5 w-5" />
             Contact Information
-          </h2>
+          </H2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Contact Name
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="contact_name"
                 value={formData.contact_name}
@@ -184,10 +196,10 @@ function NewDealForm() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Contact Email
-              </label>
-              <input
+              </Label>
+              <Input
                 type="email"
                 name="contact_email"
                 value={formData.contact_email}
@@ -198,23 +210,23 @@ function NewDealForm() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.contact_email && (
-                <p className="text-body-xs text-destructive mt-1">{errors.contact_email}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.contact_email}</Body>
               )}
             </div>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
             Deal Value
-          </h2>
+          </H2>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Value ($)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="value"
                 value={formData.value}
@@ -225,14 +237,14 @@ function NewDealForm() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.value && (
-                <p className="text-body-xs text-destructive mt-1">{errors.value}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.value}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Probability (%)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="probability"
                 value={formData.probability}
@@ -243,14 +255,14 @@ function NewDealForm() {
                 } focus:outline-none focus:border-primary`}
               />
               {errors.probability && (
-                <p className="text-body-xs text-destructive mt-1">{errors.probability}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.probability}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Expected Close Date
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 name="expected_close_date"
                 value={formData.expected_close_date}
@@ -262,11 +274,11 @@ function NewDealForm() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Tag className="h-5 w-5" />
             Notes
-          </h2>
-          <textarea
+          </H2>
+          <Textarea
             name="notes"
             value={formData.notes}
             onChange={handleChange}
@@ -278,7 +290,7 @@ function NewDealForm() {
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
@@ -289,16 +301,16 @@ function NewDealForm() {
           >
             Cancel
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={createDeal.isPending}
             className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {createDeal.isPending ? 'Creating...' : 'Create Deal'}
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

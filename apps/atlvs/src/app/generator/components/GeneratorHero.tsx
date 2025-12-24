@@ -2,15 +2,17 @@
 
 import { useRef, useEffect, useCallback } from "react";
 import {
-  Stack,
-  Container,
-  H1,
   Body,
   Box,
-  Text,
-  FullBleedSection,
   Button,
-} from "@ghxstship/ui";
+  Container,
+  Form,
+  FullBleedSection,
+  H1,
+  Stack,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 import { ArrowUp, Sparkles, Music, Palette, Zap, Globe, Heart, Star } from "lucide-react";
 
 // =============================================================================
@@ -103,10 +105,10 @@ export function GeneratorHero({
           </Stack>
 
           {/* Chat-style Input Container */}
-          <form onSubmit={handleSubmit} className="w-full">
+          <Form onSubmit={handleSubmit} className="w-full">
             <Box className="relative overflow-hidden rounded-modal border-2 border-ink-950 bg-white shadow-md transition-shadow focus-within:shadow-primary">
               {/* Textarea - using native element to avoid design system border conflicts */}
-              <textarea
+              <Textarea
                 ref={textareaRef}
                 value={creativeSeed}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onCreativeSeedChange(e.target.value)}
@@ -139,7 +141,7 @@ export function GeneratorHero({
                 </Button>
               </Box>
             </Box>
-          </form>
+          </Form>
 
           {/* Quick Prompt Chips */}
           <Stack gap={3} className="text-center">
@@ -150,7 +152,7 @@ export function GeneratorHero({
               {QUICK_PROMPTS.map((prompt) => {
                 const IconComponent = prompt.icon;
                 return (
-                  <button
+                  <Button
                     key={prompt.label}
                     type="button"
                     onClick={() => handleQuickPrompt(prompt.seed)}
@@ -159,7 +161,7 @@ export function GeneratorHero({
                   >
                     <IconComponent className="size-4 text-grey-400 transition-colors group-hover:text-primary" />
                     {prompt.label}
-                  </button>
+                  </Button>
                 );
               })}
             </Box>

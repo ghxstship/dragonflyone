@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -13,6 +12,7 @@ import {
   Body,
   H3,
   ProgressBar,
+  Skeleton,
 } from '@ghxstship/ui';
 import {
   TrendingUp,
@@ -22,16 +22,71 @@ import {
   Download,
   FileText,
   BarChart3,
+  AlertCircle,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
+import { useSponsors, type Sponsor } from '@ghxstship/config';
 import { DEMO_SPONSORSHIPS, type DemoSponsorship } from '../../../lib/demo-data';
 
 export default function SponsorPortalPage() {
-  const [sponsorships] = useState<DemoSponsorship[]>(DEMO_SPONSORSHIPS);
+  const { sponsors: apiSponsors, isLoading, error, refetch } = useSponsors({ status: 'active' });
+
+  // Map API sponsors to display format or fall back to demo data
+  const sponsorships: DemoSponsorship[] = apiSponsors.length > 0
+    ? apiSponsors.map((s: Sponsor) => ({
+        id: s.id,
+        event: s.company_name,
+        tier: s.sponsor_tiers?.name || 'Standard',
+        value: s.contract_value,
+        status: (s.status === 'active' ? 'active' : s.status === 'completed' ? 'completed' : 'pending') as 'active' | 'pending' | 'completed',
+        deliverables: 0,
+        completedDeliverables: 0,
+      }))
+    : DEMO_SPONSORSHIPS;
 
   const totalInvestment = sponsorships.reduce((sum, s) => sum + s.value, 0);
-  const totalImpressions = sponsorships.reduce((sum, s) => sum + s.impressions, 0);
-  const avgEngagement = sponsorships.filter(s => s.engagement > 0).reduce((sum, s, _, arr) => sum + s.engagement / arr.length, 0);
+  const activeDeals = sponsorships.filter(s => s.status === 'active').length;
+  const completionRate = sponsorships.length > 0
+    ? sponsorships.reduce((sum, s) => sum + (s.deliverables > 0 ? (s.completedDeliverables / s.deliverables) * 100 : 0), 0) / sponsorships.length
+    : 0;
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Dashboard" description="Track sponsorship performance and ROI" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Dashboard" description="Track sponsorship performance and ROI" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Sponsorships</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>
@@ -40,9 +95,9 @@ export default function SponsorPortalPage() {
 
         <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
           <StatCard label="Total Investment" value={`$${(totalInvestment / 1000).toFixed(0)}K`} icon={<DollarSign size={20} />} inverted />
-          <StatCard label="Impressions" value={`${(totalImpressions / 1000000).toFixed(1)}M`} icon={<Eye size={20} />} inverted />
-          <StatCard label="Avg Engagement" value={`${avgEngagement.toFixed(1)}%`} icon={<TrendingUp size={20} />} inverted />
-          <StatCard label="Active Deals" value={sponsorships.filter(s => s.status === 'active').length.toString()} icon={<Users size={20} />} inverted />
+          <StatCard label="Deliverables" value={sponsorships.reduce((sum, s) => sum + s.deliverables, 0).toString()} icon={<Eye size={20} />} inverted />
+          <StatCard label="Completion Rate" value={`${completionRate.toFixed(0)}%`} icon={<TrendingUp size={20} />} inverted />
+          <StatCard label="Active Deals" value={activeDeals.toString()} icon={<Users size={20} />} inverted />
         </Grid>
 
         <Grid cols={2} gap={6} className="sm:grid-cols-1 lg:grid-cols-2">
@@ -55,7 +110,7 @@ export default function SponsorPortalPage() {
                     <Stack key={sponsorship.id} className="rounded border-2 border-ink-700 p-4">
                       <Stack direction="horizontal" className="items-start justify-between">
                         <Stack gap={1}>
-                          <Body className="font-weight-semibold text-white">{sponsorship.production}</Body>
+                          <Body className="font-weight-semibold text-white">{sponsorship.event}</Body>
                           <Badge variant={sponsorship.tier === 'Platinum' ? 'error' : sponsorship.tier === 'Gold' ? 'warning' : 'info'}>
                             {sponsorship.tier} Sponsor
                           </Badge>
@@ -70,12 +125,12 @@ export default function SponsorPortalPage() {
                           <Body className="font-weight-semibold text-white">${sponsorship.value.toLocaleString()}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Impressions</Body>
-                          <Body className="text-white">{sponsorship.impressions > 0 ? `${(sponsorship.impressions / 1000000).toFixed(1)}M` : '-'}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Deliverables</Body>
+                          <Body className="text-white">{sponsorship.completedDeliverables}/{sponsorship.deliverables}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Engagement</Body>
-                          <Body className="text-white">{sponsorship.engagement > 0 ? `${sponsorship.engagement}%` : '-'}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Progress</Body>
+                          <Body className="text-white">{sponsorship.deliverables > 0 ? `${Math.round((sponsorship.completedDeliverables / sponsorship.deliverables) * 100)}%` : '-'}</Body>
                         </Stack>
                       </Stack>
                     </Stack>

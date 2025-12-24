@@ -3,19 +3,20 @@
 // Layout provided by route group
 import { useVenues } from "../../hooks/useVenues";
 import {
-  H3,
-  Body,
+  Alert,
   Badge,
+  Body,
+  Button,
   Card,
   Container,
-  Grid,
-  Stack,
+  EmptyState,
   EnterprisePageHeader,
+  Grid,
+  H3,
   MainContent,
   Spinner,
-  Alert,
-  EmptyState,
-} from "@ghxstship/ui";
+  Stack,
+} from '@ghxstship/ui';
 import { MapPin } from "lucide-react";
 
 export default function VenuesPage() {
@@ -41,9 +42,9 @@ export default function VenuesPage() {
           {error && (
             <Alert variant="error" title="Error loading venues">
               <Body>{error instanceof Error ? error.message : 'Failed to load venues'}</Body>
-              <button onClick={() => refetch()} className="mt-2 underline">
+              <Button onClick={() => refetch()} className="mt-2 underline">
                 Try again
-              </button>
+              </Button>
             </Alert>
           )}
 

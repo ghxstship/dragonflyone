@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, TrendingUp, DollarSign, BarChart3, Calendar, AlertCircle, RefreshCw } from 'lucide-react';
@@ -89,13 +98,13 @@ export default function BudgetForecastingPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load forecast data</p>
-          <button
+          <Body className="text-destructive">Failed to load forecast data</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['budget-forecast'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -112,88 +121,88 @@ export default function BudgetForecastingPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Budget Forecasting</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Budget Forecasting</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Financial projections and variance analysis
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => queryClient.invalidateQueries({ queryKey: ['budget-forecast'] })}
           className="flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
-          <span className="text-body-sm">Refresh</span>
-        </button>
+          <Text className="text-body-sm">Refresh</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Projected Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Projected Revenue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             ${(summary.total_projected_revenue / 1000).toFixed(0)}K
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Projected Expenses</span>
+            <Text className="text-body-sm text-muted-foreground">Projected Expenses</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-h3-md font-weight-bold text-warning">
             ${(summary.total_projected_expenses / 1000).toFixed(0)}K
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Projected Profit</span>
+            <Text className="text-body-sm text-muted-foreground">Projected Profit</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-primary">
+          <Body className="text-h3-md font-weight-bold text-primary">
             ${(summary.total_projected_profit / 1000).toFixed(0)}K
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Growth Rate</span>
+            <Text className="text-body-sm text-muted-foreground">Growth Rate</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-secondary">
+          <Body className="text-h3-md font-weight-bold text-secondary">
             +{summary.growth_rate}%
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={() => setForecastType('revenue')}
             className={`px-4 py-2 rounded-button text-body-sm transition-colors ${
               forecastType === 'revenue' ? 'bg-success text-success-foreground' : 'bg-muted hover:bg-muted/80'
             }`}
           >
             Revenue
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setForecastType('expenses')}
             className={`px-4 py-2 rounded-button text-body-sm transition-colors ${
               forecastType === 'expenses' ? 'bg-warning text-warning-foreground' : 'bg-muted hover:bg-muted/80'
             }`}
           >
             Expenses
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setForecastType('profit')}
             className={`px-4 py-2 rounded-button text-body-sm transition-colors ${
               forecastType === 'profit' ? 'bg-primary text-primary-foreground' : 'bg-muted hover:bg-muted/80'
             }`}
           >
             Profit
-          </button>
+          </Button>
         </div>
-        <select
+        <Select
           value={timeRange}
           onChange={(e) => setTimeRange(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
@@ -202,13 +211,13 @@ export default function BudgetForecastingPage() {
           <option value="6m">6 Months</option>
           <option value="12m">12 Months</option>
           <option value="24m">24 Months</option>
-        </select>
+        </Select>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-6">
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-6">
           {forecastType === 'revenue' ? 'Revenue' : forecastType === 'expenses' ? 'Expenses' : 'Profit'} Forecast
-        </h2>
+        </H2>
         <div className="space-y-4">
           {forecast.map((item) => {
             const projected = forecastType === 'revenue' ? item.projected_revenue :
@@ -223,24 +232,24 @@ export default function BudgetForecastingPage() {
             return (
               <div key={item.period} className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-body-sm font-weight-medium text-foreground w-24">
+                  <Text className="text-body-sm font-weight-medium text-foreground w-24">
                     {new Date(item.period + '-01').toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                  </span>
+                  </Text>
                   <div className="flex items-center gap-4 text-body-xs">
-                    <span className="text-muted-foreground">
-                      Projected: <span className="font-weight-medium text-foreground">${projected.toLocaleString()}</span>
-                    </span>
+                    <Text className="text-muted-foreground">
+                      Projected: <Text className="font-weight-medium text-foreground">${projected.toLocaleString()}</Text>
+                    </Text>
                     {actual !== undefined && (
-                      <span className="text-muted-foreground">
-                        Actual: <span className={`font-weight-medium ${getVarianceColor(item.variance_percentage)}`}>
+                      <Text className="text-muted-foreground">
+                        Actual: <Text className={`font-weight-medium ${getVarianceColor(item.variance_percentage)}`}>
                           ${actual.toLocaleString()}
-                        </span>
-                      </span>
+                        </Text>
+                      </Text>
                     )}
                     {item.variance_percentage !== undefined && (
-                      <span className={`font-weight-medium ${getVarianceColor(item.variance_percentage)}`}>
+                      <Text className={`font-weight-medium ${getVarianceColor(item.variance_percentage)}`}>
                         {item.variance_percentage >= 0 ? '+' : ''}{item.variance_percentage.toFixed(1)}%
-                      </span>
+                      </Text>
                     )}
                   </div>
                 </div>
@@ -275,7 +284,7 @@ export default function BudgetForecastingPage() {
               forecastType === 'expenses' ? 'bg-warning/30' :
               'bg-primary/30'
             }`} />
-            <span className="text-body-xs text-muted-foreground">Projected</span>
+            <Text className="text-body-xs text-muted-foreground">Projected</Text>
           </div>
           <div className="flex items-center gap-2">
             <div className={`w-4 h-4 rounded ${
@@ -283,14 +292,14 @@ export default function BudgetForecastingPage() {
               forecastType === 'expenses' ? 'bg-warning' :
               'bg-primary'
             }`} />
-            <span className="text-body-xs text-muted-foreground">Actual</span>
+            <Text className="text-body-xs text-muted-foreground">Actual</Text>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Forecast Accuracy</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Forecast Accuracy</H2>
           <div className="flex items-center gap-4 mb-4">
             <div className="relative w-24 h-24">
               <svg className="w-24 h-24 transform -rotate-90">
@@ -315,43 +324,43 @@ export default function BudgetForecastingPage() {
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-h4-md font-weight-bold text-foreground">{summary.accuracy_score}%</span>
+                <Text className="text-h4-md font-weight-bold text-foreground">{summary.accuracy_score}%</Text>
               </div>
             </div>
             <div>
-              <p className="text-body-sm text-muted-foreground">
+              <Body className="text-body-sm text-muted-foreground">
                 Your forecasts have been {summary.accuracy_score}% accurate over the past 6 months.
-              </p>
+              </Body>
             </div>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Key Metrics</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Key Metrics</H2>
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-muted-foreground">Avg Monthly Revenue</span>
-              <span className="text-body-sm font-weight-semibold text-foreground">
+              <Text className="text-body-sm text-muted-foreground">Avg Monthly Revenue</Text>
+              <Text className="text-body-sm font-weight-semibold text-foreground">
                 ${summary.avg_monthly_revenue.toLocaleString()}
-              </span>
+              </Text>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-muted-foreground">Profit Margin</span>
-              <span className="text-body-sm font-weight-semibold text-success">
+              <Text className="text-body-sm text-muted-foreground">Profit Margin</Text>
+              <Text className="text-body-sm font-weight-semibold text-success">
                 {((summary.total_projected_profit / summary.total_projected_revenue) * 100).toFixed(1)}%
-              </span>
+              </Text>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-muted-foreground">Expense Ratio</span>
-              <span className="text-body-sm font-weight-semibold text-warning">
+              <Text className="text-body-sm text-muted-foreground">Expense Ratio</Text>
+              <Text className="text-body-sm font-weight-semibold text-warning">
                 {((summary.total_projected_expenses / summary.total_projected_revenue) * 100).toFixed(1)}%
-              </span>
+              </Text>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-body-sm text-muted-foreground">YoY Growth</span>
-              <span className="text-body-sm font-weight-semibold text-primary">
+              <Text className="text-body-sm text-muted-foreground">YoY Growth</Text>
+              <Text className="text-body-sm font-weight-semibold text-primary">
                 +{summary.growth_rate}%
-              </span>
+              </Text>
             </div>
           </div>
         </div>

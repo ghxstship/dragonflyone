@@ -165,7 +165,7 @@ export default function AppearanceSettingsPage() {
             <Section border-2 noPadding title="Accent Color">
               <Grid cols={6} gap={3} className="sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {ACCENT_COLOR_OPTIONS.map((option) => (
-                  <button
+                  <Button
                     key={option.value}
                     onClick={() => updateSetting('accentColor', option.value)}
                     className={`
@@ -184,7 +184,7 @@ export default function AppearanceSettingsPage() {
                     {settings.accentColor === option.value && (
                       <Badge variant="solid">Active</Badge>
                     )}
-                  </button>
+                  </Button>
                 ))}
               </Grid>
             </Section>

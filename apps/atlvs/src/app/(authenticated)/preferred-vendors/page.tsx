@@ -1,5 +1,21 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, Filter, Star, Building2, ChevronRight } from 'lucide-react';
@@ -57,10 +73,10 @@ export default function PreferredVendorsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Preferred Vendors</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Preferred Vendors</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Curated lists of preferred vendors by category
-          </p>
+          </Body>
         </div>
         <Link
           href="/preferred-vendors/new"
@@ -74,7 +90,7 @@ export default function PreferredVendorsPage() {
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search vendors..."
             value={searchQuery}
@@ -84,7 +100,7 @@ export default function PreferredVendorsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={selectedCategory || ''}
             onChange={(e) => setSelectedCategory(e.target.value || null)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -95,7 +111,7 @@ export default function PreferredVendorsPage() {
                 {category}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
@@ -107,10 +123,10 @@ export default function PreferredVendorsPage() {
               className="bg-background border-2 border-border rounded-card p-4 hover:border-primary/50 transition-colors"
             >
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-weight-semibold text-foreground">{category}</h3>
-                <span className="text-body-xs text-muted-foreground bg-muted px-2 py-1 rounded-badge">
+                <H3 className="font-weight-semibold text-foreground">{category}</H3>
+                <Text className="text-body-xs text-muted-foreground bg-muted px-2 py-1 rounded-badge">
                   {vendors.length} vendors
-                </span>
+                </Text>
               </div>
               <div className="space-y-2">
                 {vendors.slice(0, 3).map((item, idx) => (
@@ -119,25 +135,25 @@ export default function PreferredVendorsPage() {
                     className="flex items-center justify-between text-body-sm"
                   >
                     <div className="flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-avatar bg-primary/10 text-primary text-body-xs flex items-center justify-center font-weight-medium">
+                      <Text className="w-5 h-5 rounded-avatar bg-primary/10 text-primary text-body-xs flex items-center justify-center font-weight-medium">
                         {item.priority}
-                      </span>
-                      <span className="text-foreground">
+                      </Text>
+                      <Text className="text-foreground">
                         {(item.vendor as { name?: string })?.name || 'Unknown'}
-                      </span>
+                      </Text>
                     </div>
                     {item.discount && (
-                      <span className="text-body-xs text-success">-{item.discount}%</span>
+                      <Text className="text-body-xs text-success">-{item.discount}%</Text>
                     )}
                   </div>
                 ))}
                 {vendors.length > 3 && (
-                  <a
+                  <Link
                     href={`/preferred-vendors?category=${encodeURIComponent(category)}`}
                     className="text-body-xs text-primary hover:underline flex items-center gap-1"
                   >
                     View all {vendors.length} <ChevronRight className="h-3 w-3" />
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>
@@ -148,12 +164,12 @@ export default function PreferredVendorsPage() {
       {(!filteredVendors || filteredVendors.length === 0) && !matrixData?.matrix && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No preferred vendors yet
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Add vendors to your preferred list for quick access and negotiated rates.
-          </p>
+          </Body>
           <Link
             href="/preferred-vendors/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -166,127 +182,127 @@ export default function PreferredVendorsPage() {
 
       {filteredVendors && filteredVendors.length > 0 && (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+          <Table className="w-full">
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Priority
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Vendor
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Category
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Discount
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Rating
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Valid Until
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {filteredVendors.map((pv) => (
-                <tr key={pv.id} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-4 py-3">
-                    <span className="w-6 h-6 rounded-avatar bg-primary text-primary-foreground text-body-xs flex items-center justify-center font-weight-bold">
+                <TableRow key={pv.id} className="hover:bg-muted/30 transition-colors">
+                  <TableCell className="px-4 py-3">
+                    <Text className="w-6 h-6 rounded-avatar bg-primary text-primary-foreground text-body-xs flex items-center justify-center font-weight-bold">
                       {pv.priority}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <a
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Link
                       href={`/vendors/${pv.vendor_id}`}
                       className="font-weight-medium text-foreground hover:text-primary"
                     >
                       {pv.vendor?.name || 'Unknown Vendor'}
-                    </a>
+                    </Link>
                     {pv.vendor?.email && (
                       <div className="text-body-xs text-muted-foreground">
                         {pv.vendor.email}
                       </div>
                     )}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-1 bg-muted rounded-badge text-body-xs">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className="px-2 py-1 bg-muted rounded-badge text-body-xs">
                       {pv.category}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {pv.negotiated_discount ? (
-                      <span className="text-success font-weight-medium">
+                      <Text className="text-success font-weight-medium">
                         -{pv.negotiated_discount}%
-                      </span>
+                      </Text>
                     ) : (
-                      <span className="text-muted-foreground">-</span>
+                      <Text className="text-muted-foreground">-</Text>
                     )}
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {pv.vendor?.rating ? (
                       <div className="flex items-center gap-1">
                         <Star className="h-4 w-4 text-warning fill-warning" />
-                        <span className="text-body-sm">{pv.vendor.rating.toFixed(1)}</span>
+                        <Text className="text-body-sm">{pv.vendor.rating.toFixed(1)}</Text>
                       </div>
                     ) : (
-                      <span className="text-muted-foreground">-</span>
+                      <Text className="text-muted-foreground">-</Text>
                     )}
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {pv.valid_to
                       ? new Date(pv.valid_to).toLocaleDateString()
                       : 'No expiry'}
-                  </td>
-                  <td className="px-4 py-3 text-right">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-right">
                     <div className="flex items-center justify-end gap-2">
-                      <a
+                      <Link
                         href={`/preferred-vendors/${pv.id}/edit`}
                         className="px-3 py-1 text-body-xs border-2 border-border rounded-button hover:bg-muted transition-colors"
                       >
                         Edit
-                      </a>
-                      <button
+                      </Link>
+                      <Button
                         onClick={() => handleRemove(pv.id)}
                         disabled={removeMutation.isPending}
                         className="px-3 py-1 text-body-xs border-2 border-destructive text-destructive rounded-button hover:bg-destructive/10 transition-colors disabled:opacity-50"
                       >
                         Remove
-                      </button>
+                      </Button>
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
 
       {data?.pagination && data.pagination.totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-body-sm text-muted-foreground">
+          <Body className="text-body-sm text-muted-foreground">
             Showing {filteredVendors?.length || 0} of {data.total} preferred vendors
-          </p>
+          </Body>
           <div className="flex items-center gap-2">
-            <button
+            <Button
               disabled={data.pagination.page <= 1}
               className="px-3 py-1 border-2 border-border rounded-button text-body-sm disabled:opacity-50"
             >
               Previous
-            </button>
-            <span className="text-body-sm text-muted-foreground">
+            </Button>
+            <Text className="text-body-sm text-muted-foreground">
               Page {data.pagination.page} of {data.pagination.totalPages}
-            </span>
-            <button
+            </Text>
+            <Button
               disabled={!data.pagination.hasMore}
               className="px-3 py-1 border-2 border-border rounded-button text-body-sm disabled:opacity-50"
             >
               Next
-            </button>
+            </Button>
           </div>
         </div>
       )}

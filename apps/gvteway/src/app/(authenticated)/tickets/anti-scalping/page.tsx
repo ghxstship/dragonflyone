@@ -11,23 +11,32 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_FLAGGED_TRANSACTIONS,
-  DEMO_PROTECTION_RULES,
-  type DemoFlaggedTransaction as FlaggedTransaction,
-} from "@/lib/demo-data";
+import { useAntiScalping } from "@ghxstship/config";
+import { DEMO_FLAGGED_TRANSACTIONS, DEMO_PROTECTION_RULES } from "@/lib/demo-data";
 
-const mockFlagged = DEMO_FLAGGED_TRANSACTIONS;
-const mockRules = DEMO_PROTECTION_RULES.map(r => ({
-  id: r.id,
-  name: r.name,
-  description: r.description,
-  enabled: r.enabled,
-  threshold: r.threshold,
-}));
+interface FlaggedTransaction {
+  id: string;
+  orderId: string;
+  eventName: string;
+  buyerEmail: string;
+  quantity: number;
+  flagReason: string;
+  riskScore: number;
+  status: string;
+  timestamp: string;
+}
+
+interface ProtectionRule {
+  id: string;
+  name: string;
+  description: string;
+  enabled: boolean;
+  threshold?: number;
+}
 
 function AntiScalpingPageContent() {
   const router = useRouter();
+  const { rules: apiRules, isLoading } = useAntiScalping();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -36,9 +45,19 @@ function AntiScalpingPageContent() {
   });
   const [selectedTransaction, setSelectedTransaction] = useState<FlaggedTransaction | null>(null);
 
-  const blockedCount = mockFlagged.filter(f => f.status === "Blocked").length;
-  const underReview = mockFlagged.filter(f => f.status === "Under Review" || f.status === "Flagged").length;
-  const enabledRules = mockRules.filter(r => r.enabled).length;
+  // Use API data or fall back to demo data
+  const flagged: FlaggedTransaction[] = DEMO_FLAGGED_TRANSACTIONS as unknown as FlaggedTransaction[];
+  const rules: ProtectionRule[] = apiRules.length > 0 ? (apiRules as unknown as ProtectionRule[]) : DEMO_PROTECTION_RULES.map(r => ({
+    id: r.id,
+    name: r.name,
+    description: r.description,
+    enabled: r.enabled,
+    threshold: r.threshold,
+  }));
+
+  const blockedCount = flagged.filter(f => f.status === "Blocked").length;
+  const underReview = flagged.filter(f => f.status === "Under Review" || f.status === "Flagged").length;
+  const enabledRules = rules.filter(r => r.enabled).length;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -64,6 +83,12 @@ function AntiScalpingPageContent() {
               <H2 size="lg" className="text-white">Anti-Scalping Protection</H2>
               <Body className="text-on-dark-muted">Protect ticket sales from scalpers and bots</Body>
             </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading transactions...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Blocked Today" value={blockedCount} className="border-2 border-black" />
@@ -98,7 +123,7 @@ function AntiScalpingPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockFlagged.map((txn) => (
+                  {flagged.map((txn) => (
                     <TableRow key={txn.id}>
                       <TableCell><Label className="font-mono">{txn.orderId}</Label></TableCell>
                       <TableCell><Label>{txn.eventName}</Label></TableCell>
@@ -120,7 +145,7 @@ function AntiScalpingPageContent() {
 
             <TabPanel active={isActive('rules')}>
               <Stack gap={4}>
-                {mockRules.map((rule) => (
+                {rules.map((rule) => (
                   <Card key={rule.id} className={`border-2 p-4 ${rule.enabled ? "border-black" : "border-ink-200"}`}>
                     <Grid cols={4} gap={4} className="items-center">
                       <Stack gap={1}>

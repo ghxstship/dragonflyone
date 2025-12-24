@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState, useMemo } from 'react';
 import { Plus, Search, Folder, FolderOpen, Edit2, Trash2, ChevronRight, ChevronDown, GripVertical } from 'lucide-react';
 import { useCatalogCategories } from '@/hooks/useCatalog';
@@ -75,7 +84,7 @@ export default function CatalogCategoriesPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load categories</p>
+          <Body className="text-destructive">Failed to load categories</Body>
         </div>
       </div>
     );
@@ -96,7 +105,7 @@ export default function CatalogCategoriesPage() {
           <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab" />
           
           {hasChildren ? (
-            <button 
+            <Button 
               onClick={() => toggleExpanded(category.id)}
               className="p-1 hover:bg-muted rounded-button transition-colors"
             >
@@ -105,7 +114,7 @@ export default function CatalogCategoriesPage() {
               ) : (
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               )}
-            </button>
+            </Button>
           ) : (
             <div className="w-6" />
           )}
@@ -117,32 +126,32 @@ export default function CatalogCategoriesPage() {
           )}
 
           <div className="flex-1">
-            <span className="text-body-sm font-weight-medium text-foreground">
+            <Text className="text-body-sm font-weight-medium text-foreground">
               {category.name}
-            </span>
+            </Text>
             {category.description && (
-              <span className="ml-2 text-body-xs text-muted-foreground">
+              <Text className="ml-2 text-body-xs text-muted-foreground">
                 {category.description}
-              </span>
+              </Text>
             )}
           </div>
 
-          <span className="text-body-xs text-muted-foreground">
+          <Text className="text-body-xs text-muted-foreground">
             {category.items_count || 0} items
-          </span>
+          </Text>
 
           <div className="flex items-center gap-1">
-            <button 
+            <Button 
               onClick={() => setSelectedId(selectedId === category.id ? null : category.id)}
               className="p-1.5 hover:bg-muted rounded-button transition-colors"
             >
               <Edit2 className="h-4 w-4 text-muted-foreground" />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
             >
               <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -159,40 +168,40 @@ export default function CatalogCategoriesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Catalog Categories</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Catalog Categories</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Organize catalog items into categories
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Category
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Folder className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Categories</span>
+            <Text className="text-body-sm text-muted-foreground">Total Categories</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalCategories}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalCategories}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Folder className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Items</span>
+            <Text className="text-body-sm text-muted-foreground">Total Items</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalItems}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalItems}</Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search categories..."
             value={searchQuery}
@@ -207,24 +216,24 @@ export default function CatalogCategoriesPage() {
           <div className="w-6" />
           <div className="w-6" />
           <div className="w-5" />
-          <span className="flex-1 text-body-xs font-weight-semibold text-muted-foreground uppercase">
+          <Text className="flex-1 text-body-xs font-weight-semibold text-muted-foreground uppercase">
             Category Name
-          </span>
-          <span className="text-body-xs font-weight-semibold text-muted-foreground uppercase w-20 text-right">
+          </Text>
+          <Text className="text-body-xs font-weight-semibold text-muted-foreground uppercase w-20 text-right">
             Items
-          </span>
+          </Text>
           <div className="w-16" />
         </div>
 
         {filteredCategories.length === 0 && (
           <div className="text-center py-12">
             <Folder className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+            <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
               No categories found
-            </h3>
-            <p className="text-body-sm text-muted-foreground">
+            </H3>
+            <Body className="text-body-sm text-muted-foreground">
               {searchQuery ? 'Try adjusting your search' : 'Create your first category'}
-            </p>
+            </Body>
           </div>
         )}
 

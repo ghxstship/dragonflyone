@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search, Grid, ExternalLink, Settings, Trash2, AlertCircle, Check, Star, MessageSquare, PieChart, Mail, Calendar, CreditCard, Zap, Hexagon, TrendingUp, type LucideIcon } from 'lucide-react';
@@ -215,13 +224,13 @@ export default function ThirdPartyAppsPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load apps</p>
-          <button
+          <Body className="text-destructive">Failed to load apps</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['third-party-apps'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -237,20 +246,20 @@ export default function ThirdPartyAppsPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <Grid className="h-6 w-6" />
             App Marketplace
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {installedCount} apps installed • Browse and manage third-party integrations
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search apps..."
             value={searchQuery}
@@ -260,7 +269,7 @@ export default function ThirdPartyAppsPage() {
         </div>
         <div className="flex items-center gap-2 overflow-x-auto">
           {CATEGORIES.map((category) => (
-            <button
+            <Button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
               className={`px-4 py-2 rounded-button text-body-sm whitespace-nowrap transition-colors ${
@@ -270,10 +279,10 @@ export default function ThirdPartyAppsPage() {
               }`}
             >
               {category.name}
-            </button>
+            </Button>
           ))}
         </div>
-        <button
+        <Button
           onClick={() => setShowInstalled(!showInstalled)}
           className={`px-4 py-2 rounded-button text-body-sm whitespace-nowrap transition-colors ${
             showInstalled
@@ -282,18 +291,18 @@ export default function ThirdPartyAppsPage() {
           }`}
         >
           {showInstalled ? 'Installed Only' : 'Show All'}
-        </button>
+        </Button>
       </div>
 
       {filteredApps.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Grid className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No apps found
-          </h3>
-          <p className="text-body-sm text-muted-foreground">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground">
             Try adjusting your search or filters
-          </p>
+          </Body>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -311,13 +320,13 @@ export default function ThirdPartyAppsPage() {
                     return IconComponent ? <IconComponent className="h-8 w-8 text-muted-foreground" /> : null;
                   })()}
                   <div>
-                    <h3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
+                    <H3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
                       {app.name}
                       {app.is_installed && (
                         <Check className="h-4 w-4 text-success" />
                       )}
-                    </h3>
-                    <p className="text-body-xs text-muted-foreground">{app.developer}</p>
+                    </H3>
+                    <Body className="text-body-xs text-muted-foreground">{app.developer}</Body>
                   </div>
                 </div>
                 {app.is_installed && app.settings_url && (
@@ -330,25 +339,25 @@ export default function ThirdPartyAppsPage() {
                 )}
               </div>
 
-              <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+              <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                 {app.description}
-              </p>
+              </Body>
 
               <div className="flex items-center gap-3 text-body-xs text-muted-foreground mb-4">
-                <span className="flex items-center gap-1">
+                <Text className="flex items-center gap-1">
                   <Star className="h-3 w-3 fill-warning text-warning" />
                   {app.rating}
-                </span>
-                <span>{app.installs.toLocaleString()} installs</span>
-                <span className="px-2 py-0.5 bg-muted rounded-badge capitalize">
+                </Text>
+                <Text>{app.installs.toLocaleString()} installs</Text>
+                <Text className="px-2 py-0.5 bg-muted rounded-badge capitalize">
                   {app.category}
-                </span>
+                </Text>
               </div>
 
               <div className="flex items-center gap-2">
                 {app.is_installed ? (
                   <>
-                    <button
+                    <Button
                       onClick={() => {
                         if (confirm(`Uninstall ${app.name}? This will remove all app data.`)) {
                           uninstallApp.mutate(app.id);
@@ -359,7 +368,7 @@ export default function ThirdPartyAppsPage() {
                     >
                       <Trash2 className="h-4 w-4" />
                       Uninstall
-                    </button>
+                    </Button>
                     {app.settings_url && (
                       <Link
                         href={app.settings_url}
@@ -371,33 +380,33 @@ export default function ThirdPartyAppsPage() {
                     )}
                   </>
                 ) : (
-                  <button
+                  <Button
                     onClick={() => installApp.mutate(app.id)}
                     disabled={installApp.isPending}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                   >
                     <ExternalLink className="h-4 w-4" />
                     {installApp.isPending ? 'Installing...' : 'Install'}
-                  </button>
+                  </Button>
                 )}
               </div>
 
               {app.permissions.length > 0 && (
                 <div className="mt-3 pt-3 border-t border-border">
-                  <p className="text-body-xs text-muted-foreground mb-1">Permissions:</p>
+                  <Body className="text-body-xs text-muted-foreground mb-1">Permissions:</Body>
                   <div className="flex flex-wrap gap-1">
                     {app.permissions.slice(0, 3).map((perm) => (
-                      <span
+                      <Text
                         key={perm}
                         className="px-1.5 py-0.5 bg-muted text-muted-foreground text-body-xs rounded"
                       >
                         {perm}
-                      </span>
+                      </Text>
                     ))}
                     {app.permissions.length > 3 && (
-                      <span className="px-1.5 py-0.5 bg-muted text-muted-foreground text-body-xs rounded">
+                      <Text className="px-1.5 py-0.5 bg-muted text-muted-foreground text-body-xs rounded">
                         +{app.permissions.length - 3} more
-                      </span>
+                      </Text>
                     )}
                   </div>
                 </div>

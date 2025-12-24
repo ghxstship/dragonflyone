@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Globe, Check, ExternalLink, Settings, Zap, CreditCard, PieChart, Calendar, Mail, Cloud, Hexagon, MessageSquare, Smartphone, type LucideIcon } from 'lucide-react';
@@ -187,19 +195,19 @@ export default function IntegrationsPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <Globe className="h-6 w-6" />
             Integrations
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {connectedCount} of {integrations.length} integrations connected
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {CATEGORIES.map((category) => (
-          <button
+          <Button
             key={category.id}
             onClick={() => setSelectedCategory(category.id)}
             className={`px-4 py-2 rounded-button text-body-sm whitespace-nowrap transition-colors ${
@@ -209,7 +217,7 @@ export default function IntegrationsPage() {
             }`}
           >
             {category.name}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -228,15 +236,15 @@ export default function IntegrationsPage() {
                   return IconComponent ? <IconComponent className="h-6 w-6 text-muted-foreground" /> : null;
                 })()}
                 <div>
-                  <h3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
+                  <H3 className="text-body-md font-weight-semibold text-foreground flex items-center gap-2">
                     {integration.name}
                     {integration.is_connected && (
                       <Check className="h-4 w-4 text-success" />
                     )}
-                  </h3>
-                  <p className="text-body-xs text-muted-foreground capitalize">
+                  </H3>
+                  <Body className="text-body-xs text-muted-foreground capitalize">
                     {integration.category}
-                  </p>
+                  </Body>
                 </div>
               </div>
               {integration.is_connected && integration.settings_url && (
@@ -248,16 +256,16 @@ export default function IntegrationsPage() {
                 </Link>
               )}
             </div>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            <Body className="text-body-sm text-muted-foreground mb-4">
               {integration.description}
-            </p>
+            </Body>
             {integration.is_connected ? (
               <div className="flex items-center justify-between">
-                <span className="text-body-xs text-success flex items-center gap-1">
+                <Text className="text-body-xs text-success flex items-center gap-1">
                   <Zap className="h-3 w-3" />
                   Connected
-                </span>
-                <button
+                </Text>
+                <Button
                   onClick={() => {
                     if (confirm('Disconnect this integration?')) {
                       disconnectIntegration.mutate(integration.id);
@@ -266,17 +274,17 @@ export default function IntegrationsPage() {
                   className="text-body-xs text-destructive hover:underline"
                 >
                   Disconnect
-                </button>
+                </Button>
               </div>
             ) : (
-              <button
+              <Button
                 onClick={() => connectIntegration.mutate(integration.id)}
                 disabled={connectIntegration.isPending}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors disabled:opacity-50"
               >
                 <ExternalLink className="h-4 w-4" />
-                <span className="text-body-sm">Connect</span>
-              </button>
+                <Text className="text-body-sm">Connect</Text>
+              </Button>
             )}
           </div>
         ))}
@@ -284,10 +292,10 @@ export default function IntegrationsPage() {
 
       <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-6 text-center">
         <Zap className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-        <h3 className="text-body-md font-weight-semibold text-foreground">Need a custom integration?</h3>
-        <p className="text-body-sm text-muted-foreground mt-1 mb-4">
+        <H3 className="text-body-md font-weight-semibold text-foreground">Need a custom integration?</H3>
+        <Body className="text-body-sm text-muted-foreground mt-1 mb-4">
           Use our API to build custom integrations
-        </p>
+        </Body>
         <Link
           href="/settings/api"
           className="text-primary text-body-sm hover:underline"

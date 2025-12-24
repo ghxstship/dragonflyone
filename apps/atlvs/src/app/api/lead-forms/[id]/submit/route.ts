@@ -9,13 +9,50 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+// Layer 6 Edge Case: File upload size limits (5MB max per file, 20MB total)
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB per file
+const MAX_TOTAL_SIZE = 20 * 1024 * 1024; // 20MB total
+
+// Layer 6 Edge Case: Duplicate detection window (24 hours)
+const DUPLICATE_DETECTION_HOURS = 24;
+
 const SubmissionSchema = z.object({
   data: z.record(z.any()),
   utm_source: z.string().optional(),
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
+  utm_term: z.string().optional(),
+  utm_content: z.string().optional(),
   referrer: z.string().optional(),
+  page_url: z.string().optional(),
+  files: z.array(z.object({
+    name: z.string(),
+    size: z.number().max(MAX_FILE_SIZE, 'File size exceeds 5MB limit'),
+    type: z.string(),
+  })).optional(),
 });
+
+// Layer 6 Edge Case: Check for duplicate submissions
+async function checkDuplicateSubmission(
+  formId: string,
+  email: string | undefined,
+  ipAddress: string
+): Promise<boolean> {
+  if (!email) return false;
+
+  const cutoffTime = new Date();
+  cutoffTime.setHours(cutoffTime.getHours() - DUPLICATE_DETECTION_HOURS);
+
+  const { data } = await supabase
+    .from('lead_form_submissions')
+    .select('id')
+    .eq('form_id', formId)
+    .gte('created_at', cutoffTime.toISOString())
+    .or(`data->email.eq.${email},ip_address.eq.${ipAddress}`)
+    .limit(1);
+
+  return (data?.length || 0) > 0;
+}
 
 export async function POST(
   request: NextRequest,
@@ -25,6 +62,35 @@ export async function POST(
     const { id } = params;
     const body = await request.json();
     const validatedData = SubmissionSchema.parse(body);
+
+    // Get IP and user agent from headers (moved up for duplicate check)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+               request.headers.get('x-real-ip') || 
+               'unknown';
+
+    // Layer 6 Edge Case: Check total file size
+    if (validatedData.files && validatedData.files.length > 0) {
+      const totalSize = validatedData.files.reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > MAX_TOTAL_SIZE) {
+        return NextResponse.json(
+          { error: 'Total file size exceeds 20MB limit' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Layer 6 Edge Case: Check for duplicate submission
+    const formDataEmail = validatedData.data?.email as string | undefined;
+    const isDuplicate = await checkDuplicateSubmission(id, formDataEmail, ip);
+    if (isDuplicate) {
+      return NextResponse.json(
+        { 
+          error: 'Duplicate submission detected',
+          message: 'It looks like you have already submitted this form recently. Please wait before submitting again.'
+        },
+        { status: 429 }
+      );
+    }
 
     // Get form details
     const { data: form, error: formError } = await supabase
@@ -38,10 +104,7 @@ export async function POST(
       return NextResponse.json({ error: 'Form not found or inactive' }, { status: 404 });
     }
 
-    // Get IP and user agent from headers
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-               request.headers.get('x-real-ip') || 
-               'unknown';
+    // Get user agent (IP already captured above for duplicate check)
     const userAgent = request.headers.get('user-agent') || '';
 
     // Create submission

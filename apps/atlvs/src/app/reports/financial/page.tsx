@@ -1,5 +1,23 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Download, Calendar, DollarSign, TrendingUp, PieChart, AlertCircle, RefreshCw } from 'lucide-react';
@@ -161,13 +179,13 @@ export default function FinancialReportsPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load financial reports</p>
-          <button
+          <Body className="text-destructive">Failed to load financial reports</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['financial-reports'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -184,62 +202,62 @@ export default function FinancialReportsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Financial Reports</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Financial Reports</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Generate and manage financial reports
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowGenerateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <FileText className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Generate Report</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">Generate Report</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Reports</span>
+            <Text className="text-body-sm text-muted-foreground">Total Reports</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{reports.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{reports.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Total Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Total Revenue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             ${(totalRevenue / 1000000).toFixed(2)}M
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Scheduled</span>
+            <Text className="text-body-sm text-muted-foreground">Scheduled</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-h3-md font-weight-bold text-warning">
             {reports.filter((r) => r.status === 'scheduled').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Avg Margin</span>
+            <Text className="text-body-sm text-muted-foreground">Avg Margin</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-secondary">
+          <Body className="text-h3-md font-weight-bold text-secondary">
             {reports.filter((r) => r.summary?.gross_margin).length > 0
               ? `${(reports.filter((r) => r.summary?.gross_margin).reduce((sum, r) => sum + (r.summary?.gross_margin || 0), 0) / reports.filter((r) => r.summary?.gross_margin).length).toFixed(1)}%`
               : '—'}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <select
+        <Select
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
@@ -248,111 +266,111 @@ export default function FinancialReportsPage() {
           {REPORT_TYPES.map((type) => (
             <option key={type.id} value={type.id}>{type.name}</option>
           ))}
-        </select>
-        <button
+        </Select>
+        <Button
           onClick={() => queryClient.invalidateQueries({ queryKey: ['financial-reports'] })}
           className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
-        </button>
+        </Button>
       </div>
 
       {filteredReports.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No financial reports
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Generate your first financial report
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowGenerateModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
           >
             <FileText className="h-4 w-4" />
             Generate Report
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+          <Table className="w-full">
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Report
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Type
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Period
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Status
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Summary
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase">
                   Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {filteredReports.map((report) => (
-                <tr key={report.id} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-4 py-3">
+                <TableRow key={report.id} className="hover:bg-muted/30 transition-colors">
+                  <TableCell className="px-4 py-3">
                     <div>
-                      <p className="font-weight-medium text-foreground">{report.name}</p>
+                      <Body className="font-weight-medium text-foreground">{report.name}</Body>
                       {report.generated_at && (
-                        <p className="text-body-xs text-muted-foreground">
+                        <Body className="text-body-xs text-muted-foreground">
                           Generated: {new Date(report.generated_at).toLocaleDateString()}
-                        </p>
+                        </Body>
                       )}
                     </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getTypeColor(report.type)}`}>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getTypeColor(report.type)}`}>
                       {REPORT_TYPES.find((t) => t.id === report.type)?.name || report.type}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {new Date(report.period_start).toLocaleDateString()} - {new Date(report.period_end).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getStatusColor(report.status)}`}>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getStatusColor(report.status)}`}>
                       {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     {report.summary ? (
                       <div className="text-body-xs">
                         {report.summary.total_revenue && (
-                          <span className="text-success">Rev: ${(report.summary.total_revenue / 1000).toFixed(0)}K</span>
+                          <Text className="text-success">Rev: ${(report.summary.total_revenue / 1000).toFixed(0)}K</Text>
                         )}
                         {report.summary.net_income && (
-                          <span className="ml-2 text-primary">Net: ${(report.summary.net_income / 1000).toFixed(0)}K</span>
+                          <Text className="ml-2 text-primary">Net: ${(report.summary.net_income / 1000).toFixed(0)}K</Text>
                         )}
                         {report.summary.gross_margin && (
-                          <span className="ml-2 text-secondary">{report.summary.gross_margin}%</span>
+                          <Text className="ml-2 text-secondary">{report.summary.gross_margin}%</Text>
                         )}
                       </div>
                     ) : (
-                      <span className="text-body-xs text-muted-foreground">—</span>
+                      <Text className="text-body-xs text-muted-foreground">—</Text>
                     )}
-                  </td>
-                  <td className="px-4 py-3">
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
                     <div className="flex items-center justify-end gap-2">
                       {report.file_url && (
-                        <a
+                        <Link
                           href={report.file_url}
                           download
                           className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                           title="Download"
                         >
                           <Download className="h-4 w-4" />
-                        </a>
+                        </Link>
                       )}
                       <Link
                         href={`/reports/financial/${report.id}`}
@@ -361,21 +379,21 @@ export default function FinancialReportsPage() {
                         View
                       </Link>
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
 
       {showGenerateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Generate Financial Report
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -390,10 +408,10 @@ export default function FinancialReportsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Report Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -402,10 +420,10 @@ export default function FinancialReportsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Report Type *
-                </label>
-                <select
+                </Label>
+                <Select
                   name="type"
                   required
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -413,14 +431,14 @@ export default function FinancialReportsPage() {
                   {REPORT_TYPES.map((type) => (
                     <option key={type.id} value={type.id}>{type.name}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Period Start *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="date"
                     name="period_start"
                     required
@@ -428,10 +446,10 @@ export default function FinancialReportsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Period End *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="date"
                     name="period_end"
                     required
@@ -440,22 +458,22 @@ export default function FinancialReportsPage() {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowGenerateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={generateReport.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {generateReport.isPending ? 'Generating...' : 'Generate Report'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

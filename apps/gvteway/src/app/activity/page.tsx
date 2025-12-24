@@ -1,21 +1,22 @@
 'use client';
 
-import { useState } from 'react';
-import { useNotifications } from '@ghxstship/ui';
-import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
   Body,
-  Label,
   Button,
   Card,
-  Grid,
-  Stack,
   EmptyState,
+  Grid,
+  H2,
+  H3,
   Kicker,
+  Label,
+  Stack,
+  useNotifications,
 } from '@ghxstship/ui';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { GvtewayLoadingLayout } from '@/components/app-layout';
 import Image from 'next/image';
 import { Activity, Ticket, Star, UserPlus, Heart, MapPin, Share2, Users, TrendingUp } from 'lucide-react';
 import { useActivityData } from '@/hooks/useActivity';

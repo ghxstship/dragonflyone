@@ -4,23 +4,24 @@ import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
-  Label,
   Button,
   Card,
   Field,
-  Input,
-  PhoneInput,
-  Textarea,
-  Grid,
-  Stack,
-  Badge,
-  Switch,
-  Alert,
   Form,
+  Grid,
+  H2,
+  H3,
+  Input,
   Kicker,
+  Label,
+  PhoneInput,
+  Stack,
+  Switch,
+  Text,
+  Textarea,
 } from '@ghxstship/ui';
 import { useAccessibilityRequestsData } from '@/hooks/useAccessibilityRequests';
 
@@ -248,13 +249,13 @@ function AccessibilityRequestContent() {
               </Body>
               <Stack gap={2}>
                 <Body size="sm" className="text-on-dark-muted">
-                  <span className="font-display text-white">Phone:</span> 1-800-555-0123
+                  <Text className="font-display text-white">Phone:</Text> 1-800-555-0123
                 </Body>
                 <Body size="sm" className="text-on-dark-muted">
-                  <span className="font-display text-white">Email:</span> accessibility@ghxstship.com
+                  <Text className="font-display text-white">Email:</Text> accessibility@ghxstship.com
                 </Body>
                 <Body size="sm" className="text-on-dark-muted">
-                  <span className="font-display text-white">TTY:</span> 1-800-555-0124
+                  <Text className="font-display text-white">TTY:</Text> 1-800-555-0124
                 </Body>
               </Stack>
             </Card>

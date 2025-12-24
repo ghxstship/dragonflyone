@@ -4,16 +4,17 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H2,
+  H3,
   Kicker,
+  Stack,
+  Text,
 } from '@ghxstship/ui';
 import { Map, Navigation, Layers, ZoomIn, ZoomOut, Locate, Info } from 'lucide-react';
 import Image from 'next/image';
@@ -188,7 +189,7 @@ export default function EventMapPage() {
                     onClick={() => setSelectedZone(selectedZone === zone.id ? null : zone.id)}
                   >
                     <Stack direction="horizontal" gap={3} className="items-center w-full">
-                      <span className={`w-4 h-4 rounded-full ${zoneColors[zone.type]}`} />
+                      <Text className={`w-4 h-4 rounded-full ${zoneColors[zone.type]}`} />
                       <Stack className="items-start flex-1">
                         <Body className="font-weight-medium">{zone.name}</Body>
                         <Body className="text-mono-xs opacity-70 capitalize">{zone.type}</Body>
@@ -207,7 +208,7 @@ export default function EventMapPage() {
             {selectedZoneData && (
               <Card className="p-6 border-2 border-primary-500">
                 <Stack direction="horizontal" gap={3} className="items-center mb-4">
-                  <span className={`w-6 h-6 rounded-full ${zoneColors[selectedZoneData.type]}`} />
+                  <Text className={`w-6 h-6 rounded-full ${zoneColors[selectedZoneData.type]}`} />
                   <H3>{selectedZoneData.name}</H3>
                 </Stack>
                 {selectedZoneData.description && (
@@ -231,7 +232,7 @@ export default function EventMapPage() {
               <Stack gap={2}>
                 {Object.entries(zoneColors).map(([type, color]) => (
                   <Stack key={type} direction="horizontal" gap={3} className="items-center">
-                    <span className={`w-4 h-4 rounded-full ${color}`} />
+                    <Text className={`w-4 h-4 rounded-full ${color}`} />
                     <Body className="capitalize">{type}</Body>
                   </Stack>
                 ))}

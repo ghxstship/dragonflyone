@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -90,25 +102,25 @@ export default function NewSpacePage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">New Space</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">New Space</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Add a new space to your venue
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <MapPin className="h-5 w-5" />
             Basic Information
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Space Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="name"
                 value={formData.name}
@@ -119,14 +131,14 @@ export default function NewSpacePage() {
                 }`}
               />
               {errors.name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.name}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Description
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
@@ -139,16 +151,16 @@ export default function NewSpacePage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Users className="h-5 w-5" />
             Capacity & Pricing
-          </h2>
+          </H2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Maximum Capacity *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 name="capacity"
                 value={formData.capacity}
@@ -160,14 +172,14 @@ export default function NewSpacePage() {
                 }`}
               />
               {errors.capacity && (
-                <p className="text-body-xs text-destructive mt-1">{errors.capacity}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.capacity}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Base Price ($)
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 name="base_price"
                 value={formData.base_price}
@@ -182,10 +194,10 @@ export default function NewSpacePage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Amenities</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Amenities</H2>
           <div className="grid grid-cols-3 gap-2">
             {AMENITIES.map((amenity) => (
-              <button
+              <Button
                 key={amenity}
                 type="button"
                 onClick={() => toggleAmenity(amenity)}
@@ -204,15 +216,15 @@ export default function NewSpacePage() {
                     <Check className="h-3 w-3 text-white" />
                   )}
                 </div>
-                <span className="text-body-sm">{amenity}</span>
-              </button>
+                <Text className="text-body-sm">{amenity}</Text>
+              </Button>
             ))}
           </div>
         </div>
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
@@ -223,16 +235,16 @@ export default function NewSpacePage() {
           >
             Cancel
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={createSpace.isPending}
             className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {createSpace.isPending ? 'Creating...' : 'Create Space'}
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

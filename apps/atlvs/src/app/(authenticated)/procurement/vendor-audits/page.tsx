@@ -34,13 +34,12 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
-import {
-  DEMO_VENDOR_AUDITS,
-  type DemoVendorAudit as VendorAudit,
-} from '../../../../lib/demo-data';
+import { useVendorAudits, type VendorAudit } from '@ghxstship/config';
+import { DEMO_VENDOR_AUDITS } from '../../../../lib/demo-data';
 
 export default function VendorAuditsPage() {
   const router = useRouter();
+  const { audits: apiAudits, summary, isLoading } = useVendorAudits();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useLocalTabState({
@@ -50,10 +49,13 @@ export default function VendorAuditsPage() {
   const [selectedAudit, setSelectedAudit] = useState<VendorAudit | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
 
-  const upcomingAudits = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Scheduled' || a.status === 'In Progress');
-  const overdueCount = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Overdue').length;
-  const completedCount = DEMO_VENDOR_AUDITS.filter(a => a.status === 'Completed').length;
-  const avgScore = DEMO_VENDOR_AUDITS.filter(a => a.score).reduce((sum, a) => sum + (a.score || 0), 0) / completedCount || 0;
+  // Use API data or fall back to demo data
+  const audits: VendorAudit[] = apiAudits.length > 0 ? apiAudits : (DEMO_VENDOR_AUDITS as unknown as VendorAudit[]);
+
+  const upcomingAudits = audits.filter(a => a.status === 'Scheduled' || a.status === 'In Progress');
+  const overdueCount = summary?.overdueCount || audits.filter(a => a.status === 'Overdue').length;
+  const completedCount = summary?.completedCount || audits.filter(a => a.status === 'Completed').length;
+  const avgScore = summary?.avgScore || (completedCount > 0 ? audits.filter(a => a.score).reduce((sum, a) => sum + (a.score || 0), 0) / completedCount : 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -72,10 +74,10 @@ export default function VendorAuditsPage() {
   };
 
   const filteredAudits = activeTab === 'upcoming' 
-    ? DEMO_VENDOR_AUDITS.filter(a => a.status !== 'Completed')
+    ? audits.filter(a => a.status !== 'Completed')
     : activeTab === 'completed' 
-    ? DEMO_VENDOR_AUDITS.filter(a => a.status === 'Completed')
-    : DEMO_VENDOR_AUDITS;
+    ? audits.filter(a => a.status === 'Completed')
+    : audits;
 
   return (
     <>
@@ -90,6 +92,12 @@ export default function VendorAuditsPage() {
       <MainContent padding="lg">
         <Container>
           <Stack gap={10}>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading vendor audits...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Upcoming Audits" value={upcomingAudits.length} className="bg-transparent border-2 border-ink-800" />

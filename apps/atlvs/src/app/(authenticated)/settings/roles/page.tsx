@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  H4,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Plus, Check, X, Trash2, AlertCircle, Users } from 'lucide-react';
@@ -188,7 +200,7 @@ export default function RolePermissionsPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load roles</span>
+          <Text className="text-destructive">Failed to load roles</Text>
         </div>
       </div>
     );
@@ -205,30 +217,30 @@ export default function RolePermissionsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Shield className="h-6 w-6" />
               Roles & Permissions
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Manage roles and configure access permissions
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">Create Role</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">Create Role</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-3 gap-6">
         {/* Roles List */}
         <div className="space-y-3">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">Roles ({roles.length})</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground">Roles ({roles.length})</H2>
           {roles.map((role) => (
-            <button
+            <Button
               key={role.id}
               onClick={() => setSelectedRole(role)}
               className={`w-full text-left p-4 rounded-card border-2 transition-colors ${
@@ -238,19 +250,19 @@ export default function RolePermissionsPage() {
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className="text-body-md font-weight-medium text-foreground">{role.name}</span>
+                <Text className="text-body-md font-weight-medium text-foreground">{role.name}</Text>
                 {role.is_system && (
-                  <span className="text-body-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
+                  <Text className="text-body-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
                     System
-                  </span>
+                  </Text>
                 )}
               </div>
-              <p className="text-body-sm text-muted-foreground mb-2">{role.description}</p>
+              <Body className="text-body-sm text-muted-foreground mb-2">{role.description}</Body>
               <div className="flex items-center gap-1 text-body-xs text-muted-foreground">
                 <Users className="h-3 w-3" />
                 {role.user_count} users
               </div>
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -260,13 +272,13 @@ export default function RolePermissionsPage() {
             <div className="bg-background border-2 border-border rounded-card">
               <div className="p-4 border-b border-border flex items-center justify-between">
                 <div>
-                  <h2 className="text-h4-md font-weight-semibold text-foreground">
+                  <H2 className="text-h4-md font-weight-semibold text-foreground">
                     {selectedRole.name} Permissions
-                  </h2>
-                  <p className="text-body-sm text-muted-foreground">{selectedRole.description}</p>
+                  </H2>
+                  <Body className="text-body-sm text-muted-foreground">{selectedRole.description}</Body>
                 </div>
                 {!selectedRole.is_system && (
-                  <button
+                  <Button
                     onClick={() => {
                       if (confirm('Delete this role? Users will need to be reassigned.')) {
                         deleteRole.mutate(selectedRole.id);
@@ -275,7 +287,7 @@ export default function RolePermissionsPage() {
                     className="p-2 text-destructive hover:bg-destructive/10 rounded-button transition-colors"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 )}
               </div>
               <div className="p-4 space-y-6">
@@ -286,14 +298,14 @@ export default function RolePermissionsPage() {
                 )}
                 {PERMISSION_CATEGORIES.map((category) => (
                   <div key={category.name}>
-                    <h3 className="text-body-md font-weight-semibold text-foreground mb-3">
+                    <H3 className="text-body-md font-weight-semibold text-foreground mb-3">
                       {category.name}
-                    </h3>
+                    </H3>
                     <div className="space-y-2">
                       {category.permissions.map((permission) => {
                         const isEnabled = selectedRole.permissions.includes(permission.id);
                         return (
-                          <button
+                          <Button
                             key={permission.id}
                             onClick={() => togglePermission(permission.id)}
                             disabled={selectedRole.is_system}
@@ -304,19 +316,19 @@ export default function RolePermissionsPage() {
                             } ${selectedRole.is_system ? 'cursor-not-allowed opacity-60' : ''}`}
                           >
                             <div className="text-left">
-                              <p className="text-body-sm font-weight-medium text-foreground">
+                              <Body className="text-body-sm font-weight-medium text-foreground">
                                 {permission.name}
-                              </p>
-                              <p className="text-body-xs text-muted-foreground">
+                              </Body>
+                              <Body className="text-body-xs text-muted-foreground">
                                 {permission.description}
-                              </p>
+                              </Body>
                             </div>
                             {isEnabled ? (
                               <Check className="h-5 w-5 text-primary" />
                             ) : (
                               <X className="h-5 w-5 text-muted-foreground" />
                             )}
-                          </button>
+                          </Button>
                         );
                       })}
                     </div>
@@ -327,9 +339,9 @@ export default function RolePermissionsPage() {
           ) : (
             <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-12 flex flex-col items-center justify-center text-center">
               <Shield className="h-12 w-12 text-muted-foreground mb-4" />
-              <p className="text-body-md text-muted-foreground">
+              <Body className="text-body-md text-muted-foreground">
                 Select a role to view and manage its permissions
-              </p>
+              </Body>
             </div>
           )}
         </div>
@@ -339,16 +351,16 @@ export default function RolePermissionsPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Plus className="h-5 w-5" />
               Create Custom Role
-            </h3>
+            </H3>
             <div className="space-y-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Role Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newRole.name}
                   onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
@@ -357,10 +369,10 @@ export default function RolePermissionsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newRole.description}
                   onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
@@ -369,29 +381,29 @@ export default function RolePermissionsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Permissions
-                </label>
+                </Label>
                 <div className="space-y-4 max-h-64 overflow-y-auto border-2 border-border rounded-card p-4">
                   {PERMISSION_CATEGORIES.map((category) => (
                     <div key={category.name}>
-                      <h4 className="text-body-sm font-weight-semibold text-foreground mb-2">
+                      <H4 className="text-body-sm font-weight-semibold text-foreground mb-2">
                         {category.name}
-                      </h4>
+                      </H4>
                       <div className="grid grid-cols-2 gap-2">
                         {category.permissions.map((permission) => (
-                          <label
+                          <Label
                             key={permission.id}
                             className="flex items-center gap-2 p-2 hover:bg-muted/30 rounded cursor-pointer"
                           >
-                            <input
+                            <Input
                               type="checkbox"
                               checked={newRole.permissions.includes(permission.id)}
                               onChange={() => toggleNewRolePermission(permission.id)}
                               className="rounded border-border"
                             />
-                            <span className="text-body-sm text-foreground">{permission.name}</span>
-                          </label>
+                            <Text className="text-body-sm text-foreground">{permission.name}</Text>
+                          </Label>
                         ))}
                       </div>
                     </div>
@@ -399,20 +411,20 @@ export default function RolePermissionsPage() {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => createRole.mutate(newRole)}
                   disabled={!newRole.name || createRole.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createRole.isPending ? 'Creating...' : 'Create Role'}
-                </button>
+                </Button>
               </div>
             </div>
           </div>

@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Bug, Plus, Search, Clock, AlertCircle, CheckCircle, Filter, Upload, X } from 'lucide-react';
@@ -174,7 +187,7 @@ export default function BugReportsPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load bug reports</span>
+          <Text className="text-destructive">Failed to load bug reports</Text>
         </div>
       </div>
     );
@@ -191,22 +204,22 @@ export default function BugReportsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Bug className="h-6 w-6" />
               Bug Reports
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Report issues and track their resolution
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowNewReportModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Report Bug
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
@@ -214,7 +227,7 @@ export default function BugReportsPage() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex-1 min-w-[200px] relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               placeholder="Search bugs..."
               value={searchQuery}
@@ -224,7 +237,7 @@ export default function BugReportsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <Select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -232,8 +245,8 @@ export default function BugReportsPage() {
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
-            </select>
-            <select
+            </Select>
+            <Select
               value={severityFilter}
               onChange={(e) => setSeverityFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -243,8 +256,8 @@ export default function BugReportsPage() {
                   {sev === 'all' ? 'All Severity' : sev.charAt(0).toUpperCase() + sev.slice(1)}
                 </option>
               ))}
-            </select>
-            <select
+            </Select>
+            <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -254,7 +267,7 @@ export default function BugReportsPage() {
                   {status === 'all' ? 'All Status' : status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
       </div>
@@ -264,13 +277,13 @@ export default function BugReportsPage() {
         {filteredBugs.length === 0 ? (
           <div className="p-8 text-center">
             <Bug className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-body-md text-muted-foreground">No bug reports found</p>
-            <button
+            <Body className="text-body-md text-muted-foreground">No bug reports found</Body>
+            <Button
               onClick={() => setShowNewReportModal(true)}
               className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               Report the First Bug
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -279,25 +292,25 @@ export default function BugReportsPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="text-body-xs text-muted-foreground font-mono">{bug.id}</span>
-                      <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getSeverityColor(bug.severity)}`}>
+                      <Text className="text-body-xs text-muted-foreground font-mono">{bug.id}</Text>
+                      <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getSeverityColor(bug.severity)}`}>
                         {bug.severity}
-                      </span>
-                      <span className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 ${getStatusColor(bug.status)}`}>
+                      </Text>
+                      <Text className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 ${getStatusColor(bug.status)}`}>
                         {getStatusIcon(bug.status)}
                         {bug.status.replace('_', ' ')}
-                      </span>
+                      </Text>
                     </div>
-                    <h3 className="text-body-md font-weight-medium text-foreground">{bug.title}</h3>
-                    <p className="text-body-sm text-muted-foreground mt-1 line-clamp-2">{bug.description}</p>
+                    <H3 className="text-body-md font-weight-medium text-foreground">{bug.title}</H3>
+                    <Body className="text-body-sm text-muted-foreground mt-1 line-clamp-2">{bug.description}</Body>
                     <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
+                      <Text className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatDate(bug.created_at)}
-                      </span>
-                      <span className="px-2 py-0.5 bg-muted rounded">{bug.category}</span>
-                      <span>by {bug.reporter}</span>
-                      {bug.browser && <span>{bug.browser}</span>}
+                      </Text>
+                      <Text className="px-2 py-0.5 bg-muted rounded">{bug.category}</Text>
+                      <Text>by {bug.reporter}</Text>
+                      {bug.browser && <Text>{bug.browser}</Text>}
                     </div>
                   </div>
                 </div>
@@ -311,11 +324,11 @@ export default function BugReportsPage() {
       {showNewReportModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 overflow-y-auto py-8">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Bug className="h-5 w-5" />
               Report a Bug
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 createReport.mutate(newReport);
@@ -323,10 +336,10 @@ export default function BugReportsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Title *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newReport.title}
                   onChange={(e) => setNewReport({ ...newReport, title: e.target.value })}
@@ -336,10 +349,10 @@ export default function BugReportsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description *
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={newReport.description}
                   onChange={(e) => setNewReport({ ...newReport, description: e.target.value })}
                   required
@@ -349,10 +362,10 @@ export default function BugReportsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Steps to Reproduce
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={newReport.steps_to_reproduce}
                   onChange={(e) => setNewReport({ ...newReport, steps_to_reproduce: e.target.value })}
                   rows={3}
@@ -362,10 +375,10 @@ export default function BugReportsPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Category
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     value={newReport.category}
                     onChange={(e) => setNewReport({ ...newReport, category: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -373,13 +386,13 @@ export default function BugReportsPage() {
                     {CATEGORIES.slice(1).map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Severity
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     value={newReport.severity}
                     onChange={(e) => setNewReport({ ...newReport, severity: e.target.value as 'low' | 'medium' | 'high' | 'critical' })}
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -388,15 +401,15 @@ export default function BugReportsPage() {
                     <option value="medium">Medium - Affects workflow</option>
                     <option value="high">High - Major feature broken</option>
                     <option value="critical">Critical - System unusable</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Browser
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={newReport.browser}
                     onChange={(e) => setNewReport({ ...newReport, browser: e.target.value })}
@@ -405,10 +418,10 @@ export default function BugReportsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Operating System
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     value={newReport.os}
                     onChange={(e) => setNewReport({ ...newReport, os: e.target.value })}
@@ -418,56 +431,56 @@ export default function BugReportsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Attachments
-                </label>
+                </Label>
                 <div className="border-2 border-dashed border-border rounded-card p-4">
                   {attachments.length > 0 && (
                     <div className="space-y-2 mb-4">
                       {attachments.map((file, index) => (
                         <div key={index} className="flex items-center justify-between p-2 bg-muted rounded-button">
-                          <span className="text-body-sm truncate">{file.name}</span>
-                          <button
+                          <Text className="text-body-sm truncate">{file.name}</Text>
+                          <Button
                             type="button"
                             onClick={() => removeAttachment(index)}
                             className="p-1 hover:bg-background rounded-button"
                           >
                             <X className="h-4 w-4 text-muted-foreground" />
-                          </button>
+                          </Button>
                         </div>
                       ))}
                     </div>
                   )}
-                  <label className="flex items-center justify-center gap-2 p-2 cursor-pointer hover:bg-muted rounded-button transition-colors">
+                  <Label className="flex items-center justify-center gap-2 p-2 cursor-pointer hover:bg-muted rounded-button transition-colors">
                     <Upload className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-body-sm text-muted-foreground">Add screenshots or files</span>
-                    <input
+                    <Text className="text-body-sm text-muted-foreground">Add screenshots or files</Text>
+                    <Input
                       type="file"
                       multiple
                       accept="image/*,.pdf,.txt,.log"
                       onChange={handleFileSelect}
                       className="hidden"
                     />
-                  </label>
+                  </Label>
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowNewReportModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createReport.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createReport.isPending ? 'Submitting...' : 'Submit Report'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

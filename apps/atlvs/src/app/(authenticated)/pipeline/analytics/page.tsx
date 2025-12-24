@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, TrendingUp, DollarSign, Users, Target, BarChart3, PieChart } from 'lucide-react';
@@ -44,7 +52,7 @@ export default function PipelineAnalyticsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load analytics</p>
+          <Body className="text-destructive">Failed to load analytics</Body>
         </div>
       </div>
     );
@@ -61,15 +69,15 @@ export default function PipelineAnalyticsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Pipeline Analytics</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Pipeline Analytics</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Track your sales performance and conversion rates
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex gap-2">
           {(['7d', '30d', '90d', '1y'] as const).map((p) => (
-            <button
+            <Button
               key={p}
               onClick={() => setPeriod(p)}
               className={`px-4 py-2 rounded-button text-body-sm font-weight-medium border-2 transition-colors ${
@@ -79,7 +87,7 @@ export default function PipelineAnalyticsPage() {
               }`}
             >
               {p === '7d' ? '7 Days' : p === '30d' ? '30 Days' : p === '90d' ? '90 Days' : '1 Year'}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -88,69 +96,69 @@ export default function PipelineAnalyticsPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Deals</span>
+            <Text className="text-body-sm text-muted-foreground">Total Deals</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{summary.total_deals}</p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          <Body className="text-h3-md font-weight-bold text-foreground">{summary.total_deals}</Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {summary.open_deals} open
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Target className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Win Rate</span>
+            <Text className="text-body-sm text-muted-foreground">Win Rate</Text>
           </div>
-          <p className={`text-h3-md font-weight-bold ${
+          <Body className={`text-h3-md font-weight-bold ${
             summary.win_rate >= 50 ? 'text-success' : summary.win_rate >= 30 ? 'text-warning' : 'text-destructive'
           }`}>
             {summary.win_rate.toFixed(1)}%
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {summary.closed_won} won / {summary.closed_lost} lost
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pipeline Value</span>
+            <Text className="text-body-sm text-muted-foreground">Pipeline Value</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {formatCurrency(summary.pipeline_value)}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {formatCurrency(summary.weighted_pipeline)} weighted
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Revenue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {formatCurrency(summary.revenue_this_period)}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             This period
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Avg Deal Size</span>
+            <Text className="text-body-sm text-muted-foreground">Avg Deal Size</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {formatCurrency(summary.avg_deal_size)}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {summary.deals_created_this_period} new deals
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Stage Distribution</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Stage Distribution</H2>
             <PieChart className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="space-y-4">
@@ -161,16 +169,16 @@ export default function PipelineAnalyticsPage() {
               return (
                 <div key={stage.stage}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-body-sm text-foreground capitalize">
+                    <Text className="text-body-sm text-foreground capitalize">
                       {stage.stage.replace('_', ' ')}
-                    </span>
+                    </Text>
                     <div className="flex items-center gap-4">
-                      <span className="text-body-xs text-muted-foreground">
+                      <Text className="text-body-xs text-muted-foreground">
                         {stage.count} deals
-                      </span>
-                      <span className="text-body-sm font-weight-medium text-foreground w-24 text-right">
+                      </Text>
+                      <Text className="text-body-sm font-weight-medium text-foreground w-24 text-right">
                         {formatCurrency(stage.value)}
-                      </span>
+                      </Text>
                     </div>
                   </div>
                   <div className="h-2 bg-muted rounded-avatar overflow-hidden">
@@ -187,7 +195,7 @@ export default function PipelineAnalyticsPage() {
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Conversion Funnel</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Conversion Funnel</H2>
             <BarChart3 className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="space-y-3">
@@ -199,9 +207,9 @@ export default function PipelineAnalyticsPage() {
 
               return (
                 <div key={stage} className="flex items-center gap-4">
-                  <span className="text-body-sm text-muted-foreground w-24 capitalize">
+                  <Text className="text-body-sm text-muted-foreground w-24 capitalize">
                     {stage.replace('_', ' ')}
-                  </span>
+                  </Text>
                   <div className="flex-1 h-8 bg-muted rounded overflow-hidden">
                     <div
                       className={`h-full flex items-center justify-end px-2 ${
@@ -209,9 +217,9 @@ export default function PipelineAnalyticsPage() {
                       }`}
                       style={{ width: `${Math.max(width, 5)}%` }}
                     >
-                      <span className="text-body-xs font-weight-medium text-white">
+                      <Text className="text-body-xs font-weight-medium text-white">
                         {count}
-                      </span>
+                      </Text>
                     </div>
                   </div>
                 </div>

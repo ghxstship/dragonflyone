@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H3,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, Layout, Plus, Trash2, RotateCcw, ZoomIn, ZoomOut, Move, MousePointer } from 'lucide-react';
@@ -130,7 +140,7 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-background">
         <div className="flex items-center gap-4">
-          <button
+          <Button
             onClick={() => {
               if (hasChanges && !confirm('You have unsaved changes. Leave anyway?')) return;
               router.push(`/floor-plans/${id}`);
@@ -138,13 +148,13 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
             className="p-2 border-2 border-border hover:bg-muted rounded-button transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-          </button>
+          </Button>
           <div className="flex items-center gap-3">
             <div className="p-3 bg-primary/10 rounded-card border-2 border-primary/20">
               <Layout className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <input
+              <Input
                 type="text"
                 value={name}
                 onChange={(e) => {
@@ -155,7 +165,7 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
                 placeholder="Floor Plan Name"
               />
               {floorPlan.space && (
-                <p className="text-body-xs text-muted-foreground">{floorPlan.space.name}</p>
+                <Body className="text-body-xs text-muted-foreground">{floorPlan.space.name}</Body>
               )}
             </div>
           </div>
@@ -163,16 +173,16 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
 
         <div className="flex items-center gap-2">
           {hasChanges && (
-            <span className="text-body-xs text-warning mr-2">Unsaved changes</span>
+            <Text className="text-body-xs text-warning mr-2">Unsaved changes</Text>
           )}
-          <button
+          <Button
             onClick={handleSave}
             disabled={updateMutation.isPending || !hasChanges}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {updateMutation.isPending ? 'Saving...' : 'Save'}
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -186,10 +196,10 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
         {/* Left Sidebar - Objects */}
         <div className="w-64 border-r border-border bg-muted/20 overflow-y-auto">
           <div className="p-4">
-            <h3 className="text-body-sm font-weight-semibold text-foreground mb-3">Objects</h3>
+            <H3 className="text-body-sm font-weight-semibold text-foreground mb-3">Objects</H3>
             <div className="space-y-2">
               {availableObjects.map((obj) => (
-                <button
+                <Button
                   key={obj.id}
                   onClick={() => handleAddObject(obj.id)}
                   className="w-full flex items-center gap-2 p-2 rounded-button border-2 border-border hover:bg-muted transition-colors text-left"
@@ -202,16 +212,16 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-body-sm font-weight-medium truncate">{obj.name}</p>
-                    <p className="text-body-xs text-muted-foreground capitalize">{obj.category}</p>
+                    <Body className="text-body-sm font-weight-medium truncate">{obj.name}</Body>
+                    <Body className="text-body-xs text-muted-foreground capitalize">{obj.category}</Body>
                   </div>
                   <Plus className="h-4 w-4 text-muted-foreground" />
-                </button>
+                </Button>
               ))}
               {availableObjects.length === 0 && (
-                <p className="text-body-xs text-muted-foreground text-center py-4">
+                <Body className="text-body-xs text-muted-foreground text-center py-4">
                   No objects available
-                </p>
+                </Body>
               )}
             </div>
           </div>
@@ -222,7 +232,7 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
           {/* Toolbar */}
           <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-background">
             <div className="flex items-center gap-1">
-              <button
+              <Button
                 onClick={() => setActiveTool('select')}
                 className={`p-2 rounded-button transition-colors ${
                   activeTool === 'select' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
@@ -230,8 +240,8 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
                 title="Select"
               >
                 <MousePointer className="h-4 w-4" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setActiveTool('move')}
                 className={`p-2 rounded-button transition-colors ${
                   activeTool === 'move' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'
@@ -239,46 +249,46 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
                 title="Move"
               >
                 <Move className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 onClick={() => setZoom((z) => Math.max(0.25, z - 0.25))}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
                 title="Zoom Out"
               >
                 <ZoomOut className="h-4 w-4" />
-              </button>
-              <span className="text-body-xs text-muted-foreground w-12 text-center">
+              </Button>
+              <Text className="text-body-xs text-muted-foreground w-12 text-center">
                 {Math.round(zoom * 100)}%
-              </span>
-              <button
+              </Text>
+              <Button
                 onClick={() => setZoom((z) => Math.min(2, z + 0.25))}
                 className="p-2 hover:bg-muted rounded-button transition-colors"
                 title="Zoom In"
               >
                 <ZoomIn className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="flex items-center gap-1">
-              <button
+              <Button
                 onClick={() => handleRotateSelected('ccw')}
                 disabled={!selectedObject}
                 className="p-2 hover:bg-muted rounded-button transition-colors disabled:opacity-50"
                 title="Rotate CCW"
               >
                 <RotateCcw className="h-4 w-4" />
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleDeleteSelected}
                 disabled={!selectedObject}
                 className="p-2 hover:bg-destructive/10 text-destructive rounded-button transition-colors disabled:opacity-50"
                 title="Delete"
               >
                 <Trash2 className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -322,9 +332,9 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
                       setSelectedObject(obj.id);
                     }}
                   >
-                    <span className="text-body-xs font-weight-medium text-primary truncate px-1">
+                    <Text className="text-body-xs font-weight-medium text-primary truncate px-1">
                       {obj.name || objDef?.name || 'Object'}
-                    </span>
+                    </Text>
                   </div>
                 );
               })}
@@ -335,12 +345,12 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
         {/* Right Sidebar - Properties */}
         <div className="w-64 border-l border-border bg-muted/20 overflow-y-auto">
           <div className="p-4">
-            <h3 className="text-body-sm font-weight-semibold text-foreground mb-3">Properties</h3>
+            <H3 className="text-body-sm font-weight-semibold text-foreground mb-3">Properties</H3>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-body-xs text-muted-foreground mb-1">Description</label>
-                <textarea
+                <Label className="block text-body-xs text-muted-foreground mb-1">Description</Label>
+                <Textarea
                   value={description}
                   onChange={(e) => {
                     setDescription(e.target.value);
@@ -353,43 +363,43 @@ export default function EditFloorPlanPage({ params }: { params: { id: string } }
               </div>
 
               <div className="pt-4 border-t border-border">
-                <p className="text-body-xs text-muted-foreground mb-2">Floor Plan Info</p>
+                <Body className="text-body-xs text-muted-foreground mb-2">Floor Plan Info</Body>
                 <div className="space-y-1 text-body-xs">
-                  <p>
-                    <span className="text-muted-foreground">Dimensions: </span>
+                  <Body>
+                    <Text className="text-muted-foreground">Dimensions: </Text>
                     {floorPlan.dimensions?.width} x {floorPlan.dimensions?.height} {floorPlan.dimensions?.unit || 'ft'}
-                  </p>
-                  <p>
-                    <span className="text-muted-foreground">Objects: </span>
+                  </Body>
+                  <Body>
+                    <Text className="text-muted-foreground">Objects: </Text>
                     {placedObjects.length}
-                  </p>
-                  <p>
-                    <span className="text-muted-foreground">Version: </span>
+                  </Body>
+                  <Body>
+                    <Text className="text-muted-foreground">Version: </Text>
                     {floorPlan.version}
-                  </p>
+                  </Body>
                 </div>
               </div>
 
               {selectedObject && (
                 <div className="pt-4 border-t border-border">
-                  <p className="text-body-xs font-weight-medium text-foreground mb-2">Selected Object</p>
+                  <Body className="text-body-xs font-weight-medium text-foreground mb-2">Selected Object</Body>
                   {(() => {
                     const obj = placedObjects.find((o) => o.id === selectedObject);
                     if (!obj) return null;
                     return (
                       <div className="space-y-2 text-body-xs">
-                        <p>
-                          <span className="text-muted-foreground">Name: </span>
+                        <Body>
+                          <Text className="text-muted-foreground">Name: </Text>
                           {obj.name || 'Unnamed'}
-                        </p>
-                        <p>
-                          <span className="text-muted-foreground">Position: </span>
+                        </Body>
+                        <Body>
+                          <Text className="text-muted-foreground">Position: </Text>
                           ({Math.round(obj.x)}, {Math.round(obj.y)})
-                        </p>
-                        <p>
-                          <span className="text-muted-foreground">Rotation: </span>
+                        </Body>
+                        <Body>
+                          <Text className="text-muted-foreground">Rotation: </Text>
                           {obj.rotation}°
-                        </p>
+                        </Body>
                       </div>
                     );
                   })()}

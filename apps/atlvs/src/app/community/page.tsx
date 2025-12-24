@@ -4,19 +4,21 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AtlvsAppLayout } from '../../components/app-layout';
 import {
-  Stack,
-  Grid,
-  Card,
+  Badge,
   Body,
-  H1,
-  H3,
-  Label,
+  Button,
+  Card,
   Container,
   Display,
-  Button,
-  Input,
   FullBleedSection,
-  Badge,
+  Grid,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Stack,
+  Textarea,
 } from '@ghxstship/ui';
 import {
   MessageSquare,
@@ -254,7 +256,7 @@ export default function CommunityForumPage() {
               <H3 size="sm" className="text-ink-950">CATEGORIES</H3>
               <Stack gap={2}>
                 {DEMO_CATEGORIES.map((category) => (
-                  <button
+                  <Button
                     key={category.name}
                     onClick={() => setSelectedCategory(category.name)}
                     className={`flex items-center justify-between px-4 py-3 border-2 transition-all ${
@@ -270,7 +272,7 @@ export default function CommunityForumPage() {
                     <Label size="xs" className={selectedCategory === category.name ? 'text-grey-300' : 'text-grey-400'}>
                       {category.count}
                     </Label>
-                  </button>
+                  </Button>
                 ))}
               </Stack>
             </Stack>
@@ -417,9 +419,9 @@ export default function CommunityForumPage() {
             <Stack gap={6}>
               <Stack direction="horizontal" className="items-center justify-between">
                 <H1 size="sm" className="text-ink-950">Start a Discussion</H1>
-                <button onClick={() => setShowNewTopicModal(false)} className="p-2 hover:bg-grey-100 rounded">
+                <Button onClick={() => setShowNewTopicModal(false)} className="p-2 hover:bg-grey-100 rounded">
                   <X className="size-5 text-grey-500" />
-                </button>
+                </Button>
               </Stack>
 
               <Stack gap={4}>
@@ -435,7 +437,7 @@ export default function CommunityForumPage() {
 
                 <Stack gap={2}>
                   <Label size="xs" className="text-ink-950">CATEGORY</Label>
-                  <select
+                  <Select
                     value={newTopic.category}
                     onChange={(e) => setNewTopic({ ...newTopic, category: e.target.value })}
                     className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950"
@@ -443,12 +445,12 @@ export default function CommunityForumPage() {
                     {DEMO_CATEGORIES.filter(c => c.name !== 'All Topics').map((cat) => (
                       <option key={cat.name} value={cat.name}>{cat.name}</option>
                     ))}
-                  </select>
+                  </Select>
                 </Stack>
 
                 <Stack gap={2}>
                   <Label size="xs" className="text-ink-950">CONTENT</Label>
-                  <textarea
+                  <Textarea
                     placeholder="Share your thoughts, questions, or insights..."
                     value={newTopic.content}
                     onChange={(e) => setNewTopic({ ...newTopic, content: e.target.value })}

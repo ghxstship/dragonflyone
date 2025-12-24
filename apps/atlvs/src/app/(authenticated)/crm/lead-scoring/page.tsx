@@ -8,12 +8,11 @@ import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection,
 } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useCrmLeads, type CrmLead } from '@ghxstship/config';
 
-import {
-  DEMO_CRM_LEADS,
-  type DemoCrmLead as Lead,
-} from '../../../../lib/demo-data';
+import { DEMO_CRM_LEADS } from '../../../../lib/demo-data';
+
+type Lead = CrmLead & { [key: string]: unknown };
 
 const formatCurrency = (amount: number) => {
   if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
@@ -43,13 +42,16 @@ const filters: ListPageFilter[] = [
 
 export default function LeadScoringPage() {
   const router = useRouter();
-  const [data] = useState<Lead[]>(DEMO_CRM_LEADS);
+  const { leads: apiLeads, summary, isLoading, error, deleteLeadsAsync, qualifyLeadsAsync, refetch } = useCrmLeads();
   const [selected, setSelected] = useState<Lead | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const hotLeads = data.filter(l => l.score >= 80).length;
-  const avgScore = Math.round(data.reduce((sum, l) => sum + l.score, 0) / data.length);
-  const totalPipeline = data.reduce((sum, l) => sum + (l.estimatedValue || 0), 0);
+  // Use API data or fall back to demo data
+  const data: Lead[] = apiLeads.length > 0 ? (apiLeads as Lead[]) : (DEMO_CRM_LEADS as Lead[]);
+
+  const hotLeads = summary?.hotLeads || data.filter(l => l.score >= 80).length;
+  const avgScore = summary?.avgScore || (data.length > 0 ? Math.round(data.reduce((sum, l) => sum + l.score, 0) / data.length) : 0);
+  const totalPipeline = summary?.totalPipeline || data.reduce((sum, l) => sum + (l.estimatedValue || 0), 0);
 
   const rowActions: ListPageAction<Lead>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -111,7 +113,9 @@ export default function LeadScoringPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search leads..."
         filters={filters}
         rowActions={rowActions}
@@ -137,17 +141,11 @@ export default function LeadScoringPage() {
         emptyMessage="No leads found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/crm/leads/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteLeadsAsync(ids);
+            refetch();
           } else if (action === 'qualify') {
-            await fetch('/api/crm/leads/bulk-qualify', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await qualifyLeadsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

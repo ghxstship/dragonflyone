@@ -2,18 +2,19 @@
 
 import { useState } from "react";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
   Card,
   Field,
-  ScrollReveal,
-  AuthPage,
+  Form,
+  H2,
   IconBox,
-} from "@ghxstship/ui";
+  Input,
+  ScrollReveal,
+  Stack,
+} from '@ghxstship/ui';
 import { Mail, ArrowLeft, ArrowRight } from "lucide-react";
 import NextLink from "next/link";
 import { useAuthData } from "@/hooks/useAuth";
@@ -98,7 +99,7 @@ export default function ForgotPasswordPage() {
                   {error && <Alert variant="error">{error}</Alert>}
 
                   {/* Form */}
-                  <form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Stack gap={4} className="sm:gap-6">
                       <Field label="Email Address" inverted>
                         <Input
@@ -123,7 +124,7 @@ export default function ForgotPasswordPage() {
                         {loading ? "Sending..." : "Send Reset Link"}
                       </Button>
                     </Stack>
-                  </form>
+                  </Form>
 
                   {/* Back Link */}
                   <Stack className="border-t border-white/10 pt-6 text-center">

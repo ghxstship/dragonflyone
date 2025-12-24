@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  Input,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, MoreVertical, Eye, Edit2, Trash2, Code, BarChart3, ExternalLink } from 'lucide-react';
@@ -38,7 +46,7 @@ export default function LeadFormsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load lead forms</p>
+          <Body className="text-destructive">Failed to load lead forms</Body>
         </div>
       </div>
     );
@@ -48,24 +56,24 @@ export default function LeadFormsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Lead Forms</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Lead Forms</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Create and manage lead capture forms
-          </p>
+          </Body>
         </div>
         <Link
           href="/lead-forms/new"
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Form</span>
+          <Text className="text-body-sm font-weight-medium">New Form</Text>
         </Link>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search forms..."
             value={searchQuery}
@@ -77,9 +85,9 @@ export default function LeadFormsPage() {
 
       {filteredForms.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
-          <p className="text-body-md text-muted-foreground">
+          <Body className="text-body-md text-muted-foreground">
             {searchQuery ? 'No forms match your search' : 'No lead forms yet'}
-          </p>
+          </Body>
           {!searchQuery && (
             <Link
               href="/lead-forms/new"
@@ -106,7 +114,7 @@ export default function LeadFormsPage() {
                     >
                       {form.name}
                     </Link>
-                    <span
+                    <Text
                       className={`ml-2 inline-flex px-2 py-0.5 text-body-xs rounded ${
                         form.active
                           ? 'bg-success-100 text-success-800'
@@ -114,15 +122,15 @@ export default function LeadFormsPage() {
                       }`}
                     >
                       {form.active ? 'Active' : 'Inactive'}
-                    </span>
+                    </Text>
                   </div>
                   <div className="relative">
-                    <button
+                    <Button
                       onClick={() => setActiveMenu(activeMenu === form.id ? null : form.id)}
                       className="p-1 hover:bg-muted rounded"
                     >
                       <MoreVertical className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                     {activeMenu === form.id && (
                       <div className="absolute right-0 mt-1 w-48 bg-background border-2 border-border rounded-card shadow-lg z-10">
                         <Link
@@ -153,25 +161,25 @@ export default function LeadFormsPage() {
                           <Code className="h-4 w-4" />
                           Embed Code
                         </Link>
-                        <button
+                        <Button
                           onClick={() => handleDelete(form.id)}
                           className="flex items-center gap-2 w-full px-4 py-2 text-body-sm text-destructive hover:bg-destructive/10"
                         >
                           <Trash2 className="h-4 w-4" />
                           Delete
-                        </button>
+                        </Button>
                       </div>
                     )}
                   </div>
                 </div>
                 {form.description && (
-                  <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                     {form.description}
-                  </p>
+                  </Body>
                 )}
                 <div className="flex items-center justify-between text-body-xs text-muted-foreground">
-                  <span>{form.submissions_count || 0} submissions</span>
-                  <span>{form.fields?.length || 0} fields</span>
+                  <Text>{form.submissions_count || 0} submissions</Text>
+                  <Text>{form.fields?.length || 0} fields</Text>
                 </div>
               </div>
               <div className="px-4 py-3 bg-muted/30 border-t border-border flex items-center justify-between">
@@ -182,7 +190,7 @@ export default function LeadFormsPage() {
                   <BarChart3 className="h-3 w-3" />
                   Analytics
                 </Link>
-                <a
+                <Link
                     href={`/f/${form.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -190,7 +198,7 @@ export default function LeadFormsPage() {
                   >
                     <ExternalLink className="h-3 w-3" />
                     Preview
-                  </a>
+                  </Link>
               </div>
             </div>
           ))}

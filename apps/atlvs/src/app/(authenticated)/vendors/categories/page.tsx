@@ -1,6 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Text,
+  Skeleton,
+  EmptyState,
+  useNotifications,
+} from '@ghxstship/ui';
 import Link from 'next/link';
 import { Plus, Search, Folder, FolderOpen, Edit2, Trash2, ChevronRight, ChevronDown, Users } from 'lucide-react';
 
@@ -14,7 +26,7 @@ interface VendorCategory {
   children?: VendorCategory[];
 }
 
-const MOCK_CATEGORIES: VendorCategory[] = [
+const DEMO_CATEGORIES: VendorCategory[] = [
   { 
     id: '1', 
     name: 'Catering', 
@@ -82,10 +94,42 @@ const MOCK_CATEGORIES: VendorCategory[] = [
   },
 ];
 
+async function fetchVendorCategories(): Promise<VendorCategory[]> {
+  const response = await fetch('/api/vendors/categories');
+  if (!response.ok) throw new Error('Failed to fetch vendor categories');
+  return response.json();
+}
+
 export default function VendorCategoriesPage() {
+  const queryClient = useQueryClient();
+  const { addNotification } = useNotifications();
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories] = useState<VendorCategory[]>(MOCK_CATEGORIES);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['1', '2', '3']));
+
+  const { data: apiCategories, isLoading, error } = useQuery({
+    queryKey: ['vendor-categories'],
+    queryFn: fetchVendorCategories,
+  });
+
+  const deleteCategoryMutation = useMutation({
+    mutationFn: async (categoryId: string) => {
+      const response = await fetch(`/api/vendors/categories/${categoryId}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete category');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['vendor-categories'] });
+      addNotification({ type: 'success', title: 'Category Deleted', message: 'Vendor category has been deleted.' });
+    },
+    onError: () => {
+      addNotification({ type: 'error', title: 'Delete Failed', message: 'Failed to delete category.' });
+    },
+  });
+
+  // Use API data or fall back to demo data
+  const categories = apiCategories && apiCategories.length > 0 ? apiCategories : DEMO_CATEGORIES;
 
   const toggleExpanded = (id: string) => {
     setExpandedIds((prev) => {
@@ -109,6 +153,40 @@ export default function VendorCategoriesPage() {
   const totalCategories = categories.reduce((sum, c) => sum + 1 + (c.children?.length || 0), 0);
   const totalVendors = categories.reduce((sum, c) => sum + c.vendors_count, 0);
 
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-4 w-64 mt-2" />
+          </div>
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-10 w-28" />
+            <Skeleton className="h-10 w-32" />
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+        </div>
+        <Skeleton className="h-64" />
+      </div>
+    );
+  }
+
+  if (error && !apiCategories) {
+    return (
+      <div className="p-6">
+        <EmptyState
+          title="Error Loading Categories"
+          description={error instanceof Error ? error.message : 'Failed to load vendor categories'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+        />
+      </div>
+    );
+  }
+
   const renderCategory = (category: VendorCategory, depth: number = 0) => {
     const isExpanded = expandedIds.has(category.id);
     const hasChildren = category.children && category.children.length > 0;
@@ -120,7 +198,7 @@ export default function VendorCategoriesPage() {
           style={{ paddingLeft: `${depth * 24 + 12}px` }}
         >
           {hasChildren ? (
-            <button 
+            <Button 
               onClick={() => toggleExpanded(category.id)}
               className="p-1 hover:bg-muted rounded-button transition-colors"
             >
@@ -129,7 +207,7 @@ export default function VendorCategoriesPage() {
               ) : (
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               )}
-            </button>
+            </Button>
           ) : (
             <div className="w-6" />
           )}
@@ -141,32 +219,37 @@ export default function VendorCategoriesPage() {
           )}
 
           <div className="flex-1">
-            <span className="text-body-sm font-weight-medium text-foreground">
+            <Text className="text-body-sm font-weight-medium text-foreground">
               {category.name}
-            </span>
+            </Text>
             {category.description && (
-              <span className="ml-2 text-body-xs text-muted-foreground">
+              <Text className="ml-2 text-body-xs text-muted-foreground">
                 {category.description}
-              </span>
+              </Text>
             )}
           </div>
 
-          <span className="inline-flex items-center gap-1 text-body-xs text-muted-foreground">
+          <Text className="inline-flex items-center gap-1 text-body-xs text-muted-foreground">
             <Users className="h-3 w-3" />
             {category.vendors_count}
-          </span>
+          </Text>
 
           <div className="flex items-center gap-1">
-            <button 
+            <Button 
               className="p-1.5 hover:bg-muted rounded-button transition-colors"
             >
               <Edit2 className="h-4 w-4 text-muted-foreground" />
-            </button>
-            <button 
+            </Button>
+            <Button 
               className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteCategoryMutation.mutate(category.id);
+              }}
+              disabled={deleteCategoryMutation.isPending}
             >
               <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -183,10 +266,10 @@ export default function VendorCategoriesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Categories</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Categories</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Organize vendors by service type
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-2">
           <Link
@@ -195,12 +278,12 @@ export default function VendorCategoriesPage() {
           >
             View Vendors
           </Link>
-          <button
+          <Button
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
           >
             <Plus className="h-4 w-4" />
             Add Category
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -208,23 +291,23 @@ export default function VendorCategoriesPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Folder className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Categories</span>
+            <Text className="text-body-sm text-muted-foreground">Categories</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalCategories}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalCategories}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Vendors</span>
+            <Text className="text-body-sm text-muted-foreground">Total Vendors</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalVendors}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalVendors}</Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search categories..."
             value={searchQuery}
@@ -238,24 +321,24 @@ export default function VendorCategoriesPage() {
         <div className="border-b border-border bg-muted/30 p-3 flex items-center gap-3">
           <div className="w-6" />
           <div className="w-5" />
-          <span className="flex-1 text-body-xs font-weight-semibold text-muted-foreground uppercase">
+          <Text className="flex-1 text-body-xs font-weight-semibold text-muted-foreground uppercase">
             Category Name
-          </span>
-          <span className="text-body-xs font-weight-semibold text-muted-foreground uppercase w-16 text-right">
+          </Text>
+          <Text className="text-body-xs font-weight-semibold text-muted-foreground uppercase w-16 text-right">
             Vendors
-          </span>
+          </Text>
           <div className="w-16" />
         </div>
 
         {filteredCategories.length === 0 && (
           <div className="text-center py-12">
             <Folder className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+            <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
               No categories found
-            </h3>
-            <p className="text-body-sm text-muted-foreground">
+            </H3>
+            <Body className="text-body-sm text-muted-foreground">
               {searchQuery ? 'Try adjusting your search' : 'Create your first category'}
-            </p>
+            </Body>
           </div>
         )}
 

@@ -1,71 +1,117 @@
 'use client';
 
+import { useState } from 'react';
+import { Eye, Send, Download, Trash2 } from 'lucide-react';
 import {
-  SectionHeader,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Button,
+  ListPage,
   Badge,
+  RecordFormModal,
+  DetailDrawer,
+  ConfirmDialog,
   Grid,
-  H3,
   Body,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type ListPageBulkAction,
+  type FormFieldConfig,
+  type DetailSection,
 } from '@ghxstship/ui';
+import { createExportHandler } from '@ghxstship/config';
 import {
   useMyInvoices,
   type Invoice,
 } from '../../../hooks/useMyInvoices';
-import {
-  DollarSign,
-  FileText,
-  Download,
-  Send,
-  CheckCircle,
-  Clock,
-  Plus,
-} from 'lucide-react';
 // Layout provided by route group
 
-
-
 export default function MyInvoicesPage() {
-  const { data: invoices = [], isLoading, error } = useMyInvoices();
+  const { data: invoices = [], isLoading, error, refetch } = useMyInvoices();
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  if (isLoading) {
-    return (
-      <>
-        <Stack gap={8} className="flex min-h-[60vh] items-center justify-center">
-          <Stack gap={4} className="items-center">
-            <div className="h-8 w-8 animate-spin rounded-avatar border-4 border-primary border-t-transparent" />
-            <Body>Loading invoices...</Body>
-          </Stack>
-        </Stack>
-      </>
-    );
-  }
+  const columns: ListPageColumn<Invoice>[] = [
+    { key: 'id', label: 'Invoice #', accessor: 'id', sortable: true },
+    { key: 'production', label: 'Production', accessor: 'production', sortable: true },
+    { 
+      key: 'date', 
+      label: 'Date', 
+      accessor: 'date', 
+      sortable: true,
+      render: (value) => new Date(String(value)).toLocaleDateString()
+    },
+    { 
+      key: 'dueDate', 
+      label: 'Due Date', 
+      accessor: 'dueDate', 
+      sortable: true,
+      render: (value) => new Date(String(value)).toLocaleDateString()
+    },
+    { 
+      key: 'amount', 
+      label: 'Amount', 
+      accessor: 'amount', 
+      sortable: true,
+      render: (value) => `$${Number(value).toLocaleString()}`
+    },
+    { 
+      key: 'status', 
+      label: 'Status', 
+      accessor: 'status', 
+      sortable: true,
+      render: (value) => {
+        const variant = value === 'paid' ? 'success' : value === 'approved' ? 'success' : value === 'submitted' ? 'warning' : value === 'overdue' ? 'error' : 'info';
+        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
+      }
+    },
+  ];
 
-  if (error) {
-    return (
-      <>
-        <Stack gap={8} className="p-6">
-          <Card className="p-6 border-destructive bg-destructive/10">
-            <Stack gap={4} className="items-center text-center">
-              <Body className="text-destructive font-display">Failed to load invoices</Body>
-              <Body className="text-destructive">{error instanceof Error ? error.message : 'An error occurred'}</Body>
-              <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
-            </Stack>
-          </Card>
-        </Stack>
-      </>
-    );
-  }
+  const filters: ListPageFilter[] = [
+    { 
+      key: 'status', 
+      label: 'Status', 
+      options: [
+        { value: 'draft', label: 'Draft' },
+        { value: 'submitted', label: 'Submitted' },
+        { value: 'approved', label: 'Approved' },
+        { value: 'paid', label: 'Paid' },
+        { value: 'overdue', label: 'Overdue' },
+      ]
+    },
+  ];
+
+  const formFields: FormFieldConfig[] = [
+    { name: 'production', label: 'Production', type: 'text', required: true },
+    { name: 'date', label: 'Invoice Date', type: 'date', required: true },
+    { name: 'dueDate', label: 'Due Date', type: 'date', required: true },
+    { name: 'amount', label: 'Amount ($)', type: 'number', required: true },
+    { name: 'description', label: 'Description', type: 'textarea' },
+  ];
+
+  const rowActions: ListPageAction<Invoice>[] = [
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedInvoice(row); setDrawerOpen(true); } },
+    { id: 'download', label: 'Download', icon: <Download className="size-4" />, onClick: () => {} },
+    { id: 'submit', label: 'Submit', icon: <Send className="size-4" />, onClick: () => {}, disabled: (row) => row.status !== 'draft' },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger', onClick: (row) => { setSelectedInvoice(row); setDeleteConfirmOpen(true); }, disabled: (row) => row.status !== 'draft' },
+  ];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'submit', label: 'Submit Selected', icon: <Send className="size-4" /> },
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+    { id: 'delete', label: 'Delete', icon: <Trash2 className="size-4" />, variant: 'danger' },
+  ];
+
+  const handleCreate = async () => {
+    setCreateModalOpen(false);
+    refetch();
+  };
+
+  const handleDelete = async () => {
+    setDeleteConfirmOpen(false);
+    setSelectedInvoice(null);
+    refetch();
+  };
 
   const totalPending = invoices
     .filter(i => i.status === 'submitted' || i.status === 'approved')
@@ -75,110 +121,109 @@ export default function MyInvoicesPage() {
     .reduce((acc, i) => acc + i.amount, 0);
   const overdueCount = invoices.filter(i => i.status === 'overdue').length;
 
-  const getStatusBadge = (status: Invoice['status']) => {
-    switch (status) {
-      case 'draft':
-        return <Badge variant="info">Draft</Badge>;
-      case 'submitted':
-        return <Badge variant="warning">Submitted</Badge>;
-      case 'approved':
-        return <Badge variant="success">Approved</Badge>;
-      case 'paid':
-        return <Badge variant="success">Paid</Badge>;
-      case 'overdue':
-        return <Badge variant="error">Overdue</Badge>;
-    }
-  };
+  const stats = [
+    { label: 'Pending Payment', value: `$${totalPending.toLocaleString()}` },
+    { label: 'Paid (YTD)', value: `$${totalPaid.toLocaleString()}` },
+    { label: 'Overdue', value: overdueCount },
+    { label: 'Total Invoices', value: invoices.length },
+  ];
+
+  const detailSections: DetailSection[] = selectedInvoice ? [
+    {
+      id: 'overview',
+      title: 'Invoice Details',
+      content: (
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+          <Body size="sm"><strong>Invoice #:</strong> {selectedInvoice.id}</Body>
+          <Body size="sm"><strong>Production:</strong> {selectedInvoice.production}</Body>
+          <Body size="sm"><strong>Date:</strong> {new Date(selectedInvoice.date).toLocaleDateString()}</Body>
+          <Body size="sm"><strong>Due Date:</strong> {new Date(selectedInvoice.dueDate).toLocaleDateString()}</Body>
+          <Body size="sm"><strong>Amount:</strong> ${selectedInvoice.amount.toLocaleString()}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedInvoice.status.toUpperCase()}</Body>
+        </Grid>
+      ),
+    },
+  ] : [];
 
   return (
     <>
-      <Stack gap={8}>
-        <SectionHeader
-          kicker="Vendor Portal"
-          title="My Invoices"
-          description="Submit and track your invoices"
-          colorScheme="on-dark"
-        />
+      <ListPage<Invoice>
+        title="My Invoices"
+        subtitle="Submit and track your invoices"
+        data={invoices}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search invoices..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={async (actionId, selectedIds) => {
+          if (actionId === 'export') {
+            const selected = invoices.filter(i => selectedIds.includes(i.id));
+            const csv = [
+              ['Invoice #', 'Production', 'Date', 'Due Date', 'Amount', 'Status'].join(','),
+              ...selected.map(i => [i.id, i.production, i.date, i.dueDate, i.amount, i.status].join(','))
+            ].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'invoices-export.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        }}
+        onRowClick={(row) => { setSelectedInvoice(row); setDrawerOpen(true); }}
+        createLabel="New Invoice"
+        onCreate={() => setCreateModalOpen(true)}
+        entityType="invoices"
+        onExport={createExportHandler({
+          filename: "invoices",
+          getData: () => invoices.map(i => ({
+            id: i.id,
+            production: i.production,
+            date: i.date,
+            dueDate: i.dueDate,
+            amount: i.amount,
+            status: i.status,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No invoices found"
+        emptyAction={{ label: 'Create Invoice', onClick: () => setCreateModalOpen(true) }}
+      />
 
-        <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard
-            label="Pending Payment"
-            value={`$${totalPending.toLocaleString()}`}
-            icon={<Clock size={20} />}
-            inverted
-          />
-          <StatCard
-            label="Paid (YTD)"
-            value={`$${totalPaid.toLocaleString()}`}
-            icon={<CheckCircle size={20} />}
-            inverted
-          />
-          <StatCard
-            label="Overdue"
-            value={overdueCount.toString()}
-            icon={<DollarSign size={20} />}
-            inverted
-          />
-          <StatCard
-            label="Total Invoices"
-            value={invoices.length.toString()}
-            icon={<FileText size={20} />}
-            inverted
-          />
-        </Grid>
+      <RecordFormModal
+        open={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        mode="create"
+        title="New Invoice"
+        fields={formFields}
+        onSubmit={handleCreate}
+        size="lg"
+      />
 
-        <Card inverted>
-          <CardBody>
-            <Stack gap={4}>
-              <Stack direction="horizontal" className="items-center justify-between">
-                <H3 className="text-white">All Invoices</H3>
-                <Button variant="solid">
-                  <Plus size={16} className="mr-2" />
-                  New Invoice
-                </Button>
-              </Stack>
+      <DetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        record={selectedInvoice}
+        title={(i) => `Invoice ${i.id}`}
+        subtitle={(i) => i.production}
+        sections={detailSections}
+      />
 
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Invoice</TableHead>
-                    <TableHead>Production</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Due Date</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {invoices.map(invoice => (
-                    <TableRow key={invoice.id}>
-                      <TableCell>{invoice.id}</TableCell>
-                      <TableCell>{invoice.production}</TableCell>
-                      <TableCell>{new Date(invoice.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{new Date(invoice.dueDate).toLocaleDateString()}</TableCell>
-                      <TableCell>${invoice.amount.toLocaleString()}</TableCell>
-                      <TableCell>{getStatusBadge(invoice.status)}</TableCell>
-                      <TableCell>
-                        <Stack direction="horizontal" gap={1}>
-                          <Button variant="ghost" size="sm">
-                            <Download size={14} />
-                          </Button>
-                          {invoice.status === 'draft' && (
-                            <Button variant="ghost" size="sm">
-                              <Send size={14} />
-                            </Button>
-                          )}
-                        </Stack>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Stack>
-          </CardBody>
-        </Card>
-      </Stack>
+      <ConfirmDialog
+        open={deleteConfirmOpen}
+        title="Delete Invoice"
+        message="Are you sure you want to delete this invoice?"
+        variant="danger"
+        confirmLabel="Delete"
+        onConfirm={handleDelete}
+        onCancel={() => { setDeleteConfirmOpen(false); setSelectedInvoice(null); }}
+      />
     </>
   );
 }

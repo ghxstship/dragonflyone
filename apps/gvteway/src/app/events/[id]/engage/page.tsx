@@ -4,16 +4,17 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H2,
+  H3,
   Kicker,
+  Stack,
+  Text,
 } from '@ghxstship/ui';
 import { 
   MessageCircle, 
@@ -167,8 +168,8 @@ export default function EventEngagePage() {
               variant={selectedType === type ? 'solid' : 'outline'}
               onClick={() => setSelectedType(type)}
             >
-              <span className="mr-2">{activityIcons[type]}</span>
-              <span className="capitalize">{type === 'qa' ? 'Q&A' : type}</span>
+              <Text className="mr-2">{activityIcons[type]}</Text>
+              <Text className="capitalize">{type === 'qa' ? 'Q&A' : type}</Text>
             </Button>
           ))}
         </Stack>
@@ -190,9 +191,9 @@ export default function EventEngagePage() {
               <Card key={activity.id} className="p-6 border-2 border-black hover:shadow-lg transition-shadow">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between items-start">
-                    <span className={`p-3 rounded-card ${activityColors[activity.type]}`}>
+                    <Text className={`p-3 rounded-card ${activityColors[activity.type]}`}>
                       {activityIcons[activity.type]}
-                    </span>
+                    </Text>
                     <Stack direction="horizontal" gap={2}>
                       {activity.is_active && (
                         <Badge variant="success">LIVE</Badge>

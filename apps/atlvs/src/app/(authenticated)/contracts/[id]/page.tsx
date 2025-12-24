@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -95,10 +103,10 @@ export default function ContractDetailPage() {
       <div className="p-6">
         <div className="text-center py-12">
           <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <h2 className="text-h3-md font-weight-bold text-foreground mb-2">Contract Not Found</h2>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          <H2 className="text-h3-md font-weight-bold text-foreground mb-2">Contract Not Found</H2>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {error instanceof Error ? error.message : 'The requested contract could not be found.'}
-          </p>
+          </Body>
           <Link
             href="/contracts"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
@@ -130,39 +138,39 @@ export default function ContractDetailPage() {
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h1 className="text-h2-md font-weight-bold text-foreground">{contract.title}</h1>
-              <span className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
+              <H1 className="text-h2-md font-weight-bold text-foreground">{contract.title}</H1>
+              <Text className={`px-3 py-1 rounded-badge text-body-sm font-weight-medium ${statusConfig.color}`}>
                 {statusConfig.label}
-              </span>
+              </Text>
             </div>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {contract.type} Contract
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             <Download className="h-4 w-4" />
             Download PDF
-          </button>
+          </Button>
           {contract.status === 'draft' && (
             <>
-              <button
+              <Button
                 onClick={() => router.push(`/contracts/${contractId}/edit`)}
                 className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 <Edit2 className="h-4 w-4" />
                 Edit
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setShowSendModal(true)}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors"
               >
                 <Send className="h-4 w-4" />
                 Send for Signature
-              </button>
+              </Button>
             </>
           )}
         </div>
@@ -172,43 +180,43 @@ export default function ContractDetailPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <User className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Client</span>
+            <Text className="text-body-sm text-muted-foreground">Client</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {contract.vendor?.name || 'Not specified'}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Created</span>
+            <Text className="text-body-sm text-muted-foreground">Created</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {formatDate(contract.created_at)}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Expires</span>
+            <Text className="text-body-sm text-muted-foreground">Expires</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {contract.end_date ? formatDate(contract.end_date) : 'No expiration'}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Value</span>
+            <Text className="text-body-sm text-muted-foreground">Value</Text>
           </div>
-          <p className="text-body-lg font-weight-medium text-foreground">
+          <Body className="text-body-lg font-weight-medium text-foreground">
             {contract.value ? formatCurrency(contract.value) : 'N/A'}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Signers</h2>
+        <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Signers</H2>
         <div className="space-y-3">
           {signers.map((signer) => (
             <div
@@ -220,20 +228,20 @@ export default function ContractDetailPage() {
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-body-sm font-weight-medium text-foreground">{signer.name}</p>
-                  <p className="text-body-xs text-muted-foreground">{signer.email}</p>
+                  <Body className="text-body-sm font-weight-medium text-foreground">{signer.name}</Body>
+                  <Body className="text-body-xs text-muted-foreground">{signer.email}</Body>
                 </div>
               </div>
               <div className="flex items-center gap-4">
-                <span className="text-body-xs text-muted-foreground">{signer.role}</span>
+                <Text className="text-body-xs text-muted-foreground">{signer.role}</Text>
                 <div className="flex items-center gap-2">
                   {getSignerStatusIcon(signer.status)}
-                  <span className="text-body-sm font-weight-medium capitalize">{signer.status}</span>
+                  <Text className="text-body-sm font-weight-medium capitalize">{signer.status}</Text>
                 </div>
                 {signer.signed_at && (
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     {formatDate(signer.signed_at)}
-                  </span>
+                  </Text>
                 )}
               </div>
             </div>
@@ -243,7 +251,7 @@ export default function ContractDetailPage() {
 
       {contract.terms && (
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Terms & Conditions</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Terms & Conditions</H2>
           <div className="prose prose-sm max-w-none text-muted-foreground">
             <pre className="whitespace-pre-wrap font-body text-body-sm">{contract.terms}</pre>
           </div>
@@ -253,38 +261,38 @@ export default function ContractDetailPage() {
       {showSendModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Send Contract
-            </h2>
-            <p className="text-body-sm text-muted-foreground mb-4">
+            </H2>
+            <Body className="text-body-sm text-muted-foreground mb-4">
               This will send the contract to all signers for electronic signature.
-            </p>
+            </Body>
             <div className="space-y-2 mb-6">
               {signers.map((signer) => (
                 <div key={signer.id} className="flex items-center gap-3 p-3 bg-muted/30 rounded-card">
                   <User className="h-4 w-4 text-muted-foreground" />
                   <div className="flex-1">
-                    <p className="text-body-sm font-weight-medium text-foreground">{signer.name}</p>
-                    <p className="text-body-xs text-muted-foreground">{signer.email}</p>
+                    <Body className="text-body-sm font-weight-medium text-foreground">{signer.name}</Body>
+                    <Body className="text-body-xs text-muted-foreground">{signer.email}</Body>
                   </div>
                 </div>
               ))}
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowSendModal(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleSend}
                 disabled={sendMutation.isPending}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
                 {sendMutation.isPending ? 'Sending...' : 'Send Now'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

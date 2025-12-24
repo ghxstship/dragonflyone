@@ -5,24 +5,23 @@ import { useRouter } from "next/navigation";
 // Layout provided by route group
 import { Eye, RefreshCw } from 'lucide-react';
 import {
-  ListPage,
   Badge,
-  DetailDrawer,
-  RecordFormModal,
-  Grid,
   Body,
-  type ListPageColumn,
-  type ListPageFilter,
-  type ListPageAction,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  RecordFormModal,
+  Text,
   type DetailSection,
   type FormFieldConfig,
-  } from "@ghxstship/ui";
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  type ListPageAction,
+  type ListPageColumn,
+  type ListPageFilter,
+} from '@ghxstship/ui';
+import { createExportHandler, createImportHandler, getImportTemplates, useBackgroundChecks, type BackgroundCheck as APIBackgroundCheck } from '@ghxstship/config';
+import { DEMO_BACKGROUND_CHECKS_FULL } from '../../../../lib/demo-data';
 
-import {
-  DEMO_BACKGROUND_CHECKS_FULL,
-  type DemoBackgroundCheckFull as BackgroundCheck,
-} from '../../../../lib/demo-data';
+type BackgroundCheck = APIBackgroundCheck & { [key: string]: unknown };
 
 const getStatusVariant = (status: string): "solid" | "outline" | "ghost" => {
   switch (status) {
@@ -40,7 +39,7 @@ const columns: ListPageColumn<BackgroundCheck>[] = [
   { key: "provider", label: "Provider", accessor: "provider", render: (v) => <Badge variant="outline">{String(v)}</Badge> },
   { key: "requestDate", label: "Requested", accessor: "requestDate", sortable: true },
   { key: "status", label: "Status", accessor: "status", sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
-  { key: "result", label: "Result", accessor: (r) => r.result || "—", render: (v) => v !== "—" ? <Badge variant={v === "Clear" ? "solid" : "ghost"}>{String(v)}</Badge> : <span>—</span> },
+  { key: "result", label: "Result", accessor: (r) => r.result || "—", render: (v) => v !== "—" ? <Badge variant={v === "Clear" ? "solid" : "ghost"}>{String(v)}</Badge> : <Text>—</Text> },
 ];
 
 const filters: ListPageFilter[] = [
@@ -84,15 +83,18 @@ const formFields: FormFieldConfig[] = [
 
 export default function BackgroundChecksPage() {
   const router = useRouter();
-  const [checks, setChecks] = useState<BackgroundCheck[]>(DEMO_BACKGROUND_CHECKS_FULL);
+  const { checks: apiChecks, summary, isLoading, error, createCheckAsync, deleteChecksAsync, renewChecksAsync, refetch } = useBackgroundChecks();
   const [selectedCheck, setSelectedCheck] = useState<BackgroundCheck | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
 
-  const pendingCount = checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
-  const renewalDueCount = checks.filter(c => c.status === "Renewal Due").length;
-  const expiredCount = checks.filter(c => c.status === "Expired").length;
-  const completedCount = checks.filter(c => c.status === "Completed").length;
+  // Use API data or fall back to demo data
+  const checks: BackgroundCheck[] = apiChecks.length > 0 ? (apiChecks as BackgroundCheck[]) : (DEMO_BACKGROUND_CHECKS_FULL as BackgroundCheck[]);
+
+  const pendingCount = summary?.pending || checks.filter(c => c.status === "Pending" || c.status === "In Progress").length;
+  const renewalDueCount = summary?.renewalDue || checks.filter(c => c.status === "Renewal Due").length;
+  const expiredCount = summary?.expired || checks.filter(c => c.status === "Expired").length;
+  const completedCount = summary?.completed || checks.filter(c => c.status === "Completed").length;
 
   const rowActions: ListPageAction<BackgroundCheck>[] = [
     { id: "view", label: "View Details", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedCheck(r); setDrawerOpen(true); } },
@@ -107,18 +109,21 @@ export default function BackgroundChecksPage() {
   ];
 
   const handleCreate = async (data: Record<string, unknown>) => {
-    const newCheck: BackgroundCheck = {
-      id: `BGC-${String(checks.length + 1).padStart(3, '0')}`,
-      employeeId: String(data.employeeId || ''),
-      employeeName: String(data.employeeName || ''),
-      department: String(data.department || ''),
-      checkType: String(data.checkType || 'Criminal'),
-      provider: String(data.provider || 'Checkr'),
-      requestDate: new Date().toISOString().split('T')[0],
-      status: 'Pending',
-    };
-    setChecks((prev: BackgroundCheck[]) => [...prev, newCheck]);
-    setCreateModalOpen(false);
+    try {
+      await createCheckAsync({
+        employeeId: String(data.employeeId || ''),
+        employeeName: String(data.employeeName || ''),
+        department: String(data.department || ''),
+        checkType: String(data.checkType || 'Criminal'),
+        provider: String(data.provider || 'Checkr'),
+        requestDate: new Date().toISOString().split('T')[0],
+        status: 'Pending',
+      });
+      refetch();
+      setCreateModalOpen(false);
+    } catch (err) {
+      console.error('Failed to create background check:', err);
+    }
   };
 
   const detailSections: DetailSection[] = selectedCheck ? [
@@ -162,7 +167,7 @@ export default function BackgroundChecksPage() {
 
       }
 
-      setChecks(DEMO_BACKGROUND_CHECKS_FULL);
+      refetch();
 
     },
 
@@ -182,7 +187,9 @@ export default function BackgroundChecksPage() {
         data={checks}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search employees..."
         filters={filters}
         rowActions={rowActions}
@@ -212,13 +219,11 @@ export default function BackgroundChecksPage() {
         emptyMessage="No background checks found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            setChecks(prev => prev.filter(c => !ids.includes(c.id)));
+            await deleteChecksAsync(ids);
+            refetch();
           } else if (action === 'renew') {
-            await fetch('/api/workforce/background-checks/bulk-renew', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await renewChecksAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

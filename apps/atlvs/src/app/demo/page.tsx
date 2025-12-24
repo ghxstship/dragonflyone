@@ -1,18 +1,21 @@
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
-  Stack,
-  Grid,
-  Card,
   Body,
-  H1,
-  H3,
-  Label,
+  Button,
+  Card,
   Container,
   Display,
-  Button,
-  Input,
+  Form,
   FullBleedSection,
-} from "@ghxstship/ui";
+  Grid,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Stack,
+  Textarea,
+} from '@ghxstship/ui';
 import { Play, Calendar, Users, Clock, Check, ArrowRight } from "lucide-react";
 import NextLink from "next/link";
 
@@ -107,7 +110,7 @@ export default function DemoPage() {
                 </Body>
               </Stack>
 
-              <form>
+              <Form>
                 <Stack gap={6}>
                   <Grid cols={2} gap={6} className="sm:grid-cols-1">
                     <Stack gap={2}>
@@ -132,24 +135,24 @@ export default function DemoPage() {
 
                   <Stack gap={2}>
                     <Label size="xs" className="text-ink-950">TEAM SIZE</Label>
-                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                    <Select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
                       <option value="">Select team size</option>
                       <option value="1-10">1-10 people</option>
                       <option value="11-50">11-50 people</option>
                       <option value="51-200">51-200 people</option>
                       <option value="201+">201+ people</option>
-                    </select>
+                    </Select>
                   </Stack>
 
                   <Stack gap={2}>
                     <Label size="xs" className="text-ink-950">WHICH VERTICAL?</Label>
-                    <select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                    <Select className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
                       <option value="">Select a vertical</option>
                       <option value="productions">Productions (concerts, festivals, tours)</option>
                       <option value="activations">Activations (brand events, corporate)</option>
                       <option value="installations">Installations (seasonal, immersive)</option>
                       <option value="destinations">Destinations (venues, resorts, attractions)</option>
-                    </select>
+                    </Select>
                   </Stack>
 
                   {/* Tool Stack Section */}
@@ -163,12 +166,12 @@ export default function DemoPage() {
                       {toolCategories.map((category) => (
                         <Stack key={category.label} gap={2}>
                           <Label size="xs" className="text-grey-600">{category.label}</Label>
-                          <select className="w-full border-2 border-grey-300 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
+                          <Select className="w-full border-2 border-grey-300 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink">
                             <option value="">Select {category.label.toLowerCase()} tool</option>
                             {category.options.map((opt) => (
                               <option key={opt} value={opt.toLowerCase()}>{opt}</option>
                             ))}
-                          </select>
+                          </Select>
                         </Stack>
                       ))}
                     </Grid>
@@ -176,7 +179,7 @@ export default function DemoPage() {
 
                   <Stack gap={2}>
                     <Label size="xs" className="text-ink-950">WHAT&apos;S NOT WORKING?</Label>
-                    <textarea 
+                    <Textarea 
                       className="w-full border-2 border-ink-950 bg-white px-4 py-3 text-ink-950 focus:outline-none focus:ring-2 focus:ring-brand-pink min-h-[100px]" 
                       placeholder="Tell us about your pain points. What tools aren't talking to each other? What's falling through the cracks?"
                     />
@@ -191,7 +194,7 @@ export default function DemoPage() {
                     <NextLink href="/legal/privacy" className="text-brand-pink underline">Privacy Policy</NextLink>
                   </Body>
                 </Stack>
-              </form>
+              </Form>
             </Stack>
           </Card>
         </Container>

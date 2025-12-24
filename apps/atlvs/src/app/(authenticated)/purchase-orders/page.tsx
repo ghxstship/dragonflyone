@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, FileText, Clock, CheckCircle, Filter, DollarSign } from 'lucide-react';
@@ -77,10 +86,10 @@ export default function PurchaseOrdersPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Purchase Orders</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Purchase Orders</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage vendor purchase orders and procurement
-          </p>
+          </Body>
         </div>
         <Link
           href="/purchase-orders/new"
@@ -95,44 +104,44 @@ export default function PurchaseOrdersPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <FileText className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total POs</span>
+            <Text className="text-body-sm text-muted-foreground">Total POs</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{stats.total}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pending</span>
+            <Text className="text-body-sm text-muted-foreground">Pending</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{stats.pending}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{stats.pending}</Body>
         </div>
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Active</span>
+            <Text className="text-body-sm text-muted-foreground">Active</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-primary">{stats.approved}</p>
+          <Body className="text-h3-md font-weight-bold text-primary">{stats.approved}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Fulfilled</span>
+            <Text className="text-body-sm text-muted-foreground">Fulfilled</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{stats.fulfilled}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{stats.fulfilled}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Value</span>
+            <Text className="text-body-sm text-muted-foreground">Total Value</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search by PO number, vendor, or event..."
             value={searchQuery}
@@ -142,7 +151,7 @@ export default function PurchaseOrdersPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -151,19 +160,19 @@ export default function PurchaseOrdersPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
       {filteredPOs.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No purchase orders found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first purchase order'}
-          </p>
+          </Body>
           <Link
             href="/purchase-orders/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -180,7 +189,7 @@ export default function PurchaseOrdersPage() {
             const statusConfig = STATUS_CONFIG[po.status] || { label: po.status, color: 'bg-muted text-muted-foreground' };
 
             return (
-              <a
+              <Link
                 key={po.id}
                 href={`/purchase-orders/${po.id}`}
                 className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
@@ -188,39 +197,39 @@ export default function PurchaseOrdersPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-body-xs text-muted-foreground font-mono">
+                      <Text className="text-body-xs text-muted-foreground font-mono">
                         {po.po_number}
-                      </span>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </Text>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                       {po.priority && po.priority !== 'normal' && (
-                        <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
+                        <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
                           po.priority === 'urgent' ? 'bg-destructive/20 text-destructive' :
                           po.priority === 'high' ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
                         }`}>
                           {po.priority}
-                        </span>
+                        </Text>
                       )}
                     </div>
-                    <h3 className="text-body-lg font-weight-semibold text-foreground mb-1">
+                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
                       {po.vendor?.name || 'Unknown Vendor'}
-                    </h3>
-                    <p className="text-body-sm text-muted-foreground">
+                    </H3>
+                    <Body className="text-body-sm text-muted-foreground">
                       {po.category}
                       {po.description && ` • ${po.description}`}
-                    </p>
+                    </Body>
                   </div>
                   <div className="text-right">
-                    <p className="text-h4-md font-weight-bold text-foreground">
+                    <Body className="text-h4-md font-weight-bold text-foreground">
                       {formatCurrency(po.total_amount || 0)}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground mt-1">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground mt-1">
                       {new Date(po.created_at).toLocaleDateString()}
-                    </p>
+                    </Body>
                   </div>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

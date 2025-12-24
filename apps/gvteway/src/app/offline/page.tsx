@@ -1,12 +1,12 @@
 'use client';
 
 import {
+  Body,
+  Button,
   Card,
   CardBody,
-  Stack,
-  Button,
-  Body,
   H3,
+  Stack,
 } from '@ghxstship/ui';
 import { WifiOff, RefreshCw, Home } from 'lucide-react';
 import Link from 'next/link';

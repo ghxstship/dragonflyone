@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import {
   SectionHeader,
   Card,
@@ -12,6 +13,8 @@ import {
   Body,
   H3,
   Input,
+  Skeleton,
+  EmptyState,
 } from '@ghxstship/ui';
 import {
   Sparkles,
@@ -31,7 +34,11 @@ import {
   type DemoBlueprint as Blueprint,
 } from '@/lib/demo-data';
 
-const mockBlueprints = DEMO_BLUEPRINTS;
+async function fetchBlueprints(): Promise<Blueprint[]> {
+  const response = await fetch('/api/blueprints');
+  if (!response.ok) throw new Error('Failed to fetch blueprints');
+  return response.json();
+}
 
 export default function CreateFromBlueprintPage() {
   const [selectedBlueprint, setSelectedBlueprint] = useState<Blueprint | null>(null);
@@ -45,6 +52,29 @@ export default function CreateFromBlueprintPage() {
     ticketPrice: '',
   });
 
+  const { data: apiBlueprints, isLoading, error } = useQuery({
+    queryKey: ['blueprints'],
+    queryFn: fetchBlueprints,
+  });
+
+  const createEventMutation = useMutation({
+    mutationFn: async (data: { blueprint: Blueprint; details: typeof eventDetails }) => {
+      const response = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ blueprintId: data.blueprint.id, ...data.details }),
+      });
+      if (!response.ok) throw new Error('Failed to create event');
+      return response.json();
+    },
+    onSuccess: () => {
+      alert('Event created successfully! Redirecting to event dashboard...');
+    },
+  });
+
+  // Use API data or fall back to demo data
+  const blueprints = apiBlueprints || DEMO_BLUEPRINTS;
+
   const handleSelectBlueprint = (blueprint: Blueprint) => {
     setSelectedBlueprint(blueprint);
     setEventDetails((prev) => ({
@@ -55,9 +85,46 @@ export default function CreateFromBlueprintPage() {
   };
 
   const handleCreateEvent = () => {
-    // In production, this would call the API
-    alert('Event created successfully! Redirecting to event dashboard...');
+    if (selectedBlueprint) {
+      createEventMutation.mutate({ blueprint: selectedBlueprint, details: eventDetails });
+    }
   };
+
+  if (isLoading) {
+    return (
+      <Stack gap={8}>
+        <SectionHeader
+          kicker="Events"
+          title="Create from Blueprint"
+          description="Loading blueprints..."
+          colorScheme="on-dark"
+        />
+        <Grid cols={2} gap={4}>
+          <Skeleton className="h-64" />
+          <Skeleton className="h-64" />
+        </Grid>
+      </Stack>
+    );
+  }
+
+  if (error && !apiBlueprints) {
+    return (
+      <Stack gap={8}>
+        <SectionHeader
+          kicker="Events"
+          title="Create from Blueprint"
+          description="Convert an Experience Generator blueprint into a live event"
+          colorScheme="on-dark"
+        />
+        <EmptyState
+          title="Error Loading Blueprints"
+          description={error instanceof Error ? error.message : 'Failed to load blueprints'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+          inverted
+        />
+      </Stack>
+    );
+  }
 
   return (
     <>
@@ -120,7 +187,7 @@ export default function CreateFromBlueprintPage() {
           <Stack gap={4}>
             <H3 className="text-white">Select a Blueprint</H3>
             <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-              {mockBlueprints.map((blueprint) => (
+              {blueprints.map((blueprint) => (
                 <Card
                   key={blueprint.id}
                   className="cursor-pointer border-2 border-ink-700 transition-colors hover:border-primary"

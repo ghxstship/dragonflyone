@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -145,25 +158,25 @@ export default function EditProposalPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Edit Proposal</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Edit Proposal</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {proposal?.proposal_number}
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Proposal Details
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Proposal Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="name"
                 value={formData.name}
@@ -173,15 +186,15 @@ export default function EditProposalPage() {
                 }`}
               />
               {errors.name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.name}</Body>
               )}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Valid Until
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   name="valid_until"
                   value={formData.valid_until}
@@ -190,10 +203,10 @@ export default function EditProposalPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Status
-                </label>
-                <select
+                </Label>
+                <Select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
@@ -205,14 +218,14 @@ export default function EditProposalPage() {
                   <option value="accepted">Accepted</option>
                   <option value="rejected">Rejected</option>
                   <option value="expired">Expired</option>
-                </select>
+                </Select>
               </div>
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Introduction
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 name="introduction"
                 value={formData.introduction}
                 onChange={handleChange}
@@ -221,10 +234,10 @@ export default function EditProposalPage() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Terms & Conditions
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 name="terms"
                 value={formData.terms}
                 onChange={handleChange}
@@ -237,29 +250,29 @@ export default function EditProposalPage() {
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground flex items-center gap-2">
               <DollarSign className="h-5 w-5" />
               Pricing Items
-            </h2>
-            <button
+            </H2>
+            <Button
               type="button"
               onClick={addPricingItem}
               className="flex items-center gap-2 px-3 py-1.5 text-body-sm text-primary border-2 border-primary rounded-button hover:bg-primary/5 transition-colors"
             >
               <Plus className="h-4 w-4" />
               Add Item
-            </button>
+            </Button>
           </div>
           {pricingItems.length === 0 ? (
             <div className="text-center py-8 bg-muted/30 border-2 border-dashed border-border rounded-card">
-              <p className="text-body-sm text-muted-foreground">No pricing items</p>
-              <button
+              <Body className="text-body-sm text-muted-foreground">No pricing items</Body>
+              <Button
                 type="button"
                 onClick={addPricingItem}
                 className="mt-2 text-primary text-body-sm hover:underline"
               >
                 Add your first item
-              </button>
+              </Button>
             </div>
           ) : (
             <div className="space-y-3">
@@ -269,7 +282,7 @@ export default function EditProposalPage() {
                   className="grid grid-cols-12 gap-3 items-center p-3 bg-muted/30 border-2 border-border rounded-card"
                 >
                   <div className="col-span-5">
-                    <input
+                    <Input
                       type="text"
                       value={item.description}
                       onChange={(e) => updatePricingItem(item.id, 'description', e.target.value)}
@@ -278,7 +291,7 @@ export default function EditProposalPage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       value={item.quantity}
                       onChange={(e) => updatePricingItem(item.id, 'quantity', parseInt(e.target.value) || 0)}
@@ -287,7 +300,7 @@ export default function EditProposalPage() {
                     />
                   </div>
                   <div className="col-span-2">
-                    <input
+                    <Input
                       type="number"
                       value={item.unit_price}
                       onChange={(e) => updatePricingItem(item.id, 'unit_price', parseFloat(e.target.value) || 0)}
@@ -297,27 +310,27 @@ export default function EditProposalPage() {
                     />
                   </div>
                   <div className="col-span-2 text-right">
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {formatCurrency(item.total)}
-                    </span>
+                    </Text>
                   </div>
                   <div className="col-span-1 text-right">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => removePricingItem(item.id)}
                       className="p-1 hover:bg-destructive/10 rounded transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}
               <div className="flex items-center justify-end pt-3 border-t border-border">
                 <div className="text-right">
-                  <span className="text-body-sm text-muted-foreground mr-4">Total:</span>
-                  <span className="text-h4-md font-weight-bold text-foreground">
+                  <Text className="text-body-sm text-muted-foreground mr-4">Total:</Text>
+                  <Text className="text-h4-md font-weight-bold text-foreground">
                     {formatCurrency(calculateTotal())}
-                  </span>
+                  </Text>
                 </div>
               </div>
             </div>
@@ -326,7 +339,7 @@ export default function EditProposalPage() {
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
@@ -337,16 +350,16 @@ export default function EditProposalPage() {
           >
             Cancel
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={updateProposal.isPending}
             className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {updateProposal.isPending ? 'Saving...' : 'Save Changes'}
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

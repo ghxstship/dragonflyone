@@ -13,11 +13,13 @@ import {
   H3,
   StatCard,
   ProgressBar,
+  Skeleton,
 } from '@ghxstship/ui';
 import { CheckCircle, Clock, AlertCircle, FileText } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { useSponsorDeliverables, type SponsorDeliverable } from '@ghxstship/config';
 
-interface Deliverable {
+interface DisplayDeliverable {
   id: string;
   name: string;
   category: string;
@@ -29,7 +31,7 @@ interface Deliverable {
   notes: string;
 }
 
-const DEMO_DELIVERABLES: Deliverable[] = [
+const DEMO_DELIVERABLES: DisplayDeliverable[] = [
   {
     id: '1',
     name: 'Logo Placement - Main Stage Banner',
@@ -63,45 +65,26 @@ const DEMO_DELIVERABLES: Deliverable[] = [
     assignee: 'Marketing Team',
     notes: '4 of 10 posts completed',
   },
-  {
-    id: '4',
-    name: 'Product Sampling Booth Materials',
-    category: 'Activation',
-    event: 'Food & Wine Expo',
-    dueDate: '2025-03-05',
-    status: 'completed',
-    progress: 100,
-    assignee: 'Sponsor Team',
-    notes: 'All materials delivered',
-  },
-  {
-    id: '5',
-    name: 'Email Newsletter Feature',
-    category: 'Digital',
-    event: 'Tech Conference 2025',
-    dueDate: '2025-05-01',
-    status: 'pending',
-    progress: 0,
-    assignee: 'Marketing Team',
-    notes: 'Awaiting sponsor content',
-  },
-  {
-    id: '6',
-    name: 'On-site Signage Package',
-    category: 'Branding',
-    event: 'Gaming Convention 2025',
-    dueDate: '2025-03-25',
-    status: 'overdue',
-    progress: 80,
-    assignee: 'Production Team',
-    notes: 'Final approval pending',
-  },
 ];
+
+const typeToCategory: Record<string, string> = {
+  logo_placement: 'Branding',
+  signage: 'Branding',
+  digital: 'Digital',
+  activation: 'Activation',
+  hospitality: 'Hospitality',
+  merchandise: 'Merchandise',
+  content: 'Content',
+  other: 'Other',
+};
 
 const statusVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
   pending: 'info',
   in_progress: 'warning',
   completed: 'success',
+  delivered: 'success',
+  approved: 'success',
+  rejected: 'error',
   overdue: 'error',
 };
 
@@ -109,12 +92,30 @@ const statusLabels: Record<string, string> = {
   pending: 'Pending',
   in_progress: 'In Progress',
   completed: 'Completed',
+  delivered: 'Delivered',
+  approved: 'Approved',
+  rejected: 'Rejected',
   overdue: 'Overdue',
 };
 
 export default function MyDeliverablesPage() {
-  const [deliverables] = useState<Deliverable[]>(DEMO_DELIVERABLES);
+  const { deliverables: apiDeliverables, isLoading, error, refetch } = useSponsorDeliverables();
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+
+  // Map API deliverables to display format or fall back to demo data
+  const deliverables: DisplayDeliverable[] = apiDeliverables.length > 0
+    ? apiDeliverables.map((d: SponsorDeliverable) => ({
+        id: d.id,
+        name: d.title,
+        category: typeToCategory[d.deliverable_type] || 'Other',
+        event: d.sponsor?.company_name || 'Unknown Event',
+        dueDate: d.due_date || '',
+        status: (d.status === 'delivered' || d.status === 'approved' ? 'completed' : d.status === 'rejected' ? 'overdue' : d.status) as DisplayDeliverable['status'],
+        progress: d.status === 'delivered' || d.status === 'approved' ? 100 : d.status === 'in_progress' ? 50 : 0,
+        assignee: 'Team',
+        notes: d.notes || '',
+      }))
+    : DEMO_DELIVERABLES;
 
   const filteredDeliverables = deliverables.filter((d) => {
     return categoryFilter === 'all' || d.category === categoryFilter;
@@ -124,6 +125,44 @@ export default function MyDeliverablesPage() {
   const inProgressCount = deliverables.filter((d) => d.status === 'in_progress').length;
   const overdueCount = deliverables.filter((d) => d.status === 'overdue').length;
   const categories = [...new Set(deliverables.map((d) => d.category))];
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Deliverables" description="Track the status of your sponsorship deliverables" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="My Deliverables" description="Track the status of your sponsorship deliverables" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Deliverables</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

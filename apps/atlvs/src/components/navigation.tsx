@@ -8,7 +8,17 @@ import {
   solutionsNavigation,
   resourcesNavigation,
 } from "../data/public-navigation";
-import { UnifiedHeader, Link, Stack, Box, Body, Button } from "@ghxstship/ui";
+import {
+  Body,
+  Box,
+  Button,
+  Link,
+  List,
+  ListItem,
+  Stack,
+  Text,
+  UnifiedHeader,
+} from '@ghxstship/ui';
 import type { ContextLevel } from "@ghxstship/ui";
 import clsx from "clsx";
 import { ChevronDown, ChevronRight, Briefcase, Users, Ticket, ArrowRight } from "lucide-react";
@@ -94,15 +104,15 @@ export function CreatorNavigationPublic() {
                                 <div className="font-mono text-mono-xs uppercase tracking-kicker text-grey-400">{product.tagline}</div>
                               </div>
                             </div>
-                            <p className="text-body-sm text-grey-400 mb-3">{product.description}</p>
-                            <ul className="space-y-1">
+                            <Body className="text-body-sm text-grey-400 mb-3">{product.description}</Body>
+                            <List className="space-y-1">
                               {product.features.map((feature) => (
-                                <li key={feature} className="font-mono text-mono-xs text-grey-500 flex items-center gap-2">
-                                  <span className="w-1 h-1 bg-brand-pink" />
+                                <ListItem key={feature} className="font-mono text-mono-xs text-grey-500 flex items-center gap-2">
+                                  <Text className="w-1 h-1 bg-brand-pink" />
                                   {feature}
-                                </li>
+                                </ListItem>
                               ))}
-                            </ul>
+                            </List>
                             <div className="mt-3 font-mono text-mono-xs uppercase tracking-kicker text-brand-pink flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                               View Features <ArrowRight className="h-3 w-3" />
                             </div>
@@ -149,18 +159,18 @@ export function CreatorNavigationPublic() {
                       {solutionsNavigation.groups.map((group) => (
                         <div key={group.title}>
                           <div className="font-display text-h6-md uppercase text-white mb-2">{group.title}</div>
-                          <ul className="space-y-1">
+                          <List className="space-y-1">
                             {group.items.map((item) => (
-                              <li key={item.href}>
+                              <ListItem key={item.href}>
                                 <Link
                                   href={item.href}
                                   className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
                                 >
                                   {item.label}
                                 </Link>
-                              </li>
+                              </ListItem>
                             ))}
-                          </ul>
+                          </List>
                         </div>
                       ))}
                     </div>
@@ -202,18 +212,18 @@ export function CreatorNavigationPublic() {
                       {resourcesNavigation.groups.map((group) => (
                         <div key={group.title}>
                           <div className="font-display text-h6-md uppercase text-white mb-3">{group.title}</div>
-                          <ul className="space-y-2">
+                          <List className="space-y-2">
                             {group.items.map((item) => (
-                              <li key={item.href}>
+                              <ListItem key={item.href}>
                                 <Link
                                   href={item.href}
                                   className="font-mono text-mono-sm text-grey-400 hover:text-white transition-colors"
                                 >
                                   {item.label}
                                 </Link>
-                              </li>
+                              </ListItem>
                             ))}
-                          </ul>
+                          </List>
                         </div>
                       ))}
                     </div>
@@ -344,7 +354,7 @@ export function CreatorNavigationPublic() {
                         className="text-body-md text-grey-300 hover:text-white"
                       >
                         {product.label}
-                        <span className="font-mono text-mono-xs text-grey-500 ml-2">{product.tagline}</span>
+                        <Text className="font-mono text-mono-xs text-grey-500 ml-2">{product.tagline}</Text>
                       </Link>
                     ))}
                   </Stack>

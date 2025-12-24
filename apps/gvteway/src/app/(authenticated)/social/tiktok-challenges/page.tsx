@@ -11,15 +11,26 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_TIKTOK_CHALLENGES,
-  type DemoTikTokChallenge as TikTokChallenge,
-} from "@/lib/demo-data";
+import { useTikTokChallenges } from "@ghxstship/config";
+import { DEMO_TIKTOK_CHALLENGES } from "@/lib/demo-data";
 
-const mockChallenges = DEMO_TIKTOK_CHALLENGES;
+interface TikTokChallenge {
+  id: string;
+  name: string;
+  hashtag: string;
+  eventName: string;
+  status: string;
+  startDate: string;
+  endDate: string;
+  participants: number;
+  views: number;
+  engagement: number;
+  prize?: string;
+}
 
 function TikTokChallengesPageContent() {
   const router = useRouter();
+  const { challenges: apiChallenges, isLoading } = useTikTokChallenges();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -29,15 +40,18 @@ function TikTokChallengesPageContent() {
   const [selectedChallenge, setSelectedChallenge] = useState<TikTokChallenge | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
+  // Use API data or fall back to demo data
+  const challenges: TikTokChallenge[] = apiChallenges.length > 0 ? (apiChallenges as unknown as TikTokChallenge[]) : (DEMO_TIKTOK_CHALLENGES as unknown as TikTokChallenge[]);
+
   const formatNumber = (num: number) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(0)}K`;
     return num.toString();
   };
 
-  const totalViews = mockChallenges.reduce((s, c) => s + c.views, 0);
-  const totalParticipants = mockChallenges.reduce((s, c) => s + c.participants, 0);
-  const activeCount = mockChallenges.filter(c => c.status === "Active").length;
+  const totalViews = challenges.reduce((s, c) => s + c.views, 0);
+  const totalParticipants = challenges.reduce((s, c) => s + c.participants, 0);
+  const activeCount = challenges.filter(c => c.status === "Active").length;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -48,7 +62,7 @@ function TikTokChallengesPageContent() {
     }
   };
 
-  const filteredChallenges = activeTab === "all" ? mockChallenges : mockChallenges.filter(c => c.status.toLowerCase() === activeTab);
+  const filteredChallenges = activeTab === "all" ? challenges : challenges.filter(c => c.status.toLowerCase() === activeTab);
 
   return (
     <>
@@ -59,6 +73,12 @@ function TikTokChallengesPageContent() {
               <H2 size="lg" className="text-white">TikTok Challenges</H2>
               <Body className="text-on-dark-muted">Create and manage viral TikTok challenge campaigns</Body>
             </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading challenges...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Views" value={formatNumber(totalViews)} className="border-2 border-black" />

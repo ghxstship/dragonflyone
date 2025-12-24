@@ -4,7 +4,17 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CreditCard, Check, Download, Calendar } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  H4,
+  List,
+  ListItem,
+  Text,
+} from '@ghxstship/ui';
 
 interface BillingInfo {
   plan: {
@@ -133,13 +143,13 @@ export default function BillingSettingsPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+          <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
             <CreditCard className="h-6 w-6" />
             Billing & Plans
-          </h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          </H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage your subscription and payment methods
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -148,12 +158,12 @@ export default function BillingSettingsPage() {
           <div className="bg-background border-2 border-primary rounded-card p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-h4-md font-weight-semibold text-foreground">
+                <H2 className="text-h4-md font-weight-semibold text-foreground">
                   {data?.plan.name} Plan
-                </h2>
-                <p className="text-body-sm text-muted-foreground">
+                </H2>
+                <Body className="text-body-sm text-muted-foreground">
                   {formatCurrency(data?.plan.price || 0)}/{data?.plan.interval}
-                </p>
+                </Body>
               </div>
               <Button variant="outline" size="sm" onClick={() => setShowChangePlan(true)}>
                 Change Plan
@@ -161,50 +171,50 @@ export default function BillingSettingsPage() {
             </div>
             <div className="grid grid-cols-3 gap-4">
               <div className="p-3 bg-muted/30 rounded-card">
-                <p className="text-body-xs text-muted-foreground">Bookings</p>
-                <p className="text-body-md font-weight-semibold text-foreground">
+                <Body className="text-body-xs text-muted-foreground">Bookings</Body>
+                <Body className="text-body-md font-weight-semibold text-foreground">
                   {data?.usage.bookings || 0}
                   {(data?.usage.bookings_limit ?? -1) > 0 && (
-                    <span className="text-muted-foreground font-weight-normal">
+                    <Text className="text-muted-foreground font-weight-normal">
                       /{data?.usage.bookings_limit}
-                    </span>
+                    </Text>
                   )}
-                </p>
+                </Body>
               </div>
               <div className="p-3 bg-muted/30 rounded-card">
-                <p className="text-body-xs text-muted-foreground">Storage</p>
-                <p className="text-body-md font-weight-semibold text-foreground">
+                <Body className="text-body-xs text-muted-foreground">Storage</Body>
+                <Body className="text-body-md font-weight-semibold text-foreground">
                   {data?.usage.storage_gb || 0}GB
-                  <span className="text-muted-foreground font-weight-normal">
+                  <Text className="text-muted-foreground font-weight-normal">
                     /{data?.usage.storage_limit_gb || 0}GB
-                  </span>
-                </p>
+                  </Text>
+                </Body>
               </div>
               <div className="p-3 bg-muted/30 rounded-card">
-                <p className="text-body-xs text-muted-foreground">Team</p>
-                <p className="text-body-md font-weight-semibold text-foreground">
+                <Body className="text-body-xs text-muted-foreground">Team</Body>
+                <Body className="text-body-md font-weight-semibold text-foreground">
                   {data?.usage.team_members || 0}
-                  <span className="text-muted-foreground font-weight-normal">
+                  <Text className="text-muted-foreground font-weight-normal">
                     /{data?.usage.team_limit || 0}
-                  </span>
-                </p>
+                  </Text>
+                </Body>
               </div>
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Payment Method</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Payment Method</H2>
             {data?.payment_method ? (
               <div className="flex items-center justify-between p-4 bg-muted/30 rounded-card">
                 <div className="flex items-center gap-3">
                   <CreditCard className="h-8 w-8 text-muted-foreground" />
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground">
+                    <Body className="text-body-sm font-weight-medium text-foreground">
                       •••• •••• •••• {data.payment_method.last4}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">
                       Expires {data.payment_method.exp_month}/{data.payment_method.exp_year}
-                    </p>
+                    </Body>
                   </div>
                 </div>
                 <Button variant="ghost" size="sm">
@@ -214,7 +224,7 @@ export default function BillingSettingsPage() {
             ) : (
               <div className="text-center py-8 bg-muted/30 rounded-card">
                 <CreditCard className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-body-sm text-muted-foreground">No payment method on file</p>
+                <Body className="text-body-sm text-muted-foreground">No payment method on file</Body>
                 <Button variant="ghost" size="sm" className="mt-2">
                   Add Payment Method
                 </Button>
@@ -227,11 +237,11 @@ export default function BillingSettingsPage() {
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Billing History</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Billing History</H2>
             {!data?.invoices || data.invoices.length === 0 ? (
-              <p className="text-body-sm text-muted-foreground text-center py-4">
+              <Body className="text-body-sm text-muted-foreground text-center py-4">
                 No invoices yet
-              </p>
+              </Body>
             ) : (
               <div className="space-y-2">
                 {data.invoices.map((invoice) => (
@@ -240,11 +250,11 @@ export default function BillingSettingsPage() {
                     className="flex items-center justify-between p-3 bg-muted/30 rounded-card"
                   >
                     <div>
-                      <p className="text-body-sm text-foreground">{formatDate(invoice.date)}</p>
-                      <p className="text-body-xs text-muted-foreground">{invoice.id}</p>
+                      <Body className="text-body-sm text-foreground">{formatDate(invoice.date)}</Body>
+                      <Body className="text-body-xs text-muted-foreground">{invoice.id}</Body>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${
+                      <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${
                         invoice.status === 'paid'
                           ? 'bg-success-100 text-success-800'
                           : invoice.status === 'pending'
@@ -252,10 +262,10 @@ export default function BillingSettingsPage() {
                           : 'bg-error-100 text-error-800'
                       }`}>
                         {invoice.status}
-                      </span>
-                      <span className="text-body-sm font-weight-medium text-foreground">
+                      </Text>
+                      <Text className="text-body-sm font-weight-medium text-foreground">
                         {formatCurrency(invoice.amount)}
-                      </span>
+                      </Text>
                       <Button variant="ghost" size="icon" className="p-1">
                         <Download className="h-4 w-4 text-muted-foreground" />
                       </Button>
@@ -269,13 +279,13 @@ export default function BillingSettingsPage() {
 
         <div className="space-y-6">
           <div className="bg-muted/30 border-2 border-dashed border-border rounded-card p-4">
-            <h3 className="text-body-md font-weight-semibold text-foreground mb-2">Need help?</h3>
-            <p className="text-body-sm text-muted-foreground mb-3">
+            <H3 className="text-body-md font-weight-semibold text-foreground mb-2">Need help?</H3>
+            <Body className="text-body-sm text-muted-foreground mb-3">
               Contact our billing team for any questions.
-            </p>
-            <a href="mailto:billing@example.com" className="text-primary text-body-sm hover:underline">
+            </Body>
+            <Link href="mailto:billing@example.com" className="text-primary text-body-sm hover:underline">
               billing@example.com
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -283,7 +293,7 @@ export default function BillingSettingsPage() {
       {showChangePlan && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-3xl w-full mx-4">
-            <h3 className="text-h3-md font-weight-bold text-foreground mb-6">Change Plan</h3>
+            <H3 className="text-h3-md font-weight-bold text-foreground mb-6">Change Plan</H3>
             <div className="grid grid-cols-3 gap-4">
               {PLANS.map((plan) => (
                 <div
@@ -293,21 +303,21 @@ export default function BillingSettingsPage() {
                   }`}
                 >
                   {plan.popular && (
-                    <span className="text-body-xs text-primary font-weight-medium">Most Popular</span>
+                    <Text className="text-body-xs text-primary font-weight-medium">Most Popular</Text>
                   )}
-                  <h4 className="text-h4-md font-weight-semibold text-foreground mt-1">{plan.name}</h4>
-                  <p className="text-h3-md font-weight-bold text-foreground">
+                  <H4 className="text-h4-md font-weight-semibold text-foreground mt-1">{plan.name}</H4>
+                  <Body className="text-h3-md font-weight-bold text-foreground">
                     {formatCurrency(plan.price)}
-                    <span className="text-body-sm text-muted-foreground font-weight-normal">/mo</span>
-                  </p>
-                  <ul className="mt-4 space-y-2">
+                    <Text className="text-body-sm text-muted-foreground font-weight-normal">/mo</Text>
+                  </Body>
+                  <List className="mt-4 space-y-2">
                     {plan.features.map((feature, i) => (
-                      <li key={i} className="flex items-center gap-2 text-body-xs text-muted-foreground">
+                      <ListItem key={i} className="flex items-center gap-2 text-body-xs text-muted-foreground">
                         <Check className="h-3 w-3 text-success-600" />
                         {feature}
-                      </li>
+                      </ListItem>
                     ))}
-                  </ul>
+                  </List>
                   <Button
                     variant={data?.plan.name === plan.name ? 'ghost' : 'solid'}
                     size="sm"

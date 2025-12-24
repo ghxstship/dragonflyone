@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import {
-  Stack,
   Body,
   Box,
-  Text,
   Button,
-  Input,
+  Form,
   H3,
+  Input,
   Label,
-} from "@ghxstship/ui";
+  Stack,
+  Text,
+} from '@ghxstship/ui';
 import { X, Download, Loader2, Check, Mail } from "lucide-react";
 import type { GeneratedBlueprint } from "../types";
 
@@ -111,7 +112,7 @@ export function EmailCaptureModal({
             </Body>
           </Stack>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Stack gap={6}>
               {/* Header */}
               <Stack gap={2} className="text-center">
@@ -171,19 +172,19 @@ export function EmailCaptureModal({
 
                 {/* Marketing Consent */}
                 <Box className="flex items-start gap-3">
-                  <input
+                  <Input
                     type="checkbox"
                     id="marketing-consent"
                     checked={marketingConsent}
                     onChange={(e) => setMarketingConsent(e.target.checked)}
                     className="mt-1 size-4 border-2 border-grey-300"
                   />
-                  <label
+                  <Label
                     htmlFor="marketing-consent"
                     size="sm" className=" text-grey-600"
                   >
                     Send me tips on immersive experience design and ATLVS updates
-                  </label>
+                  </Label>
                 </Box>
               </Stack>
 
@@ -210,7 +211,7 @@ export function EmailCaptureModal({
                 We respect your privacy. Unsubscribe anytime.
               </Text>
             </Stack>
-          </form>
+          </Form>
         )}
       </Box>
     </Box>

@@ -11,15 +11,24 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_URGENCY_TACTICS,
-  type DemoUrgencyTactic as UrgencyTactic,
-} from "@/lib/demo-data";
+import { useUrgencyMessages } from "@ghxstship/config";
+import { DEMO_URGENCY_TACTICS } from "@/lib/demo-data";
 
-const mockTactics = DEMO_URGENCY_TACTICS;
+interface UrgencyTactic {
+  id: string;
+  eventName: string;
+  type: string;
+  message: string;
+  status: string;
+  endDate?: string;
+  threshold?: number;
+  currentValue?: number;
+  conversions: number;
+}
 
 function UrgencyTacticsPageContent() {
   const router = useRouter();
+  const { messages: apiMessages, isLoading } = useUrgencyMessages();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -29,6 +38,9 @@ function UrgencyTacticsPageContent() {
   const [selectedTactic, setSelectedTactic] = useState<UrgencyTactic | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [countdown, setCountdown] = useState({ days: 20, hours: 14, minutes: 32, seconds: 0 });
+
+  // Use API data or fall back to demo data
+  const tactics: UrgencyTactic[] = apiMessages.length > 0 ? (apiMessages as unknown as UrgencyTactic[]) : (DEMO_URGENCY_TACTICS as unknown as UrgencyTactic[]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -45,8 +57,8 @@ function UrgencyTacticsPageContent() {
     return () => clearInterval(timer);
   }, []);
 
-  const activeTactics = mockTactics.filter(t => t.status === "Active").length;
-  const totalConversions = mockTactics.reduce((s, t) => s + t.conversions, 0);
+  const activeTactics = tactics.filter(t => t.status === "Active").length;
+  const totalConversions = tactics.reduce((s, t) => s + t.conversions, 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -67,8 +79,8 @@ function UrgencyTacticsPageContent() {
     }
   };
 
-  const filteredTactics = activeTab === "all" ? mockTactics :
-    mockTactics.filter(t => t.status.toLowerCase() === activeTab);
+  const filteredTactics = activeTab === "all" ? tactics :
+    tactics.filter(t => t.status.toLowerCase() === activeTab);
 
   return (
     <>
@@ -104,6 +116,12 @@ function UrgencyTacticsPageContent() {
               </Grid>
             </Stack>
           </Card>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading tactics...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Tactics" value={activeTactics} className="border-2 border-black" />

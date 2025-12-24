@@ -12,18 +12,32 @@ import {
   Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_CRISIS_INCIDENTS,
-  DEMO_RESPONSE_TEMPLATES,
-  type DemoCrisisIncident as CrisisIncident,
-  type DemoResponseTemplate as ResponseTemplate,
-} from "@/lib/demo-data";
+import { useCrisisManagement } from "@ghxstship/config";
+import { DEMO_CRISIS_INCIDENTS, DEMO_RESPONSE_TEMPLATES } from "@/lib/demo-data";
 
-const mockIncidents = DEMO_CRISIS_INCIDENTS;
-const mockTemplates = DEMO_RESPONSE_TEMPLATES;
+interface CrisisIncident {
+  id: string;
+  title: string;
+  severity: string;
+  status: string;
+  category: string;
+  platform: string;
+  mentions: number;
+  startTime: string;
+  assignedTo: string;
+}
+
+interface ResponseTemplate {
+  id: string;
+  name: string;
+  category: string;
+  content: string;
+  usageCount: number;
+}
 
 function CrisisManagementPageContent() {
   const router = useRouter();
+  const { incidents: apiIncidents, isLoading } = useCrisisManagement();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -34,8 +48,12 @@ function CrisisManagementPageContent() {
   const [selectedTemplate, setSelectedTemplate] = useState<ResponseTemplate | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const activeIncidents = mockIncidents.filter(i => i.status === "Active").length;
-  const criticalCount = mockIncidents.filter(i => i.severity === "Critical").length;
+  // Use API data or fall back to demo data
+  const incidents: CrisisIncident[] = apiIncidents.length > 0 ? (apiIncidents as unknown as CrisisIncident[]) : (DEMO_CRISIS_INCIDENTS as unknown as CrisisIncident[]);
+  const templates: ResponseTemplate[] = DEMO_RESPONSE_TEMPLATES as unknown as ResponseTemplate[];
+
+  const activeIncidents = incidents.filter(i => i.status === "Active").length;
+  const criticalCount = incidents.filter(i => i.severity === "Critical").length;
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -72,10 +90,16 @@ function CrisisManagementPageContent() {
             </Alert>
           )}
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading incidents...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Active Incidents" value={activeIncidents} trend={activeIncidents > 0 ? "down" : "neutral"} className="border-2 border-black" />
             <StatCard label="Critical" value={criticalCount} className="border-2 border-black" />
-            <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
+            <StatCard label="Templates" value={templates.length} className="border-2 border-black" />
             <StatCard label="Avg Response" value="< 15 min" className="border-2 border-black" />
           </Grid>
 
@@ -100,7 +124,7 @@ function CrisisManagementPageContent() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockIncidents.map((incident) => (
+                  {incidents.map((incident) => (
                     <TableRow key={incident.id}>
                       <TableCell>
                         <Stack gap={1}>
@@ -128,7 +152,7 @@ function CrisisManagementPageContent() {
                   <Button variant="solid" onClick={() => setShowCreateModal(true)}>Create Template</Button>
                 </Stack>
                 <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-                  {mockTemplates.map((template) => (
+                  {templates.map((template) => (
                     <Card key={template.id} className="border-2 border-black p-4">
                       <Stack gap={3}>
                         <Stack direction="horizontal" className="justify-between">

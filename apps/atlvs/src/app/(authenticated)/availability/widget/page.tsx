@@ -1,5 +1,19 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  List,
+  ListItem,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Globe, Copy, Check, Settings } from 'lucide-react';
@@ -82,31 +96,31 @@ export default function AvailabilityWidgetPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Availability Widgets</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Availability Widgets</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Embed availability checkers on your website
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Globe className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Widget</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">New Widget</Text>
+        </Button>
       </div>
 
       {widgets.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Globe className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No widgets created yet</p>
-          <button
+          <Body className="text-body-md text-muted-foreground">No widgets created yet</Body>
+          <Button
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center gap-2 mt-4 text-primary hover:underline"
           >
             Create your first widget
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -117,46 +131,46 @@ export default function AvailabilityWidgetPage() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-body-md font-weight-semibold text-foreground">
+                  <H3 className="text-body-md font-weight-semibold text-foreground">
                     {widget.name}
-                  </h3>
-                  <p className="text-body-xs text-muted-foreground">
+                  </H3>
+                  <Body className="text-body-xs text-muted-foreground">
                     {widget.space_ids.length} spaces
-                  </p>
+                  </Body>
                 </div>
-                <button
+                <Button
                   onClick={() => setSelectedWidget(widget)}
                   className="p-1.5 hover:bg-muted rounded-button transition-colors"
                 >
                   <Settings className="h-4 w-4 text-muted-foreground" />
-                </button>
+                </Button>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="p-2 bg-muted/30 rounded-card text-center">
-                  <p className="text-h4-md font-weight-bold text-foreground">{widget.views}</p>
-                  <p className="text-body-xs text-muted-foreground">Views</p>
+                  <Body className="text-h4-md font-weight-bold text-foreground">{widget.views}</Body>
+                  <Body className="text-body-xs text-muted-foreground">Views</Body>
                 </div>
                 <div className="p-2 bg-muted/30 rounded-card text-center">
-                  <p className="text-h4-md font-weight-bold text-foreground">{widget.inquiries}</p>
-                  <p className="text-body-xs text-muted-foreground">Inquiries</p>
+                  <Body className="text-h4-md font-weight-bold text-foreground">{widget.inquiries}</Body>
+                  <Body className="text-body-xs text-muted-foreground">Inquiries</Body>
                 </div>
               </div>
-              <button
+              <Button
                 onClick={() => copyEmbedCode(widget.embed_code)}
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 {copied ? (
                   <>
                     <Check className="h-4 w-4 textbg-success-100" />
-                    <span className="text-body-sm textbg-success-100">Copied!</span>
+                    <Text className="text-body-sm textbg-success-100">Copied!</Text>
                   </>
                 ) : (
                   <>
                     <Copy className="h-4 w-4" />
-                    <span className="text-body-sm">Copy Embed Code</span>
+                    <Text className="text-body-sm">Copy Embed Code</Text>
                   </>
                 )}
-              </button>
+              </Button>
             </div>
           ))}
         </div>
@@ -166,50 +180,50 @@ export default function AvailabilityWidgetPage() {
       {selectedWidget && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Widget Settings</h3>
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Widget Settings</H3>
             <div className="space-y-4">
               <div>
-                <p className="text-body-xs text-muted-foreground">Name</p>
-                <p className="text-body-md font-weight-medium text-foreground">{selectedWidget.name}</p>
+                <Body className="text-body-xs text-muted-foreground">Name</Body>
+                <Body className="text-body-md font-weight-medium text-foreground">{selectedWidget.name}</Body>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Views</p>
-                  <p className="text-body-md font-weight-bold text-foreground">{selectedWidget.views}</p>
+                  <Body className="text-body-xs text-muted-foreground">Views</Body>
+                  <Body className="text-body-md font-weight-bold text-foreground">{selectedWidget.views}</Body>
                 </div>
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Inquiries</p>
-                  <p className="text-body-md font-weight-bold text-foreground">{selectedWidget.inquiries}</p>
+                  <Body className="text-body-xs text-muted-foreground">Inquiries</Body>
+                  <Body className="text-body-md font-weight-bold text-foreground">{selectedWidget.inquiries}</Body>
                 </div>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Theme</p>
-                <p className="text-body-md text-foreground capitalize">{selectedWidget.settings.theme}</p>
+                <Body className="text-body-xs text-muted-foreground">Theme</Body>
+                <Body className="text-body-md text-foreground capitalize">{selectedWidget.settings.theme}</Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Settings</p>
-                <ul className="text-body-sm text-muted-foreground space-y-1 mt-1">
-                  <li>Show pricing: {selectedWidget.settings.show_pricing ? 'Yes' : 'No'}</li>
-                  <li>Allow inquiries: {selectedWidget.settings.allow_inquiries ? 'Yes' : 'No'}</li>
-                  <li>Min notice: {selectedWidget.settings.min_notice_days} days</li>
-                  <li>Max advance: {selectedWidget.settings.max_advance_days} days</li>
-                </ul>
+                <Body className="text-body-xs text-muted-foreground">Settings</Body>
+                <List className="text-body-sm text-muted-foreground space-y-1 mt-1">
+                  <ListItem>Show pricing: {selectedWidget.settings.show_pricing ? 'Yes' : 'No'}</ListItem>
+                  <ListItem>Allow inquiries: {selectedWidget.settings.allow_inquiries ? 'Yes' : 'No'}</ListItem>
+                  <ListItem>Min notice: {selectedWidget.settings.min_notice_days} days</ListItem>
+                  <ListItem>Max advance: {selectedWidget.settings.max_advance_days} days</ListItem>
+                </List>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground mb-2">Embed Code</p>
+                <Body className="text-body-xs text-muted-foreground mb-2">Embed Code</Body>
                 <div className="p-2 bg-muted/30 rounded font-mono text-body-xs break-all">
                   {selectedWidget.embed_code || '<script src="..."></script>'}
                 </div>
               </div>
             </div>
             <div className="flex items-center justify-end gap-3 pt-4 mt-4 border-t border-border">
-              <button
+              <Button
                 type="button"
                 onClick={() => setSelectedWidget(null)}
                 className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
               >
                 Close
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -218,8 +232,8 @@ export default function AvailabilityWidgetPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-md w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Widget</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Widget</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -241,10 +255,10 @@ export default function AvailabilityWidgetPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Widget Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -254,10 +268,10 @@ export default function AvailabilityWidgetPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Min Notice (days)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="min_notice_days"
                     min="0"
@@ -266,10 +280,10 @@ export default function AvailabilityWidgetPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Max Advance (days)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="max_advance_days"
                     min="1"
@@ -279,45 +293,45 @@ export default function AvailabilityWidgetPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Theme
-                </label>
-                <select
+                </Label>
+                <Select
                   name="theme"
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                 >
                   <option value="light">Light</option>
                   <option value="dark">Dark</option>
                   <option value="auto">Auto (match site)</option>
-                </select>
+                </Select>
               </div>
               <div className="space-y-2">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="show_pricing" defaultChecked className="w-4 h-4" />
-                  <span className="text-body-sm text-foreground">Show pricing</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" name="allow_inquiries" defaultChecked className="w-4 h-4" />
-                  <span className="text-body-sm text-foreground">Allow inquiries</span>
-                </label>
+                <Label className="flex items-center gap-2 cursor-pointer">
+                  <Input type="checkbox" name="show_pricing" defaultChecked className="w-4 h-4" />
+                  <Text className="text-body-sm text-foreground">Show pricing</Text>
+                </Label>
+                <Label className="flex items-center gap-2 cursor-pointer">
+                  <Input type="checkbox" name="allow_inquiries" defaultChecked className="w-4 h-4" />
+                  <Text className="text-body-sm text-foreground">Allow inquiries</Text>
+                </Label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createWidget.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createWidget.isPending ? 'Creating...' : 'Create Widget'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

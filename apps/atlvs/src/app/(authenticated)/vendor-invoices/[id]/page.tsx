@@ -1,5 +1,23 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { ArrowLeft, FileText, CheckCircle, AlertTriangle, CreditCard, Trash2 } from 'lucide-react';
 import { useVendorInvoice, useApproveVendorInvoice, useRecordPayment, useDeleteVendorInvoice } from '@/hooks/useVendorInvoices';
@@ -121,157 +139,157 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-h2-md font-weight-bold text-foreground">{invoice.invoice_number}</h1>
-                <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                <H1 className="text-h2-md font-weight-bold text-foreground">{invoice.invoice_number}</H1>
+                <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                   {statusConfig.label}
-                </span>
+                </Text>
               </div>
-              <p className="text-body-sm text-muted-foreground">
+              <Body className="text-body-sm text-muted-foreground">
                 {invoice.vendor?.name || 'Unknown Vendor'}
                 {invoice.vendor_invoice_number && ` • Vendor Invoice: ${invoice.vendor_invoice_number}`}
-              </p>
+              </Body>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {invoice.status === 'pending' && (
-            <button
+            <Button
               onClick={handleApprove}
               disabled={approveMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-success text-success-foreground rounded-button border-2 border-success font-weight-medium text-body-sm hover:bg-success/90 transition-colors disabled:opacity-50"
             >
               <CheckCircle className="h-4 w-4" />
               Approve
-            </button>
+            </Button>
           )}
           {invoice.status === 'approved' && invoice.amount_due > 0 && (
-            <button
+            <Button
               onClick={() => setShowPaymentModal(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
             >
               <CreditCard className="h-4 w-4" />
               Record Payment
-            </button>
+            </Button>
           )}
-          <button
+          <Button
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
           >
             <Trash2 className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Line Items</h2>
-            <table className="w-full">
-              <thead className="border-b border-border">
-                <tr>
-                  <th className="text-left py-2 text-body-xs font-weight-medium text-muted-foreground">Description</th>
-                  <th className="text-center py-2 text-body-xs font-weight-medium text-muted-foreground">Qty</th>
-                  <th className="text-right py-2 text-body-xs font-weight-medium text-muted-foreground">Unit Price</th>
-                  <th className="text-right py-2 text-body-xs font-weight-medium text-muted-foreground">Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Line Items</H2>
+            <Table className="w-full">
+              <TableHeader className="border-b border-border">
+                <TableRow>
+                  <TableHead className="text-left py-2 text-body-xs font-weight-medium text-muted-foreground">Description</TableHead>
+                  <TableHead className="text-center py-2 text-body-xs font-weight-medium text-muted-foreground">Qty</TableHead>
+                  <TableHead className="text-right py-2 text-body-xs font-weight-medium text-muted-foreground">Unit Price</TableHead>
+                  <TableHead className="text-right py-2 text-body-xs font-weight-medium text-muted-foreground">Total</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-border">
                 {invoice.line_items?.map((item, index) => (
-                  <tr key={index}>
-                    <td className="py-3 text-body-sm">{item.description}</td>
-                    <td className="py-3 text-body-sm text-center">{item.quantity}</td>
-                    <td className="py-3 text-body-sm text-right">{formatCurrency(item.unit_price)}</td>
-                    <td className="py-3 text-body-sm text-right font-weight-medium">{formatCurrency(item.total)}</td>
-                  </tr>
+                  <TableRow key={index}>
+                    <TableCell className="py-3 text-body-sm">{item.description}</TableCell>
+                    <TableCell className="py-3 text-body-sm text-center">{item.quantity}</TableCell>
+                    <TableCell className="py-3 text-body-sm text-right">{formatCurrency(item.unit_price)}</TableCell>
+                    <TableCell className="py-3 text-body-sm text-right font-weight-medium">{formatCurrency(item.total)}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
 
             <div className="border-t border-border mt-4 pt-4 space-y-2">
               <div className="flex justify-between text-body-sm">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>{formatCurrency(invoice.subtotal)}</span>
+                <Text className="text-muted-foreground">Subtotal</Text>
+                <Text>{formatCurrency(invoice.subtotal)}</Text>
               </div>
               {invoice.tax_amount > 0 && (
                 <div className="flex justify-between text-body-sm">
-                  <span className="text-muted-foreground">Tax</span>
-                  <span>{formatCurrency(invoice.tax_amount)}</span>
+                  <Text className="text-muted-foreground">Tax</Text>
+                  <Text>{formatCurrency(invoice.tax_amount)}</Text>
                 </div>
               )}
               {invoice.discount_amount > 0 && (
                 <div className="flex justify-between text-body-sm">
-                  <span className="text-muted-foreground">Discount</span>
-                  <span className="text-success">-{formatCurrency(invoice.discount_amount)}</span>
+                  <Text className="text-muted-foreground">Discount</Text>
+                  <Text className="text-success">-{formatCurrency(invoice.discount_amount)}</Text>
                 </div>
               )}
               <div className="flex justify-between text-body-lg font-weight-bold pt-2 border-t border-border">
-                <span>Total</span>
-                <span>{formatCurrency(invoice.total)}</span>
+                <Text>Total</Text>
+                <Text>{formatCurrency(invoice.total)}</Text>
               </div>
             </div>
           </div>
 
           {invoice.notes && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</h2>
-              <p className="text-body-sm text-foreground">{invoice.notes}</p>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
+              <Body className="text-body-sm text-foreground">{invoice.notes}</Body>
             </div>
           )}
         </div>
 
         <div className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Payment Status</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Payment Status</H2>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-body-sm text-muted-foreground">Total</span>
-                <span className="text-body-sm font-weight-medium">{formatCurrency(invoice.total)}</span>
+                <Text className="text-body-sm text-muted-foreground">Total</Text>
+                <Text className="text-body-sm font-weight-medium">{formatCurrency(invoice.total)}</Text>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-body-sm text-muted-foreground">Paid</span>
-                <span className="text-body-sm font-weight-medium text-success">{formatCurrency(invoice.amount_paid)}</span>
+                <Text className="text-body-sm text-muted-foreground">Paid</Text>
+                <Text className="text-body-sm font-weight-medium text-success">{formatCurrency(invoice.amount_paid)}</Text>
               </div>
               <div className="flex items-center justify-between pt-2 border-t border-border">
-                <span className="text-body-sm font-weight-semibold">Balance Due</span>
-                <span className={`text-h4-md font-weight-bold ${invoice.amount_due > 0 ? 'text-destructive' : 'text-success'}`}>
+                <Text className="text-body-sm font-weight-semibold">Balance Due</Text>
+                <Text className={`text-h4-md font-weight-bold ${invoice.amount_due > 0 ? 'text-destructive' : 'text-success'}`}>
                   {formatCurrency(invoice.amount_due)}
-                </span>
+                </Text>
               </div>
             </div>
           </div>
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Details</H2>
             <div className="space-y-3">
               <div>
-                <p className="text-body-xs text-muted-foreground">Invoice Date</p>
-                <p className="text-body-sm font-weight-medium">
+                <Body className="text-body-xs text-muted-foreground">Invoice Date</Body>
+                <Body className="text-body-sm font-weight-medium">
                   {new Date(invoice.invoice_date).toLocaleDateString()}
-                </p>
+                </Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Due Date</p>
-                <p className={`text-body-sm font-weight-medium ${isOverdue ? 'text-destructive' : ''}`}>
+                <Body className="text-body-xs text-muted-foreground">Due Date</Body>
+                <Body className={`text-body-sm font-weight-medium ${isOverdue ? 'text-destructive' : ''}`}>
                   {new Date(invoice.due_date).toLocaleDateString()}
                   {isOverdue && (
-                    <span className="ml-2 text-body-xs">({Math.abs(daysUntilDue)} days overdue)</span>
+                    <Text className="ml-2 text-body-xs">({Math.abs(daysUntilDue)} days overdue)</Text>
                   )}
-                </p>
+                </Body>
               </div>
               {invoice.payment_terms && (
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Payment Terms</p>
-                  <p className="text-body-sm font-weight-medium">{invoice.payment_terms}</p>
+                  <Body className="text-body-xs text-muted-foreground">Payment Terms</Body>
+                  <Body className="text-body-sm font-weight-medium">{invoice.payment_terms}</Body>
                 </div>
               )}
               {invoice.purchase_order && (
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Purchase Order</p>
-                  <a href={`/purchase-orders/${invoice.purchase_order.id}`} className="text-body-sm font-weight-medium text-primary hover:underline">
+                  <Body className="text-body-xs text-muted-foreground">Purchase Order</Body>
+                  <Link href={`/purchase-orders/${invoice.purchase_order.id}`} className="text-body-sm font-weight-medium text-primary hover:underline">
                     {invoice.purchase_order.po_number}
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -281,11 +299,11 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
             <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4">
               <div className="flex items-center gap-2 text-destructive">
                 <AlertTriangle className="h-5 w-5" />
-                <span className="font-weight-semibold">Overdue</span>
+                <Text className="font-weight-semibold">Overdue</Text>
               </div>
-              <p className="text-body-sm text-destructive mt-1">
+              <Body className="text-body-sm text-destructive mt-1">
                 This invoice is {Math.abs(daysUntilDue)} days past due.
-              </p>
+              </Body>
             </div>
           )}
         </div>
@@ -294,15 +312,15 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
       {showPaymentModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-md">
-            <h2 className="text-h3-md font-weight-bold text-foreground mb-4">Record Payment</h2>
-            <form onSubmit={handleRecordPayment} className="space-y-4">
+            <H2 className="text-h3-md font-weight-bold text-foreground mb-4">Record Payment</H2>
+            <Form onSubmit={handleRecordPayment} className="space-y-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Amount *
-                </label>
+                </Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <input
+                  <Text className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</Text>
+                  <Input
                     type="number"
                     step="0.01"
                     max={invoice.amount_due}
@@ -315,10 +333,10 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Payment Method
-                </label>
-                <select
+                </Label>
+                <Select
                   value={paymentData.payment_method}
                   onChange={(e) => setPaymentData({ ...paymentData, payment_method: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -328,13 +346,13 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
                   <option value="wire">Wire Transfer</option>
                   <option value="credit_card">Credit Card</option>
                   <option value="cash">Cash</option>
-                </select>
+                </Select>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Reference Number
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Check # or transaction ID"
                   value={paymentData.reference_number}
@@ -343,10 +361,10 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Payment Date
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   value={paymentData.payment_date}
                   onChange={(e) => setPaymentData({ ...paymentData, payment_date: e.target.value })}
@@ -355,22 +373,22 @@ export default function VendorInvoiceDetailPage({ params }: { params: { id: stri
                 />
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowPaymentModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={paymentMutation.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {paymentMutation.isPending ? 'Recording...' : 'Record Payment'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

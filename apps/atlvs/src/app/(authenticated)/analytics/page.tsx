@@ -1,6 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
+import Link from 'next/link';
 import { TrendingUp, TrendingDown, DollarSign, Calendar, Users, FileText, BarChart3, PieChart, ArrowRight, RefreshCw } from 'lucide-react';
 import { useAnalyticsDashboard } from '@/hooks/useAnalytics';
 
@@ -88,7 +98,7 @@ export default function AnalyticsDashboardPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load analytics</p>
+          <Body className="text-destructive">Failed to load analytics</Body>
         </div>
       </div>
     );
@@ -98,13 +108,13 @@ export default function AnalyticsDashboardPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Analytics Dashboard</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Analytics Dashboard</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Track performance metrics and trends
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-3">
-          <select
+          <Select
             value={dateRange}
             onChange={(e) => setDateRange(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -113,14 +123,14 @@ export default function AnalyticsDashboardPage() {
             <option value="30d">Last 30 days</option>
             <option value="90d">Last 90 days</option>
             <option value="365d">Last year</option>
-          </select>
-          <button
+          </Select>
+          <Button
             onClick={() => refetch()}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button font-weight-medium text-body-sm hover:bg-muted transition-colors"
           >
             <RefreshCw className="h-4 w-4" />
             Refresh
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -128,20 +138,20 @@ export default function AnalyticsDashboardPage() {
         {metricCards.map((metric, index) => (
           <div key={index} className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-body-sm text-muted-foreground">{metric.title}</span>
+              <Text className="text-body-sm text-muted-foreground">{metric.title}</Text>
               {metric.icon}
             </div>
-            <p className="text-h3-md font-weight-bold text-foreground">{metric.value}</p>
+            <Body className="text-h3-md font-weight-bold text-foreground">{metric.value}</Body>
             <div className="flex items-center gap-1 mt-1">
               {metric.change >= 0 ? (
                 <TrendingUp className="h-4 w-4 text-success" />
               ) : (
                 <TrendingDown className="h-4 w-4 text-destructive" />
               )}
-              <span className={`text-body-xs ${metric.change >= 0 ? 'text-success' : 'text-destructive'}`}>
+              <Text className={`text-body-xs ${metric.change >= 0 ? 'text-success' : 'text-destructive'}`}>
                 {formatChange(metric.change)}
-              </span>
-              <span className="text-body-xs text-muted-foreground">{metric.changeLabel}</span>
+              </Text>
+              <Text className="text-body-xs text-muted-foreground">{metric.changeLabel}</Text>
             </div>
           </div>
         ))}
@@ -150,7 +160,7 @@ export default function AnalyticsDashboardPage() {
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Revenue Trend</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Revenue Trend</H2>
             <BarChart3 className="h-5 w-5 text-muted-foreground" />
           </div>
           {revenueByMonth.length === 0 ? (
@@ -165,8 +175,8 @@ export default function AnalyticsDashboardPage() {
                 return (
                   <div key={index}>
                     <div className="flex items-center justify-between text-body-sm mb-1">
-                      <span className="text-muted-foreground">{item.month}</span>
-                      <span className="font-weight-medium text-foreground">{formatCurrency(item.revenue)}</span>
+                      <Text className="text-muted-foreground">{item.month}</Text>
+                      <Text className="font-weight-medium text-foreground">{formatCurrency(item.revenue)}</Text>
                     </div>
                     <div className="h-2 bg-muted rounded-badge overflow-hidden">
                       <div
@@ -183,7 +193,7 @@ export default function AnalyticsDashboardPage() {
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Events by Type</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Events by Type</H2>
             <PieChart className="h-5 w-5 text-muted-foreground" />
           </div>
           {eventsByType.length === 0 ? (
@@ -197,8 +207,8 @@ export default function AnalyticsDashboardPage() {
                 return (
                   <div key={index} className="flex items-center gap-3">
                     <div className={`w-3 h-3 rounded-avatar ${colors[index % colors.length]}`} />
-                    <span className="flex-1 text-body-sm text-foreground">{item.type}</span>
-                    <span className="text-body-sm font-weight-medium text-foreground">{item.count}</span>
+                    <Text className="flex-1 text-body-sm text-foreground">{item.type}</Text>
+                    <Text className="text-body-sm font-weight-medium text-foreground">{item.count}</Text>
                   </div>
                 );
               })}
@@ -209,10 +219,10 @@ export default function AnalyticsDashboardPage() {
 
       <div className="bg-background border-2 border-border rounded-card p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">Top Clients</h2>
-          <a href="/analytics/clients" className="text-body-sm text-primary hover:underline flex items-center gap-1">
+          <H2 className="text-h4-md font-weight-semibold text-foreground">Top Clients</H2>
+          <Link href="/analytics/clients" className="text-body-sm text-primary hover:underline flex items-center gap-1">
             View all <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
         {topClients.length === 0 ? (
           <div className="py-8 text-center text-muted-foreground">
@@ -223,19 +233,19 @@ export default function AnalyticsDashboardPage() {
             {topClients.slice(0, 5).map((client: { id: string; name: string; total_revenue: number; event_count: number }, index: number) => (
               <div key={client.id} className="py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="w-6 h-6 rounded-avatar bg-primary/10 text-primary text-body-xs font-weight-bold flex items-center justify-center">
+                  <Text className="w-6 h-6 rounded-avatar bg-primary/10 text-primary text-body-xs font-weight-bold flex items-center justify-center">
                     {index + 1}
-                  </span>
-                  <span className="text-body-sm font-weight-medium text-foreground">{client.name}</span>
+                  </Text>
+                  <Text className="text-body-sm font-weight-medium text-foreground">{client.name}</Text>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="text-right">
-                    <p className="text-body-sm font-weight-bold text-foreground">{formatCurrency(client.total_revenue)}</p>
-                    <p className="text-body-xs text-muted-foreground">Revenue</p>
+                    <Body className="text-body-sm font-weight-bold text-foreground">{formatCurrency(client.total_revenue)}</Body>
+                    <Body className="text-body-xs text-muted-foreground">Revenue</Body>
                   </div>
                   <div className="text-right">
-                    <p className="text-body-sm font-weight-bold text-foreground">{client.event_count}</p>
-                    <p className="text-body-xs text-muted-foreground">Events</p>
+                    <Body className="text-body-sm font-weight-bold text-foreground">{client.event_count}</Body>
+                    <Body className="text-body-xs text-muted-foreground">Events</Body>
                   </div>
                 </div>
               </div>

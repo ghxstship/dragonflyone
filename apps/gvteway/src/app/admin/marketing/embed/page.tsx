@@ -4,9 +4,24 @@ import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  H2, H3, Body, Label, Grid, Stack, Input, Button, Select,
-  Card, Badge, Tabs, TabsList, Tab, TabPanel,
-  Kicker, useNotifications,
+  Badge,
+  Body,
+  Button,
+  Card,
+  Grid,
+  H2,
+  H3,
+  Input,
+  Kicker,
+  Label,
+  Link,
+  Select,
+  Stack,
+  Tab,
+  TabPanel,
+  Tabs,
+  TabsList,
+  useNotifications,
 } from '@ghxstship/ui';
 import {
   Code, Copy, ExternalLink, Ticket, Calendar, Share2,
@@ -58,11 +73,11 @@ function EmbedCodePageContent() {
     switch (config.type) {
       case 'button':
         return `<!-- GVTEWAY Buy Tickets Button -->
-<a href="${baseUrl}/e/${eventId}/tickets" 
+<Link href="${baseUrl}/e/${eventId}/tickets" 
    target="_blank"
    style="display:inline-block;padding:12px 24px;background:${config.buttonColor};color:white;text-decoration:none;border-radius:4px;font-family:sans-serif;font-weight:600;">
   ${config.buttonText}
-</a>`;
+</Link>`;
       
       case 'inline':
         return `<!-- GVTEWAY Inline Ticket Widget -->
@@ -83,10 +98,10 @@ function EmbedCodePageContent() {
       case 'popup':
         return `<!-- GVTEWAY Popup Ticket Widget -->
 <script src="${baseUrl}/embed.js"></script>
-<button onclick="GvtewayEmbed.popup('${eventId}')" 
+<Button onclick="GvtewayEmbed.popup('${eventId}')" 
         style="padding:12px 24px;background:${config.buttonColor};color:white;border:none;border-radius:4px;cursor:pointer;font-family:sans-serif;font-weight:600;">
   ${config.buttonText}
-</button>`;
+</Button>`;
       
       case 'iframe':
         return `<!-- GVTEWAY iFrame Embed -->
@@ -288,7 +303,7 @@ function EmbedCodePageContent() {
                     <H3 className="text-white">Preview</H3>
                     <Card className="p-6 bg-white min-h-[150px] flex items-center justify-center">
                       {config.type === 'button' || config.type === 'popup' ? (
-                        <button
+                        <Button
                           style={{
                             padding: '12px 24px',
                             background: config.buttonColor,
@@ -300,7 +315,7 @@ function EmbedCodePageContent() {
                           }}
                         >
                           {config.buttonText}
-                        </button>
+                        </Button>
                       ) : (
                         <Stack gap={2} className="text-center">
                           <Code className="w-8 h-8 mx-auto text-ink-400" />

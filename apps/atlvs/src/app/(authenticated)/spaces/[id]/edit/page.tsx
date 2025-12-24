@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -112,7 +124,7 @@ export default function EditSpacePage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Space not found</p>
+          <Body className="text-destructive">Space not found</Body>
           <Link href="/spaces" className="text-primary hover:underline mt-2 inline-block">
             Back to Spaces
           </Link>
@@ -131,25 +143,25 @@ export default function EditSpacePage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Edit Space</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Edit Space</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Update space details and configuration
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <MapPin className="h-5 w-5" />
             Basic Information
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Space Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="name"
                 value={formData.name}
@@ -160,14 +172,14 @@ export default function EditSpacePage() {
                 }`}
               />
               {errors.name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.name}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Description
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
@@ -180,16 +192,16 @@ export default function EditSpacePage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Users className="h-5 w-5" />
             Capacity & Pricing
-          </h2>
+          </H2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Maximum Capacity *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 name="capacity"
                 value={formData.capacity}
@@ -201,16 +213,16 @@ export default function EditSpacePage() {
                 }`}
               />
               {errors.capacity && (
-                <p className="text-body-xs text-destructive mt-1">{errors.capacity}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.capacity}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Base Price ($)
-              </label>
+              </Label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
+                <Input
                   type="number"
                   name="base_price"
                   value={formData.base_price}
@@ -226,10 +238,10 @@ export default function EditSpacePage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Amenities</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Amenities</H2>
           <div className="grid grid-cols-3 gap-2">
             {AMENITIES.map((amenity) => (
-              <button
+              <Button
                 key={amenity}
                 type="button"
                 onClick={() => toggleAmenity(amenity)}
@@ -248,16 +260,16 @@ export default function EditSpacePage() {
                     <Check className="h-3 w-3 text-white" />
                   )}
                 </div>
-                <span className="text-body-sm">{amenity}</span>
-              </button>
+                <Text className="text-body-sm">{amenity}</Text>
+              </Button>
             ))}
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Status</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Status</H2>
           <div className="flex items-center gap-3">
-            <button
+            <Button
               type="button"
               onClick={() => {
                 setFormData((prev) => ({ ...prev, is_active: !prev.is_active }));
@@ -272,23 +284,23 @@ export default function EditSpacePage() {
                   formData.is_active ? 'translate-x-7' : 'translate-x-1'
                 }`}
               />
-            </button>
-            <span className="text-body-sm text-foreground">
+            </Button>
+            <Text className="text-body-sm text-foreground">
               {formData.is_active ? 'Active - Space is available for booking' : 'Inactive - Space is hidden from booking'}
-            </span>
+            </Text>
           </div>
         </div>
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
         <div className="flex items-center justify-between">
           <div>
             {hasChanges && (
-              <span className="text-body-xs text-warning">You have unsaved changes</span>
+              <Text className="text-body-xs text-warning">You have unsaved changes</Text>
             )}
           </div>
           <div className="flex items-center gap-3">
@@ -298,17 +310,17 @@ export default function EditSpacePage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={updateSpace.isPending || !hasChanges}
               className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {updateSpace.isPending ? 'Saving...' : 'Save Changes'}
-            </button>
+            </Button>
           </div>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

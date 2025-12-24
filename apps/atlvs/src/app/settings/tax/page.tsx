@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Percent, Globe, Trash2, Edit2, AlertCircle } from 'lucide-react';
@@ -132,13 +145,13 @@ export default function TaxSettingsPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load tax settings</p>
-          <button
+          <Body className="text-destructive">Failed to load tax settings</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['tax-settings'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -154,75 +167,75 @@ export default function TaxSettingsPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Tax Settings</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Tax Settings</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Configure tax rates and calculation settings
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6 space-y-6">
-        <h2 className="text-h4-md font-weight-semibold text-foreground">General Settings</h2>
+        <H2 className="text-h4-md font-weight-semibold text-foreground">General Settings</H2>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-body-sm font-weight-medium text-foreground">Enable Tax Calculation</p>
-              <p className="text-body-xs text-muted-foreground">Apply tax to invoices and quotes</p>
+              <Body className="text-body-sm font-weight-medium text-foreground">Enable Tax Calculation</Body>
+              <Body className="text-body-xs text-muted-foreground">Apply tax to invoices and quotes</Body>
             </div>
-            <button
+            <Button
               onClick={() => setLocalSettings({ ...localSettings, tax_enabled: !localSettings.tax_enabled })}
               className={`relative w-12 h-6 rounded-avatar transition-colors ${
                 localSettings.tax_enabled ? 'bg-primary' : 'bg-muted'
               }`}
             >
-              <span
+              <Text
                 className={`absolute top-1 w-4 h-4 bg-white rounded-avatar transition-transform ${
                   localSettings.tax_enabled ? 'translate-x-7' : 'translate-x-1'
                 }`}
               />
-            </button>
+            </Button>
           </div>
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-body-sm font-weight-medium text-foreground">Display Prices with Tax</p>
-              <p className="text-body-xs text-muted-foreground">Show tax-inclusive prices to customers</p>
+              <Body className="text-body-sm font-weight-medium text-foreground">Display Prices with Tax</Body>
+              <Body className="text-body-xs text-muted-foreground">Show tax-inclusive prices to customers</Body>
             </div>
-            <button
+            <Button
               onClick={() => setLocalSettings({ ...localSettings, display_prices_with_tax: !localSettings.display_prices_with_tax })}
               className={`relative w-12 h-6 rounded-avatar transition-colors ${
                 localSettings.display_prices_with_tax ? 'bg-primary' : 'bg-muted'
               }`}
             >
-              <span
+              <Text
                 className={`absolute top-1 w-4 h-4 bg-white rounded-avatar transition-transform ${
                   localSettings.display_prices_with_tax ? 'translate-x-7' : 'translate-x-1'
                 }`}
               />
-            </button>
+            </Button>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Tax Calculation Method
-            </label>
-            <select
+            </Label>
+            <Select
               value={localSettings.tax_calculation_method}
               onChange={(e) => setLocalSettings({ ...localSettings, tax_calculation_method: e.target.value as 'inclusive' | 'exclusive' })}
               className="w-full max-w-xs px-4 py-2 border-2 border-border rounded-button bg-background focus:outline-none focus:border-primary"
             >
               <option value="exclusive">Tax Exclusive (add tax to prices)</option>
               <option value="inclusive">Tax Inclusive (prices include tax)</option>
-            </select>
+            </Select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Tax Number Label
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 value={localSettings.tax_number_label || ''}
                 onChange={(e) => setLocalSettings({ ...localSettings, tax_number_label: e.target.value })}
@@ -231,10 +244,10 @@ export default function TaxSettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Tax Number
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 value={localSettings.tax_number || ''}
                 onChange={(e) => setLocalSettings({ ...localSettings, tax_number: e.target.value })}
@@ -245,33 +258,33 @@ export default function TaxSettingsPage() {
           </div>
 
           <div className="pt-4">
-            <button
+            <Button
               onClick={() => saveSettings.mutate(localSettings)}
               disabled={saveSettings.isPending}
               className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {saveSettings.isPending ? 'Saving...' : 'Save Settings'}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">Tax Rates</h2>
-          <button
+          <H2 className="text-h4-md font-weight-semibold text-foreground">Tax Rates</H2>
+          <Button
             onClick={() => { setEditingRate(null); setShowRateModal(true); }}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
           >
             <Plus className="h-4 w-4" />
-            <span className="text-body-sm">Add Rate</span>
-          </button>
+            <Text className="text-body-sm">Add Rate</Text>
+          </Button>
         </div>
 
         {taxRates.length === 0 ? (
           <div className="text-center py-8 bg-muted/30 border-2 border-dashed border-border rounded-card">
             <Percent className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-            <p className="text-body-sm text-muted-foreground">No tax rates configured</p>
+            <Body className="text-body-sm text-muted-foreground">No tax rates configured</Body>
           </div>
         ) : (
           <div className="space-y-3">
@@ -288,39 +301,39 @@ export default function TaxSettingsPage() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="text-body-md font-weight-semibold text-foreground">{rate.name}</p>
+                      <Body className="text-body-md font-weight-semibold text-foreground">{rate.name}</Body>
                       {rate.is_default && (
-                        <span className="px-2 py-0.5 bg-primary/20 text-primary text-body-xs rounded-badge">
+                        <Text className="px-2 py-0.5 bg-primary/20 text-primary text-body-xs rounded-badge">
                           Default
-                        </span>
+                        </Text>
                       )}
                       {!rate.is_active && (
-                        <span className="px-2 py-0.5 bg-muted text-muted-foreground text-body-xs rounded-badge">
+                        <Text className="px-2 py-0.5 bg-muted text-muted-foreground text-body-xs rounded-badge">
                           Inactive
-                        </span>
+                        </Text>
                       )}
                     </div>
                     <div className="flex items-center gap-3 text-body-xs text-muted-foreground mt-1">
-                      <span className="flex items-center gap-1">
+                      <Text className="flex items-center gap-1">
                         <Globe className="h-3 w-3" />
                         {rate.region}, {rate.country}
-                      </span>
-                      <span>•</span>
-                      <span>{getAppliesToLabel(rate.applies_to)}</span>
+                      </Text>
+                      <Text>•</Text>
+                      <Text>{getAppliesToLabel(rate.applies_to)}</Text>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <p className="text-h4-md font-weight-bold text-foreground">{rate.rate}%</p>
+                  <Body className="text-h4-md font-weight-bold text-foreground">{rate.rate}%</Body>
                   <div className="flex items-center gap-1">
-                    <button
+                    <Button
                       onClick={() => { setEditingRate(rate); setShowRateModal(true); }}
                       className="p-2 hover:bg-muted rounded-button transition-colors"
                     >
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
+                    </Button>
                     {!rate.is_default && (
-                      <button
+                      <Button
                         onClick={() => {
                           if (confirm('Delete this tax rate?')) {
                             deleteRate.mutate(rate.id);
@@ -329,7 +342,7 @@ export default function TaxSettingsPage() {
                         className="p-2 hover:bg-destructive/10 rounded-button transition-colors"
                       >
                         <Trash2 className="h-4 w-4 text-destructive" />
-                      </button>
+                      </Button>
                     )}
                   </div>
                 </div>
@@ -342,10 +355,10 @@ export default function TaxSettingsPage() {
       {showRateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               {editingRate ? 'Edit Tax Rate' : 'Add Tax Rate'}
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -364,10 +377,10 @@ export default function TaxSettingsPage() {
             >
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Rate Name *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="name"
                     required
@@ -377,10 +390,10 @@ export default function TaxSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Rate (%) *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     name="rate"
                     required
@@ -395,10 +408,10 @@ export default function TaxSettingsPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Region *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="region"
                     required
@@ -408,10 +421,10 @@ export default function TaxSettingsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Country Code *
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="country"
                     required
@@ -423,10 +436,10 @@ export default function TaxSettingsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Applies To
-                </label>
-                <select
+                </Label>
+                <Select
                   name="applies_to"
                   defaultValue={editingRate?.applies_to || 'all'}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -435,37 +448,37 @@ export default function TaxSettingsPage() {
                   <option value="services">Services Only</option>
                   <option value="products">Products Only</option>
                   <option value="rentals">Rentals Only</option>
-                </select>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
-                <input
+                <Input
                   type="checkbox"
                   id="is_default"
                   name="is_default"
                   defaultChecked={editingRate?.is_default}
                   className="w-4 h-4 border-2 border-border rounded"
                 />
-                <label htmlFor="is_default" className="text-body-sm text-foreground">
+                <Label htmlFor="is_default" className="text-body-sm text-foreground">
                   Set as default tax rate
-                </label>
+                </Label>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => { setShowRateModal(false); setEditingRate(null); }}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createRate.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createRate.isPending ? 'Saving...' : editingRate ? 'Update Rate' : 'Add Rate'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

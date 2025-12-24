@@ -1,5 +1,19 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart } from 'lucide-react';
@@ -72,15 +86,15 @@ export default function RevenueAnalyticsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Revenue Analytics</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Revenue Analytics</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Deep dive into revenue performance
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2 bg-muted/30 rounded-button p-1">
           {(['7d', '30d', '90d', '1y'] as const).map((range) => (
-            <button
+            <Button
               key={range}
               onClick={() => setDateRange(range)}
               className={`px-3 py-1.5 rounded-button text-body-sm transition-colors ${
@@ -90,7 +104,7 @@ export default function RevenueAnalyticsPage() {
               }`}
             >
               {range === '7d' ? '7 Days' : range === '30d' ? '30 Days' : range === '90d' ? '90 Days' : '1 Year'}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -98,12 +112,12 @@ export default function RevenueAnalyticsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Total Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Total Revenue</Text>
             <DollarSign className="h-5 w-5 text-primary" />
           </div>
-          <p className="text-h2-md font-weight-bold text-foreground">
+          <Body className="text-h2-md font-weight-bold text-foreground">
             {formatCurrency(metrics.total_revenue)}
-          </p>
+          </Body>
           <div className={`flex items-center gap-1 mt-2 text-body-sm ${
             metrics.revenue_change_percent >= 0 ? 'text-success-600' : 'text-error-600'
           }`}>
@@ -112,46 +126,46 @@ export default function RevenueAnalyticsPage() {
             ) : (
               <TrendingDown className="h-4 w-4" />
             )}
-            <span>{Math.abs(metrics.revenue_change_percent).toFixed(1)}% vs previous period</span>
+            <Text>{Math.abs(metrics.revenue_change_percent).toFixed(1)}% vs previous period</Text>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Average Event Value</span>
+            <Text className="text-body-sm text-muted-foreground">Average Event Value</Text>
             <BarChart3 className="h-5 w-5 text-secondary" />
           </div>
-          <p className="text-h2-md font-weight-bold text-foreground">
+          <Body className="text-h2-md font-weight-bold text-foreground">
             {formatCurrency(metrics.average_event_value)}
-          </p>
+          </Body>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-body-sm text-muted-foreground">Revenue Sources</span>
+            <Text className="text-body-sm text-muted-foreground">Revenue Sources</Text>
             <PieChart className="h-5 w-5 text-accent" />
           </div>
-          <p className="text-h2-md font-weight-bold text-foreground">
+          <Body className="text-h2-md font-weight-bold text-foreground">
             {metrics.revenue_by_source.length}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">Active revenue streams</p>
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">Active revenue streams</Body>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Source</h3>
+          <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Source</H3>
           {metrics.revenue_by_source.length === 0 ? (
-            <p className="text-body-sm text-muted-foreground text-center py-8">No data available</p>
+            <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
           ) : (
             <div className="space-y-3">
               {metrics.revenue_by_source.map((source) => (
                 <div key={source.source}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-body-sm text-foreground capitalize">{source.source}</span>
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm text-foreground capitalize">{source.source}</Text>
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {formatCurrency(source.amount)}
-                    </span>
+                    </Text>
                   </div>
                   <div className="w-full bg-muted rounded-avatar h-2">
                     <div
@@ -166,22 +180,22 @@ export default function RevenueAnalyticsPage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Event Type</h3>
+          <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Revenue by Event Type</H3>
           {metrics.revenue_by_event_type.length === 0 ? (
-            <p className="text-body-sm text-muted-foreground text-center py-8">No data available</p>
+            <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
           ) : (
             <div className="space-y-3">
               {metrics.revenue_by_event_type.map((type) => (
                 <div key={type.event_type} className="flex items-center justify-between p-3 bg-muted/30 rounded-card">
                   <div>
-                    <p className="text-body-sm font-weight-medium text-foreground capitalize">
+                    <Body className="text-body-sm font-weight-medium text-foreground capitalize">
                       {type.event_type.replace('_', ' ')}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">{type.count} events</p>
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">{type.count} events</Body>
                   </div>
-                  <p className="text-body-md font-weight-semibold text-foreground">
+                  <Body className="text-body-md font-weight-semibold text-foreground">
                     {formatCurrency(type.amount)}
-                  </p>
+                  </Body>
                 </div>
               ))}
             </div>
@@ -190,31 +204,31 @@ export default function RevenueAnalyticsPage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
-        <h3 className="text-body-md font-weight-semibold text-foreground mb-4">Monthly Trend</h3>
+        <H3 className="text-body-md font-weight-semibold text-foreground mb-4">Monthly Trend</H3>
         {metrics.monthly_trend.length === 0 ? (
-          <p className="text-body-sm text-muted-foreground text-center py-8">No data available</p>
+          <Body className="text-body-sm text-muted-foreground text-center py-8">No data available</Body>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-3 text-body-sm font-weight-medium text-muted-foreground">Month</th>
-                  <th className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Revenue</th>
-                  <th className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Bookings</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow className="border-b border-border">
+                  <TableHead className="text-left py-3 text-body-sm font-weight-medium text-muted-foreground">Month</TableHead>
+                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Revenue</TableHead>
+                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-muted-foreground">Bookings</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-border">
                 {metrics.monthly_trend.map((month) => (
-                  <tr key={month.month}>
-                    <td className="py-3 text-body-sm text-foreground">{month.month}</td>
-                    <td className="py-3 text-body-sm text-foreground text-right font-weight-medium">
+                  <TableRow key={month.month}>
+                    <TableCell className="py-3 text-body-sm text-foreground">{month.month}</TableCell>
+                    <TableCell className="py-3 text-body-sm text-foreground text-right font-weight-medium">
                       {formatCurrency(month.revenue)}
-                    </td>
-                    <td className="py-3 text-body-sm text-foreground text-right">{month.booking_count}</td>
-                  </tr>
+                    </TableCell>
+                    <TableCell className="py-3 text-body-sm text-foreground text-right">{month.booking_count}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         )}
       </div>

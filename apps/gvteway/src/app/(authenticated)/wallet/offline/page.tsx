@@ -8,15 +8,28 @@ import {
   Card, Badge, Alert, Kicker,
 } from "@ghxstship/ui";
 
+import { useOfflineWalletSettings } from "@ghxstship/config";
 import { DEMO_OFFLINE_TICKETS } from "@/lib/demo-data";
 
-const mockOfflineTickets = DEMO_OFFLINE_TICKETS;
+interface OfflineTicket {
+  id: string;
+  eventName: string;
+  eventDate: string;
+  ticketType: string;
+  cachedAt: string;
+  expiresAt: string;
+}
 
 export default function OfflineWalletPage() {
   const router = useRouter();
+  const { settings: apiSettings, isLoading } = useOfflineWalletSettings();
   const [isOnline, setIsOnline] = useState(true);
   const [lastSync, setLastSync] = useState<string>("2024-11-24T10:00:00Z");
   const [isSyncing, setIsSyncing] = useState(false);
+
+  // Use API data or fall back to demo data
+  const offlineTickets: OfflineTicket[] = DEMO_OFFLINE_TICKETS as unknown as OfflineTicket[];
+  const enabledEventsCount = apiSettings.filter(s => s.enabled).length;
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -84,9 +97,15 @@ export default function OfflineWalletPage() {
           )}
 
           <Stack gap={4}>
-            <H3>CACHED TICKETS ({mockOfflineTickets.length})</H3>
+            <H3>CACHED TICKETS ({offlineTickets.length}) - {enabledEventsCount} events enabled</H3>
             
-            {mockOfflineTickets.map((ticket) => (
+            {isLoading && (
+              <div className="flex items-center justify-center py-8">
+                <div className="animate-pulse text-muted-foreground">Loading tickets...</div>
+              </div>
+            )}
+            
+            {offlineTickets.map((ticket) => (
               <Card key={ticket.id} className="border-2 border-black overflow-hidden">
                 <Stack gap={0}>
                   <Card className="p-4 bg-black text-white">

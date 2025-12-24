@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -94,7 +105,7 @@ export default function PurchaseOrderReceivePage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load purchase order</p>
+          <Body className="text-destructive">Failed to load purchase order</Body>
         </div>
       </div>
     );
@@ -110,10 +121,10 @@ export default function PurchaseOrderReceivePage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Receive Items</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Receive Items</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             PO #{po.po_number}
-          </p>
+          </Body>
         </div>
       </div>
 
@@ -121,18 +132,18 @@ export default function PurchaseOrderReceivePage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Package className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Items Ordered</span>
+            <Text className="text-body-sm text-muted-foreground">Items Ordered</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{totalOrdered}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{totalOrdered}</Body>
         </div>
         <div className={`bg-background border-2 rounded-card p-4 ${hasDiscrepancy ? 'border-warning/50' : 'border-success/50'}`}>
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className={`h-5 w-5 ${hasDiscrepancy ? 'text-warning' : 'text-success'}`} />
-            <span className="text-body-sm text-muted-foreground">Items Received</span>
+            <Text className="text-body-sm text-muted-foreground">Items Received</Text>
           </div>
-          <p className={`text-h3-md font-weight-bold ${hasDiscrepancy ? 'text-warning' : 'text-success'}`}>
+          <Body className={`text-h3-md font-weight-bold ${hasDiscrepancy ? 'text-warning' : 'text-success'}`}>
             {totalReceived}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
@@ -141,51 +152,51 @@ export default function PurchaseOrderReceivePage() {
             ) : (
               <CheckCircle className="h-5 w-5 text-success" />
             )}
-            <span className="text-body-sm text-muted-foreground">Status</span>
+            <Text className="text-body-sm text-muted-foreground">Status</Text>
           </div>
-          <p className={`text-body-lg font-weight-bold ${hasDiscrepancy ? 'text-warning' : 'text-success'}`}>
+          <Body className={`text-body-lg font-weight-bold ${hasDiscrepancy ? 'text-warning' : 'text-success'}`}>
             {hasDiscrepancy ? 'Partial Receipt' : 'Full Receipt'}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card">
         <div className="p-4 border-b border-border">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">Receipt Items</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground">Receipt Items</H2>
         </div>
         <div className="divide-y divide-border">
           {receiptItems.map((item) => (
             <div key={item.item_id} className="p-4">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <p className="text-body-sm font-weight-medium text-foreground">{item.name}</p>
-                  <p className="text-body-xs text-muted-foreground">
+                  <Body className="text-body-sm font-weight-medium text-foreground">{item.name}</Body>
+                  <Body className="text-body-xs text-muted-foreground">
                     Ordered: {item.quantity_ordered}
-                  </p>
+                  </Body>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button
+                  <Button
                     onClick={() => updateQuantity(item.item_id, -1)}
                     disabled={item.quantity_received === 0}
                     className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors disabled:opacity-50"
                   >
                     <Minus className="h-4 w-4" />
-                  </button>
-                  <span className="w-12 text-center text-body-lg font-weight-bold text-foreground">
+                  </Button>
+                  <Text className="w-12 text-center text-body-lg font-weight-bold text-foreground">
                     {item.quantity_received}
-                  </span>
-                  <button
+                  </Text>
+                  <Button
                     onClick={() => updateQuantity(item.item_id, 1)}
                     disabled={item.quantity_received >= item.quantity_ordered}
                     className="p-2 border-2 border-border rounded-button hover:bg-muted transition-colors disabled:opacity-50"
                   >
                     <Plus className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               {item.quantity_received < item.quantity_ordered && (
                 <div>
-                  <input
+                  <Input
                     type="text"
                     value={item.notes}
                     onChange={(e) => updateNotes(item.item_id, e.target.value)}
@@ -200,10 +211,10 @@ export default function PurchaseOrderReceivePage() {
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-4">
-        <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+        <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
           Receipt Notes
-        </label>
-        <textarea
+        </Label>
+        <Textarea
           value={receiptNotes}
           onChange={(e) => setReceiptNotes(e.target.value)}
           placeholder="Add any notes about this receipt..."
@@ -219,14 +230,14 @@ export default function PurchaseOrderReceivePage() {
         >
           Cancel
         </Link>
-        <button
+        <Button
           onClick={handleSubmit}
           disabled={receiveMutation.isPending}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
           <Save className="h-4 w-4" />
           {receiveMutation.isPending ? 'Recording...' : 'Record Receipt'}
-        </button>
+        </Button>
       </div>
     </div>
   );

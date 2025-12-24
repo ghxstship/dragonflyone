@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  Input,
+  Label,
+  Link,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, FileText, Plus, Trash2 } from 'lucide-react';
@@ -72,13 +84,13 @@ export default function NewRFPPage() {
   return (
     <div className="p-6 max-w-3xl mx-auto">
       <div className="mb-6">
-        <a
+        <Link
           href="/rfps"
           className="inline-flex items-center gap-2 text-body-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to RFPs
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
@@ -87,10 +99,10 @@ export default function NewRFPPage() {
             <FileText className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">Create RFP</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">Create RFP</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Send a request for proposal to multiple vendors
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -100,12 +112,12 @@ export default function NewRFPPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Title *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               placeholder="e.g., A/V Services for Annual Gala"
               value={formData.title}
@@ -113,15 +125,15 @@ export default function NewRFPPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.title && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.title}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.title}</Body>
             )}
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Description *
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={4}
               placeholder="Describe the services or products you need..."
               value={formData.description}
@@ -129,16 +141,16 @@ export default function NewRFPPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
             />
             {errors.description && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.description}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.description}</Body>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Issuer / Organization *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="Your organization name"
                 value={formData.issuer}
@@ -146,15 +158,15 @@ export default function NewRFPPage() {
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.issuer && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.issuer}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.issuer}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Category
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -169,31 +181,31 @@ export default function NewRFPPage() {
                     ))}
                   </optgroup>
                 ))}
-              </select>
+              </Select>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Deadline *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="datetime-local"
                 value={formData.deadline}
                 onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.deadline && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.deadline}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.deadline}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Budget Range
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="e.g., $5,000 - $10,000"
                 value={formData.budget_range}
@@ -205,58 +217,58 @@ export default function NewRFPPage() {
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <label className="text-body-sm font-weight-medium text-foreground">
+              <Label className="text-body-sm font-weight-medium text-foreground">
                 Requirements
-              </label>
-              <button
+              </Label>
+              <Button
                 type="button"
                 onClick={addRequirement}
                 className="inline-flex items-center gap-1 px-2 py-1 text-body-xs font-weight-medium text-primary hover:bg-primary/10 rounded-button transition-colors"
               >
                 <Plus className="h-3 w-3" />
                 Add
-              </button>
+              </Button>
             </div>
             <div className="space-y-2">
               {requirements.map((req, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <input
+                  <Input
                     type="text"
                     placeholder={`Requirement ${index + 1}`}
                     value={req}
                     onChange={(e) => updateRequirement(index, e.target.value)}
                     className="flex-1 px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   />
-                  <button
+                  <Button
                     type="button"
                     onClick={() => removeRequirement(index)}
                     disabled={requirements.length === 1}
                     className="p-2 text-muted-foreground hover:text-destructive disabled:opacity-30 transition-colors"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-border">
-            <a
+            <Link
               href="/rfps"
               className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
             >
               Cancel
-            </a>
-            <button
+            </Link>
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create RFP'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

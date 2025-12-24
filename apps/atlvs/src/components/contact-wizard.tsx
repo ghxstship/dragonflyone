@@ -1,7 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Card, Stack, Grid, Label, H3, Body, Button, Input, Textarea, Alert } from "@ghxstship/ui";
+import {
+  Alert,
+  Body,
+  Button,
+  Card,
+  Form,
+  Grid,
+  H3,
+  Input,
+  Label,
+  Stack,
+  Textarea,
+} from '@ghxstship/ui';
 
 const wizardSteps = [
   {
@@ -158,7 +170,7 @@ export function ContactWizard() {
           </Grid>
         </Stack>
 
-        <form>
+        <Form>
           <Stack gap={6}>
             <Stack>
               <H3 className="text-h5-md uppercase">{step.title}</H3>
@@ -226,7 +238,7 @@ export function ContactWizard() {
               </Stack>
             </Stack>
           </Stack>
-        </form>
+        </Form>
       </Stack>
     </Card>
   );

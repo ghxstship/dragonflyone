@@ -1,5 +1,20 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -128,8 +143,8 @@ export default function PublicProposalPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center">
           <FileText className="h-12 w-12 text-ink-400 mx-auto mb-4" />
-          <h1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Proposal Not Found</h1>
-          <p className="text-ink-500">{error || 'This proposal may have expired or been removed.'}</p>
+          <H1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Proposal Not Found</H1>
+          <Body className="text-ink-500">{error || 'This proposal may have expired or been removed.'}</Body>
         </div>
       </div>
     );
@@ -156,18 +171,18 @@ export default function PublicProposalPage() {
                 ) : (
                   <div className="flex items-center gap-2 mb-4">
                     <Building2 className="h-8 w-8 text-violet-600" />
-                    <span className="text-h5-md font-weight-semibold text-ink-900">
+                    <Text className="text-h5-md font-weight-semibold text-ink-900">
                       {proposal.organization.name}
-                    </span>
+                    </Text>
                   </div>
                 )}
-                <h1 className="text-h4-md font-weight-bold text-ink-900">{proposal.name}</h1>
-                <p className="text-body-sm text-ink-500 mt-1">
+                <H1 className="text-h4-md font-weight-bold text-ink-900">{proposal.name}</H1>
+                <Body className="text-body-sm text-ink-500 mt-1">
                   Proposal #{proposal.proposal_number}
-                </p>
+                </Body>
               </div>
               <div className="text-right">
-                <span className={`inline-flex items-center px-3 py-1 rounded-radius-full text-body-sm font-weight-medium ${
+                <Text className={`inline-flex items-center px-3 py-1 rounded-radius-full text-body-sm font-weight-medium ${
                   proposal.status === 'accepted'
                     ? 'bg-success-100 text-success-800'
                     : proposal.status === 'declined'
@@ -179,7 +194,7 @@ export default function PublicProposalPage() {
                   {proposal.status === 'accepted' && <Check className="h-4 w-4 mr-1" />}
                   {proposal.status === 'declined' && <X className="h-4 w-4 mr-1" />}
                   {isExpired ? 'Expired' : proposal.status.charAt(0).toUpperCase() + proposal.status.slice(1)}
-                </span>
+                </Text>
               </div>
             </div>
           </div>
@@ -187,19 +202,19 @@ export default function PublicProposalPage() {
           <div className="p-8 border-b border-ink-200">
             <div className="grid grid-cols-2 gap-8">
               <div>
-                <h3 className="text-body-sm font-weight-medium text-ink-500 mb-2">Prepared For</h3>
-                <p className="text-ink-900 font-weight-medium">
+                <H3 className="text-body-sm font-weight-medium text-ink-500 mb-2">Prepared For</H3>
+                <Body className="text-ink-900 font-weight-medium">
                   {proposal.contact.first_name} {proposal.contact.last_name}
-                </p>
-                <p className="text-ink-500 text-body-sm">{proposal.contact.email}</p>
+                </Body>
+                <Body className="text-ink-500 text-body-sm">{proposal.contact.email}</Body>
               </div>
               <div>
-                <h3 className="text-body-sm font-weight-medium text-ink-500 mb-2">Valid Until</h3>
+                <H3 className="text-body-sm font-weight-medium text-ink-500 mb-2">Valid Until</H3>
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-ink-400" />
-                  <span className={isExpired ? 'text-error-600' : 'text-ink-900'}>
+                  <Text className={isExpired ? 'text-error-600' : 'text-ink-900'}>
                     {proposal.valid_until ? formatDate(proposal.valid_until) : 'No expiration'}
-                  </span>
+                  </Text>
                 </div>
               </div>
             </div>
@@ -207,48 +222,48 @@ export default function PublicProposalPage() {
 
           {proposal.introduction && (
             <div className="p-8 border-b border-ink-200">
-              <h2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Introduction</h2>
-              <p className="text-ink-600 whitespace-pre-wrap">{proposal.introduction}</p>
+              <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Introduction</H2>
+              <Body className="text-ink-600 whitespace-pre-wrap">{proposal.introduction}</Body>
             </div>
           )}
 
           <div className="p-8 border-b border-ink-200">
-            <h2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Pricing</h2>
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-ink-200">
-                  <th className="text-left py-3 text-body-sm font-weight-medium text-ink-500">Description</th>
-                  <th className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-24">Qty</th>
-                  <th className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-32">Unit Price</th>
-                  <th className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-32">Total</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-ink-100">
+            <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Pricing</H2>
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow className="border-b border-ink-200">
+                  <TableHead className="text-left py-3 text-body-sm font-weight-medium text-ink-500">Description</TableHead>
+                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-24">Qty</TableHead>
+                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-32">Unit Price</TableHead>
+                  <TableHead className="text-right py-3 text-body-sm font-weight-medium text-ink-500 w-32">Total</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-ink-100">
                 {proposal.pricing_items.map((item) => (
-                  <tr key={item.id}>
-                    <td className="py-3 text-ink-900">{item.description}</td>
-                    <td className="py-3 text-ink-600 text-right">{item.quantity}</td>
-                    <td className="py-3 text-ink-600 text-right">{formatCurrency(item.unit_price)}</td>
-                    <td className="py-3 text-ink-900 font-weight-medium text-right">{formatCurrency(item.total)}</td>
-                  </tr>
+                  <TableRow key={item.id}>
+                    <TableCell className="py-3 text-ink-900">{item.description}</TableCell>
+                    <TableCell className="py-3 text-ink-600 text-right">{item.quantity}</TableCell>
+                    <TableCell className="py-3 text-ink-600 text-right">{formatCurrency(item.unit_price)}</TableCell>
+                    <TableCell className="py-3 text-ink-900 font-weight-medium text-right">{formatCurrency(item.total)}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
             <div className="mt-6 pt-4 border-t border-ink-200 flex justify-end">
               <div className="w-64 space-y-2">
                 <div className="flex justify-between text-body-sm">
-                  <span className="text-ink-500">Subtotal</span>
-                  <span className="text-ink-900">{formatCurrency(proposal.subtotal)}</span>
+                  <Text className="text-ink-500">Subtotal</Text>
+                  <Text className="text-ink-900">{formatCurrency(proposal.subtotal)}</Text>
                 </div>
                 {proposal.tax_amount > 0 && (
                   <div className="flex justify-between text-body-sm">
-                    <span className="text-ink-500">Tax</span>
-                    <span className="text-ink-900">{formatCurrency(proposal.tax_amount)}</span>
+                    <Text className="text-ink-500">Tax</Text>
+                    <Text className="text-ink-900">{formatCurrency(proposal.tax_amount)}</Text>
                   </div>
                 )}
                 <div className="flex justify-between text-h6-md font-weight-semibold pt-2 border-t border-ink-200">
-                  <span className="text-ink-900">Total</span>
-                  <span className="text-ink-900">{formatCurrency(proposal.total_amount)}</span>
+                  <Text className="text-ink-900">Total</Text>
+                  <Text className="text-ink-900">{formatCurrency(proposal.total_amount)}</Text>
                 </div>
               </div>
             </div>
@@ -256,30 +271,30 @@ export default function PublicProposalPage() {
 
           {proposal.terms && (
             <div className="p-8 border-b border-ink-200">
-              <h2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Terms & Conditions</h2>
-              <p className="text-ink-600 whitespace-pre-wrap text-body-sm">{proposal.terms}</p>
+              <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-4">Terms & Conditions</H2>
+              <Body className="text-ink-600 whitespace-pre-wrap text-body-sm">{proposal.terms}</Body>
             </div>
           )}
 
           {canRespond && !isExpired && (
             <div className="p-8 bg-ink-100">
               <div className="flex items-center justify-center gap-4">
-                <button
+                <Button
                   onClick={handleDecline}
                   disabled={declining}
                   className="flex items-center gap-2 px-6 py-3 border-2 border-ink-300 rounded-button text-ink-700 hover:bg-ink-200 transition-colors disabled:opacity-50"
                 >
                   <X className="h-5 w-5" />
                   {declining ? 'Declining...' : 'Decline'}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleAccept}
                   disabled={accepting}
                   className="flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-button hover:bg-violet-700 transition-colors disabled:opacity-50"
                 >
                   <Check className="h-5 w-5" />
                   {accepting ? 'Accepting...' : 'Accept Proposal'}
-                </button>
+                </Button>
               </div>
             </div>
           )}
@@ -287,14 +302,14 @@ export default function PublicProposalPage() {
           {proposal.status === 'accepted' && (
             <div className="p-8 bg-success-50 text-center">
               <Check className="h-8 w-8 text-success-600 mx-auto mb-2" />
-              <p className="text-success-800 font-weight-medium">This proposal has been accepted</p>
+              <Body className="text-success-800 font-weight-medium">This proposal has been accepted</Body>
             </div>
           )}
 
           {proposal.status === 'declined' && (
             <div className="p-8 bg-error-50 text-center">
               <X className="h-8 w-8 text-error-600 mx-auto mb-2" />
-              <p className="text-error-800 font-weight-medium">This proposal has been declined</p>
+              <Body className="text-error-800 font-weight-medium">This proposal has been declined</Body>
             </div>
           )}
         </div>

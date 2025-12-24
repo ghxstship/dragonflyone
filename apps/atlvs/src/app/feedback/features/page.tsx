@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Lightbulb, Plus, Search, ThumbsUp, MessageSquare, Clock, TrendingUp, Filter, AlertCircle } from 'lucide-react';
@@ -134,7 +147,7 @@ export default function FeatureRequestsPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load feature requests</span>
+          <Text className="text-destructive">Failed to load feature requests</Text>
         </div>
       </div>
     );
@@ -151,22 +164,22 @@ export default function FeatureRequestsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Lightbulb className="h-6 w-6" />
               Feature Requests
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Vote on features or suggest new ones
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowNewRequestModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Submit Request
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
@@ -174,7 +187,7 @@ export default function FeatureRequestsPage() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex-1 min-w-[200px] relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               placeholder="Search requests..."
               value={searchQuery}
@@ -184,7 +197,7 @@ export default function FeatureRequestsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <Select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -192,8 +205,8 @@ export default function FeatureRequestsPage() {
               {CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>{cat}</option>
               ))}
-            </select>
-            <select
+            </Select>
+            <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -203,15 +216,15 @@ export default function FeatureRequestsPage() {
                   {status === 'all' ? 'All Status' : status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
                 </option>
               ))}
-            </select>
-            <select
+            </Select>
+            <Select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'votes' | 'newest')}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
             >
               <option value="votes">Most Voted</option>
               <option value="newest">Newest</option>
-            </select>
+            </Select>
           </div>
         </div>
       </div>
@@ -221,13 +234,13 @@ export default function FeatureRequestsPage() {
         {filteredFeatures.length === 0 ? (
           <div className="bg-background border-2 border-border rounded-card p-8 text-center">
             <Lightbulb className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-body-md text-muted-foreground">No feature requests found</p>
-            <button
+            <Body className="text-body-md text-muted-foreground">No feature requests found</Body>
+            <Button
               onClick={() => setShowNewRequestModal(true)}
               className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               Submit the First Request
-            </button>
+            </Button>
           </div>
         ) : (
           filteredFeatures.map((feature) => (
@@ -237,7 +250,7 @@ export default function FeatureRequestsPage() {
             >
               <div className="flex items-start gap-4">
                 {/* Vote Button */}
-                <button
+                <Button
                   onClick={() => voteRequest.mutate(feature.id)}
                   className={`flex flex-col items-center p-3 rounded-card border-2 transition-colors ${
                     feature.has_voted
@@ -246,29 +259,29 @@ export default function FeatureRequestsPage() {
                   }`}
                 >
                   <ThumbsUp className={`h-5 w-5 ${feature.has_voted ? 'fill-current' : ''}`} />
-                  <span className="text-body-sm font-weight-bold mt-1">{feature.votes}</span>
-                </button>
+                  <Text className="text-body-sm font-weight-bold mt-1">{feature.votes}</Text>
+                </Button>
 
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(feature.status)}`}>
+                    <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getStatusColor(feature.status)}`}>
                       {feature.status.replace('_', ' ')}
-                    </span>
-                    <span className="px-2 py-0.5 text-body-xs bg-muted rounded">{feature.category}</span>
+                    </Text>
+                    <Text className="px-2 py-0.5 text-body-xs bg-muted rounded">{feature.category}</Text>
                   </div>
-                  <h3 className="text-body-md font-weight-semibold text-foreground">{feature.title}</h3>
-                  <p className="text-body-sm text-muted-foreground mt-1 line-clamp-2">{feature.description}</p>
+                  <H3 className="text-body-md font-weight-semibold text-foreground">{feature.title}</H3>
+                  <Body className="text-body-sm text-muted-foreground mt-1 line-clamp-2">{feature.description}</Body>
                   <div className="flex items-center gap-4 mt-3 text-body-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
+                    <Text className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {formatDate(feature.created_at)}
-                    </span>
-                    <span>by {feature.author}</span>
-                    <span className="flex items-center gap-1">
+                    </Text>
+                    <Text>by {feature.author}</Text>
+                    <Text className="flex items-center gap-1">
                       <MessageSquare className="h-3 w-3" />
                       {feature.comments_count} comments
-                    </span>
+                    </Text>
                   </div>
                 </div>
 
@@ -276,7 +289,7 @@ export default function FeatureRequestsPage() {
                 {feature.votes > 100 && (
                   <div className="flex items-center gap-1 text-warning">
                     <TrendingUp className="h-4 w-4" />
-                    <span className="text-body-xs font-weight-medium">Trending</span>
+                    <Text className="text-body-xs font-weight-medium">Trending</Text>
                   </div>
                 )}
               </div>
@@ -289,11 +302,11 @@ export default function FeatureRequestsPage() {
       {showNewRequestModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Lightbulb className="h-5 w-5" />
               Submit Feature Request
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 createRequest.mutate(newRequest);
@@ -301,10 +314,10 @@ export default function FeatureRequestsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Title *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newRequest.title}
                   onChange={(e) => setNewRequest({ ...newRequest, title: e.target.value })}
@@ -314,10 +327,10 @@ export default function FeatureRequestsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description *
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={newRequest.description}
                   onChange={(e) => setNewRequest({ ...newRequest, description: e.target.value })}
                   required
@@ -327,10 +340,10 @@ export default function FeatureRequestsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Category
-                </label>
-                <select
+                </Label>
+                <Select
                   value={newRequest.category}
                   onChange={(e) => setNewRequest({ ...newRequest, category: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -338,25 +351,25 @@ export default function FeatureRequestsPage() {
                   {CATEGORIES.slice(1).map((cat) => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowNewRequestModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createRequest.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createRequest.isPending ? 'Submitting...' : 'Submit Request'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -104,25 +116,25 @@ export default function EditBookingPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Edit Booking</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Edit Booking</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {booking?.booking_number}
-          </p>
+          </Body>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <Form onSubmit={handleSubmit} className="space-y-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Calendar className="h-5 w-5" />
             Event Details
-          </h2>
+          </H2>
           <div className="space-y-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Event Name *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 name="event_name"
                 value={formData.event_name}
@@ -132,15 +144,15 @@ export default function EditBookingPage() {
                 }`}
               />
               {errors.event_name && (
-                <p className="text-body-xs text-destructive mt-1">{errors.event_name}</p>
+                <Body className="text-body-xs text-destructive mt-1">{errors.event_name}</Body>
               )}
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Event Date *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="date"
                   name="event_date"
                   value={formData.event_date}
@@ -150,14 +162,14 @@ export default function EditBookingPage() {
                   }`}
                 />
                 {errors.event_date && (
-                  <p className="text-body-xs text-destructive mt-1">{errors.event_date}</p>
+                  <Body className="text-body-xs text-destructive mt-1">{errors.event_date}</Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Event Type
-                </label>
-                <select
+                </Label>
+                <Select
                   name="event_type"
                   value={formData.event_type}
                   onChange={handleChange}
@@ -170,23 +182,23 @@ export default function EditBookingPage() {
                   <option value="conference">Conference</option>
                   <option value="gala">Gala</option>
                   <option value="other">Other</option>
-                </select>
+                </Select>
               </div>
             </div>
           </div>
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <Clock className="h-5 w-5" />
             Time & Capacity
-          </h2>
+          </H2>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Start Time
-              </label>
-              <input
+              </Label>
+              <Input
                 type="time"
                 name="start_time"
                 value={formData.start_time}
@@ -195,10 +207,10 @@ export default function EditBookingPage() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 End Time
-              </label>
-              <input
+              </Label>
+              <Input
                 type="time"
                 name="end_time"
                 value={formData.end_time}
@@ -207,10 +219,10 @@ export default function EditBookingPage() {
               />
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Expected Guests
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 name="guest_count_expected"
                 value={formData.guest_count_expected}
@@ -223,16 +235,16 @@ export default function EditBookingPage() {
         </div>
 
         <div className="bg-background border-2 border-border rounded-card p-6">
-          <h2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+          <H2 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
             <FileText className="h-5 w-5" />
             Status & Notes
-          </h2>
+          </H2>
           <div className="grid grid-cols-1 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                 Status
-              </label>
-              <select
+              </Label>
+              <Select
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
@@ -243,14 +255,14 @@ export default function EditBookingPage() {
                 <option value="confirmed">Confirmed</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
-              </select>
+              </Select>
             </div>
           </div>
           <div className="mt-4">
-            <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
               Special Requests
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               name="special_requests"
               value={formData.special_requests}
               onChange={handleChange}
@@ -262,7 +274,7 @@ export default function EditBookingPage() {
 
         {errors.submit && (
           <div className="p-4 bg-destructive/10 border-2 border-destructive rounded-card">
-            <p className="text-body-sm text-destructive">{errors.submit}</p>
+            <Body className="text-body-sm text-destructive">{errors.submit}</Body>
           </div>
         )}
 
@@ -273,16 +285,16 @@ export default function EditBookingPage() {
           >
             Cancel
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={updateBooking.isPending}
             className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Save className="h-4 w-4" />
             {updateBooking.isPending ? 'Saving...' : 'Save Changes'}
-          </button>
+          </Button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

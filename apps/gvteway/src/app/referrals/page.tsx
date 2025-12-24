@@ -1,24 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { useNotifications } from "@ghxstship/ui";
-import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
-import { useReferrals, Referral } from "@/hooks/useReferrals";
 import {
-  H2,
-  H3,
+  Badge,
   Body,
   Button,
-  Badge,
-  Select,
-  EmptyState,
-  Stack,
   Card,
-  StatCard,
+  EmptyState,
   Grid,
+  H2,
+  H3,
   Kicker,
   Label,
-} from "@ghxstship/ui";
+  Select,
+  Stack,
+  StatCard,
+  useNotifications,
+} from '@ghxstship/ui';
+
+import { useState } from "react";
+import { GvtewayLoadingLayout, GvtewayEmptyLayout } from "@/components/app-layout";
+import { useReferrals, Referral } from "@/hooks/useReferrals";
 import { Users, Copy, Gift, CheckCircle } from "lucide-react";
 
 export default function ReferralsPage() {

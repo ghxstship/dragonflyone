@@ -28,3 +28,7 @@ export type { UseFieldPresenceOptions, UseFieldPresenceReturn, PresenceState } f
 // Keyboard shortcuts
 export { useKeyboardShortcuts, formatShortcut, defaultShortcuts } from "./useKeyboardShortcuts.js";
 export type { KeyboardShortcut, ShortcutCategory, UseKeyboardShortcutsOptions, UseKeyboardShortcutsReturn } from "./useKeyboardShortcuts.js";
+
+// Undo/Redo state management
+export { useUndoRedo } from "./useUndoRedo.js";
+export type { UndoRedoOptions, UndoRedoApi } from "./useUndoRedo.js";

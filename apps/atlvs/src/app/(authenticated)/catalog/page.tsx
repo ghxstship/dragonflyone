@@ -1,5 +1,21 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -65,10 +81,10 @@ export default function CatalogPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Product Catalog</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Product Catalog</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Global catalog aligned with 24 asset categories
-          </p>
+          </Body>
         </div>
         <Link
           href="/catalog/new"
@@ -82,7 +98,7 @@ export default function CatalogPage() {
       <div className="flex items-center gap-4 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search catalog..."
             value={searchQuery}
@@ -93,7 +109,7 @@ export default function CatalogPage() {
 
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -104,10 +120,10 @@ export default function CatalogPage() {
                 {cat.name}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -117,33 +133,33 @@ export default function CatalogPage() {
           <option value="draft">Draft</option>
           <option value="inactive">Inactive</option>
           <option value="discontinued">Discontinued</option>
-        </select>
+        </Select>
 
         <div className="flex items-center border-2 border-border rounded-button overflow-hidden">
-          <button
+          <Button
             onClick={() => setViewMode('grid')}
             className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
           >
             <Grid className="h-4 w-4" />
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setViewMode('list')}
             className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-primary text-primary-foreground' : 'hover:bg-muted'}`}
           >
             <List className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
       </div>
 
       {(!data?.items || data.items.length === 0) && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No catalog items found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Start building your product catalog to streamline ordering.
-          </p>
+          </Body>
           <Link
             href="/catalog/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -176,17 +192,17 @@ export default function CatalogPage() {
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h3 className="font-weight-semibold text-foreground line-clamp-1">
+                  <H3 className="font-weight-semibold text-foreground line-clamp-1">
                     {item.name}
-                  </h3>
-                  <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status]}`}>
+                  </H3>
+                  <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status]}`}>
                     {item.status}
-                  </span>
+                  </Text>
                 </div>
                 {item.sku && (
-                  <p className="text-body-xs text-muted-foreground mb-2">
+                  <Body className="text-body-xs text-muted-foreground mb-2">
                     SKU: {item.sku}
-                  </p>
+                  </Body>
                 )}
                 {item.category && (
                   <div className="flex items-center gap-1 text-body-xs text-muted-foreground mb-2">
@@ -195,12 +211,12 @@ export default function CatalogPage() {
                   </div>
                 )}
                 <div className="flex items-center justify-between">
-                  <span className="font-weight-bold text-foreground">
+                  <Text className="font-weight-bold text-foreground">
                     {formatCurrency(item.base_price)}
-                  </span>
-                  <span className="text-body-xs text-muted-foreground">
+                  </Text>
+                  <Text className="text-body-xs text-muted-foreground">
                     per {item.unit_type || 'unit'}
-                  </span>
+                  </Text>
                 </div>
               </div>
             </Link>
@@ -210,58 +226,58 @@ export default function CatalogPage() {
 
       {data?.items && data.items.length > 0 && viewMode === 'list' && (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+          <Table className="w-full">
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Item
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   SKU
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Category
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Status
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Price
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {data.items.map((item) => (
-                <tr key={item.id} className="hover:bg-muted/30 transition-colors">
-                  <td className="px-4 py-3">
+                <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
+                  <TableCell className="px-4 py-3">
                     <Link
                       href={`/catalog/${item.id}`}
                       className="font-weight-medium text-foreground hover:text-primary"
                     >
                       {item.name}
                     </Link>
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {item.sku || '-'}
-                  </td>
-                  <td className="px-4 py-3 text-body-sm text-muted-foreground">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-body-sm text-muted-foreground">
                     {item.category?.name || '-'}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status]}`}>
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusColors[item.status]}`}>
                       {item.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right font-weight-medium text-foreground">
+                    </Text>
+                  </TableCell>
+                  <TableCell className="px-4 py-3 text-right font-weight-medium text-foreground">
                     {formatCurrency(item.base_price)}
-                    <span className="text-body-xs text-muted-foreground ml-1">
+                    <Text className="text-body-xs text-muted-foreground ml-1">
                       /{item.unit_type || 'unit'}
-                    </span>
-                  </td>
-                </tr>
+                    </Text>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

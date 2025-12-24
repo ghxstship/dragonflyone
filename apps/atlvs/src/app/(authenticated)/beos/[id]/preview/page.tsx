@@ -5,7 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Printer, Download, Building2, Clock, Users, MapPin } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 
 interface BEO {
   id: string;
@@ -95,7 +108,7 @@ export default function BEOPreviewPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load BEO</p>
+          <Body className="text-destructive">Failed to load BEO</Body>
         </div>
       </div>
     );
@@ -112,20 +125,20 @@ export default function BEOPreviewPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Print Preview</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Print Preview</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               BEO #{beo.beo_number}
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={handlePrint}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
           >
             <Printer className="h-4 w-4" />
-            <span className="text-body-sm font-weight-medium">Print</span>
-          </button>
+            <Text className="text-body-sm font-weight-medium">Print</Text>
+          </Button>
           <Button variant="outline" size="sm" icon={<Download className="h-4 w-4" />} iconPosition="left">
             PDF
           </Button>
@@ -140,102 +153,102 @@ export default function BEOPreviewPage() {
             ) : (
               <div className="flex items-center gap-2 mb-4">
                 <Building2 className="h-8 w-8 text-primary" />
-                <span className="text-h3-md font-weight-bold text-foreground">{beo.organization.name}</span>
+                <Text className="text-h3-md font-weight-bold text-foreground">{beo.organization.name}</Text>
               </div>
             )}
-            <h2 className="text-h2-md font-weight-bold text-foreground">{beo.event_name}</h2>
-            <p className="text-body-md text-muted-foreground">BEO #{beo.beo_number}</p>
+            <H2 className="text-h2-md font-weight-bold text-foreground">{beo.event_name}</H2>
+            <Body className="text-body-md text-muted-foreground">BEO #{beo.beo_number}</Body>
           </div>
           <div className="text-right">
-            <span className={`px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${
+            <Text className={`px-3 py-1 rounded-avatar text-body-sm font-weight-medium ${
               beo.status === 'approved' ? 'bg-success-100 text-success-800' :
               beo.status === 'draft' ? 'bg-info-50 text-info-700' :
               'bg-warning-100 text-warning-800'
             }`}>
               {beo.status.charAt(0).toUpperCase() + beo.status.slice(1)}
-            </span>
+            </Text>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-8 mb-8">
           <div>
-            <h3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Event Details</h3>
+            <H3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Event Details</H3>
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <span className="text-body-md text-foreground">{formatDate(beo.event_date)}</span>
+                <Text className="text-body-md text-foreground">{formatDate(beo.event_date)}</Text>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <span className="text-body-md text-foreground">{beo.start_time} - {beo.end_time}</span>
+                <Text className="text-body-md text-foreground">{beo.start_time} - {beo.end_time}</Text>
               </div>
               <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-muted-foreground" />
-                <span className="text-body-md text-foreground">{beo.guest_count} guests</span>
+                <Text className="text-body-md text-foreground">{beo.guest_count} guests</Text>
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span className="text-body-md text-foreground">{beo.space.name} ({beo.space.setup_type})</span>
+                <Text className="text-body-md text-foreground">{beo.space.name} ({beo.space.setup_type})</Text>
               </div>
             </div>
           </div>
           <div>
-            <h3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Client Contact</h3>
-            <p className="text-body-md font-weight-medium text-foreground">
+            <H3 className="text-body-sm font-weight-semibold text-muted-foreground uppercase tracking-label mb-2">Client Contact</H3>
+            <Body className="text-body-md font-weight-medium text-foreground">
               {beo.contact.first_name} {beo.contact.last_name}
-            </p>
-            <p className="text-body-sm text-muted-foreground">{beo.contact.email}</p>
-            {beo.contact.phone && <p className="text-body-sm text-muted-foreground">{beo.contact.phone}</p>}
+            </Body>
+            <Body className="text-body-sm text-muted-foreground">{beo.contact.email}</Body>
+            {beo.contact.phone && <Body className="text-body-sm text-muted-foreground">{beo.contact.phone}</Body>}
           </div>
         </div>
 
         <div className="mb-8">
-          <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Event Timeline</h3>
-          <table className="w-full">
-            <thead>
-              <tr className="text-left">
-                <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Time</th>
-                <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Activity</th>
-                <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-32">Department</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+          <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Event Timeline</H3>
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow className="text-left">
+                <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Time</TableHead>
+                <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Activity</TableHead>
+                <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-32">Department</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {beo.sections.timeline.map((item, i) => (
-                <tr key={i}>
-                  <td className="py-2 text-body-md text-foreground font-weight-medium">{item.time}</td>
-                  <td className="py-2 text-body-md text-foreground">{item.description}</td>
-                  <td className="py-2 text-body-sm text-muted-foreground">{item.department || '-'}</td>
-                </tr>
+                <TableRow key={i}>
+                  <TableCell className="py-2 text-body-md text-foreground font-weight-medium">{item.time}</TableCell>
+                  <TableCell className="py-2 text-body-md text-foreground">{item.description}</TableCell>
+                  <TableCell className="py-2 text-body-sm text-muted-foreground">{item.department || '-'}</TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
 
         {beo.sections.catering.menu_items.length > 0 && (
           <div className="mb-8">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Catering</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="text-left">
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Item</th>
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</th>
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Dietary Notes</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Catering</H3>
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow className="text-left">
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Item</TableHead>
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</TableHead>
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Dietary Notes</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-border">
                 {beo.sections.catering.menu_items.map((item, i) => (
-                  <tr key={i}>
-                    <td className="py-2 text-body-md text-foreground">{item.name}</td>
-                    <td className="py-2 text-body-md text-foreground">{item.quantity}</td>
-                    <td className="py-2 text-body-sm text-muted-foreground">{item.dietary_notes || '-'}</td>
-                  </tr>
+                  <TableRow key={i}>
+                    <TableCell className="py-2 text-body-md text-foreground">{item.name}</TableCell>
+                    <TableCell className="py-2 text-body-md text-foreground">{item.quantity}</TableCell>
+                    <TableCell className="py-2 text-body-sm text-muted-foreground">{item.dietary_notes || '-'}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
             {beo.sections.catering.dietary_requirements && beo.sections.catering.dietary_requirements.length > 0 && (
               <div className="mt-4 p-3 bg-warning-50 border-2 border-warning-200 rounded-card">
-                <p className="text-body-sm font-weight-semibold text-warning-800">Dietary Requirements:</p>
-                <p className="text-body-sm text-warning-700">{beo.sections.catering.dietary_requirements.join(', ')}</p>
+                <Body className="text-body-sm font-weight-semibold text-warning-800">Dietary Requirements:</Body>
+                <Body className="text-body-sm text-warning-700">{beo.sections.catering.dietary_requirements.join(', ')}</Body>
               </div>
             )}
           </div>
@@ -243,32 +256,32 @@ export default function BEOPreviewPage() {
 
         {beo.sections.av_requirements.length > 0 && (
           <div className="mb-8">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">AV Requirements</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="text-left">
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Equipment</th>
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</th>
-                  <th className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Notes</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">AV Requirements</H3>
+            <Table className="w-full">
+              <TableHeader>
+                <TableRow className="text-left">
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Equipment</TableHead>
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground w-24">Qty</TableHead>
+                  <TableHead className="py-2 text-body-sm font-weight-semibold text-muted-foreground">Notes</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="divide-y divide-border">
                 {beo.sections.av_requirements.map((item, i) => (
-                  <tr key={i}>
-                    <td className="py-2 text-body-md text-foreground">{item.item}</td>
-                    <td className="py-2 text-body-md text-foreground">{item.quantity}</td>
-                    <td className="py-2 text-body-sm text-muted-foreground">{item.notes || '-'}</td>
-                  </tr>
+                  <TableRow key={i}>
+                    <TableCell className="py-2 text-body-md text-foreground">{item.item}</TableCell>
+                    <TableCell className="py-2 text-body-md text-foreground">{item.quantity}</TableCell>
+                    <TableCell className="py-2 text-body-sm text-muted-foreground">{item.notes || '-'}</TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         )}
 
         {beo.sections.notes && (
           <div className="mb-8">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Additional Notes</h3>
-            <p className="text-body-md text-foreground whitespace-pre-wrap">{beo.sections.notes}</p>
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 pb-2 border-b border-border">Additional Notes</H3>
+            <Body className="text-body-md text-foreground whitespace-pre-wrap">{beo.sections.notes}</Body>
           </div>
         )}
       </div>

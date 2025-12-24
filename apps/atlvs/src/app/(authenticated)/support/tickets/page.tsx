@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Ticket, Plus, Search, Filter, Clock, AlertCircle, CheckCircle, MessageSquare, User } from 'lucide-react';
@@ -135,7 +148,7 @@ export default function SupportTicketsPage() {
       <div className="p-6">
         <div className="bg-destructive/10 border-2 border-destructive rounded-card p-4 flex items-center gap-3">
           <AlertCircle className="h-5 w-5 text-destructive" />
-          <span className="text-destructive">Failed to load support tickets</span>
+          <Text className="text-destructive">Failed to load support tickets</Text>
         </div>
       </div>
     );
@@ -152,22 +165,22 @@ export default function SupportTicketsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
+            <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-2">
               <Ticket className="h-6 w-6" />
               Support Tickets
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               View and manage your support requests
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowNewTicketModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Ticket
-        </button>
+        </Button>
       </div>
 
       {/* Filters */}
@@ -175,7 +188,7 @@ export default function SupportTicketsPage() {
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex-1 min-w-[200px] relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               placeholder="Search tickets..."
               value={searchQuery}
@@ -185,7 +198,7 @@ export default function SupportTicketsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -195,8 +208,8 @@ export default function SupportTicketsPage() {
                   {status === 'all' ? 'All Status' : status.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())}
                 </option>
               ))}
-            </select>
-            <select
+            </Select>
+            <Select
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -206,7 +219,7 @@ export default function SupportTicketsPage() {
                   {priority === 'all' ? 'All Priority' : priority.charAt(0).toUpperCase() + priority.slice(1)}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
         </div>
       </div>
@@ -216,13 +229,13 @@ export default function SupportTicketsPage() {
         {filteredTickets.length === 0 ? (
           <div className="p-8 text-center">
             <Ticket className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-body-md text-muted-foreground">No tickets found</p>
-            <button
+            <Body className="text-body-md text-muted-foreground">No tickets found</Body>
+            <Button
               onClick={() => setShowNewTicketModal(true)}
               className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
             >
               Create Your First Ticket
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="divide-y divide-border">
@@ -235,34 +248,34 @@ export default function SupportTicketsPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-body-xs text-muted-foreground font-mono">{ticket.id}</span>
-                      <span className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 ${getStatusColor(ticket.status)}`}>
+                      <Text className="text-body-xs text-muted-foreground font-mono">{ticket.id}</Text>
+                      <Text className={`px-2 py-0.5 text-body-xs rounded capitalize flex items-center gap-1 ${getStatusColor(ticket.status)}`}>
                         {getStatusIcon(ticket.status)}
                         {ticket.status.replace('_', ' ')}
-                      </span>
-                      <span className={`px-2 py-0.5 text-body-xs rounded capitalize ${getPriorityColor(ticket.priority)}`}>
+                      </Text>
+                      <Text className={`px-2 py-0.5 text-body-xs rounded capitalize ${getPriorityColor(ticket.priority)}`}>
                         {ticket.priority}
-                      </span>
+                      </Text>
                     </div>
-                    <h3 className="text-body-md font-weight-medium text-foreground truncate">{ticket.subject}</h3>
-                    <p className="text-body-sm text-muted-foreground mt-1 line-clamp-1">{ticket.description}</p>
+                    <H3 className="text-body-md font-weight-medium text-foreground truncate">{ticket.subject}</H3>
+                    <Body className="text-body-sm text-muted-foreground mt-1 line-clamp-1">{ticket.description}</Body>
                     <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
+                      <Text className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatDate(ticket.created_at)}
-                      </span>
-                      <span className="px-2 py-0.5 bg-muted rounded">{ticket.category}</span>
+                      </Text>
+                      <Text className="px-2 py-0.5 bg-muted rounded">{ticket.category}</Text>
                       {ticket.replies_count > 0 && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <MessageSquare className="h-3 w-3" />
                           {ticket.replies_count} {ticket.replies_count === 1 ? 'reply' : 'replies'}
-                        </span>
+                        </Text>
                       )}
                       {ticket.assigned_to && (
-                        <span className="flex items-center gap-1">
+                        <Text className="flex items-center gap-1">
                           <User className="h-3 w-3" />
                           {ticket.assigned_to}
-                        </span>
+                        </Text>
                       )}
                     </div>
                   </div>
@@ -277,11 +290,11 @@ export default function SupportTicketsPage() {
       {showNewTicketModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4 flex items-center gap-2">
               <Ticket className="h-5 w-5" />
               Create Support Ticket
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 createTicket.mutate(newTicket);
@@ -289,10 +302,10 @@ export default function SupportTicketsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Subject *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newTicket.subject}
                   onChange={(e) => setNewTicket({ ...newTicket, subject: e.target.value })}
@@ -302,10 +315,10 @@ export default function SupportTicketsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description *
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={newTicket.description}
                   onChange={(e) => setNewTicket({ ...newTicket, description: e.target.value })}
                   required
@@ -316,10 +329,10 @@ export default function SupportTicketsPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Category
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     value={newTicket.category}
                     onChange={(e) => setNewTicket({ ...newTicket, category: e.target.value })}
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -327,13 +340,13 @@ export default function SupportTicketsPage() {
                     {CATEGORY_OPTIONS.slice(1).map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Priority
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     value={newTicket.priority}
                     onChange={(e) => setNewTicket({ ...newTicket, priority: e.target.value as 'low' | 'medium' | 'high' | 'urgent' })}
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -342,26 +355,26 @@ export default function SupportTicketsPage() {
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
                     <option value="urgent">Urgent</option>
-                  </select>
+                  </Select>
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowNewTicketModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createTicket.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createTicket.isPending ? 'Creating...' : 'Create Ticket'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

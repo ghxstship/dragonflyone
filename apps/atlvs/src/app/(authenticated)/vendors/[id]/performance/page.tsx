@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -53,7 +61,7 @@ export default function VendorPerformancePage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load performance data</p>
+          <Body className="text-destructive">Failed to load performance data</Body>
         </div>
       </div>
     );
@@ -70,17 +78,17 @@ export default function VendorPerformancePage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">
+            <H1 className="text-h2-md font-weight-bold text-foreground">
               {data?.vendor?.name || 'Vendor'} Performance
-            </h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            </H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Performance metrics and trends
-            </p>
+            </Body>
           </div>
         </div>
         <div className="flex gap-2">
           {(['3m', '6m', '12m'] as const).map((p) => (
-            <button
+            <Button
               key={p}
               onClick={() => setPeriod(p)}
               className={`px-4 py-2 rounded-button text-body-sm font-weight-medium border-2 transition-colors ${
@@ -90,7 +98,7 @@ export default function VendorPerformancePage() {
               }`}
             >
               {p === '3m' ? '3 Months' : p === '6m' ? '6 Months' : '12 Months'}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -99,62 +107,62 @@ export default function VendorPerformancePage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Star className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Rating</span>
+            <Text className="text-body-sm text-muted-foreground">Rating</Text>
           </div>
-          <p className={`text-h3-md font-weight-bold ${getRatingColor(metrics.average_rating)}`}>
+          <Body className={`text-h3-md font-weight-bold ${getRatingColor(metrics.average_rating)}`}>
             {metrics.average_rating.toFixed(1)}
-            <span className="text-body-sm text-muted-foreground ml-1">/ 5.0</span>
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+            <Text className="text-body-sm text-muted-foreground ml-1">/ 5.0</Text>
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {metrics.review_count} reviews
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Package className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Orders</span>
+            <Text className="text-body-sm text-muted-foreground">Orders</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {metrics.completed_orders}
-            <span className="text-body-sm text-muted-foreground ml-1">/ {metrics.total_orders}</span>
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+            <Text className="text-body-sm text-muted-foreground ml-1">/ {metrics.total_orders}</Text>
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             {metrics.completion_rate.toFixed(0)}% completion rate
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <DollarSign className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Revenue</span>
+            <Text className="text-body-sm text-muted-foreground">Revenue</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {formatCurrency(metrics.total_revenue)}
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             Total spend this period
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">On-Time</span>
+            <Text className="text-body-sm text-muted-foreground">On-Time</Text>
           </div>
-          <p className={`text-h3-md font-weight-bold ${
+          <Body className={`text-h3-md font-weight-bold ${
             metrics.on_time_rate >= 90 ? 'text-success' : 
             metrics.on_time_rate >= 75 ? 'text-warning' : 'text-destructive'
           }`}>
             {metrics.on_time_rate.toFixed(0)}%
-          </p>
-          <p className="text-body-xs text-muted-foreground mt-1">
+          </Body>
+          <Body className="text-body-xs text-muted-foreground mt-1">
             Delivery rate
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6">
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Monthly Trend</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Monthly Trend</H2>
             <TrendingUp className="h-5 w-5 text-muted-foreground" />
           </div>
           {monthlyTrend.length === 0 ? (
@@ -165,13 +173,13 @@ export default function VendorPerformancePage() {
             <div className="space-y-3">
               {monthlyTrend.map((month) => (
                 <div key={month.month} className="flex items-center gap-4">
-                  <span className="text-body-sm text-muted-foreground w-16">{month.month}</span>
+                  <Text className="text-body-sm text-muted-foreground w-16">{month.month}</Text>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-body-xs text-foreground">{month.orders} orders</span>
-                      <span className="text-body-xs font-weight-medium text-foreground">
+                      <Text className="text-body-xs text-foreground">{month.orders} orders</Text>
+                      <Text className="text-body-xs font-weight-medium text-foreground">
                         {formatCurrency(month.revenue)}
-                      </span>
+                      </Text>
                     </div>
                     <div className="h-2 bg-muted rounded-avatar overflow-hidden">
                       <div
@@ -190,25 +198,25 @@ export default function VendorPerformancePage() {
 
         <div className="bg-background border-2 border-border rounded-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground">Issues</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground">Issues</H2>
             <AlertTriangle className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-muted/30 rounded-card p-4">
-              <p className="text-body-xs text-muted-foreground mb-1">Total Issues</p>
-              <p className="text-h4-md font-weight-bold text-foreground">{issues.total}</p>
+              <Body className="text-body-xs text-muted-foreground mb-1">Total Issues</Body>
+              <Body className="text-h4-md font-weight-bold text-foreground">{issues.total}</Body>
             </div>
             <div className="bg-warning/10 rounded-card p-4">
-              <p className="text-body-xs text-muted-foreground mb-1">Open</p>
-              <p className="text-h4-md font-weight-bold text-warning">{issues.open}</p>
+              <Body className="text-body-xs text-muted-foreground mb-1">Open</Body>
+              <Body className="text-h4-md font-weight-bold text-warning">{issues.open}</Body>
             </div>
             <div className="bg-success/10 rounded-card p-4">
-              <p className="text-body-xs text-muted-foreground mb-1">Resolved</p>
-              <p className="text-h4-md font-weight-bold text-success">{issues.resolved}</p>
+              <Body className="text-body-xs text-muted-foreground mb-1">Resolved</Body>
+              <Body className="text-h4-md font-weight-bold text-success">{issues.resolved}</Body>
             </div>
             <div className="bg-destructive/10 rounded-card p-4">
-              <p className="text-body-xs text-muted-foreground mb-1">Critical</p>
-              <p className="text-h4-md font-weight-bold text-destructive">{issues.critical}</p>
+              <Body className="text-body-xs text-muted-foreground mb-1">Critical</Body>
+              <Body className="text-h4-md font-weight-bold text-destructive">{issues.critical}</Body>
             </div>
           </div>
         </div>
@@ -216,7 +224,7 @@ export default function VendorPerformancePage() {
 
       <div className="bg-background border-2 border-border rounded-card">
         <div className="p-4 border-b border-border flex items-center justify-between">
-          <h2 className="text-h4-md font-weight-semibold text-foreground">Recent Reviews</h2>
+          <H2 className="text-h4-md font-weight-semibold text-foreground">Recent Reviews</H2>
           <BarChart3 className="h-5 w-5 text-muted-foreground" />
         </div>
         <div className="divide-y divide-border">
@@ -240,19 +248,19 @@ export default function VendorPerformancePage() {
                           />
                         ))}
                       </div>
-                      <span className="text-body-sm font-weight-medium text-foreground">
+                      <Text className="text-body-sm font-weight-medium text-foreground">
                         {review.reviewer_name || 'Anonymous'}
-                      </span>
+                      </Text>
                     </div>
                     {review.review_text && (
-                      <p className="text-body-sm text-muted-foreground mt-2">
+                      <Body className="text-body-sm text-muted-foreground mt-2">
                         {review.review_text}
-                      </p>
+                      </Body>
                     )}
                   </div>
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     {new Date(review.created_at).toLocaleDateString()}
-                  </span>
+                  </Text>
                 </div>
               </div>
             ))

@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle, XCircle, RefreshCw, Settings, Zap, Clock, AlertTriangle } from 'lucide-react';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  H3,
+  Label,
+  Select,
+  Text,
+  Skeleton,
+  useNotifications,
+} from '@ghxstship/ui';
 
 interface IntegrationConfig {
   provider: string;
@@ -26,7 +37,7 @@ interface IntegrationConfig {
   }[];
 }
 
-const MOCK_INTEGRATIONS: Record<string, IntegrationConfig> = {
+const DEMO_INTEGRATIONS: Record<string, IntegrationConfig> = {
   quickbooks: {
     provider: 'quickbooks',
     name: 'QuickBooks',
@@ -71,21 +82,92 @@ const MOCK_INTEGRATIONS: Record<string, IntegrationConfig> = {
   },
 };
 
+async function fetchIntegration(provider: string): Promise<IntegrationConfig | null> {
+  const response = await fetch(`/api/integrations/${provider}`);
+  if (!response.ok) {
+    if (response.status === 404) return null;
+    throw new Error('Failed to fetch integration');
+  }
+  return response.json();
+}
+
 export default function IntegrationProviderPage() {
   const params = useParams();
   const provider = params.provider as string;
-  const [integration] = useState<IntegrationConfig | null>(MOCK_INTEGRATIONS[provider] || null);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const queryClient = useQueryClient();
+  const { addNotification } = useNotifications();
+
+  const { data: apiIntegration, isLoading, error } = useQuery({
+    queryKey: ['integration', provider],
+    queryFn: () => fetchIntegration(provider),
+  });
+
+  const syncMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/integrations/${provider}/sync`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to sync');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['integration', provider] });
+      addNotification({ type: 'success', title: 'Sync Complete', message: 'Integration data has been synced.' });
+    },
+    onError: () => {
+      addNotification({ type: 'error', title: 'Sync Failed', message: 'Failed to sync integration data.' });
+    },
+  });
+
+  const disconnectMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/integrations/${provider}/disconnect`, {
+        method: 'POST',
+      });
+      if (!response.ok) throw new Error('Failed to disconnect');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['integration', provider] });
+      addNotification({ type: 'success', title: 'Disconnected', message: 'Integration has been disconnected.' });
+    },
+    onError: () => {
+      addNotification({ type: 'error', title: 'Disconnect Failed', message: 'Failed to disconnect integration.' });
+    },
+  });
+
+  // Use API data or fall back to demo data
+  const integration = apiIntegration !== undefined ? apiIntegration : DEMO_INTEGRATIONS[provider] || null;
+
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center gap-4">
+          <Skeleton className="h-10 w-10" />
+          <div className="flex-1">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-4 w-64 mt-2" />
+          </div>
+          <Skeleton className="h-8 w-24" />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+        </div>
+        <Skeleton className="h-48" />
+      </div>
+    );
+  }
 
   if (!integration) {
     return (
       <div className="p-6">
         <div className="text-center py-12">
           <AlertTriangle className="h-12 w-12 text-warning mx-auto mb-4" />
-          <h2 className="text-h3-md font-weight-bold text-foreground mb-2">Integration Not Found</h2>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          <H2 className="text-h3-md font-weight-bold text-foreground mb-2">Integration Not Found</H2>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             The integration &ldquo;{provider}&rdquo; could not be found.
-          </p>
+          </Body>
           <Link
             href="/integrations"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium"
@@ -98,10 +180,8 @@ export default function IntegrationProviderPage() {
     );
   }
 
-  const handleSync = async () => {
-    setIsSyncing(true);
-    // TODO: Call sync API
-    setTimeout(() => setIsSyncing(false), 2000);
+  const handleSync = () => {
+    syncMutation.mutate();
   };
 
   const formatDate = (dateStr: string) => {
@@ -123,27 +203,27 @@ export default function IntegrationProviderPage() {
           <ArrowLeft className="h-5 w-5 text-muted-foreground" />
         </Link>
         <div className="flex-1">
-          <h1 className="text-h2-md font-weight-bold text-foreground">{integration.name}</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">{integration.name}</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             {integration.description}
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-2">
           {integration.status === 'connected' ? (
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-success/20 text-success rounded-badge text-body-sm font-weight-medium">
+            <Text className="inline-flex items-center gap-2 px-3 py-1.5 bg-success/20 text-success rounded-badge text-body-sm font-weight-medium">
               <CheckCircle className="h-4 w-4" />
               Connected
-            </span>
+            </Text>
           ) : integration.status === 'error' ? (
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-destructive/20 text-destructive rounded-badge text-body-sm font-weight-medium">
+            <Text className="inline-flex items-center gap-2 px-3 py-1.5 bg-destructive/20 text-destructive rounded-badge text-body-sm font-weight-medium">
               <XCircle className="h-4 w-4" />
               Error
-            </span>
+            </Text>
           ) : (
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted text-muted-foreground rounded-badge text-body-sm font-weight-medium">
+            <Text className="inline-flex items-center gap-2 px-3 py-1.5 bg-muted text-muted-foreground rounded-badge text-body-sm font-weight-medium">
               <XCircle className="h-4 w-4" />
               Disconnected
-            </span>
+            </Text>
           )}
         </div>
       </div>
@@ -154,30 +234,30 @@ export default function IntegrationProviderPage() {
             <div className="bg-background border-2 border-border rounded-card p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Clock className="h-5 w-5 text-primary" />
-                <span className="text-body-sm text-muted-foreground">Last Sync</span>
+                <Text className="text-body-sm text-muted-foreground">Last Sync</Text>
               </div>
-              <p className="text-body-lg font-weight-medium text-foreground">
+              <Body className="text-body-lg font-weight-medium text-foreground">
                 {integration.last_sync ? formatDate(integration.last_sync) : 'Never'}
-              </p>
+              </Body>
             </div>
             <div className="bg-background border-2 border-border rounded-card p-4 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <RefreshCw className="h-5 w-5 text-primary" />
-                  <span className="text-body-sm text-muted-foreground">Manual Sync</span>
+                  <Text className="text-body-sm text-muted-foreground">Manual Sync</Text>
                 </div>
-                <p className="text-body-xs text-muted-foreground">
+                <Body className="text-body-xs text-muted-foreground">
                   Trigger a full data sync now
-                </p>
+                </Body>
               </div>
               <Button
                 variant="solid"
                 size="sm"
                 onClick={handleSync}
-                disabled={isSyncing}
-                isLoading={isSyncing}
+                disabled={syncMutation.isPending}
+                isLoading={syncMutation.isPending}
                 loadingText="Syncing..."
-                icon={<RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />}
+                icon={<RefreshCw className={`h-4 w-4 ${syncMutation.isPending ? 'animate-spin' : ''}`} />}
                 iconPosition="left"
               >
                 Sync Now
@@ -189,16 +269,16 @@ export default function IntegrationProviderPage() {
             <div className="bg-background border-2 border-border rounded-card p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Settings className="h-5 w-5 text-primary" />
-                <h2 className="text-h4-md font-weight-semibold text-foreground">Settings</h2>
+                <H2 className="text-h4-md font-weight-semibold text-foreground">Settings</H2>
               </div>
               <div className="space-y-4">
                 {integration.settings.map((setting) => (
                   <div key={setting.key} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                    <label className="text-body-sm font-weight-medium text-foreground">
+                    <Label className="text-body-sm font-weight-medium text-foreground">
                       {setting.label}
-                    </label>
+                    </Label>
                     {setting.type === 'toggle' ? (
-                      <button
+                      <Button
                         className={`w-12 h-6 rounded-avatar transition-colors ${
                           setting.value ? 'bg-primary' : 'bg-muted'
                         }`}
@@ -208,20 +288,20 @@ export default function IntegrationProviderPage() {
                             setting.value ? 'translate-x-6' : 'translate-x-0.5'
                           }`}
                         />
-                      </button>
+                      </Button>
                     ) : setting.type === 'select' ? (
-                      <select
+                      <Select
                         value={setting.value as string}
                         className="px-3 py-1.5 border-2 border-border rounded-button bg-background text-body-sm"
                       >
                         {setting.options?.map((opt) => (
                           <option key={opt} value={opt}>{opt}</option>
                         ))}
-                      </select>
+                      </Select>
                     ) : (
-                      <span className="text-body-sm text-muted-foreground">
+                      <Text className="text-body-sm text-muted-foreground">
                         {setting.value}
-                      </span>
+                      </Text>
                     )}
                   </div>
                 ))}
@@ -233,15 +313,15 @@ export default function IntegrationProviderPage() {
             <div className="bg-background border-2 border-border rounded-card p-6">
               <div className="flex items-center gap-2 mb-4">
                 <Zap className="h-5 w-5 text-primary" />
-                <h2 className="text-h4-md font-weight-semibold text-foreground">Sync Options</h2>
+                <H2 className="text-h4-md font-weight-semibold text-foreground">Sync Options</H2>
               </div>
               <div className="space-y-3">
                 {integration.sync_options.map((option) => (
                   <div key={option.key} className="flex items-center justify-between py-2">
-                    <span className="text-body-sm font-weight-medium text-foreground">
+                    <Text className="text-body-sm font-weight-medium text-foreground">
                       {option.label}
-                    </span>
-                    <button
+                    </Text>
+                    <Button
                       className={`w-12 h-6 rounded-avatar transition-colors ${
                         option.enabled ? 'bg-primary' : 'bg-muted'
                       }`}
@@ -251,7 +331,7 @@ export default function IntegrationProviderPage() {
                           option.enabled ? 'translate-x-6' : 'translate-x-0.5'
                         }`}
                       />
-                    </button>
+                    </Button>
                   </div>
                 ))}
               </div>
@@ -260,13 +340,18 @@ export default function IntegrationProviderPage() {
 
           <div className="flex items-center justify-between p-4 bg-destructive/5 border-2 border-destructive/20 rounded-card">
             <div>
-              <h3 className="text-body-sm font-weight-semibold text-destructive">Disconnect Integration</h3>
-              <p className="text-body-xs text-muted-foreground">
+              <H3 className="text-body-sm font-weight-semibold text-destructive">Disconnect Integration</H3>
+              <Body className="text-body-xs text-muted-foreground">
                 This will stop all syncing and remove stored credentials
-              </p>
+              </Body>
             </div>
-            <Button variant="destructive" size="sm">
-              Disconnect
+            <Button 
+              variant="destructive" 
+              size="sm"
+              onClick={() => disconnectMutation.mutate()}
+              disabled={disconnectMutation.isPending}
+            >
+              {disconnectMutation.isPending ? 'Disconnecting...' : 'Disconnect'}
             </Button>
           </div>
         </>
@@ -275,12 +360,12 @@ export default function IntegrationProviderPage() {
       {integration.status === 'disconnected' && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Zap className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             Connect {integration.name}
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4 max-w-md mx-auto">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4 max-w-md mx-auto">
             {integration.description}
-          </p>
+          </Body>
           <Button variant="solid" size="sm" icon={<Zap className="h-4 w-4" />} iconPosition="left">
             Connect Now
           </Button>

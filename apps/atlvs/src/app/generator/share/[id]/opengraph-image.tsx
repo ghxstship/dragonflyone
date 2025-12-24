@@ -1,4 +1,7 @@
 import { ImageResponse } from "next/og";
+import {
+  Text,
+} from '@ghxstship/ui';
 
 export const runtime = "edge";
 export const alt = "Experience Blueprint - ATLVS";
@@ -172,15 +175,15 @@ export default async function Image({ params }: { params: { id: string } }) {
                 border: "3px solid white",
               }}
             >
-              <span style={{ color: "white", fontSize: "24px", fontWeight: 900 }}>A</span>
+              <Text style={{ color: "white", fontSize: "24px", fontWeight: 900 }}>A</Text>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <span style={{ color: "white", fontSize: "24px", fontWeight: 700, letterSpacing: "4px" }}>
+              <Text style={{ color: "white", fontSize: "24px", fontWeight: 700, letterSpacing: "4px" }}>
                 ATLVS
-              </span>
-              <span style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", letterSpacing: "2px" }}>
+              </Text>
+              <Text style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", letterSpacing: "2px" }}>
                 EXPERIENCE GENERATOR
-              </span>
+              </Text>
             </div>
           </div>
 

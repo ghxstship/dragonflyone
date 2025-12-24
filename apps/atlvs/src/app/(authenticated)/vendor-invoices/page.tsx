@@ -1,5 +1,20 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, FileText, DollarSign, Clock, AlertTriangle } from 'lucide-react';
@@ -83,10 +98,10 @@ export default function VendorInvoicesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Invoices</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Invoices</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage accounts payable and vendor payments
-          </p>
+          </Body>
         </div>
         <Link
           href="/vendor-invoices/new"
@@ -102,41 +117,41 @@ export default function VendorInvoicesPage() {
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <Clock className="h-4 w-4 text-muted-foreground" />
-              <span className="text-body-xs text-muted-foreground">Current</span>
+              <Text className="text-body-xs text-muted-foreground">Current</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-foreground">{formatCurrency(aging.current)}</p>
+            <Body className="text-h4-md font-weight-bold text-foreground">{formatCurrency(aging.current)}</Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-body-xs text-muted-foreground">1-30 Days</span>
+              <Text className="text-body-xs text-muted-foreground">1-30 Days</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-warning">{formatCurrency(aging.days_1_30)}</p>
+            <Body className="text-h4-md font-weight-bold text-warning">{formatCurrency(aging.days_1_30)}</Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-body-xs text-muted-foreground">31-60 Days</span>
+              <Text className="text-body-xs text-muted-foreground">31-60 Days</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-warning">{formatCurrency(aging.days_31_60)}</p>
+            <Body className="text-h4-md font-weight-bold text-warning">{formatCurrency(aging.days_31_60)}</Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-body-xs text-muted-foreground">61-90 Days</span>
+              <Text className="text-body-xs text-muted-foreground">61-90 Days</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-destructive">{formatCurrency(aging.days_61_90)}</p>
+            <Body className="text-h4-md font-weight-bold text-destructive">{formatCurrency(aging.days_61_90)}</Body>
           </div>
           <div className="bg-background border-2 border-border rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
-              <span className="text-body-xs text-muted-foreground">Over 90</span>
+              <Text className="text-body-xs text-muted-foreground">Over 90</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-destructive">{formatCurrency(aging.over_90)}</p>
+            <Body className="text-h4-md font-weight-bold text-destructive">{formatCurrency(aging.over_90)}</Body>
           </div>
           <div className="bg-primary/10 border-2 border-primary rounded-card p-4">
             <div className="flex items-center gap-2 mb-2">
               <DollarSign className="h-4 w-4 text-primary" />
-              <span className="text-body-xs text-primary font-weight-medium">Total Outstanding</span>
+              <Text className="text-body-xs text-primary font-weight-medium">Total Outstanding</Text>
             </div>
-            <p className="text-h4-md font-weight-bold text-primary">{formatCurrency(aging.total_outstanding)}</p>
+            <Body className="text-h4-md font-weight-bold text-primary">{formatCurrency(aging.total_outstanding)}</Body>
           </div>
         </div>
       )}
@@ -144,7 +159,7 @@ export default function VendorInvoicesPage() {
       <div className="flex items-center gap-4 flex-wrap">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search invoices..."
             value={searchQuery}
@@ -153,7 +168,7 @@ export default function VendorInvoicesPage() {
           />
         </div>
 
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -162,9 +177,9 @@ export default function VendorInvoicesPage() {
           {Object.entries(STATUS_CONFIG).map(([key, { label }]) => (
             <option key={key} value={key}>{label}</option>
           ))}
-        </select>
+        </Select>
 
-        <select
+        <Select
           value={paymentStatusFilter}
           onChange={(e) => setPaymentStatusFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -173,18 +188,18 @@ export default function VendorInvoicesPage() {
           {Object.entries(PAYMENT_STATUS_CONFIG).map(([key, { label }]) => (
             <option key={key} value={key}>{label}</option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {(!filteredInvoices || filteredInvoices.length === 0) && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No invoices found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Record your first vendor invoice to start tracking accounts payable.
-          </p>
+          </Body>
           <Link
             href="/vendor-invoices/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -197,30 +212,30 @@ export default function VendorInvoicesPage() {
 
       {filteredInvoices && filteredInvoices.length > 0 && (
         <div className="bg-background border-2 border-border rounded-card overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+          <Table className="w-full">
+            <TableHeader className="bg-muted/50">
+              <TableRow>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Invoice
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Vendor
-                </th>
-                <th className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-left px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Due Date
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Total
-                </th>
-                <th className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-right px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Balance Due
-                </th>
-                <th className="text-center px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
+                </TableHead>
+                <TableHead className="text-center px-4 py-3 text-body-xs font-weight-medium text-muted-foreground uppercase tracking-kicker">
                   Status
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="divide-y divide-border">
               {filteredInvoices.map((invoice) => {
                 const statusConfig = STATUS_CONFIG[invoice.status as keyof typeof STATUS_CONFIG] || STATUS_CONFIG.pending;
                 const paymentConfig = PAYMENT_STATUS_CONFIG[invoice.payment_status as keyof typeof PAYMENT_STATUS_CONFIG] || PAYMENT_STATUS_CONFIG.unpaid;
@@ -228,48 +243,48 @@ export default function VendorInvoicesPage() {
                 const isOverdue = daysUntilDue < 0 && invoice.payment_status !== 'paid';
 
                 return (
-                  <tr key={invoice.id} className="hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-3">
-                      <a href={`/vendor-invoices/${invoice.id}`} className="hover:underline">
-                        <p className="font-weight-medium text-foreground">{invoice.invoice_number}</p>
+                  <TableRow key={invoice.id} className="hover:bg-muted/30 transition-colors">
+                    <TableCell className="px-4 py-3">
+                      <Link href={`/vendor-invoices/${invoice.id}`} className="hover:underline">
+                        <Body className="font-weight-medium text-foreground">{invoice.invoice_number}</Body>
                         {invoice.vendor_invoice_number && (
-                          <p className="text-body-xs text-muted-foreground">
+                          <Body className="text-body-xs text-muted-foreground">
                             Vendor: {invoice.vendor_invoice_number}
-                          </p>
+                          </Body>
                         )}
-                      </a>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="text-body-sm text-foreground">{invoice.vendor?.name || 'Unknown'}</p>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className={`text-body-sm ${isOverdue ? 'text-destructive font-weight-medium' : 'text-foreground'}`}>
+                      </Link>
+                    </TableCell>
+                    <TableCell className="px-4 py-3">
+                      <Body className="text-body-sm text-foreground">{invoice.vendor?.name || 'Unknown'}</Body>
+                    </TableCell>
+                    <TableCell className="px-4 py-3">
+                      <Body className={`text-body-sm ${isOverdue ? 'text-destructive font-weight-medium' : 'text-foreground'}`}>
                         {new Date(invoice.due_date).toLocaleDateString()}
-                      </p>
+                      </Body>
                       {isOverdue && (
-                        <p className="text-body-xs text-destructive">
+                        <Body className="text-body-xs text-destructive">
                           {Math.abs(daysUntilDue)} days overdue
-                        </p>
+                        </Body>
                       )}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <p className="text-body-sm font-weight-medium">{formatCurrency(invoice.total)}</p>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <p className={`text-body-sm font-weight-bold ${paymentConfig.color}`}>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-right">
+                      <Body className="text-body-sm font-weight-medium">{formatCurrency(invoice.total)}</Body>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-right">
+                      <Body className={`text-body-sm font-weight-bold ${paymentConfig.color}`}>
                         {formatCurrency(invoice.amount_due)}
-                      </p>
-                    </td>
-                    <td className="px-4 py-3 text-center">
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </Body>
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-center">
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
-                    </td>
-                  </tr>
+                      </Text>
+                    </TableCell>
+                  </TableRow>
                 );
               })}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

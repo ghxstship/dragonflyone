@@ -34,17 +34,16 @@ import {
   EnterprisePageHeader,
   MainContent,
 } from '@ghxstship/ui';
+import { useHandbook, type HandbookSection as APIHandbookSection, type PolicyAcknowledgment } from '@ghxstship/config';
+import { DEMO_HANDBOOK_SECTIONS, DEMO_POLICY_ACKNOWLEDGMENTS } from '../../../../lib/demo-data';
 
-import {
-  DEMO_HANDBOOK_SECTIONS,
-  DEMO_POLICY_ACKNOWLEDGMENTS,
-  type DemoHandbookSection as HandbookSection,
-} from '../../../../lib/demo-data';
+type HandbookSection = APIHandbookSection;
 
 const categories = ['All', 'General', 'Compliance', 'Safety', 'Benefits', 'Operations', 'Legal'];
 
 export default function HandbookPage() {
   const router = useRouter();
+  const { sections: apiSections, acknowledgments: apiAcknowledgments, summary, isLoading } = useHandbook();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useLocalTabState({
@@ -55,13 +54,17 @@ export default function HandbookPage() {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [showSendReminderModal, setShowSendReminderModal] = useState(false);
 
-  const filteredSections = categoryFilter === 'All' ? DEMO_HANDBOOK_SECTIONS : DEMO_HANDBOOK_SECTIONS.filter((s) => s.category === categoryFilter);
+  // Use API data or fall back to demo data
+  const sections: HandbookSection[] = apiSections.length > 0 ? apiSections : (DEMO_HANDBOOK_SECTIONS as unknown as HandbookSection[]);
+  const acknowledgments: PolicyAcknowledgment[] = apiAcknowledgments.length > 0 ? apiAcknowledgments : (DEMO_POLICY_ACKNOWLEDGMENTS as unknown as PolicyAcknowledgment[]);
 
-  const requiresAckCount = DEMO_HANDBOOK_SECTIONS.filter((s) => s.requiresAck).length;
-  const acknowledgedCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Acknowledged').length;
-  const pendingCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Pending').length;
-  const overdueCount = DEMO_POLICY_ACKNOWLEDGMENTS.filter((a) => a.status === 'Overdue').length;
-  const complianceRate = Math.round((acknowledgedCount / DEMO_POLICY_ACKNOWLEDGMENTS.length) * 100);
+  const filteredSections = categoryFilter === 'All' ? sections : sections.filter((s) => s.category === categoryFilter);
+
+  const requiresAckCount = summary?.requiresAck || sections.filter((s) => s.requiresAck).length;
+  const acknowledgedCount = summary?.acknowledged || acknowledgments.filter((a) => a.status === 'Acknowledged').length;
+  const pendingCount = summary?.pending || acknowledgments.filter((a) => a.status === 'Pending').length;
+  const overdueCount = summary?.overdue || acknowledgments.filter((a) => a.status === 'Overdue').length;
+  const complianceRate = summary?.complianceRate || Math.round((acknowledgedCount / acknowledgments.length) * 100);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -90,8 +93,14 @@ export default function HandbookPage() {
         <Container>
           <Stack gap={10}>
 
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading handbook...</div>
+            </div>
+          )}
+
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Handbook Sections" value={DEMO_HANDBOOK_SECTIONS.length} className="bg-transparent border-2 border-ink-800" />
+            <StatCard label="Handbook Sections" value={sections.length} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Requires Acknowledgment" value={requiresAckCount} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Compliance Rate" value={`${complianceRate}%`} className="bg-transparent border-2 border-ink-800" />
             <StatCard label="Overdue" value={overdueCount} trend={overdueCount > 0 ? 'down' : 'neutral'} className="bg-transparent border-2 border-ink-800" />

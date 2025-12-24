@@ -1,5 +1,18 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -85,10 +98,10 @@ export default function NewCatalogItemPage() {
             <Package className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">Add Catalog Item</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">Add Catalog Item</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Add a new product or service to your catalog
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -98,18 +111,18 @@ export default function NewCatalogItemPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Basic Information
-            </h2>
+            </H2>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Item Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="e.g. LED Par Light"
                   value={formData.name}
@@ -117,15 +130,15 @@ export default function NewCatalogItemPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.name}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.name}</Body>
                 )}
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   SKU
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="e.g. LED-PAR-001"
                   value={formData.sku}
@@ -137,10 +150,10 @@ export default function NewCatalogItemPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Category
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.category_id}
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -151,14 +164,14 @@ export default function NewCatalogItemPage() {
                       {cat.name}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Status
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -168,15 +181,15 @@ export default function NewCatalogItemPage() {
                       {status.charAt(0).toUpperCase() + status.slice(1)}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Description
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 rows={3}
                 placeholder="Brief description of the item..."
                 value={formData.description}
@@ -187,18 +200,18 @@ export default function NewCatalogItemPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Pricing & Units
-            </h2>
+            </H2>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Base Price *
-                </label>
+                </Label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                  <input
+                  <Text className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</Text>
+                  <Input
                     type="number"
                     step="0.01"
                     min="0"
@@ -209,16 +222,16 @@ export default function NewCatalogItemPage() {
                   />
                 </div>
                 {errors.base_price && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.base_price}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.base_price}</Body>
                 )}
               </div>
 
               
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Unit Type
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.unit_type}
                   onChange={(e) => setFormData({ ...formData, unit_type: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -228,16 +241,16 @@ export default function NewCatalogItemPage() {
                       {unit}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Min Quantity
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="1"
                   value={formData.min_quantity}
@@ -247,10 +260,10 @@ export default function NewCatalogItemPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Max Quantity
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="1"
                   placeholder="No limit"
@@ -261,10 +274,10 @@ export default function NewCatalogItemPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Lead Time (days)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="0"
                   placeholder="0"
@@ -277,15 +290,15 @@ export default function NewCatalogItemPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Additional Details
-            </h2>
+            </H2>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Notes
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 rows={2}
                 placeholder="Internal notes about this item..."
                 value={formData.notes}
@@ -302,16 +315,16 @@ export default function NewCatalogItemPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Item'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

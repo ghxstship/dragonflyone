@@ -3,19 +3,20 @@
 import { useState } from "react";
 import { Sparkles, ArrowRight, RefreshCw } from "lucide-react";
 import {
-  H2,
+  Alert,
+  AuthPage,
   Body,
   Button,
-  Input,
-  Alert,
-  Stack,
   Card,
   Field,
+  Form,
+  H2,
+  IconBox,
+  Input,
   Label,
   ScrollReveal,
-  AuthPage,
-  IconBox,
-} from "@ghxstship/ui";
+  Stack,
+} from '@ghxstship/ui';
 import NextLink from "next/link";
 import { CreatorNavigationPublic } from "@/components/navigation";
 
@@ -103,7 +104,7 @@ export default function MagicLinkPage() {
                   {error && <Alert variant="error">{error}</Alert>}
 
                   {/* Form */}
-                  <form onSubmit={handleSubmit}>
+                  <Form onSubmit={handleSubmit}>
                     <Stack gap={4} className="sm:gap-6">
                       <Field label="Email Address">
                         <Input
@@ -127,7 +128,7 @@ export default function MagicLinkPage() {
                         {loading ? "Sending..." : "Send Magic Link"}
                       </Button>
                     </Stack>
-                  </form>
+                  </Form>
 
                   {/* Links */}
                   <Stack gap={3} className="border-t border-black/10 pt-6 text-center">

@@ -3,18 +3,19 @@
 import { useRouter } from 'next/navigation';
 // Layout provided by route group
 import {
-  Container,
-  EnterprisePageHeader,
-  MainContent,
-  Card,
-  CardBody,
-  Stack,
-  StatCard,
-  Grid,
+  Badge,
   Body,
   Box,
+  Card,
+  CardBody,
+  Container,
+  EnterprisePageHeader,
+  Grid,
   H3,
-  Badge,
+  MainContent,
+  Stack,
+  StatCard,
+  Text,
 } from '@ghxstship/ui';
 import { Layout, Wrench, FileText, Settings, Monitor, Speaker, Lightbulb } from 'lucide-react';
 import { useStages } from '../../hooks/useStages';
@@ -109,15 +110,15 @@ export default function StageManagementPage() {
                               <Badge variant={stage.status === 'Active' ? 'success' : 'warning'}>{stage.status}</Badge>
                             </div>
                             <div className="flex gap-4 text-muted">
-                              <span className="flex items-center gap-1">
+                              <Text className="flex items-center gap-1">
                                 <Layout size={14} /> {stage.type}
-                              </span>
-                              <span className="flex items-center gap-1">
+                              </Text>
+                              <Text className="flex items-center gap-1">
                                 <Speaker size={14} /> {stage.dimensions}
-                              </span>
-                              <span className="flex items-center gap-1">
+                              </Text>
+                              <Text className="flex items-center gap-1">
                                 <Lightbulb size={14} /> {stage.capacity.toLocaleString()} cap
-                              </span>
+                              </Text>
                             </div>
                           </Stack>
                         </CardBody>

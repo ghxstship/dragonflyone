@@ -12,11 +12,13 @@ import {
   Body,
   H3,
   StatCard,
+  Skeleton,
 } from '@ghxstship/ui';
-import { Bell, FileText, TrendingUp, Calendar, Download, Eye } from 'lucide-react';
+import { Bell, FileText, TrendingUp, Calendar, Download, Eye, AlertCircle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { useInvestorUpdates, type InvestorUpdate } from '@ghxstship/config';
 
-interface Update {
+interface DisplayUpdate {
   id: string;
   title: string;
   type: 'quarterly' | 'annual' | 'announcement' | 'document';
@@ -26,7 +28,7 @@ interface Update {
   hasAttachment: boolean;
 }
 
-const DEMO_UPDATES: Update[] = [
+const DEMO_UPDATES: DisplayUpdate[] = [
   {
     id: '1',
     title: 'Q4 2024 Investor Update',
@@ -54,33 +56,6 @@ const DEMO_UPDATES: Update[] = [
     isRead: true,
     hasAttachment: false,
   },
-  {
-    id: '4',
-    title: 'Q3 2024 Investor Update',
-    type: 'quarterly',
-    date: '2024-10-15',
-    summary: 'Record-breaking summer festival season. Platform processed over $50M in ticket sales.',
-    isRead: true,
-    hasAttachment: true,
-  },
-  {
-    id: '5',
-    title: 'Board Meeting Minutes - October 2024',
-    type: 'document',
-    date: '2024-10-25',
-    summary: 'Minutes from the October board meeting covering strategic planning and budget approval.',
-    isRead: true,
-    hasAttachment: true,
-  },
-  {
-    id: '6',
-    title: 'New CTO Appointment',
-    type: 'announcement',
-    date: '2024-09-05',
-    summary: 'Welcoming Jane Smith as our new Chief Technology Officer, bringing 15 years of enterprise experience.',
-    isRead: true,
-    hasAttachment: false,
-  },
 ];
 
 const typeVariants: Record<string, 'info' | 'success' | 'warning' | 'error'> = {
@@ -98,8 +73,22 @@ const typeLabels: Record<string, string> = {
 };
 
 export default function InvestorUpdatesPage() {
-  const [updates, setUpdates] = useState<Update[]>(DEMO_UPDATES);
+  const { updates: apiUpdates, isLoading, error, refetch, markAsRead: markReadApi } = useInvestorUpdates();
   const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [localReadState, setLocalReadState] = useState<Record<string, boolean>>({});
+
+  // Map API updates to display format or fall back to demo data
+  const updates: DisplayUpdate[] = apiUpdates.length > 0
+    ? apiUpdates.map((u: InvestorUpdate) => ({
+        id: u.id,
+        title: u.title,
+        type: u.type,
+        date: u.date,
+        summary: u.summary,
+        isRead: localReadState[u.id] ?? u.is_read,
+        hasAttachment: u.has_attachment,
+      }))
+    : DEMO_UPDATES;
 
   const filteredUpdates = updates.filter((u) => {
     return typeFilter === 'all' || u.type === typeFilter;
@@ -110,10 +99,13 @@ export default function InvestorUpdatesPage() {
   const announcementCount = updates.filter((u) => u.type === 'announcement').length;
 
   const markAsRead = (id: string) => {
-    setUpdates(updates.map((u) => (u.id === id ? { ...u, isRead: true } : u)));
+    setLocalReadState(prev => ({ ...prev, [id]: true }));
+    if (apiUpdates.length > 0) {
+      markReadApi(id);
+    }
   };
 
-  const handleDownload = (update: Update) => {
+  const handleDownload = (update: DisplayUpdate) => {
     const blob = new Blob([`${update.title}\n\nDate: ${update.date}\n\n${update.summary}`], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -122,6 +114,44 @@ export default function InvestorUpdatesPage() {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Investor Portal" title="Company Updates" description="Stay informed with the latest company news and reports" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Investor Portal" title="Company Updates" description="Stay informed with the latest company news and reports" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Updates</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Plus, Calendar, Edit2, Trash2, Search, Clock, Users, CheckCircle, XCircle } from 'lucide-react';
 import { useEventTypes, useCreateEventType, useUpdateEventType, useDeleteEventType } from '@/hooks/useEventTypes';
@@ -147,24 +159,24 @@ export default function EventTypesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Event Types</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Event Types</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage event categories and default settings
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={handleOpenCreate}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           New Event Type
-        </button>
+        </Button>
       </div>
 
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search event types..."
             value={searchQuery}
@@ -172,33 +184,33 @@ export default function EventTypesPage() {
             className="w-full pl-10 pr-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
           />
         </div>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
+        <Label className="flex items-center gap-2 cursor-pointer">
+          <Input
             type="checkbox"
             checked={showInactive}
             onChange={(e) => setShowInactive(e.target.checked)}
             className="w-4 h-4 border-2 border-border rounded"
           />
-          <span className="text-body-sm text-muted-foreground">Show inactive</span>
-        </label>
+          <Text className="text-body-sm text-muted-foreground">Show inactive</Text>
+        </Label>
       </div>
 
       {filteredEventTypes.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No event types found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create your first event type to categorize your bookings.
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={handleOpenCreate}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Create Event Type
-          </button>
+          </Button>
         </div>
       )}
 
@@ -225,45 +237,45 @@ export default function EventTypesPage() {
                       <Calendar className="h-5 w-5" style={{ color: eventType.color }} />
                     </div>
                     <div>
-                      <h3 className="text-body-md font-weight-semibold text-foreground">
+                      <H3 className="text-body-md font-weight-semibold text-foreground">
                         {eventType.name}
-                      </h3>
+                      </H3>
                       <div className="flex items-center gap-2">
                         {eventType.is_active ? (
-                          <span className="flex items-center gap-1 text-body-xs text-success">
+                          <Text className="flex items-center gap-1 text-body-xs text-success">
                             <CheckCircle className="h-3 w-3" />
                             Active
-                          </span>
+                          </Text>
                         ) : (
-                          <span className="flex items-center gap-1 text-body-xs text-muted-foreground">
+                          <Text className="flex items-center gap-1 text-body-xs text-muted-foreground">
                             <XCircle className="h-3 w-3" />
                             Inactive
-                          </span>
+                          </Text>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button
+                    <Button
                       onClick={() => handleOpenEdit(eventType)}
                       className="p-1.5 hover:bg-muted rounded-button transition-colors"
                     >
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       onClick={() => handleDelete(eventType.id, eventType.name)}
                       disabled={deleteMutation.isPending}
                       className="p-1.5 hover:bg-destructive/10 rounded-button transition-colors disabled:opacity-50"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
                 {eventType.description && (
-                  <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                     {eventType.description}
-                  </p>
+                  </Body>
                 )}
 
                 <div className="grid grid-cols-2 gap-2 pt-3 border-t border-border">
@@ -286,13 +298,13 @@ export default function EventTypesPage() {
                 </div>
 
                 <div className="mt-3 pt-3 border-t border-border flex items-center justify-between">
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     {eventType.usage_count || 0} bookings
-                  </span>
+                  </Text>
                   {eventType.requires_approval && (
-                    <span className="px-2 py-0.5 bg-warning/20 text-warning text-body-xs rounded">
+                    <Text className="px-2 py-0.5 bg-warning/20 text-warning text-body-xs rounded">
                       Requires Approval
-                    </span>
+                    </Text>
                   )}
                 </div>
               </div>
@@ -304,15 +316,15 @@ export default function EventTypesPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               {editingId ? 'Edit Event Type' : 'New Event Type'}
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            </H3>
+            <Form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -323,10 +335,10 @@ export default function EventTypesPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={2}
@@ -336,12 +348,12 @@ export default function EventTypesPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Color
-                </label>
+                </Label>
                 <div className="flex items-center gap-2">
                   {COLOR_OPTIONS.map((color) => (
-                    <button
+                    <Button
                       key={color.value}
                       type="button"
                       onClick={() => setFormData({ ...formData, color: color.value })}
@@ -357,10 +369,10 @@ export default function EventTypesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Default Duration (hours)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     min="1"
                     value={formData.default_duration_hours}
@@ -369,10 +381,10 @@ export default function EventTypesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Max Capacity
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     min="1"
                     value={formData.max_capacity}
@@ -385,10 +397,10 @@ export default function EventTypesPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Setup Time (minutes)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     min="0"
                     value={formData.default_setup_time_minutes}
@@ -397,10 +409,10 @@ export default function EventTypesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Teardown Time (minutes)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="number"
                     min="0"
                     value={formData.default_teardown_time_minutes}
@@ -411,10 +423,10 @@ export default function EventTypesPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Min Lead Time (days)
-                </label>
-                <input
+                </Label>
+                <Input
                   type="number"
                   min="0"
                   value={formData.min_lead_time_days}
@@ -424,28 +436,28 @@ export default function EventTypesPage() {
               </div>
 
               <div className="flex items-center gap-6">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
+                <Label className="flex items-center gap-2 cursor-pointer">
+                  <Input
                     type="checkbox"
                     checked={formData.requires_approval}
                     onChange={(e) => setFormData({ ...formData, requires_approval: e.target.checked })}
                     className="w-4 h-4"
                   />
-                  <span className="text-body-sm text-foreground">Requires approval</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
+                  <Text className="text-body-sm text-foreground">Requires approval</Text>
+                </Label>
+                <Label className="flex items-center gap-2 cursor-pointer">
+                  <Input
                     type="checkbox"
                     checked={formData.is_active}
                     onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                     className="w-4 h-4"
                   />
-                  <span className="text-body-sm text-foreground">Active</span>
-                </label>
+                  <Text className="text-body-sm text-foreground">Active</Text>
+                </Label>
               </div>
 
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => {
                     setShowModal(false);
@@ -455,8 +467,8 @@ export default function EventTypesPage() {
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createMutation.isPending || updateMutation.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
@@ -466,9 +478,9 @@ export default function EventTypesPage() {
                     : editingId
                     ? 'Update'
                     : 'Create'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

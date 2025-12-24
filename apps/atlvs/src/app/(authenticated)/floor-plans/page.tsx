@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -61,10 +71,10 @@ export default function FloorPlansPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Floor Plans</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Floor Plans</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage venue layouts and space configurations
-          </p>
+          </Body>
         </div>
         <Link
           href="/floor-plans/new"
@@ -78,7 +88,7 @@ export default function FloorPlansPage() {
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search floor plans..."
             value={searchQuery}
@@ -87,7 +97,7 @@ export default function FloorPlansPage() {
           />
         </div>
         {uniqueSpaces.length > 0 && (
-          <select
+          <Select
             value={spaceFilter}
             onChange={(e) => setSpaceFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -98,19 +108,19 @@ export default function FloorPlansPage() {
                 {space?.name}
               </option>
             ))}
-          </select>
+          </Select>
         )}
       </div>
 
       {(!filteredPlans || filteredPlans.length === 0) && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Layout className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No floor plans found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create your first floor plan to start mapping out your venues.
-          </p>
+          </Body>
           <Link
             href="/floor-plans/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -154,17 +164,17 @@ export default function FloorPlansPage() {
                   >
                     <Edit className="h-4 w-4" />
                   </Link>
-                                    <button
+                                    <Button
                     onClick={() => handleDelete(plan.id, plan.name)}
                     disabled={deleteMutation.isPending}
                     className="p-2 bg-background rounded-button border-2 border-destructive text-destructive hover:bg-destructive/10 disabled:opacity-50"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               </div>
               <div className="p-4">
-                <h3 className="font-weight-semibold text-foreground mb-1">{plan.name}</h3>
+                <H3 className="font-weight-semibold text-foreground mb-1">{plan.name}</H3>
                 {plan.space && (
                   <div className="flex items-center gap-1 text-body-sm text-muted-foreground mb-2">
                     <MapPin className="h-3 w-3" />
@@ -172,14 +182,14 @@ export default function FloorPlansPage() {
                   </div>
                 )}
                 <div className="flex items-center justify-between text-body-xs text-muted-foreground">
-                  <span>
+                  <Text>
                     {plan.dimensions?.width && plan.dimensions?.height
                       ? `${plan.dimensions.width} x ${plan.dimensions.height} ${plan.dimensions.unit || 'ft'}`
                       : 'No dimensions'}
-                  </span>
-                  <span>
+                  </Text>
+                  <Text>
                     {plan.objects?.length || 0} objects
-                  </span>
+                  </Text>
                 </div>
               </div>
             </div>

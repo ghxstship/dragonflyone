@@ -1,23 +1,32 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 // Layout provided by route group
 import {
-  Stack,
+  Alert,
   Body,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Container,
   H2,
   H3,
+  Icon,
   Label,
-  Container,
-  Button,
-  Switch,
-  Card,
-  CardHeader,
-  CardBody,
-  Alert,
   Spinner,
-} from "@ghxstship/ui";
+  Stack,
+  Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+} from '@ghxstship/ui';
 import { 
   Shield, 
   Download, 
@@ -212,10 +221,10 @@ export default function PrivacySettingsPage() {
     const config = statusConfig[status] || statusConfig.pending;
     const Icon = config.icon;
     return (
-      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${config.color}`}>
+      <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${config.color}`}>
         <Icon className="size-3" />
         {status.replace("_", " ").toUpperCase()}
-      </span>
+      </Text>
     );
   };
 
@@ -489,32 +498,32 @@ export default function PrivacySettingsPage() {
                 </div>
               ) : dsrHistory && dsrHistory.length > 0 ? (
                 <div className="border-2 border-grey-200 rounded-card overflow-hidden">
-                  <table className="w-full">
-                    <thead className="bg-grey-50">
-                      <tr>
-                        <th className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Request Type</th>
-                        <th className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Status</th>
-                        <th className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Submitted</th>
-                        <th className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Deadline</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-grey-200">
+                  <Table className="w-full">
+                    <TableHeader className="bg-grey-50">
+                      <TableRow>
+                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Request Type</TableHead>
+                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Status</TableHead>
+                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Submitted</TableHead>
+                        <TableHead className="text-left p-3 text-body-sm font-weight-medium text-grey-700">Deadline</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody className="divide-y divide-grey-200">
                       {dsrHistory.map((request) => (
-                        <tr key={request.id}>
-                          <td className="p-3 text-body-sm text-grey-900 capitalize">
+                        <TableRow key={request.id}>
+                          <TableCell className="p-3 text-body-sm text-grey-900 capitalize">
                             {request.request_type.replace("_", " ")}
-                          </td>
-                          <td className="p-3">{getStatusBadge(request.status)}</td>
-                          <td className="p-3 text-body-sm text-grey-600">
+                          </TableCell>
+                          <TableCell className="p-3">{getStatusBadge(request.status)}</TableCell>
+                          <TableCell className="p-3 text-body-sm text-grey-600">
                             {formatDate(request.created_at)}
-                          </td>
-                          <td className="p-3 text-body-sm text-grey-600">
+                          </TableCell>
+                          <TableCell className="p-3 text-body-sm text-grey-600">
                             {formatDate(request.deadline_at)}
-                          </td>
-                        </tr>
+                          </TableCell>
+                        </TableRow>
                       ))}
-                    </tbody>
-                  </table>
+                    </TableBody>
+                  </Table>
                 </div>
               ) : (
                 <div className="text-center py-8">
@@ -529,22 +538,22 @@ export default function PrivacySettingsPage() {
           </Card>
 
           {/* Legal Links */}
-          <div className="flex flex-wrap gap-4 justify-center text-sm">
-            <a href="/legal/privacy" className="text-primary-600 hover:text-primary-800 underline">
+          <div className="flex flex-wrap gap-4 justify-center text-body-sm">
+            <Link href="/legal/privacy" className="text-primary-600 hover:text-primary-800 underline">
               Privacy Policy
-            </a>
-            <span className="text-grey-400">•</span>
-            <a href="/legal/cookies" className="text-primary-600 hover:text-primary-800 underline">
+            </Link>
+            <Text className="text-grey-400">•</Text>
+            <Link href="/legal/cookies" className="text-primary-600 hover:text-primary-800 underline">
               Cookie Policy
-            </a>
-            <span className="text-grey-400">•</span>
-            <a href="/legal/terms" className="text-primary-600 hover:text-primary-800 underline">
+            </Link>
+            <Text className="text-grey-400">•</Text>
+            <Link href="/legal/terms" className="text-primary-600 hover:text-primary-800 underline">
               Terms of Service
-            </a>
-            <span className="text-grey-400">•</span>
-            <a href="mailto:privacy@ghxstship.com" className="text-primary-600 hover:text-primary-800 underline">
+            </Link>
+            <Text className="text-grey-400">•</Text>
+            <Link href="mailto:privacy@ghxstship.com" className="text-primary-600 hover:text-primary-800 underline">
               Contact Privacy Team
-            </a>
+            </Link>
           </div>
         </Stack>
       </Container>

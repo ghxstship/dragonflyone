@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Link,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Plus, Search, Calendar, Clock, AlertTriangle, CheckCircle, XCircle, Filter, ArrowRight } from 'lucide-react';
 import { useHolds, useReleaseHold, useConvertHold } from '@/hooks/useHolds';
@@ -97,28 +108,28 @@ export default function HoldsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Space Holds</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Space Holds</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Manage temporary space reservations
-          </p>
+          </Body>
         </div>
         <div className="flex items-center gap-2">
           {expiringCount > 0 && (
-            <a
+            <Link
               href="/holds/expiring"
               className="inline-flex items-center gap-2 px-4 py-2 bg-warning/10 text-warning border-2 border-warning rounded-button font-weight-medium text-body-sm hover:bg-warning/20 transition-colors"
             >
               <AlertTriangle className="h-4 w-4" />
               {expiringCount} Expiring
-            </a>
+            </Link>
           )}
-          <a
+          <Link
             href="/holds/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
           >
             <Plus className="h-4 w-4" />
             New Hold
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -126,39 +137,39 @@ export default function HoldsPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Holds</span>
+            <Text className="text-body-sm text-muted-foreground">Total Holds</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{holds.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{holds.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Active</span>
+            <Text className="text-body-sm text-muted-foreground">Active</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{activeCount}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{activeCount}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Expiring Soon</span>
+            <Text className="text-body-sm text-muted-foreground">Expiring Soon</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{expiringCount}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{expiringCount}</Body>
         </div>
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <ArrowRight className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Converted</span>
+            <Text className="text-body-sm text-muted-foreground">Converted</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-primary">
+          <Body className="text-h3-md font-weight-bold text-primary">
             {holds.filter((h) => h.status === 'converted').length}
-          </p>
+          </Body>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search by space or contact..."
             value={searchQuery}
@@ -168,7 +179,7 @@ export default function HoldsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -177,32 +188,32 @@ export default function HoldsPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
-        <a
+        <Link
           href="/availability"
           className="px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
         >
           Check Availability
-        </a>
+        </Link>
       </div>
 
       {filteredHolds.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No holds found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create a hold to reserve a space temporarily'}
-          </p>
-          <a
+          </Body>
+          <Link
             href="/holds/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             New Hold
-          </a>
+          </Link>
         </div>
       )}
 
@@ -229,61 +240,61 @@ export default function HoldsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-body-lg font-weight-semibold text-foreground">
+                      <H3 className="text-body-lg font-weight-semibold text-foreground">
                         {hold.space?.name || 'Unknown Space'}
-                      </h3>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </H3>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${priorityConfig.color}`}>
+                      </Text>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${priorityConfig.color}`}>
                         {priorityConfig.label}
-                      </span>
+                      </Text>
                       {hold.status === 'active' && (
-                        <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
+                        <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${
                           expiryInfo.isExpired ? 'bg-destructive text-destructive-foreground' :
                           expiryInfo.isExpiringSoon ? 'bg-warning/20 text-warning' : 'bg-muted text-muted-foreground'
                         }`}>
                           {expiryInfo.text}
-                        </span>
+                        </Text>
                       )}
                     </div>
-                    <p className="text-body-sm text-muted-foreground">
+                    <Body className="text-body-sm text-muted-foreground">
                       {contactName} • {new Date(hold.hold_date).toLocaleDateString()}
                       {hold.start_time && ` • ${hold.start_time}`}
                       {hold.end_time && ` - ${hold.end_time}`}
-                    </p>
+                    </Body>
                     {hold.notes && (
-                      <p className="text-body-xs text-muted-foreground mt-2">{hold.notes}</p>
+                      <Body className="text-body-xs text-muted-foreground mt-2">{hold.notes}</Body>
                     )}
                   </div>
                   {hold.status === 'active' && (
                     <div className="flex items-center gap-2">
-                      <button
+                      <Button
                         onClick={() => handleConvert(hold.id)}
                         disabled={convertMutation.isPending}
                         className="inline-flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
                       >
                         <CheckCircle className="h-4 w-4" />
                         Convert to Booking
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         onClick={() => handleRelease(hold.id)}
                         disabled={releaseMutation.isPending}
                         className="inline-flex items-center gap-2 px-3 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
                       >
                         <XCircle className="h-4 w-4" />
                         Release
-                      </button>
+                      </Button>
                     </div>
                   )}
                   {hold.status === 'converted' && hold.converted_to_booking_id && (
-                    <a
+                    <Link
                       href={`/bookings/${hold.converted_to_booking_id}`}
                       className="inline-flex items-center gap-2 px-3 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
                     >
                       View Booking
                       <ArrowRight className="h-4 w-4" />
-                    </a>
+                    </Link>
                   )}
                 </div>
               </div>

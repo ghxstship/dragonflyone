@@ -4,7 +4,18 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Plus, Mail, Users, BarChart3, Play, Pause, Edit2, Trash2, CheckCircle, AlertCircle } from 'lucide-react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 
 interface NurtureCampaign {
   id: string;
@@ -191,13 +202,13 @@ export default function LeadNurturingPage() {
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
           <AlertCircle className="h-12 w-12 text-destructive mx-auto mb-4" />
-          <p className="text-destructive">Failed to load nurture campaigns</p>
-          <button
+          <Body className="text-destructive">Failed to load nurture campaigns</Body>
+          <Button
             onClick={() => queryClient.invalidateQueries({ queryKey: ['nurture-campaigns'] })}
             className="mt-4 px-4 py-2 bg-destructive text-destructive-foreground rounded-button"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -214,56 +225,56 @@ export default function LeadNurturingPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Lead Nurturing</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Lead Nurturing</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Automated campaigns to nurture leads through the sales funnel
-            </p>
+            </Body>
           </div>
         </div>
-        <button
+        <Button
           onClick={() => setShowCreateModal(true)}
           className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
-          <span className="text-body-sm font-weight-medium">New Campaign</span>
-        </button>
+          <Text className="text-body-sm font-weight-medium">New Campaign</Text>
+        </Button>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Mail className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Active Campaigns</span>
+            <Text className="text-body-sm text-muted-foreground">Active Campaigns</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {campaigns.filter((c) => c.status === 'active').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Users className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Total Enrolled</span>
+            <Text className="text-body-sm text-muted-foreground">Total Enrolled</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{totalEnrolled}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{totalEnrolled}</Body>
         </div>
         <div className="bg-background border-2 border-secondary/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-secondary" />
-            <span className="text-body-sm text-muted-foreground">Completed</span>
+            <Text className="text-body-sm text-muted-foreground">Completed</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-secondary">{totalCompleted}</p>
+          <Body className="text-h3-md font-weight-bold text-secondary">{totalCompleted}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Avg Conversion</span>
+            <Text className="text-body-sm text-muted-foreground">Avg Conversion</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{avgConversionRate}%</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{avgConversionRate}%</Body>
         </div>
       </div>
 
       <div className="flex items-center gap-4">
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:border-primary"
@@ -273,25 +284,25 @@ export default function LeadNurturingPage() {
           <option value="paused">Paused</option>
           <option value="draft">Draft</option>
           <option value="completed">Completed</option>
-        </select>
+        </Select>
       </div>
 
       {filteredCampaigns.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Mail className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No nurture campaigns
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Create automated campaigns to nurture your leads
-          </p>
-          <button
+          </Body>
+          <Button
             onClick={() => setShowCreateModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button"
           >
             <Plus className="h-4 w-4" />
             Create First Campaign
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
@@ -304,46 +315,46 @@ export default function LeadNurturingPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-body-lg font-weight-semibold text-foreground">
+                      <H3 className="text-body-lg font-weight-semibold text-foreground">
                         {campaign.name}
-                      </h3>
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getStatusColor(campaign.status)}`}>
+                      </H3>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${getStatusColor(campaign.status)}`}>
                         {campaign.status.charAt(0).toUpperCase() + campaign.status.slice(1)}
-                      </span>
+                      </Text>
                     </div>
                     {campaign.description && (
-                      <p className="text-body-sm text-muted-foreground">{campaign.description}</p>
+                      <Body className="text-body-sm text-muted-foreground">{campaign.description}</Body>
                     )}
                     <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                      <span>Trigger: {campaign.trigger_type.replace('_', ' ')}</span>
+                      <Text>Trigger: {campaign.trigger_type.replace('_', ' ')}</Text>
                       {campaign.target_segment && (
-                        <span>Segment: {campaign.target_segment}</span>
+                        <Text>Segment: {campaign.target_segment}</Text>
                       )}
-                      <span>{campaign.steps.length} steps</span>
+                      <Text>{campaign.steps.length} steps</Text>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     {campaign.status === 'active' ? (
-                      <button
+                      <Button
                         onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'paused' })}
                         className="p-2 hover:bg-warning/10 rounded-button transition-colors"
                         title="Pause Campaign"
                       >
                         <Pause className="h-4 w-4 text-warning" />
-                      </button>
+                      </Button>
                     ) : campaign.status === 'paused' || campaign.status === 'draft' ? (
-                      <button
+                      <Button
                         onClick={() => toggleCampaign.mutate({ id: campaign.id, status: 'active' })}
                         className="p-2 hover:bg-success/10 rounded-button transition-colors"
                         title="Activate Campaign"
                       >
                         <Play className="h-4 w-4 text-success" />
-                      </button>
+                      </Button>
                     ) : null}
                     <Button variant="ghost" size="icon" className="p-2">
                       <Edit2 className="h-4 w-4 text-muted-foreground" />
                     </Button>
-                    <button
+                    <Button
                       onClick={() => {
                         if (confirm('Delete this campaign?')) {
                           deleteCampaign.mutate(campaign.id);
@@ -352,33 +363,33 @@ export default function LeadNurturingPage() {
                       className="p-2 hover:bg-destructive/10 rounded-button transition-colors"
                     >
                       <Trash2 className="h-4 w-4 text-destructive" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-4 gap-4 mb-4">
                   <div className="text-center">
-                    <p className="text-h4-md font-weight-bold text-foreground">{campaign.enrolled_count}</p>
-                    <p className="text-body-xs text-muted-foreground">Enrolled</p>
+                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.enrolled_count}</Body>
+                    <Body className="text-body-xs text-muted-foreground">Enrolled</Body>
                   </div>
                   <div className="text-center">
-                    <p className="text-h4-md font-weight-bold text-foreground">{campaign.completed_count}</p>
-                    <p className="text-body-xs text-muted-foreground">Completed</p>
+                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.completed_count}</Body>
+                    <Body className="text-body-xs text-muted-foreground">Completed</Body>
                   </div>
                   <div className="text-center">
-                    <p className="text-h4-md font-weight-bold text-foreground">{campaign.conversion_rate}%</p>
-                    <p className="text-body-xs text-muted-foreground">Conversion</p>
+                    <Body className="text-h4-md font-weight-bold text-foreground">{campaign.conversion_rate}%</Body>
+                    <Body className="text-body-xs text-muted-foreground">Conversion</Body>
                   </div>
                   <div className="text-center">
-                    <p className="text-h4-md font-weight-bold text-foreground">
+                    <Body className="text-h4-md font-weight-bold text-foreground">
                       {campaign.enrolled_count - campaign.completed_count}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground">In Progress</p>
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground">In Progress</Body>
                   </div>
                 </div>
 
                 <div className="border-t border-border pt-4">
-                  <p className="text-body-xs text-muted-foreground mb-2">Campaign Steps:</p>
+                  <Body className="text-body-xs text-muted-foreground mb-2">Campaign Steps:</Body>
                   <div className="flex items-center gap-2 overflow-x-auto pb-2">
                     {campaign.steps.map((step, index) => (
                       <div key={step.id} className="flex items-center">
@@ -406,10 +417,10 @@ export default function LeadNurturingPage() {
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">
               Create Nurture Campaign
-            </h3>
-            <form
+            </H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -428,10 +439,10 @@ export default function LeadNurturingPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Campaign Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -440,10 +451,10 @@ export default function LeadNurturingPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   placeholder="Brief description of this campaign"
@@ -452,10 +463,10 @@ export default function LeadNurturingPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Trigger Type *
-                  </label>
-                  <select
+                  </Label>
+                  <Select
                     name="trigger_type"
                     required
                     className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
@@ -464,13 +475,13 @@ export default function LeadNurturingPage() {
                     <option value="action_based">Action Based</option>
                     <option value="time_delay">Time Delay</option>
                     <option value="score_based">Score Based</option>
-                  </select>
+                  </Select>
                 </div>
                 <div>
-                  <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                  <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                     Target Segment
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     type="text"
                     name="target_segment"
                     placeholder="e.g., New Leads"
@@ -479,22 +490,22 @@ export default function LeadNurturingPage() {
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
                   className="px-4 py-2 border-2 border-border rounded-button hover:bg-muted transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
                   disabled={createCampaign.isPending}
                   className="px-4 py-2 bg-primary text-primary-foreground rounded-button hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {createCampaign.isPending ? 'Creating...' : 'Create Campaign'}
-                </button>
+                </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

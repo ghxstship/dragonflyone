@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import { FileText, Check, Pen, AlertCircle } from 'lucide-react';
@@ -137,8 +147,8 @@ export default function ContractSigningPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center">
           <FileText className="h-12 w-12 text-ink-400 mx-auto mb-4" />
-          <h1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Contract Not Found</h1>
-          <p className="text-ink-500">{error || 'This signing link may have expired.'}</p>
+          <H1 className="text-h5-md font-weight-semibold text-ink-900 mb-2">Contract Not Found</H1>
+          <Body className="text-ink-500">{error || 'This signing link may have expired.'}</Body>
         </div>
       </div>
     );
@@ -149,10 +159,10 @@ export default function ContractSigningPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
           <Check className="h-16 w-16 text-success-600 mx-auto mb-4" />
-          <h1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Contract Signed</h1>
-          <p className="text-ink-500">
+          <H1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Contract Signed</H1>
+          <Body className="text-ink-500">
             Thank you for signing the contract. A copy has been sent to your email.
-          </p>
+          </Body>
         </div>
       </div>
     );
@@ -163,10 +173,10 @@ export default function ContractSigningPage() {
       <div className="min-h-screen bg-ink-100 flex items-center justify-center">
         <div className="text-center bg-white p-8 rounded-card shadow-sm border-2 border-ink-200 max-w-md">
           <AlertCircle className="h-16 w-16 text-error-600 mx-auto mb-4" />
-          <h1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Contract Unavailable</h1>
-          <p className="text-ink-500">
+          <H1 className="text-h4-md font-weight-bold text-ink-900 mb-2">Contract Unavailable</H1>
+          <Body className="text-ink-500">
             This contract has been {contract.status}. Please contact the sender for more information.
-          </p>
+          </Body>
         </div>
       </div>
     );
@@ -177,10 +187,10 @@ export default function ContractSigningPage() {
       <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="bg-white rounded-card shadow-sm border-2 border-ink-200 overflow-hidden">
           <div className="p-6 border-b border-ink-200">
-            <h1 className="text-h4-md font-weight-bold text-ink-900">{contract.title}</h1>
-            <p className="text-body-sm text-ink-500 mt-1">
+            <H1 className="text-h4-md font-weight-bold text-ink-900">{contract.title}</H1>
+            <Body className="text-body-sm text-ink-500 mt-1">
               From {contract.organization.name}
-            </p>
+            </Body>
           </div>
 
           <div className="p-6 border-b border-ink-200">
@@ -193,13 +203,13 @@ export default function ContractSigningPage() {
           </div>
 
           <div className="p-6 bg-ink-100">
-            <h2 className="text-h6-md font-weight-semibold text-ink-900 mb-4 flex items-center gap-2">
+            <H2 className="text-h6-md font-weight-semibold text-ink-900 mb-4 flex items-center gap-2">
               <Pen className="h-5 w-5" />
               Your Signature
-            </h2>
-            <p className="text-body-sm text-ink-500 mb-4">
+            </H2>
+            <Body className="text-body-sm text-ink-500 mb-4">
               Sign below using your mouse or finger (on touch devices)
-            </p>
+            </Body>
             <div className="border-2 border-dashed border-ink-300 rounded-card p-4 bg-white mb-4">
               <canvas
                 ref={canvasRef}
@@ -216,36 +226,36 @@ export default function ContractSigningPage() {
               />
             </div>
             <div className="flex items-center justify-between mb-4">
-              <button
+              <Button
                 onClick={clearSignature}
                 className="text-body-sm text-ink-500 hover:text-ink-700"
               >
                 Clear signature
-              </button>
-              <p className="text-body-sm text-ink-500">
+              </Button>
+              <Body className="text-body-sm text-ink-500">
                 Signing as: <strong>{contract.signer_name}</strong>
-              </p>
+              </Body>
             </div>
-            <label className="flex items-start gap-3 mb-6 cursor-pointer">
-              <input
+            <Label className="flex items-start gap-3 mb-6 cursor-pointer">
+              <Input
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
                 className="w-5 h-5 mt-0.5"
               />
-              <span className="text-body-sm text-ink-600">
+              <Text className="text-body-sm text-ink-600">
                 I agree to the terms of this contract and acknowledge that my electronic signature
                 has the same legal effect as a handwritten signature.
-              </span>
-            </label>
-            <button
+              </Text>
+            </Label>
+            <Button
               onClick={handleSign}
               disabled={!signatureData || !agreed || signing}
               className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-button hover:bg-violet-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Check className="h-5 w-5" />
               {signing ? 'Signing...' : 'Sign Contract'}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

@@ -10,15 +10,25 @@ import {
   Modal, ModalHeader, ModalBody, ModalFooter, ProgressBar, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_INFLUENCERS,
-  type DemoInfluencer as Influencer,
-} from "@/lib/demo-data";
+import { useInfluencers } from "@ghxstship/config";
+import { DEMO_INFLUENCERS } from "@/lib/demo-data";
 
-const mockInfluencers = DEMO_INFLUENCERS;
+interface Influencer {
+  id: string;
+  name: string;
+  handle: string;
+  platform: string;
+  followers: number;
+  engagement: number;
+  status: string;
+  niche: string;
+  campaigns: number;
+  revenue: number;
+}
 
 function InfluencersPageContent() {
   const router = useRouter();
+  const { influencers: apiInfluencers, isLoading } = useInfluencers();
   
   // URL-synced tab state for deep-linking support
   const { activeTab, setActiveTab, isActive } = useTabState({
@@ -28,15 +38,18 @@ function InfluencersPageContent() {
   const [selectedInfluencer, setSelectedInfluencer] = useState<Influencer | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
 
+  // Use API data or fall back to demo data
+  const influencers: Influencer[] = apiInfluencers.length > 0 ? (apiInfluencers as unknown as Influencer[]) : (DEMO_INFLUENCERS as unknown as Influencer[]);
+
   const formatNumber = (num: number) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`;
     if (num >= 1000) return `${(num / 1000).toFixed(0)}K`;
     return num.toString();
   };
 
-  const totalReach = mockInfluencers.reduce((s, i) => s + i.followers, 0);
-  const totalRevenue = mockInfluencers.reduce((s, i) => s + i.revenue, 0);
-  const activeCount = mockInfluencers.filter(i => i.status === "Active").length;
+  const totalReach = influencers.reduce((s, i) => s + i.followers, 0);
+  const totalRevenue = influencers.reduce((s, i) => s + i.revenue, 0);
+  const activeCount = influencers.filter(i => i.status === "Active").length;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -47,7 +60,7 @@ function InfluencersPageContent() {
     }
   };
 
-  const filteredInfluencers = activeTab === "all" ? mockInfluencers : mockInfluencers.filter(i => i.status.toLowerCase() === activeTab);
+  const filteredInfluencers = activeTab === "all" ? influencers : influencers.filter(i => i.status.toLowerCase() === activeTab);
 
   return (
     <>
@@ -58,6 +71,12 @@ function InfluencersPageContent() {
               <H2 size="lg" className="text-white">Influencer Partnerships</H2>
               <Body className="text-on-dark-muted">Track and manage influencer marketing campaigns</Body>
             </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading influencers...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Total Reach" value={formatNumber(totalReach)} className="border-2 border-black" />

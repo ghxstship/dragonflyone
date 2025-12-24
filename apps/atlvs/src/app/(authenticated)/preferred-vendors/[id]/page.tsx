@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Text,
+} from '@ghxstship/ui';
+
 import { ArrowLeft, Star, Trash2, Phone, Mail, ExternalLink } from 'lucide-react';
 import { useRemovePreferredVendor, useUpdatePreferredVendor } from '@/hooks/usePreferredVendors';
 import { useQuery } from '@tanstack/react-query';
@@ -92,73 +100,73 @@ export default function PreferredVendorDetailPage({ params }: { params: { id: st
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-h2-md font-weight-bold text-foreground">
+                <H1 className="text-h2-md font-weight-bold text-foreground">
                   {vendor?.company_name || vendor?.name || 'Preferred Vendor'}
-                </h1>
-                <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                </H1>
+                <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                   {statusConfig.label}
-                </span>
+                </Text>
                 {tierConfig && (
-                  <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${tierConfig.color}`}>
+                  <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${tierConfig.color}`}>
                     {tierConfig.label}
-                  </span>
+                  </Text>
                 )}
               </div>
-              <p className="text-body-sm text-muted-foreground mt-1">
+              <Body className="text-body-sm text-muted-foreground mt-1">
                 {preferredVendor.category || 'Uncategorized'} • Added {new Date(preferredVendor.created_at).toLocaleDateString()}
-              </p>
+              </Body>
             </div>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <a
+          <Link
             href={`/vendors/${vendor?.id}`}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
           >
             <ExternalLink className="h-4 w-4" />
             View Full Profile
-          </a>
-          <button
+          </Link>
+          <Button
             onClick={handleDelete}
             disabled={isDeleting}
             className="inline-flex items-center gap-2 px-4 py-2 border-2 border-destructive text-destructive rounded-button text-body-sm font-weight-medium hover:bg-destructive/10 transition-colors disabled:opacity-50"
           >
             <Trash2 className="h-4 w-4" />
             Remove
-          </button>
+          </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Vendor Information</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Vendor Information</H2>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-body-xs text-muted-foreground">Company Name</p>
-                <p className="text-body-sm font-weight-medium">{vendor?.company_name || 'N/A'}</p>
+                <Body className="text-body-xs text-muted-foreground">Company Name</Body>
+                <Body className="text-body-sm font-weight-medium">{vendor?.company_name || 'N/A'}</Body>
               </div>
               <div>
-                <p className="text-body-xs text-muted-foreground">Contact Name</p>
-                <p className="text-body-sm font-weight-medium">{vendor?.name || 'N/A'}</p>
+                <Body className="text-body-xs text-muted-foreground">Contact Name</Body>
+                <Body className="text-body-sm font-weight-medium">{vendor?.name || 'N/A'}</Body>
               </div>
               {vendor?.email && (
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Email</p>
-                  <a href={`mailto:${vendor.email}`} className="text-body-sm text-primary hover:underline flex items-center gap-1">
+                  <Body className="text-body-xs text-muted-foreground">Email</Body>
+                  <Link href={`mailto:${vendor.email}`} className="text-body-sm text-primary hover:underline flex items-center gap-1">
                     <Mail className="h-3 w-3" />
                     {vendor.email}
-                  </a>
+                  </Link>
                 </div>
               )}
               {vendor?.phone && (
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Phone</p>
-                  <a href={`tel:${vendor.phone}`} className="text-body-sm text-primary hover:underline flex items-center gap-1">
+                  <Body className="text-body-xs text-muted-foreground">Phone</Body>
+                  <Link href={`tel:${vendor.phone}`} className="text-body-sm text-primary hover:underline flex items-center gap-1">
                     <Phone className="h-3 w-3" />
                     {vendor.phone}
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>
@@ -166,19 +174,19 @@ export default function PreferredVendorDetailPage({ params }: { params: { id: st
 
           {preferredVendor.notes && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</h2>
-              <p className="text-body-sm text-foreground whitespace-pre-wrap">{preferredVendor.notes}</p>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Notes</H2>
+              <Body className="text-body-sm text-foreground whitespace-pre-wrap">{preferredVendor.notes}</Body>
             </div>
           )}
 
           {preferredVendor.specialties && preferredVendor.specialties.length > 0 && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Specialties</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Specialties</H2>
               <div className="flex flex-wrap gap-2">
                 {preferredVendor.specialties.map((specialty: string, index: number) => (
-                  <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-badge text-body-sm">
+                  <Text key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-badge text-body-sm">
                     {specialty}
-                  </span>
+                  </Text>
                 ))}
               </div>
             </div>
@@ -187,42 +195,42 @@ export default function PreferredVendorDetailPage({ params }: { params: { id: st
 
         <div className="space-y-6">
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Quick Actions</H2>
             <div className="space-y-2">
-              <button
+              <Button
                 onClick={() => handleStatusChange(preferredVendor.status === 'active' ? 'inactive' : 'active')}
                 disabled={updateMutation.isPending}
                 className="w-full px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors text-left disabled:opacity-50"
               >
                 {preferredVendor.status === 'active' ? 'Deactivate' : 'Activate'} Preferred Status
-              </button>
-              <a
+              </Button>
+              <Link
                 href={`/vendor-orders/new?vendor=${vendor?.id}`}
                 className="block w-full px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors text-left"
               >
                 Create Order
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/vendors/${vendor?.id}/reviews`}
                 className="block w-full px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors text-left"
               >
                 View Reviews
-              </a>
+              </Link>
             </div>
           </div>
 
           {preferredVendor.pricing_tier && (
             <div className="bg-background border-2 border-border rounded-card p-6">
-              <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Pricing</h2>
+              <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Pricing</H2>
               <div className="space-y-2">
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Pricing Tier</p>
-                  <p className="text-body-sm font-weight-medium capitalize">{preferredVendor.pricing_tier}</p>
+                  <Body className="text-body-xs text-muted-foreground">Pricing Tier</Body>
+                  <Body className="text-body-sm font-weight-medium capitalize">{preferredVendor.pricing_tier}</Body>
                 </div>
                 {preferredVendor.discount_percentage && (
                   <div>
-                    <p className="text-body-xs text-muted-foreground">Negotiated Discount</p>
-                    <p className="text-body-sm font-weight-medium text-success">{preferredVendor.discount_percentage}% off</p>
+                    <Body className="text-body-xs text-muted-foreground">Negotiated Discount</Body>
+                    <Body className="text-body-sm font-weight-medium text-success">{preferredVendor.discount_percentage}% off</Body>
                   </div>
                 )}
               </div>
@@ -230,20 +238,20 @@ export default function PreferredVendorDetailPage({ params }: { params: { id: st
           )}
 
           <div className="bg-background border-2 border-border rounded-card p-6">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">Agreement Details</h2>
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">Agreement Details</H2>
             <div className="space-y-2">
               <div>
-                <p className="text-body-xs text-muted-foreground">Added Date</p>
-                <p className="text-body-sm font-weight-medium">
+                <Body className="text-body-xs text-muted-foreground">Added Date</Body>
+                <Body className="text-body-sm font-weight-medium">
                   {new Date(preferredVendor.created_at).toLocaleDateString()}
-                </p>
+                </Body>
               </div>
               {preferredVendor.contract_expires_at && (
                 <div>
-                  <p className="text-body-xs text-muted-foreground">Contract Expires</p>
-                  <p className="text-body-sm font-weight-medium">
+                  <Body className="text-body-xs text-muted-foreground">Contract Expires</Body>
+                  <Body className="text-body-sm font-weight-medium">
                     {new Date(preferredVendor.contract_expires_at).toLocaleDateString()}
-                  </p>
+                  </Body>
                 </div>
               )}
             </div>

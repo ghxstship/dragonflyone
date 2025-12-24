@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, FileText, Eye, Send, Clock, CheckCircle, XCircle, Filter } from 'lucide-react';
@@ -78,10 +87,10 @@ export default function ProposalsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Proposals</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Proposals</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Create and manage client proposals
-          </p>
+          </Body>
         </div>
         <Link
           href="/proposals/new"
@@ -94,31 +103,31 @@ export default function ProposalsPage() {
 
       <div className="grid grid-cols-5 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
-          <p className="text-body-xs text-muted-foreground mb-1">Total Proposals</p>
-          <p className="text-h3-md font-weight-bold text-foreground">{stats.total}</p>
+          <Body className="text-body-xs text-muted-foreground mb-1">Total Proposals</Body>
+          <Body className="text-h3-md font-weight-bold text-foreground">{stats.total}</Body>
         </div>
         <div className="bg-background border-2 border-muted rounded-card p-4">
-          <p className="text-body-xs text-muted-foreground mb-1">Drafts</p>
-          <p className="text-h3-md font-weight-bold text-muted-foreground">{stats.draft}</p>
+          <Body className="text-body-xs text-muted-foreground mb-1">Drafts</Body>
+          <Body className="text-h3-md font-weight-bold text-muted-foreground">{stats.draft}</Body>
         </div>
         <div className="bg-background border-2 border-primary/50 rounded-card p-4">
-          <p className="text-body-xs text-muted-foreground mb-1">Sent/Pending</p>
-          <p className="text-h3-md font-weight-bold text-primary">{stats.sent}</p>
+          <Body className="text-body-xs text-muted-foreground mb-1">Sent/Pending</Body>
+          <Body className="text-h3-md font-weight-bold text-primary">{stats.sent}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
-          <p className="text-body-xs text-muted-foreground mb-1">Accepted</p>
-          <p className="text-h3-md font-weight-bold text-success">{stats.accepted}</p>
+          <Body className="text-body-xs text-muted-foreground mb-1">Accepted</Body>
+          <Body className="text-h3-md font-weight-bold text-success">{stats.accepted}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
-          <p className="text-body-xs text-muted-foreground mb-1">Total Value</p>
-          <p className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</p>
+          <Body className="text-body-xs text-muted-foreground mb-1">Total Value</Body>
+          <Body className="text-h3-md font-weight-bold text-foreground">{formatCurrency(stats.totalValue)}</Body>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search proposals..."
             value={searchQuery}
@@ -128,7 +137,7 @@ export default function ProposalsPage() {
         </div>
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -137,7 +146,7 @@ export default function ProposalsPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
         <Link
           href="/proposals/templates"
@@ -150,12 +159,12 @@ export default function ProposalsPage() {
       {filteredProposals.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No proposals found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search' : 'Create your first proposal'}
-          </p>
+          </Body>
           <Link
             href="/proposals/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -175,7 +184,7 @@ export default function ProposalsPage() {
               new Date(proposal.valid_until) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
             return (
-              <a
+              <Link
                 key={proposal.id}
                 href={`/proposals/${proposal.id}`}
                 className="block bg-background border-2 border-border rounded-card p-6 hover:border-primary transition-colors"
@@ -183,32 +192,32 @@ export default function ProposalsPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-body-xs text-muted-foreground font-mono">
+                      <Text className="text-body-xs text-muted-foreground font-mono">
                         {proposal.proposal_number}
-                      </span>
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      </Text>
+                      <Text className={`inline-flex items-center gap-1 px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         <StatusIcon className="h-3 w-3" />
                         {statusConfig.label}
-                      </span>
+                      </Text>
                       {isExpiringSoon && proposal.status !== 'accepted' && proposal.status !== 'declined' && (
-                        <span className="px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
+                        <Text className="px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
                           Expires Soon
-                        </span>
+                        </Text>
                       )}
                     </div>
-                    <h3 className="text-body-lg font-weight-semibold text-foreground mb-1">
+                    <H3 className="text-body-lg font-weight-semibold text-foreground mb-1">
                       {proposal.name || 'Untitled Proposal'}
-                    </h3>
-                    <p className="text-body-sm text-muted-foreground">
+                    </H3>
+                    <Body className="text-body-sm text-muted-foreground">
                       {proposal.contact ? `${proposal.contact.first_name} ${proposal.contact.last_name}` : 'No client'} 
-                      {proposal.contact?.email && <span className="ml-2 text-body-xs">({proposal.contact.email})</span>}
-                    </p>
+                      {proposal.contact?.email && <Text className="ml-2 text-body-xs">({proposal.contact.email})</Text>}
+                    </Body>
                   </div>
                   <div className="text-right">
-                    <p className="text-h4-md font-weight-bold text-foreground">
+                    <Body className="text-h4-md font-weight-bold text-foreground">
                       {formatCurrency(proposal.total || 0)}
-                    </p>
-                    <p className="text-body-xs text-muted-foreground mt-1">
+                    </Body>
+                    <Body className="text-body-xs text-muted-foreground mt-1">
                       {proposal.viewed_at ? (
                         <>Viewed {new Date(proposal.viewed_at).toLocaleDateString()}</>
                       ) : proposal.sent_at ? (
@@ -216,10 +225,10 @@ export default function ProposalsPage() {
                       ) : (
                         <>Created {new Date(proposal.created_at).toLocaleDateString()}</>
                       )}
-                    </p>
+                    </Body>
                   </div>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </div>

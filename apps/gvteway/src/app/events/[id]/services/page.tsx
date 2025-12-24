@@ -4,16 +4,17 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { GvtewayLoadingLayout } from '@/components/app-layout';
 import {
-  H2,
-  H3,
+  Alert,
+  Badge,
   Body,
   Button,
   Card,
   Grid,
-  Stack,
-  Badge,
-  Alert,
+  H2,
+  H3,
   Kicker,
+  Stack,
+  Text,
 } from '@ghxstship/ui';
 import { 
   Utensils, 
@@ -144,8 +145,8 @@ export default function EventServicesPage() {
               variant={selectedCategory === category ? 'solid' : 'outline'}
               onClick={() => setSelectedCategory(category)}
             >
-              <span className="mr-2">{categoryIcons[category]}</span>
-              <span className="capitalize">{category}</span>
+              <Text className="mr-2">{categoryIcons[category]}</Text>
+              <Text className="capitalize">{category}</Text>
             </Button>
           ))}
         </Stack>
@@ -167,9 +168,9 @@ export default function EventServicesPage() {
               <Card key={service.id} className="p-6 border-2 border-black hover:shadow-lg transition-shadow">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between items-start">
-                    <span className={`p-3 rounded-card ${categoryColors[service.category]}`}>
+                    <Text className={`p-3 rounded-card ${categoryColors[service.category]}`}>
                       {categoryIcons[service.category]}
-                    </span>
+                    </Text>
                     <Badge variant="outline" className="capitalize">
                       {service.category}
                     </Badge>

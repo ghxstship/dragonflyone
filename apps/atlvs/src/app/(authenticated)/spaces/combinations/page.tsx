@@ -5,7 +5,18 @@ import Link from 'next/link';
 import { ArrowLeft, Plus, Edit2, Trash2, Layers, Users, Check } from 'lucide-react';
 import { useSpaces } from '@/hooks/useSpaces';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@ghxstship/ui';
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H3,
+  Input,
+  Label,
+  Select,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
 
 interface SpaceCombination {
   id: string;
@@ -87,10 +98,10 @@ export default function SpaceCombinationsPage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Space Combinations</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Space Combinations</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               Create and manage combined space configurations
-            </p>
+            </Body>
           </div>
         </div>
         <Button variant="solid" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left">
@@ -101,7 +112,7 @@ export default function SpaceCombinationsPage() {
       {combinations.length === 0 ? (
         <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
           <Layers className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <p className="text-body-md text-muted-foreground">No space combinations configured</p>
+          <Body className="text-body-md text-muted-foreground">No space combinations configured</Body>
           <Button variant="ghost" size="sm" onClick={() => setShowAddForm(true)} icon={<Plus className="h-4 w-4" />} iconPosition="left" className="mt-4">
             Create your first combination
           </Button>
@@ -117,13 +128,13 @@ export default function SpaceCombinationsPage() {
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-body-md font-weight-semibold text-foreground">
+                  <H3 className="text-body-md font-weight-semibold text-foreground">
                     {combination.name}
-                  </h3>
+                  </H3>
                   {combination.description && (
-                    <p className="text-body-sm text-muted-foreground mt-1">
+                    <Body className="text-body-sm text-muted-foreground mt-1">
                       {combination.description}
-                    </p>
+                    </Body>
                   )}
                 </div>
                 <div className="flex items-center gap-1">
@@ -137,31 +148,31 @@ export default function SpaceCombinationsPage() {
               </div>
               <div className="flex flex-wrap gap-2 mb-3">
                 {combination.spaces?.map((space) => (
-                  <span
+                  <Text
                     key={space.id}
                     className="px-2 py-1 bg-muted text-muted-foreground text-body-xs rounded"
                   >
                     {space.name}
-                  </span>
+                  </Text>
                 )) || (
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     {combination.space_ids.length} spaces
-                  </span>
+                  </Text>
                 )}
               </div>
               <div className="flex items-center justify-between pt-3 border-t border-border">
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-body-md font-weight-bold text-foreground">
+                  <Text className="text-body-md font-weight-bold text-foreground">
                     {combination.combined_capacity}
-                  </span>
-                  <span className="text-body-sm text-muted-foreground">guests</span>
+                  </Text>
+                  <Text className="text-body-sm text-muted-foreground">guests</Text>
                 </div>
                 {combination.pricing_modifier && combination.pricing_modifier !== 1 && (
-                  <span className="text-body-xs text-muted-foreground">
+                  <Text className="text-body-xs text-muted-foreground">
                     {combination.pricing_modifier > 1 ? '+' : ''}
                     {((combination.pricing_modifier - 1) * 100).toFixed(0)}% pricing
-                  </span>
+                  </Text>
                 )}
               </div>
             </div>
@@ -172,8 +183,8 @@ export default function SpaceCombinationsPage() {
       {showAddForm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <h3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Combination</h3>
-            <form
+            <H3 className="text-h4-md font-weight-semibold text-foreground mb-4">Create Combination</H3>
+            <Form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
@@ -189,10 +200,10 @@ export default function SpaceCombinationsPage() {
               className="space-y-4"
             >
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Combination Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   name="name"
                   required
@@ -201,22 +212,22 @@ export default function SpaceCombinationsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Description (optional)
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   name="description"
                   rows={2}
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary resize-none"
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Select Spaces
-                </label>
+                </Label>
                 <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto border-2 border-border rounded-card p-2">
                   {spaces.map((space) => (
-                    <button
+                    <Button
                       key={space.id}
                       type="button"
                       onClick={() => toggleSpace(space.id)}
@@ -236,27 +247,27 @@ export default function SpaceCombinationsPage() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-body-sm font-weight-medium text-foreground truncate">
+                        <Body className="text-body-sm font-weight-medium text-foreground truncate">
                           {space.name}
-                        </p>
-                        <p className="text-body-xs text-muted-foreground">
+                        </Body>
+                        <Body className="text-body-xs text-muted-foreground">
                           {space.capacity} guests
-                        </p>
+                        </Body>
                       </div>
-                    </button>
+                    </Button>
                   ))}
                 </div>
                 {selectedSpaces.length > 0 && (
-                  <p className="mt-2 text-body-sm text-muted-foreground">
-                    Combined capacity: <span className="font-weight-bold text-foreground">{calculateCombinedCapacity()}</span> guests
-                  </p>
+                  <Body className="mt-2 text-body-sm text-muted-foreground">
+                    Combined capacity: <Text className="font-weight-bold text-foreground">{calculateCombinedCapacity()}</Text> guests
+                  </Body>
                 )}
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Pricing Modifier
-                </label>
-                <select
+                </Label>
+                <Select
                   name="pricing_modifier"
                   className="w-full px-4 py-2 border-2 border-border rounded-button focus:outline-none focus:border-primary"
                 >
@@ -265,7 +276,7 @@ export default function SpaceCombinationsPage() {
                   <option value="1" selected>No modifier</option>
                   <option value="1.05">5% premium</option>
                   <option value="1.1">10% premium</option>
-                </select>
+                </Select>
               </div>
               <div className="flex items-center justify-end gap-3 pt-4">
                 <Button variant="outline" size="sm" type="button" onClick={() => { setShowAddForm(false); setSelectedSpaces([]); }}>
@@ -275,7 +286,7 @@ export default function SpaceCombinationsPage() {
                   Create Combination
                 </Button>
               </div>
-            </form>
+            </Form>
           </div>
         </div>
       )}

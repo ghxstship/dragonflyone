@@ -2,21 +2,21 @@
 
 import { useParams } from "next/navigation";
 import {
-  EnterprisePageHeader,
-  MainContent,
+  Badge,
+  Body,
+  Button,
   Card,
   CardBody,
+  Container,
+  EmptyState,
+  EnterprisePageHeader,
+  H3,
+  Label,
+  MainContent,
+  Spinner,
   Stack,
   StatCard,
-  Button,
-  Badge,
-  Container,
-  H3,
-  Body,
-  Label,
-  Spinner,
-  EmptyState,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import {
   Calendar,
   Users,

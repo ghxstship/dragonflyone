@@ -1,5 +1,12 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Text,
+} from '@ghxstship/ui';
+
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Phone, Calendar, FileText, DollarSign, MessageSquare, Clock } from 'lucide-react';
@@ -103,10 +110,10 @@ export default function ContactTimelinePage() {
             <ArrowLeft className="h-5 w-5 text-muted-foreground" />
           </Link>
           <div>
-            <h1 className="text-h2-md font-weight-bold text-foreground">Activity Timeline</h1>
-            <p className="text-body-sm text-muted-foreground mt-1">
+            <H1 className="text-h2-md font-weight-bold text-foreground">Activity Timeline</H1>
+            <Body className="text-body-sm text-muted-foreground mt-1">
               {contact?.first_name} {contact?.last_name}
-            </p>
+            </Body>
           </div>
         </div>
       </div>
@@ -115,7 +122,7 @@ export default function ContactTimelinePage() {
         {!activities || activities.length === 0 ? (
           <div className="text-center py-12 bg-muted/30 border-2 border-dashed border-border rounded-card">
             <Clock className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-body-md text-muted-foreground">No activity recorded yet</p>
+            <Body className="text-body-md text-muted-foreground">No activity recorded yet</Body>
           </div>
         ) : (
           <div className="relative">
@@ -129,21 +136,21 @@ export default function ContactTimelinePage() {
                   <div className="flex-1 bg-background border-2 border-border rounded-card p-4">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <h3 className="text-body-md font-weight-medium text-foreground">
+                        <H3 className="text-body-md font-weight-medium text-foreground">
                           {activity.title}
-                        </h3>
-                        <p className="text-body-xs text-muted-foreground capitalize">
+                        </H3>
+                        <Body className="text-body-xs text-muted-foreground capitalize">
                           {activity.type}
-                        </p>
+                        </Body>
                       </div>
-                      <span className="text-body-xs text-muted-foreground">
+                      <Text className="text-body-xs text-muted-foreground">
                         {formatDate(activity.created_at)}
-                      </span>
+                      </Text>
                     </div>
                     {activity.description && (
-                      <p className="text-body-sm text-muted-foreground">
+                      <Body className="text-body-sm text-muted-foreground">
                         {activity.description}
-                      </p>
+                      </Body>
                     )}
                   </div>
                 </div>

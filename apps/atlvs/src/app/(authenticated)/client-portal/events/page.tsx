@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Search, Calendar, MapPin, Users, Clock, ArrowRight, Filter } from 'lucide-react';
@@ -62,7 +71,7 @@ export default function ClientPortalEventsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load events</p>
+          <Body className="text-destructive">Failed to load events</Body>
         </div>
       </div>
     );
@@ -72,10 +81,10 @@ export default function ClientPortalEventsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">My Events</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">My Events</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             View and manage your booked events
-          </p>
+          </Body>
         </div>
         <Link
           href="/client-portal"
@@ -89,23 +98,23 @@ export default function ClientPortalEventsPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Events</span>
+            <Text className="text-body-sm text-muted-foreground">Total Events</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{events.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{events.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Upcoming</span>
+            <Text className="text-body-sm text-muted-foreground">Upcoming</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{upcomingEvents}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{upcomingEvents}</Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-muted-foreground" />
-            <span className="text-body-sm text-muted-foreground">Past</span>
+            <Text className="text-body-sm text-muted-foreground">Past</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{pastEvents}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{pastEvents}</Body>
         </div>
       </div>
 
@@ -113,7 +122,7 @@ export default function ClientPortalEventsPage() {
         <div className="p-4 border-b border-border flex items-center gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -123,7 +132,7 @@ export default function ClientPortalEventsPage() {
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
-            <select
+            <Select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -132,7 +141,7 @@ export default function ClientPortalEventsPage() {
               <option value="confirmed">Confirmed</option>
               <option value="pending">Pending</option>
               <option value="completed">Completed</option>
-            </select>
+            </Select>
           </div>
         </div>
 
@@ -152,42 +161,42 @@ export default function ClientPortalEventsPage() {
                         <Calendar className="h-6 w-6 text-primary" />
                       </div>
                       <div>
-                        <h3 className="text-body-sm font-weight-semibold text-foreground">
+                        <H3 className="text-body-sm font-weight-semibold text-foreground">
                           {event.event_name || event.booking_number}
-                        </h3>
-                        <p className="text-body-xs text-muted-foreground mt-1">
+                        </H3>
+                        <Body className="text-body-xs text-muted-foreground mt-1">
                           {event.event_type} • {event.booking_number}
-                        </p>
+                        </Body>
                         <div className="flex items-center gap-4 mt-2 text-body-xs text-muted-foreground">
-                          <span className="flex items-center gap-1">
+                          <Text className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
                             {formatDate(event.event_date)}
-                          </span>
+                          </Text>
                           {event.start_time && (
-                            <span className="flex items-center gap-1">
+                            <Text className="flex items-center gap-1">
                               <Clock className="h-3 w-3" />
                               {event.start_time} - {event.end_time}
-                            </span>
+                            </Text>
                           )}
                           {event.guest_count_expected && (
-                            <span className="flex items-center gap-1">
+                            <Text className="flex items-center gap-1">
                               <Users className="h-3 w-3" />
                               {event.guest_count_expected} guests
-                            </span>
+                            </Text>
                           )}
                         </div>
                         {event.venue && (
-                          <p className="text-body-xs text-muted-foreground mt-1 flex items-center gap-1">
+                          <Body className="text-body-xs text-muted-foreground mt-1 flex items-center gap-1">
                             <MapPin className="h-3 w-3" />
                             {event.venue.name}
-                          </p>
+                          </Body>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                       <Link
                         href={`/client-portal/events/${event.id}`}
                         className="p-2 hover:bg-muted rounded-button transition-colors"

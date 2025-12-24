@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H2,
+  Input,
+  Label,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Search, MessageSquare, Send, User, Calendar, Clock, Mail, Phone, CheckCircle } from 'lucide-react';
 import { useVendorCommunications, useSendVendorMessage } from '@/hooks/useVendorSchedules';
@@ -96,7 +107,7 @@ export default function VendorCommunicationsPage() {
     return (
       <div className="p-6">
         <div className="text-center py-12 bg-destructive/10 border-2 border-destructive rounded-card">
-          <p className="text-destructive">Failed to load communications</p>
+          <Body className="text-destructive">Failed to load communications</Body>
         </div>
       </div>
     );
@@ -106,43 +117,43 @@ export default function VendorCommunicationsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Communications</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Communications</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Message history and vendor correspondence
-          </p>
+          </Body>
         </div>
-        <button
+        <Button
           onClick={() => setShowComposeModal(true)}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Send className="h-4 w-4" />
           New Message
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <MessageSquare className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Messages</span>
+            <Text className="text-body-sm text-muted-foreground">Total Messages</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{communications.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{communications.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Delivered</span>
+            <Text className="text-body-sm text-muted-foreground">Delivered</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             {communications.filter((c) => c.status === 'delivered' || c.status === 'read').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-foreground" />
-            <span className="text-body-sm text-muted-foreground">Sent Today</span>
+            <Text className="text-body-sm text-muted-foreground">Sent Today</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{sentToday}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{sentToday}</Body>
         </div>
       </div>
 
@@ -150,7 +161,7 @@ export default function VendorCommunicationsPage() {
         <div className="p-4 border-b border-border">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <input
+            <Input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -177,30 +188,30 @@ export default function VendorCommunicationsPage() {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <p className="text-body-sm font-weight-medium text-foreground">{comm.vendor_name}</p>
+                          <Body className="text-body-sm font-weight-medium text-foreground">{comm.vendor_name}</Body>
                           <div className="flex items-center gap-1 text-muted-foreground">
                             {getTypeIcon(comm.message_type)}
                           </div>
                         </div>
-                        <p className="text-body-sm text-foreground mt-1">{comm.subject}</p>
-                        <p className="text-body-xs text-muted-foreground mt-1 line-clamp-2">
+                        <Body className="text-body-sm text-foreground mt-1">{comm.subject}</Body>
+                        <Body className="text-body-xs text-muted-foreground mt-1 line-clamp-2">
                           {comm.message}
-                        </p>
+                        </Body>
                         {comm.event_name && (
-                          <p className="text-body-xs text-muted-foreground mt-1">
+                          <Body className="text-body-xs text-muted-foreground mt-1">
                             Event: {comm.event_name}
-                          </p>
+                          </Body>
                         )}
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <span className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                      <Text className={`px-2 py-1 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
-                      <span className="text-body-xs text-muted-foreground flex items-center gap-1">
+                      </Text>
+                      <Text className="text-body-xs text-muted-foreground flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         {formatDate(comm.sent_at)}
-                      </span>
+                      </Text>
                     </div>
                   </div>
                 </div>
@@ -213,15 +224,15 @@ export default function VendorCommunicationsPage() {
       {showComposeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-background border-2 border-border rounded-card p-6 w-full max-w-lg">
-            <h2 className="text-h4-md font-weight-semibold text-foreground mb-4">
+            <H2 className="text-h4-md font-weight-semibold text-foreground mb-4">
               New Message
-            </h2>
+            </H2>
             <div className="space-y-4 mb-6">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Vendor ID
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newMessage.vendor_id}
                   onChange={(e) => setNewMessage({ ...newMessage, vendor_id: e.target.value })}
@@ -230,10 +241,10 @@ export default function VendorCommunicationsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Subject
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={newMessage.subject}
                   onChange={(e) => setNewMessage({ ...newMessage, subject: e.target.value })}
@@ -242,10 +253,10 @@ export default function VendorCommunicationsPage() {
                 />
               </div>
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-1">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-1">
                   Message
-                </label>
-                <textarea
+                </Label>
+                <Textarea
                   value={newMessage.message}
                   onChange={(e) => setNewMessage({ ...newMessage, message: e.target.value })}
                   placeholder="Type your message..."
@@ -255,20 +266,20 @@ export default function VendorCommunicationsPage() {
               </div>
             </div>
             <div className="flex items-center justify-end gap-3">
-              <button
+              <Button
                 onClick={() => setShowComposeModal(false)}
                 className="px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors"
               >
                 Cancel
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleSendMessage}
                 disabled={sendMessage.isPending}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary text-body-sm font-weight-medium hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 <Send className="h-4 w-4" />
                 {sendMessage.isPending ? 'Sending...' : 'Send'}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

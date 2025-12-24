@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -116,10 +128,10 @@ export default function NewVendorPage() {
             <Building2 className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">Add New Vendor</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">Add New Vendor</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Add a vendor to your directory
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -129,18 +141,18 @@ export default function NewVendorPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Basic Information
-            </h2>
+            </H2>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Vendor Name *
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="e.g. ABC Audio Solutions"
                   value={formData.name}
@@ -148,15 +160,15 @@ export default function NewVendorPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.name && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.name}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.name}</Body>
                 )}
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Category *
-                </label>
-                <select
+                </Label>
+                <Select
                   value={formData.category_id}
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -167,18 +179,18 @@ export default function NewVendorPage() {
                       {cat.name}
                     </option>
                   ))}
-                </select>
+                </Select>
                 {errors.category_id && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.category_id}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.category_id}</Body>
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Description
-              </label>
-              <textarea
+              </Label>
+              <Textarea
                 rows={3}
                 placeholder="Brief description of vendor services..."
                 value={formData.description}
@@ -189,10 +201,10 @@ export default function NewVendorPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Website
-                </label>
-                <input
+                </Label>
+                <Input
                   type="url"
                   placeholder="https://example.com"
                   value={formData.website}
@@ -202,10 +214,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Tax ID / EIN
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="XX-XXXXXXX"
                   value={formData.tax_id}
@@ -217,16 +229,16 @@ export default function NewVendorPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Contact Information
-            </h2>
+            </H2>
 
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Contact Name
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Primary contact"
                   value={formData.contact_name}
@@ -236,10 +248,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Email
-                </label>
-                <input
+                </Label>
+                <Input
                   type="email"
                   placeholder="contact@vendor.com"
                   value={formData.contact_email}
@@ -247,15 +259,15 @@ export default function NewVendorPage() {
                   className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
                 {errors.contact_email && (
-                  <p className="mt-1 text-body-xs text-destructive">{errors.contact_email}</p>
+                  <Body className="mt-1 text-body-xs text-destructive">{errors.contact_email}</Body>
                 )}
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Phone
-                </label>
-                <input
+                </Label>
+                <Input
                   type="tel"
                   placeholder="(555) 123-4567"
                   value={formData.contact_phone}
@@ -267,10 +279,10 @@ export default function NewVendorPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Address Line 1
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Street address"
                   value={formData.address_line1}
@@ -280,10 +292,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Address Line 2
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   placeholder="Suite, unit, etc."
                   value={formData.address_line2}
@@ -295,10 +307,10 @@ export default function NewVendorPage() {
 
             <div className="grid grid-cols-4 gap-4">
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   City
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.city}
                   onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -307,10 +319,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   State
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.state}
                   onChange={(e) => setFormData({ ...formData, state: e.target.value })}
@@ -319,10 +331,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Postal Code
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.postal_code}
                   onChange={(e) => setFormData({ ...formData, postal_code: e.target.value })}
@@ -331,10 +343,10 @@ export default function NewVendorPage() {
               </div>
 
               <div>
-                <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+                <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                   Country
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   value={formData.country}
                   onChange={(e) => setFormData({ ...formData, country: e.target.value })}
@@ -345,15 +357,15 @@ export default function NewVendorPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
+            <H2 className="text-h4-md font-weight-semibold text-foreground border-b border-border pb-2">
               Service Details
-            </h2>
+            </H2>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Payment Terms
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.payment_terms}
                 onChange={(e) => setFormData({ ...formData, payment_terms: e.target.value })}
                 className="w-full max-w-xs px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -364,16 +376,16 @@ export default function NewVendorPage() {
                 <option value="Net 45">Net 45</option>
                 <option value="Net 60">Net 60</option>
                 <option value="50% Deposit">50% Deposit Required</option>
-              </select>
+              </Select>
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Service Areas
-              </label>
+              </Label>
               <div className="flex flex-wrap gap-2">
                 {SERVICE_AREAS.map((area) => (
-                  <button
+                  <Button
                     key={area}
                     type="button"
                     onClick={() => handleServiceAreaToggle(area)}
@@ -384,7 +396,7 @@ export default function NewVendorPage() {
                     }`}
                   >
                     {area}
-                  </button>
+                  </Button>
                 ))}
               </div>
             </div>
@@ -397,16 +409,16 @@ export default function NewVendorPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Creating...' : 'Create Vendor'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

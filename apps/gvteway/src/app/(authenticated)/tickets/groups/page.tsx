@@ -11,15 +11,12 @@ import {
   Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Kicker,
 } from "@ghxstship/ui";
 
-import {
-  DEMO_GROUP_ORDERS,
-  type DemoGroupOrder as GroupOrder,
-} from "@/lib/demo-data";
-
-const mockGroups = DEMO_GROUP_ORDERS;
+import { useGroupOrders, type GroupOrder } from "@ghxstship/config";
+import { DEMO_GROUP_ORDERS } from "@/lib/demo-data";
 
 function GroupTicketsPageContent() {
   const router = useRouter();
+  const { groups: apiGroups, summary, isLoading } = useGroupOrders();
   
   // URL-synced tab state for deep-linking support
   const { setActiveTab, isActive } = useTabState({
@@ -29,10 +26,13 @@ function GroupTicketsPageContent() {
   const [selectedGroup, setSelectedGroup] = useState<GroupOrder | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const totalGroups = mockGroups.length;
-  const totalAttendees = mockGroups.reduce((s, g) => s + g.groupSize, 0);
-  const totalRevenue = mockGroups.reduce((s, g) => s + g.totalAmount, 0);
-  const avgDiscount = Math.round(mockGroups.reduce((s, g) => s + g.discount, 0) / mockGroups.length);
+  // Use API data or fall back to demo data
+  const groups: GroupOrder[] = apiGroups.length > 0 ? apiGroups : (DEMO_GROUP_ORDERS as unknown as GroupOrder[]);
+
+  const totalGroups = summary?.totalGroups || groups.length;
+  const totalAttendees = summary?.totalAttendees || groups.reduce((s, g) => s + g.groupSize, 0);
+  const totalRevenue = summary?.totalRevenue || groups.reduce((s, g) => s + g.totalAmount, 0);
+  const avgDiscount = summary?.avgDiscount || (groups.length > 0 ? Math.round(groups.reduce((s, g) => s + g.discount, 0) / groups.length) : 0);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -55,6 +55,12 @@ function GroupTicketsPageContent() {
               <H2 size="lg" className="text-white">Group Tickets</H2>
               <Body className="text-on-dark-muted">Group organizer tools and registration management</Body>
             </Stack>
+
+          {isLoading && (
+            <div className="flex items-center justify-center py-8">
+              <div className="animate-pulse text-muted-foreground">Loading group orders...</div>
+            </div>
+          )}
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Group Orders" value={totalGroups} className="border-2 border-black" />
@@ -89,7 +95,7 @@ function GroupTicketsPageContent() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockGroups.map((group) => (
+                    {groups.map((group) => (
                       <TableRow key={group.id}>
                         <TableCell>
                           <Stack gap={0}>

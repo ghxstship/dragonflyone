@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
-interface Order {
+export interface Order {
   id: string;
   user_id: string;
   total_amount: number;

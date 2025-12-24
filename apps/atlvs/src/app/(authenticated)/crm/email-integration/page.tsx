@@ -5,14 +5,22 @@ import { useRouter } from 'next/navigation';
 import { Eye, Reply, Link } from 'lucide-react';
 // Layout provided by route group
 import {
-  ListPage, Badge, DetailDrawer, Grid, Body,
-  type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
-import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+  Badge,
+  Body,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  Text,
+  type DetailSection,
+  type ListPageAction,
+  type ListPageColumn,
+  type ListPageFilter,
+} from '@ghxstship/ui';
+import { getBadgeVariant, createExportHandler, createImportHandler, getImportTemplates, useCrmEmails, type CrmEmailThread } from '@ghxstship/config';
 
-import {
-  DEMO_EMAIL_THREADS,
-  type DemoEmailThread as EmailThread,
-} from '../../../../lib/demo-data';
+import { DEMO_EMAIL_THREADS } from '../../../../lib/demo-data';
+
+type EmailThread = CrmEmailThread & { [key: string]: unknown };
 
 const getStatusVariant = getBadgeVariant;
 
@@ -20,8 +28,8 @@ const columns: ListPageColumn<EmailThread>[] = [
   { key: 'from', label: 'From', accessor: 'from', sortable: true },
   { key: 'subject', label: 'Subject', accessor: 'subject', sortable: true },
   { key: 'date', label: 'Date', accessor: 'date', sortable: true },
-  { key: 'linkedContact', label: 'Contact', accessor: (r) => r.linkedContact || '—', render: (v) => v !== '—' ? <Badge variant="outline">{String(v)}</Badge> : <span>—</span> },
-  { key: 'linkedDeal', label: 'Deal', accessor: (r) => r.linkedDeal || '—', render: (v) => v !== '—' ? <Badge variant="solid">{String(v)}</Badge> : <span>—</span> },
+  { key: 'linkedContact', label: 'Contact', accessor: (r) => r.linkedContact || '—', render: (v) => v !== '—' ? <Badge variant="outline">{String(v)}</Badge> : <Text>—</Text> },
+  { key: 'linkedDeal', label: 'Deal', accessor: (r) => r.linkedDeal || '—', render: (v) => v !== '—' ? <Badge variant="solid">{String(v)}</Badge> : <Text>—</Text> },
   { key: 'status', label: 'Status', accessor: 'status', sortable: true, render: (v) => <Badge variant={getStatusVariant(String(v))}>{String(v)}</Badge> },
 ];
 
@@ -31,12 +39,15 @@ const filters: ListPageFilter[] = [
 
 export default function EmailIntegrationPage() {
   const router = useRouter();
-  const [data] = useState<EmailThread[]>(DEMO_EMAIL_THREADS);
+  const { emails: apiEmails, summary, isLoading, error, deleteEmailsAsync, archiveEmailsAsync, refetch } = useCrmEmails();
   const [selected, setSelected] = useState<EmailThread | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const unreadCount = data.filter(e => e.status === 'Unread').length;
-  const linkedCount = data.filter(e => e.linkedContact || e.linkedDeal).length;
+  // Use API data or fall back to demo data
+  const data: EmailThread[] = apiEmails.length > 0 ? (apiEmails as EmailThread[]) : (DEMO_EMAIL_THREADS as EmailThread[]);
+
+  const unreadCount = summary?.unread || data.filter(e => e.status === 'Unread').length;
+  const linkedCount = summary?.linked || data.filter(e => e.linkedContact || e.linkedDeal).length;
 
   const rowActions: ListPageAction<EmailThread>[] = [
     { id: 'view', label: 'View Email', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -110,7 +121,9 @@ export default function EmailIntegrationPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search emails..."
         filters={filters}
         rowActions={rowActions}
@@ -139,17 +152,11 @@ export default function EmailIntegrationPage() {
         emptyMessage="No emails found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/crm/emails/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteEmailsAsync(ids);
+            refetch();
           } else if (action === 'archive') {
-            await fetch('/api/crm/emails/bulk-archive', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await archiveEmailsAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

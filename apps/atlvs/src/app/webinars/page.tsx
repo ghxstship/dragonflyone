@@ -1,18 +1,19 @@
 import { AtlvsAppLayout } from "../../components/app-layout";
 import {
-  Stack,
-  Grid,
-  Card,
+  Badge,
   Body,
+  Button,
+  Card,
+  Container,
+  Display,
+  FullBleedSection,
+  Grid,
   H1,
   H3,
   Label,
-  Container,
-  Display,
-  Button,
-  FullBleedSection,
-  Badge,
-} from "@ghxstship/ui";
+  Stack,
+  Text,
+} from '@ghxstship/ui';
 import { Video, Calendar, Clock, Users, ArrowRight, Play, Bell, CheckCircle } from "lucide-react";
 import NextLink from "next/link";
 
@@ -205,7 +206,7 @@ export default function WebinarsPage() {
                     </Stack>
                   </Stack>
                   <Body size="sm" className="text-grey-500">
-                    Speaker: <span className="text-ink-950">{webinar.speaker}</span>
+                    Speaker: <Text className="text-ink-950">{webinar.speaker}</Text>
                   </Body>
                   <NextLink href={`/webinars/${webinar.slug}`}>
                     <Button variant="pop" size="lg" icon={<Bell />}>

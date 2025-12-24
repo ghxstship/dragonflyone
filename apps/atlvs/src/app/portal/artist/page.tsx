@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   SectionHeader,
   Card,
@@ -12,6 +11,7 @@ import {
   Grid,
   Body,
   H3,
+  Skeleton,
 } from '@ghxstship/ui';
 import {
   Calendar,
@@ -22,16 +22,68 @@ import {
   Download,
   Upload,
   MapPin,
+  AlertCircle,
 } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../components/app-layout';
+import { useBookings, type Booking } from '@ghxstship/config';
 import { DEMO_ARTIST_BOOKINGS, type DemoArtistBooking } from '../../../lib/demo-data';
 
 export default function ArtistPortalPage() {
-  const [bookings] = useState<DemoArtistBooking[]>(DEMO_ARTIST_BOOKINGS);
+  const { bookings: apiBookings, isLoading, error, refetch } = useBookings();
+
+  // Map API bookings to display format or fall back to demo data
+  const bookings: DemoArtistBooking[] = apiBookings.length > 0
+    ? apiBookings.map((b: Booking) => ({
+        id: b.id,
+        event: b.event_name || 'Untitled Event',
+        venue: b.venue?.name || 'TBD',
+        date: b.event_date,
+        status: (b.status === 'confirmed' ? 'confirmed' : b.status === 'completed' ? 'completed' : 'pending') as 'confirmed' | 'pending' | 'completed',
+        fee: b.total_amount || 0,
+      }))
+    : DEMO_ARTIST_BOOKINGS;
 
   const upcomingCount = bookings.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
   const completedCount = bookings.filter(b => b.status === 'completed').length;
   const totalEarnings = bookings.filter(b => b.status === 'completed').reduce((sum, b) => sum + b.fee, 0);
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Artist Portal" title="My Dashboard" description="View bookings, riders, and payments" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Artist Portal" title="My Dashboard" description="View bookings, riders, and payments" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Bookings</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>
@@ -71,8 +123,8 @@ export default function ArtistPortalPage() {
                           <Body className="text-white">{booking.date}</Body>
                         </Stack>
                         <Stack gap={0}>
-                          <Body size="sm" className=" text-on-dark-muted">Set Time</Body>
-                          <Body className="text-white">{booking.setTime}</Body>
+                          <Body size="sm" className=" text-on-dark-muted">Tickets Sold</Body>
+                          <Body className="text-white">{booking.ticketsSold?.toLocaleString() || '—'}</Body>
                         </Stack>
                         <Stack gap={0}>
                           <Body size="sm" className=" text-on-dark-muted">Fee</Body>

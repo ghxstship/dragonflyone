@@ -1,5 +1,15 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Link,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Plus, Search, Calendar, Clock, Truck, CheckCircle, AlertCircle, Filter } from 'lucide-react';
 import { useVendorSchedules, type VendorSchedule } from '@/hooks/useVendorSchedules';
@@ -88,24 +98,24 @@ export default function VendorSchedulesPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Schedules</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Schedules</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Coordinate vendor load-in, setup, and service times
-          </p>
+          </Body>
         </div>
-        <a
+        <Link
           href="/vendor-schedules/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Schedule
-        </a>
+        </Link>
       </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search vendors, events, locations..."
             value={searchQuery}
@@ -116,13 +126,13 @@ export default function VendorSchedulesPage() {
 
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="date"
             value={dateFilter}
             onChange={(e) => setDateFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
           />
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -131,8 +141,8 @@ export default function VendorSchedulesPage() {
             {Object.entries(STATUS_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
-          <select
+          </Select>
+          <Select
             value={typeFilter}
             onChange={(e) => setTypeFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -141,7 +151,7 @@ export default function VendorSchedulesPage() {
             {Object.entries(TYPE_CONFIG).map(([value, { label }]) => (
               <option key={value} value={value}>{label}</option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 
@@ -149,60 +159,60 @@ export default function VendorSchedulesPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Today</span>
+            <Text className="text-body-sm text-muted-foreground">Today</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {schedules.filter(s => {
               const today = new Date().toISOString().split('T')[0];
               return s.start_time.startsWith(today);
             }).length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">Pending</span>
+            <Text className="text-body-sm text-muted-foreground">Pending</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">
+          <Body className="text-h3-md font-weight-bold text-warning">
             {schedules.filter(s => s.status === 'pending').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Confirmed</span>
+            <Text className="text-body-sm text-muted-foreground">Confirmed</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">
+          <Body className="text-h3-md font-weight-bold text-success">
             {schedules.filter(s => s.status === 'confirmed').length}
-          </p>
+          </Body>
         </div>
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Truck className="h-5 w-5 text-muted-foreground" />
-            <span className="text-body-sm text-muted-foreground">In Progress</span>
+            <Text className="text-body-sm text-muted-foreground">In Progress</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">
+          <Body className="text-h3-md font-weight-bold text-foreground">
             {schedules.filter(s => s.status === 'in_progress').length}
-          </p>
+          </Body>
         </div>
       </div>
 
       {filteredSchedules.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No schedules found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             {searchQuery ? 'Try adjusting your search or filters' : 'Add your first vendor schedule'}
-          </p>
-          <a
+          </Body>
+          <Link
             href="/vendor-schedules/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
           >
             <Plus className="h-4 w-4" />
             Add Schedule
-          </a>
+          </Link>
         </div>
       )}
 
@@ -211,9 +221,9 @@ export default function VendorSchedulesPage() {
           {Object.entries(groupedSchedules).map(([date, daySchedules]) => (
             <div key={date} className="bg-background border-2 border-border rounded-card overflow-hidden">
               <div className="px-4 py-3 bg-muted/30 border-b border-border">
-                <h3 className="text-body-sm font-weight-semibold text-foreground">
+                <H3 className="text-body-sm font-weight-semibold text-foreground">
                   {formatDate(date)}
-                </h3>
+                </H3>
               </div>
               <div className="divide-y divide-border">
                 {(daySchedules as VendorSchedule[]).map((schedule) => {
@@ -222,18 +232,18 @@ export default function VendorSchedulesPage() {
                   const TypeIcon = typeConfig?.icon || Clock;
 
                   return (
-                    <a
+                    <Link
                       key={schedule.id}
                       href={`/vendor-schedules/${schedule.id}`}
                       className="flex items-center gap-4 p-4 hover:bg-muted/30 transition-colors"
                     >
                       <div className="flex-shrink-0 w-20 text-center">
-                        <p className="text-body-sm font-weight-semibold text-foreground">
+                        <Body className="text-body-sm font-weight-semibold text-foreground">
                           {formatTime(schedule.start_time)}
-                        </p>
-                        <p className="text-body-xs text-muted-foreground">
+                        </Body>
+                        <Body className="text-body-xs text-muted-foreground">
                           {formatTime(schedule.end_time)}
-                        </p>
+                        </Body>
                       </div>
 
                       <div className="flex-shrink-0 p-2 bg-primary/10 rounded-card">
@@ -242,27 +252,27 @@ export default function VendorSchedulesPage() {
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <p className="text-body-sm font-weight-semibold text-foreground truncate">
+                          <Body className="text-body-sm font-weight-semibold text-foreground truncate">
                             {schedule.vendor?.company_name || schedule.vendor?.name || 'Unknown Vendor'}
-                          </p>
-                          <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
+                          </Body>
+                          <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium ${statusConfig.color}`}>
                             {statusConfig.label}
-                          </span>
+                          </Text>
                         </div>
-                        <p className="text-body-xs text-muted-foreground truncate">
+                        <Body className="text-body-xs text-muted-foreground truncate">
                           {typeConfig?.label} • {schedule.location || 'No location'}
                           {schedule.booking && ` • ${schedule.booking.event_name || schedule.booking.booking_number}`}
-                        </p>
+                        </Body>
                       </div>
 
                       <div className="flex-shrink-0 text-right">
                         {schedule.crew_count > 1 && (
-                          <p className="text-body-xs text-muted-foreground">
+                          <Body className="text-body-xs text-muted-foreground">
                             {schedule.crew_count} crew
-                          </p>
+                          </Body>
                         )}
                       </div>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>

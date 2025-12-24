@@ -2,10 +2,11 @@
 
 import { useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 // Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, Input, Button, Select,
-  Card, Badge, Tabs, TabsList, Tab, TabPanel,
+  Card, Badge, Tabs, TabsList, Tab, TabPanel, Skeleton, EmptyState,
   Kicker, useNotifications,
 } from '@ghxstship/ui';
 import {
@@ -31,12 +32,45 @@ const DEMO_WIDGETS: Widget[] = [
   { id: 'WDG-005', name: 'Featured Event Banner', type: 'featured', status: 'active', installations: 34, views: 12400, clicks: 2890, created_at: '2024-11-05' },
 ];
 
+async function fetchWidgets(): Promise<Widget[]> {
+  const response = await fetch('/api/admin/marketing/widgets');
+  if (!response.ok) throw new Error('Failed to fetch widgets');
+  return response.json();
+}
+
 function EventWidgetsPageContent() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { addNotification } = useNotifications();
   const [activeTab, setActiveTab] = useState('widgets');
-  const [widgets] = useState<Widget[]>(DEMO_WIDGETS);
   const [selectedWidget, setSelectedWidget] = useState<Widget | null>(null);
+
+  const { data: apiWidgets, isLoading, error } = useQuery({
+    queryKey: ['marketing-widgets'],
+    queryFn: fetchWidgets,
+  });
+
+  const createWidgetMutation = useMutation({
+    mutationFn: async (widget: Omit<Widget, 'id' | 'installations' | 'views' | 'clicks' | 'created_at'>) => {
+      const response = await fetch('/api/admin/marketing/widgets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(widget),
+      });
+      if (!response.ok) throw new Error('Failed to create widget');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['marketing-widgets'] });
+      addNotification({ type: 'success', title: 'Widget Created', message: 'Your widget has been created' });
+    },
+    onError: () => {
+      addNotification({ type: 'error', title: 'Error', message: 'Failed to create widget' });
+    },
+  });
+
+  // Use API data or fall back to demo data
+  const widgets = apiWidgets || DEMO_WIDGETS;
   
   const [newWidget, setNewWidget] = useState({
     name: '',
@@ -44,9 +78,45 @@ function EventWidgetsPageContent() {
     theme: 'light',
     width: '100%',
     height: '400px',
+    status: 'active' as Widget['status'],
   });
 
   const totalViews = widgets.reduce((sum, w) => sum + w.views, 0);
+
+  if (isLoading) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Marketing</Kicker>
+          <H2 size="lg" className="text-white">Event Widgets</H2>
+          <Body className="text-on-dark-muted">Loading widgets...</Body>
+        </Stack>
+        <Grid cols={4} gap={6}>
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+        </Grid>
+      </Stack>
+    );
+  }
+
+  if (error && !apiWidgets) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Marketing</Kicker>
+          <H2 size="lg" className="text-white">Event Widgets</H2>
+        </Stack>
+        <EmptyState
+          title="Error Loading Widgets"
+          description={error instanceof Error ? error.message : 'Failed to load widgets'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+          inverted
+        />
+      </Stack>
+    );
+  }
   const totalClicks = widgets.reduce((sum, w) => sum + w.clicks, 0);
   const totalInstallations = widgets.reduce((sum, w) => sum + w.installations, 0);
 
@@ -260,8 +330,13 @@ function EventWidgetsPageContent() {
                     </Card>
                   </Stack>
                 </Grid>
-                <Button variant="solid" inverted>
-                  Create Widget
+                <Button 
+                variant="solid" 
+                inverted 
+                onClick={() => createWidgetMutation.mutate({ name: newWidget.name, type: newWidget.type, status: newWidget.status })}
+                disabled={createWidgetMutation.isPending || !newWidget.name}
+              >
+                  {createWidgetMutation.isPending ? 'Creating...' : 'Create Widget'}
                 </Button>
               </Stack>
             </Card>

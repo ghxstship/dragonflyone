@@ -7,12 +7,10 @@ import { Eye, Pencil, Trash2 } from 'lucide-react';
 import {
   ListPage, Badge, DetailDrawer, Grid, Body,
   type ListPageColumn, type ListPageFilter, type ListPageAction, type DetailSection, } from '@ghxstship/ui';
-import { createExportHandler, createImportHandler, getImportTemplates } from '@ghxstship/config';
+import { createExportHandler, createImportHandler, getImportTemplates, useUnionRules, type UnionRule as APIUnionRule } from '@ghxstship/config';
+import { DEMO_UNION_RULES } from '../../../../lib/demo-data';
 
-import {
-  DEMO_UNION_RULES,
-  type DemoUnionRule as UnionRule,
-} from '../../../../lib/demo-data';
+type UnionRule = APIUnionRule & { [key: string]: unknown };
 
 const getStatusVariant = (status: string): 'solid' | 'outline' | 'ghost' => {
   switch (status) { case 'Active': return 'solid'; case 'Pending': return 'outline'; case 'Expired': return 'ghost'; default: return 'ghost'; }
@@ -35,12 +33,15 @@ const filters: ListPageFilter[] = [
 
 export default function UnionRulesPage() {
   const router = useRouter();
-  const [data] = useState<UnionRule[]>(DEMO_UNION_RULES);
+  const { rules: apiRules, summary, isLoading, error, deleteRulesAsync, refetch } = useUnionRules();
   const [selected, setSelected] = useState<UnionRule | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const activeRules = data.filter((r) => r.status === 'Active').length;
-  const totalPenalties = data.filter((r) => r.penaltyAmount).reduce((sum, r) => sum + (r.penaltyAmount || 0), 0);
+  // Use API data or fall back to demo data
+  const data: UnionRule[] = apiRules.length > 0 ? (apiRules as UnionRule[]) : (DEMO_UNION_RULES as UnionRule[]);
+
+  const activeRules = summary?.active || data.filter((r) => r.status === 'Active').length;
+  const totalPenalties = summary?.totalPenalties || data.filter((r) => r.penaltyAmount).reduce((sum, r) => sum + (r.penaltyAmount || 0), 0);
 
   const rowActions: ListPageAction<UnionRule>[] = [
     { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (r) => { setSelected(r); setDrawerOpen(true); } },
@@ -112,7 +113,9 @@ export default function UnionRulesPage() {
         data={data}
         columns={columns}
         rowKey="id"
-        loading={false}
+        loading={isLoading}
+        error={error as Error | undefined}
+        onRetry={() => refetch()}
         searchPlaceholder="Search union rules..."
         filters={filters}
         rowActions={rowActions}
@@ -141,11 +144,8 @@ export default function UnionRulesPage() {
         emptyMessage="No union rules found"
         onBulkAction={async (action, ids) => {
           if (action === 'delete') {
-            await fetch('/api/workforce/union-rules/bulk', {
-              method: 'DELETE',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ ids }),
-            });
+            await deleteRulesAsync(ids);
+            refetch();
           }
         }}
         bulkActions={[

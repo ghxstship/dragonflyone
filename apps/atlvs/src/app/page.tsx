@@ -7,7 +7,6 @@ import {
   H1,
   H3,
   Label,
-  Link,
   Container,
   Display,
   List,
@@ -17,7 +16,7 @@ import {
   Text,
   FullBleedSection,
   Button,
-} from "@ghxstship/ui";
+} from '@ghxstship/ui';
 import NextLink from "next/link";
 import {
   Tent,
@@ -140,9 +139,9 @@ export default function Home() {
                     <ListItem key={feature} className="font-mono text-mono-xs uppercase tracking-label text-grey-500">{feature}</ListItem>
                   ))}
                 </List>
-                <Link href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-ink-950">
+                <NextLink href={vertical.href} className="mt-6 inline-block font-mono text-mono-xs uppercase tracking-label text-brand-pink transition-colors hover:text-ink-950">
                   Learn More →
-                </Link>
+                </NextLink>
               </Article>
             ))}
           </Grid>

@@ -1,5 +1,16 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  H1,
+  H3,
+  Input,
+  Label,
+  Link,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { Calendar, Search, CheckCircle, XCircle, Clock, Plus } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -47,27 +58,27 @@ export default function AvailabilityPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Availability Checker</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Availability Checker</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Check space availability for specific dates
-          </p>
+          </Body>
         </div>
-        <a
+        <Link
           href="/holds/new"
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Create Hold
-        </a>
+        </Link>
       </div>
 
       <div className="bg-background border-2 border-border rounded-card p-6">
         <div className="flex flex-wrap items-end gap-4">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Start Date
-            </label>
-            <input
+            </Label>
+            <Input
               type="date"
               value={dateRange.start_date}
               onChange={(e) => setDateRange({ ...dateRange, start_date: e.target.value })}
@@ -75,24 +86,24 @@ export default function AvailabilityPage() {
             />
           </div>
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               End Date
-            </label>
-            <input
+            </Label>
+            <Input
               type="date"
               value={dateRange.end_date}
               onChange={(e) => setDateRange({ ...dateRange, end_date: e.target.value })}
               className="px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
           </div>
-          <button
+          <Button
             onClick={() => refetch()}
             disabled={isLoading}
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
             <Search className="h-4 w-4" />
             Check Availability
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -100,36 +111,36 @@ export default function AvailabilityPage() {
         <div className="bg-background border-2 border-border rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Calendar className="h-5 w-5 text-primary" />
-            <span className="text-body-sm text-muted-foreground">Total Spaces</span>
+            <Text className="text-body-sm text-muted-foreground">Total Spaces</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-foreground">{spaces.length}</p>
+          <Body className="text-h3-md font-weight-bold text-foreground">{spaces.length}</Body>
         </div>
         <div className="bg-background border-2 border-success/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <CheckCircle className="h-5 w-5 text-success" />
-            <span className="text-body-sm text-muted-foreground">Available</span>
+            <Text className="text-body-sm text-muted-foreground">Available</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-success">{availableCount}</p>
+          <Body className="text-h3-md font-weight-bold text-success">{availableCount}</Body>
         </div>
         <div className="bg-background border-2 border-destructive/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <XCircle className="h-5 w-5 text-destructive" />
-            <span className="text-body-sm text-muted-foreground">Booked</span>
+            <Text className="text-body-sm text-muted-foreground">Booked</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-destructive">{unavailableCount}</p>
+          <Body className="text-h3-md font-weight-bold text-destructive">{unavailableCount}</Body>
         </div>
         <div className="bg-background border-2 border-warning/50 rounded-card p-4">
           <div className="flex items-center gap-2 mb-2">
             <Clock className="h-5 w-5 text-warning" />
-            <span className="text-body-sm text-muted-foreground">On Hold</span>
+            <Text className="text-body-sm text-muted-foreground">On Hold</Text>
           </div>
-          <p className="text-h3-md font-weight-bold text-warning">{heldCount}</p>
+          <Body className="text-h3-md font-weight-bold text-warning">{heldCount}</Body>
         </div>
       </div>
 
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <input
+        <Input
           type="text"
           placeholder="Filter spaces..."
           value={searchQuery}
@@ -154,12 +165,12 @@ export default function AvailabilityPage() {
       {!isLoading && filteredSpaces.length === 0 && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No spaces found
-          </h3>
-          <p className="text-body-sm text-muted-foreground">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground">
             Select a date range and click Check Availability
-          </p>
+          </Body>
         </div>
       )}
 
@@ -176,59 +187,59 @@ export default function AvailabilityPage() {
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <h3 className="text-body-lg font-weight-semibold text-foreground">
+                    <H3 className="text-body-lg font-weight-semibold text-foreground">
                       {space.space_name}
-                    </h3>
+                    </H3>
                     {space.available ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-success/20 text-success rounded-badge text-body-xs font-weight-medium">
+                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-success/20 text-success rounded-badge text-body-xs font-weight-medium">
                         <CheckCircle className="h-3 w-3" />
                         Available
-                      </span>
+                      </Text>
                     ) : space.holds?.length ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
+                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-warning/20 text-warning rounded-badge text-body-xs font-weight-medium">
                         <Clock className="h-3 w-3" />
                         On Hold
-                      </span>
+                      </Text>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
+                      <Text className="inline-flex items-center gap-1 px-2 py-1 bg-destructive/20 text-destructive rounded-badge text-body-xs font-weight-medium">
                         <XCircle className="h-3 w-3" />
                         Booked
-                      </span>
+                      </Text>
                     )}
                   </div>
 
                   {space.conflicts && space.conflicts.length > 0 && (
                     <div className="mt-2">
-                      <p className="text-body-xs text-muted-foreground mb-1">Conflicts:</p>
+                      <Body className="text-body-xs text-muted-foreground mb-1">Conflicts:</Body>
                       {space.conflicts.map((conflict, idx) => (
-                        <p key={idx} className="text-body-sm text-destructive">
+                        <Body key={idx} className="text-body-sm text-destructive">
                           {conflict.type}: {conflict.name} {conflict.time && `(${conflict.time})`}
-                        </p>
+                        </Body>
                       ))}
                     </div>
                   )}
 
                   {space.holds && space.holds.length > 0 && (
                     <div className="mt-2">
-                      <p className="text-body-xs text-muted-foreground mb-1">Active holds:</p>
+                      <Body className="text-body-xs text-muted-foreground mb-1">Active holds:</Body>
                       {space.holds.map((hold) => (
-                        <p key={hold.id} className="text-body-sm text-warning">
+                        <Body key={hold.id} className="text-body-sm text-warning">
                           {hold.priority} hold {hold.contact_name && `by ${hold.contact_name}`} • 
                           Expires {new Date(hold.expires_at).toLocaleString()}
-                        </p>
+                        </Body>
                       ))}
                     </div>
                   )}
                 </div>
 
                 {space.available && (
-                  <a
+                  <Link
                     href={`/holds/new?space=${space.space_id}&date=${dateRange.start_date}`}
                     className="inline-flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-button text-body-sm font-weight-medium hover:bg-primary/90 transition-colors"
                   >
                     <Plus className="h-4 w-4" />
                     Create Hold
-                  </a>
+                  </Link>
                 )}
               </div>
             </div>

@@ -1,5 +1,24 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  Text,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -133,10 +152,10 @@ function NewVendorInvoiceContent() {
             <FileText className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">Record Vendor Invoice</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">Record Vendor Invoice</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Enter an invoice received from a vendor
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -146,13 +165,13 @@ function NewVendorInvoiceContent() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <Form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Vendor *
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.vendor_profile_id}
                 onChange={(e) => setFormData({ ...formData, vendor_profile_id: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -163,17 +182,17 @@ function NewVendorInvoiceContent() {
                     {vendor.name}
                   </option>
                 ))}
-              </select>
+              </Select>
               {errors.vendor_profile_id && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.vendor_profile_id}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.vendor_profile_id}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Vendor Invoice #
-              </label>
-              <input
+              </Label>
+              <Input
                 type="text"
                 placeholder="Vendor's invoice number"
                 value={formData.vendor_invoice_number}
@@ -185,40 +204,40 @@ function NewVendorInvoiceContent() {
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Invoice Date *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.invoice_date}
                 onChange={(e) => setFormData({ ...formData, invoice_date: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.invoice_date && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.invoice_date}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.invoice_date}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Due Date *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.due_date}
                 onChange={(e) => setFormData({ ...formData, due_date: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.due_date && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.due_date}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.due_date}</Body>
               )}
             </div>
 
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Payment Terms
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.payment_terms}
                 onChange={(e) => setFormData({ ...formData, payment_terms: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -228,61 +247,61 @@ function NewVendorInvoiceContent() {
                 <option value="Net 30">Net 30</option>
                 <option value="Net 45">Net 45</option>
                 <option value="Net 60">Net 60</option>
-              </select>
+              </Select>
             </div>
           </div>
 
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-h4-md font-weight-semibold text-foreground">Line Items</h2>
-              <button
+              <H2 className="text-h4-md font-weight-semibold text-foreground">Line Items</H2>
+              <Button
                 type="button"
                 onClick={addLineItem}
                 className="inline-flex items-center gap-2 px-3 py-1.5 text-body-sm font-weight-medium text-primary hover:bg-primary/10 rounded-button transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 Add Item
-              </button>
+              </Button>
             </div>
 
             {errors.line_items && (
-              <p className="text-body-xs text-destructive">{errors.line_items}</p>
+              <Body className="text-body-xs text-destructive">{errors.line_items}</Body>
             )}
 
             <div className="border-2 border-border rounded-card overflow-hidden">
-              <table className="w-full">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="text-left px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Description</th>
-                    <th className="text-center px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-24">Qty</th>
-                    <th className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-32">Unit Price</th>
-                    <th className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-32">Total</th>
-                    <th className="w-12"></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
+              <Table className="w-full">
+                <TableHeader className="bg-muted/50">
+                  <TableRow>
+                    <TableHead className="text-left px-4 py-2 text-body-xs font-weight-medium text-muted-foreground">Description</TableHead>
+                    <TableHead className="text-center px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-24">Qty</TableHead>
+                    <TableHead className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-32">Unit Price</TableHead>
+                    <TableHead className="text-right px-4 py-2 text-body-xs font-weight-medium text-muted-foreground w-32">Total</TableHead>
+                    <TableHead className="w-12"></TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody className="divide-y divide-border">
                   {lineItems.map((item, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-2">
-                        <input
+                    <TableRow key={index}>
+                      <TableCell className="px-4 py-2">
+                        <Input
                           type="text"
                           placeholder="Item description"
                           value={item.description}
                           onChange={(e) => handleLineItemChange(index, 'description', e.target.value)}
                           className="w-full px-2 py-1 border-2 border-border rounded bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                         />
-                      </td>
-                      <td className="px-4 py-2">
-                        <input
+                      </TableCell>
+                      <TableCell className="px-4 py-2">
+                        <Input
                           type="number"
                           min="1"
                           value={item.quantity}
                           onChange={(e) => handleLineItemChange(index, 'quantity', e.target.value)}
                           className="w-full px-2 py-1 border-2 border-border rounded bg-background text-body-sm text-center focus:outline-none focus:ring-1 focus:ring-primary"
                         />
-                      </td>
-                      <td className="px-4 py-2">
-                        <input
+                      </TableCell>
+                      <TableCell className="px-4 py-2">
+                        <Input
                           type="number"
                           step="0.01"
                           min="0"
@@ -290,45 +309,45 @@ function NewVendorInvoiceContent() {
                           onChange={(e) => handleLineItemChange(index, 'unit_price', e.target.value)}
                           className="w-full px-2 py-1 border-2 border-border rounded bg-background text-body-sm text-right focus:outline-none focus:ring-1 focus:ring-primary"
                         />
-                      </td>
-                      <td className="px-4 py-2 text-right text-body-sm font-weight-medium">
+                      </TableCell>
+                      <TableCell className="px-4 py-2 text-right text-body-sm font-weight-medium">
                         {formatCurrency(item.total)}
-                      </td>
-                      <td className="px-2 py-2">
-                        <button
+                      </TableCell>
+                      <TableCell className="px-2 py-2">
+                        <Button
                           type="button"
                           onClick={() => removeLineItem(index)}
                           disabled={lineItems.length === 1}
                           className="p-1 text-muted-foreground hover:text-destructive disabled:opacity-30 transition-colors"
                         >
                           <Trash2 className="h-4 w-4" />
-                        </button>
-                      </td>
-                    </tr>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
+                </TableBody>
+              </Table>
             </div>
 
             <div className="flex justify-end">
               <div className="w-64 space-y-2">
                 <div className="flex justify-between text-body-sm">
-                  <span className="text-muted-foreground">Subtotal</span>
-                  <span className="font-weight-medium">{formatCurrency(subtotal)}</span>
+                  <Text className="text-muted-foreground">Subtotal</Text>
+                  <Text className="font-weight-medium">{formatCurrency(subtotal)}</Text>
                 </div>
                 <div className="flex justify-between text-body-sm border-t border-border pt-2">
-                  <span className="font-weight-semibold">Total</span>
-                  <span className="text-h4-md font-weight-bold text-primary">{formatCurrency(total)}</span>
+                  <Text className="font-weight-semibold">Total</Text>
+                  <Text className="text-h4-md font-weight-bold text-primary">{formatCurrency(total)}</Text>
                 </div>
               </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Notes
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={2}
               placeholder="Optional notes about this invoice..."
               value={formData.notes}
@@ -344,16 +363,16 @@ function NewVendorInvoiceContent() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               {createMutation.isPending ? 'Saving...' : 'Record Invoice'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

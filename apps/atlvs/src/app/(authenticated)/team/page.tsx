@@ -1,31 +1,176 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Eye, Mail, Phone, MoreHorizontal } from "lucide-react";
 import {
-  Stack,
-  H2,
+  ListPage,
+  Badge,
+  DetailDrawer,
+  Grid,
   Body,
-  Card,
-  EnterprisePageHeader,
+  type ListPageColumn,
+  type ListPageFilter,
+  type ListPageAction,
+  type DetailSection,
 } from "@ghxstship/ui";
+import { createExportHandler } from "@ghxstship/config";
+
+interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  role: string;
+  department: string;
+  status: "active" | "inactive" | "on_leave";
+  avatar_url: string | null;
+  hire_date: string;
+  skills: string[];
+}
+
+const mockTeamMembers: TeamMember[] = [
+  { id: "1", name: "Sarah Johnson", email: "sarah@example.com", phone: "+1 555-0101", role: "Production Manager", department: "Operations", status: "active", avatar_url: null, hire_date: "2023-01-15", skills: ["Project Management", "Budgeting"] },
+  { id: "2", name: "Mike Chen", email: "mike@example.com", phone: "+1 555-0102", role: "Technical Director", department: "Technical", status: "active", avatar_url: null, hire_date: "2022-06-01", skills: ["AV Systems", "Lighting"] },
+  { id: "3", name: "Emily Davis", email: "emily@example.com", phone: "+1 555-0103", role: "Event Coordinator", department: "Events", status: "active", avatar_url: null, hire_date: "2023-03-20", skills: ["Logistics", "Vendor Management"] },
+  { id: "4", name: "James Wilson", email: "james@example.com", phone: null, role: "Stage Manager", department: "Production", status: "on_leave", avatar_url: null, hire_date: "2021-09-10", skills: ["Stage Management", "Crew Coordination"] },
+  { id: "5", name: "Lisa Brown", email: "lisa@example.com", phone: "+1 555-0105", role: "Account Manager", department: "Sales", status: "active", avatar_url: null, hire_date: "2024-01-08", skills: ["Client Relations", "Sales"] },
+];
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+};
+
+const getStatusVariant = (status: TeamMember["status"]): "solid" | "outline" | "ghost" => {
+  switch (status) {
+    case "active": return "solid";
+    case "on_leave": return "outline";
+    case "inactive": return "ghost";
+  }
+};
+
+const columns: ListPageColumn<TeamMember>[] = [
+  { 
+    key: "name", 
+    label: "Name", 
+    accessor: "name", 
+    sortable: true,
+  },
+  { key: "role", label: "Role", accessor: "role", sortable: true },
+  { key: "department", label: "Department", accessor: "department", sortable: true },
+  { key: "email", label: "Email", accessor: "email" },
+  { key: "hire_date", label: "Hire Date", accessor: (r) => formatDate(r.hire_date), sortable: true },
+  { 
+    key: "status", 
+    label: "Status", 
+    accessor: "status", 
+    sortable: true,
+    render: (v) => (
+      <Badge variant={getStatusVariant(v as TeamMember["status"])}>
+        {String(v).replace("_", " ")}
+      </Badge>
+    )
+  },
+];
+
+const filters: ListPageFilter[] = [
+  { key: "status", label: "Status", options: [
+    { value: "active", label: "Active" },
+    { value: "on_leave", label: "On Leave" },
+    { value: "inactive", label: "Inactive" },
+  ]},
+  { key: "department", label: "Department", options: [
+    { value: "Operations", label: "Operations" },
+    { value: "Technical", label: "Technical" },
+    { value: "Events", label: "Events" },
+    { value: "Production", label: "Production" },
+    { value: "Sales", label: "Sales" },
+  ]},
+];
 
 export default function TeamPage() {
+  const router = useRouter();
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const activeCount = mockTeamMembers.filter(m => m.status === "active").length;
+  const onLeaveCount = mockTeamMembers.filter(m => m.status === "on_leave").length;
+
+  const rowActions: ListPageAction<TeamMember>[] = [
+    { id: "view", label: "View Profile", icon: <Eye className="size-4" />, onClick: (r) => { setSelectedMember(r); setDrawerOpen(true); } },
+    { id: "email", label: "Send Email", icon: <Mail className="size-4" />, onClick: (r) => window.open(`mailto:${r.email}`) },
+    { id: "more", label: "More Actions", icon: <MoreHorizontal className="size-4" />, onClick: (r) => router.push(`/employees/${r.id}`) },
+  ];
+
+  const stats = [
+    { label: "Total Members", value: mockTeamMembers.length },
+    { label: "Active", value: activeCount },
+    { label: "On Leave", value: onLeaveCount },
+    { label: "Departments", value: new Set(mockTeamMembers.map(m => m.department)).size },
+  ];
+
+  const detailSections: DetailSection[] = selectedMember ? [
+    { id: "overview", title: "Member Details", content: (
+      <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+        <Body size="sm"><strong>Name:</strong> {selectedMember.name}</Body>
+        <Body size="sm"><strong>Role:</strong> {selectedMember.role}</Body>
+        <Body size="sm"><strong>Department:</strong> {selectedMember.department}</Body>
+        <Body size="sm"><strong>Status:</strong> {selectedMember.status}</Body>
+        <Body size="sm"><strong>Email:</strong> {selectedMember.email}</Body>
+        <Body size="sm"><strong>Phone:</strong> {selectedMember.phone || "—"}</Body>
+        <Body size="sm"><strong>Hire Date:</strong> {formatDate(selectedMember.hire_date)}</Body>
+        <Body size="sm"><strong>Skills:</strong> {selectedMember.skills.join(", ")}</Body>
+      </Grid>
+    )},
+  ] : [];
+
   return (
-    <Stack gap={8}>
-      <EnterprisePageHeader
+    <>
+      <ListPage<TeamMember>
         title="Team"
-        subtitle="Manage team members"
+        subtitle="Manage team members and roles"
+        data={mockTeamMembers}
+        columns={columns}
+        rowKey="id"
+        searchPlaceholder="Search team members..."
+        filters={filters}
+        rowActions={rowActions}
+        onRowClick={(r) => { setSelectedMember(r); setDrawerOpen(true); }}
+        entityType="team"
+        onExport={createExportHandler({
+          filename: "team-members",
+          getData: () => mockTeamMembers.map(m => ({
+            name: m.name,
+            email: m.email,
+            phone: m.phone || "",
+            role: m.role,
+            department: m.department,
+            status: m.status,
+            hire_date: m.hire_date,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No team members found"
         showFavorite
         showSettings
       />
-
-      <Card inverted className="border-2 border-ink-800 p-8">
-        <Stack gap={4} className="items-center justify-center py-12">
-          <H2 className="text-white">Team</H2>
-          <Body className="text-grey-300 text-center max-w-md">
-            Manage team members. This page is under development.
-          </Body>
-        </Stack>
-      </Card>
-    </Stack>
+      <DetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        record={selectedMember}
+        title={(r) => r.name}
+        subtitle={(r) => r.role}
+        sections={detailSections}
+        actions={[
+          { id: "email", label: "Send Email", icon: <Mail className="size-4" /> },
+          { id: "call", label: "Call", icon: <Phone className="size-4" /> },
+        ]}
+        onAction={(id, r) => {
+          if (id === "email") window.open(`mailto:${r.email}`);
+          if (id === "call" && r.phone) window.open(`tel:${r.phone}`);
+          setDrawerOpen(false);
+        }}
+      />
+    </>
   );
 }

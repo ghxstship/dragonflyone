@@ -2,185 +2,206 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { GvtewayLoadingLayout } from '@/components/app-layout';
-import { 
-  H2, 
-  H3, 
-  Body, 
-  Button, 
-  Card, 
-  Badge, 
-  Grid, 
-  Stack, 
-  Kicker,
-  Label,
-  StatCard,
-  EmptyState,
+import { Eye, Ticket, Download, XCircle } from 'lucide-react';
+import {
+  Badge,
+  Body,
+  ConfirmDialog,
+  DetailDrawer,
+  Grid,
+  ListPage,
+  Text,
+  type DetailSection,
+  type ListPageAction,
+  type ListPageBulkAction,
+  type ListPageColumn,
+  type ListPageFilter,
 } from '@ghxstship/ui';
-import { useOrders } from '@/hooks/useOrders';
-import { ShoppingBag, Ticket, Eye } from 'lucide-react';
+import { createExportHandler } from '@ghxstship/config';
+import { useOrders, type Order } from '@/hooks/useOrders';
 
-/**
- * Orders Page - Bold Contemporary Pop Art Adventure
- * Hard offset shadows, 2px+ borders, bounce animations
- */
 export default function OrdersPage() {
   const router = useRouter();
-  const [filterStatus, setFilterStatus] = useState('all');
-  const { data: orders, isLoading } = useOrders();
+  const { data: orders = [], isLoading, error, refetch } = useOrders();
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [cancelConfirmOpen, setCancelConfirmOpen] = useState(false);
 
-  const displayOrders = orders || [];
-  const filteredOrders = filterStatus === 'all' 
-    ? displayOrders 
-    : displayOrders.filter(o => o.status.toLowerCase() === filterStatus);
+  const columns: ListPageColumn<Order>[] = [
+    { 
+      key: 'id', 
+      label: 'Order #', 
+      accessor: 'id',
+      render: (value) => <Text className="font-mono">#{String(value).slice(0, 8)}</Text>
+    },
+    { 
+      key: 'event', 
+      label: 'Event', 
+      accessor: (row) => row.gvteway_events?.title || 'Event',
+      sortable: true
+    },
+    { 
+      key: 'event_date', 
+      label: 'Event Date', 
+      accessor: (row) => row.gvteway_events?.event_date,
+      sortable: true,
+      render: (value) => value ? new Date(String(value)).toLocaleDateString() : 'TBD'
+    },
+    { 
+      key: 'total_amount', 
+      label: 'Amount', 
+      accessor: 'total_amount', 
+      sortable: true,
+      render: (value) => `$${Number(value || 0).toLocaleString()}`
+    },
+    { 
+      key: 'ticket_count', 
+      label: 'Tickets', 
+      accessor: 'ticket_count',
+      render: (value) => value ? `${value} ${Number(value) === 1 ? 'ticket' : 'tickets'}` : '-'
+    },
+    { 
+      key: 'created_at', 
+      label: 'Ordered', 
+      accessor: 'created_at', 
+      sortable: true,
+      render: (value) => new Date(String(value)).toLocaleDateString()
+    },
+    { 
+      key: 'status', 
+      label: 'Status', 
+      accessor: 'status', 
+      sortable: true,
+      render: (value) => {
+        const variant = value === 'confirmed' ? 'success' : value === 'pending' ? 'warning' : value === 'cancelled' ? 'error' : 'info';
+        return <Badge variant={variant}>{String(value).toUpperCase()}</Badge>;
+      }
+    },
+  ];
 
-  const totalSpent = displayOrders.reduce((sum, o) => sum + o.total_amount, 0);
+  const filters: ListPageFilter[] = [
+    { 
+      key: 'status', 
+      label: 'Status', 
+      options: [
+        { value: 'confirmed', label: 'Confirmed' },
+        { value: 'pending', label: 'Pending' },
+        { value: 'cancelled', label: 'Cancelled' },
+      ]
+    },
+  ];
 
-  if (isLoading) {
-    return <GvtewayLoadingLayout text="Loading orders..." />;
-  }
+  const rowActions: ListPageAction<Order>[] = [
+    { id: 'view', label: 'View Details', icon: <Eye className="size-4" />, onClick: (row) => { setSelectedOrder(row); setDrawerOpen(true); } },
+    { id: 'tickets', label: 'View Tickets', icon: <Ticket className="size-4" />, onClick: (row) => router.push(`/tickets?order=${row.id}`), disabled: (row) => row.status !== 'confirmed' },
+    { id: 'cancel', label: 'Cancel Order', icon: <XCircle className="size-4" />, variant: 'danger', onClick: (row) => { setSelectedOrder(row); setCancelConfirmOpen(true); }, disabled: (row) => row.status === 'cancelled' || row.status === 'confirmed' },
+  ];
+
+  const bulkActions: ListPageBulkAction[] = [
+    { id: 'export', label: 'Export', icon: <Download className="size-4" /> },
+  ];
+
+  const handleCancel = async () => {
+    setCancelConfirmOpen(false);
+    setSelectedOrder(null);
+    refetch();
+  };
+
+  const totalSpent = orders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+  const totalTickets = orders.reduce((sum, o) => sum + (o.ticket_count || 0), 0);
+
+  const stats = [
+    { label: 'Total Orders', value: orders.length },
+    { label: 'Total Spent', value: `$${totalSpent.toLocaleString()}` },
+    { label: 'Tickets Purchased', value: totalTickets },
+  ];
+
+  const detailSections: DetailSection[] = selectedOrder ? [
+    {
+      id: 'overview',
+      title: 'Order Details',
+      content: (
+        <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
+          <Body size="sm"><strong>Order #:</strong> {selectedOrder.id.slice(0, 8)}</Body>
+          <Body size="sm"><strong>Event:</strong> {selectedOrder.gvteway_events?.title || 'Event'}</Body>
+          <Body size="sm"><strong>Event Date:</strong> {selectedOrder.gvteway_events?.event_date ? new Date(selectedOrder.gvteway_events.event_date).toLocaleDateString() : 'TBD'}</Body>
+          <Body size="sm"><strong>Amount:</strong> ${(selectedOrder.total_amount || 0).toLocaleString()}</Body>
+          <Body size="sm"><strong>Tickets:</strong> {selectedOrder.ticket_count || 0}</Body>
+          <Body size="sm"><strong>Status:</strong> {selectedOrder.status.toUpperCase()}</Body>
+          <Body size="sm"><strong>Ordered:</strong> {new Date(selectedOrder.created_at).toLocaleDateString()}</Body>
+        </Grid>
+      ),
+    },
+  ] : [];
 
   return (
     <>
-      <Stack gap={10}>
-            {/* Page Header */}
-            <Stack gap={2}>
-              <Kicker colorScheme="on-dark">Order History</Kicker>
-              <H2 size="lg" className="text-white">My Orders</H2>
-              <Body className="text-on-dark-muted">Order history and ticket management</Body>
-            </Stack>
+      <ListPage<Order>
+        title="My Orders"
+        subtitle="Order history and ticket management"
+        data={orders}
+        columns={columns}
+        rowKey="id"
+        loading={isLoading}
+        error={error}
+        onRetry={refetch}
+        searchPlaceholder="Search orders..."
+        filters={filters}
+        rowActions={rowActions}
+        bulkActions={bulkActions}
+        onBulkAction={async (actionId, selectedIds) => {
+          if (actionId === 'export') {
+            const selected = orders.filter(o => selectedIds.includes(o.id));
+            const csv = [
+              ['Order #', 'Event', 'Event Date', 'Amount', 'Tickets', 'Status', 'Ordered'].join(','),
+              ...selected.map(o => [o.id.slice(0, 8), o.gvteway_events?.title, o.gvteway_events?.event_date, o.total_amount, o.ticket_count, o.status, o.created_at].join(','))
+            ].join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'orders-export.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+          }
+        }}
+        onRowClick={(row) => router.push(`/orders/${row.id}`)}
+        entityType="orders"
+        onExport={createExportHandler({
+          filename: "orders",
+          getData: () => orders.map(o => ({
+            order_id: o.id.slice(0, 8),
+            event: o.gvteway_events?.title,
+            event_date: o.gvteway_events?.event_date,
+            amount: o.total_amount,
+            tickets: o.ticket_count,
+            status: o.status,
+            ordered: o.created_at,
+          })),
+        })}
+        stats={stats}
+        emptyMessage="No orders found"
+        emptyAction={{ label: 'Browse Events', onClick: () => router.push('/events') }}
+      />
 
-            {/* Stats */}
-            <Grid cols={3} gap={6} className="sm:grid-cols-2 lg:grid-cols-3">
-              <StatCard
-                value={displayOrders.length.toString()}
-                label="Total Orders"
-                inverted
-              />
-              <StatCard
-                value={`$${totalSpent.toLocaleString()}`}
-                label="Total Spent"
-                inverted
-              />
-              <StatCard
-                value={displayOrders.reduce((sum, o) => sum + (o.ticket_count || 0), 0).toString()}
-                label="Tickets Purchased"
-                inverted
-              />
-            </Grid>
+      <DetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        record={selectedOrder}
+        title={(o) => `Order #${o.id.slice(0, 8)}`}
+        subtitle={(o) => o.gvteway_events?.title || 'Event'}
+        sections={detailSections}
+      />
 
-            {/* Filter Buttons */}
-            <Card inverted variant="elevated" className="p-4">
-              <Stack gap={2} direction="horizontal">
-                <Button 
-                  variant={filterStatus === 'all' ? 'solid' : 'outlineInk'}
-                  onClick={() => setFilterStatus('all')}
-                  inverted={filterStatus === 'all'}
-                  size="sm"
-                >
-                  All Orders
-                </Button>
-                <Button 
-                  variant={filterStatus === 'confirmed' ? 'solid' : 'outlineInk'}
-                  onClick={() => setFilterStatus('confirmed')}
-                  inverted={filterStatus === 'confirmed'}
-                  size="sm"
-                >
-                  Confirmed
-                </Button>
-                <Button 
-                  variant={filterStatus === 'pending' ? 'solid' : 'outlineInk'}
-                  onClick={() => setFilterStatus('pending')}
-                  inverted={filterStatus === 'pending'}
-                  size="sm"
-                >
-                  Pending
-                </Button>
-              </Stack>
-            </Card>
-
-            {/* Orders List */}
-            <Stack gap={4}>
-              {filteredOrders.map(order => (
-                <Card key={order.id} inverted interactive onClick={() => router.push(`/orders/${order.id}`)} onKeyDown={(e) => e.key === 'Enter' && router.push(`/orders/${order.id}`)} role="button" tabIndex={0} aria-label={`Order ${order.id.slice(0, 8)}, ${order.status}, $${order.total_amount}`}>
-                  <Stack direction="horizontal" className="items-start justify-between">
-                    <Stack gap={3} className="flex-1">
-                      <Stack direction="horizontal" gap={3} className="items-center">
-                        <ShoppingBag className="size-5 text-on-dark-muted" aria-hidden="true" />
-                        <H3 className="text-white">Order #{order.id.slice(0, 8)}</H3>
-                        <Badge variant={order.status === 'confirmed' ? 'solid' : 'outline'}>
-                          {order.status.toUpperCase()}
-                        </Badge>
-                      </Stack>
-                      <Body className="font-display text-white">{order.gvteway_events?.title || 'Event'}</Body>
-                      <Stack direction="horizontal" gap={6}>
-                        {order.gvteway_events?.event_date && (
-                          <Stack gap={1}>
-                            <Label size="xs" className="text-on-dark-disabled">Event Date</Label>
-                            <Body size="sm" className="text-on-dark-muted">
-                              {new Date(order.gvteway_events.event_date).toLocaleDateString()}
-                            </Body>
-                          </Stack>
-                        )}
-                        <Stack gap={1}>
-                          <Label size="xs" className="text-on-dark-disabled">Amount</Label>
-                          <Body size="sm" className="font-display text-white">${order.total_amount.toLocaleString()}</Body>
-                        </Stack>
-                        <Stack gap={1}>
-                          <Label size="xs" className="text-on-dark-disabled">Ordered</Label>
-                          <Body size="sm" className="text-on-dark-muted">
-                            {new Date(order.created_at).toLocaleDateString()}
-                          </Body>
-                        </Stack>
-                        {order.ticket_count && (
-                          <Stack gap={1}>
-                            <Label size="xs" className="text-on-dark-disabled">Tickets</Label>
-                            <Body size="sm" className="text-on-dark-muted">
-                              {order.ticket_count} {order.ticket_count === 1 ? 'ticket' : 'tickets'}
-                            </Body>
-                          </Stack>
-                        )}
-                      </Stack>
-                    </Stack>
-                    <Stack direction="horizontal" gap={2}>
-                      <Button 
-                        variant="outlineInk" 
-                        size="sm" 
-                        onClick={(e) => { e.stopPropagation(); router.push(`/orders/${order.id}`); }}
-                        icon={<Eye className="size-4" />}
-                        iconPosition="left"
-                      >
-                        Details
-                      </Button>
-                      {order.status === 'confirmed' && (
-                        <Button 
-                          variant="solid" 
-                          size="sm" 
-                          inverted
-                          onClick={(e) => { e.stopPropagation(); router.push(`/tickets?order=${order.id}`); }}
-                          icon={<Ticket className="size-4" />}
-                          iconPosition="left"
-                        >
-                          Tickets
-                        </Button>
-                      )}
-                    </Stack>
-                  </Stack>
-                </Card>
-              ))}
-              {filteredOrders.length === 0 && (
-                <EmptyState 
-                  title="No orders found" 
-                  description="You haven't placed any orders yet."
-                  action={{
-                    label: "Browse Events",
-                    onClick: () => router.push('/events')
-                  }}
-                  inverted 
-                />
-              )}
-            </Stack>
-      </Stack>
+      <ConfirmDialog
+        open={cancelConfirmOpen}
+        title="Cancel Order"
+        message="Are you sure you want to cancel this order? This action cannot be undone."
+        variant="danger"
+        confirmLabel="Cancel Order"
+        onConfirm={handleCancel}
+        onCancel={() => { setCancelConfirmOpen(false); setSelectedOrder(null); }}
+      />
     </>
   );
 }

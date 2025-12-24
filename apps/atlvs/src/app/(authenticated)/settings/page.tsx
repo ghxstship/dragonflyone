@@ -1,5 +1,11 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H2,
+} from '@ghxstship/ui';
+
 import Link from 'next/link';
 import { 
   Settings, 
@@ -77,13 +83,13 @@ export default function SettingsPage() {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-3">
+        <H1 className="text-h2-md font-weight-bold text-foreground flex items-center gap-3">
           <Settings className="h-7 w-7" />
           Settings
-        </h1>
-        <p className="text-body-sm text-muted-foreground mt-1">
+        </H1>
+        <Body className="text-body-sm text-muted-foreground mt-1">
           Manage your account and organization settings
-        </p>
+        </Body>
       </div>
 
       <div className="grid gap-4">
@@ -97,8 +103,8 @@ export default function SettingsPage() {
               <section.icon className="h-6 w-6 text-primary" />
             </div>
             <div className="flex-1">
-              <h2 className="text-body-md font-weight-semibold text-foreground">{section.name}</h2>
-              <p className="text-body-sm text-muted-foreground">{section.description}</p>
+              <H2 className="text-body-md font-weight-semibold text-foreground">{section.name}</H2>
+              <Body className="text-body-sm text-muted-foreground">{section.description}</Body>
             </div>
             <ChevronRight className="h-5 w-5 text-muted-foreground" />
           </Link>
@@ -108,8 +114,8 @@ export default function SettingsPage() {
       <div className="pt-6 border-t border-border">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-body-sm text-muted-foreground">App Version</p>
-            <p className="text-body-xs text-muted-foreground">v2.1.0</p>
+            <Body className="text-body-sm text-muted-foreground">App Version</Body>
+            <Body className="text-body-xs text-muted-foreground">v2.1.0</Body>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/help" className="text-body-sm text-primary hover:underline">

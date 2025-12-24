@@ -1,5 +1,17 @@
 'use client';
 
+import {
+  Body,
+  Button,
+  Form,
+  H1,
+  H2,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -111,10 +123,10 @@ export default function NewContractPage() {
             <FileText className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-h3-md font-weight-bold text-foreground">New Contract</h1>
-            <p className="text-body-sm text-muted-foreground">
+            <H1 className="text-h3-md font-weight-bold text-foreground">New Contract</H1>
+            <Body className="text-body-sm text-muted-foreground">
               Create a contract with electronic signatures
-            </p>
+            </Body>
           </div>
         </div>
 
@@ -124,12 +136,12 @@ export default function NewContractPage() {
           </div>
         )}
 
-        <form onSubmit={(e) => handleSubmit(e, 'draft')} className="space-y-6">
+        <Form onSubmit={(e) => handleSubmit(e, 'draft')} className="space-y-6">
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Contract Title *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               placeholder="e.g., Venue Rental Agreement"
               value={formData.title}
@@ -137,16 +149,16 @@ export default function NewContractPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.title && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.title}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.title}</Body>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Contract Type *
-              </label>
-              <select
+              </Label>
+              <Select
                 value={formData.type}
                 onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
@@ -157,13 +169,13 @@ export default function NewContractPage() {
                 <option value="employment">Employment Agreement</option>
                 <option value="partnership">Partnership Agreement</option>
                 <option value="licensing">Licensing Agreement</option>
-              </select>
+              </Select>
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Contract Value
-              </label>
-              <input
+              </Label>
+              <Input
                 type="number"
                 min="0"
                 step="0.01"
@@ -176,10 +188,10 @@ export default function NewContractPage() {
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Counterparty Name *
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               placeholder="Name of the other party"
               value={formData.counterparty_name}
@@ -187,30 +199,30 @@ export default function NewContractPage() {
               className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
             />
             {errors.counterparty_name && (
-              <p className="mt-1 text-body-xs text-destructive">{errors.counterparty_name}</p>
+              <Body className="mt-1 text-body-xs text-destructive">{errors.counterparty_name}</Body>
             )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 Start Date *
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.start_date}
                 onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
                 className="w-full px-4 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
               />
               {errors.start_date && (
-                <p className="mt-1 text-body-xs text-destructive">{errors.start_date}</p>
+                <Body className="mt-1 text-body-xs text-destructive">{errors.start_date}</Body>
               )}
             </div>
             <div>
-              <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+              <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
                 End Date
-              </label>
-              <input
+              </Label>
+              <Input
                 type="date"
                 value={formData.end_date}
                 onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
@@ -223,41 +235,41 @@ export default function NewContractPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-primary" />
-                <h2 className="text-h4-md font-weight-semibold text-foreground">Signers</h2>
+                <H2 className="text-h4-md font-weight-semibold text-foreground">Signers</H2>
               </div>
-              <button
+              <Button
                 type="button"
                 onClick={handleAddSigner}
                 className="inline-flex items-center gap-2 px-3 py-1.5 text-body-sm font-weight-medium text-primary hover:bg-primary/10 rounded-button transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 Add Signer
-              </button>
+              </Button>
             </div>
 
             {errors.signers && (
-              <p className="text-body-xs text-destructive">{errors.signers}</p>
+              <Body className="text-body-xs text-destructive">{errors.signers}</Body>
             )}
 
             <div className="space-y-3">
               {signers.map((signer, index) => (
                 <div key={index} className="flex items-center gap-3 p-4 border-2 border-border rounded-card">
                   <div className="flex-1 grid grid-cols-3 gap-3">
-                    <input
+                    <Input
                       type="text"
                       placeholder="Name"
                       value={signer.name}
                       onChange={(e) => handleSignerChange(index, 'name', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
-                    <input
+                    <Input
                       type="email"
                       placeholder="Email"
                       value={signer.email}
                       onChange={(e) => handleSignerChange(index, 'email', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
                     />
-                    <select
+                    <Select
                       value={signer.role}
                       onChange={(e) => handleSignerChange(index, 'role', e.target.value)}
                       className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-1 focus:ring-primary"
@@ -266,26 +278,26 @@ export default function NewContractPage() {
                       <option value="vendor">Vendor</option>
                       <option value="witness">Witness</option>
                       <option value="approver">Approver</option>
-                    </select>
+                    </Select>
                   </div>
-                  <button
+                  <Button
                     type="button"
                     onClick={() => handleRemoveSigner(index)}
                     disabled={signers.length === 1}
                     className="p-2 text-muted-foreground hover:text-destructive disabled:opacity-30 transition-colors"
                   >
                     <Trash2 className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Terms and Conditions
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={6}
               placeholder="Enter the contract terms..."
               value={formData.terms}
@@ -295,23 +307,23 @@ export default function NewContractPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <input
+            <Input
               type="checkbox"
               id="auto_renew"
               checked={formData.auto_renew}
               onChange={(e) => setFormData({ ...formData, auto_renew: e.target.checked })}
               className="w-4 h-4 border-2 border-border rounded"
             />
-            <label htmlFor="auto_renew" className="text-body-sm text-foreground">
+            <Label htmlFor="auto_renew" className="text-body-sm text-foreground">
               Auto-renew this contract when it expires
-            </label>
+            </Label>
           </div>
 
           <div>
-            <label className="block text-body-sm font-weight-medium text-foreground mb-2">
+            <Label className="block text-body-sm font-weight-medium text-foreground mb-2">
               Notes
-            </label>
-            <textarea
+            </Label>
+            <Textarea
               rows={3}
               placeholder="Internal notes (not visible to signers)"
               value={formData.notes}
@@ -327,24 +339,24 @@ export default function NewContractPage() {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border rounded-button text-body-sm font-weight-medium hover:bg-muted transition-colors disabled:opacity-50"
             >
               <Save className="h-4 w-4" />
               Save as Draft
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={(e) => handleSubmit(e, 'pending_signatures')}
               disabled={createMutation.isPending}
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
               {createMutation.isPending ? 'Creating...' : 'Create & Send for Signatures'}
-            </button>
+            </Button>
           </div>
-        </form>
+        </Form>
       </div>
     </div>
   );

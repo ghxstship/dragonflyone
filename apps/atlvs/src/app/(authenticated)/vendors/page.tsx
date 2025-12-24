@@ -1,5 +1,14 @@
 'use client';
 
+import {
+  Body,
+  H1,
+  H3,
+  Input,
+  Select,
+  Text,
+} from '@ghxstship/ui';
+
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -55,10 +64,10 @@ export default function VendorsPage() {
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h2-md font-weight-bold text-foreground">Vendor Directory</h1>
-          <p className="text-body-sm text-muted-foreground mt-1">
+          <H1 className="text-h2-md font-weight-bold text-foreground">Vendor Directory</H1>
+          <Body className="text-body-sm text-muted-foreground mt-1">
             Centralized database of vendors with categories and certifications
-          </p>
+          </Body>
         </div>
         <Link
           href="/vendors/new"
@@ -72,7 +81,7 @@ export default function VendorsPage() {
       <div className="flex items-center gap-4 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-md">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
+          <Input
             type="text"
             placeholder="Search vendors..."
             value={searchQuery}
@@ -83,7 +92,7 @@ export default function VendorsPage() {
 
         <div className="flex items-center gap-2">
           <Filter className="h-4 w-4 text-muted-foreground" />
-          <select
+          <Select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -94,10 +103,10 @@ export default function VendorsPage() {
                 {cat.name}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
-        <select
+        <Select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
           className="px-3 py-2 border-2 border-border rounded-button bg-background text-body-sm focus:outline-none focus:ring-2 focus:ring-primary"
@@ -108,18 +117,18 @@ export default function VendorsPage() {
               {config.label}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {(!data?.vendors || data.vendors.length === 0) && (
         <div className="text-center py-12 bg-muted/30 rounded-card border-2 border-dashed border-border">
           <Building2 className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-h4-md font-weight-medium text-foreground mb-2">
+          <H3 className="text-h4-md font-weight-medium text-foreground mb-2">
             No vendors found
-          </h3>
-          <p className="text-body-sm text-muted-foreground mb-4">
+          </H3>
+          <Body className="text-body-sm text-muted-foreground mb-4">
             Add vendors to your directory to start managing relationships.
-          </p>
+          </Body>
           <Link
             href="/vendors/new"
             className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-button border-2 border-primary font-weight-medium text-body-sm"
@@ -156,50 +165,50 @@ export default function VendorsPage() {
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-weight-semibold text-foreground truncate">
+                      <H3 className="font-weight-semibold text-foreground truncate">
                         {vendor.name}
-                      </h3>
-                      <span className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium shrink-0 ${statusConfig.color}`}>
+                      </H3>
+                      <Text className={`px-2 py-0.5 rounded-badge text-body-xs font-weight-medium shrink-0 ${statusConfig.color}`}>
                         {statusConfig.label}
-                      </span>
+                      </Text>
                     </div>
                     {vendor.category && (
-                      <p className="text-body-xs text-muted-foreground">
+                      <Body className="text-body-xs text-muted-foreground">
                         {vendor.category.name}
-                      </p>
+                      </Body>
                     )}
                   </div>
                 </div>
 
                 {vendor.description && (
-                  <p className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
+                  <Body className="text-body-sm text-muted-foreground mb-3 line-clamp-2">
                     {vendor.description}
-                  </p>
+                  </Body>
                 )}
 
                 <div className="space-y-1 text-body-xs text-muted-foreground">
                   {typeof vendor.contact_info?.email === 'string' && vendor.contact_info.email && (
                     <div className="flex items-center gap-2">
                       <Mail className="h-3 w-3" />
-                      <span className="truncate">{vendor.contact_info.email}</span>
+                      <Text className="truncate">{vendor.contact_info.email}</Text>
                     </div>
                   )}
                   {typeof vendor.contact_info?.phone === 'string' && vendor.contact_info.phone && (
                     <div className="flex items-center gap-2">
                       <Phone className="h-3 w-3" />
-                      <span>{vendor.contact_info.phone}</span>
+                      <Text>{vendor.contact_info.phone}</Text>
                     </div>
                   )}
                   {vendor.service_areas && vendor.service_areas.length > 0 && (
                     <div className="flex items-center gap-2">
                       <MapPin className="h-3 w-3" />
-                      <span className="truncate">{vendor.service_areas.slice(0, 2).join(', ')}</span>
+                      <Text className="truncate">{vendor.service_areas.slice(0, 2).join(', ')}</Text>
                     </div>
                   )}
                   {vendor.website && (
                     <div className="flex items-center gap-2">
                       <ExternalLink className="h-3 w-3" />
-                      <span className="truncate">{vendor.website}</span>
+                      <Text className="truncate">{vendor.website}</Text>
                     </div>
                   )}
                 </div>
@@ -212,9 +221,9 @@ export default function VendorsPage() {
 
       {data && data.total > (data.vendors?.length || 0) && (
         <div className="flex items-center justify-center">
-          <p className="text-body-sm text-muted-foreground">
+          <Body className="text-body-sm text-muted-foreground">
             Showing {data.vendors?.length || 0} of {data.total} vendors
-          </p>
+          </Body>
         </div>
       )}
     </div>

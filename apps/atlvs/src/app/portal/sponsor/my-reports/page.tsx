@@ -12,11 +12,13 @@ import {
   Body,
   H3,
   StatCard,
+  Skeleton,
 } from '@ghxstship/ui';
-import { TrendingUp, Eye, Users, Download, BarChart3, Calendar } from 'lucide-react';
+import { TrendingUp, Eye, Users, Download, BarChart3, Calendar, AlertCircle } from 'lucide-react';
 import { AtlvsAppLayout } from '../../../../components/app-layout';
+import { useSponsorReports, type SponsorReport } from '@ghxstship/config';
 
-interface Report {
+interface DisplayReport {
   id: string;
   name: string;
   event: string;
@@ -28,7 +30,7 @@ interface Report {
   status: 'draft' | 'final';
 }
 
-const DEMO_REPORTS: Report[] = [
+const DEMO_REPORTS: DisplayReport[] = [
   {
     id: '1',
     name: 'Summer Music Festival 2024 - Final Report',
@@ -51,41 +53,34 @@ const DEMO_REPORTS: Report[] = [
     roi: 2.8,
     status: 'final',
   },
-  {
-    id: '3',
-    name: 'Food & Wine Expo - Final Report',
-    event: 'Food & Wine Expo',
-    period: 'Mar 10-12, 2024',
-    generatedAt: '2024-03-25',
-    impressions: 450000,
-    engagements: 85000,
-    roi: 4.1,
-    status: 'final',
-  },
-  {
-    id: '4',
-    name: 'Gaming Convention 2025 - Interim Report',
-    event: 'Gaming Convention 2025',
-    period: 'Apr 5-7, 2025',
-    generatedAt: '2025-04-06',
-    impressions: 280000,
-    engagements: 12000,
-    roi: 0,
-    status: 'draft',
-  },
 ];
 
 export default function MyReportsPage() {
-  const [reports] = useState<Report[]>(DEMO_REPORTS);
+  const { reports: apiReports, summary, isLoading, error, refetch } = useSponsorReports();
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // Map API reports to display format or fall back to demo data
+  const reports: DisplayReport[] = apiReports.length > 0
+    ? apiReports.map((r: SponsorReport) => ({
+        id: r.id,
+        name: r.name,
+        event: r.event,
+        period: r.period,
+        generatedAt: r.generated_at,
+        impressions: r.impressions,
+        engagements: r.engagements,
+        roi: r.roi,
+        status: r.status,
+      }))
+    : DEMO_REPORTS;
 
   const filteredReports = reports.filter((r) => {
     return statusFilter === 'all' || r.status === statusFilter;
   });
 
-  const totalImpressions = reports.reduce((sum, r) => sum + r.impressions, 0);
-  const totalEngagements = reports.reduce((sum, r) => sum + r.engagements, 0);
-  const avgRoi = reports.filter((r) => r.roi > 0).reduce((sum, r, _, arr) => sum + r.roi / arr.length, 0);
+  const totalImpressions = summary?.totalImpressions || reports.reduce((sum, r) => sum + r.impressions, 0);
+  const totalEngagements = summary?.totalEngagements || reports.reduce((sum, r) => sum + r.engagements, 0);
+  const avgRoi = summary?.avgRoi || reports.filter((r) => r.roi > 0).reduce((sum, r, _, arr) => sum + r.roi / arr.length, 0);
 
   const handleDownload = (reportId: string) => {
     const report = reports.find((r) => r.id === reportId);
@@ -99,6 +94,44 @@ export default function MyReportsPage() {
       URL.revokeObjectURL(url);
     }
   };
+
+  if (isLoading) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="Performance Reports" description="View and download your sponsorship performance reports" colorScheme="on-dark" />
+          <Grid cols={4} gap={4} className="sm:grid-cols-2 lg:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Card key={i} inverted className="p-6">
+                <Skeleton className="h-4 w-20 mb-2" />
+                <Skeleton className="h-8 w-24" />
+              </Card>
+            ))}
+          </Grid>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <AtlvsAppLayout>
+        <Stack gap={8}>
+          <SectionHeader kicker="Sponsor Portal" title="Performance Reports" description="View and download your sponsorship performance reports" colorScheme="on-dark" />
+          <Card inverted className="p-8 text-center">
+            <Stack gap={4} className="items-center">
+              <AlertCircle size={48} className="text-error" />
+              <H3 className="text-white">Failed to Load Reports</H3>
+              <Body className="text-grey-300">{error.message}</Body>
+              <Button variant="solid" onClick={() => refetch()}>
+                Try Again
+              </Button>
+            </Stack>
+          </Card>
+        </Stack>
+      </AtlvsAppLayout>
+    );
+  }
 
   return (
     <AtlvsAppLayout>

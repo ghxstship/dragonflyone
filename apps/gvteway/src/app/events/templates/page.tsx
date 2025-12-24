@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 // Layout provided by route group
 import {
   H2, H3, Body, Label, Grid, Stack, StatCard, Input, Select, Button,
-  Card, Badge,
+  Card, Badge, Skeleton, EmptyState,
   Modal, ModalHeader, ModalBody, ModalFooter, Kicker,
 } from "@ghxstship/ui";
 
@@ -22,7 +23,7 @@ interface EventTemplate {
   settings: { ticketTypes: number; sections: number; addOns: number };
 }
 
-const mockTemplates: EventTemplate[] = DEMO_EVENT_TEMPLATES.map(t => ({
+const demoTemplates: EventTemplate[] = DEMO_EVENT_TEMPLATES.map(t => ({
   id: t.id,
   name: t.name,
   type: t.type,
@@ -33,10 +34,59 @@ const mockTemplates: EventTemplate[] = DEMO_EVENT_TEMPLATES.map(t => ({
   settings: { ticketTypes: 3, sections: t.sections.length, addOns: 4 },
 }));
 
+async function fetchEventTemplates(): Promise<EventTemplate[]> {
+  const response = await fetch('/api/events/templates');
+  if (!response.ok) throw new Error('Failed to fetch templates');
+  return response.json();
+}
+
 export default function EventTemplatesPage() {
   const router = useRouter();
   const [selectedTemplate, setSelectedTemplate] = useState<EventTemplate | null>(null);
   const [showCloneModal, setShowCloneModal] = useState(false);
+
+  const { data: apiTemplates, isLoading, error } = useQuery({
+    queryKey: ['event-templates'],
+    queryFn: fetchEventTemplates,
+  });
+
+  // Use API data or fall back to demo data
+  const templates = apiTemplates || demoTemplates;
+
+  if (isLoading) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Events</Kicker>
+          <H2 size="lg" className="text-white">Event Templates</H2>
+          <Body className="text-on-dark-muted">Loading templates...</Body>
+        </Stack>
+        <Grid cols={4} gap={6}>
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+        </Grid>
+      </Stack>
+    );
+  }
+
+  if (error && !apiTemplates) {
+    return (
+      <Stack gap={10}>
+        <Stack gap={2}>
+          <Kicker colorScheme="on-dark">Events</Kicker>
+          <H2 size="lg" className="text-white">Event Templates</H2>
+        </Stack>
+        <EmptyState
+          title="Error Loading Templates"
+          description={error instanceof Error ? error.message : 'Failed to load templates'}
+          action={{ label: 'Retry', onClick: () => window.location.reload() }}
+          inverted
+        />
+      </Stack>
+    );
+  }
 
   return (
     <>
@@ -49,9 +99,9 @@ export default function EventTemplatesPage() {
             </Stack>
 
           <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Templates" value={mockTemplates.length} className="border-2 border-black" />
-            <StatCard label="Total Uses" value={mockTemplates.reduce((s, t) => s + t.usageCount, 0)} className="border-2 border-black" />
-            <StatCard label="Event Types" value={new Set(mockTemplates.map(t => t.type)).size} className="border-2 border-black" />
+            <StatCard label="Templates" value={templates.length} className="border-2 border-black" />
+            <StatCard label="Total Uses" value={templates.reduce((s, t) => s + t.usageCount, 0)} className="border-2 border-black" />
+            <StatCard label="Event Types" value={new Set(templates.map(t => t.type)).size} className="border-2 border-black" />
             <StatCard label="Time Saved" value="85%" className="border-2 border-black" />
           </Grid>
 
@@ -61,7 +111,7 @@ export default function EventTemplatesPage() {
           </Stack>
 
           <Grid cols={2} gap={4} className="sm:grid-cols-1 lg:grid-cols-2">
-            {mockTemplates.map((template) => (
+            {templates.map((template) => (
               <Card key={template.id} className="border-2 border-black p-6">
                 <Stack gap={4}>
                   <Stack direction="horizontal" className="justify-between">
