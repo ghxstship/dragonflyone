@@ -16,6 +16,8 @@ import {
   TabPanel,
   EnterprisePageHeader,
   MainContent,
+  Skeleton,
+  EmptyState,
 } from '@ghxstship/ui';
 import { AdvanceRequestsList } from '@/components/advancing/advance-requests-list';
 import { useQuery } from '@tanstack/react-query';
@@ -31,7 +33,7 @@ export default function AdvancingPage() {
   });
 
   // Fetch all requests to calculate stats
-  const { data: requestsData } = useQuery({
+  const { data: requestsData, isLoading, error } = useQuery({
     queryKey: ['advancing-requests-stats'],
     queryFn: async () => {
       const response = await fetch('/api/advancing/requests?limit=1000');
@@ -48,6 +50,55 @@ export default function AdvancingPage() {
     fulfilled: requests.filter((r) => r.status === 'fulfilled').length,
     total: requests.length,
   };
+
+  if (isLoading) {
+    return (
+      <>
+        <EnterprisePageHeader
+          title="Production Advancing"
+          subtitle="Submit and manage production advance requests"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
+          <Container>
+            <Stack gap={10}>
+              <Grid cols={4} gap={6} className="sm:grid-cols-2 lg:grid-cols-4">
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+              </Grid>
+              <Skeleton className="h-10 w-64" />
+              <Skeleton className="h-96" />
+            </Stack>
+          </Container>
+        </MainContent>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <EnterprisePageHeader
+          title="Production Advancing"
+          subtitle="Submit and manage production advance requests"
+          showFavorite
+          showSettings
+        />
+        <MainContent padding="lg">
+          <Container>
+            <EmptyState
+              title="Error Loading Requests"
+              description={error instanceof Error ? error.message : 'Failed to load advancing requests'}
+              action={{ label: 'Retry', onClick: () => window.location.reload() }}
+            />
+          </Container>
+        </MainContent>
+      </>
+    );
+  }
 
   return (
     <>
